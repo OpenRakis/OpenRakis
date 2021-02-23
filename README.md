@@ -50,7 +50,7 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [HERAD implementation in MIDIPLEX](https://github.com/stascorp/MIDIPLEX)
 
-According to a forum post on VOGONS, despite DUNE on PC requiring a 286, it is the 'most advanced game the original IBM PC 8088 can run'. So maybe it doesn't use instructions introduced later ? (might not be true for the CD version).
+According to a forum post on VOGONS, despite DUNE on PC requiring a 286, it is the 'most advanced game the original 8080 can run'. So maybe it doesn't use instructions introduced later ? (might not be true for the CD version).
 
 # LICENSE
 
