@@ -1,0 +1,6 @@
+[submodule "tools/Projects"]
+	path = tools/Projects
+	url = https://github.com/gabonator/Projects
+[submodule "tools/masm2c"]
+	path = tools/masm2c
+	url = https://github.com/xor2003/masm2c
