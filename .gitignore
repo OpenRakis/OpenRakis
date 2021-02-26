@@ -1,4 +1,5 @@
-# ASM
+# Binary files
+*.HNM
 *.OVL
 *.OBJ
 *.MAP
