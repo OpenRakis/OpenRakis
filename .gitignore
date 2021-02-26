@@ -1,3 +1,5 @@
+# Error logs
+*.err
 # game data
 bin/
 
