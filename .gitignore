@@ -1,3 +1,7 @@
+# ASM
+*.OVL
+*.OBJ
+*.MAP
 # Error logs
 *.err
 # game data
