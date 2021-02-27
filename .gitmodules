@@ -4,3 +4,6 @@
 [submodule "tools/masm2c"]
 	path = tools/masm2c
 	url = https://github.com/xor2003/masm2c
+[submodule "src/dunerevival"]
+	path = src/dunerevival
+	url = https://github.com/sonicpp/dunerevival-code
