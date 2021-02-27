@@ -18,6 +18,10 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [MASM2C](https://github.com/xor2003/masm2c)
 
+[semblance](https://github.com/zfigura/semblance)
+
+[LZEXE 0.91](https://bellard.org/lzexe.html) (to uncompress LOGO.EXE)
+
 [CiCParser2021](https://github.com/gabonator/Projects/tree/master/XenonResurrection/Parser/CicParser2021)
 
 [DOSBox Debugger with AUTOEXEC support](https://www.vogons.org/viewtopic.php?p=860536#p860536)
