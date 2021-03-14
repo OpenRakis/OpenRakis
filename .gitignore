@@ -1,3 +1,5 @@
+# CMake build
+build/
 # Binary files
 *.HNM
 *.OVL
