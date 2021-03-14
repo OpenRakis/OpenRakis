@@ -10,3 +10,6 @@
 [submodule "tools/scummvm-cryo"]
 	path = tools/scummvm-cryo
 	url = https://github.com/elyosh/scummvm-cryo
+[submodule "tools/dunerevival-code"]
+	path = tools/dunerevival-code
+	url = https://github.com/sonicpp/dunerevival-code
