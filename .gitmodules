@@ -7,3 +7,6 @@
 [submodule "src/dunerevival"]
 	path = src/dunerevival
 	url = https://github.com/sonicpp/dunerevival-code
+[submodule "tools/scummvm-cryo"]
+	path = tools/scummvm-cryo
+	url = https://github.com/elyosh/scummvm-cryo

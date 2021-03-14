@@ -34,6 +34,8 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 # Previous works by other people
 
+[scummvm-cryo](https://github.com/elyosh/scummvm-cryo)
+
 [Dune "HERAD" Ad Lib Music Hacking thread](https://www.vogons.org/viewtopic.php?t=49813)
 
 [Port of the French Mega CD dub over to the PC CD DOS version](https://www.abandonware-forums.org/forum/autres/les-aventuriers-de-la-traduction-perdue/764167-dune-cd/page15#post804135)
