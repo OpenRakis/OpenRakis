@@ -62,4 +62,4 @@ According to a forum post on VOGONS, despite DUNE on PC requiring a 286, it is t
 
 # LICENSE
 
-MIT License
+GNU GPLv3 License
