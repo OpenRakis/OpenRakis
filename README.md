@@ -34,6 +34,8 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 # Previous works by other people
 
+[Save editors and other resources](https://sites.google.com/site/duneeditor/home)
+
 [scummvm-cryo](https://github.com/elyosh/scummvm-cryo)
 
 [Dune "HERAD" Ad Lib Music Hacking thread](https://www.vogons.org/viewtopic.php?t=49813)
