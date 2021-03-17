@@ -11,8 +11,8 @@
 
 ; File Name   :	C:\Users\noalm\source\repos\OpenRakis\bin\CD\DNCDPRG.EXE
 ; Format      :	MS-DOS executable (EXE)
-; Base Address:	0h Range: 0h-1316Ch Loaded length: 1316Ch
-; Entry	Point :	0:0
+; Base Address:	1EDh Range: 1ED0h-1503Ch Loaded	length:	1316Ch
+; Entry	Point :	1ED:0
 
 .286
 .model large
@@ -28,28 +28,25 @@ assume es:nothing, ss:seg001, ds:nothing
 public start
 start proc near
 mov	ax, 0DD1Dh
-call	sub_E4AD
-call	sub_E594
-call	sub_B0
+call	sub_1037D
+call	sub_10464
+call	sub_1F80
 sti
-call	sub_580
-call	sub_309
-call	sub_21C
-call	sub_AEB7
-start endp
-
+call	sub_2450
+call	sub_21D9
+call	sub_20EC
+call	sub_CD87
 mov	byte ptr ds:3810h, 0
 mov	word ptr ds:2, 2
-call	sub_83
+call	sub_1F53
 mov	cl, 0FFh
-call	sub_B389
-call	sub_1860
+call	sub_D259
+call	sub_3730
 mov	byte ptr ds:0CE80h, 0FFh
-call	sub_B2BE
-call	sub_D815
-; START	OF FUNCTION CHUNK FOR sub_1707
+call	sub_D18E
+call	sub_F6E5
 
-loc_3A:
+loc_1F0A:
 cld
 xor	ax, ax
 int	33h		; - MS MOUSE - RESET DRIVER AND	READ STATUS
@@ -58,31 +55,31 @@ int	33h		; - MS MOUSE - RESET DRIVER AND	READ STATUS
 mov	ax, seg	seg001
 mov	ds, ax
 assume ds:seg001
-call	sub_E8D5
-cmp	word ptr seg_F4B0+3977h, 0
-jz	short loc_56
-call	dword ptr seg_F4B0+3975h
-call	dword ptr seg_F4B0+398Dh
+call	sub_107A5
+cmp	word ptr seg_11380+3977h, 0
+jz	short loc_1F26
+call	dword ptr seg_11380+3975h
+call	dword ptr seg_11380+398Dh
 
-loc_56:
+loc_1F26:
 mov	ax, 3
 int	10h		; - VIDEO - SET	VIDEO MODE
 			; AL = mode
 mov	si, ds:3CBCh
 or	si, si
-jz	short loc_6E
+jz	short loc_1F3E
 
-loc_63:
+loc_1F33:
 lodsb
 or	al, al
-jz	short loc_6E
+jz	short loc_1F3E
 mov	ah, 0Eh
 int	10h		; - VIDEO - WRITE CHARACTER AND	ADVANCE	CURSOR (TTY WRITE)
 			; AL = character, BH = display page (alpha modes)
 			; BL = foreground color	(graphics modes)
-jmp	short loc_63
+jmp	short loc_1F33
 
-loc_6E:
+loc_1F3E:
 mov	ax, 0E0Dh
 int	10h		; - VIDEO - WRITE CHARACTER AND	ADVANCE	CURSOR (TTY WRITE)
 			; AL = character, BH = display page (alpha modes)
@@ -97,85 +94,86 @@ int	21h		; DOS -	CLEAR KEYBOARD BUFFER
 			; AL must be 01h, 06h, 07h, 08h, or 0Ah.
 mov	ah, 4Ch
 int	21h		; DOS -	2+ - QUIT WITH EXIT CODE (EXIT)
-; END OF FUNCTION CHUNK	FOR sub_1707 ; AL = exit code
-
-
-
-sub_83 proc near
-call	sub_CFA0
-sub_83 endp
+start endp		; AL = exit code
 
 
 
 
-sub_86 proc near
-call	sub_C07C
-call	sub_C0AD
+sub_1F53 proc near
+call	sub_EE70
+sub_1F53 endp
+
+
+
+
+sub_1F56 proc near
+call	sub_DF4C
+call	sub_DF7D
 mov	si, 1AE4h
 mov	bp, 0D1EFh
-call	sub_C097
-jmp	sub_1797
-sub_86 endp
+call	sub_DF67
+jmp	sub_3667
+sub_1F56 endp
 
 
 
 
-sub_98 proc near
+sub_1F68 proc near
 mov	cx, es:[di]
 shr	cx, 1
 mov	bx, di
 
-loc_9F:
+loc_1F6F:
 mov	ax, es:[di]
 add	ax, bx
 stosw
-loop	loc_9F
+loop	loc_1F6F
 retn
-sub_98 endp
+sub_1F68 endp
 
 align 10h
 
 
 
-sub_B0 proc near
-call	sub_D1
-call	sub_169
-call	sub_DA53
-call	sub_B17A
-call	sub_B17A
+sub_1F80 proc near
+call	sub_1FA1
+call	sub_2039
+call	sub_F923
+call	sub_D04A
+call	sub_D04A
 xor	ax, ax
 mov	es, ax
-assume es:seg000
-mov	ax, es:word_46C
+assume es:nothing
+mov	ax, es:46Ch
 mov	ds:0D824h, ax
 mov	ds:0D826h, ax
 mov	ds:0D828h, ax
 retn
-sub_B0 endp
+sub_1F80 endp
 
 
 
 
-sub_D1 proc near
+sub_1FA1 proc near
 push	ds
 pop	es
 assume es:seg001
 mov	di, 4948h
 mov	si, 0BAh ; 'º'
-call	sub_F0B9
+call	sub_10F89
 mov	cx, 18Ch
 mov	si, di
 
-loc_E1:
+loc_1FB1:
 lodsw
 xchg	ah, al
 stosw
-loop	loc_E1
+loop	loc_1FB1
 mov	di, 4880h
 mov	cx, 63h	; 'c'
 mov	si, 494Ah
 
-loc_F0:
+loc_1FC0:
 xor	ax, ax
 mov	dx, 1
 mov	bx, [si]
@@ -185,9 +183,9 @@ cmp	[si], dx
 adc	ax, 0
 stosw
 add	si, 8
-loop	loc_F0
+loop	loc_1FC0
 mov	si, 0BFh ; '¿'
-call	sub_F0B9
+call	sub_10F89
 mov	ax, di
 add	ax, 62FCh
 mov	ds:0DCFEh, ax
@@ -196,36 +194,36 @@ push	ds
 pop	es
 mov	di, 0AA76h
 mov	si, 0BDh ; '½'
-call	sub_F0A0
-call	sub_98
+call	sub_10F70
+call	sub_1F68
 mov	si, 0BCh ; '¼'
-call	sub_F0B9
+call	sub_10F89
 mov	ds:0AA72h, di
 mov	word ptr ds:0AA74h, es
-call	sub_98
-les	ax, dword ptr seg_F4B0+39B7h
+call	sub_1F68
+les	ax, dword ptr seg_11380+39B7h
 assume es:nothing
 mov	ds:47ACh, ax
 mov	word ptr ds:47AEh, es
 mov	cx, 1D4Ch
-call	sub_F0FF
-les	ax, dword ptr seg_F4B0+39B7h
+call	sub_10FCF
+les	ax, dword ptr seg_11380+39B7h
 mov	ds:47B0h, ax
 mov	word ptr ds:47B2h, es
 mov	cx, 0ADD4h
-call	sub_F0FF
-call	sub_CFB9
-jmp	sub_C137
-sub_D1 endp
+call	sub_10FCF
+call	sub_EE89
+jmp	sub_E007
+sub_1FA1 endp
 
 db 8 dup(0)
-word_167 dw 0
+word_2037 dw 0
 
 
 
-sub_169	proc near
+sub_2039 proc near
 mov	ax, 3Ah	; ':'
-call	sub_C13E
+call	sub_E00E
 push	ds
 pop	es
 assume es:seg001
@@ -239,18 +237,18 @@ les	si, ds:0DBB0h
 assume es:nothing
 mov	cx, 0C5F9h
 
-loc_185:
+loc_2055:
 lods	byte ptr es:[si]
 mov	bx, ax
 shl	bx, 1
 inc	word ptr [bx+di]
-loop	loc_185
+loop	loc_2055
 mov	si, 100h
 
-loc_192:
+loc_2062:
 mov	dx, [si+2]
 mov	bx, [si+4]
-call	sub_B5C5
+call	sub_D495
 mov	[si+2],	dx
 mov	[si+6],	di
 or	byte ptr es:[di], 40h
@@ -266,19 +264,19 @@ shr	ax, cl
 mov	[si+11h], al
 add	si, 1Ch
 cmp	byte ptr [si], 0FFh
-jnz	short loc_192
+jnz	short loc_2062
 mov	di, 100h
 
-loc_1CB:
+loc_209B:
 mov	bp, 1E0h
 mov	dx, [di+2]
 mov	bx, [di+4]
-call	sub_6603
+call	sub_84D3
 add	di, 1Ch
 cmp	byte ptr [di], 0FFh
-jnz	short loc_1CB
+jnz	short loc_209B
 retn
-sub_169	endp
+sub_2039 endp
 
 mov	[si+4],	di
 mov	[si+6],	dx
@@ -287,16 +285,16 @@ mov	al, [di]
 mov	ah, [si+12h]
 and	ax, 700Fh
 cmp	al, 3
-jbe	short loc_206
+jbe	short loc_20D6
 xor	ah, 80h
 cmp	al, 5
-jbe	short loc_206
+jbe	short loc_20D6
 xor	ah, 80h
 cmp	al, 9
-jbe	short loc_206
+jbe	short loc_20D6
 xor	ah, 80h
 
-loc_206:
+loc_20D6:
 or	al, ah
 mov	[si+12h], al
 retn
@@ -305,130 +303,130 @@ db 2, 0E3h, 2, 0F8h, 2,	0FEh, 2
 
 
 
-sub_21C	proc near
-mov	seg_F4B0+289Eh,	8Ch ; 'Œ'
-mov	seg_F4B0+28E7h,	1
-jz	short loc_292
-call	sub_AD50
+sub_20EC proc near
+mov	seg_11380+289Eh, 8Ch ; 'Œ'
+mov	seg_11380+28E7h, 1
+jz	short loc_2162
+call	sub_CC20
 mov	ax, 3E8h
 mov	si, 1
 
-loc_231:
+loc_2101:
 push	si
 mov	bp, 2C1h
-call	sub_C102
-call	sub_ADE0
+call	sub_DFD2
+call	sub_CCB0
 pop	ax
 push	ax
-call	sub_AB4F
+call	sub_CA1F
 pop	si
-call	sub_DE54
-jz	short loc_292
+call	sub_FD24
+jz	short loc_2162
 push	si
 mov	ax, 320h
 mov	ax, 0FA0h
-call	sub_DDB0
+call	sub_FC80
 pushf
-call	sub_911
-call	sub_AC14
-call	sub_ADED
+call	sub_27E1
+call	sub_CAE4
+call	sub_CCBD
 popf
 pop	si
-jz	short loc_292
+jz	short loc_2162
 inc	si
 cmp	si, 8
-jbe	short loc_231
+jbe	short loc_2101
 mov	bp, 301h
 mov	al, 10h
-call	sub_C108
+call	sub_DFD8
 mov	ax, 0C8h ; 'È'
-call	sub_DDB0
+call	sub_FC80
 mov	bl, 0Ch
-call	sub_38F1
+call	sub_57C1
 mov	byte ptr ds:46DFh, 1
 mov	ax, 4B0h
-call	sub_DDB0
-call	sub_3950
+call	sub_FC80
+call	sub_5820
 mov	byte ptr ds:46DFh, 0
 mov	bp, 0C0ADh
 mov	al, 10h
-call	sub_C108
+call	sub_DFD8
 
-loc_292:
+loc_2162:
 mov	es, word ptr ds:0DBD8h
-call	dword ptr seg_F4B0+38D5h
-call	sub_AC14
-mov	seg_F4B0+227Dh,	0
-mov	seg_F4B0+0C5h, 0
-call	sub_911
-mov	seg_F4B0+28E7h,	0
+call	dword ptr seg_11380+38D5h
+call	sub_CAE4
+mov	seg_11380+227Dh, 0
+mov	seg_11380+0C5h,	0
+call	sub_27E1
+mov	seg_11380+28E7h, 0
 mov	byte ptr ds:0DBE6h, 6
-inc	seg_F4B0+115h
+inc	seg_11380+115h
 mov	dx, 200Ah
 mov	bx, 180h
-jmp	sub_8F0
-sub_21C	endp
+jmp	sub_27C0
+sub_20EC endp
 
 push	si
-call	sub_C0AD
+call	sub_DF7D
 add	si, si
 mov	bp, cs:[si+20Ah]
 call	bp
 pop	ax
 add	ax, 117h
-call	sub_D068
-call	sub_9901
-call	sub_88AF
-jmp	sub_9901
+call	sub_EF38
+call	sub_B7D1
+call	sub_A77F
+jmp	sub_B7D1
 xor	cx, cx
 
 
 ; Attributes: thunk
 
-sub_2E0	proc near
-jmp	sub_A44
-sub_2E0	endp
+sub_21B0 proc near
+jmp	sub_2914
+sub_21B0 endp
 
 mov	cx, 20h	; ' '
-call	sub_2E0
-call	sub_B8A7
-call	sub_B85A
+call	sub_21B0
+call	sub_D777
+call	sub_D72A
 mov	ax, 2Ch	; ','
-call	sub_C13E
-jmp	sub_B8EA
-jmp	loc_7EE
-jmp	loc_9AD
-jmp	loc_76A
-call	sub_C0AD
+call	sub_E00E
+jmp	sub_D7BA
+jmp	loc_26BE
+jmp	loc_287D
+jmp	loc_263A
+call	sub_DF7D
 mov	al, 1Bh
-jmp	sub_C2F2
+jmp	sub_E1C2
 
 
 
-sub_309	proc near
-jz	short loc_331
-call	sub_DE4E
-call	sub_C07C
-call	sub_C0AD
+sub_21D9 proc near
+jz	short loc_2201
+call	sub_FD1E
+call	sub_DF4C
+call	sub_DF7D
 mov	ax, 18h
-call	dword ptr seg_F4B0+3939h
+call	dword ptr seg_11380+3939h
 mov	bp, 9EFh
-call	sub_C102
-call	sub_AD50
+call	sub_DFD2
+call	sub_CC20
 
-loc_324:
-call	sub_A16
-call	sub_CC85
-jnz	short loc_331
-call	sub_DD63
-jnb	short loc_324
+loc_21F4:
+call	sub_28E6
+call	sub_EB55
+jnz	short loc_2201
+call	sub_FC33
+jnb	short loc_21F4
 
-loc_331:
+loc_2201:
 pushf
-call	sub_579
+call	sub_2449
 popf
 retn
-sub_309	endp
+sub_21D9 endp
 
 db 2 dup(0), 1Ch, 6, 2 dup(0), 3Ah, 0, 25h
 db 6, 1, 3 dup(0), 0ADh, 0C0h, 2 dup(0)
@@ -462,18 +460,17 @@ db 5, 10h, 0, 98h, 7, 58h, 2, 4Ch, 5, 0C6h
 db 7, 50h, 5, 10h, 0, 98h, 7, 58h, 2, 88h
 db 5, 68h, 8, 8Fh, 5, 10h, 0, 7Bh, 8, 20h
 db 3, 0ACh, 5, 86h, 8, 0AEh, 5,	30h, 0,	98h
-word_46C dw 5807h
-db 2, 0EEh, 5, 0ADh, 9,	0F0h, 5, 30h, 0
-db 98h,	7, 58h,	2, 14h,	6, 66h,	0Fh, 2 dup(0)
-db 2 dup(0FFh),	0B6h, 8, 32h, 0, 1Eh, 6
-db 0CDh, 0Ah, 1Eh, 6, 10h, 0, 66h, 0Fh,	0D0h
-db 7, 4Ch, 6, 0D8h, 6, 2 dup(0), 10h, 0
-db 0FCh, 6, 80h, 0Ch, 0C6h, 6, 40h, 7, 0C8h
-db 6, 3Ah, 0, 66h, 0Fh,	90h, 1,	2 dup(0)
-db 5Ah,	7, 0EEh, 6, 10h, 0, 66h, 0Fh, 90h
-db 1, 2	dup(0),	52h, 7,	0FEh, 6, 10h, 0
-db 66h,	0Fh, 90h, 1, 2 dup(0), 3Ch, 7, 0Eh
-db 7, 10h, 0, 66h, 0Fh,	90h, 1,	2 dup(0)
+db 7, 58h, 2, 0EEh, 5, 0ADh, 9,	0F0h, 5
+db 30h,	0, 98h,	7, 58h,	2, 14h,	6, 66h,	0Fh
+db 2 dup(0), 2 dup(0FFh), 0B6h,	8, 32h,	0
+db 1Eh,	6, 0CDh, 0Ah, 1Eh, 6, 10h, 0, 66h
+db 0Fh,	0D0h, 7, 4Ch, 6, 0D8h, 6, 2 dup(0)
+db 10h,	0, 0FCh, 6, 80h, 0Ch, 0C6h, 6, 40h
+db 7, 0C8h, 6, 3Ah, 0, 66h, 0Fh, 90h, 1
+db 2 dup(0), 5Ah, 7, 0EEh, 6, 10h, 0, 66h
+db 0Fh,	90h, 1,	2 dup(0), 52h, 7, 0FEh,	6
+db 10h,	0, 66h,	0Fh, 90h, 1, 2 dup(0), 3Ch
+db 7, 0Eh, 7, 10h, 0, 66h, 0Fh,	90h, 1,	2 dup(0)
 db 56h,	7, 2Eh,	7, 10h,	0, 66h,	0Fh, 90h
 db 1, 2	dup(0),	5Eh, 7,	3Eh, 7,	10h, 0,	66h
 db 0Fh,	90h, 1,	2 dup(0), 37h, 7, 4Eh, 7
@@ -491,136 +488,137 @@ db 10h,	0, 66h,	0Fh, 0C8h, 3 dup(0), 0ADh
 db 0C0h, 5Eh, 8, 3Ah, 0, 66h, 0Fh, 1, 3	dup(0)
 db 6Ah,	7, 5Eh,	8, 36h,	0, 66h,	0Fh, 90h
 db 1, 2	dup(0),	0ADh, 0C0h, 0E0h, 8, 38h
-db 0, 66h, 0Fh,	1, 0, 2	dup(0FFh)
+db 0, 66h
+db 0Fh,	1, 0, 2	dup(0FFh)
 
 
 
-sub_579	proc near
+sub_2449 proc near
 xor	ax, ax
-call	dword ptr seg_F4B0+3939h
+call	dword ptr seg_11380+3939h
 retn
-sub_579	endp
+sub_2449 endp
 
 
 
 
-sub_580	proc near
-call	sub_DE54
-jz	short loc_5FD
-call	dword ptr seg_F4B0+3959h
-call	sub_AEB7
+sub_2450 proc near
+call	sub_FD24
+jz	short loc_24CD
+call	dword ptr seg_11380+3959h
+call	sub_CD87
 mov	si, 337h
-call	sub_945
+call	sub_2815
 
-loc_592:
+loc_2462:
 mov	ax, 18h
-call	dword ptr seg_F4B0+3939h
-call	sub_93F
+call	dword ptr seg_11380+3939h
+call	sub_280F
 mov	bx, ax
 inc	ax
-jnz	short loc_5A3
-jmp	short sub_580
+jnz	short loc_2473
+jmp	short sub_2450
 
-loc_5A3:
-call	sub_DE0C
-jb	short loc_5FD
-call	sub_911
-call	dword ptr seg_F4B0+3959h
-call	sub_93F
+loc_2473:
+call	sub_FCDC
+jb	short loc_24CD
+call	sub_27E1
+call	dword ptr seg_11380+3959h
+call	sub_280F
 mov	bp, ax
-call	sub_C097
+call	sub_DF67
 and	byte ptr ds:47D1h, 7Fh
-call	sub_39E6
-call	sub_93F
+call	sub_58B6
+call	sub_280F
 mov	bx, ax
-call	sub_DE0C
-jb	short loc_5FD
-call	sub_93F
+call	sub_FCDC
+jb	short loc_24CD
+call	sub_280F
 or	ax, ax
-js	short loc_5DC
+js	short loc_24AC
 mov	bp, 0F66h
-call	sub_C108
-call	sub_C0F4
-call	sub_3A7C
+call	sub_DFD8
+call	sub_DFC4
+call	sub_594C
 
-loc_5DC:
-call	sub_C07C
+loc_24AC:
+call	sub_DF4C
 or	byte ptr ds:47D1h, 80h
-call	sub_DD63
-jb	short loc_5FD
-call	sub_93F
+call	sub_FC33
+jb	short loc_24CD
+call	sub_280F
 clc
 call	ax
-jb	short loc_5FD
-call	sub_93F
+jb	short loc_24CD
+call	sub_280F
 or	ax, ax
-jz	short loc_592
-call	sub_DDF0
-jnb	short loc_592
+jz	short loc_2462
+call	sub_FCC0
+jnb	short loc_2462
 
-loc_5FD:
+loc_24CD:
 pushf
-call	sub_9985
+call	sub_B855
 mov	es, word ptr ds:0DBD8h
-call	dword ptr seg_F4B0+38D5h
+call	dword ptr seg_11380+38D5h
 popf
 pushf
-call	sub_579
-call	sub_CA01
-mov	word ptr seg_F4B0+2, 2
-call	sub_911
+call	sub_2449
+call	sub_E8D1
+mov	word ptr seg_11380+2, 2
+call	sub_27E1
 popf
 retn
-sub_580	endp
+sub_2450 endp
 
-call	sub_AD57
+call	sub_CC27
 mov	ax, 15h
-jmp	sub_CA1B
-call	sub_C07C
+jmp	sub_E8EB
+call	sub_DF4C
 
-loc_628:
-call	sub_DD63
-jb	short locret_64C
-call	sub_C9F4
-jz	short loc_628
-call	sub_C4CD
+loc_24F8:
+call	sub_FC33
+jb	short locret_251C
+call	sub_E8C4
+jz	short loc_24F8
+call	sub_E39D
 cmp	word ptr ds:0DBCEh, 8
-jb	short loc_646
+jb	short loc_2516
 cmp	byte ptr ds:0DBCBh, 0
-jz	short loc_646
-call	sub_AEB7
+jz	short loc_2516
+call	sub_CD87
 
-loc_646:
-call	sub_CC85
-jz	short loc_628
+loc_2516:
+call	sub_EB55
+jz	short loc_24F8
 clc
 
-locret_64C:
+locret_251C:
 retn
 mov	al, 0Ah
-call	loc_AD95
+call	loc_CC65
 mov	ax, 16h
-jmp	sub_CA1B
-call	sub_C0AD
+jmp	sub_E8EB
+call	sub_DF7D
 mov	ax, 17h
-jmp	sub_CA1B
-call	sub_C07C
+jmp	sub_E8EB
+call	sub_DF4C
 
-loc_664:
-call	sub_DD63
-jb	short locret_64C
-call	sub_C9F4
-jz	short loc_664
-call	sub_C4CD
-call	sub_CC85
-jz	short loc_664
+loc_2534:
+call	sub_FC33
+jb	short locret_251C
+call	sub_E8C4
+jz	short loc_2534
+call	sub_E39D
+call	sub_EB55
+jz	short loc_2534
 clc
 retn
-call	sub_579
-call	sub_C0AD
+call	sub_2449
+call	sub_DF7D
 mov	ax, 18h
-jmp	sub_CA1B
-jmp	short loc_6BD
+jmp	sub_E8EB
+jmp	short loc_258D
 db 90h,	0E8h, 23h, 0BAh, 0BEh, 0F0h, 14h
 db 0EBh, 6, 0E8h, 1Bh, 0BAh, 0BEh, 0F8h
 db 14h,	0B8h, 1Ch, 0, 0E8h, 0A3h, 0BAh,	0E9h
@@ -630,480 +628,480 @@ db 0CCh, 0FEh, 0E8h, 0DEh, 0B9h, 0E8h, 35h
 db 0C3h, 72h, 7, 83h, 3Eh, 0E8h, 0DBh, 56h
 db 75h,	0F4h
 
-locret_6BC:
+locret_258C:
 retn
 
-loc_6BD:
-call	sub_579
-call	sub_C08E
+loc_258D:
+call	sub_2449
+call	sub_DF5E
 
-loc_6C3:
-call	sub_C9E8
-jb	short locret_6BC
-call	sub_CC85
-jz	short loc_6C3
+loc_2593:
+call	sub_E8B8
+jb	short locret_258C
+call	sub_EB55
+jz	short loc_2593
 retn
 mov	ax, 10h
-jmp	short loc_6F3
+jmp	short loc_25C3
 mov	ax, 11h
-jmp	short loc_6F3
-call	sub_AC14
+jmp	short loc_25C3
+call	sub_CAE4
 mov	al, 1
 mov	ds:46DFh, al
 mov	bl, 12h
-call	loc_38A2
+call	loc_5772
 mov	ax, 12h
-jmp	short loc_6F3
-mov	word ptr seg_F4B0+4, 2
+jmp	short loc_25C3
+mov	word ptr seg_11380+4, 2
 mov	ax, 13h
 
-loc_6F3:
+loc_25C3:
 add	word ptr ds:0DBDAh, 1E0h
-jmp	sub_CA1B
+jmp	sub_E8EB
 mov	byte ptr ds:46D7h, 3Fh ; '?'
-call	loc_3901
+call	loc_57D1
 xor	bp, bp
 mov	si, 70Ch
-call	sub_DA25
-call	sub_CA60
+call	sub_F8F5
+call	sub_E930
 clc
 retn
 add	word ptr ds:0DBDAh, 1E0h
 mov	ax, 0Eh
-jmp	sub_CA1B
+jmp	sub_E8EB
 mov	al, 8
-call	sub_AB15
-jmp	short loc_72C
+call	sub_C9E5
+jmp	short loc_25FC
 
-loc_724:
-call	sub_4B16
-call	sub_4937
-jnz	short locret_736
+loc_25F4:
+call	sub_69E6
+call	sub_6807
+jnz	short locret_2606
 
-loc_72C:
-call	sub_C9F4
-jnz	short loc_724
-call	sub_DD63
-ja	short loc_724
+loc_25FC:
+call	sub_E8C4
+jnz	short loc_25F4
+call	sub_FC33
+ja	short loc_25F4
 
-locret_736:
+locret_2606:
 retn
 mov	al, 56h	; 'V'
 
-loc_739:
-jmp	sub_C2F2
+loc_2609:
+jmp	sub_E1C2
 mov	al, 57h	; 'W'
-jmp	short loc_739
-call	sub_C0AD
+jmp	short loc_2609
+call	sub_DF7D
 mov	al, 58h	; 'X'
-jmp	short loc_739
+jmp	short loc_2609
 mov	al, 59h	; 'Y'
-jmp	short loc_739
-call	sub_C0AD
+jmp	short loc_2609
+call	sub_DF7D
 mov	al, 5Ah	; 'Z'
-jmp	short loc_739
+jmp	short loc_2609
 mov	al, 5Bh	; '['
-jmp	short loc_739
+jmp	short loc_2609
 mov	al, 5Ch	; '\'
-jmp	short loc_739
+jmp	short loc_2609
 mov	al, 5Dh	; ']'
-jmp	short loc_739
+jmp	short loc_2609
 mov	al, 5Eh	; '^'
-jmp	short loc_739
+jmp	short loc_2609
 mov	al, 5Fh	; '_'
-jmp	short loc_739
+jmp	short loc_2609
 mov	al, 60h	; '`'
-jmp	short loc_739
+jmp	short loc_2609
 
-loc_76A:
-call	sub_C0AD
+loc_263A:
+call	sub_DF7D
 mov	al, 61h	; 'a'
-jmp	short loc_739
+jmp	short loc_2609
 mov	dx, 2004h
-call	sub_978
+call	sub_2848
 mov	al, 1
-jmp	loc_99D
-call	sub_C0AD
+jmp	loc_286D
+call	sub_DF7D
 mov	bx, 1080h
 mov	dx, 803h
-jmp	loc_981
+jmp	loc_2851
 mov	al, 7
-jmp	loc_99D
-call	sub_C0F4
+jmp	loc_286D
+call	sub_DFC4
 mov	byte ptr ds:0DBE6h, 6
-call	sub_C868
+call	sub_E738
 mov	word ptr ds:4780h, 190h
-call	sub_9EFD
+call	sub_BDCD
 clc
 retn
 mov	ax, 2Eh	; '.'
-call	sub_C13E
+call	sub_E00E
 mov	si, 1500h
-call	sub_C21B
+call	sub_E0EB
 mov	ax, 1
 mov	dx, 54h	; 'T'
 mov	bx, 0Bh
-call	sub_C22F
-call	sub_C412
+call	sub_E0FF
+call	sub_E2E2
 mov	al, 6
 mov	bp, 12h
-jmp	loc_99D
+jmp	loc_286D
 mov	bx, 1080h
 mov	dx, 802h
-mov	word ptr seg_F4B0+12h, 100h
-call	loc_981
-mov	word ptr seg_F4B0+12h, 0
+mov	word ptr seg_11380+12h,	100h
+call	loc_2851
+mov	word ptr seg_11380+12h,	0
 mov	al, 5
-jmp	loc_99D
+jmp	loc_286D
 mov	al, 4
-call	sub_ABDB
+call	sub_CAAB
 mov	dx, 804h
 mov	bx, 1080h
-jmp	loc_981
+jmp	loc_2851
 
-loc_7EE:
+loc_26BE:
 mov	ax, 30h	; '0'
-call	sub_C13E
+call	sub_E00E
 mov	si, 1526h
-call	sub_C21B
-jmp	loc_960
-call	sub_C0AD
+call	sub_E0EB
+jmp	loc_2830
+call	sub_DF7D
 mov	bl, 8
 
 
 
-sub_802	proc near
-call	sub_820
+sub_26D2 proc near
+call	sub_26F0
 mov	cx, 0F0h ; 'ð'
 mov	bx, 180h
-call	dword ptr seg_F4B0+38BDh
+call	dword ptr seg_11380+38BDh
 mov	byte ptr ds:46D7h, 0
 mov	ax, 2Eh	; '.'
-call	sub_C13E
+call	sub_E00E
 mov	si, 1500h
-jmp	sub_C21B
-sub_802	endp
+jmp	sub_E0EB
+sub_26D2 endp
 
 
 
 
-sub_820	proc near
+sub_26F0 proc near
 mov	ax, 2Eh	; '.'
-jmp	loc_3978
-sub_820	endp
+jmp	loc_5848
+sub_26F0 endp
 
 cmp	byte ptr ds:46D7h, 0
-jnz	short loc_854
+jnz	short loc_2724
 mov	al, ds:46D6h
 inc	ax
 cmp	al, 0Bh
-jz	short loc_857
+jz	short loc_2727
 cmp	al, 0Eh
-jz	short locret_867
+jz	short locret_2737
 mov	ah, 0Ah
 cmp	al, 0Dh
-jz	short loc_841
+jz	short loc_2711
 mov	ah, 1Eh
 
-loc_841:
+loc_2711:
 mov	ds:46D7h, ah
 mov	bl, al
-call	sub_820
+call	sub_26F0
 mov	cx, 0F0h ; 'ð'
 mov	bx, 180h
-call	dword ptr seg_F4B0+394Dh
+call	dword ptr seg_11380+394Dh
 
-loc_854:
-jmp	loc_391D
+loc_2724:
+jmp	loc_57ED
 
-loc_857:
+loc_2727:
 mov	ax, 9
-jmp	sub_C13E
+jmp	sub_E00E
 mov	si, 826h
 mov	bp, 9
-call	sub_DA25
+call	sub_F8F5
 clc
 
-locret_867:
+locret_2737:
 retn
 mov	bl, 0Bh
-call	sub_802
+call	sub_26D2
 mov	ax, 7
 mov	dx, 13h
 mov	bx, 4Ah	; 'J'
-call	sub_C22F
+call	sub_E0FF
 clc
 retn
 mov	si, 826h
 mov	bp, 10h
-call	sub_DA25
+call	sub_F8F5
 clc
 retn
 mov	ax, 30h	; '0'
-call	sub_C13E
+call	sub_E00E
 mov	si, 1470h
 mov	al, 0DEh ; 'Þ'
 mov	es, word ptr ds:0DBDAh
-call	dword ptr seg_F4B0+38DDh
+call	dword ptr seg_11380+38DDh
 mov	si, 154Eh
-call	sub_C21B
-call	sub_5BA8
+call	sub_E0EB
+call	sub_7A78
 mov	si, 155Ch
-call	sub_C32F
-call	sub_C412
+call	sub_E1FF
+call	sub_E2E2
 mov	al, 0Ah
 mov	dx, 3Ah	; ':'
-call	sub_9C7
-jmp	sub_978E
+call	sub_2897
+jmp	sub_B65E
 mov	ax, 30h	; '0'
-call	sub_C13E
-call	sub_C412
-call	sub_5BA8
+call	sub_E00E
+call	sub_E2E2
+call	sub_7A78
 mov	dx, 0FFA0h
 
-loc_8C5:
+loc_2795:
 push	dx
-call	sub_C43E
+call	sub_E30E
 pop	dx
 mov	bx, 0Dh
 mov	ax, 5
-call	sub_C305
+call	sub_E1D5
 mov	ax, 6
-call	sub_C305
+call	sub_E1D5
 push	dx
-call	sub_C4DD
+call	sub_E3AD
 pop	dx
 add	dx, 20h	; ' '
-jle	short loc_8C5
+jle	short loc_2795
 clc
 retn
 mov	ax, 200h
 xor	bx, bx
-call	dword ptr seg_F4B0+397Dh
+call	dword ptr seg_11380+397Dh
 clc
 retn
 
 
 
-sub_8F0	proc near
+sub_27C0 proc near
 xor	al, al
 mov	ds:47A4h, al
 mov	ds:46DFh, al
-mov	word ptr seg_F4B0+4, dx
-mov	word ptr seg_F4B0+6, bx
-mov	seg_F4B0+8, dh
+mov	word ptr seg_11380+4, dx
+mov	word ptr seg_11380+6, bx
+mov	seg_11380+8, dh
 mov	al, 1Ch
 mul	bh
 add	ax, 0E4h ; 'ä'
-mov	word ptr seg_F4B0+114Eh, ax
-jmp	sub_2D74
-sub_8F0	endp
+mov	word ptr seg_11380+114Eh, ax
+jmp	sub_4C44
+sub_27C0 endp
 
 
 
 
-sub_911	proc near
-call	sub_39E6
-call	sub_B930
-call	sub_B21
-call	sub_9985
-call	sub_98E6
-mov	seg_F4B0+22E3h,	1
+sub_27E1 proc near
+call	sub_58B6
+call	sub_D800
+call	sub_29F1
+call	sub_B855
+call	sub_B7B6
+mov	seg_11380+22E3h, 1
 mov	byte ptr ds:46D7h, 0
 mov	si, 70Ch
-call	sub_DA5F
+call	sub_F92F
 mov	si, 3916h
-call	sub_DA5F
-call	sub_A3E
+call	sub_F92F
+call	sub_290E
 mov	si, 826h
-jmp	sub_DA5F
-sub_911	endp
+jmp	sub_F92F
+sub_27E1 endp
 
 
 
 
-sub_93F	proc near
+sub_280F proc near
 mov	si, ds:4854h
 lods	word ptr cs:[si]
-sub_93F	endp
+sub_280F endp
 
 
 
 
-sub_945	proc near
+sub_2815 proc near
 mov	ds:4854h, si
 retn
-sub_945	endp
+sub_2815 endp
 
 
 
 
-sub_94A	proc near
-call	sub_38B4
+sub_281A proc near
+call	sub_5784
 mov	ax, 2Dh	; '-'
-call	sub_C13E
+call	sub_E00E
 xor	ax, ax
 xor	dx, dx
 mov	bx, 3Ch	; '<'
-jmp	sub_C22F
-sub_94A	endp
+jmp	sub_E0FF
+sub_281A endp
 
-call	sub_94A
-; START	OF FUNCTION CHUNK FOR sub_F08
+call	sub_281A
+; START	OF FUNCTION CHUNK FOR sub_2DD8
 
-loc_960:
-call	sub_C412
+loc_2830:
+call	sub_E2E2
 xor	dx, dx
 
-loc_965:
+loc_2835:
 mov	al, 2Dh	; '-'
-call	sub_9C7
+call	sub_2897
 mov	byte ptr ds:478Ch, 1
-jmp	sub_978E
-; END OF FUNCTION CHUNK	FOR sub_F08
-call	sub_C0AD
+jmp	sub_B65E
+; END OF FUNCTION CHUNK	FOR sub_2DD8
+call	sub_DF7D
 mov	dx, 2002h
 
 
 
-sub_978	proc near
-mov	word ptr seg_F4B0+12h, 0
+sub_2848 proc near
+mov	word ptr seg_11380+12h,	0
 
-loc_97E:
+loc_284E:
 mov	bx, 180h
 
-loc_981:
-call	sub_8F0
-call	sub_37B2
-jmp	sub_C412
-sub_978	endp
+loc_2851:
+call	sub_27C0
+call	sub_5682
+jmp	sub_E2E2
+sub_2848 endp
 
-mov	word ptr seg_F4B0+12h, 2
+mov	word ptr seg_11380+12h,	2
 mov	dx, 2004h
-jmp	short loc_97E
+jmp	short loc_284E
 mov	dx, 200Ah
-call	sub_978
+call	sub_2848
 xor	al, al
 
-loc_99D:
+loc_286D:
 xor	dx, dx
-call	sub_9C7
-jmp	sub_978E
-call	sub_C0AD
+call	sub_2897
+jmp	sub_B65E
+call	sub_DF7D
 mov	al, 62h	; 'b'
-jmp	sub_C2F2
+jmp	sub_E1C2
 
-loc_9AD:
+loc_287D:
 mov	ax, 30h	; '0'
-call	sub_C13E
+call	sub_E00E
 mov	si, 153Ah
-call	sub_C21B
-call	sub_C412
+call	sub_E0EB
+call	sub_E2E2
 mov	al, 9
 mov	dx, 52h	; 'R'
-call	sub_9C7
-jmp	sub_978E
+call	sub_2897
+jmp	sub_B65E
 
 
 
-sub_9C7	proc near
+sub_2897 proc near
 push	dx
 xor	ah, ah
 mov	ds:47C4h, ax
-call	sub_91A0
+call	sub_B070
 mov	byte ptr ds:478Ch, 1Eh
 mov	di, 1BF0h
 pop	ax
 cmp	[di], ax
-jnb	short locret_9EE
+jnb	short locret_28BE
 add	[di], ax
 add	[di+4],	ax
 cmp	word ptr [di+4], 140h
-jle	short locret_9EE
+jle	short locret_28BE
 mov	word ptr [di+4], 140h
 
-locret_9EE:
+locret_28BE:
 retn
-sub_9C7	endp
+sub_2897 endp
 
 
 
 
-sub_9EF	proc near
+sub_28BF proc near
 mov	ax, 14h
-jmp	sub_CA1B
-sub_9EF	endp
+jmp	sub_E8EB
+sub_28BF endp
 
 
 
 
-sub_9F5	proc near
-call	sub_9EF
-call	sub_C0F4
-cmp	seg_F4B0+227Dh,	0
-jnz	short loc_A09
-test	seg_F4B0+3810h,	1
-jnz	short loc_A0C
+sub_28C5 proc near
+call	sub_28BF
+call	sub_DFC4
+cmp	seg_11380+227Dh, 0
+jnz	short loc_28D9
+test	seg_11380+3810h, 1
+jnz	short loc_28DC
 
-loc_A09:
-call	sub_AD50
+loc_28D9:
+call	sub_CC20
 
-loc_A0C:
+loc_28DC:
 mov	si, 0A16h
 xor	bp, bp
-call	sub_DA25
+call	sub_F8F5
 clc
 retn
-sub_9F5	endp
+sub_28C5 endp
 
 
 
 
-sub_A16	proc near
+sub_28E6 proc near
 push	word ptr ds:0DBDAh
-call	sub_A23
+call	sub_28F3
 pop	word ptr ds:0DBDAh
 
-loc_A21:
+loc_28F1:
 clc
 retn
-sub_A16	endp
+sub_28E6 endp
 
 
 
 
-sub_A23	proc near
-cmp	seg_F4B0+227Dh,	0
-jz	short loc_A30
-call	sub_C08E
-jmp	sub_CA60
+sub_28F3 proc near
+cmp	seg_11380+227Dh, 0
+jz	short loc_2900
+call	sub_DF5E
+jmp	sub_E930
 
-loc_A30:
-call	sub_C07C
-call	sub_C9F4
-jz	short loc_A21
-call	sub_C4DD
-jmp	sub_DBEC
-sub_A23	endp
-
-
+loc_2900:
+call	sub_DF4C
+call	sub_E8C4
+jz	short loc_28F1
+call	sub_E3AD
+jmp	sub_FABC
+sub_28F3 endp
 
 
-sub_A3E	proc near
+
+
+sub_290E proc near
 mov	si, 0A16h
-jmp	sub_DA5F
-sub_A3E	endp
+jmp	sub_F92F
+sub_290E endp
 
 
 
 
-sub_A44	proc near
+sub_2914 proc near
 mov	ax, 2Ch	; ','
-call	sub_C13E
-call	sub_5BA8
-call	sub_C07C
+call	sub_E00E
+call	sub_7A78
+call	sub_DF4C
 push	cx
-call	sub_C432
+call	sub_E302
 pop	ax
 push	ax
 mul	al
@@ -1113,13 +1111,13 @@ neg	dx
 push	dx
 xor	bx, bx
 xor	ax, ax
-call	sub_C305
+call	sub_E1D5
 mov	ax, 1
 add	dx, 130h
-call	sub_C305
+call	sub_E1D5
 mov	ax, 2
 add	dx, 130h
-call	sub_C30D
+call	sub_E1DD
 pop	dx
 push	dx
 shl	dx, 1
@@ -1128,7 +1126,7 @@ shl	dx, 1
 add	dx, 45h	; 'E'
 mov	ax, 24h	; '$'
 mov	bx, 4Eh	; 'N'
-call	sub_C343
+call	sub_E213
 pop	dx
 pop	cx
 pop	ax
@@ -1136,18 +1134,18 @@ push	ax
 push	cx
 add	dx, 3E2h
 cmp	ax, 14h
-ja	short loc_AA5
+ja	short loc_2975
 mov	dx, ax
 shl	dx, 1
 shl	dx, 1
 add	dx, 0F2h ; 'ò'
 
-loc_AA5:
+loc_2975:
 shr	ax, 1
 shr	ax, 1
 add	ax, 25h	; '%'
 mov	bx, 67h	; 'g'
-call	sub_C343
+call	sub_E213
 pop	dx
 pop	ax
 neg	dx
@@ -1158,28 +1156,28 @@ shr	dx, 1
 add	dx, 80h	; '€'
 add	al, 3
 mov	bx, 4Fh	; 'O'
-call	sub_C343
-jmp	sub_C4DD
-sub_A44	endp
+call	sub_E213
+jmp	sub_E3AD
+sub_2914 endp
 
 
 
 
-sub_ACD	proc near
-mov	word ptr seg_F4B0+2786h, 0C827h
-mov	cs:byte_C13C, 2Bh ; '+'
-call	near ptr byte_C13B
-call	sub_C07C
+sub_299D proc near
+mov	word ptr seg_11380+2786h, 0C827h
+mov	cs:byte_E00C, 2Bh ; '+'
+call	near ptr byte_E00B
+call	sub_DF4C
 mov	si, 1582h
 mov	es, word ptr ds:0DBDAh
 mov	ax, 2
-call	sub_C370
+call	sub_E240
 mov	si, 158Ah
 mov	ax, 3
-call	sub_C370
+call	sub_E240
 mov	si, 11DDh
-call	sub_C21B
-call	sub_5BA0
+call	sub_E0EB
+call	sub_7A70
 mov	di, 4856h
 xor	ax, ax
 push	ds
@@ -1188,133 +1186,133 @@ assume es:seg001
 mov	cx, 8
 rep stosb
 mov	si, 0B45h
-call	sub_DA5F
+call	sub_F92F
 mov	si, 0B45h
 mov	bp, 3
-call	sub_DA25
-call	sub_C412
+call	sub_F8F5
+call	sub_E2E2
 mov	al, 3
-jmp	sub_AB15
-sub_ACD	endp
+jmp	sub_C9E5
+sub_299D endp
 
 
 
 
-sub_B21	proc near
-call	sub_AC30
-mov	cs:byte_C13C, 25h ; '%'
+sub_29F1 proc near
+call	sub_CB00
+mov	cs:byte_E00C, 25h ; '%'
 mov	si, 0B45h
-call	sub_DA5F
-cmp	seg_F4B0+227Dh,	0
-jnz	short loc_B3E
-cmp	seg_F4B0+0FBh, 0
-js	short locret_B44
+call	sub_F92F
+cmp	seg_11380+227Dh, 0
+jnz	short loc_2A0E
+cmp	seg_11380+0FBh,	0
+js	short locret_2A14
 
-loc_B3E:
+loc_2A0E:
 mov	word ptr ds:3CBEh, 0
 
-locret_B44:
+locret_2A14:
 retn
-sub_B21	endp
+sub_29F1 endp
 
 mov	si, 4856h
 dec	byte ptr [si+7]
-cmp	seg_F4B0+0EAh, 0
-jg	short loc_B5F
+cmp	seg_11380+0EAh,	0
+jg	short loc_2A2F
 mov	bl, [si+7]
 cmp	bl, 10h
-ja	short loc_B5F
+ja	short loc_2A2F
 push	si
-call	sub_D0D
+call	sub_2BDD
 pop	si
 
-loc_B5F:
+loc_2A2F:
 mov	ax, ds:479Eh
 or	al, ds:46EBh
 or	ax, ax
-jz	short loc_B6B
+jz	short loc_2A3B
 retn
 
-loc_B6B:
+loc_2A3B:
 dec	word ptr [si+4]
-jns	short loc_BB7
+jns	short loc_2A87
 dec	byte ptr [si+6]
-jns	short loc_B86
-call	sub_E3CC
+jns	short loc_2A56
+call	sub_1029C
 and	al, 7Fh
 mov	[si+6],	al
 mov	al, ah
 xor	ah, ah
 mov	[si+4],	ax
-jmp	short loc_BB7
+jmp	short loc_2A87
 
-loc_B86:
-call	sub_E3CC
+loc_2A56:
+call	sub_1029C
 mov	bx, ax
 mov	dx, ax
 and	bx, 7Fh
 cmp	bl, 60h	; '`'
-jnb	short loc_BB7
+jnb	short loc_2A87
 cmp	bl, 30h	; '0'
-jb	short loc_BB7
+jb	short loc_2A87
 xchg	dl, dh
 rol	dh, 1
 and	dx, 1FFh
 cmp	dx, 140h
-jnb	short loc_BB7
+jnb	short loc_2A87
 mov	ax, bx
 and	ax, 7
 add	ax, 1Ch
 push	si
 xor	si, si
-call	sub_C60B
+call	sub_E4DB
 pop	si
 
-loc_BB7:
+loc_2A87:
 dec	byte ptr [si]
-jns	short loc_BBE
-call	sub_C3B
+jns	short loc_2A8E
+call	sub_2B0B
 
-loc_BBE:
+loc_2A8E:
 mov	di, 3CC0h
 mov	cx, [di-2]
-jcxz	short locret_C3A
+jcxz	short locret_2B0A
 
-loc_BC6:
+loc_2A96:
 mov	ax, [di+8]
 mov	dx, [di+0Ah]
 push	cx
 cmp	al, 14h
-jb	short loc_BF9
+jb	short loc_2AC9
 cmp	al, 1Ch
-jb	short loc_BDC
+jb	short loc_2AAC
 inc	ax
 cmp	al, 2Dh	; '-'
-jbe	short loc_C09
-jmp	short loc_C2F
+jbe	short loc_2AD9
+jmp	short loc_2AFF
 
-loc_BDC:
+loc_2AAC:
 mov	bx, [di+0Dh]
-call	sub_CEA
-call	sub_CEA
+call	sub_2BBA
+call	sub_2BBA
 mov	[di+0Dh], bx
-mov	ax, word ptr seg_F4B0
+mov	ax, word ptr seg_11380
 mov	cl, 3
 rol	ax, cl
-mov	word ptr seg_F4B0, ax
+mov	word ptr seg_11380, ax
 and	ax, 7
 add	al, 14h
-jmp	short loc_C09
+jmp	short loc_2AD9
 
-loc_BF9:
+loc_2AC9:
 shr	ax, 1
 shr	ax, 1
-rol	word ptr seg_F4B0, 1
+rol	word ptr seg_11380, 1
 rcl	ax, 1
-rol	word ptr seg_F4B0, 1
+rol	word ptr seg_11380, 1
 rcl	ax, 1
 
-loc_C09:
+loc_2AD9:
 mov	[di+8],	ax
 mov	bl, dh
 mov	ax, bx
@@ -1324,135 +1322,135 @@ mov	ax, dx
 cbw
 mov	dx, ax
 push	di
-call	sub_C661
+call	sub_E531
 pop	di
 cmp	word ptr [di], 140h
-jnb	short loc_C2F
+jnb	short loc_2AFF
 xor	ax, ax
 cmp	[di+4],	ax
-js	short loc_C2F
+js	short loc_2AFF
 cmp	[di+6],	ax
-jns	short loc_C34
+jns	short loc_2B04
 
-loc_C2F:
+loc_2AFF:
 push	di
-call	sub_C58A
+call	sub_E45A
 pop	di
 
-loc_C34:
+loc_2B04:
 pop	cx
 add	di, 11h
-loop	loc_BC6
+loop	loc_2A96
 
-locret_C3A:
+locret_2B0A:
 retn
 
 
 
-sub_C3B	proc near
+sub_2B0B proc near
 dec	byte ptr [si+1]
-jns	short loc_C79
-test	word ptr seg_F4B0, 3
-jnz	short loc_C58
+jns	short loc_2B49
+test	word ptr seg_11380, 3
+jnz	short loc_2B28
 mov	byte ptr [si+7], 0Bh
-test	word ptr seg_F4B0, 0Ch
-jnz	short loc_C58
+test	word ptr seg_11380, 0Ch
+jnz	short loc_2B28
 mov	byte ptr [si+7], 11h
 
-loc_C58:
-call	sub_E3CC
+loc_2B28:
+call	sub_1029C
 cmp	byte ptr ds:473Ah, 0
-jz	short loc_C64
+jz	short loc_2B34
 and	al, 0EFh
 
-loc_C64:
+loc_2B34:
 mov	cx, ax
 mov	bx, 7
-call	sub_E3B7
+call	sub_10287
 mov	[si+1],	al
 cmp	al, 4
-jb	short loc_C76
+jb	short loc_2B46
 or	ch, 40h
 
-loc_C76:
+loc_2B46:
 mov	[si+2],	cx
 
-loc_C79:
+loc_2B49:
 mov	byte ptr [si], 8
 mov	al, [si+2]
 mov	di, ax
 mov	bl, [si+3]
 and	ax, 10h
-jnz	short loc_C98
+jnz	short loc_2B68
 and	bx, 6
 mov	si, [bx+15A2h]
 add	bx, bx
 add	ax, bx
 add	al, 4
-jmp	short loc_CD6
+jmp	short loc_2BA6
 
-loc_C98:
+loc_2B68:
 mov	al, [si+3]
 mov	ah, al
 and	ax, 0C03Fh
 test	ah, 40h
-jz	short loc_CCA
-rol	word ptr seg_F4B0, 1
-jnb	short loc_CCA
+jz	short loc_2B9A
+rol	word ptr seg_11380, 1
+jnb	short loc_2B9A
 mov	cl, 0Ah
 or	ah, ah
-jns	short loc_CB3
+jns	short loc_2B83
 neg	cl
 
-loc_CB3:
+loc_2B83:
 add	al, cl
-jns	short loc_CBC
+jns	short loc_2B8C
 xor	ah, 80h
 xor	al, al
 
-loc_CBC:
+loc_2B8C:
 cmp	al, 40h	; '@'
-jb	short loc_CC5
+jb	short loc_2B95
 mov	al, 3Fh	; '?'
 xor	ah, 80h
 
-loc_CC5:
+loc_2B95:
 or	ah, al
 mov	[si+3],	ah
 
-loc_CCA:
+loc_2B9A:
 add	al, 0E0h ; 'à'
-call	sub_5198
+call	sub_7068
 mov	dh, bl
 mov	si, dx
 mov	ax, 14h
 
-loc_CD6:
+loc_2BA6:
 and	di, 0Ch
 mov	bx, [di+1594h]
 mov	dx, [di+1592h]
-call	sub_C60B
+call	sub_E4DB
 mov	word ptr [di+0Dh], 0
 retn
-sub_C3B	endp
+sub_2B0B endp
 
 
 
 
-sub_CEA	proc near
+sub_2BBA proc near
 
 ; FUNCTION CHUNK AT 0D05 SIZE 00000008 BYTES
 
 xor	ax, ax
 mov	al, dl
 or	al, al
-js	short loc_D05
-sub_CEA	endp
+js	short loc_2BD5
+sub_2BBA endp
 
 
 
 
-sub_CF2	proc near
+sub_2BC2 proc near
 add	al, bl
 mov	cl, 5
 ror	ax, cl
@@ -1463,789 +1461,789 @@ mov	dl, al
 xchg	bl, bh
 xchg	dl, dh
 retn
-sub_CF2	endp
+sub_2BC2 endp
 
-; START	OF FUNCTION CHUNK FOR sub_CEA
+; START	OF FUNCTION CHUNK FOR sub_2BBA
 
-loc_D05:
+loc_2BD5:
 neg	al
-call	sub_CF2
+call	sub_2BC2
 neg	dh
 retn
-; END OF FUNCTION CHUNK	FOR sub_CEA
+; END OF FUNCTION CHUNK	FOR sub_2BBA
 
 
 
-sub_D0D	proc near
+sub_2BDD proc near
 mov	al, bl
 mov	bx, 180h
 mov	cx, 54h	; 'T'
 mov	dl, 37h	; '7'
-jz	short loc_D23
+jz	short loc_2BF3
 dec	dx
 cmp	al, 0Ah
-jz	short loc_D23
-call	dword ptr seg_F4B0+3951h
+jz	short loc_2BF3
+call	dword ptr seg_11380+3951h
 retn
 
-loc_D23:
-call	near ptr byte_C13B
+loc_2BF3:
+call	near ptr byte_E00B
 mov	al, dl
 xor	ah, ah
-sub_D0D	endp
+sub_2BDD endp
 
 
 
 
-sub_D2A	proc near
-call	sub_C1F4
+sub_2BFA proc near
+call	sub_E0C4
 lea	dx, [si+6]
-call	dword ptr seg_F4B0+38BDh
-call	sub_C0F4
+call	dword ptr seg_11380+38BDh
+call	sub_DFC4
 mov	ax, 35h	; '5'
-call	sub_C1F4
+call	sub_E0C4
 lea	dx, [si+6]
-call	dword ptr seg_F4B0+394Dh
+call	dword ptr seg_11380+394Dh
 retn
-sub_D2A	endp
+sub_2BFA endp
 
 
 
 
-sub_D45	proc near
-call	sub_395C
-call	sub_3971
-call	sub_39B9
-inc	seg_F4B0+227Dh
+sub_2C15 proc near
+call	sub_582C
+call	sub_5841
+call	sub_5889
+inc	seg_11380+227Dh
 mov	cx, 3
 
-loc_D55:
+loc_2C25:
 push	cx
 mov	bl, 28h	; '('
-call	sub_3971
-call	sub_398C
-call	sub_C0F4
+call	sub_5841
+call	sub_585C
+call	sub_DFC4
 mov	byte ptr ds:46D7h, 20h ; ' '
 
-loc_D66:
+loc_2C36:
 mov	bp, 391Dh
 mov	ax, 3
-call	sub_E353
+call	sub_10223
 cmp	byte ptr ds:46D7h, 10h
-jnb	short loc_D66
+jnb	short loc_2C36
 pop	cx
-loop	loc_D55
+loop	loc_2C25
 
-loc_D79:
+loc_2C49:
 mov	bp, 391Dh
 mov	ax, 3
-call	sub_E353
+call	sub_10223
 cmp	byte ptr ds:46D7h, 0
-jnz	short loc_D79
-dec	seg_F4B0+227Dh
+jnz	short loc_2C49
+dec	seg_11380+227Dh
 retn
-sub_D45	endp
+sub_2C15 endp
 
 
 
 
-sub_D8E	proc near
+sub_2C5E proc near
 cmp	byte ptr ds:47A9h, 0
-jnz	short locret_D9D
+jnz	short locret_2C6D
 xor	ax, ax
 cmp	ds:46D9h, al
-jns	short loc_D9E
+jns	short loc_2C6E
 
-locret_D9D:
+locret_2C6D:
 retn
 
-loc_D9E:
+loc_2C6E:
 mov	ds:473Bh, al
 mov	ds:46ECh, al
-cmp	seg_F4B0+0FBh, al
-jns	short loc_DB0
-call	sub_DBB2
-jmp	loc_186B
+cmp	seg_11380+0FBh,	al
+jns	short loc_2C80
+call	sub_FA82
+jmp	loc_373B
 
-loc_DB0:
-call	sub_D2BD
-call	sub_D45
-call	sub_DBB2
-call	sub_98E6
-mov	word ptr seg_F4B0+2, 16C5h
-call	sub_E66
-mov	seg_F4B0+11CAh,	1
-call	sub_9F40
+loc_2C80:
+call	sub_F18D
+call	sub_2C15
+call	sub_FA82
+call	sub_B7B6
+mov	word ptr seg_11380+2, 16C5h
+call	sub_2D36
+mov	seg_11380+11CAh, 1
+call	sub_BE10
 mov	word ptr ds:47C4h, 0FFFFh
 mov	al, 80h	; '€'
 xchg	al, ds:46D9h
 xor	ah, ah
 push	ax
 add	ax, 0BAh ; 'º'
-call	sub_9901
-call	sub_88AF
-call	sub_9901
+call	sub_B7D1
+call	sub_A77F
+call	sub_B7D1
 mov	si, 2254h
-call	sub_7B1B
-call	sub_DA53
+call	sub_99EB
+call	sub_F923
 pop	ax
 mov	bx, 225Dh
 xlat
 or	al, al
-js	short loc_E22
-call	sub_91A0
+js	short loc_2CF2
+call	sub_B070
 les	si, ds:0DBB0h
 assume es:nothing
 lods	word ptr es:[si]
 shr	ax, 1
 sub	ax, 3
-mov	dx, word ptr seg_F4B0+2254h
-mov	bx, word ptr seg_F4B0+2256h
+mov	dx, word ptr seg_11380+2254h
+mov	bx, word ptr seg_11380+2256h
 inc	dx
 inc	bx
 push	ax
-call	sub_C2FD
+call	sub_E1CD
 pop	ax
 inc	ax
-call	sub_C22F
-call	dword ptr seg_F4B0+3935h
-call	sub_9EFD
+call	sub_E0FF
+call	dword ptr seg_11380+3935h
+call	sub_BDCD
 
-loc_E22:
-call	sub_C4CD
+loc_2CF2:
+call	sub_E39D
 mov	byte ptr ds:4727h, 0
-call	sub_D741
+call	sub_F611
 mov	byte ptr ds:47A7h, 1
 mov	bp, 20A2h
 mov	bx, 0F66h
-call	sub_D323
-jmp	sub_DBEC
-sub_D8E	endp
+call	sub_F1F3
+jmp	sub_FABC
+sub_2C5E endp
 
 mov	bx, 0F66h
 mov	bp, 20B6h
-jmp	sub_D323
+jmp	sub_F1F3
 mov	cl, 0FFh
 
-loc_E49:
+loc_2D19:
 push	cx
 cmp	byte ptr ds:46D9h, 0
-jz	short loc_E62
+jz	short loc_2D32
 mov	ax, 0Dh
-call	loc_E6C
+call	loc_2D3C
 mov	byte ptr ds:46D9h, 0
 mov	word ptr ds:47C4h, 0
 
-loc_E62:
+loc_2D32:
 pop	cx
-jmp	loc_B3B0
+jmp	loc_D280
 
 
 
-sub_E66	proc near
-call	sub_AD5E
+sub_2D36 proc near
+call	sub_CC2E
 mov	ax, 0Ch
 
-loc_E6C:
+loc_2D3C:
 push	ax
-call	sub_A7A5
+call	sub_C675
 pop	ax
 mov	bp, 181Eh
-jmp	sub_C8FB
-sub_E66	endp
+jmp	sub_E7CB
+sub_2D36 endp
 
 
 
 
-sub_E77	proc near
-call	sub_AD50
-call	sub_C07C
+sub_2D47 proc near
+call	sub_CC20
+call	sub_DF4C
 mov	ax, 0Bh
-call	sub_CA1B
-call	sub_C4DD
-call	sub_C0F4
+call	sub_E8EB
+call	sub_E3AD
+call	sub_DFC4
 mov	cx, 5
 
-loc_E8C:
+loc_2D5C:
 push	cx
 
-loc_E8D:
-call	sub_C9F4
-jz	short loc_E8D
+loc_2D5D:
+call	sub_E8C4
+jz	short loc_2D5D
 mov	al, 3Ch	; '<'
 mov	bp, 1797h
-call	sub_C108
+call	sub_DFD8
 pop	cx
-loop	loc_E8C
-call	sub_CA01
-call	sub_C412
-jmp	sub_181E
-sub_E77	endp
+loop	loc_2D5C
+call	sub_E8D1
+call	sub_E2E2
+jmp	sub_36EE
+sub_2D47 endp
 
-call	sub_B2B9
-call	sub_98E6
-call	sub_181E
+call	sub_D189
+call	sub_B7B6
+call	sub_36EE
 mov	al, 4
 xor	dx, dx
 mov	bp, 0ED0h
-jmp	sub_C108
+jmp	sub_DFD8
 
-loc_EB9:
+loc_2D89:
 xor	ax, ax
 mov	ds:47C3h, al
-call	sub_B2BE
+call	sub_D18E
 mov	byte ptr ds:47A6h, 0FFh
 mov	al, 4
 xor	dx, dx
-call	sub_189A
-jmp	sub_2DB1
+call	sub_376A
+jmp	sub_4C81
 mov	al, 3Bh	; ';'
-call	sub_C2F2
+call	sub_E1C2
 mov	ax, 1
-call	sub_C22F
-call	sub_F08
+call	sub_E0FF
+call	sub_2DD8
 mov	ax, 3Bh	; ';'
-call	sub_C13E
+call	sub_E00E
 mov	ax, 2
 xor	dx, dx
 xor	bx, bx
-call	sub_C22F
-call	sub_1797
+call	sub_E0FF
+call	sub_3667
 mov	si, 1D1Eh
-call	sub_D72B
-call	sub_98F5
-mov	seg_F4B0+1C06h,	80h ; '€'
+call	sub_F5FB
+call	sub_B7C5
+mov	seg_11380+1C06h, 80h ; '€'
 mov	bp, 20C2h
 mov	bx, 0EB9h
-jmp	sub_D338
+jmp	sub_F208
 
 
 
-sub_F08	proc near
+sub_2DD8 proc near
 
 ; FUNCTION CHUNK AT 0960 SIZE 00000012 BYTES
 
-test	word ptr seg_F4B0+10h, 80h
-jnz	short loc_F13
-jmp	loc_960
+test	word ptr seg_11380+10h,	80h
+jnz	short loc_2DE3
+jmp	loc_2830
 
-loc_F13:
-call	sub_C412
+loc_2DE3:
+call	sub_E2E2
 mov	word ptr ds:47C4h, 7
-call	sub_9197
+call	sub_B067
 mov	byte ptr ds:478Ch, 0
-add	word ptr seg_F4B0+1BF2h, 0Fh
-call	sub_978E
-call	sub_998E
-mov	word ptr seg_F4B0+22A6h, 0FFFFh
+add	word ptr seg_11380+1BF2h, 0Fh
+call	sub_B65E
+call	sub_B85E
+mov	word ptr seg_11380+22A6h, 0FFFFh
 inc	byte ptr ds:47C3h
 mov	word ptr ds:47C6h, 1
-call	sub_C412
+call	sub_E2E2
 mov	dx, 2Dh	; '-'
-jmp	loc_965
-sub_F08	endp
+jmp	loc_2835
+sub_2DD8 endp
 
-mov	ax, word ptr seg_F4B0+2
+mov	ax, word ptr seg_11380+2
 mov	bx, ax
 and	al, 0Fh
 cmp	al, 0Ch
 jnb	short nullsub_1
 push	bx
 cmp	al, 2
-jnb	short loc_F5F
+jnb	short loc_2E2F
 mov	ax, bx
 add	al, 2
-call	sub_FB2
+call	sub_2E82
 
-loc_F5F:
+loc_2E2F:
 pop	ax
 and	al, 0F0h
 or	al, 0Ch
-jmp	short loc_F84
+jmp	short loc_2E54
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_1. PRESS KEYPAD "+" TO EXPAND]
-mov	ax, word ptr seg_F4B0+2
+mov	ax, word ptr seg_11380+2
 mov	bx, ax
 and	al, 0Fh
 cmp	al, 0Bh
 jb	short nullsub_1
 push	bx
 cmp	al, 0Dh
-jnb	short loc_F7E
+jnb	short loc_2E4E
 mov	ax, bx
 add	al, 2
-call	sub_FB2
+call	sub_2E82
 
-loc_F7E:
+loc_2E4E:
 pop	ax
 and	al, 0F0h
 add	ax, 10h
 
-loc_F84:
-cmp	seg_F4B0+2Ah, 14h
-jnz	short sub_F95
-call	sub_F95
+loc_2E54:
+cmp	seg_11380+2Ah, 14h
+jnz	short sub_2E65
+call	sub_2E65
 sub	word ptr ds:0DC5Ah, 3E8h
 retn
 
 
 
-sub_F95	proc near
+sub_2E65 proc near
 push	ax
-call	sub_390A
-call	sub_4D00
-call	sub_B2BE
+call	sub_57DA
+call	sub_6BD0
+call	sub_D18E
 pop	cx
-sub	cx, word ptr seg_F4B0+2
-call	sub_FD9
-sub_F95	endp
+sub	cx, word ptr seg_11380+2
+call	sub_2EA9
+sub_2E65 endp
 
-; START	OF FUNCTION CHUNK FOR sub_1707
+; START	OF FUNCTION CHUNK FOR sub_35D7
 
-loc_FA7:
-call	sub_DBB2
+loc_2E77:
+call	sub_FA82
 mov	al, 2Ah	; '*'
-call	sub_189A
-jmp	sub_D763
-; END OF FUNCTION CHUNK	FOR sub_1707
+call	sub_376A
+jmp	sub_F633
+; END OF FUNCTION CHUNK	FOR sub_35D7
 
 
 
-sub_FB2	proc near
-call	loc_395F
-call	sub_3971
+sub_2E82 proc near
+call	loc_582F
+call	sub_5841
 cmp	byte ptr ds:46D7h, 0
-jz	short loc_FC2
-jmp	sub_39B9
+jz	short loc_2E92
+jmp	sub_5889
 
-loc_FC2:
-jmp	sub_398C
-sub_FB2	endp
+loc_2E92:
+jmp	sub_585C
+sub_2E82 endp
 
 mov	cx, 10h
 
-loc_FC8:
+loc_2E98:
 push	cx
 mov	cx, 1
-call	sub_FD9
+call	sub_2EA9
 pop	cx
-cmp	seg_F4B0+2Bh, 0
-loopne	loc_FC8
-jmp	short loc_FA7
+cmp	seg_11380+2Bh, 0
+loopne	loc_2E98
+jmp	short loc_2E77
 
 
 
-sub_FD9	proc near
+sub_2EA9 proc near
 mov	byte ptr ds:46DAh, 1
-call	sub_B2BE
+call	sub_D18E
 or	cx, cx
-jle	short loc_1005
+jle	short loc_2ED5
 push	cx
-mov	ax, word ptr seg_F4B0+146Eh
+mov	ax, word ptr seg_11380+146Eh
 mov	ds:46DBh, ax
 cmp	byte ptr ds:46DDh, 0
-jz	short loc_FF6
-call	sub_1B23
+jz	short loc_2EC6
+call	sub_39F3
 
-loc_FF6:
-inc	word ptr seg_F4B0+2
+loc_2EC6:
+inc	word ptr seg_11380+2
 mov	byte ptr ds:46DDh, 1
-call	sub_1B23
+call	sub_39F3
 pop	cx
-loop	sub_FD9
+loop	sub_2EA9
 
-loc_1005:
+loc_2ED5:
 mov	byte ptr ds:46DAh, 0
 retn
-sub_FD9	endp
+sub_2EA9 endp
 
 
 
 
-sub_100B proc near
-mov	seg_F4B0+100Bh,	1
+sub_2EDB proc near
+mov	seg_11380+100Bh, 1
 retn
-sub_100B endp
+sub_2EDB endp
 
 
 
 
-sub_1011 proc near
-dec	seg_F4B0+122Ah
+sub_2EE1 proc near
+dec	seg_11380+122Ah
 mov	si, 1021h
-call	sub_105B
-sub_1011 endp
+call	sub_2F2B
+sub_2EE1 endp
 
 
 
 
-sub_101B proc near
-mov	seg_F4B0+0FE8h,	9
+sub_2EEB proc near
+mov	seg_11380+0FE8h, 9
 retn
-sub_101B endp
+sub_2EEB endp
 
 db 18h,	2, 0DCh, 2, 2 dup(0)
 
 
 
-sub_1027 proc near
-and	seg_F4B0+122Eh,	7Fh
-jmp	sub_2FFB
-sub_1027 endp
+sub_2EF7 proc near
+and	seg_11380+122Eh, 7Fh
+jmp	sub_4ECB
+sub_2EF7 endp
 
 
 
 
-sub_102F proc near
-and	seg_F4B0+124Ah,	7Fh
-and	seg_F4B0+1247h,	7Fh
-mov	word ptr seg_F4B0+121Dh, 0FFFFh
+sub_2EFF proc near
+and	seg_11380+124Ah, 7Fh
+and	seg_11380+1247h, 7Fh
+mov	word ptr seg_11380+121Dh, 0FFFFh
 mov	ax, 1321h
-jmp	sub_1771
-sub_102F endp
+jmp	sub_3641
+sub_2EFF endp
 
 
 
 
-sub_1045 proc near
+sub_2F15 proc near
 
 ; FUNCTION CHUNK AT 26DA SIZE 00000055 BYTES
 
-mov	seg_F4B0+0FD8h,	5
-call	sub_101B
+mov	seg_11380+0FD8h, 5
+call	sub_2EEB
 mov	ax, 10Bh
-jmp	loc_26DA
-sub_1045 endp
+jmp	loc_45AA
+sub_2F15 endp
 
 
 
 
-sub_1053 proc near
-mov	seg_F4B0+0FD8h,	0Ah
+sub_2F23 proc near
+mov	seg_11380+0FD8h, 0Ah
 mov	si, 1069h
-sub_1053 endp
+sub_2F23 endp
 
 
 
 
-sub_105B proc near
+sub_2F2B proc near
 lods	word ptr cs:[si]
 or	ax, ax
-jz	short locret_1068
+jz	short locret_2F38
 mov	di, ax
-call	sub_425B
-jmp	short sub_105B
+call	sub_612B
+jmp	short sub_2F2B
 
-locret_1068:
+locret_2F38:
 retn
-sub_105B endp
+sub_2F2B endp
 
 db 4Ch,	3, 68h,	3, 84h,	3, 2 dup(0)
 
 
 
-sub_1071 proc near
-mov	seg_F4B0+0FFh, 0
-mov	seg_F4B0+2Ah, 15h
-mov	seg_F4B0+0FDBh,	1
-mov	word ptr seg_F4B0+1018h, 200Bh
-mov	word ptr seg_F4B0+101Ah, 180h
-mov	seg_F4B0+0FE8h,	0Ah
-mov	seg_F4B0+0D5h, 0FFh
-call	sub_2090
-or	seg_F4B0+0Ah, 1
+sub_2F41 proc near
+mov	seg_11380+0FFh,	0
+mov	seg_11380+2Ah, 15h
+mov	seg_11380+0FDBh, 1
+mov	word ptr seg_11380+1018h, 200Bh
+mov	word ptr seg_11380+101Ah, 180h
+mov	seg_11380+0FE8h, 0Ah
+mov	seg_11380+0D5h,	0FFh
+call	sub_3F60
+or	seg_11380+0Ah, 1
 mov	ax, 1
-jmp	sub_29EE
-sub_1071 endp
+jmp	sub_48BE
+sub_2F41 endp
 
 
 
 
-sub_10A4 proc near
-and	seg_F4B0+1245h,	7Fh
-mov	word ptr seg_F4B0+1217h, 0FFFFh
-jmp	sub_2FFB
-sub_10A4 endp
+sub_2F74 proc near
+and	seg_11380+1245h, 7Fh
+mov	word ptr seg_11380+1217h, 0FFFFh
+jmp	sub_4ECB
+sub_2F74 endp
 
 
 
 
-sub_10B2 proc near
-mov	seg_F4B0+0FFBh,	1
-sub_10B2 endp
+sub_2F82 proc near
+mov	seg_11380+0FFBh, 1
+sub_2F82 endp
 
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_2. PRESS KEYPAD "+" TO EXPAND]
 
 
 
-sub_10B8 proc near
+sub_2F88 proc near
 mov	di, 800h
-jmp	sub_425B
-sub_10B8 endp
+jmp	sub_612B
+sub_2F88 endp
 
 
 
 
-sub_10BE proc near
-mov	ax, word ptr seg_F4B0+2
-mov	word ptr seg_F4B0+1154h, ax
-mov	word ptr seg_F4B0+1018h, 2006h
-mov	word ptr seg_F4B0+0FF8h, 2008h
-mov	word ptr seg_F4B0+0FFAh, 180h
-mov	seg_F4B0+0FE8h,	0Ah
-mov	word ptr seg_F4B0+0FEAh, 180h
-mov	word ptr seg_F4B0+1201h, 109h
+sub_2F8E proc near
+mov	ax, word ptr seg_11380+2
+mov	word ptr seg_11380+1154h, ax
+mov	word ptr seg_11380+1018h, 2006h
+mov	word ptr seg_11380+0FF8h, 2008h
+mov	word ptr seg_11380+0FFAh, 180h
+mov	seg_11380+0FE8h, 0Ah
+mov	word ptr seg_11380+0FEAh, 180h
+mov	word ptr seg_11380+1201h, 109h
 mov	al, 14h
-call	sub_6F78
-or	seg_F4B0+0Ah, 10h
+call	sub_8E48
+or	seg_11380+0Ah, 10h
 mov	si, 10F7h
-jmp	sub_105B
-sub_10BE endp
+jmp	sub_2F2B
+sub_2F8E endp
 
 db 0ECh, 5, 0D0h, 5, 8,	6, 40h,	6, 5Ch,	6
 db 2 dup(0)
 
 
 
-sub_1103 proc near
+sub_2FD3 proc near
 mov	ax, 4
-call	sub_29EE
+call	sub_48BE
 mov	ax, 1409h
-jmp	loc_26DA
-sub_1103 endp
+jmp	loc_45AA
+sub_2FD3 endp
 
 
 
 
-sub_110F proc near
-cmp	seg_F4B0+0FE8h,	8
-jz	short loc_1121
-mov	seg_F4B0+0FE8h,	0Ah
-mov	word ptr seg_F4B0+0FEAh, 180h
+sub_2FDF proc near
+cmp	seg_11380+0FE8h, 8
+jz	short loc_2FF1
+mov	seg_11380+0FE8h, 0Ah
+mov	word ptr seg_11380+0FEAh, 180h
 
-loc_1121:
+loc_2FF1:
 mov	ax, 280Ah
-jmp	loc_26DA
-sub_110F endp
+jmp	loc_45AA
+sub_2FDF endp
 
 
 
 
-sub_1127 proc near
-mov	seg_F4B0+0FDBh,	0FFh
+sub_2FF7 proc near
+mov	seg_11380+0FDBh, 0FFh
 retn
-sub_1127 endp
+sub_2FF7 endp
 
 
 
 
-sub_112D proc near
-or	seg_F4B0+1067h,	2
+sub_2FFD proc near
+or	seg_11380+1067h, 2
 retn
-sub_112D endp
+sub_2FFD endp
 
 
 
 
-sub_1133 proc near
+sub_3003 proc near
 mov	di, 3D8h
-jmp	sub_425B
-sub_1133 endp
+jmp	sub_612B
+sub_3003 endp
 
 
 
 
-sub_1139 proc near
+sub_3009 proc near
 mov	al, 0Ah
-call	sub_6F78
+call	sub_8E48
 mov	ax, 1313h
-call	sub_1771
-mov	al, seg_F4B0+1057h
+call	sub_3641
+mov	al, seg_11380+1057h
 or	al, 10h
 and	al, 0FDh
-mov	seg_F4B0+1057h,	al
-mov	al, seg_F4B0+28h
+mov	seg_11380+1057h, al
+mov	al, seg_11380+28h
 add	al, 2
-mov	seg_F4B0+1178h,	al
+mov	seg_11380+1178h, al
 mov	si, 115Ch
-jmp	sub_105B
-sub_1139 endp
+jmp	sub_2F2B
+sub_3009 endp
 
 db 0F4h, 3, 10h, 4, 0BCh, 3, 8Ch, 8, 2 dup(0)
 
 
 
-sub_1166 proc near
-inc	seg_F4B0+1141h
-mov	seg_F4B0+0FE8h,	2
-mov	word ptr seg_F4B0+0FEAh, 180h
+sub_3036 proc near
+inc	seg_11380+1141h
+mov	seg_11380+0FE8h, 2
+mov	word ptr seg_11380+0FEAh, 180h
 mov	ax, 105h
-jmp	sub_29EE
-sub_1166 endp
+jmp	sub_48BE
+sub_3036 endp
 
 
 
 
-sub_117B proc near
-or	seg_F4B0+0Ah, 40h
+sub_304B proc near
+or	seg_11380+0Ah, 40h
 mov	al, 28h	; '('
-call	sub_6F78
-jmp	sub_101B
-sub_117B endp
+call	sub_8E48
+jmp	sub_2EEB
+sub_304B endp
 
 
 
 
-sub_1188 proc near
-and	seg_F4B0+1259h,	7Fh
-mov	word ptr seg_F4B0+1211h, 0FFFFh
-jmp	sub_2FFB
-sub_1188 endp
+sub_3058 proc near
+and	seg_11380+1259h, 7Fh
+mov	word ptr seg_11380+1211h, 0FFFFh
+jmp	sub_4ECB
+sub_3058 endp
 
 
 
 
-sub_1196 proc near
-or	seg_F4B0+0Ah, 20h
+sub_3066 proc near
+or	seg_11380+0Ah, 20h
 mov	ax, 12FBh
-call	sub_1771
+call	sub_3641
 mov	si, 11A7h
-jmp	sub_105B
-sub_1196 endp
+jmp	sub_2F2B
+sub_3066 endp
 
 db 0E4h, 7, 90h, 7, 0ACh, 7, 54h, 8, 1Ch
 db 8, 2	dup(0)
 
 
 
-sub_11B3 proc near
-mov	seg_F4B0+1038h,	5
-add	seg_F4B0+11D0h,	0Ch
-call	sub_1AC5
+sub_3083 proc near
+mov	seg_11380+1038h, 5
+add	seg_11380+11D0h, 0Ch
+call	sub_3995
 add	ax, 3
-mov	word ptr seg_F4B0+1156h, ax
-inc	seg_F4B0+1141h
+mov	word ptr seg_11380+1156h, ax
+inc	seg_11380+1141h
 retn
-sub_11B3 endp
+sub_3083 endp
 
 
 
 
-sub_11CB proc near
-mov	seg_F4B0+0FFh, 0
-mov	seg_F4B0+2Ah, 60h ; '`'
+sub_309B proc near
+mov	seg_11380+0FFh,	0
+mov	seg_11380+2Ah, 60h ; '`'
 mov	di, 11Ch
-call	sub_40AE
+call	sub_5F7E
 mov	dl, 2
-mov	word ptr seg_F4B0+1048h, dx
-mov	word ptr seg_F4B0+104Ah, bx
+mov	word ptr seg_11380+1048h, dx
+mov	word ptr seg_11380+104Ah, bx
 retn
-sub_11CB endp
+sub_309B endp
 
-byte_11E6 db 0E9h
-off_11E7 dw offset sub_D2A
-dw offset sub_1011
-dw offset sub_1027
-dw offset sub_102F
-dw offset sub_1045
-dw offset sub_1053
+byte_30B6 db 0E9h
+off_30B7 dw offset sub_2BFA
+dw offset sub_2EE1
+dw offset sub_2EF7
+dw offset sub_2EFF
+dw offset sub_2F15
+dw offset sub_2F23
 dw offset nullsub_2
-dw offset sub_10A4
-dw offset sub_10B2
+dw offset sub_2F74
+dw offset sub_2F82
 dw offset nullsub_2
-dw offset sub_10B8
-dw offset sub_10BE
-dw offset sub_1103
-dw offset sub_110F
-dw offset sub_1127
+dw offset sub_2F88
+dw offset sub_2F8E
+dw offset sub_2FD3
+dw offset sub_2FDF
+dw offset sub_2FF7
 dw offset nullsub_2
-dw offset sub_112D
-dw offset sub_1133
-dw offset sub_1139
-dw offset sub_1166
-dw offset sub_117B
-dw offset sub_1188
-dw offset sub_1196
-dw offset sub_11B3
-dw offset sub_11CB
-dw offset byte_11E6
+dw offset sub_2FFD
+dw offset sub_3003
+dw offset sub_3009
+dw offset sub_3036
+dw offset sub_304B
+dw offset sub_3058
+dw offset sub_3066
+dw offset sub_3083
+dw offset sub_309B
+dw offset byte_30B6
 dw offset nullsub_2
 dw offset nullsub_2
 
 
 
-sub_121F proc near
-cmp	al, seg_F4B0+2Ah
-jbe	short locret_1242
-mov	seg_F4B0+2Ah, al
-mov	seg_F4B0+0FFh, 0
-call	sub_B17A
-mov	bl, seg_F4B0+2Ah
+sub_30EF proc near
+cmp	al, seg_11380+2Ah
+jbe	short locret_3112
+mov	seg_11380+2Ah, al
+mov	seg_11380+0FFh,	0
+call	sub_D04A
+mov	bl, seg_11380+2Ah
 cmp	bl, 6Ch	; 'l'
-ja	short locret_1242
+ja	short locret_3112
 xor	bh, bh
 shr	bx, 1
-call	cs:off_11E7[bx]
+call	cs:off_30B7[bx]
 
-locret_1242:
+locret_3112:
 retn
-sub_121F endp
+sub_30EF endp
 
 
 
 
-sub_1243 proc near
+sub_3113 proc near
 mov	bp, 1269h
 xor	dx, dx
 xor	bx, bx
-call	sub_1258
+call	sub_3128
 cmp	bx, 3E8h
-jb	short locret_1257
-inc	seg_F4B0+0C2h
+jb	short locret_3127
+inc	seg_11380+0C2h
 
-locret_1257:
+locret_3127:
 retn
-sub_1243 endp
+sub_3113 endp
 
 
 
 
-sub_1258 proc near
+sub_3128 proc near
 mov	di, 138h
 mov	cx, 3
 
-loc_125E:
+loc_312E:
 push	cx
-call	sub_661D
+call	sub_84ED
 pop	cx
 add	di, 1Ch
-loop	loc_125E
+loop	loc_312E
 retn
-sub_1258 endp
+sub_3128 endp
 
 cmp	byte ptr [si+3], 4
-jnz	short locret_127B
+jnz	short locret_314B
 test	byte ptr [si+19h], 4
-jz	short locret_127B
+jz	short locret_314B
 add	bl, [si+1Ah]
 adc	bh, 0
 
-locret_127B:
+locret_314B:
 retn
 
 
 
-sub_127C proc near
+sub_314C proc near
 cmp	al, 4
-jnz	short loc_128D
-cmp	seg_F4B0+2Ah, 15h
-jb	short loc_128D
-cmp	seg_F4B0+2Ah, 20h ; ' '
+jnz	short loc_315D
+cmp	seg_11380+2Ah, 15h
+jb	short loc_315D
+cmp	seg_11380+2Ah, 20h ; ' '
 retn
 
-loc_128D:
+loc_315D:
 clc
 retn
-sub_127C endp
+sub_314C endp
 
 align 2
 db 2, 10h, 3, 1, 7, 2, 4, 5, 7 dup(0Fh)
@@ -2273,109 +2271,109 @@ db 0, 8, 2, 0, 0FFh
 
 
 
-sub_1392 proc near
-mov	word ptr seg_F4B0+2220h, 1FBAh
+sub_3262 proc near
+mov	word ptr seg_11380+2220h, 1FBAh
 retn
-sub_1392 endp
+sub_3262 endp
 
 
 
 
-sub_1399 proc near
-mov	word ptr seg_F4B0+2220h, 1FAEh
+sub_3269 proc near
+mov	word ptr seg_11380+2220h, 1FAEh
 retn
-sub_1399 endp
+sub_3269 endp
 
-; START	OF FUNCTION CHUNK FOR sub_1707
+; START	OF FUNCTION CHUNK FOR sub_35D7
 
-loc_13A0:
-call	sub_1399
+loc_3270:
+call	sub_3269
 or	byte ptr ds:46EBh, 40h
-jmp	short loc_13B6
+jmp	short loc_3286
 
-loc_13AA:
-call	sub_58FA
-call	sub_C08E
+loc_327A:
+call	sub_77CA
+call	sub_DF5E
 mov	si, 18E9h
-call	sub_C551
+call	sub_E421
 
-loc_13B6:
+loc_3286:
 mov	ax, 0Fh
-call	sub_C08E
-call	sub_9761
-call	sub_9EFD
-call	sub_9901
-jmp	sub_C07C
-; END OF FUNCTION CHUNK	FOR sub_1707
+call	sub_DF5E
+call	sub_B631
+call	sub_BDCD
+call	sub_B7D1
+jmp	sub_DF4C
+; END OF FUNCTION CHUNK	FOR sub_35D7
 
 
 
-sub_13C8 proc near
+sub_3298 proc near
 lods	byte ptr cs:[si]
-mov	seg_F4B0+4, al
+mov	seg_11380+4, al
 mov	ds:4778h, si
 lods	byte ptr cs:[si]
 xor	ah, ah
 add	si, ax
 mov	ds:477Ah, si
 
-loc_13DB:
-call	sub_1392
-call	sub_2DB1
-jmp	sub_1707
-sub_13C8 endp
+loc_32AB:
+call	sub_3262
+call	sub_4C81
+jmp	sub_35D7
+sub_3298 endp
 
-; START	OF FUNCTION CHUNK FOR sub_1707
+; START	OF FUNCTION CHUNK FOR sub_35D7
 
-loc_13E4:
-call	sub_1399
+loc_32B4:
+call	sub_3269
 push	si
-call	sub_8C8A
+call	sub_AB5A
 pop	si
 lods	byte ptr cs:[si]
 inc	word ptr ds:477Ah
 xor	ah, ah
 cmp	ax, ds:47C4h
-jz	short loc_1408
+jz	short loc_32D8
 cmp	ds:47A4h, ah
-jns	short loc_1408
+jns	short loc_32D8
 push	ax
 mov	bp, 2DB1h
-call	sub_C097
+call	sub_DF67
 pop	ax
 
-loc_1408:
-jmp	sub_9761
+loc_32D8:
+jmp	sub_B631
 
-loc_140B:
-call	sub_1392
+loc_32DB:
+call	sub_3262
 lods	byte ptr cs:[si]
 inc	word ptr ds:477Ah
 xor	ah, ah
 mov	ds:47C4h, ax
-call	sub_978E
-call	sub_9B8B
-jmp	sub_1707
+call	sub_B65E
+call	sub_BA5B
+jmp	sub_35D7
 
-loc_1422:
-call	sub_1392
-call	sub_1AE0
+loc_32F2:
+call	sub_3262
+call	sub_39B0
 cmp	al, 0Dh
-jnb	short loc_1434
+jnb	short loc_3304
 mov	cx, 1
-call	sub_FD9
-jmp	short loc_1422
+call	sub_2EA9
+jmp	short loc_32F2
 
-loc_1434:
-call	sub_390A
-call	sub_37B2
-call	sub_C412
+loc_3304:
+call	sub_57DA
+call	sub_5682
+call	sub_E2E2
 mov	si, 2290h
-jmp	short loc_1465
+jmp	short loc_3335
 
-loc_1442:
-call	sub_1392
-call	sub_37B2
+loc_3312:
+call	sub_3262
+call	sub_5682
 mov	es, word ptr ds:0DBDEh
 push	ds
 mov	ds, word ptr ds:0DBDAh
@@ -2383,113 +2381,113 @@ assume ds:nothing
 xor	dx, dx
 mov	bx, 32h	; '2'
 mov	bp, 3
-call	dword ptr ss:seg_F4B0+3949h
+call	dword ptr ss:seg_11380+3949h
 pop	ds
-call	sub_C43E
+call	sub_E30E
 mov	si, 2298h
 
-loc_1465:
+loc_3335:
 mov	ax, 27h	; '''
-call	sub_C13E
-call	sub_C21B
-call	sub_C0F4
-jmp	sub_C4DD
+call	sub_E00E
+call	sub_E0EB
+call	sub_DFC4
+jmp	sub_E3AD
 
-locret_1474:
+locret_3344:
 retn
-; END OF FUNCTION CHUNK	FOR sub_1707
-off_1475 dw offset sub_13C8
-dw offset loc_13E4
-dw offset loc_13DB
-dw offset loc_140B
-dw offset locret_1474
-dw offset loc_1422
-dw offset loc_1442
-dw offset loc_13A0
-dw offset loc_13AA
-dw offset loc_148D
-dw offset loc_14C9
-dw offset loc_167C
-; START	OF FUNCTION CHUNK FOR sub_1707
+; END OF FUNCTION CHUNK	FOR sub_35D7
+off_3345 dw offset sub_3298
+dw offset loc_32B4
+dw offset loc_32AB
+dw offset loc_32DB
+dw offset locret_3344
+dw offset loc_32F2
+dw offset loc_3312
+dw offset loc_3270
+dw offset loc_327A
+dw offset loc_335D
+dw offset loc_3399
+dw offset loc_354C
+; START	OF FUNCTION CHUNK FOR sub_35D7
 
-loc_148D:
-call	sub_1392
+loc_335D:
+call	sub_3262
 mov	al, 10h
 mov	bp, 1498h
-jmp	sub_C108
-; END OF FUNCTION CHUNK	FOR sub_1707
-call	sub_13C8
+jmp	sub_DFD8
+; END OF FUNCTION CHUNK	FOR sub_35D7
+call	sub_3298
 mov	byte ptr ds:0E8h, 0
 mov	word ptr ds:1152h, 0FFFFh
-call	sub_D763
-jmp	loc_F13
+call	sub_F633
+jmp	loc_2DE3
 mov	ax, 1Eh
-call	sub_C13E
+call	sub_E00E
 xor	ax, ax
 
-loc_14B4:
+loc_3384:
 push	ax
 xor	bx, bx
 xor	dx, dx
-call	sub_C22F
+call	sub_E0FF
 pop	ax
 inc	ax
 cmp	ax, 3
-jb	short loc_14B4
-call	sub_9B8B
-jmp	loc_F13
-; START	OF FUNCTION CHUNK FOR sub_1707
+jb	short loc_3384
+call	sub_BA5B
+jmp	loc_2DE3
+; START	OF FUNCTION CHUNK FOR sub_35D7
 
-loc_14C9:
+loc_3399:
 mov	si, 176Bh
-call	sub_DA5F
+call	sub_F92F
 mov	cx, 150h
 mov	bx, 180h
 mov	bp, 1
 mov	al, 28h	; '('
-call	sub_157E
-call	sub_1566
+call	sub_344E
+call	sub_3436
 mov	bp, 14ACh
-call	sub_C097
+call	sub_DF67
 call	dword ptr ds:3959h
 mov	cx, 0E4h ; 'ä'
 mov	bx, 129h
 xor	bp, bp
 mov	al, 30h	; '0'
-call	sub_157E
+call	sub_344E
 call	dword ptr ds:3935h
-call	sub_C4DD
-call	sub_1566
-call	sub_9B8B
+call	sub_E3AD
+call	sub_3436
+call	sub_BA5B
 mov	si, 1470h
 mov	al, 8Fh	; ''
 mov	es, word ptr ds:0DBDAh
 call	dword ptr ds:38DDh
 mov	ax, 1Eh
-call	sub_C13E
+call	sub_E00E
 mov	ax, 3
 mov	dx, 34h	; '4'
 xor	bx, bx
-call	sub_C22F
+call	sub_E0FF
 mov	al, 22h	; '"'
 mov	bp, 0F66h
-call	sub_C108
+call	sub_DFD8
 mov	ax, 12Ch
-call	sub_E387
+call	sub_10257
 mov	cx, 2Dh	; '-'
 mov	bx, 1E0h
 xor	bp, bp
 mov	al, 20h	; ' '
-call	sub_157E
+call	sub_344E
 mov	ax, 4
 mov	dx, 5Ah	; 'Z'
 mov	bx, 40h	; '@'
-call	sub_C22F
+call	sub_E0FF
 call	dword ptr ds:3935h
-call	sub_C4DD
-call	sub_1566
-jmp	loc_178E
-; END OF FUNCTION CHUNK	FOR sub_1707
+call	sub_E3AD
+call	sub_3436
+jmp	loc_365E
+; END OF FUNCTION CHUNK	FOR sub_35D7
 mov	al, ds:46D7h
 mov	bx, ds:0D818h
 mov	cx, ds:0D81Ah
@@ -2498,23 +2496,23 @@ retn
 
 
 
-sub_1566 proc near
+sub_3436 proc near
 inc	byte ptr ds:227Dh
 
-loc_156A:
+loc_343A:
 mov	bp, 1556h
 mov	ax, 10h
-call	sub_E353
+call	sub_10223
 dec	byte ptr ds:46D7h
-jnz	short loc_156A
+jnz	short loc_343A
 dec	byte ptr ds:227Dh
 retn
-sub_1566 endp
+sub_3436 endp
 
 
 
 
-sub_157E proc near
+sub_344E proc near
 mov	ds:46D7h, al
 mov	ds:0D81Ah, cx
 mov	ds:0D818h, bx
@@ -2529,159 +2527,158 @@ rep stosb
 pop	cx
 mov	dx, sp
 or	bp, bp
-jnz	short loc_15A1
+jnz	short loc_3471
 call	dword ptr ds:38BDh
-jmp	short loc_15A5
+jmp	short loc_3475
 
-loc_15A1:
+loc_3471:
 call	dword ptr ds:394Dh
 
-loc_15A5:
+loc_3475:
 add	sp, cx
 retn
-sub_157E endp
+sub_344E endp
 
 
 
 
-sub_15A8 proc near
-call	sub_D08F
+sub_3478 proc near
+call	sub_EF5F
 mov	ax, ds:11EBh
 mov	dx, 0Ah
 mov	bx, 9Dh	; ''
-jmp	sub_D194
-sub_15A8 endp
+jmp	sub_F064
+sub_3478 endp
 
 mov	ax, 1Eh
-call	sub_C13E
+call	sub_E00E
 mov	ax, 5
 mov	dx, 40h	; '@'
 mov	bx, 34h	; '4'
-jmp	sub_C22F
+jmp	sub_E0FF
 mov	dx, 200Ah
-call	loc_97E
+call	loc_284E
 xor	ax, ax
-jmp	loc_99D
+jmp	loc_286D
 mov	dx, 2003h
-call	loc_97E
+call	loc_284E
 mov	al, 1
-jmp	loc_99D
+jmp	loc_286D
 mov	dx, 2006h
-call	loc_97E
+call	loc_284E
 mov	al, 4
-jmp	loc_99D
+jmp	loc_286D
 mov	dx, 2004h
-call	loc_97E
+call	loc_284E
 mov	al, 3
-jmp	loc_99D
+jmp	loc_286D
 mov	dx, 3002h
 mov	bx, 280h
-call	loc_981
+call	loc_2851
 mov	al, 0Bh
-jmp	loc_99D
+jmp	loc_286D
 mov	dx, 3002h
 mov	bx, 280h
-call	loc_981
+call	loc_2851
 mov	al, 0Ah
 mov	dx, 3Ah	; ':'
-call	sub_9C7
-jmp	sub_978E
+call	sub_2897
+jmp	sub_B65E
 mov	bx, 1180h
 mov	dx, 703h
-call	loc_981
+call	loc_2851
 mov	al, 8
-jmp	loc_99D
+jmp	loc_286D
 mov	dx, 2008h
-call	loc_97E
+call	loc_284E
 mov	al, 2
-jmp	loc_99D
+jmp	loc_286D
 mov	bx, 1080h
 mov	dx, 802h
-call	loc_981
+call	loc_2851
 mov	al, 5
-jmp	loc_99D
+jmp	loc_286D
 mov	bx, 3F80h
 mov	dx, 1005h
-call	loc_981
+call	loc_2851
 mov	al, 6
-jmp	loc_99D
+jmp	loc_286D
 mov	bx, 1080h
 mov	dx, 803h
-call	loc_981
+call	loc_2851
 mov	al, 7
-jmp	loc_99D
+jmp	loc_286D
 db 0B7h, 15h, 5Dh, 9, 0C9h, 15h, 0D4h, 15h
 db 0DFh, 15h, 0EAh, 15h, 0F5h, 15h, 17h
 db 16h,	25h, 16h, 30h, 16h, 0ADh, 9, 3,	16h
 db 4Ch,	16h, 3Eh, 16h, 0F5h, 9,	0ACh, 14h
 db 2 dup(0FFh)
-; START	OF FUNCTION CHUNK FOR sub_1707
+; START	OF FUNCTION CHUNK FOR sub_35D7
 
-loc_167C:
+loc_354C:
 xor	ax, ax
 mov	ds:4774h, al
 mov	ds:12h,	ax
 mov	ds:10h,	ax
 dec	ax
 mov	ds:22A6h, ax
-call	sub_C0AD
+call	sub_DF7D
 inc	byte ptr ds:227Dh
 mov	byte ptr ds:0CE80h, 0
-call	sub_C49A
+call	sub_E36A
 mov	ax, 12h
 call	dword ptr ds:3939h
-call	sub_AD50
+call	sub_CC20
 mov	word ptr ds:11EBh, 120h
 mov	si, 165Ah
-call	sub_945
+call	sub_2815
 
-loc_16B0:
+loc_3580:
 mov	byte ptr ds:0DBE7h, 0FFh
-call	sub_93F
+call	sub_280F
 mov	bx, ax
 inc	bx
-jz	short loc_16F1
+jz	short loc_35C1
 push	ax
-call	sub_911
+call	sub_27E1
 call	dword ptr ds:3959h
-call	sub_C0AD
+call	sub_DF7D
 pop	bp
-call	sub_C097
+call	sub_DF67
 inc	word ptr ds:11EBh
-call	sub_C07C
-call	sub_15A8
+call	sub_DF4C
+call	sub_3478
 mov	al, 3Ah	; ':'
 mov	bp, 0F66h
-call	sub_C108
-call	sub_C0F4
+call	sub_DFD8
+call	sub_DFC4
 
-loc_16E1:
+loc_35B1:
 mov	ax, 258h
-call	sub_DDB0
-call	sub_CC85
-jz	short loc_16E1
-call	sub_9985
-jmp	short loc_16B0
+call	sub_FC80
+call	sub_EB55
+jz	short loc_35B1
+call	sub_B855
+jmp	short loc_3580
 
-loc_16F1:
+loc_35C1:
 mov	ax, 0FFFFh
-call	sub_DDB0
-jnb	short loc_16F1
-jmp	loc_3A
-; END OF FUNCTION CHUNK	FOR sub_1707
-; START	OF FUNCTION CHUNK FOR sub_4F0C
+call	sub_FC80
+jnb	short loc_35C1
+jmp	loc_1F0A
+; END OF FUNCTION CHUNK	FOR sub_35D7
+; START	OF FUNCTION CHUNK FOR sub_6DDC
 
-loc_16FC:
+loc_35CC:
 mov	byte ptr ds:2Ah, 0C8h ;	'È'
 mov	ax, 128Fh
-call	sub_1771
-; END OF FUNCTION CHUNK	FOR sub_4F0C
+call	sub_3641
+; END OF FUNCTION CHUNK	FOR sub_6DDC
 
 
 
-sub_1707 proc near
+sub_35D7 proc near
 
-; FUNCTION CHUNK AT 003A SIZE 00000049 BYTES
 ; FUNCTION CHUNK AT 0FA7 SIZE 0000000B BYTES
 ; FUNCTION CHUNK AT 13A0 SIZE 00000028 BYTES
 ; FUNCTION CHUNK AT 13E4 SIZE 00000091 BYTES
@@ -2691,292 +2688,292 @@ sub_1707 proc near
 ; FUNCTION CHUNK AT 9ED5 SIZE 0000001C BYTES
 
 cmp	word ptr ds:2220h, 1FAEh
-jnz	short loc_171A
+jnz	short loc_35EA
 mov	di, 1B56h
-call	sub_D6FE
-jnb	short loc_171A
-jmp	loc_9ED5
+call	sub_F5CE
+jnb	short loc_35EA
+jmp	loc_BDA5
 
-loc_171A:
+loc_35EA:
 mov	byte ptr ds:0CE9Dh, 0
 mov	si, ds:477Ah
 lods	byte ptr cs:[si]
 cmp	al, 0FFh
-jz	short loc_1736
+jz	short loc_3606
 mov	ds:477Ah, si
 xor	ah, ah
 mov	bx, ax
-jmp	cs:off_1475[bx]
+jmp	cs:off_3345[bx]
 
-loc_1736:
+loc_3606:
 mov	si, 176Bh
-call	sub_DA5F
+call	sub_F92F
 mov	ax, ds:4776h
 mov	ds:4, al
 mov	ds:46E0h, ah
 xor	al, al
 mov	ds:4774h, al
 cmp	byte ptr ds:2Ah, 48h ; 'H'
-jz	short loc_1755
-call	sub_ADBE
+jz	short loc_3625
+call	sub_CC8E
 
-loc_1755:
-call	sub_B2BE
+loc_3625:
+call	sub_D18E
 cmp	byte ptr ds:0FBh, 0
-js	short loc_1762
-jmp	loc_FA7
+js	short loc_3632
+jmp	loc_2E77
 
-loc_1762:
-call	sub_AD5E
-call	sub_68EB
-jmp	sub_780A
-sub_1707 endp
+loc_3632:
+call	sub_CC2E
+call	sub_87BB
+jmp	sub_96DA
+sub_35D7 endp
 
 xor	byte ptr ds:4775h, 0FFh
 retn
 
 
 
-sub_1771 proc near
+sub_3641 proc near
 mov	ds:477Ah, ax
 mov	word ptr ds:4778h, 0
 inc	byte ptr ds:4774h
-call	sub_B2B9
-call	sub_AD5E
+call	sub_D189
+call	sub_CC2E
 mov	al, ds:4
 mov	ah, ds:46E0h
 mov	ds:4776h, ax
 
-loc_178E:
+loc_365E:
 mov	bp, 64h	; 'd'
 mov	si, 176Bh
-jmp	sub_DA25
-sub_1771 endp
+jmp	sub_F8F5
+sub_3641 endp
 
 
 
 
-sub_1797 proc near
+sub_3667 proc near
 push	word ptr ds:2784h
-call	sub_C137
+call	sub_E007
 mov	dx, 7Eh	; '~'
 mov	bx, 94h	; '”'
 mov	ax, 0Fh
-call	sub_C22F
+call	sub_E0FF
 mov	ax, 10h
 add	al, ds:0E8h
 mov	dx, 96h	; '–'
 mov	bx, 89h	; '‰'
-call	sub_C22F
+call	sub_E0FF
 pop	ax
-jmp	sub_C13E
-sub_1797 endp
+jmp	sub_E00E
+sub_3667 endp
 
 
 
 
-sub_17BE proc near
-call	sub_C07C
+sub_368E proc near
+call	sub_DF4C
 mov	si, 1E6Eh
 push	si
 cmp	byte ptr ds:0CE66h, 0
-jnz	short loc_17D1
-call	sub_C446
-jmp	short loc_17DF
+jnz	short loc_36A1
+call	sub_E316
+jmp	short loc_36AF
 
-loc_17D1:
+loc_36A1:
 mov	bp, 1E76h
 mov	si, 0CD9Eh
 mov	es, word ptr ds:0DBD6h
 assume es:nothing
 call	dword ptr ds:391Dh
 
-loc_17DF:
-call	sub_1797
+loc_36AF:
+call	sub_3667
 pop	si
-jmp	sub_C4F0
-sub_17BE endp
+jmp	sub_E3C0
+sub_368E endp
 
 
 
 
-sub_17E6 proc near
+sub_36B6 proc near
 cmp	byte ptr ds:11C9h, 0
-jnz	short locret_181D
+jnz	short locret_36ED
 cmp	byte ptr ds:0E8h, 0Ah
-jz	short locret_181D
+jz	short locret_36ED
 inc	byte ptr ds:0E8h
-call	sub_17BE
+call	sub_368E
 mov	ax, 8
-call	sub_E387
-jmp	short sub_17E6
-sub_17E6 endp
+call	sub_10257
+jmp	short sub_36B6
+sub_36B6 endp
 
 
 
 
-sub_1803 proc near
+sub_36D3 proc near
 cmp	byte ptr ds:28E7h, 0
-jnz	short locret_181D
+jnz	short locret_36ED
 cmp	byte ptr ds:0E8h, 0
-jz	short locret_181D
+jz	short locret_36ED
 mov	byte ptr ds:0CE66h, 1
-call	sub_181E
+call	sub_36EE
 dec	byte ptr ds:0CE66h
 
-locret_181D:
+locret_36ED:
 retn
-sub_1803 endp
+sub_36D3 endp
 
 
 
 
-sub_181E proc near
+sub_36EE proc near
 cmp	byte ptr ds:0E8h, 0
-jz	short locret_181D
+jz	short locret_36ED
 dec	byte ptr ds:0E8h
-call	sub_17BE
+call	sub_368E
 mov	ax, 8
-call	sub_E387
-jmp	short sub_181E
-sub_181E endp
+call	sub_10257
+jmp	short sub_36EE
+sub_36EE endp
 
 
 
 
-sub_1834 proc near
+sub_3704 proc near
 mov	si, 0CD9Eh
 mov	bp, 1E76h
 mov	es, word ptr ds:0DBD6h
 call	dword ptr ds:3919h
 retn
-sub_1834 endp
+sub_3704 endp
 
 
 
 
-sub_1843 proc near
+sub_3713 proc near
 cmp	byte ptr ds:0E8h, 0
-jz	short locret_181D
+jz	short locret_36ED
 mov	byte ptr ds:0E8h, 9
-call	sub_17BE
+call	sub_368E
 mov	ax, 8
-call	sub_E387
+call	sub_10257
 mov	byte ptr ds:0E8h, 8
-jmp	sub_17BE
-sub_1843 endp
+jmp	sub_368E
+sub_3713 endp
 
 
 
 
-sub_1860 proc near
+sub_3730 proc near
 cmp	byte ptr ds:11C9h, 0
-jz	short loc_1868
+jz	short loc_3738
 retn
 
-loc_1868:
-call	sub_1843
+loc_3738:
+call	sub_3713
 
-loc_186B:
-call	sub_DAA3
+loc_373B:
+call	sub_F973
 neg	byte ptr ds:0FBh
-jns	short loc_1877
-jmp	sub_5A1A
+jns	short loc_3747
+jmp	sub_78EA
 
-loc_1877:
-call	sub_D2BD
-call	sub_5ADF
+loc_3747:
+call	sub_F18D
+call	sub_79AF
 mov	al, ds:28E8h
 mov	ds:28E7h, al
-call	sub_B930
+call	sub_D800
 mov	word ptr ds:1C14h, 80h ; '€'
 mov	word ptr ds:1C22h, 80h ; '€'
 mov	bp, 0D75Ah
-call	sub_C097
+call	sub_DF67
 mov	al, 34h	; '4'
-sub_1860 endp
+sub_3730 endp
 
 
 
 
-sub_189A proc near
+sub_376A proc near
 mov	bp, 2DB1h
 cmp	byte ptr ds:46D9h, 0
-jz	short loc_18A6
+jz	short loc_3776
 jmp	bp
 
-loc_18A6:
+loc_3776:
 xor	dx, dx
-call	sub_C108
-call	sub_C07C
-call	sub_AE04
+call	sub_DFD8
+call	sub_DF4C
+call	sub_CCD4
 mov	ax, ds:0CE7Ah
 mov	ds:0DC5Ah, ax
-jmp	sub_17E6
-sub_189A endp
+jmp	sub_36B6
+sub_376A endp
 
 
 
 
-sub_18BA proc near
+sub_378A proc near
 mov	word ptr ds:1C06h, 0
 mov	word ptr ds:1C14h, 0
 mov	word ptr ds:1C22h, 0
-call	sub_39E6
-call	sub_AC30
-call	sub_4D00
-call	sub_D2BD
-call	sub_4ACA
-call	sub_98E6
+call	sub_58B6
+call	sub_CB00
+call	sub_6BD0
+call	sub_F18D
+call	sub_699A
+call	sub_B7B6
 mov	byte ptr ds:46DFh, 0
 cmp	byte ptr ds:2Bh, 0
-jz	short locret_18ED
-call	sub_B21
+jz	short locret_37BD
+call	sub_29F1
 
-locret_18ED:
+locret_37BD:
 retn
-sub_18BA endp
+sub_378A endp
 
-call	sub_D41B
+call	sub_F2EB
 cmp	bp, 2012h
-jnz	short loc_18FA
-jmp	sub_D2E2
+jnz	short loc_37CA
+jmp	sub_F1B2
 
-loc_18FA:
+loc_37CA:
 mov	ax, ds:4
 cmp	ah, 20h	; ' '
-jnz	short locret_1947
+jnz	short locret_3817
 cmp	al, 1
-jz	short locret_1947
+jz	short locret_3817
 mov	ax, 1ABAh
-call	sub_D95E
-call	sub_D2BD
-call	sub_C07C
+call	sub_F82E
+call	sub_F18D
+call	sub_DF4C
 mov	si, 143Ch
 mov	al, 0F1h ; 'ñ'
 mov	es, word ptr ds:0DBDAh
 call	dword ptr ds:38DDh
 mov	si, 1444h
 mov	al, 0F7h ; '÷'
-call	loc_5B6E
+call	loc_7A3E
 mov	ax, 21h	; '!'
-call	sub_C13E
+call	sub_E00E
 mov	si, 120Bh
-call	sub_C21B
-call	sub_1948
+call	sub_E0EB
+call	sub_3818
 mov	si, 143Ch
 mov	al, 10h
-call	sub_C0D5
+call	sub_DFA5
 mov	bp, 2012h
 mov	bx, 19FCh
-jmp	sub_D323
+jmp	sub_F1F3
 
-locret_1947:
+locret_3817:
 retn
 
 
 
-sub_1948 proc near
+sub_3818 proc near
 sub	sp, 24h
 mov	di, sp
 push	ss
@@ -2990,38 +2987,38 @@ mov	di, sp
 mov	cx, 10h
 mov	dh, ds:7
 
-loc_1962:
+loc_3832:
 cmp	dh, [si+3]
-jnz	short loc_1980
+jnz	short loc_3850
 mov	al, [si+0Eh]
-call	sub_127C
-jb	short loc_1980
+call	sub_314C
+jb	short loc_3850
 mov	bx, [si]
 dec	bl
 xor	bh, bh
 test	byte ptr [si+0Fh], 40h
-jz	short loc_197E
+jz	short loc_384E
 add	bx, 0Ch
 
-loc_197E:
+loc_384E:
 inc	byte ptr [bx+di]
 
-loc_1980:
+loc_3850:
 add	si, 10h
-loop	loc_1962
+loop	loc_3832
 mov	bx, ds:4
 xor	bh, bh
 cmp	bl, 0Ch
-ja	short loc_1995
+ja	short loc_3865
 add	bl, 17h
 inc	byte ptr [bx+di]
 
-loc_1995:
+loc_3865:
 mov	cx, 0Bh
 inc	di
 mov	si, 1426h
 
-loc_199C:
+loc_386C:
 mov	dx, ds:120Dh
 mov	bx, ds:120Fh
 lodsb
@@ -3035,90 +3032,90 @@ push	di
 add	bx, 2
 add	dx, 3
 mov	cl, [di]
-call	sub_19DF
+call	sub_38AF
 add	bx, 7
 mov	cl, [di+0Ch]
-call	sub_19DF
+call	sub_38AF
 sub	bx, 4
 add	dx, 9
 cmp	byte ptr [di+18h], 0
-jz	short loc_19D5
+jz	short loc_38A5
 mov	ax, 1
-call	sub_C22F
+call	sub_E0FF
 
-loc_19D5:
+loc_38A5:
 pop	di
 pop	si
 pop	cx
 inc	di
-loop	loc_199C
+loop	loc_386C
 add	sp, 24h
 retn
-sub_1948 endp
+sub_3818 endp
 
 
 
 
-sub_19DF proc near
+sub_38AF proc near
 xor	ch, ch
-jcxz	short locret_19FB
+jcxz	short locret_38CB
 push	dx
 push	di
 cmp	cl, 5
-jbe	short loc_19EC
+jbe	short loc_38BC
 mov	cl, 5
 
-loc_19EC:
+loc_38BC:
 push	cx
 mov	ax, 2
-call	sub_C2FD
+call	sub_E1CD
 pop	cx
 add	dx, 4
-loop	loc_19EC
+loop	loc_38BC
 pop	di
 pop	dx
 
-locret_19FB:
+locret_38CB:
 retn
-sub_19DF endp
+sub_38AF endp
 
-call	sub_DAA3
+call	sub_F973
 mov	si, 143Ch
 push	si
-call	sub_C446
+call	sub_E316
 pop	si
 mov	al, 12h
-call	sub_C0D5
-jmp	sub_D95B
+call	sub_DFA5
+jmp	sub_F82B
 
 
 
-sub_1A0F proc near
+sub_38DF proc near
 cmp	word ptr ds:1AFEh, 0
-jnz	short locret_1A33
-call	sub_DBB2
+jnz	short locret_3903
+call	sub_FA82
 push	word ptr ds:2784h
-call	sub_C137
+call	sub_E007
 mov	si, 1AF4h
-call	sub_D200
-call	sub_1A34
+call	sub_F0D0
+call	sub_3904
 mov	si, 1F06h
-call	sub_C4AA
+call	sub_E37A
 pop	ax
-call	sub_C13E
+call	sub_E00E
 
-locret_1A33:
+locret_3903:
 retn
-sub_1A0F endp
+sub_38DF endp
 
 
 
 
-sub_1A34 proc near
+sub_3904 proc near
 cmp	word ptr ds:1AFEh, 0
-jnz	short locret_1A33
+jnz	short locret_3903
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 mov	ax, ds:2
 and	ax, 0Fh
 shl	ax, 1
@@ -3127,41 +3124,41 @@ shl	ax, 1
 add	ax, 1E7Eh
 mov	si, ax
 mov	ax, 4Ah	; 'J'
-call	sub_1A9B
+call	sub_396B
 mov	ax, 4Bh	; 'K'
-call	sub_1A9B
-call	sub_D075
+call	sub_396B
+call	sub_EF45
 mov	word ptr ds:0DBE4h, 0F1FAh
-call	sub_1AD1
+call	sub_39A1
 mov	bx, 16Dh
 add	ax, bx
 
-loc_1A70:
+loc_3940:
 sub	ax, bx
 cmp	ax, bx
-jnb	short loc_1A70
+jnb	short loc_3940
 inc	ax
 mov	dx, 0Bh
 mov	bx, 0BEh ; '¾'
 cmp	ax, 64h	; 'd'
-jnb	short loc_1A8D
+jnb	short loc_395D
 sub	dl, 2
 cmp	ax, 0Ah
-jnb	short loc_1A8D
+jnb	short loc_395D
 sub	dl, 2
 
-loc_1A8D:
-call	sub_E290
+loc_395D:
+call	sub_10160
 mov	al, 20h	; ' '
 call	word ptr ds:2518h
 pop	word ptr ds:0DBDAh
 retn
-sub_1A34 endp
+sub_3904 endp
 
 
 
 
-sub_1A9B proc near
+sub_396B proc near
 push	ax
 lodsw
 mov	dx, ax
@@ -3169,9 +3166,9 @@ lodsw
 mov	bx, ax
 pop	ax
 or	dx, dx
-jz	short locret_1AC4
+jz	short locret_3994
 push	si
-call	sub_C1F4
+call	sub_E0C4
 push	ds
 push	es
 mov	es, word ptr ds:0DBD8h
@@ -3183,30 +3180,30 @@ lodsw
 mov	cx, ax
 xor	ch, ch
 mov	bp, 1EFEh
-call	dword ptr ss:seg_F4B0+38CDh
+call	dword ptr ss:seg_11380+38CDh
 pop	ds
 pop	si
 
-locret_1AC4:
+locret_3994:
 retn
-sub_1A9B endp
+sub_396B endp
 
 
 
 
-sub_1AC5 proc near
+sub_3995 proc near
 mov	ax, ds:2
 shr	ax, 1
 shr	ax, 1
 shr	ax, 1
 shr	ax, 1
 retn
-sub_1AC5 endp
+sub_3995 endp
 
 
 
 
-sub_1AD1 proc near
+sub_39A1 proc near
 mov	ax, ds:2
 add	ax, 3
 shr	ax, 1
@@ -3214,18 +3211,18 @@ shr	ax, 1
 shr	ax, 1
 shr	ax, 1
 retn
-sub_1AD1 endp
+sub_39A1 endp
 
 
 
 
-sub_1AE0 proc near
+sub_39B0 proc near
 mov	ax, ds:2
 and	ax, 0Fh
 retn
-sub_1AE0 endp
+sub_39B0 endp
 
-call	sub_D41B
+call	sub_F2EB
 cmp	bp, 1F7Eh
 jnz	short nullsub_5
 mov	ax, ds:0CE7Ah
@@ -3235,26 +3232,26 @@ mov	ds:4770h, ax
 sub	ax, ds:476Eh
 cmp	ax, ds:4772h
 jb	short nullsub_5
-call	sub_C85B
-call	sub_C868
+call	sub_E72B
+call	sub_E738
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_5. PRESS KEYPAD "+" TO EXPAND]
 
 
 
-sub_1B0D proc near
-call	sub_ABCC
+sub_39DD proc near
+call	sub_CA9C
 jnz	short nullsub_5
 cmp	byte ptr ds:2788h, 0
 jnz	short nullsub_5
 cmp	byte ptr ds:2Ah, 0C8h ;	'È'
 jnb	short nullsub_5
-call	sub_2B2A
-sub_1B0D endp
+call	sub_49FA
+sub_39DD endp
 
 
 
 
-sub_1B23 proc near
+sub_39F3 proc near
 
 ; FUNCTION CHUNK AT 1BB8 SIZE 00000034 BYTES
 
@@ -3264,14 +3261,14 @@ mov	byte ptr ds:46DDh, 0
 mov	al, ds:0F4h
 dec	al
 cmp	al, 10h
-jge	short loc_1B3D
+jge	short loc_3A0D
 xor	al, al
 mov	ds:0F5h, al
 
-loc_1B3D:
+loc_3A0D:
 mov	ds:0F4h, al
-call	sub_1A0F
-call	sub_38E1
+call	sub_38DF
+call	sub_57B1
 mov	ax, ds:2
 mov	cx, ax
 xchg	ax, ds:1174h
@@ -3279,218 +3276,218 @@ and	al, 0F0h
 and	cl, 0F0h
 sub	al, cl
 mov	ds:46DEh, al
-jz	short loc_1B5E
-call	sub_1C46
+jz	short loc_3A2E
+call	sub_3B16
 
-loc_1B5E:
+loc_3A2E:
 cmp	byte ptr ds:0C2h, 7
-jnb	short sub_1BB2
-call	sub_1D9F
+jnb	short sub_3A82
+call	sub_3C6F
 push	word ptr ds:11F7h
 push	word ptr ds:11CEh
-call	sub_6C6F
-call	sub_63F0
-call	sub_1AE0
+call	sub_8B3F
+call	sub_82C0
+call	sub_39B0
 shl	ax, 1
 mov	si, ax
-call	cs:off_1DB3[si]
-call	sub_1C18
+call	cs:off_3C83[si]
+call	sub_3AE8
 pop	di
-call	sub_331E
+call	sub_51EE
 pop	word ptr ds:11F7h
 
-loc_1B8D:
-call	sub_1BEC
+loc_3A5D:
+call	sub_3ABC
 cmp	byte ptr ds:46D9h, 0
-jnz	short sub_1BB2
+jnz	short sub_3A82
 cmp	byte ptr ds:46ECh, 0
-jz	short loc_1BA1
-call	sub_5D6D
+jz	short loc_3A71
+call	sub_7C3D
 
-loc_1BA1:
+loc_3A71:
 mov	di, ds:114Eh
 or	di, di
-jz	short sub_1BB2
+jz	short sub_3A82
 cmp	byte ptr ds:473Bh, 0
-js	short loc_1BD2
-ja	short loc_1BB8
-sub_1B23 endp
+js	short loc_3AA2
+ja	short loc_3A88
+sub_39F3 endp
 
 
 
 
-sub_1BB2 proc near
+sub_3A82 proc near
 mov	byte ptr ds:473Bh, 0
 retn
-sub_1BB2 endp
+sub_3A82 endp
 
-; START	OF FUNCTION CHUNK FOR sub_1B23
+; START	OF FUNCTION CHUNK FOR sub_39F3
 
-loc_1BB8:
+loc_3A88:
 cmp	byte ptr ds:0FBh, 0
-js	short sub_1BB2
+js	short sub_3A82
 cmp	byte ptr ds:46DAh, 0
-jnz	short sub_1BB2
-call	sub_DBB2
-call	sub_1BB2
-call	sub_B21
-jmp	sub_2DB1
+jnz	short sub_3A82
+call	sub_FA82
+call	sub_3A82
+call	sub_29F1
+jmp	sub_4C81
 
-loc_1BD2:
-call	sub_1BB2
+loc_3AA2:
+call	sub_3A82
 cmp	byte ptr ds:0FBh, 0
-js	short loc_1BE9
+js	short loc_3AB9
 cmp	byte ptr ds:46DAh, 0
-jnz	short sub_1BB2
-call	sub_D2BD
-jmp	loc_FA7
+jnz	short sub_3A82
+call	sub_F18D
+jmp	loc_2E77
 
-loc_1BE9:
-jmp	sub_5D6D
-; END OF FUNCTION CHUNK	FOR sub_1B23
+loc_3AB9:
+jmp	sub_7C3D
+; END OF FUNCTION CHUNK	FOR sub_39F3
 
 
 
-sub_1BEC proc near
+sub_3ABC proc near
 cmp	byte ptr ds:2Bh, 0
-jz	short locret_1C17
+jz	short locret_3AE7
 mov	di, ds:114Eh
-call	sub_503C
+call	sub_6F0C
 cmp	byte ptr ds:46D9h, 0
-jz	short loc_1C06
+jz	short loc_3AD6
 mov	byte ptr ds:46D9h, 6
 
-loc_1C06:
+loc_3AD6:
 cmp	byte ptr ds:2Bh, 0
-jnz	short locret_1C17
+jnz	short locret_3AE7
 push	di
-call	sub_B21
+call	sub_29F1
 pop	di
 or	byte ptr ds:473Bh, 1
 
-locret_1C17:
+locret_3AE7:
 retn
-sub_1BEC endp
+sub_3ABC endp
 
 
 
 
-sub_1C18 proc near
+sub_3AE8 proc near
 cmp	byte ptr ds:46EBh, 0
-jns	short loc_1C39
-call	near ptr byte_C13B
+jns	short loc_3B09
+call	near ptr byte_E00B
 mov	si, ds:46FAh
 or	si, si
-jz	short loc_1C2D
-call	sub_78E9
+jz	short loc_3AFD
+call	sub_97B9
 
-loc_1C2D:
+loc_3AFD:
 mov	di, ds:46F8h
 or	di, di
-jz	short locret_1C38
-call	sub_600E
+jz	short locret_3B08
+call	sub_7EDE
 
-locret_1C38:
+locret_3B08:
 retn
 
-loc_1C39:
-jnz	short locret_1C45
+loc_3B09:
+jnz	short locret_3B15
 cmp	byte ptr ds:0FBh, 0
-jns	short locret_1C45
-call	sub_BDBB
+jns	short locret_3B15
+call	sub_DC8B
 
-locret_1C45:
+locret_3B15:
 retn
-sub_1C18 endp
+sub_3AE8 endp
 
 
 
 
-sub_1C46 proc near
+sub_3B16 proc near
 mov	al, ds:2Ah
 mov	ah, al
 xchg	al, ds:0FEh
 cmp	al, ah
-jz	short loc_1C58
+jz	short loc_3B28
 mov	byte ptr ds:0FFh, 0
 
-loc_1C58:
+loc_3B28:
 inc	byte ptr ds:0FFh
-call	sub_1D66
-call	sub_1E43
+call	sub_3C36
+call	sub_3D13
 mov	al, ds:0D5h
 inc	al
 cmp	al, 2
-jb	short loc_1C6E
+jb	short loc_3B3E
 mov	ds:0D5h, al
 
-loc_1C6E:
+loc_3B3E:
 xor	ax, ax
 xchg	ax, ds:1172h
 mov	bx, ds:0A0h
 add	ax, bx
 xchg	bx, ds:1170h
 sub	ax, bx
-jnb	short loc_1C84
+jnb	short loc_3B54
 xor	ax, ax
 
-loc_1C84:
+loc_3B54:
 mov	ds:0A6h, ax
 xchg	ax, ds:0AEh
 xor	bx, bx
 sub	ax, ds:0A6h
-jnb	short loc_1C96
+jnb	short loc_3B66
 neg	ax
 xchg	ax, bx
 
-loc_1C96:
+loc_3B66:
 mov	ds:0B2h, ax
 mov	ds:0B0h, bx
-call	sub_1CDA
-call	sub_C02E
-call	sub_BF26
-call	sub_E3CC
+call	sub_3BAA
+call	sub_DEFE
+call	sub_DDF6
+call	sub_1029C
 mov	bx, ax
 mov	si, 10D8h
 
-loc_1CAE:
+loc_3B7E:
 test	byte ptr [si+2], 8
-jz	short loc_1CD1
+jz	short loc_3BA1
 mov	bp, 4
 
-loc_1CB7:
+loc_3B87:
 cmp	byte ptr [bp+si+4], 0
-jnz	short loc_1CCE
+jnz	short loc_3B9E
 cmp	byte ptr [bp+si+9], 0
-jns	short loc_1CCE
+jns	short loc_3B9E
 rol	bx, 1
 rol	bx, 1
 mov	al, bl
 and	al, 3
 mov	[bp+si+4], al
 
-loc_1CCE:
+loc_3B9E:
 dec	bp
-jns	short loc_1CB7
+jns	short loc_3B87
 
-loc_1CD1:
+loc_3BA1:
 add	si, 11h
 cmp	byte ptr [si], 14h
-jb	short loc_1CAE
+jb	short loc_3B7E
 retn
-sub_1C46 endp
+sub_3B16 endp
 
 
 
 
-sub_1CDA proc near
+sub_3BAA proc near
 mov	di, 100h
 xor	cx, cx
 xor	dx, dx
 
-loc_1CE1:
-call	sub_5D36
-jb	short loc_1CF4
+loc_3BB1:
+call	sub_7C06
+jb	short loc_3BC4
 inc	dx
 mov	al, [di+12h]
 shr	al, 1
@@ -3499,46 +3496,46 @@ shr	al, 1
 xor	ah, ah
 add	cx, ax
 
-loc_1CF4:
+loc_3BC4:
 add	di, 1Ch
 cmp	byte ptr [di], 0FFh
-jnz	short loc_1CE1
+jnz	short loc_3BB1
 mov	bx, cx
 shr	bx, 1
 shr	bx, 1
 shr	bx, 1
 shr	bx, 1
-call	sub_E3DF
+call	sub_102AF
 add	cx, ax
 mov	ds:0A8h, cx
 retn
-sub_1CDA endp
+sub_3BAA endp
 
 
 
 
-sub_1D10 proc near
+sub_3BE0 proc near
 rol	word ptr ds:0, 1
-jnb	short locret_1D34
+jnb	short locret_3C04
 mov	si, 8AAh
 
-loc_1D19:
+loc_3BE9:
 test	byte ptr [si+10h], 80h
-jz	short loc_1D2B
+jz	short loc_3BFB
 mov	al, [si+1Ah]
 dec	al
 cmp	al, 0C7h ; 'Ç'
-jnb	short loc_1D2B
+jnb	short loc_3BFB
 inc	byte ptr [si+1Ah]
 
-loc_1D2B:
+loc_3BFB:
 add	si, 1Bh
 cmp	si, 0FA0h
-jb	short loc_1D19
+jb	short loc_3BE9
 
-locret_1D34:
+locret_3C04:
 retn
-sub_1D10 endp
+sub_3BE0 endp
 
 add	al, [bp+si]
 add	al, [bp+si]
@@ -3567,16 +3564,16 @@ add	ax, [bp+si]
 
 
 
-sub_1D66 proc near
+sub_3C36 proc near
 mov	si, 0FD8h
 mov	cx, 0Ch
 
-loc_1D6C:
+loc_3C3C:
 mov	ax, [si+2]
 cmp	al, 80h	; '€'
-jnz	short loc_1D99
+jnz	short loc_3C69
 cmp	ah, 0FFh
-jz	short loc_1D99
+jz	short loc_3C69
 mov	al, 1Ch
 mul	ah
 add	ax, 0E4h ; 'ä'
@@ -3584,194 +3581,194 @@ mov	di, ax
 mov	ax, [si]
 mov	bl, [di+8]
 cmp	ah, bl
-jnz	short loc_1D93
+jnz	short loc_3C63
 xor	bh, bh
 cmp	al, cs:[bx+1D35h]
-jbe	short loc_1D99
+jbe	short loc_3C69
 
-loc_1D93:
+loc_3C63:
 mov	ah, bl
 mov	al, 1
 mov	[si], ax
 
-loc_1D99:
+loc_3C69:
 add	si, 10h
-loop	loc_1D6C
+loop	loc_3C3C
 retn
-sub_1D66 endp
+sub_3C36 endp
 
 
 
 
-sub_1D9F proc near
+sub_3C6F proc near
 test	word ptr ds:12h, 80h
-jnz	short locret_1DB2
+jnz	short locret_3C82
 mov	si, 1048h
-call	sub_1E01
-jnb	short locret_1DB2
-call	sub_1EDA
+call	sub_3CD1
+jnb	short locret_3C82
+call	sub_3DAA
 
-locret_1DB2:
+locret_3C82:
 retn
-sub_1D9F endp
+sub_3C6F endp
 
-off_1DB3 dw offset nullsub_3
+off_3C83 dw offset nullsub_3
 dw offset nullsub_3
 dw offset nullsub_3
-dw offset sub_1DD4
-dw offset sub_1DD7
-dw offset nullsub_3
-dw offset nullsub_3
-dw offset nullsub_3
-dw offset sub_1DDA
+dw offset sub_3CA4
+dw offset sub_3CA7
 dw offset nullsub_3
 dw offset nullsub_3
 dw offset nullsub_3
+dw offset sub_3CAA
 dw offset nullsub_3
 dw offset nullsub_3
 dw offset nullsub_3
-dw offset sub_1DFE
+dw offset nullsub_3
+dw offset nullsub_3
+dw offset nullsub_3
+dw offset sub_3CCE
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_3. PRESS KEYPAD "+" TO EXPAND]
 
 
 ; Attributes: thunk
 
-sub_1DD4 proc near
-jmp	loc_20A4
-sub_1DD4 endp
+sub_3CA4 proc near
+jmp	loc_3F74
+sub_3CA4 endp
 
 
 
 ; Attributes: thunk
 
-sub_1DD7 proc near
-jmp	sub_1F64
-sub_1DD7 endp
+sub_3CA7 proc near
+jmp	sub_3E34
+sub_3CA7 endp
 
 
 
 
-sub_1DDA proc near
+sub_3CAA proc near
 test	byte ptr ds:0BFh, 10h
-jz	short locret_1DFD
+jz	short locret_3CCD
 test	word ptr ds:10h, 8
-jnz	short locret_1DFD
+jnz	short locret_3CCD
 cmp	byte ptr ds:0Bh, 8
-jz	short locret_1DFD
+jz	short locret_3CCD
 cmp	byte ptr ds:0C2h, 0
-jnz	short locret_1DFD
+jnz	short locret_3CCD
 mov	ax, 30Bh
-call	sub_29EE
+call	sub_48BE
 
-locret_1DFD:
+locret_3CCD:
 retn
-sub_1DDA endp
+sub_3CAA endp
 
 
 
 ; Attributes: thunk
 
-sub_1DFE proc near
-jmp	sub_1D10
-sub_1DFE endp
+sub_3CCE proc near
+jmp	sub_3BE0
+sub_3CCE endp
 
 
 
 
-sub_1E01 proc near
+sub_3CD1 proc near
 cmp	byte ptr ds:2Ah, 5Dh ; ']'
-jnz	short loc_1E3E
+jnz	short loc_3D0E
 cmp	byte ptr [si+0Eh], 7
-jnz	short loc_1E3E
+jnz	short loc_3D0E
 mov	bx, [si+2]
 cmp	bl, 80h	; '€'
-jnz	short loc_1E3E
+jnz	short loc_3D0E
 mov	byte ptr [si], 2
-jnz	short loc_1E3E
+jnz	short loc_3D0E
 mov	al, 1Ch
 mul	bh
 add	ax, 0E4h ; 'ä'
 mov	di, ax
-sub_1E01 endp
+sub_3CD1 endp
 
 
 
 
-sub_1E24 proc near
+sub_3CF4 proc near
 mov	al, [di+9]
 or	al, al
-jz	short loc_1E3E
+jz	short loc_3D0E
 push	si
 
-loc_1E2C:
-call	sub_6906
+loc_3CFC:
+call	sub_87D6
 test	word ptr [si+12h], 400h
-jnz	short loc_1E40
+jnz	short loc_3D10
 mov	al, [si+1]
 or	al, al
-jnz	short loc_1E2C
+jnz	short loc_3CFC
 pop	si
 
-loc_1E3E:
+loc_3D0E:
 clc
 retn
 
-loc_1E40:
+loc_3D10:
 pop	si
 stc
 retn
-sub_1E24 endp
+sub_3CF4 endp
 
 
 
 
-sub_1E43 proc near
-call	sub_1AC5
+sub_3D13 proc near
+call	sub_3995
 cmp	ax, ds:1156h
-jb	short locret_1EA8
+jb	short locret_3D78
 cmp	byte ptr ds:2Ah, 5Ch ; '\'
-jnz	short locret_1EA8
+jnz	short locret_3D78
 cmp	word ptr ds:114Eh, 7C8h
-jz	short locret_1EA8
+jz	short locret_3D78
 mov	di, 100h
 xor	cx, cx
 
-loc_1E60:
+loc_3D30:
 cmp	byte ptr [di+8], 28h ; '('
-jnb	short loc_1E82
+jnb	short loc_3D52
 test	byte ptr [di+0Ah], 80h
-jnz	short loc_1E82
+jnz	short loc_3D52
 cmp	di, 2C0h
-jz	short loc_1E82
+jz	short loc_3D52
 xor	dx, dx
 mov	bp, 1EA1h
-call	sub_661D
+call	sub_84ED
 cmp	dx, cx
-jbe	short loc_1E82
+jbe	short loc_3D52
 mov	cx, dx
 mov	bx, di
 
-loc_1E82:
+loc_3D52:
 add	di, 1Ch
 cmp	byte ptr [di], 0FFh
-jnz	short loc_1E60
-jcxz	short locret_1EA8
+jnz	short loc_3D30
+jcxz	short locret_3D78
 mov	di, bx
 mov	ds:11DBh, di
 inc	byte ptr ds:0F8h
 mov	bp, 1EA9h
-call	sub_661D
+call	sub_84ED
 mov	al, 8
-jmp	sub_71B2
+jmp	sub_9082
 cmp	byte ptr [si+3], 8
 adc	dx, 0
 
-locret_1EA8:
+locret_3D78:
 retn
-sub_1E43 endp
+sub_3D13 endp
 
 or	word ptr [si+12h], 400h
-jmp	sub_7085
+jmp	sub_8F55
 mov	ax, [si+12h]
 and	ax, 0FBFFh
 or	ax, 800h
@@ -3780,88 +3777,88 @@ retn
 
 
 
-sub_1EBE proc near
+sub_3D8E proc near
 test	word ptr [si+12h], 800h
-jz	short locret_1ED9
+jz	short locret_3DA9
 mov	al, ds:2Ah
 sub	al, 60h	; '`'
 cmp	al, 4
-jnb	short locret_1ED9
-call	sub_E270
+jnb	short locret_3DA9
+call	sub_10140
 mov	al, 64h	; 'd'
-call	sub_121F
-call	sub_E283
+call	sub_30EF
+call	sub_10153
 
-locret_1ED9:
+locret_3DA9:
 retn
-sub_1EBE endp
+sub_3D8E endp
 
 
 
 
-sub_1EDA proc near
+sub_3DAA proc near
 add	byte ptr ds:0F9h, 8
-jnz	short locret_1F12
+jnz	short locret_3DE2
 push	cx
 push	si
 mov	bp, 1EB1h
-call	sub_6603
+call	sub_84D3
 mov	ax, 709h
-call	sub_29F0
+call	sub_48C0
 dec	byte ptr ds:0F8h
 mov	di, 100h
 
-loc_1EF6:
-call	sub_1E24
-jb	short loc_1F05
+loc_3DC6:
+call	sub_3CF4
+jb	short loc_3DD5
 add	di, 1Ch
 cmp	byte ptr [di], 0FFh
-jnz	short loc_1EF6
+jnz	short loc_3DC6
 xor	di, di
 
-loc_1F05:
+loc_3DD5:
 mov	ds:11DBh, di
 or	di, di
-jnz	short loc_1F10
-call	sub_11CB
+jnz	short loc_3DE0
+call	sub_309B
 
-loc_1F10:
+loc_3DE0:
 pop	si
 pop	cx
 
-locret_1F12:
+locret_3DE2:
 retn
-sub_1EDA endp
+sub_3DAA endp
 
 mov	di, 138h
 mov	bx, 0FF9Ch
 
-loc_1F19:
+loc_3DE9:
 mov	ax, [di+4]
 cmp	ax, bx
-jle	short loc_1F37
-call	sub_5D36
-jb	short loc_1F37
-call	sub_5098
+jle	short loc_3E07
+call	sub_7C06
+jb	short loc_3E07
+call	sub_6F68
 or	dx, dx
-jnz	short loc_1F37
+jnz	short loc_3E07
 mov	ax, [di+4]
 cmp	ax, bx
-jle	short loc_1F37
+jle	short loc_3E07
 mov	bx, ax
 mov	si, di
 
-loc_1F37:
+loc_3E07:
 add	di, 1Ch
 cmp	byte ptr [di], 8
-jb	short loc_1F19
+jb	short loc_3DE9
 cmp	bx, 0FF9Ch
-jnz	short loc_1F47
+jnz	short loc_3E17
 mov	si, 100h
 
-loc_1F47:
+loc_3E17:
 mov	di, si
-call	sub_40AE
+call	sub_5F7E
 mov	dl, 3
 mov	ds:1048h, dx
 mov	ds:104Ah, bx
@@ -3869,392 +3866,392 @@ mov	ah, [di]
 mov	al, [di+1]
 mov	ds:0F2h, ax
 mov	ax, 2B0Ah
-jmp	loc_26DA
+jmp	loc_45AA
 
 
 
-sub_1F64 proc near
+sub_3E34 proc near
 cmp	byte ptr ds:2Ah, 3Ch ; '<'
-jnb	short loc_1F79
+jnb	short loc_3E49
 mov	ax, ds:2
 sub	ax, ds:1154h
-jb	short locret_1F91
+jb	short locret_3E61
 cmp	ax, 70h	; 'p'
-jb	short locret_1F91
+jb	short locret_3E61
 
-loc_1F79:
+loc_3E49:
 test	word ptr ds:2, 10h
-jnz	short locret_1F91
+jnz	short locret_3E61
 xor	al, al
 xchg	al, ds:11BCh
 or	al, al
-jnz	short locret_1F91
+jnz	short locret_3E61
 rol	word ptr ds:0, 1
-jb	short loc_1F92
+jb	short loc_3E62
 
-locret_1F91:
+locret_3E61:
 retn
 
-loc_1F92:
-call	sub_2017
-jz	short locret_2013
+loc_3E62:
+call	sub_3EE7
+jz	short locret_3EE3
 inc	byte ptr ds:0C4h
 mov	cx, 2
 
-loc_1F9E:
+loc_3E6E:
 mov	al, [bp+9]
 
-loc_1FA1:
+loc_3E71:
 or	al, al
-jz	short loc_1FCB
-call	sub_6906
+jz	short loc_3E9B
+call	sub_87D6
 mov	al, [si+1]
 test	byte ptr [si+10h], 80h
-jz	short loc_1FA1
+jz	short loc_3E71
 push	cx
 push	bp
 push	si
 push	di
 mov	byte ptr [si+3], 8Dh ; ''
-call	sub_84A6
+call	sub_A376
 pop	di
 pop	si
 and	byte ptr [si+10h], 0EFh
 push	di
-call	sub_8357
+call	sub_A227
 pop	di
 pop	bp
 pop	cx
-loop	loc_1F9E
+loop	loc_3E6E
 
-loc_1FCB:
+loc_3E9B:
 or	byte ptr [di+0Ah], 2
-call	sub_83FD
-call	sub_40AE
+call	sub_A2CD
+call	sub_5F7E
 mov	si, 0FD8h
 mov	cx, 9
 
-loc_1FDB:
+loc_3EAB:
 cmp	bx, [si+2]
-jnz	short loc_1FE2
+jnz	short loc_3EB2
 mov	[si], dx
 
-loc_1FE2:
+loc_3EB2:
 add	si, 10h
-loop	loc_1FDB
+loop	loc_3EAB
 mov	al, 0Ch
 mov	si, 8E0h
 cmp	di, [si+4]
-jnz	short loc_1FF3
+jnz	short loc_3EC3
 inc	al
 
-loc_1FF3:
+loc_3EC3:
 push	bx
 push	dx
-call	sub_71B2
+call	sub_9082
 pop	dx
 pop	bx
 cmp	bx, ds:6
-jnz	short loc_2014
+jnz	short loc_3EE4
 mov	ds:4, dx
 mov	al, dl
 mov	ds:0Bh,	al
 or	ds:473Bh, al
 mov	ds:2Bh,	al
-call	sub_6144
+call	sub_8014
 
-locret_2013:
+locret_3EE3:
 retn
 
-loc_2014:
-jmp	sub_5D50
-sub_1F64 endp
+loc_3EE4:
+jmp	sub_7C20
+sub_3E34 endp
 
 
 
 
-sub_2017 proc near
+sub_3EE7 proc near
 mov	di, 100h
 mov	word ptr ds:0D816h, 0
 mov	bx, 64h	; 'd'
 
-loc_2023:
+loc_3EF3:
 cmp	byte ptr [di+8], 20h ; ' '
-jnb	short loc_207D
+jnb	short loc_3F4D
 test	byte ptr [di+0Ah], 82h
-jnz	short loc_207D
+jnz	short loc_3F4D
 cmp	bx, [di+4]
-jle	short loc_207D
-call	sub_1E24
-jb	short loc_207D
+jle	short loc_3F4D
+call	sub_3CF4
+jb	short loc_3F4D
 push	bx
-call	sub_331E
+call	sub_51EE
 pop	bx
 mov	al, ds:60h
 sub	al, ds:63h
-jz	short loc_207D
+jz	short loc_3F4D
 mov	bp, ds:0E4h
 cmp	word ptr ds:0E2h, 1Eh
-jb	short loc_205D
+jb	short loc_3F2D
 cmp	word ptr ds:0DCh, 1Eh
-jnb	short loc_207D
+jnb	short loc_3F4D
 mov	bp, ds:0DEh
 
-loc_205D:
+loc_3F2D:
 cmp	bp, 11Ch
-jz	short loc_207D
+jz	short loc_3F4D
 push	di
 mov	di, bp
-call	sub_5098
+call	sub_6F68
 mov	bp, di
 pop	di
-jcxz	short loc_207D
+jcxz	short loc_3F4D
 or	dx, dx
-jnz	short loc_207D
+jnz	short loc_3F4D
 mov	bx, [di+4]
 mov	ds:0D816h, di
 mov	ds:0D818h, bp
 
-loc_207D:
+loc_3F4D:
 add	di, 1Ch
 cmp	byte ptr [di], 8
-jb	short loc_2023
+jb	short loc_3EF3
 mov	bp, ds:0D818h
 mov	di, ds:0D816h
 or	di, di
 retn
-sub_2017 endp
+sub_3EE7 endp
 
 
 
 
-sub_2090 proc near
+sub_3F60 proc near
 
 ; FUNCTION CHUNK AT 2131 SIZE 0000002E BYTES
 
-call	sub_1AC5
+call	sub_3995
 mov	ds:118Dh, ax
-jmp	short loc_20D2
+jmp	short loc_3FA2
 
-loc_2098:
+loc_3F68:
 sub	ax, ds:118Dh
-jz	short locret_20D1
+jz	short locret_3FA1
 neg	ax
 mov	ds:0CFh, al
 retn
 
-loc_20A4:
+loc_3F74:
 test	byte ptr ds:0BFh, 80h
-jz	short locret_20D1
-call	sub_1AC5
+jz	short locret_3FA1
+call	sub_3995
 cmp	byte ptr ds:0C2h, 0
-jnz	short loc_2098
+jnz	short loc_3F68
 test	byte ptr ds:0BFh, 10h
-jnz	short loc_2131
+jnz	short loc_4001
 cmp	byte ptr ds:11BBh, 0
-jz	short loc_20C6
-jmp	sub_215F
+jz	short loc_3F96
+jmp	sub_402F
 
-loc_20C6:
+loc_3F96:
 sub	ax, ds:118Dh
-jz	short loc_20D2
+jz	short loc_3FA2
 neg	ax
 mov	ds:0CFh, al
 
-locret_20D1:
+locret_3FA1:
 retn
 
-loc_20D2:
+loc_3FA2:
 mov	al, ds:0C3h
 inc	byte ptr ds:0C3h
 mov	bx, 96h	; '–'
 mul	bx
 or	dx, dx
-jnz	short loc_2111
+jnz	short loc_3FE1
 add	ax, 64h	; 'd'
-jb	short loc_2111
+jb	short loc_3FE1
 mov	cx, ax
 mov	bx, 3Fh	; '?'
-call	sub_E3B7
+call	sub_10287
 add	ax, 0E0h ; 'à'
 mul	cx
 or	dh, dh
-jnz	short loc_2111
+jnz	short loc_3FE1
 mov	dh, dl
 mov	dl, ah
 mov	al, ds:0BEh
 shl	al, 1
-jb	short loc_2114
+jb	short loc_3FE4
 not	al
 mov	ah, 1
 mul	dx
 xchg	dl, dh
 xchg	dl, ah
 or	ah, ah
-jz	short loc_2114
+jz	short loc_3FE4
 
-loc_2111:
+loc_3FE1:
 mov	dx, 0FFFFh
 
-loc_2114:
+loc_3FE4:
 mov	ds:0BCh, dx
 mov	byte ptr ds:0CFh, 0
 or	byte ptr ds:0BFh, 90h
 mov	ax, 20Bh
 cmp	byte ptr ds:0BEh, 0
-js	short loc_212E
+js	short loc_3FFE
 inc	ah
 
-loc_212E:
-jmp	loc_26DA
-sub_2090 endp
+loc_3FFE:
+jmp	loc_45AA
+sub_3F60 endp
 
-; START	OF FUNCTION CHUNK FOR sub_2090
+; START	OF FUNCTION CHUNK FOR sub_3F60
 
-loc_2131:
+loc_4001:
 sub	ax, ds:118Dh
-jz	short locret_20D1
+jz	short locret_3FA1
 cmp	ax, 4
-jnb	short sub_215F
+jnb	short sub_402F
 shl	al, 1
 shl	al, 1
 mov	bl, al
-call	sub_24D2
+call	sub_43A2
 mov	al, ah
 cmp	al, 3
-jb	short loc_214D
+jb	short loc_401D
 mov	al, 2
 
-loc_214D:
+loc_401D:
 add	al, bl
 mov	bx, 2161h
 xlat	byte ptr cs:[bx]
 or	al, al
-jz	short sub_215F
+jz	short sub_402F
 mov	ah, al
 mov	al, 0Bh
-jmp	loc_26DA
-; END OF FUNCTION CHUNK	FOR sub_2090
+jmp	loc_45AA
+; END OF FUNCTION CHUNK	FOR sub_3F60
 
 
 
-sub_215F proc near
+sub_402F proc near
 mov	byte ptr ds:46D9h, 7
 retn
-sub_215F endp
+sub_402F endp
 
 db 4, 5, 6, 0, 5, 6, 2 dup(0), 6, 2 dup(0)
 
 
 
-sub_2170 proc near
-call	sub_E270
+sub_4040 proc near
+call	sub_10140
 mov	si, 0FD8h
 mov	cx, 9
 
-loc_2179:
+loc_4049:
 test	byte ptr [si+0Fh], 40h
-jnz	short loc_21F1
+jnz	short loc_40C1
 mov	dx, [si]
 mov	bx, [si+2]
 cmp	si, 1008h
-jnz	short loc_2194
+jnz	short loc_4064
 cmp	bx, 180h
-jnz	short loc_2194
+jnz	short loc_4064
 mov	dl, 4
 mov	[si], dx
 
-loc_2194:
+loc_4064:
 cmp	bl, 80h	; '€'
-jnz	short loc_21EE
+jnz	short loc_40BE
 cmp	dl, 1
-jnz	short loc_21DC
+jnz	short loc_40AC
 cmp	dh, 21h	; '!'
-jnb	short loc_21F1
+jnb	short loc_40C1
 cmp	bh, ds:9
-jz	short loc_21F1
+jz	short loc_40C1
 mov	al, 1Ch
 mul	bh
 add	ax, 0E4h ; 'ä'
 mov	di, ax
 test	byte ptr [di+0Ah], 2
-jnz	short loc_21F1
+jnz	short loc_40C1
 inc	byte ptr [si]
 cmp	bh, 1
-jnz	short loc_21F1
+jnz	short loc_40C1
 mov	bx, 144Dh
 mov	al, [si+0Eh]
 xlat
 mov	[si], al
 and	byte ptr [si+0Fh], 0FBh
 cmp	al, 6
-jnz	short loc_21F1
+jnz	short loc_40C1
 cmp	byte ptr ds:2Ah, 24h ; '$'
-jnb	short loc_21F1
+jnb	short loc_40C1
 mov	byte ptr [si], 0Ah
-jmp	short loc_21F1
+jmp	short loc_40C1
 
-loc_21DC:
+loc_40AC:
 cmp	si, 1028h
-jb	short loc_21F1
+jb	short loc_40C1
 cmp	bh, 1
-jnz	short loc_21F1
-call	sub_21FA
+jnz	short loc_40C1
+call	sub_40CA
 mov	[si], al
-jmp	short loc_21F1
+jmp	short loc_40C1
 
-loc_21EE:
-call	sub_221D
+loc_40BE:
+call	sub_40ED
 
-loc_21F1:
+loc_40C1:
 add	si, 10h
-loop	loc_2179
-call	sub_E283
+loop	loc_4049
+call	sub_10153
 retn
-sub_2170 endp
+sub_4040 endp
 
 
 
 
-sub_21FA proc near
+sub_40CA proc near
 mov	bx, 0Ah
-call	sub_E3DF
+call	sub_102AF
 add	al, 2
 cmp	byte ptr ds:2Ah, 54h ; 'T'
-jnb	short locret_221C
+jnb	short locret_40EC
 cmp	al, 3
-jz	short sub_21FA
+jz	short sub_40CA
 cmp	byte ptr ds:2Ah, 24h ; '$'
-jnb	short locret_221C
+jnb	short locret_40EC
 cmp	al, 0Bh
-jz	short sub_21FA
+jz	short sub_40CA
 cmp	al, 6
-jz	short sub_21FA
+jz	short sub_40CA
 
-locret_221C:
+locret_40EC:
 retn
-sub_21FA endp
+sub_40CA endp
 
 
 
 
-sub_221D proc near
+sub_40ED proc near
 push	cx
 push	si
 mov	dx, [si]
-call	sub_5344
-call	sub_40AE
+call	sub_7214
+call	sub_5F7E
 pop	si
 pop	cx
 mov	[si], dx
 mov	[si+2],	bx
 cmp	bh, ds:9
-jnz	short locret_2238
+jnz	short locret_4108
 or	byte ptr [si+0Fh], 4
 
-locret_2238:
+locret_4108:
 retn
-sub_221D endp
+sub_40ED endp
 
 xor	ax, ax
 mov	ds:9Fh,	al
@@ -4262,65 +4259,65 @@ mov	ds:20h,	ax
 mov	ds:1Ah,	al
 mov	ax, ds:0A0h
 or	ax, ax
-jz	short loc_2250
+jz	short loc_4120
 mov	byte ptr ds:9Fh, 3
 
-loc_2250:
-call	sub_22B1
+loc_4120:
+call	sub_4181
 mov	si, 10D8h
-call	sub_1AC5
+call	sub_3995
 xor	dl, dl
 
-loc_225B:
+loc_412B:
 cmp	word ptr [si+0Eh], 0
-jz	short loc_2274
+jz	short loc_4144
 test	byte ptr [si+2], 60h
-jnz	short loc_2274
+jnz	short loc_4144
 mov	ah, al
 sub	ah, [si+10h]
 cmp	ah, dl
-jbe	short loc_2274
+jbe	short loc_4144
 mov	dl, ah
 mov	di, si
 
-loc_2274:
+loc_4144:
 add	si, 11h
 cmp	byte ptr [si], 0FFh
-jnz	short loc_225B
+jnz	short loc_412B
 or	dl, dl
 mov	si, di
-jnz	short loc_22A3
+jnz	short loc_4173
 mov	si, ds:113Fh
-jmp	short loc_228E
+jmp	short loc_415E
 
-loc_2288:
+loc_4158:
 cmp	si, ds:113Fh
-jz	short locret_22B0
+jz	short locret_4180
 
-loc_228E:
+loc_415E:
 add	si, 11h
 cmp	byte ptr [si], 0FFh
-jnz	short loc_2299
+jnz	short loc_4169
 mov	si, 10D8h
 
-loc_2299:
+loc_4169:
 cmp	word ptr [si+0Eh], 0
-jz	short loc_2288
+jz	short loc_4158
 mov	ds:113Fh, si
 
-loc_22A3:
-call	sub_235F
+loc_4173:
+call	sub_422F
 mov	al, [si]
 xor	ah, ah
 add	ax, 0
 mov	ds:11F7h, ax
 
-locret_22B0:
+locret_4180:
 retn
 
 
 
-sub_22B1 proc near
+sub_4181 proc near
 mov	bp, 0B4h ; '´'
 and	byte ptr ds:0BFh, 0F9h
 mov	bx, ds:0BCh
@@ -4336,19 +4333,19 @@ shr	di, 1
 shr	di, 1
 add	di, si
 cmp	ax, bx
-jb	short loc_22F1
+jb	short loc_41C1
 mov	[bp+0],	bx
 mov	[bp+2],	ax
 cmp	ax, cx
-jb	short loc_2300
+jb	short loc_41D0
 cmp	ax, dx
-jb	short loc_230C
+jb	short loc_41DC
 mov	[bp+4],	cx
 mov	[bp+6],	dx
 or	byte ptr ds:0BFh, 6
 retn
 
-loc_22F1:
+loc_41C1:
 mov	[bp+0],	ax
 mov	[bp+2],	di
 mov	[bp+4],	si
@@ -4356,61 +4353,61 @@ sub	di, si
 mov	[bp+6],	di
 retn
 
-loc_2300:
+loc_41D0:
 mov	[bp+4],	di
 mov	[bp+6],	si
 or	byte ptr ds:0BFh, 2
 retn
 
-loc_230C:
+loc_41DC:
 mov	[bp+4],	di
 mov	[bp+6],	cx
 or	byte ptr ds:0BFh, 4
 retn
-sub_22B1 endp
+sub_4181 endp
 
 
 
 
-sub_2318 proc near
+sub_41E8 proc near
 mov	al, [di]
 mov	si, 10C7h
 
-loc_231D:
+loc_41ED:
 add	si, 11h
 cmp	al, [si]
-jnz	short loc_231D
-call	sub_235F
-call	sub_1AC5
+jnz	short loc_41ED
+call	sub_422F
+call	sub_3995
 sub	al, [si+3]
 test	byte ptr [si+2], 8
-jnz	short loc_2339
+jnz	short loc_4209
 mov	al, 1
 or	byte ptr [si+2], 8
 
-loc_2339:
+loc_4209:
 mov	ds:1Eh,	al
 mov	byte ptr ds:9Dh, 0
 mov	ax, ds:0
 and	ax, 7
 
-loc_2347:
+loc_4217:
 cmp	al, ds:1141h
-jb	short loc_2353
+jb	short loc_4223
 sub	al, ds:1141h
-jmp	short loc_2347
+jmp	short loc_4217
 
-loc_2353:
+loc_4223:
 add	ax, 0E8h ; 'è'
 mov	ds:11F1h, ax
 mov	byte ptr ds:9Fh, 0
 retn
-sub_2318 endp
+sub_41E8 endp
 
 
 
 
-sub_235F proc near
+sub_422F proc near
 mov	ds:10B4h, si
 mov	al, [si+2]
 mov	ds:1Ch,	al
@@ -4418,23 +4415,23 @@ mov	ax, [si+0Eh]
 mov	ds:20h,	ax
 mov	byte ptr ds:1Fh, 0
 or	ax, ax
-jz	short loc_2381
-call	sub_1AC5
+jz	short loc_4251
+call	sub_3995
 sub	al, [si+10h]
 mov	ds:1Fh,	al
 
-loc_2381:
+loc_4251:
 mov	al, [si+1]
 mov	ds:1Dh,	al
 retn
-sub_235F endp
+sub_422F endp
 
 mov	al, 3Ch	; '<'
-call	sub_121F
+call	sub_30EF
 mov	bx, 3
-call	sub_E3B7
+call	sub_10287
 mov	ds:9Eh,	al
-call	sub_1AC5
+call	sub_3995
 mov	di, ds:10B4h
 mov	[di+3],	al
 mov	byte ptr ds:1Ah, 0
@@ -4442,20 +4439,20 @@ mov	ax, ds:11F1h
 sub	ax, 0E8h ; 'è'
 mov	cx, 2
 
-loc_23AE:
+loc_427E:
 inc	ax
 
-loc_23AF:
+loc_427F:
 cmp	al, ds:1141h
-jb	short loc_23BC
+jb	short loc_428C
 sub	al, ds:1141h
-loop	loc_23AF
+loop	loc_427F
 retn
 
-loc_23BC:
+loc_428C:
 mov	bx, ax
 cmp	byte ptr [bx+di+4], 0
-jz	short loc_23AE
+jz	short loc_427E
 add	ax, 0E8h ; 'è'
 mov	ds:11F1h, ax
 mov	al, [bx+di+9]
@@ -4466,7 +4463,7 @@ retn
 
 
 
-sub_23D5 proc near
+sub_42A5 proc near
 mov	al, ds:9Dh
 mov	ah, al
 shr	ah, 1
@@ -4475,23 +4472,23 @@ shr	ah, 1
 sub	al, ah
 mov	ds:9Dh,	al
 retn
-sub_23D5 endp
+sub_42A5 endp
 
 
 
 
-sub_23E6 proc near
+sub_42B6 proc near
 and	byte ptr [di+2], 9Fh
 xor	ax, ax
 xchg	al, ds:9Dh
 add	ds:20h,	ax
 add	[di+0Eh], ax
 cmp	ax, [di+0Eh]
-jnz	short loc_2400
+jnz	short loc_42D0
 inc	byte ptr ds:22h
 
-loc_2400:
-call	sub_1AC5
+loc_42D0:
+call	sub_3995
 mov	[di+10h], al
 mov	ax, ds:11F1h
 sub	ax, 0E8h ; 'è'
@@ -4500,94 +4497,94 @@ dec	byte ptr [bx+di+4]
 mov	si, ds:114Eh
 inc	byte ptr [bx+si+14h]
 retn
-sub_23E6 endp
+sub_42B6 endp
 
 retn
 cmp	word ptr ds:47C4h, 0Dh
-jz	short loc_2426
+jz	short loc_42F6
 mov	al, 1
-jmp	short loc_2496
+jmp	short loc_4366
 align 2
 
-loc_2426:
+loc_42F6:
 mov	di, ds:10B4h
-call	sub_23E6
+call	sub_42B6
 mov	al, 1
-jmp	short loc_2496
+jmp	short loc_4366
 align 2
 cmp	word ptr ds:47C4h, 0Dh
-jz	short loc_243E
+jz	short loc_430E
 mov	al, 2
-jmp	short loc_2496
+jmp	short loc_4366
 align 2
 
-loc_243E:
+loc_430E:
 mov	di, ds:10B4h
 mov	bx, 7
-call	sub_E3B7
-jz	short loc_246B
+call	sub_10287
+jz	short loc_433B
 mov	byte ptr ds:9Dh, 0
 mov	al, 2
-jmp	short loc_2496
+jmp	short loc_4366
 cmp	word ptr ds:47C4h, 0Dh
-jz	short loc_245F
+jz	short loc_432F
 mov	al, 3
-jmp	short loc_2496
+jmp	short loc_4366
 db 90h
 
-loc_245F:
+loc_432F:
 mov	di, ds:10B4h
 mov	bx, 3
-call	sub_E3B7
-jnz	short loc_2474
+call	sub_10287
+jnz	short loc_4344
 
-loc_246B:
+loc_433B:
 or	byte ptr ds:9Eh, 10h
 mov	al, 3
-jmp	short loc_2496
+jmp	short loc_4366
 
-loc_2474:
+loc_4344:
 inc	byte ptr ds:9Eh
 and	byte ptr ds:9Eh, 3
 and	al, 1
 add	al, ds:1Ah
 sub	al, [di+1]
-jb	short loc_2491
+jb	short loc_4361
 mov	byte ptr ds:9Dh, 0
 mov	al, 3
-jmp	short loc_2496
+jmp	short loc_4366
 
-loc_2491:
-call	sub_23D5
+loc_4361:
+call	sub_42A5
 mov	al, 3
 
-loc_2496:
+loc_4366:
 mov	ds:9Fh,	al
 inc	byte ptr ds:1Ah
-call	sub_D2E2
-jmp	loc_9472
+call	sub_F1B2
+jmp	loc_B342
 cmp	byte ptr ds:2Ah, 10h
-jnb	short loc_24B0
+jnb	short loc_4380
 or	byte ptr ds:0FF7h, 10h
 retn
 
-loc_24B0:
-call	sub_A1E8
+loc_4380:
+call	sub_C0B8
 mov	word ptr ds:0C0h, 0
 or	byte ptr ds:0BFh, 1
-call	sub_24D2
+call	sub_43A2
 add	ah, 7
 mov	al, 0Bh
 cmp	ah, 0Ch
-jnz	short loc_24CF
+jnz	short loc_439F
 inc	byte ptr ds:11BBh
 
-loc_24CF:
-jmp	loc_26DA
+loc_439F:
+jmp	loc_45AA
 
 
 
-sub_24D2 proc near
+sub_43A2 proc near
 mov	al, ds:0BEh
 xor	cl, cl
 xor	ah, ah
@@ -4602,13 +4599,13 @@ adc	ah, cl
 cmp	al, 0FFh
 adc	ah, cl
 retn
-sub_24D2 endp
+sub_43A2 endp
 
 cmp	byte ptr ds:9Fh, 2
-jz	short loc_2541
-jnb	short loc_252D
+jz	short loc_4411
+jnb	short loc_43FD
 cmp	byte ptr ds:476Dh, 0
-jnz	short loc_2517
+jnz	short loc_43E7
 mov	al, ds:1Ah
 dec	ax
 and	ax, 3
@@ -4619,7 +4616,7 @@ mov	ds:0C0h, ax
 mov	word ptr ds:1158h, 0FFFFh
 retn
 
-loc_2517:
+loc_43E7:
 mov	di, ds:10B4h
 xor	ax, ax
 xchg	ax, [di+0Eh]
@@ -4627,82 +4624,82 @@ dec	byte ptr ds:22h
 
 
 
-sub_2524 proc near
+sub_43F4 proc near
 sub	ds:0A0h, ax
 add	ds:1172h, ax
 retn
-sub_2524 endp
+sub_43F4 endp
 
 
-loc_252D:
+loc_43FD:
 cmp	byte ptr ds:476Dh, 0
-jz	short locret_2540
+jz	short locret_4410
 mov	di, ds:10B4h
 and	byte ptr [di+2], 9Fh
 or	byte ptr [di+2], 20h
 
-locret_2540:
+locret_4410:
 retn
 
-loc_2541:
+loc_4411:
 cmp	byte ptr ds:476Dh, 0
-jz	short locret_2554
+jz	short locret_4424
 mov	di, ds:10B4h
 and	byte ptr [di+2], 9Fh
 or	byte ptr [di+2], 40h
 
-locret_2554:
+locret_4424:
 retn
 mov	al, 0Ah
-call	sub_AB15
+call	sub_C9E5
 mov	dx, 8Ch	; 'Œ'
 mov	bx, 27h	; '''
 mov	ax, 1Bh
-jmp	sub_C22F
+jmp	sub_E0FF
 
 
 
-sub_2566 proc near
+sub_4436 proc near
 mov	si, 1008h
 push	ax
-call	sub_40E6
+call	sub_5FB6
 pop	ax
 mov	bx, ax
-call	sub_2524
+call	sub_43F4
 mov	ax, bx
 xor	dx, dx
 xchg	al, ah
 xchg	al, dl
 div	word ptr ds:0BCh
 cmp	ax, 200h
-jb	short loc_2587
+jb	short loc_4457
 mov	ax, 1FFh
 
-loc_2587:
+loc_4457:
 shr	ax, 1
-jnz	short loc_258D
+jnz	short loc_445D
 mov	al, 1
 
-loc_258D:
+loc_445D:
 mov	ds:0BEh, al
 mov	ah, 40h	; '@'
 mov	bx, 7
 cmp	al, 0C0h ; 'À'
-jnb	short loc_25B3
+jnb	short loc_4483
 dec	bx
 cmp	al, 80h	; '€'
-ja	short loc_25B3
+ja	short loc_4483
 dec	bx
 xor	ah, ah
 cmp	al, 80h	; '€'
-jz	short loc_25B3
+jz	short loc_4483
 dec	bx
 mov	ah, 8
 test	ds:0BFh, ah
-jz	short loc_25B3
+jz	short loc_4483
 mov	byte ptr ds:0BEh, 0
 
-loc_25B3:
+loc_4483:
 or	ah, 80h
 mov	ds:0BFh, ah
 mov	si, 118Dh
@@ -4710,106 +4707,106 @@ add	[si], bx
 mov	bl, ds:0C3h
 shr	bl, 1
 and	bx, 3
-call	sub_E3B7
+call	sub_10287
 add	[si], ax
-call	sub_1AC5
+call	sub_3995
 sub	ax, [si]
 neg	ax
 mov	ds:0CFh, al
 mov	word ptr ds:1158h, 0
-call	sub_2806
-call	sub_2795
-call	sub_C49A
+call	sub_46D6
+call	sub_4665
+call	sub_E36A
 mov	ax, 2Ch	; ','
-call	sub_C13E
-call	sub_C0F4
+call	sub_E00E
+call	sub_DFC4
 mov	bp, 2555h
 mov	al, 8
-call	sub_C108
+call	sub_DFD8
 mov	ax, 64h	; 'd'
-call	sub_DDB0
+call	sub_FC80
 mov	cx, 18h
 mov	bp, 0A44h
 mov	al, 6
-call	sub_C108
+call	sub_DFD8
 mov	cx, 18h
 
-loc_260B:
+loc_44DB:
 push	cx
 mov	bp, 0A44h
 mov	ax, 0Ch
 dec	cx
-call	sub_E353
+call	sub_10223
 pop	cx
-loop	loc_260B
+loop	loc_44DB
 mov	ax, 27h	; '''
-call	sub_AB4F
+call	sub_CA1F
 mov	si, 4C60h
 mov	bp, 15AAh
 mov	es, word ptr ds:0DBD6h
 call	dword ptr ds:3919h
 mov	ax, 0C8h ; 'È'
-call	sub_DDB0
-call	sub_ABA9
+call	sub_FC80
+call	sub_CA79
 mov	al, 1
-call	sub_AB15
+call	sub_C9E5
 mov	cx, 1
 
-loc_263E:
+loc_450E:
 push	cx
 mov	si, 15B2h
 
-loc_2642:
+loc_4512:
 push	si
 mov	bp, 26ACh
 mov	ax, 0Ch
-call	sub_E353
+call	sub_10223
 pop	si
 cmp	si, 161Eh
-jnz	short loc_2656
-call	sub_AC30
+jnz	short loc_4526
+call	sub_CB00
 
-loc_2656:
+loc_4526:
 add	si, 6
 cmp	byte ptr [si], 0FFh
-jnz	short loc_2642
+jnz	short loc_4512
 pop	cx
-loop	loc_263E
-call	sub_26AC
+loop	loc_450E
+call	sub_457C
 xor	cx, cx
 
-loc_2666:
+loc_4536:
 inc	cx
 push	cx
 mov	bp, 0A44h
 mov	ax, 0Ch
-call	sub_E353
+call	sub_10223
 pop	cx
 cmp	cx, 19h
-jb	short loc_2666
+jb	short loc_4536
 mov	byte ptr ds:47A9h, 1
 mov	bp, 2DB1h
-call	sub_C097
+call	sub_DF67
 mov	ax, 2Ch	; ','
-call	sub_C13E
+call	sub_E00E
 mov	al, 6
 mov	bp, 2555h
-call	sub_C108
+call	sub_DFD8
 mov	bp, 2DB1h
-call	sub_C097
+call	sub_DF67
 mov	byte ptr ds:47A9h, 0
 mov	bp, 26A6h
 mov	al, 8
-call	sub_C108
-jmp	sub_2773
-sub_2566 endp
+call	sub_DFD8
+jmp	sub_4643
+sub_4436 endp
 
-call	sub_C43E
-jmp	sub_1797
+call	sub_E30E
+jmp	sub_3667
 
 
 
-sub_26AC proc near
+sub_457C proc near
 push	si
 mov	bp, 15AAh
 mov	si, 4C60h
@@ -4818,49 +4815,49 @@ call	dword ptr ds:391Dh
 pop	si
 lodsw
 or	ax, ax
-js	short loc_26CB
+js	short loc_459B
 mov	bx, ax
 lodsw
 mov	dx, ax
 lodsw
 xchg	ax, bx
-call	sub_C22F
+call	sub_E0FF
 
-loc_26CB:
+loc_459B:
 mov	dx, 7Eh	; '~'
 mov	bx, 4Ch	; 'L'
 mov	bp, 0C2h ; 'Â'
 mov	ax, 4Ch	; 'L'
-jmp	loc_C526
-sub_26AC endp
+jmp	loc_E3F6
+sub_457C endp
 
-; START	OF FUNCTION CHUNK FOR sub_1045
+; START	OF FUNCTION CHUNK FOR sub_2F15
 
-loc_26DA:
-call	sub_E270
+loc_45AA:
+call	sub_10140
 mov	cl, ds:0C8h
 xor	ch, ch
-jcxz	short loc_26F1
+jcxz	short loc_45C1
 mov	si, 1179h
 
-loc_26E8:
+loc_45B8:
 cmp	ax, [si]
-jz	short loc_272B
+jz	short loc_45FB
 add	si, 2
-loop	loc_26E8
+loop	loc_45B8
 
-loc_26F1:
+loc_45C1:
 mov	cl, ds:0C8h
 mov	si, 1179h
 cmp	cl, 0Ah
-jb	short loc_2707
+jb	short loc_45D7
 push	ax
-call	sub_272F
+call	sub_45FF
 mov	cl, 9
 mov	si, 1179h
 pop	ax
 
-loc_2707:
+loc_45D7:
 add	cl, cl
 xor	ch, ch
 add	si, cx
@@ -4868,23 +4865,23 @@ mov	[si], ax
 inc	byte ptr ds:0C8h
 inc	byte ptr ds:0C9h
 cmp	byte ptr ds:2Ah, 38h ; '8'
-jb	short loc_272B
+jb	short loc_45FB
 cmp	byte ptr ds:0Bh, 8
-jz	short loc_272B
+jz	short loc_45FB
 mov	ax, 201h
-call	sub_29EE
+call	sub_48BE
 
-loc_272B:
-call	sub_E283
+loc_45FB:
+call	sub_10153
 retn
-; END OF FUNCTION CHUNK	FOR sub_1045
+; END OF FUNCTION CHUNK	FOR sub_2F15
 
 
 
-sub_272F proc near
+sub_45FF proc near
 mov	cl, ds:0C8h
 xor	ch, ch
-jcxz	short locret_274D
+jcxz	short locret_461D
 mov	si, 1179h
 dec	byte ptr ds:0C8h
 mov	di, si
@@ -4896,164 +4893,164 @@ rep movsw
 xor	ax, ax
 stosw
 
-locret_274D:
+locret_461D:
 retn
-sub_272F endp
+sub_45FF endp
 
 
 
 
-sub_274E proc near
-call	sub_C08E
+sub_461E proc near
+call	sub_DF5E
 mov	ax, 15h
-call	sub_C13E
+call	sub_E00E
 mov	si, 14C8h
-call	sub_C21B
+call	sub_E0EB
 mov	al, 1
-sub_274E endp
+sub_461E endp
 
 
 
 
-sub_275F proc near
-call	sub_C08E
+sub_462F proc near
+call	sub_DF5E
 and	ax, 7
 add	al, 0Bh
 mov	bx, 56h	; 'V'
 mov	dx, 64h	; 'd'
-call	sub_C22F
-jmp	sub_C07C
-sub_275F endp
+call	sub_E0FF
+jmp	sub_DF4C
+sub_462F endp
 
 
 
 
-sub_2773 proc near
+sub_4643 proc near
 mov	ax, 15h
-call	sub_C13E
+call	sub_E00E
 mov	al, 9
-call	sub_AB15
+call	sub_C9E5
 mov	word ptr ds:0D816h, 4
 
-loc_2784:
+loc_4654:
 mov	bp, 27B6h
 mov	ax, 9
-call	sub_E353
+call	sub_10223
 dec	word ptr ds:0D816h
-jns	short loc_2784
-jmp	short sub_274E
-sub_2773 endp
+jns	short loc_4654
+jmp	short sub_461E
+sub_4643 endp
 
 
 
 
-sub_2795 proc near
+sub_4665 proc near
 mov	ax, 15h
-call	sub_C13E
+call	sub_E00E
 mov	word ptr ds:0D816h, 0
 
-loc_27A1:
+loc_4671:
 mov	bp, 27B6h
 mov	ax, 9
-call	sub_E353
+call	sub_10223
 inc	word ptr ds:0D816h
 cmp	word ptr ds:0D816h, 0Dh
-jb	short loc_27A1
+jb	short loc_4671
 retn
-sub_2795 endp
+sub_4665 endp
 
 mov	ax, ds:0D816h
 and	ax, 7
 cmp	al, 5
-jb	short loc_27C4
+jb	short loc_4694
 sub	al, 8
 neg	al
 
-loc_27C4:
+loc_4694:
 add	al, 2
-call	sub_275F
+call	sub_462F
 
 
 
-sub_27C9 proc near
-call	sub_C08E
+sub_4699 proc near
+call	sub_DF5E
 mov	bx, 67h	; 'g'
 
-loc_27CF:
+loc_469F:
 push	bx
 mov	bx, 0Fh
 
-loc_27D3:
-call	sub_E3B7
+loc_46A3:
+call	sub_10287
 cmp	al, dl
-jz	short loc_27D3
+jz	short loc_46A3
 mov	dl, al
 add	ax, 17h
 pop	bx
 push	dx
 mov	dx, 0A3h ; '£'
-call	sub_C2FD
+call	sub_E1CD
 pop	dx
 add	bx, 3
 cmp	bx, 70h	; 'p'
-jbe	short loc_27CF
+jbe	short loc_469F
 mov	si, 14CEh
 mov	ax, ds:0D816h
 and	ax, 3
 add	al, 13h
 mov	[si], al
 mov	[si+6],	al
-call	sub_C21B
-jmp	sub_C07C
-sub_27C9 endp
+call	sub_E0EB
+jmp	sub_DF4C
+sub_4699 endp
 
 
 
 
-sub_2806 proc near
-call	sub_274E
+sub_46D6 proc near
+call	sub_461E
 mov	al, 2
-call	sub_275F
+call	sub_462F
 mov	cx, 14h
-call	sub_281C
-call	sub_ABA9
+call	sub_46EC
+call	sub_CA79
 mov	al, 1
-jmp	sub_275F
-sub_2806 endp
+jmp	sub_462F
+sub_46D6 endp
 
 
 
 
-sub_281C proc near
+sub_46EC proc near
 mov	ax, 15h
-call	sub_C13E
+call	sub_E00E
 mov	word ptr ds:0D816h, 0
 
-loc_2828:
+loc_46F8:
 push	cx
-call	sub_27C9
+call	sub_4699
 mov	ax, 9
-call	sub_E3A0
+call	sub_10270
 inc	word ptr ds:0D816h
 pop	cx
-loop	loc_2828
+loop	loc_46F8
 retn
-sub_281C endp
+sub_46EC endp
 
 xor	ax, ax
-jmp	short loc_2841
+jmp	short loc_4711
 xor	ax, ax
 dec	ax
 
-loc_2841:
+loc_4711:
 mov	ds:0DBh, al
 neg	ax
 add	al, 2Ah	; '*'
-call	sub_AB45
-call	sub_98B2
-call	sub_2806
-call	loc_2A7F
-call	sub_3AE9
+call	sub_CA15
+call	sub_B782
+call	sub_46D6
+call	loc_494F
+call	sub_59B9
 mov	byte ptr ds:0E9h, 0
 push	ds
 pop	es
@@ -5067,20 +5064,20 @@ add	si, cx
 add	si, cx
 mov	bl, ds:0DBh
 
-loc_2875:
+loc_4745:
 sub	si, 2
 mov	ax, [si]
 mov	ah, al
 xor	ah, bl
-js	short loc_288B
+js	short loc_475B
 and	ax, 3Fh
 add	ax, 78h	; 'x'
 stosw
 mov	ax, 290Bh
 stosw
 
-loc_288B:
-loop	loc_2875
+loc_475B:
+loop	loc_4745
 mov	ax, 0A3h ; '£'
 stosw
 mov	ax, 29D4h
@@ -5089,28 +5086,28 @@ xor	ax, ax
 stosw
 mov	bp, 1FC2h
 mov	bx, 0F66h
-jmp	sub_D323
+jmp	sub_F1F3
 
 
 
-sub_28A1 proc near
+sub_4771 proc near
 mov	ds:47A9h, al
-call	sub_2795
-call	sub_C49A
-call	sub_ABA9
+call	sub_4665
+call	sub_E36A
+call	sub_CA79
 mov	bp, 28B5h
 mov	al, 8
-jmp	sub_C108
-sub_28A1 endp
+jmp	sub_DFD8
+sub_4771 endp
 
 
 
 
-sub_28B5 proc near
+sub_4785 proc near
 mov	ax, 15h
-call	sub_C13E
+call	sub_E00E
 mov	al, 0Ah
-call	sub_AB15
+call	sub_C9E5
 mov	al, ds:47A9h
 xor	ah, ah
 mov	si, ax
@@ -5122,31 +5119,31 @@ add	ax, 1Eh
 shl	si, 1
 mov	[si+47F8h], dx
 mov	[si+47FAh], bx
-jmp	sub_C22F
-sub_28B5 endp
+jmp	sub_E0FF
+sub_4785 endp
 
 
 
 
-sub_28E1 proc near
+sub_47B1 proc near
 cmp	byte ptr ds:24h, 0Ch
-jnz	short loc_28EB
-call	sub_215F
+jnz	short loc_47BB
+call	sub_402F
 
-loc_28EB:
+loc_47BB:
 cmp	byte ptr ds:47A9h, 0
-jz	short locret_290A
-call	sub_C49A
+jz	short locret_47DA
+call	sub_E36A
 mov	byte ptr ds:47A6h, 0FFh
 mov	al, 8
 mov	bp, 2DD3h
-call	sub_C108
+call	sub_DFD8
 mov	byte ptr ds:47A9h, 0
-call	sub_2773
+call	sub_4643
 
-locret_290A:
+locret_47DA:
 retn
-sub_28E1 endp
+sub_47B1 endp
 
 mov	al, ds:1FC3h
 cbw
@@ -5160,135 +5157,135 @@ mov	al, ds:0C8h
 add	si, ax
 add	si, ax
 
-loc_2922:
+loc_47F2:
 sub	si, 2
 mov	ax, [si]
 xor	al, ds:0DBh
-js	short loc_2922
-loop	loc_2922
+js	short loc_47F2
+loop	loc_47F2
 mov	ax, [si]
 mov	ds:24h,	ah
 and	al, 3Fh
 cmp	byte ptr ds:0DBh, 0
-jnz	short loc_2956
+jnz	short loc_4826
 or	byte ptr [si], 80h
 dec	byte ptr ds:0C9h
 cmp	al, 0Bh
-jnz	short loc_2956
+jnz	short loc_4826
 sub	ah, 2
 cmp	ah, 2
-jnb	short loc_2956
+jnb	short loc_4826
 or	byte ptr ds:0BFh, 20h
 
-loc_2956:
+loc_4826:
 xor	ah, ah
 cmp	al, ds:47A9h
-jz	short loc_2970
+jz	short loc_4840
 push	ax
-call	sub_28E1
+call	sub_47B1
 pop	ax
 push	ax
 add	ax, 1Ah
-call	sub_AB45
+call	sub_CA15
 pop	ax
 push	ax
-call	sub_28A1
+call	sub_4771
 pop	ax
 
-loc_2970:
+loc_4840:
 mov	ds:0E9h, al
 xor	bl, bl
 xchg	bl, ds:46D9h
 push	bx
-call	sub_96F1
-call	sub_98F5
+call	sub_B5C1
+call	sub_B7C5
 mov	byte ptr ds:1C06h, 80h ; '€'
 mov	bp, 1FF2h
 mov	bx, 2997h
-call	sub_D323
+call	sub_F1F3
 pop	ax
 mov	ds:46D9h, al
 
-locret_2992:
+locret_4862:
 retn
 
-loc_2993:
+loc_4863:
 mov	al, 6
-jmp	short loc_2999
+jmp	short loc_4869
 xor	al, al
 
-loc_2999:
+loc_4869:
 mov	bl, ds:0C9h
 mov	ds:0EBh, bl
 cmp	byte ptr ds:47A9h, 0
-jz	short locret_2992
+jz	short locret_4862
 push	ax
-call	sub_97CF
-call	sub_98F5
-call	sub_C08E
-call	sub_28B5
-call	sub_28E1
+call	sub_B69F
+call	sub_B7C5
+call	sub_DF5E
+call	sub_4785
+call	sub_47B1
 mov	byte ptr ds:24h, 0
 pop	ax
 mov	ds:23h,	al
-call	sub_D316
-call	sub_2EB2
-call	loc_2DD3
+call	sub_F1E6
+call	sub_4D82
+call	loc_4CA3
 cmp	byte ptr ds:47A7h, 0
-jnz	short locret_2992
-jmp	sub_D280
+jnz	short locret_4862
+jmp	sub_F150
 mov	ax, 29h	; ')'
-call	sub_AB45
+call	sub_CA15
 mov	byte ptr ds:47A6h, 0FFh
 mov	bp, 2DBFh
-call	sub_C097
-call	sub_D316
-call	sub_D280
-jmp	sub_ABA9
+call	sub_DF67
+call	sub_F1E6
+call	sub_F150
+jmp	sub_CA79
 
 
 
-sub_29EE proc near
+sub_48BE proc near
 xor	di, di
-sub_29EE endp
+sub_48BE endp
 
 
 
 
-sub_29F0 proc near
+sub_48C0 proc near
 test	byte ptr ds:0Ah, 1
-jz	short locret_2A33
+jz	short locret_4903
 mov	si, 1190h
 mov	cl, [si]
 xor	ch, ch
-jcxz	short loc_2A14
+jcxz	short loc_48E4
 inc	si
 
-loc_2A01:
+loc_48D1:
 cmp	ax, [si]
-jnz	short loc_2A0A
+jnz	short loc_48DA
 cmp	di, [si+2]
-jz	short locret_2A33
+jz	short locret_4903
 
-loc_2A0A:
+loc_48DA:
 add	si, 4
-loop	loc_2A01
+loop	loc_48D1
 mov	si, 1190h
 mov	cl, [si]
 
-loc_2A14:
+loc_48E4:
 cmp	cx, 0Ah
-jb	short loc_2A25
+jb	short loc_48F5
 push	ax
 push	si
 push	di
-call	sub_2A34
+call	sub_4904
 pop	di
 pop	si
 pop	ax
 mov	cx, 9
 
-loc_2A25:
+loc_48F5:
 inc	byte ptr [si]
 inc	si
 add	cx, cx
@@ -5297,20 +5294,20 @@ add	si, cx
 mov	[si], ax
 mov	[si+2],	di
 
-locret_2A33:
+locret_4903:
 retn
-sub_29F0 endp
+sub_48C0 endp
 
 
 
 
-sub_2A34 proc near
+sub_4904 proc near
 mov	si, 1190h
 dec	byte ptr [si]
-jnz	short loc_2A3F
+jnz	short loc_490F
 mov	byte ptr [si-1], 0
 
-loc_2A3F:
+loc_490F:
 inc	si
 mov	di, si
 add	si, 4
@@ -5322,12 +5319,12 @@ xor	ax, ax
 stosw
 stosw
 retn
-sub_2A34 endp
+sub_4904 endp
 
 
 
 
-sub_2A51 proc near
+sub_4921 proc near
 mov	si, 1190h
 mov	dl, al
 mov	bx, di
@@ -5335,305 +5332,305 @@ xor	cx, cx
 xor	bp, bp
 lodsb
 mov	cl, al
-jcxz	short locret_2AAE
+jcxz	short locret_497E
 mov	di, si
 push	ds
 pop	es
 
-loc_2A65:
+loc_4935:
 lodsw
 cmp	ah, dl
-jnz	short loc_2A78
+jnz	short loc_4948
 cmp	dl, 0Fh
-jnz	short loc_2A73
+jnz	short loc_4943
 cmp	bx, [si]
-jnz	short loc_2A78
+jnz	short loc_4948
 
-loc_2A73:
+loc_4943:
 add	si, 2
-jmp	short loc_2A7B
+jmp	short loc_494B
 
-loc_2A78:
+loc_4948:
 stosw
 movsw
 inc	bp
 
-loc_2A7B:
-loop	loc_2A65
-jmp	short loc_2A9E
+loc_494B:
+loop	loc_4935
+jmp	short loc_496E
 
-loc_2A7F:
+loc_494F:
 mov	si, 1190h
 xor	cx, cx
 xor	bp, bp
 lodsb
 mov	cl, al
-jcxz	short locret_2AAE
+jcxz	short locret_497E
 mov	di, si
 push	ds
 pop	es
 
-loc_2A8F:
+loc_495F:
 lodsw
 cmp	al, 1
-jnz	short loc_2A99
+jnz	short loc_4969
 add	si, 2
-jmp	short loc_2A9C
+jmp	short loc_496C
 
-loc_2A99:
+loc_4969:
 stosw
 movsw
 inc	bp
 
-loc_2A9C:
-loop	loc_2A8F
+loc_496C:
+loop	loc_495F
 
-loc_2A9E:
+loc_496E:
 mov	cx, bp
 mov	ch, cl
 xchg	cl, ds:1190h
 cmp	cl, ch
-jz	short locret_2AAE
+jz	short locret_497E
 xor	ax, ax
 stosw
 stosw
 
-locret_2AAE:
+locret_497E:
 retn
-sub_2A51 endp
+sub_4921 endp
 
 
 
 
-sub_2AAF proc near
+sub_497F proc near
 push	si
 mov	si, 1190h
 xor	cx, cx
 mov	cl, [si]
-jcxz	short loc_2ACD
+jcxz	short loc_499D
 inc	si
 
-loc_2ABA:
+loc_498A:
 cmp	al, [si+1]
-jnz	short loc_2AC8
+jnz	short loc_4998
 cmp	al, 0Fh
-jnz	short loc_2AD0
+jnz	short loc_49A0
 cmp	di, [si+2]
-jz	short loc_2AD0
+jz	short loc_49A0
 
-loc_2AC8:
+loc_4998:
 add	si, 4
-loop	loc_2ABA
+loop	loc_498A
 
-loc_2ACD:
+loc_499D:
 pop	si
 clc
 retn
 
-loc_2AD0:
+loc_49A0:
 mov	ax, [si]
 mov	di, [si+2]
 pop	si
 stc
 retn
-sub_2AAF endp
+sub_497F endp
 
 
 
 
-sub_2AD8 proc near
+sub_49A8 proc near
 push	ax
 mov	ax, ds:1191h
 mov	bx, ds:12h
 mov	cl, ah
 shr	bx, cl
 shr	bx, 1
-jnb	short loc_2AF7
+jnb	short loc_49C7
 mov	di, ds:1193h
 cmp	cl, 0Fh
-jnz	short loc_2AFA
+jnz	short loc_49CA
 cmp	di, ds:114Eh
-jz	short loc_2AFA
+jz	short loc_49CA
 
-loc_2AF7:
+loc_49C7:
 pop	ax
 clc
 retn
 
-loc_2AFA:
+loc_49CA:
 add	sp, 2
-call	sub_DBB2
+call	sub_FA82
 
-loc_2B00:
+loc_49D0:
 push	word ptr ds:11CEh
 or	di, di
-jz	short loc_2B0D
+jz	short loc_49DD
 push	ax
-call	sub_331E
+call	sub_51EE
 pop	ax
 
-loc_2B0D:
+loc_49DD:
 mov	ds:0EAh, al
 mov	al, ah
 xor	ah, ah
-call	sub_96D8
-call	sub_9945
+call	sub_B5A8
+call	sub_B815
 mov	byte ptr ds:0EAh, 0FFh
 mov	al, 1
-call	sub_9EF1
+call	sub_BDC1
 pop	di
-call	sub_331E
+call	sub_51EE
 stc
 retn
-sub_2AD8 endp
+sub_49A8 endp
 
 
 
 
-sub_2B2A proc near
+sub_49FA proc near
 
 ; FUNCTION CHUNK AT 3542 SIZE 0000000F BYTES
 
 mov	al, ds:46D9h
 or	al, ds:4774h
 or	al, ds:11C9h
-jnz	short locret_2B8F
-call	sub_D41B
+jnz	short locret_4A5F
+call	sub_F2EB
 cmp	bp, 1F0Eh
-jnz	short locret_2B8F
+jnz	short locret_4A5F
 cmp	byte ptr ds:0FBh, 0
-js	short locret_2B8F
+js	short locret_4A5F
 mov	ax, ds:0CE7Ah
 cmp	byte ptr ds:2Ah, 14h
-jb	short locret_2B8F
-jz	short loc_2BA1
+jb	short locret_4A5F
+jz	short loc_4A71
 cmp	byte ptr ds:1190h, 0
-jz	short locret_2B8F
+jz	short locret_4A5F
 sub	ax, ds:0DC5Ah
 cmp	ax, 32h	; '2'
-jb	short locret_2B8F
-call	sub_2AD8
-jnb	short loc_2B70
+jb	short locret_4A5F
+call	sub_49A8
+jnb	short loc_4A40
 mov	byte ptr ds:23h, 0
-jmp	loc_3542
+jmp	loc_5412
 
-loc_2B70:
+loc_4A40:
 cmp	byte ptr ds:2Bh, 0
-jnz	short loc_2BD2
+jnz	short loc_4AA2
 mov	bl, 28h	; '('
 cmp	ax, 96h	; '–'
-jb	short loc_2B90
+jb	short loc_4A60
 cmp	ax, 0FAh ; 'ú'
-jb	short locret_2B8F
+jb	short locret_4A5F
 cmp	ax, 15Eh
 mov	bl, 26h	; '&'
-jb	short loc_2B90
+jb	short loc_4A60
 cmp	ax, 1C2h
-jnb	short loc_2BD2
+jnb	short loc_4AA2
 
-locret_2B8F:
+locret_4A5F:
 retn
 
-loc_2B90:
+loc_4A60:
 push	bx
-call	sub_DBB2
-call	sub_C49A
+call	sub_FA82
+call	sub_E36A
 pop	ax
 mov	bp, 0F66h
-call	sub_C108
-jmp	sub_DBEC
+call	sub_DFD8
+jmp	sub_FABC
 
-loc_2BA1:
+loc_4A71:
 cmp	word ptr ds:10h, 0
-jnz	short locret_2B8F
+jnz	short locret_4A5F
 cmp	byte ptr ds:8, 0FFh
-jnz	short locret_2B8F
+jnz	short locret_4A5F
 sub	ax, ds:0DC5Ah
 cmp	ax, 3E8h
-jb	short locret_2B8F
+jb	short locret_4A5F
 add	word ptr ds:0DC5Ah, 3B6h
-call	sub_1071
-call	sub_B17A
+call	sub_2F41
+call	sub_D04A
 
-loc_2BC4:
-call	sub_2B2A
+loc_4A94:
+call	sub_49FA
 cmp	byte ptr ds:0EAh, 0FFh
-jnz	short loc_2BC4
+jnz	short loc_4A94
 retn
 
-loc_2BCF:
-jmp	sub_2A34
+loc_4A9F:
+jmp	sub_4904
 
-loc_2BD2:
-call	sub_DBB2
-call	sub_AD5E
+loc_4AA2:
+call	sub_FA82
+call	sub_CC2E
 mov	di, ds:1193h
 or	di, di
-jz	short loc_2BF4
+jz	short loc_4AC4
 mov	ax, di
 sub	ax, 100h
 cmp	ax, 7AAh
-jb	short loc_2BF1
+jb	short loc_4AC1
 mov	byte ptr ds:1193h, 0
-jmp	short loc_2BF4
+jmp	short loc_4AC4
 
-loc_2BF1:
-call	sub_331E
+loc_4AC1:
+call	sub_51EE
 
-loc_2BF4:
+loc_4AC4:
 mov	ax, ds:1191h
 mov	ds:0EAh, al
 cmp	al, 1
-jnz	short loc_2C01
+jnz	short loc_4AD1
 mov	ds:0EBh, al
 
-loc_2C01:
+loc_4AD1:
 mov	al, ah
 xor	ah, ah
 mov	di, ds:1193h
 cmp	ax, 10h
-jnb	short loc_2BCF
+jnb	short loc_4A9F
 cmp	al, 0Eh
-jnz	short loc_2C16
+jnz	short loc_4AE6
 or	di, di
-jz	short loc_2BCF
+jz	short loc_4A9F
 
-loc_2C16:
+loc_4AE6:
 mov	ds:47C4h, ax
 or	di, di
-jz	short loc_2C47
-call	sub_331E
-call	sub_2E98
+jz	short loc_4B17
+call	sub_51EE
+call	sub_4D68
 cmp	word ptr ds:47C4h, 0Eh
-jb	short loc_2C47
+jb	short loc_4B17
 mov	al, 3
 cmp	byte ptr ds:0EAh, 0Eh
-jz	short loc_2C3A
+jz	short loc_4B0A
 mov	al, [di+9]
 or	al, al
-jz	short loc_2C47
+jz	short loc_4B17
 
-loc_2C3A:
-call	sub_6906
+loc_4B0A:
+call	sub_87D6
 mov	word ptr ds:47C4h, 0Eh
 mov	ds:4756h, si
 
-loc_2C47:
-call	sub_2C92
+loc_4B17:
+call	sub_4B62
 mov	al, 1
-call	sub_9EF1
-call	sub_2A34
+call	sub_BDC1
+call	sub_4904
 xor	ax, ax
 mov	ds:1F0Fh, al
 mov	ds:1F10h, ax
-call	sub_D397
-call	sub_B2B9
+call	sub_F267
+call	sub_D189
 mov	ax, 0BB8h
-call	sub_DDB0
-call	sub_B2B3
+call	sub_FC80
+call	sub_D183
 mov	si, 2CC7h
-call	sub_DA5F
-call	sub_98E6
+call	sub_F92F
+call	sub_B7B6
 xor	ax, ax
 mov	ds:479Eh, ax
 mov	ds:4540h, ax
@@ -5641,260 +5638,260 @@ mov	byte ptr ds:0EAh, 0FFh
 mov	byte ptr ds:0E8h, 0Ah
 mov	word ptr ds:0DC30h, 0
 mov	al, 6
-call	sub_189A
-jmp	sub_C412
-sub_2B2A endp
+call	sub_376A
+jmp	sub_E2E2
+sub_49FA endp
 
 
 
 
-sub_2C92 proc near
+sub_4B62 proc near
 mov	al, 6
 mov	bp, 2C9Ah
-jmp	sub_C108
-sub_2C92 endp
+jmp	sub_DFD8
+sub_4B62 endp
 
 mov	byte ptr ds:0E8h, 0
 mov	al, 23h	; '#'
-call	sub_C2F2
-call	sub_C412
+call	sub_E1C2
+call	sub_E2E2
 mov	ax, ds:47C4h
-call	sub_96D8
+call	sub_B5A8
 xor	ax, ax
 mov	ds:1BEAh, ax
 mov	ds:1BF8h, ax
 mov	ds:46DFh, al
 mov	si, 0C0B6h
-call	sub_DA5F
+call	sub_F92F
 mov	si, 2CC7h
 mov	bp, 6
-jmp	sub_DA25
+jmp	sub_F8F5
 mov	al, 0Ah
 mov	si, 1478h
-jmp	sub_C0D5
+jmp	sub_DFA5
 or	byte ptr ds:0Ah, 8
 cmp	byte ptr ds:9Fh, 1
-jnz	short locret_2D2B
-call	sub_DBB2
-call	sub_ABCC
-jnz	short loc_2CEB
+jnz	short locret_4BFB
+call	sub_FA82
+call	sub_CA9C
+jnz	short loc_4BBB
 mov	ax, 258h
-call	sub_DDB0
-jmp	short loc_2CEE
+call	sub_FC80
+jmp	short loc_4BBE
 
-loc_2CEB:
-call	sub_ABD5
+loc_4BBB:
+call	sub_CAA5
 
-loc_2CEE:
+loc_4BBE:
 cmp	byte ptr ds:29h, 64h ; 'd'
-jb	short loc_2D26
+jb	short loc_4BF6
 or	byte ptr ds:0Ah, 2
 mov	byte ptr ds:0D5h, 0FFh
 mov	al, 38h	; '8'
 mov	bp, 0F66h
-call	sub_C108
+call	sub_DFD8
 mov	ax, 3E8h
-call	sub_E387
-call	sub_8C8A
+call	sub_10257
+call	sub_AB5A
 mov	al, 36h	; '6'
 mov	bp, 0F66h
-call	sub_C108
+call	sub_DFD8
 mov	cx, 3
-call	sub_FD9
+call	sub_2EA9
 mov	byte ptr ds:23h, 11h
-jmp	sub_35AD
+jmp	sub_547D
 
-loc_2D26:
+loc_4BF6:
 mov	byte ptr ds:46D9h, 3
 
-locret_2D2B:
+locret_4BFB:
 retn
 inc	byte ptr ds:0C2h
 sub	sp, 32h
 mov	bx, sp
 mov	bp, 2D62h
-call	sub_1258
+call	sub_3128
 mov	word ptr [bx], 0
 mov	si, sp
 
-loc_2D41:
+loc_4C11:
 lodsw
 or	ax, ax
-jz	short loc_2D5E
+jz	short loc_4C2E
 push	si
 mov	si, ax
 push	si
 mov	di, 11Ch
-call	sub_84A6
+call	sub_A376
 pop	si
-call	sub_8308
+call	sub_A1D8
 pop	si
 mov	ax, sp
 add	ax, 0Eh
 cmp	si, ax
-jb	short loc_2D41
+jb	short loc_4C11
 
-loc_2D5E:
+loc_4C2E:
 add	sp, 32h
 retn
 cmp	byte ptr [si+3], 4
-jnz	short locret_2D73
+jnz	short locret_4C43
 test	byte ptr [si+19h], 4
-jz	short locret_2D73
+jz	short locret_4C43
 mov	[bx], si
 add	bx, 2
 
-locret_2D73:
+locret_4C43:
 retn
 
 
 
-sub_2D74 proc near
+sub_4C44 proc near
 mov	si, ds:114Eh
 cmp	si, 100h
-jb	short locret_2DB0
+jb	short locret_4C80
 xor	ax, ax
-call	sub_5E4F
+call	sub_7D1F
 cmp	ax, 2
-jnb	short loc_2D8F
+jnb	short loc_4C5F
 test	byte ptr ds:4732h, 1
-jnz	short locret_2DB0
+jnz	short locret_4C80
 
-loc_2D8F:
+loc_4C5F:
 cmp	ax, 4
-ja	short locret_2DB0
-jnz	short loc_2D97
+ja	short locret_4C80
+jnz	short loc_4C67
 dec	ax
 
-loc_2D97:
+loc_4C67:
 cmp	ds:144Ch, al
-jz	short locret_2DB0
+jz	short locret_4C80
 mov	ds:144Ch, al
 add	ax, 0A1h ; '¡'
 push	ds
 pop	es
 mov	di, 0BC6Eh
 mov	si, ax
-call	sub_F0B9
-call	sub_98
+call	sub_10F89
+call	sub_1F68
 
-locret_2DB0:
+locret_4C80:
 retn
-sub_2D74 endp
+sub_4C44 endp
 
 
 
 
-sub_2DB1 proc near
+sub_4C81 proc near
 mov	bp, 0D717h
-call	sub_C097
-call	sub_D95B
+call	sub_DF67
+call	sub_F82B
 mov	byte ptr ds:47A6h, 0FFh
 
-loc_2DBF:
-call	sub_2D74
+loc_4C8F:
+call	sub_4C44
 xor	ax, ax
 mov	ds:0DCE6h, al
 mov	ds:47A4h, al
 mov	ds:47AAh, ax
 mov	bp, 2EB2h
-call	sub_C097
+call	sub_DF67
 
-loc_2DD3:
+loc_4CA3:
 cmp	byte ptr ds:2Bh, 0
-jz	short loc_2DFB
+jz	short loc_4CCB
 mov	byte ptr ds:4732h, 0
-call	sub_2D74
+call	sub_4C44
 or	byte ptr ds:11BCh, 1
 mov	byte ptr ds:46DFh, 0
-call	sub_ACD
-call	sub_1797
-call	sub_C4CD
-call	sub_C0F4
-jmp	sub_17E6
+call	sub_299D
+call	sub_3667
+call	sub_E39D
+call	sub_DFC4
+jmp	sub_36B6
 
-loc_2DFB:
+loc_4CCB:
 test	byte ptr ds:4732h, 1
-jz	short loc_2E05
-call	sub_488A
+jz	short loc_4CD5
+call	sub_675A
 
-loc_2E05:
+loc_4CD5:
 xor	ax, ax
 mov	ds:14h,	ax
 mov	ds:46DFh, al
-call	sub_C07C
-call	sub_5BA0
-call	sub_37B2
+call	sub_DF4C
+call	sub_7A70
+call	sub_5682
 test	byte ptr ds:11C9h, 3
-jnz	short loc_2E20
-call	sub_C412
+jnz	short loc_4CF0
+call	sub_E2E2
 
-loc_2E20:
-call	sub_AD5E
-call	sub_1834
-call	sub_1797
+loc_4CF0:
+call	sub_CC2E
+call	sub_3704
+call	sub_3667
 mov	al, ds:46DFh
 mov	ah, al
 xchg	al, ds:46E0h
 cmp	al, ah
-jz	short loc_2E4C
+jz	short loc_4D1C
 mov	ax, ds:0DBD6h
 cmp	ax, ds:0DBD8h
-jz	short sub_2E52
+jz	short sub_4D22
 mov	al, 10h
 mov	bp, 0F66h
-call	sub_C108
-call	sub_AE04
-jmp	short sub_2E52
+call	sub_DFD8
+call	sub_CCD4
+jmp	short sub_4D22
 
-loc_2E4C:
-call	sub_C0F4
-call	sub_C4CD
-sub_2DB1 endp
-
-
+loc_4D1C:
+call	sub_DFC4
+call	sub_E39D
+sub_4C81 endp
 
 
-sub_2E52 proc near
+
+
+sub_4D22 proc near
 
 ; FUNCTION CHUNK AT 3723 SIZE 0000008A BYTES
 
-call	sub_35AD
+call	sub_547D
 mov	ax, ds:0CE7Ah
 mov	ds:0DC5Ah, ax
 cmp	byte ptr ds:47A7h, 0
-jnz	short locret_2E97
+jnz	short locret_4D67
 mov	al, ds:4735h
 or	al, al
-jns	short loc_2E6C
-jmp	loc_3723
+jns	short loc_4D3C
+jmp	loc_55F3
 
-loc_2E6C:
+loc_4D3C:
 cmp	byte ptr ds:8, 0FFh
-jz	short loc_2E7D
+jz	short loc_4D4D
 cmp	byte ptr ds:4774h, 0
-jnz	short locret_2E97
-jmp	sub_17E6
+jnz	short locret_4D67
+jmp	sub_36B6
 
-loc_2E7D:
+loc_4D4D:
 cmp	byte ptr ds:11C9h, 0
-jnz	short locret_2E97
+jnz	short locret_4D67
 mov	si, ds:47AAh
 or	si, si
-jz	short locret_2E97
+jz	short locret_4D67
 xor	ax, ax
 mov	al, [si+0Eh]
 mov	ds:47C4h, ax
-call	sub_978E
+call	sub_B65E
 
-locret_2E97:
+locret_4D67:
 retn
-sub_2E52 endp
+sub_4D22 endp
 
 
 
 
-sub_2E98 proc near
+sub_4D68 proc near
 mov	ds:47E6h, di
 xor	ah, ah
 mov	al, [di]
@@ -5905,59 +5902,59 @@ xor	ah, ah
 add	ax, 0Ch
 mov	ds:11EFh, ax
 retn
-sub_2E98 endp
+sub_4D68 endp
 
 
 
 
-sub_2EB2 proc near
+sub_4D82 proc near
 
 ; FUNCTION CHUNK AT 2EC9 SIZE 00000032 BYTES
 
 cmp	byte ptr ds:4774h, 0
-jz	short loc_2EC9
-call	loc_301A
-call	sub_98E6
-sub_2EB2 endp
+jz	short loc_4D99
+call	loc_4EEA
+call	sub_B7B6
+sub_4D82 endp
 
 
 
 
-sub_2EBF proc near
+sub_4D8F proc near
 mov	bp, ds:2220h
 mov	bx, 0F66h
-jmp	sub_D338
-sub_2EBF endp
+jmp	sub_F208
+sub_4D8F endp
 
-; START	OF FUNCTION CHUNK FOR sub_2EB2
+; START	OF FUNCTION CHUNK FOR sub_4D82
 
-loc_2EC9:
+loc_4D99:
 mov	di, ds:114Eh
-call	sub_2E98
-call	sub_2EFB
+call	sub_4D68
+call	sub_4DCB
 cmp	byte ptr ds:11C9h, 0
-jnz	short loc_2EDD
-call	sub_3090
+jnz	short loc_4DAD
+call	sub_4F60
 
-loc_2EDD:
+loc_4DAD:
 mov	ax, ds:0DC38h
 cmp	ax, 74h	; 't'
-jb	short loc_2EEC
+jb	short loc_4DBC
 mov	ax, 0DBECh
 push	ax
-call	sub_DBB2
+call	sub_FA82
 
-loc_2EEC:
-call	sub_2FFB
-call	sub_D763
+loc_4DBC:
+call	sub_4ECB
+call	sub_F633
 mov	bp, 1F0Eh
 mov	bx, 0F66h
-jmp	sub_D338
-; END OF FUNCTION CHUNK	FOR sub_2EB2
+jmp	sub_F208
+; END OF FUNCTION CHUNK	FOR sub_4D82
 
 
 
-sub_2EFB proc near
+sub_4DCB proc near
 push	ds
 pop	es
 mov	di, 1F0Fh
@@ -5966,17 +5963,17 @@ stosb
 mov	bx, ds:6
 mov	dx, ds:4
 cmp	bl, 80h	; '€'
-jz	short loc_2F13
-jmp	loc_2FAA
+jz	short loc_4DE3
+jmp	loc_4E7A
 
-loc_2F13:
+loc_4DE3:
 mov	si, 220Ch
 movsw
 movsw
 cmp	dl, 1
-jnz	short loc_2F58
+jnz	short loc_4E28
 cmp	byte ptr ds:2Bh, 0
-jz	short loc_2F3D
+jz	short loc_4E0D
 mov	si, 2218h
 movsw
 movsw
@@ -5989,12 +5986,12 @@ sbb	ah, ah
 and	ah, 40h
 stosw
 movsw
-jmp	short loc_2FA3
+jmp	short loc_4E73
 
-loc_2F3D:
+loc_4E0D:
 push	di
 mov	di, ds:114Eh
-call	sub_7F27
+call	sub_9DF7
 pop	di
 mov	si, 21DCh
 lodsw
@@ -6003,15 +6000,15 @@ sbb	ah, ah
 and	ah, 40h
 stosw
 movsw
-jmp	short loc_2FA3
+jmp	short loc_4E73
 
-loc_2F58:
+loc_4E28:
 cmp	bh, 1
-jnz	short loc_2FA3
+jnz	short loc_4E73
 cmp	dl, 8
-jnz	short loc_2F99
+jnz	short loc_4E69
 cmp	byte ptr ds:0C8h, 0
-jz	short loc_2FA3
+jz	short loc_4E73
 mov	si, 21E8h
 lodsw
 mov	cl, ds:0C9h
@@ -6020,10 +6017,10 @@ cmp	cl, 1
 sbb	ah, ah
 add	ch, ah
 cmp	byte ptr ds:47A9h, 0
-jz	short loc_2F83
+jz	short loc_4E53
 mov	ch, 28h	; '('
 
-loc_2F83:
+loc_4E53:
 mov	ds:1248h, ch
 and	ah, 40h
 stosw
@@ -6036,22 +6033,22 @@ and	ah, 40h
 stosw
 movsw
 
-loc_2F99:
+loc_4E69:
 cmp	dl, 9
-jnz	short loc_2FA3
+jnz	short loc_4E73
 mov	si, 21F0h
 movsw
 movsw
 
-loc_2FA3:
+loc_4E73:
 mov	si, 21F4h
 movsw
 movsw
-jmp	short loc_2FF7
+jmp	short loc_4EC7
 
-loc_2FAA:
+loc_4E7A:
 test	byte ptr ds:11C9h, 3
-jnz	short loc_2FD7
+jnz	short loc_4EA7
 mov	si, 220Ch
 movsw
 movsw
@@ -6062,152 +6059,152 @@ sbb	ah, ah
 and	ah, 40h
 stosw
 movsw
-call	sub_1AE0
+call	sub_39B0
 mov	si, 21E0h
 cmp	al, 0Bh
-jb	short loc_2FD3
+jb	short loc_4EA3
 add	si, 4
 
-loc_2FD3:
+loc_4EA3:
 movsw
 movsw
-jmp	short loc_2FA3
+jmp	short loc_4E73
 
-loc_2FD7:
+loc_4EA7:
 mov	si, 21FCh
 cmp	byte ptr ds:11CBh, 0
-jz	short loc_2FF0
+jz	short loc_4EC0
 mov	si, 2200h
 cmp	byte ptr ds:2Ah, 32h ; '2'
-jb	short loc_2FF0
+jb	short loc_4EC0
 movsw
 movsw
 mov	si, 2204h
 
-loc_2FF0:
+loc_4EC0:
 movsw
 movsw
 mov	si, 21F8h
 movsw
 movsw
 
-loc_2FF7:
+loc_4EC7:
 xor	ax, ax
 stosw
 retn
-sub_2EFB endp
+sub_4DCB endp
 
 
 
 
-sub_2FFB proc near
+sub_4ECB proc near
 cmp	byte ptr ds:2Bh, 0
-jnz	short loc_301A
+jnz	short loc_4EEA
 test	byte ptr ds:11C9h, 3
-jz	short loc_3020
+jz	short loc_4EF0
 cmp	byte ptr ds:11CAh, 0
-jnz	short loc_301A
+jnz	short loc_4EEA
 mov	si, 1D72h
 cmp	byte ptr ds:11CBh, 0
-jnz	short loc_301D
+jnz	short loc_4EED
 
-loc_301A:
+loc_4EEA:
 mov	si, 1D1Eh
 
-loc_301D:
-jmp	sub_D72B
+loc_4EED:
+jmp	sub_F5FB
 
-loc_3020:
+loc_4EF0:
 mov	bx, ds:6
 cmp	bl, 80h	; '€'
-jnz	short loc_3073
+jnz	short loc_4F43
 mov	dx, ds:4
 cmp	dh, 21h	; '!'
-jz	short loc_3073
-call	sub_3EFE
+jz	short loc_4F43
+call	sub_5DCE
 inc	si
 mov	di, 1B96h
 mov	al, 20h	; ' '
 cmp	word ptr ds:114Eh, 100h
-jnz	short loc_3045
+jnz	short loc_4F15
 mov	al, 80h	; '€'
 
-loc_3045:
+loc_4F15:
 mov	bx, 21h	; '!'
 cmp	dl, 1
-jnz	short loc_3050
+jnz	short loc_4F20
 inc	bx
 mov	al, 20h	; ' '
 
-loc_3050:
+loc_4F20:
 mov	[di+2],	bx
 mov	[di+46h], al
 mov	ds:1CC4h, al
 mov	cx, 4
 
-loc_305C:
+loc_4F2C:
 lodsb
 add	di, 0Eh
 mov	ah, 20h	; ' '
 or	al, al
-jz	short loc_306C
+jz	short loc_4F3C
 cmp	al, 0FBh ; 'û'
-jl	short loc_306C
+jl	short loc_4F3C
 mov	ah, 80h	; '€'
 
-loc_306C:
+loc_4F3C:
 mov	[di], ah
-loop	loc_305C
-jmp	loc_D735
+loop	loc_4F2C
+jmp	loc_F605
 
-loc_3073:
+loc_4F43:
 mov	di, 1B98h
 mov	word ptr [di], 23h ; '#'
 mov	bx, 1Dh
 mov	cx, 4
 
-loc_3080:
+loc_4F50:
 add	di, 0Eh
 mov	[di], bx
 mov	word ptr [di-2], 80h ; '€'
 inc	bx
-loop	loc_3080
-jmp	loc_D735
-sub_2FFB endp
+loop	loc_4F50
+jmp	loc_F605
+sub_4ECB endp
 
 
 
 
-sub_3090 proc near
-call	sub_98E6
+sub_4F60 proc near
+call	sub_B7B6
 
-loc_3093:
-call	sub_3127
+loc_4F63:
+call	sub_4FF7
 mov	di, 1F0Ch
 
-loc_3099:
+loc_4F69:
 add	di, 4
 cmp	word ptr [di], 0
-jnz	short loc_3099
+jnz	short loc_4F69
 mov	word ptr ds:12h, 0
 push	ds
 pop	es
 mov	bp, 30B9h
-call	loc_36EE
+call	loc_55BE
 mov	bp, 3120h
-call	loc_36EE
+call	loc_55BE
 xor	ax, ax
 stosw
 retn
-sub_3090 endp
+sub_4F60 endp
 
 test	byte ptr [si+0Fh], 40h
-jnz	short locret_311F
+jnz	short locret_4FEF
 cmp	word ptr ds:47AAh, 0
-jnz	short loc_30CA
+jnz	short loc_4F9A
 mov	ds:47AAh, si
 
-loc_30CA:
+loc_4F9A:
 mov	al, [si+0Eh]
 mov	cl, al
 xor	ah, ah
@@ -6219,30 +6216,30 @@ or	ds:12h,	ax
 mov	ax, [si+4]
 stosw
 cmp	cl, 0Fh
-jnz	short locret_311F
+jnz	short locret_4FEF
 mov	cl, ds:476Ah
 xor	ch, ch
 dec	cx
-jle	short loc_30FE
+jle	short loc_4FCE
 push	si
 mov	si, ax
 mov	ax, 87h	; '‡'
 
-loc_30F6:
+loc_4FC6:
 inc	ax
 stosw
 xchg	ax, si
 stosw
 xchg	ax, si
-loop	loc_30F6
+loop	loc_4FC6
 pop	si
 
-loc_30FE:
+loc_4FCE:
 cmp	byte ptr ds:2Ah, 5
-jb	short locret_311F
+jb	short locret_4FEF
 mov	al, ds:476Bh
 or	al, al
-jz	short locret_311F
+jz	short locret_4FEF
 push	di
 dec	al
 sub	al, ds:476Ah
@@ -6253,15 +6250,15 @@ add	di, ax
 mov	word ptr [di], 8Fh ; ''
 pop	di
 
-locret_311F:
+locret_4FEF:
 retn
 test	byte ptr [si+0Fh], 40h
-jnz	short loc_30CA
+jnz	short loc_4F9A
 retn
 
 
 
-sub_3127 proc near
+sub_4FF7 proc near
 mov	byte ptr ds:476Bh, 0
 mov	byte ptr ds:476Ah, 0
 mov	ax, 7F80h
@@ -6271,51 +6268,51 @@ mov	ds:10AAh, ax
 mov	ds:109Ah, ax
 mov	bx, ds:6
 cmp	bl, 80h	; '€'
-jnz	short locret_316D
+jnz	short locret_503D
 mov	di, ds:114Eh
 mov	dx, ds:4
 mov	bp, 316Eh
-call	sub_6603
+call	sub_84D3
 cmp	byte ptr [di+8], 21h ; '!'
-jnz	short loc_316A
+jnz	short loc_503A
 mov	ds:10A8h, dx
 mov	ds:10AAh, bx
 push	di
-call	sub_2318
+call	sub_41E8
 pop	di
 
-loc_316A:
-call	sub_331E
+loc_503A:
+call	sub_51EE
 
-locret_316D:
+locret_503D:
 retn
-sub_3127 endp
+sub_4FF7 endp
 
 mov	al, [si+3]
 mov	ah, 2
 test	al, 20h
-jz	short loc_3181
+jz	short loc_5051
 cmp	byte ptr [di+8], 28h ; '('
-jb	short loc_3190
+jb	short loc_5060
 inc	ah
-jmp	short loc_3190
+jmp	short loc_5060
 
-loc_3181:
+loc_5051:
 test	byte ptr [si+10h], 80h
-jnz	short locret_316D
+jnz	short locret_503D
 cmp	byte ptr ds:2Bh, 0
-jz	short loc_3190
+jz	short loc_5060
 dec	ah
 
-loc_3190:
+loc_5060:
 cmp	ah, dl
-jnz	short locret_316D
+jnz	short locret_503D
 test	byte ptr [si+10h], 80h
-jnz	short loc_31C9
+jnz	short loc_5099
 mov	bp, 10B8h
 mov	di, 4756h
 cmp	al, 80h	; '€'
-jnb	short loc_31ED
+jnb	short loc_50BD
 mov	bp, 10C8h
 mov	di, 4758h
 and	byte ptr ds:476Ah, 7
@@ -6323,17 +6320,17 @@ mov	al, ds:476Ah
 inc	byte ptr ds:476Ah
 xor	ah, ah
 cmp	si, 8E0h
-jnz	short loc_31C3
+jnz	short loc_5093
 inc	ax
 mov	ds:476Bh, al
 dec	ax
 
-loc_31C3:
+loc_5093:
 shl	ax, 1
 add	di, ax
-jmp	short loc_31ED
+jmp	short loc_50BD
 
-loc_31C9:
+loc_5099:
 mov	bp, 1098h
 mov	di, 4768h
 mov	al, [si+3]
@@ -6343,13 +6340,13 @@ or	[bp+0Fh], al
 mov	word ptr ds:0EEh, 0
 or	al, al
 mov	al, 0FFh
-jnz	short loc_31EA
+jnz	short loc_50BA
 mov	al, [si+15h]
 
-loc_31EA:
+loc_50BA:
 mov	ds:0EDh, al
 
-loc_31ED:
+loc_50BD:
 mov	[di], si
 mov	[bp+0],	dx
 mov	[bp+2],	bx
@@ -6357,8 +6354,8 @@ retn
 
 
 
-sub_31F6 proc near
-call	sub_E270
+sub_50C6 proc near
+call	sub_10140
 mov	di, [si+4]
 mov	ds:2Ch,	di
 mov	al, [si]
@@ -6369,8 +6366,8 @@ and	ax, 0Fh
 mov	ds:2Fh,	al
 add	ax, 18h
 mov	ds:11F3h, ax
-call	sub_32C7
-call	sub_329D
+call	sub_5197
+call	sub_516D
 mov	ds:48h,	ax
 mov	ax, [si+10h]
 mov	ds:32h,	ax
@@ -6380,19 +6377,19 @@ and	ax, 0Fh
 mov	ds:31h,	al
 add	ax, 0
 mov	ds:11FFh, ax
-call	sub_6EFD
+call	sub_8DCD
 mov	ds:36h,	al
 mov	al, [si+16h]
 mov	ds:38h,	al
-call	sub_3310
+call	sub_51E0
 mov	ds:11F7h, ax
 mov	al, [si+17h]
 mov	ds:39h,	al
-call	sub_3310
+call	sub_51E0
 mov	ds:11F9h, ax
 mov	al, [si+18h]
 mov	ds:3Ah,	al
-call	sub_3310
+call	sub_51E0
 mov	ds:11FBh, ax
 mov	ax, [si+0Ch]
 mov	ds:44h,	ax
@@ -6401,7 +6398,7 @@ mov	ds:46h,	ax
 xor	ah, ah
 add	ax, 0E8h ; 'è'
 mov	ds:11F1h, ax
-call	sub_693B
+call	sub_880B
 mov	bp, ax
 mov	al, [bp+si+16h]
 mov	ds:37h,	al
@@ -6409,28 +6406,28 @@ mov	al, [si+19h]
 mov	ds:3Bh,	al
 mov	al, [si+1Ah]
 mov	ds:3Ch,	al
-call	sub_1AC5
+call	sub_3995
 sub	al, [si+14h]
 mov	ds:40h,	al
-call	sub_331E
-call	sub_E283
+call	sub_51EE
+call	sub_10153
 retn
-sub_31F6 endp
+sub_50C6 endp
 
 
 
 
-sub_329D proc near
+sub_516D proc near
 cmp	byte ptr [si+3], 0
-jz	short loc_32AA
+jz	short loc_517A
 xor	ax, ax
 and	word ptr [si+10h], 0FFF3h
 retn
 
-loc_32AA:
+loc_517A:
 mov	ax, ds:42h
 or	ax, ax
-jz	short loc_32C1
+jz	short loc_5191
 mov	cx, ax
 mov	ax, [si+0Eh]
 xor	dx, dx
@@ -6439,15 +6436,15 @@ shl	dx, 1
 cmp	cx, dx
 adc	ax, 0
 
-loc_32C1:
+loc_5191:
 mov	ds:4Ah,	ax
-jmp	sub_708A
-sub_329D endp
+jmp	sub_8F5A
+sub_516D endp
 
 
 
 
-sub_32C7 proc near
+sub_5197 proc near
 mov	ax, ds:2
 sub	ax, [si+0Ah]
 mov	ds:42h,	ax
@@ -6457,38 +6454,38 @@ shr	ax, cl
 mov	ds:41h,	al
 mov	ax, 74h	; 't'
 test	byte ptr [si+3], 10h
-jnz	short loc_330C
+jnz	short loc_51DC
 mov	ax, 70h	; 'p'
 cmp	dx, 3
-jb	short loc_330C
+jb	short loc_51DC
 inc	ax
 cmp	dx, 10h
-jb	short loc_330C
+jb	short loc_51DC
 inc	ax
 cmp	dx, 20h	; ' '
-jb	short loc_330C
+jb	short loc_51DC
 inc	ax
 push	ax
 push	si
 mov	si, ax
-call	sub_CF70
-call	sub_D03C
+call	sub_EE40
+call	sub_EF0C
 mov	ax, dx
 mov	cl, 4
 shr	ax, cl
-call	sub_E2E3
+call	sub_101B3
 pop	si
 pop	ax
 
-loc_330C:
+loc_51DC:
 mov	ds:11F5h, ax
 retn
-sub_32C7 endp
+sub_5197 endp
 
 
 
 
-sub_3310 proc near
+sub_51E0 proc near
 xor	ah, ah
 shr	ax, 1
 shr	ax, 1
@@ -6496,12 +6493,12 @@ shr	ax, 1
 shr	ax, 1
 add	ax, 0D1h ; 'Ñ'
 retn
-sub_3310 endp
+sub_51E0 endp
 
 
 
 
-sub_331E proc near
+sub_51EE proc near
 mov	ds:11CEh, di
 push	si
 push	di
@@ -6527,36 +6524,36 @@ mov	di, 55h	; 'U'
 mov	cx, 7
 rep movsb
 pop	di
-call	sub_33BE
-call	sub_34A5
-call	sub_7F27
+call	sub_528E
+call	sub_5375
+call	sub_9DF7
 mov	di, 46FEh
 mov	al, 0FFh
 mov	cx, 7
 
-loc_336B:
+loc_523B:
 cmp	byte ptr [di], 1
 rcl	al, 1
 inc	di
-loop	loc_336B
+loop	loc_523B
 not	al
 mov	cl, 1
 shl	al, cl
 mov	ds:53h,	al
 pop	di
-call	sub_3385
-call	sub_5274
+call	sub_5255
+call	sub_7144
 pop	si
 retn
-sub_331E endp
+sub_51EE endp
 
 
 
 
-sub_3385 proc near
+sub_5255 proc near
 mov	byte ptr ds:0F7h, 0
 cmp	di, ds:1150h
-jz	short locret_33BD
+jz	short locret_528D
 mov	ax, di
 sub	ax, 100h
 mov	bl, 1Ch
@@ -6565,84 +6562,84 @@ inc	ax
 mov	bh, al
 mov	bl, 80h	; '€'
 mov	si, 1018h
-call	sub_33AD
+call	sub_527D
 mov	si, 1028h
-call	sub_33AD
+call	sub_527D
 mov	si, 1048h
-sub_3385 endp
+sub_5255 endp
 
 
 
 
-sub_33AD proc near
+sub_527D proc near
 cmp	bx, [si+2]
-jnz	short locret_33BD
+jnz	short locret_528D
 mov	cl, [si+0Eh]
 mov	al, 1
 shl	al, cl
 or	ds:0F7h, al
 
-locret_33BD:
+locret_528D:
 retn
-sub_33AD endp
+sub_527D endp
 
 
 
 
-sub_33BE proc near
+sub_528E proc near
 xor	ax, ax
 mov	ds:94h,	ax
 mov	ds:96h,	ax
 mov	ds:5Ch,	ax
 mov	ds:5Eh,	ax
 mov	bp, 3406h
-call	sub_6603
-call	sub_33D9
+call	sub_84D3
+call	sub_52A9
 mov	ds:9Ch,	al
 retn
-sub_33BE endp
+sub_528E endp
 
 
 
 
-sub_33D9 proc near
+sub_52A9 proc near
 mov	ax, ds:96h
 mov	dx, ds:94h
 cmp	ax, dx
 pushf
-jnb	short loc_33E6
+jnb	short loc_52B6
 xchg	ax, dx
 
-loc_33E6:
+loc_52B6:
 mov	cx, dx
-jcxz	short loc_33FD
+jcxz	short loc_52CD
 xor	dx, dx
 xchg	ah, dl
 xchg	al, ah
 cmp	dx, cx
-jnb	short loc_33FD
+jnb	short loc_52CD
 div	cx
 shr	ax, 1
 cmp	ax, 0FCh ; 'ü'
-jb	short loc_3400
+jb	short loc_52D0
 
-loc_33FD:
+loc_52CD:
 mov	ax, 0FCh ; 'ü'
 
-loc_3400:
+loc_52D0:
 popf
-jnb	short locret_3405
+jnb	short locret_52D5
 neg	al
 
-locret_3405:
+locret_52D5:
 retn
-sub_33D9 endp
+sub_52A9 endp
 
 test	byte ptr [si+3], 20h
-jnz	short locret_342C
-call	sub_342D
+jnz	short locret_52FC
+call	sub_52FD
 test	byte ptr [si+10h], 80h
-jnz	short loc_3428
+jnz	short loc_52F8
 add	ds:96h,	ax
 mov	ax, [si+10h]
 or	ds:5Ch,	ax
@@ -6650,23 +6647,23 @@ mov	ax, [si+12h]
 or	ds:5Eh,	ax
 retn
 
-loc_3428:
+loc_52F8:
 add	ds:94h,	ax
 
-locret_342C:
+locret_52FC:
 retn
 
 
 
-sub_342D proc near
-call	sub_6EFD
+sub_52FD proc near
+call	sub_8DCD
 xor	ah, ah
 add	al, al
 add	al, [si+17h]
-jnb	short loc_343B
+jnb	short loc_530B
 mov	al, 0FFh
 
-loc_343B:
+loc_530B:
 mul	byte ptr [si+1Ah]
 shr	ax, 1
 shr	ax, 1
@@ -6678,71 +6675,71 @@ shl	bl, 1
 shl	bl, 1
 shl	dx, 1
 shl	bl, 1
-jnb	short loc_3459
+jnb	short loc_5329
 add	ax, dx
-jb	short loc_3477
+jb	short loc_5347
 
-loc_3459:
+loc_5329:
 shl	dx, 1
 shl	bl, 1
-jnb	short loc_3463
+jnb	short loc_5333
 add	ax, dx
-jb	short loc_3477
+jb	short loc_5347
 
-loc_3463:
+loc_5333:
 shl	dx, 1
 shl	bl, 1
-jnb	short loc_346D
+jnb	short loc_533D
 add	ax, dx
-jb	short loc_3477
+jb	short loc_5347
 
-loc_346D:
+loc_533D:
 shl	dx, 1
 shl	bl, 1
-jnb	short loc_347A
+jnb	short loc_534A
 add	ax, dx
-jnb	short loc_347A
+jnb	short loc_534A
 
-loc_3477:
+loc_5347:
 mov	ax, 0FFFFh
 
-loc_347A:
+loc_534A:
 mov	al, ah
 xor	ah, ah
 or	ax, ax
-jnz	short locret_3489
+jnz	short locret_5359
 cmp	byte ptr [si+1Ah], 1
 cmc
 adc	al, ah
 
-locret_3489:
+locret_5359:
 retn
-sub_342D endp
+sub_52FD endp
 
 
 
 
-sub_348A proc near
-call	sub_6EFD
+sub_535A proc near
+call	sub_8DCD
 xor	ah, ah
 add	al, al
 add	al, [si+16h]
-jnb	short loc_3498
+jnb	short loc_5368
 mov	al, 0FFh
 
-loc_3498:
+loc_5368:
 mul	byte ptr [si+1Ah]
 shr	ax, 1
 shr	ax, 1
 shr	ax, 1
 shr	ax, 1
-jmp	short loc_347A
-sub_348A endp
+jmp	short loc_534A
+sub_535A endp
 
 
 
 
-sub_34A5 proc near
+sub_5375 proc near
 push	si
 push	ds
 pop	es
@@ -6753,7 +6750,7 @@ xor	al, al
 rep stosb
 pop	di
 mov	bp, 34D0h
-call	sub_6639
+call	sub_8509
 mov	al, ds:60h
 add	al, ds:7Eh
 mov	ds:91h,	al
@@ -6762,269 +6759,269 @@ add	al, ds:7Fh
 mov	ds:92h,	al
 pop	si
 retn
-sub_34A5 endp
+sub_5375 endp
 
 test	byte ptr [si+3], 20h
-jnz	short locret_351A
+jnz	short locret_53EA
 mov	al, [si+3]
 mov	dx, 61h	; 'a'
 test	al, 40h
-jz	short loc_34E3
+jz	short loc_53B3
 mov	dx, 7Fh	; ''
 
-loc_34E3:
+loc_53B3:
 mov	bx, dx
 test	byte ptr [si+10h], 80h
-jnz	short loc_34F0
+jnz	short loc_53C0
 dec	bx
 cmp	al, 80h	; '€'
-jz	short loc_351B
+jz	short loc_53EB
 
-loc_34F0:
+loc_53C0:
 inc	byte ptr [bx]
 mov	ah, al
 and	ax, 30Fh
 cmp	ah, 3
-jnz	short loc_34FE
+jnz	short loc_53CE
 and	al, 0FCh
 
-loc_34FE:
+loc_53CE:
 xor	ah, ah
 mov	bx, dx
 add	bx, ax
 inc	byte ptr [bx+1]
 cmp	bx, 7Fh	; ''
-jnb	short locret_351A
+jnb	short locret_53EA
 mov	ax, [si+12h]
 and	ax, 0Fh
 mov	bx, 71h	; 'q'
 add	bx, ax
 inc	byte ptr [bx]
 
-locret_351A:
+locret_53EA:
 retn
 
-loc_351B:
+loc_53EB:
 inc	byte ptr ds:90h
 retn
 cmp	byte ptr ds:47A7h, 0
-jnz	short locret_351A
+jnz	short locret_53EA
 mov	al, [si+0Eh]
 xor	ah, ah
 push	si
-call	sub_96F1
+call	sub_B5C1
 pop	si
-jnb	short loc_3542
+jnb	short loc_5412
 mov	ax, ds:47C4h
 mov	di, ds:114Eh
-call	sub_2AAF
-jnb	short locret_35AC
-call	loc_2B00
-; START	OF FUNCTION CHUNK FOR sub_2B2A
+call	sub_497F
+jnb	short locret_547C
+call	loc_49D0
+; START	OF FUNCTION CHUNK FOR sub_49FA
 
-loc_3542:
+loc_5412:
 mov	ax, ds:47C4h
 mov	di, ds:114Eh
-call	sub_2A51
+call	sub_4921
 mov	byte ptr ds:0E7h, 0
-; END OF FUNCTION CHUNK	FOR sub_2B2A
+; END OF FUNCTION CHUNK	FOR sub_49FA
 
 
 
-sub_3551 proc near
+sub_5421 proc near
 inc	byte ptr ds:47A7h
 cmp	byte ptr ds:23h, 3
-jnz	short loc_3572
+jnz	short loc_5442
 mov	bp, 1F92h
 mov	bx, 97CFh
-call	sub_D323
+call	sub_F1F3
 mov	word ptr ds:1BEAh, 0
 mov	word ptr ds:1BF8h, 0
 retn
 
-loc_3572:
+loc_5442:
 cmp	byte ptr ds:23h, 4
-jnz	short loc_3595
+jnz	short loc_5465
 mov	bp, 1F9Eh
 and	byte ptr [bp+0Bh], 0BFh
 mov	bx, 97CFh
-call	sub_D323
+call	sub_F1F3
 mov	word ptr ds:1BEAh, 0
 mov	word ptr ds:1BF8h, 0
-jmp	sub_2FFB
+jmp	sub_4ECB
 
-loc_3595:
+loc_5465:
 cmp	byte ptr ds:4774h, 0
-jnz	short locret_35AC
+jnz	short locret_547C
 cmp	byte ptr ds:23h, 64h ; 'd'
-jnb	short locret_35AC
+jnb	short locret_547C
 mov	ax, ds:47C4h
-call	sub_93DF
-call	sub_D280
+call	sub_B2AF
+call	sub_F150
 
-locret_35AC:
+locret_547C:
 retn
-sub_3551 endp
+sub_5421 endp
 
 
 
 
-sub_35AD proc near
+sub_547D proc near
 cmp	byte ptr ds:11C9h, 0
-jnz	short loc_35E9
+jnz	short loc_54B9
 xor	ax, ax
 mov	ds:1Ah,	al
 mov	ds:47A7h, al
 xchg	al, ds:47A6h
 or	al, al
-jnz	short locret_35AC
+jnz	short locret_547C
 inc	byte ptr ds:1Ah
 cmp	byte ptr ds:0Bh, 8
-jnz	short loc_35E3
+jnz	short loc_54B3
 mov	ax, ds:0C0h
 and	ax, ds:1158h
-jz	short loc_35E3
+jz	short loc_54B3
 test	word ptr ds:12h, 8
-jz	short loc_35E3
-call	sub_2566
+jz	short loc_54B3
+call	sub_4436
 
-loc_35E3:
+loc_54B3:
 mov	bp, 3520h
-jmp	loc_36EE
+jmp	loc_55BE
 
-loc_35E9:
+loc_54B9:
 xor	ax, ax
 mov	ds:1Ah,	al
 mov	ds:47A7h, al
 mov	ds:23h,	al
 xchg	al, ds:47A6h
 or	al, al
-jnz	short locret_35AC
+jnz	short locret_547C
 cmp	word ptr ds:1152h, 0FFFFh
-jz	short loc_3637
-call	sub_40F9
-call	sub_4182
+jz	short loc_5507
+call	sub_5FC9
+call	sub_6052
 cmp	byte ptr ds:23h, 0
-jz	short locret_3636
-call	sub_366F
-js	short locret_3636
-call	sub_DBB2
-call	sub_368B
+jz	short locret_5506
+call	sub_553F
+js	short locret_5506
+call	sub_FA82
+call	sub_555B
 push	ax
 mov	ax, 4Bh	; 'K'
-call	sub_E387
+call	sub_10257
 pop	ax
 push	ax
-call	sub_96D8
+call	sub_B5A8
 pop	ax
-jb	short locret_3636
+jb	short locret_5506
 mov	cl, 10h
 mul	cl
 add	ax, 0FD8h
 mov	si, ax
-call	sub_3551
+call	sub_5421
 
-locret_3636:
+locret_5506:
 retn
 
-loc_3637:
-call	sub_4182
+loc_5507:
+call	sub_6052
 cmp	byte ptr ds:23h, 0
-jz	short locret_3636
-call	sub_DBB2
-call	sub_439F
+jz	short locret_5506
+call	sub_FA82
+call	sub_626F
 mov	cx, 200Ch
 mov	dx, 66h	; 'f'
 mov	bx, 4Eh	; 'N'
 mov	ax, 0BFh ; '¿'
-call	sub_D194
-call	sub_C0F4
-call	sub_C4DD
-call	sub_4ACA
+call	sub_F064
+call	sub_DFC4
+call	sub_E3AD
+call	sub_699A
 mov	bp, 1F9Eh
 or	byte ptr [bp+0Bh], 40h
 mov	bx, 4ABEh
-call	sub_D323
-jmp	sub_2FFB
-sub_35AD endp
+call	sub_F1F3
+jmp	sub_4ECB
+sub_547D endp
 
 
 
 
-sub_366F proc near
+sub_553F proc near
 mov	ax, ds:1152h
 cmp	ax, 0FFFFh
-jz	short loc_3688
+jz	short loc_5558
 cmp	ah, 0FFh
-jz	short loc_3686
+jz	short loc_5556
 test	word ptr ds:0, 80h
-jnz	short loc_3686
+jnz	short loc_5556
 xchg	al, ah
 
-loc_3686:
+loc_5556:
 xor	ah, ah
 
-loc_3688:
+loc_5558:
 or	ax, ax
 retn
-sub_366F endp
+sub_553F endp
 
 
 
 
-sub_368B proc near
-call	sub_E270
+sub_555B proc near
+call	sub_10140
 or	byte ptr ds:4728h, 1
 mov	bl, ds:11C9h
 and	bl, 3
 cmp	bl, 2
-jz	short loc_36CB
+jz	short loc_559B
 dec	bl
-jnz	short loc_36C7
+jnz	short loc_5597
 mov	byte ptr ds:473Eh, 1
 mov	byte ptr ds:47A4h, 1
 push	ax
 mov	al, 34h	; '4'
-call	sub_C2F2
-call	sub_C0F4
-call	sub_C412
+call	sub_E1C2
+call	sub_DFC4
+call	sub_E2E2
 pop	ax
 or	ax, ax
-js	short loc_36C4
+js	short loc_5594
 mov	ds:47C4h, ax
-call	sub_978E
+call	sub_B65E
 
-loc_36C4:
-call	sub_C4DD
+loc_5594:
+call	sub_E3AD
 
-loc_36C7:
-call	sub_E283
+loc_5597:
+call	sub_10153
 retn
 
-loc_36CB:
-call	sub_4AEB
-call	sub_C474
-jmp	short loc_36C7
-sub_368B endp
+loc_559B:
+call	sub_69BB
+call	sub_E344
+jmp	short loc_5597
+sub_555B endp
 
 
 
 
-sub_36D3 proc near
+sub_55A3 proc near
 cmp	byte ptr ds:23h, 0
-jz	short locret_36ED
-call	sub_98B2
+jz	short locret_55BD
+call	sub_B782
 mov	byte ptr ds:47A7h, 0
 mov	bp, 3520h
-call	loc_36EE
+call	loc_55BE
 mov	byte ptr ds:23h, 0
 
-locret_36ED:
+locret_55BD:
 retn
-sub_36D3 endp
+sub_55A3 endp
 
 
-loc_36EE:
+loc_55BE:
 push	bx
 push	dx
 mov	si, 0FD8h
@@ -7032,11 +7029,11 @@ mov	cx, 10h
 mov	bx, ds:6
 mov	dx, ds:4
 
-loc_36FE:
+loc_55CE:
 cmp	bx, [si+2]
-jnz	short loc_371B
+jnz	short loc_55EB
 cmp	dx, [si]
-jnz	short loc_371B
+jnz	short loc_55EB
 pop	dx
 pop	bx
 push	bx
@@ -7045,206 +7042,206 @@ push	cx
 push	si
 push	bp
 call	bp
-byte_3710 db 5Dh
+byte_55E0 db 5Dh
 pop	si
 pop	cx
 mov	bx, ds:6
 mov	dx, ds:4
 
-loc_371B:
+loc_55EB:
 add	si, 10h
-loop	loc_36FE
+loop	loc_55CE
 pop	dx
 pop	bx
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_6. PRESS KEYPAD "+" TO EXPAND]
-; START	OF FUNCTION CHUNK FOR sub_2E52
+; START	OF FUNCTION CHUNK FOR sub_4D22
 
-loc_3723:
+loc_55F3:
 and	byte ptr ds:4735h, 7Fh
 sub	al, 94h	; '”'
 jb	short nullsub_6
 test	al, 0Fh
 jnz	short nullsub_6
 push	ax
-call	sub_DBB2
-call	sub_C07C
-call	sub_37AD
-call	sub_C4DD
+call	sub_FA82
+call	sub_DF4C
+call	sub_567D
+call	sub_E3AD
 pop	ax
 xor	ah, ah
 mov	cl, 4
 shr	ax, cl
 inc	ax
 cmp	al, 0Ah
-jb	short loc_374B
+jb	short loc_561B
 mov	al, 0Ah
 
-loc_374B:
+loc_561B:
 xchg	al, ah
-call	sub_E387
+call	sub_10257
 cmp	byte ptr ds:4735h, 37h ; '7'
-jb	short loc_37AA
-call	sub_E77
+jb	short loc_567A
+call	sub_2D47
 mov	cx, 5
-call	sub_FD9
+call	sub_2EA9
 mov	bp, 0C0ADh
 mov	al, 34h	; '4'
-call	sub_C108
-call	sub_86
+call	sub_DFD8
+call	sub_1F56
 mov	bp, 1A0Fh
-call	sub_C097
+call	sub_DF67
 mov	si, ds:1150h
 mov	byte ptr ds:47A6h, 0FFh
 mov	bp, 401Fh
-call	sub_C097
+call	sub_DF67
 mov	dx, ds:4
 mov	bx, ds:6
 cmp	dh, 21h	; '!'
-jnb	short loc_3796
+jnb	short loc_5666
 mov	dl, 2
 cmp	dh, 20h	; ' '
-jnz	short loc_3796
+jnz	short loc_5666
 mov	dl, 0Ah
 
-loc_3796:
+loc_5666:
 mov	bp, 4057h
 mov	al, 34h	; '4'
 mov	byte ptr ds:47A6h, 0FFh
-call	sub_C108
+call	sub_DFD8
 inc	byte ptr ds:0E7h
-jmp	sub_35AD
+jmp	sub_547D
 
-loc_37AA:
-jmp	sub_2DB1
-; END OF FUNCTION CHUNK	FOR sub_2E52
+loc_567A:
+jmp	sub_4C81
+; END OF FUNCTION CHUNK	FOR sub_4D22
 
 
 
-sub_37AD proc near
+sub_567D proc near
 mov	al, 22h	; '"'
-jmp	sub_C2F2
-sub_37AD endp
+jmp	sub_E1C2
+sub_567D endp
 
 
 
 
-sub_37B2 proc near
-call	sub_98E6
-sub_37B2 endp
+sub_5682 proc near
+call	sub_B7B6
+sub_5682 endp
 
 
 
 
-sub_37B5 proc near
+sub_5685 proc near
 
 ; FUNCTION CHUNK AT 39EC SIZE 00000087 BYTES
 
-call	sub_4D00
+call	sub_6BD0
 mov	word ptr ds:472Dh, 0
-call	sub_5BA8
-call	sub_C432
+call	sub_7A78
+call	sub_E302
 mov	ax, 0FFFFh
 cmp	ds:8, al
-jz	short loc_37D5
+jz	short loc_56A5
 mov	dx, ds:4
-call	sub_3EFE
+call	sub_5DCE
 lodsb
 
-loc_37D5:
+loc_56A5:
 or	ax, ax
-js	short loc_37DC
-jmp	loc_39EC
+js	short loc_56AC
+jmp	loc_58BC
 
-loc_37DC:
-call	sub_3AE9
+loc_56AC:
+call	sub_59B9
 or	byte ptr ds:47A4h, 1
 test	byte ptr ds:11C9h, 3
-jnz	short sub_37F4
-sub_37B5 endp
+jnz	short sub_56C4
+sub_5685 endp
 
 
 
 
-sub_37EB proc near
+sub_56BB proc near
 
 ; FUNCTION CHUNK AT 4D06 SIZE 00000051 BYTES
 
-call	sub_380C
-call	sub_4E12
-jmp	loc_4D06
-sub_37EB endp
+call	sub_56DC
+call	sub_6CE2
+jmp	loc_6BD6
+sub_56BB endp
 
 
 
 
-sub_37F4 proc near
+sub_56C4 proc near
 mov	byte ptr ds:4728h, 0
-call	sub_4988
-call	sub_4A5A
+call	sub_6858
+call	sub_692A
 mov	ax, ds:487Eh
-call	sub_CA1B
+call	sub_E8EB
 call	dword ptr ds:3959h
-jmp	sub_388D
-sub_37F4 endp
+jmp	sub_575D
+sub_56C4 endp
 
 
 
 
-sub_380C proc near
+sub_56DC proc near
 mov	byte ptr ds:22E3h, 1
-call	sub_388D
+call	sub_575D
 mov	si, ds:1150h
 mov	ax, 1972h
-call	sub_5E4F
+call	sub_7D1F
 mov	bx, ax
 mov	dx, ds:4
 mov	ax, ds:6
 cmp	al, 80h	; '€'
 mov	al, 0
-jz	short loc_3834
+jz	short loc_5704
 cmp	dx, [si+2]
-jnz	short loc_384A
+jnz	short loc_571A
 mov	al, ah
 
-loc_3834:
+loc_5704:
 cmp	al, [bx+5]
-jnb	short loc_384A
+jnb	short loc_571A
 add	al, [bx]
 cmp	al, 7Fh	; ''
-jnz	short loc_3847
+jnz	short loc_5717
 mov	ah, [si]
 shr	ah, 1
 add	al, ah
 sub	al, 5
 
-loc_3847:
-jmp	sub_C2F2
+loc_5717:
+jmp	sub_E1C2
 
-loc_384A:
+loc_571A:
 mov	di, ds:1150h
 test	byte ptr [di+0Ah], 1
-jnz	short loc_3872
-call	sub_407E
-call	sub_B58B
+jnz	short loc_5742
+call	sub_5F4E
+call	sub_D45B
 dec	di
 mov	cx, 4
 
-loc_385E:
+loc_572E:
 mov	al, es:[di]
 inc	di
 and	al, 30h
 cmp	al, 10h
-jz	short loc_3872
-loop	loc_385E
+jz	short loc_5742
+loop	loc_572E
 mov	bx, 13h
 mov	cx, 42h	; 'B'
-jmp	short loc_3878
+jmp	short loc_5748
 
-loc_3872:
+loc_5742:
 mov	bx, 0Ah
 mov	cx, 88h	; 'ˆ'
 
-loc_3878:
+loc_5748:
 mov	ax, ds:6
 xchg	al, ah
 xor	ax, ds:4
@@ -7253,153 +7250,153 @@ xor	dx, dx
 div	bx
 mov	ax, dx
 add	ax, cx
-jmp	sub_C2F2
-sub_380C endp
+jmp	sub_E1C2
+sub_56DC endp
 
 
 
 
-sub_388D proc near
+sub_575D proc near
 mov	byte ptr ds:46DFh, 1
-call	sub_395C
+call	sub_582C
 cmp	byte ptr ds:46D7h, 0
-jz	short loc_38AD
+jz	short loc_577D
 cmp	ds:46D6h, bl
-jz	short locret_38B3
+jz	short locret_5783
 
-loc_38A2:
+loc_5772:
 mov	byte ptr ds:46D7h, 30h ; '0'
-call	sub_3971
-jmp	sub_39B9
+call	sub_5841
+jmp	sub_5889
 
-loc_38AD:
-call	sub_3971
-call	sub_398C
+loc_577D:
+call	sub_5841
+call	sub_585C
 
-locret_38B3:
+locret_5783:
 retn
-sub_388D endp
+sub_575D endp
 
 
 
 
-sub_38B4 proc near
-call	sub_388D
+sub_5784 proc near
+call	sub_575D
 mov	ax, 28h	; '('
-call	sub_C13E
+call	sub_E00E
 xor	ax, ax
 mov	bp, 14h
 xor	bx, bx
 mov	cx, 4
 
-loc_38C7:
+loc_5797:
 xor	dx, dx
 push	cx
 push	bp
 
-loc_38CB:
+loc_579B:
 push	ax
-call	sub_C2FD
+call	sub_E1CD
 pop	ax
 add	dx, 28h	; '('
 cmp	dx, 140h
-jb	short loc_38CB
+jb	short loc_579B
 pop	bp
 pop	cx
 inc	ax
 add	bx, bp
-loop	loc_38C7
+loop	loc_5797
 
-locret_38E0:
+locret_57B0:
 retn
-sub_38B4 endp
+sub_5784 endp
 
 
 
 
-sub_38E1 proc near
+sub_57B1 proc near
 cmp	byte ptr ds:46DFh, 0
-jz	short locret_38E0
-call	sub_395C
+jz	short locret_57B0
+call	sub_582C
 cmp	ds:46D6h, bl
-jz	short locret_38E0
-sub_38E1 endp
+jz	short locret_57B0
+sub_57B1 endp
 
 
 
 
-sub_38F1 proc near
-call	sub_3971
-call	sub_39B9
+sub_57C1 proc near
+call	sub_5841
+call	sub_5889
 mov	al, 40h	; '@'
 xchg	al, ds:46D7h
 or	al, al
-jnz	short locret_38E0
+jnz	short locret_57B0
 
-loc_3901:
+loc_57D1:
 mov	si, 3916h
 mov	bp, 10h
-jmp	sub_DA25
-sub_38F1 endp
+jmp	sub_F8F5
+sub_57C1 endp
 
 
 
 
-sub_390A proc near
+sub_57DA proc near
 cmp	byte ptr ds:46D7h, 0
-jz	short locret_38E0
-call	sub_3916
-jmp	short sub_390A
-sub_390A endp
+jz	short locret_57B0
+call	sub_57E6
+jmp	short sub_57DA
+sub_57DA endp
 
 
 
 
-sub_3916 proc near
+sub_57E6 proc near
 cmp	byte ptr ds:46DFh, 0
-jz	short sub_3950
+jz	short sub_5820
 
-loc_391D:
+loc_57ED:
 mov	cx, 1C5h
 mov	bx, 0DBh ; 'Û'
 cmp	byte ptr ds:22E3h, 0
-jnz	short loc_3930
+jnz	short loc_5800
 mov	cx, 0F0h ; 'ð'
 mov	bx, 180h
 
-loc_3930:
+loc_5800:
 mov	al, ds:46D7h
 push	ax
 call	dword ptr ds:3951h
 pop	ax
 cmp	byte ptr ds:227Dh, 0
-jnz	short loc_394A
+jnz	short loc_581A
 mov	cx, 30h	; '0'
 mov	bx, 2D0h
 call	dword ptr ds:3951h
 
-loc_394A:
+loc_581A:
 dec	byte ptr ds:46D7h
 jnz	short nullsub_7
-sub_3916 endp
+sub_57E6 endp
 
 
 
 
-sub_3950 proc near
+sub_5820 proc near
 mov	byte ptr ds:46D7h, 0
 mov	si, 3916h
-jmp	sub_DA5F
-sub_3950 endp
+jmp	sub_F92F
+sub_5820 endp
 
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_7. PRESS KEYPAD "+" TO EXPAND]
 
 
 
-sub_395C proc near
+sub_582C proc near
 mov	ax, ds:2
 
-loc_395F:
+loc_582F:
 mov	ah, al
 shr	ah, 1
 shr	ah, 1
@@ -7409,136 +7406,136 @@ xlat
 add	al, ah
 mov	bl, al
 retn
-sub_395C endp
+sub_582C endp
 
 
 
 
-sub_3971 proc near
+sub_5841 proc near
 mov	ax, 28h	; '('
 add	al, ds:22E3h
 
-loc_3978:
+loc_5848:
 mov	ds:0DBB4h, al
-call	sub_C13E
+call	sub_E00E
 mov	al, bl
 xor	ah, ah
 mov	ds:46D6h, al
-call	sub_C1F4
+call	sub_E0C4
 lea	dx, [si+6]
 retn
-sub_3971 endp
+sub_5841 endp
 
 
 
 
-sub_398C proc near
+sub_585C proc near
 mov	cx, 1C5h
 mov	bx, 0DBh ; 'Û'
 cmp	byte ptr ds:22E3h, 0
-jnz	short loc_399F
+jnz	short loc_586F
 mov	cx, 0F0h ; 'ð'
 mov	bx, 180h
 
-loc_399F:
+loc_586F:
 push	cx
 call	dword ptr ds:38BDh
 pop	cx
 add	dx, cx
 cmp	byte ptr ds:227Dh, 0
-jnz	short locret_39B8
+jnz	short locret_5888
 mov	cx, 30h	; '0'
 mov	bx, 2D0h
 call	dword ptr ds:38BDh
 
-locret_39B8:
+locret_5888:
 retn
-sub_398C endp
+sub_585C endp
 
 
 
 
-sub_39B9 proc near
+sub_5889 proc near
 mov	cx, 1C5h
 mov	bx, 0DBh ; 'Û'
 cmp	byte ptr ds:22E3h, 0
-jnz	short loc_39CC
+jnz	short loc_589C
 mov	cx, 0F0h ; 'ð'
 mov	bx, 180h
 
-loc_39CC:
+loc_589C:
 push	cx
 call	dword ptr ds:394Dh
 pop	cx
 add	dx, cx
 cmp	byte ptr ds:227Dh, 0
-jnz	short locret_39E5
+jnz	short locret_58B5
 mov	cx, 30h	; '0'
 mov	bx, 2D0h
 call	dword ptr ds:394Dh
 
-locret_39E5:
+locret_58B5:
 retn
-sub_39B9 endp
+sub_5889 endp
 
 
 
 
-sub_39E6 proc near
+sub_58B6 proc near
 mov	si, 0C0B6h
-jmp	sub_DA5F
-sub_39E6 endp
+jmp	sub_F92F
+sub_58B6 endp
 
-; START	OF FUNCTION CHUNK FOR sub_37B5
+; START	OF FUNCTION CHUNK FOR sub_5685
 
-loc_39EC:
+loc_58BC:
 mov	byte ptr ds:22E3h, 1
 push	ax
-call	sub_3AE9
+call	sub_59B9
 mov	ax, ds:4
 cmp	ax, 2005h
-jz	short loc_3A1D
+jz	short loc_58ED
 cmp	ax, 1005h
-jz	short loc_3A18
+jz	short loc_58E8
 dec	al
-jnz	short loc_3A20
+jnz	short loc_58F0
 cmp	ah, 21h	; '!'
-jnz	short loc_3A13
+jnz	short loc_58E3
 pop	ax
 mov	di, ds:114Eh
 mov	al, [di]
 push	ax
 
-loc_3A13:
-call	sub_37EB
-jmp	short loc_3A20
+loc_58E3:
+call	sub_56BB
+jmp	short loc_58F0
 
-loc_3A18:
+loc_58E8:
 mov	byte ptr ds:22E3h, 0
 
-loc_3A1D:
-call	sub_38B4
+loc_58ED:
+call	sub_5784
 
-loc_3A20:
+loc_58F0:
 pop	ax
-call	sub_3B59
+call	sub_5A29
 cmp	byte ptr ds:46DFh, 0
-jz	short sub_3A7C
+jz	short sub_594C
 cmp	byte ptr ds:4, 1
-jnz	short sub_3A7C
+jnz	short sub_594C
 cmp	byte ptr ds:4731h, 0FFh
-jz	short locret_3A7B
+jz	short locret_594B
 mov	cl, ds:46FFh
 xor	ch, ch
-jcxz	short locret_3A7B
+jcxz	short locret_594B
 mov	ax, 388Dh
 push	ax
 mov	byte ptr ds:4731h, 0
 test	byte ptr ds:47A4h, 81h
-jnz	short locret_3A7B
+jnz	short locret_594B
 mov	ax, 33h	; '3'
-call	sub_C13E
-call	sub_3A95
+call	sub_E00E
+call	sub_5965
 mov	ax, dx
 add	ax, 0Ch
 mov	ds:472Dh, ax
@@ -7546,103 +7543,103 @@ mov	ax, bx
 add	ax, 8
 mov	ds:472Fh, ax
 
-loc_3A6A:
+loc_593A:
 push	cx
 push	bx
 push	dx
-call	sub_3AA9
+call	sub_5979
 pop	dx
 pop	bx
 pop	cx
-; END OF FUNCTION CHUNK	FOR sub_37B5
+; END OF FUNCTION CHUNK	FOR sub_5685
 
 
 
-sub_3A73 proc near
+sub_5943 proc near
 add	dx, 46h	; 'F'
 add	bx, 0Ah
-loop	loc_3A6A
+loop	loc_593A
 
-locret_3A7B:
+locret_594B:
 retn
-sub_3A73 endp
+sub_5943 endp
 
 
 
 
-sub_3A7C proc near
-call	sub_39E6
+sub_594C proc near
+call	sub_58B6
 mov	ax, ds:4
 cmp	al, 4
-jnz	short locret_3A94
+jnz	short locret_5964
 cmp	ah, 20h	; ' '
-jnb	short locret_3A94
+jnb	short locret_5964
 mov	si, 0C0B6h
 mov	bp, 0Ch
-call	sub_DA25
+call	sub_F8F5
 
-locret_3A94:
+locret_5964:
 retn
-sub_3A7C endp
+sub_594C endp
 
 
 
 
-sub_3A95 proc near
+sub_5965 proc near
 mov	dx, 95h	; '•'
 mov	bx, 39h	; '9'
 cmp	byte ptr ds:5, 20h ; ' '
-jb	short locret_3AA8
+jb	short locret_5978
 mov	dx, 0CAh ; 'Ê'
 mov	bx, 49h	; 'I'
 
-locret_3AA8:
+locret_5978:
 retn
-sub_3A95 endp
+sub_5965 endp
 
 
 
 
-sub_3AA9 proc near
+sub_5979 proc near
 xor	ax, ax
-call	sub_C305
+call	sub_E1D5
 add	dx, 6
 add	bx, 1Eh
 mov	ax, 1
-call	sub_C305
+call	sub_E1D5
 sub	dx, 2
 add	bx, 14h
 mov	al, ds:4731h
 xor	ah, ah
 push	ax
 sub	al, 0Fh
-jnb	short loc_3ACC
+jnb	short loc_599C
 xor	ax, ax
 
-loc_3ACC:
+loc_599C:
 cmp	al, 5
-jbe	short loc_3AD2
+jbe	short loc_59A2
 mov	al, 5
 
-loc_3AD2:
+loc_59A2:
 add	al, 2
-call	sub_C305
+call	sub_E1D5
 sub	dx, 55h	; 'U'
 sub	bx, 35h	; '5'
 pop	ax
 cmp	al, 0Eh
-jb	short loc_3AE4
+jb	short loc_59B4
 mov	al, 0Eh
 
-loc_3AE4:
+loc_59B4:
 add	al, 8
-jmp	sub_C30D
-sub_3AA9 endp
+jmp	sub_E1DD
+sub_5979 endp
 
 
 
 
-sub_3AE9 proc near
+sub_59B9 proc near
 push	ax
 push	ds
 pop	es
@@ -7652,63 +7649,63 @@ mov	di, 47F8h
 rep stosw
 pop	ax
 retn
-sub_3AE9 endp
+sub_59B9 endp
 
 
 
 
-sub_3AF9 proc near
+sub_59C9 proc near
 cmp	byte ptr ds:2Bh, 0
-jz	short loc_3B03
-jmp	sub_C43E
+jz	short loc_59D3
+jmp	sub_E30E
 
-loc_3B03:
+loc_59D3:
 cmp	byte ptr ds:47A4h, 0
-js	short locret_3B58
+js	short locret_5A28
 mov	ax, ds:47C4h
 cmp	al, 0Fh
-jnz	short loc_3B15
+jnz	short loc_59E5
 add	al, ds:476Ch
 
-loc_3B15:
+loc_59E5:
 mov	di, ax
 shl	di, 1
 shl	di, 1
 mov	dx, [di+47F8h]
 or	dx, dx
-js	short locret_3B58
+js	short locret_5A28
 push	word ptr [di+47FAh]
 push	dx
 or	byte ptr ds:47A4h, 80h
-call	sub_37B5
+call	sub_5685
 pop	dx
 pop	bx
 cmp	dx, 0F0h ; 'ð'
-jb	short loc_3B3B
+jb	short loc_5A0B
 mov	dx, 0F0h ; 'ð'
 
-loc_3B3B:
+loc_5A0B:
 cmp	bx, 71h	; 'q'
-jb	short loc_3B43
+jb	short loc_5A13
 mov	bx, 71h	; 'q'
 
-loc_3B43:
+loc_5A13:
 mov	es, word ptr ds:0DBDEh
 push	ds
 mov	ds, word ptr ds:0DBDAh
 mov	bp, 6
-call	dword ptr ss:seg_F4B0+3949h
+call	dword ptr ss:seg_11380+3949h
 pop	ds
-jmp	sub_C43E
+jmp	sub_E30E
 
-locret_3B58:
+locret_5A28:
 retn
-sub_3AF9 endp
+sub_59C9 endp
 
 
 
 
-sub_3B59 proc near
+sub_5A29 proc near
 
 ; FUNCTION CHUNK AT 3D12 SIZE 0000001D BYTES
 
@@ -7719,24 +7716,24 @@ dec	ax
 push	ax
 mov	cl, 4
 shr	ax, cl
-jz	short loc_3B70
+jz	short loc_5A40
 add	ax, 13h
-call	sub_C13E
+call	sub_E00E
 
-loc_3B70:
+loc_5A40:
 pop	ax
 and	ax, 0Fh
 shl	ax, 1
 mov	si, 0BC6Eh
 add	si, ax
 mov	si, [si]
-call	sub_3D83
+call	sub_5C53
 
-loc_3B80:
+loc_5A50:
 lodsw
 cmp	ax, 0FFFFh
-jz	short loc_3BB5
-js	short loc_3BBF
+jz	short loc_5A85
+js	short loc_5A8F
 mov	di, ax
 shr	ah, 1
 and	ah, 1
@@ -7747,33 +7744,35 @@ xor	ah, ah
 mov	bx, ax
 lodsb
 push	si
-mov	cs:byte_C21A, al
+mov	cs:byte_E0EA, al
 mov	ax, di
 and	ax, 0FDFFh
 dec	ax
 and	di, 1FFh
 cmp	di, 1
-jnz	short loc_3BAF
-jmp	loc_3D12
+jnz	short loc_5A7F
+jmp	loc_5BE2
 
-loc_3BAF:
-call	sub_C22F
+loc_5A7F:
+call	sub_E0FF
 pop	si
-jmp	short loc_3B80
+jmp	short loc_5A50
 
-loc_3BB5:
-mov	cs:byte_C21A, 0
+loc_5A85:
+mov	cs:byte_E0EA, 0
 add	sp, 18h
 retn
 
-loc_3BBF:
+loc_5A8F:
 cmp	ah, 0C0h ; 'À'
-jz	short loc_3BC9
-call	sub_3BE9
-jmp	short loc_3B80
+jz	short loc_5A99
+call	sub_5AB9
+jmp	short loc_5A50
 
-loc_3BC9:
+loc_5A99:
 push	ax
+
+loc_5A9A:
 mov	es, word ptr ds:0DBDAh
 lodsw
 mov	dx, ax
@@ -7789,13 +7788,13 @@ mov	bp, 0FFFFh
 mov	si, 1470h
 call	dword ptr ds:3901h
 pop	si
-jmp	short loc_3B80
-sub_3B59 endp
+jmp	short loc_5A50
+sub_5A29 endp
 
 
 
 
-sub_3BE9 proc near
+sub_5AB9 proc near
 mov	word ptr ds:22D9h, 4C60h
 push	ds
 pop	es
@@ -7824,47 +7823,47 @@ mov	bx, ax
 mov	ds:47EEh, dx
 mov	ds:47F0h, bx
 
-loc_3C25:
+loc_5AF5:
 lodsw
 push	ax
 and	ax, 3FFFh
 mov	di, ax
 lodsw
 mov	cx, ax
-call	sub_3E13
+call	sub_5CE3
 mov	dx, di
 mov	bx, cx
 pop	ax
 test	ax, 4000h
-jz	short loc_3C25
+jz	short loc_5AF5
 mov	ds:47F2h, di
 mov	ds:47F4h, cx
 mov	dx, ds:47EEh
 mov	bx, ds:47F0h
 mov	word ptr ds:22D9h, 4C62h
 test	ax, 8000h
-jnz	short loc_3C71
+jnz	short loc_5B41
 
-loc_3C57:
+loc_5B27:
 lodsw
 push	ax
 and	ax, 3FFFh
 mov	di, ax
 lodsw
 mov	cx, ax
-call	sub_3E13
+call	sub_5CE3
 mov	dx, di
 mov	bx, cx
 pop	ax
 or	ax, ax
-jns	short loc_3C57
+jns	short loc_5B27
 mov	dx, di
 mov	bx, cx
 
-loc_3C71:
+loc_5B41:
 mov	di, ds:47F2h
 mov	cx, ds:47F4h
-call	sub_3E13
+call	sub_5CE3
 mov	es, word ptr ds:0DBDAh
 push	si
 mov	bx, ds:47F0h
@@ -7875,18 +7874,18 @@ mov	cx, bp
 mov	bp, 0
 mov	ah, ds:47ECh
 and	ah, 3Eh
-jz	short loc_3CA0
+jz	short loc_5B70
 mov	bp, 1
 
-loc_3CA0:
+loc_5B70:
 mov	al, 2
 mov	ds:22DFh, ax
 mov	ah, ds:47EDh
 xor	al, al
 test	byte ptr ds:47ECh, 1
-jnz	short loc_3CE0
+jnz	short loc_5BB0
 
-loc_3CB2:
+loc_5B82:
 push	cx
 push	ax
 lodsw
@@ -7895,13 +7894,13 @@ lodsw
 mov	cx, ax
 pop	ax
 cmp	dx, cx
-jb	short loc_3CC1
+jb	short loc_5B91
 xchg	dx, cx
 
-loc_3CC1:
+loc_5B91:
 inc	cx
 sub	cx, dx
-jz	short loc_3CD6
+jz	short loc_5BA6
 push	si
 push	bx
 mov	si, ds:22DFh
@@ -7910,15 +7909,15 @@ call	dword ptr ds:3945h
 pop	bx
 pop	si
 
-loc_3CD6:
+loc_5BA6:
 add	ax, ds:22DDh
 inc	bx
 pop	cx
-loop	loc_3CB2
+loop	loc_5B82
 pop	si
 retn
 
-loc_3CE0:
+loc_5BB0:
 push	cx
 push	ax
 lodsw
@@ -7927,13 +7926,13 @@ lodsw
 mov	cx, ax
 pop	ax
 cmp	dx, cx
-jnb	short loc_3CEF
+jnb	short loc_5BBF
 xchg	dx, cx
 
-loc_3CEF:
+loc_5BBF:
 dec	cx
 sub	cx, dx
-jz	short loc_3D08
+jz	short loc_5BD8
 neg	cx
 push	si
 push	bx
@@ -7945,35 +7944,35 @@ pop	bx
 pop	si
 cld
 
-loc_3D08:
+loc_5BD8:
 add	ax, ds:22DDh
 inc	bx
 pop	cx
-loop	loc_3CE0
+loop	loc_5BB0
 pop	si
 retn
-sub_3BE9 endp
+sub_5AB9 endp
 
-; START	OF FUNCTION CHUNK FOR sub_3B59
+; START	OF FUNCTION CHUNK FOR sub_5A29
 
-loc_3D12:
+loc_5BE2:
 test	byte ptr ds:47A4h, 81h
-jnz	short loc_3D2B
+jnz	short loc_5BFB
 mov	di, ds:47F6h
 dec	word ptr ds:47F6h
 cmp	byte ptr [di], 0FFh
-jz	short loc_3D2B
+jz	short loc_5BFB
 mov	al, [di]
-call	sub_3D2F
+call	sub_5BFF
 
-loc_3D2B:
+loc_5BFB:
 pop	si
-jmp	loc_3B80
-; END OF FUNCTION CHUNK	FOR sub_3B59
+jmp	loc_5A50
+; END OF FUNCTION CHUNK	FOR sub_5A29
 
 
 
-sub_3D2F proc near
+sub_5BFF proc near
 push	word ptr ds:2784h
 push	ax
 xor	ah, ah
@@ -7983,45 +7982,45 @@ shl	di, 1
 mov	[di+47F8h], dx
 mov	[di+47FAh], bx
 mov	ax, 26h	; '&'
-call	sub_C13E
+call	sub_E00E
 pop	ax
 mov	ch, ah
 cmp	al, 0Fh
-jb	short loc_3D58
+jb	short loc_5C28
 sub	al, 0Fh
 mov	ds:476Ch, al
 mov	al, 0Fh
 
-loc_3D58:
-call	sub_9123
-call	sub_127C
-jnb	short loc_3D65
+loc_5C28:
+call	sub_AFF3
+call	sub_314C
+jnb	short loc_5C35
 mov	al, 11h
 add	bx, 35h	; '5'
 
-loc_3D65:
+loc_5C35:
 cmp	al, 0Ch
-jnz	short loc_3D72
+jnz	short loc_5C42
 test	byte ptr ds:10A7h, 10h
-jz	short loc_3D72
+jz	short loc_5C42
 mov	al, 12h
 
-loc_3D72:
+loc_5C42:
 mov	ah, ch
 shl	al, 1
 push	ax
-call	sub_C2FD
+call	sub_E1CD
 pop	ax
 inc	ax
-call	sub_C22F
+call	sub_E0FF
 pop	ax
-jmp	sub_C13E
-sub_3D2F endp
+jmp	sub_E00E
+sub_5BFF endp
 
 
 
 
-sub_3D83 proc near
+sub_5C53 proc near
 push	ds
 pop	es
 mov	ax, 0FFFFh
@@ -8030,49 +8029,49 @@ mov	di, ds:47F6h
 rep stosb
 mov	di, ds:47F6h
 cmp	byte ptr ds:4774h, 0
-jz	short loc_3DB0
+jz	short loc_5C80
 mov	ax, ds:4778h
 or	ax, ax
-jz	short loc_3DB0
+jz	short loc_5C80
 push	si
 mov	si, ax
 lods	byte ptr cs:[si]
 mov	cl, al
 rep movs byte ptr es:[di], byte	ptr cs:[si]
 pop	si
-jmp	short loc_3DE5
+jmp	short loc_5CB5
 
-loc_3DB0:
+loc_5C80:
 mov	dx, ds:12h
 xor	dx, ds:10h
 mov	cl, [si]
 or	cl, cl
-jz	short loc_3DE5
+jz	short loc_5CB5
 mov	ch, ds:0C5h
 and	ch, 0Fh
 mov	ax, 0FFFFh
 
-loc_3DC8:
+loc_5C98:
 inc	ax
 shr	dx, 1
-jnb	short loc_3DD0
-call	sub_3DF4
+jnb	short loc_5CA0
+call	sub_5CC4
 
-loc_3DD0:
+loc_5CA0:
 or	dx, dx
-jnz	short loc_3DC8
+jnz	short loc_5C98
 mov	dl, ds:476Ah
 dec	dx
-jle	short loc_3DE5
+jle	short loc_5CB5
 mov	ax, 0Fh
 
-loc_3DDE:
+loc_5CAE:
 inc	ax
-call	sub_3DF4
+call	sub_5CC4
 dec	dx
-jnz	short loc_3DDE
+jnz	short loc_5CAE
 
-loc_3DE5:
+loc_5CB5:
 lodsb
 xor	ah, ah
 mov	di, ds:47F6h
@@ -8080,41 +8079,41 @@ dec	ax
 add	di, ax
 mov	ds:47F6h, di
 retn
-sub_3D83 endp
+sub_5C53 endp
 
 
 
 
-sub_3DF4 proc near
+sub_5CC4 proc near
 mov	bx, ax
 add	bl, ch
 
-loc_3DF8:
+loc_5CC8:
 sub	bl, cl
-jnb	short loc_3DF8
+jnb	short loc_5CC8
 add	bl, cl
 cmp	byte ptr [bx+di], 0FFh
-jz	short loc_3E10
+jz	short loc_5CE0
 mov	bx, 0FFFFh
 
-loc_3E06:
+loc_5CD6:
 inc	bx
 cmp	bl, cl
-jnb	short locret_3E12
+jnb	short locret_5CE2
 cmp	byte ptr [bx+di], 0FFh
-jnz	short loc_3E06
+jnz	short loc_5CD6
 
-loc_3E10:
+loc_5CE0:
 mov	[bx+di], al
 
-locret_3E12:
+locret_5CE2:
 retn
-sub_3DF4 endp
+sub_5CC4 endp
 
 
 
 
-sub_3E13 proc near
+sub_5CE3 proc near
 push	bx
 push	cx
 push	dx
@@ -8125,25 +8124,25 @@ sub	bx, cx
 sub	dx, di
 neg	bx
 neg	dx
-call	sub_3E80
+call	sub_5D50
 pop	di
 pop	dx
 pop	cx
 pop	bx
 retn
-sub_3E13 endp
+sub_5CE3 endp
 
-; START	OF FUNCTION CHUNK FOR sub_3E80
+; START	OF FUNCTION CHUNK FOR sub_5D50
 
-loc_3E2F:
+loc_5CFF:
 mov	bx, ds:47EAh
 mov	cx, dx
 mov	dx, ds:47E8h
 add	ds:47E8h, cx
-jnb	short loc_3E41
+jnb	short loc_5D11
 add	dx, cx
 
-loc_3E41:
+loc_5D11:
 mov	di, ds:22D9h
 mov	ax, dx
 stosw
@@ -8153,38 +8152,38 @@ pop	si
 pop	di
 retn
 
-loc_3E52:
+loc_5D22:
 mov	cx, bx
 mov	bx, ds:47EAh
 mov	dx, ds:47E8h
 or	ax, ax
-jns	short loc_3E68
+jns	short loc_5D38
 sub	ds:47EAh, cx
 sub	bx, cx
-jmp	short loc_3E6C
+jmp	short loc_5D3C
 
-loc_3E68:
+loc_5D38:
 add	ds:47EAh, cx
 
-loc_3E6C:
+loc_5D3C:
 inc	cx
 mov	di, ds:22D9h
 mov	ax, dx
 
-loc_3E73:
+loc_5D43:
 stosw
 add	di, 2
-loop	loc_3E73
+loop	loc_5D43
 mov	ds:22D9h, di
 pop	si
 pop	di
 retn
-; END OF FUNCTION CHUNK	FOR sub_3E80
+; END OF FUNCTION CHUNK	FOR sub_5D50
 
 
 ; Attributes: bp-based frame
 
-sub_3E80 proc near
+sub_5D50 proc near
 
 arg_0= word ptr	 6
 
@@ -8193,21 +8192,21 @@ arg_0= word ptr	 6
 push	di
 push	si
 or	bx, bx
-jz	short loc_3E2F
+jz	short loc_5CFF
 mov	ax, 1
-jns	short loc_3E8F
+jns	short loc_5D5F
 neg	bx
 neg	ax
 
-loc_3E8F:
+loc_5D5F:
 or	dx, dx
-jz	short loc_3E52
+jz	short loc_5D22
 mov	cx, 1
-jns	short loc_3E9C
+jns	short loc_5D6C
 neg	cx
 neg	dx
 
-loc_3E9C:
+loc_5D6C:
 push	ax
 push	cx
 push	ax
@@ -8217,38 +8216,38 @@ mov	si, bx
 mov	di, dx
 xor	ax, ax
 cmp	dx, bx
-jbe	short loc_3EB1
+jbe	short loc_5D81
 mov	[bp+2],	ax
-jmp	short loc_3EBA
+jmp	short loc_5D8A
 
-loc_3EB1:
+loc_5D81:
 or	bx, bx
-jz	short loc_3EF8
+jz	short loc_5DC8
 xchg	di, si
 mov	[bp+0],	ax
 
-loc_3EBA:
+loc_5D8A:
 mov	ax, di
 mov	cx, di
 shr	ax, 1
 
-loc_3EC0:
+loc_5D90:
 add	ax, si
 cmp	ax, di
-jb	short loc_3ED0
+jb	short loc_5DA0
 sub	ax, di
 mov	dx, [bp+4]
 mov	bx, [bp+arg_0]
-jmp	short loc_3ED6
+jmp	short loc_5DA6
 
-loc_3ED0:
+loc_5DA0:
 mov	dx, [bp+0]
 mov	bx, [bp+2]
 
-loc_3ED6:
+loc_5DA6:
 add	dx, ds:47E8h
 cmp	bx, 1
-jnz	short loc_3EF2
+jnz	short loc_5DC2
 push	di
 push	ax
 mov	di, ds:22D9h
@@ -8259,21 +8258,21 @@ mov	ds:22D9h, di
 pop	ax
 pop	di
 
-loc_3EF2:
+loc_5DC2:
 mov	ds:47E8h, dx
-loop	loc_3EC0
+loop	loc_5D90
 
-loc_3EF8:
+loc_5DC8:
 add	sp, 8
 pop	si
 pop	di
 retn
-sub_3E80 endp ;	sp =  8
+sub_5D50 endp ;	sp =  8
 
 
 
 
-sub_3EFE proc near
+sub_5DCE proc near
 mov	al, dh
 xor	ah, ah
 shl	ax, 1
@@ -8285,101 +8284,101 @@ mov	ah, 5
 mul	ah
 add	si, ax
 
-locret_3F14:
+locret_5DE4:
 retn
-sub_3EFE endp
+sub_5DCE endp
 
-; START	OF FUNCTION CHUNK FOR sub_9215
+; START	OF FUNCTION CHUNK FOR sub_B0E5
 
-loc_3F15:
+loc_5DE5:
 mov	bp, 1
-jmp	short sub_3F27
-; END OF FUNCTION CHUNK	FOR sub_9215
+jmp	short sub_5DF7
+; END OF FUNCTION CHUNK	FOR sub_B0E5
 mov	bp, 2
-jmp	short sub_3F27
+jmp	short sub_5DF7
 mov	bp, 3
-jmp	short sub_3F27
+jmp	short sub_5DF7
 mov	bp, 4
 
 
 
-sub_3F27 proc near
+sub_5DF7 proc near
 push	bp
-call	sub_D2BD
-call	sub_AC30
-call	sub_A7A5
+call	sub_F18D
+call	sub_CB00
+call	sub_C675
 pop	bp
 mov	byte ptr ds:47A9h, 0
 mov	byte ptr ds:26h, 0
 mov	dx, ds:4
 mov	bx, ds:6
 cmp	bl, 80h	; '€'
-jz	short loc_3F67
+jz	short loc_5E37
 mov	al, ds:4735h
 and	al, 7Fh
 inc	al
-jns	short loc_3F54
+jns	short loc_5E24
 dec	al
 
-loc_3F54:
+loc_5E24:
 or	al, 80h
 mov	ds:4735h, al
 cmp	byte ptr ds:0F4h, 14h
-jnb	short loc_3F64
+jnb	short loc_5E34
 inc	byte ptr ds:0F4h
 
-loc_3F64:
-jmp	loc_3FF5
+loc_5E34:
+jmp	loc_5EC5
 
-loc_3F67:
-call	sub_3EFE
+loc_5E37:
+call	sub_5DCE
 mov	dl, [bp+si]
 or	dl, dl
-jz	short locret_3F14
-js	short loc_3FD2
+jz	short locret_5DE4
+js	short loc_5EA2
 cmp	byte ptr ds:0Bh, 1
-jnz	short loc_3F84
-call	sub_E270
+jnz	short loc_5E54
+call	sub_10140
 mov	cl, 2
-call	sub_B389
-call	sub_E283
+call	sub_D259
+call	sub_10153
 
-loc_3F84:
+loc_5E54:
 mov	si, ds:114Eh
 test	byte ptr [si+0Ah], 10h
-jnz	short loc_3FAA
+jnz	short loc_5E7A
 or	byte ptr [si+0Ah], 10h
 cmp	dh, 20h	; ' '
 adc	byte ptr ds:25h, 0
 mov	byte ptr ds:26h, 0FFh
-call	sub_E270
+call	sub_10140
 mov	cl, 3
-call	sub_B389
-call	sub_E283
+call	sub_D259
+call	sub_10153
 
-loc_3FAA:
+loc_5E7A:
 mov	ds:0Ch,	dl
 mov	byte ptr ds:23h, 1
-call	sub_A1C4
+call	sub_C094
 push	bx
 push	dx
-call	sub_36D3
+call	sub_55A3
 pop	dx
 pop	bx
-call	sub_A1E2
-jz	short loc_3FC3
+call	sub_C0B2
+jz	short loc_5E93
 retn
 
-loc_3FC3:
+loc_5E93:
 push	bx
 push	dx
-call	sub_ABD5
+call	sub_CAA5
 pop	dx
 pop	bx
 mov	byte ptr ds:23h, 5
-jmp	sub_4057
+jmp	sub_5F27
 
-loc_3FD2:
+loc_5EA2:
 mov	byte ptr ds:0E7h, 0
 xor	dh, dh
 neg	dl
@@ -8392,28 +8391,28 @@ xor	bh, bh
 mov	byte ptr ds:8, 0FFh
 mov	byte ptr ds:9, 0FFh
 
-loc_3FF5:
+loc_5EC5:
 shl	bp, 1
 mov	ax, [bp+1454h]
-call	sub_B5CF
+call	sub_D49F
 or	bh, bh
-jnz	short sub_4057
-sub_3F27 endp
+jnz	short sub_5F27
+sub_5DF7 endp
 
-; START	OF FUNCTION CHUNK FOR sub_4F0C
+; START	OF FUNCTION CHUNK FOR sub_6DDC
 
-loc_4002:
+loc_5ED2:
 mov	ax, bx
 cbw
 mov	bx, ax
-call	sub_B532
+call	sub_D402
 xor	bh, bh
 test	al, 40h
-jz	short sub_4057
-call	sub_409A
-jnz	short sub_4057
+jz	short sub_5F27
+call	sub_5F6A
+jnz	short sub_5F27
 cmp	dx, [si+2]
-jnz	short sub_4057
+jnz	short sub_5F27
 mov	ax, bx
 cbw
 mov	bx, ax
@@ -8421,85 +8420,85 @@ mov	byte ptr ds:4735h, 0
 mov	ds:114Eh, si
 mov	ds:1150h, si
 mov	di, si
-call	sub_503C
+call	sub_6F0C
 mov	word ptr ds:9Ah, 0
 mov	word ptr ds:98h, 0
-call	sub_425B
-call	sub_40AE
+call	sub_612B
+call	sub_5F7E
 mov	ds:8, dh
 mov	ds:9, bh
 cmp	dh, 20h	; ' '
-jb	short loc_4054
+jb	short loc_5F24
 or	byte ptr [si+0Ah], 10h
 
-loc_4054:
-call	sub_2170
-; END OF FUNCTION CHUNK	FOR sub_4F0C
+loc_5F24:
+call	sub_4040
+; END OF FUNCTION CHUNK	FOR sub_6DDC
 
 
 
-sub_4057 proc near
-call	sub_40C3
+sub_5F27 proc near
+call	sub_5F93
 mov	ds:4, dx
 mov	al, dl
 xchg	al, ds:0Bh
 mov	ds:0Dh,	al
 mov	ds:6, bx
 cmp	byte ptr ds:46EBh, 0
-js	short locret_4099
+js	short locret_5F69
 cmp	dx, 3002h
-jnz	short loc_407B
-jmp	loc_16FC
+jnz	short loc_5F4B
+jmp	loc_35CC
 
-loc_407B:
-jmp	loc_2DBF
-sub_4057 endp
-
-
+loc_5F4B:
+jmp	loc_4C8F
+sub_5F27 endp
 
 
-sub_407E proc near
+
+
+sub_5F4E proc near
 mov	dx, ds:4
 mov	bx, ds:6
 cmp	bl, 80h	; '€'
-jnz	short loc_4096
+jnz	short loc_5F66
 mov	si, ds:114Eh
 mov	dx, [si+2]
 mov	bx, [si+4]
 retn
 
-loc_4096:
+loc_5F66:
 xchg	ax, bx
 cbw
 xchg	ax, bx
 
-locret_4099:
+locret_5F69:
 retn
-sub_407E endp
+sub_5F4E endp
 
 
 
 
-sub_409A proc near
+sub_5F6A proc near
 mov	si, 0E4h ; 'ä'
 
-loc_409D:
+loc_5F6D:
 add	si, 1Ch
 cmp	word ptr [si], 0FFFFh
-jz	short loc_40AB
+jz	short loc_5F7B
 cmp	di, [si+6]
-jnz	short loc_409D
+jnz	short loc_5F6D
 retn
 
-loc_40AB:
+loc_5F7B:
 or	si, si
 retn
-sub_409A endp
+sub_5F6A endp
 
 
 
 
-sub_40AE proc near
+sub_5F7E proc near
 mov	ax, di
 sub	ax, 100h
 mov	bl, 1Ch
@@ -8510,229 +8509,229 @@ mov	bl, 80h	; '€'
 mov	dh, [di+8]
 mov	dl, 1
 retn
-sub_40AE endp
+sub_5F7E endp
 
 
 
 
-sub_40C3 proc near
+sub_5F93 proc near
 mov	bp, 40C9h
-jmp	loc_36EE
-sub_40C3 endp
+jmp	loc_55BE
+sub_5F93 endp
 
 test	byte ptr [si+0Fh], 40h
-jz	short locret_40D4
+jz	short locret_5FA4
 mov	[si], dx
 mov	[si+2],	bx
 
-locret_40D4:
+locret_5FA4:
 retn
 
 
 
-sub_40D5 proc near
+sub_5FA5 proc near
 mov	byte ptr ds:23h, 7
-call	sub_36D3
-call	sub_4AC4
+call	sub_55A3
+call	sub_6994
 mov	bp, 40E6h
-jmp	loc_36EE
-sub_40D5 endp
+jmp	loc_55BE
+sub_5FA5 endp
 
 
 
 
-sub_40E6 proc near
+sub_5FB6 proc near
 test	byte ptr [si+0Fh], 40h
-jz	short locret_40F8
+jz	short locret_5FC8
 test	byte ptr [si+0Fh], 2
-jz	short locret_40F8
-call	sub_9556
-call	sub_9655
+jz	short locret_5FC8
+call	sub_B426
+call	sub_B525
 
-locret_40F8:
+locret_5FC8:
 retn
-sub_40E6 endp
+sub_5FB6 endp
 
 
 
 
-sub_40F9 proc near
+sub_5FC9 proc near
 test	byte ptr ds:11C9h, 3
-jnz	short loc_4101
+jnz	short loc_5FD1
 retn
 
-loc_4101:
+loc_5FD1:
 cmp	word ptr ds:10h, 0
-jz	short locret_4181
-call	sub_407E
+jz	short locret_6051
+call	sub_5F4E
 mov	cx, 9
 mov	ax, 9
-call	sub_B56C
+call	sub_D43C
 mov	cx, 51h	; 'Q'
 
-loc_4117:
+loc_5FE7:
 lodsb
 test	al, 40h
-jz	short loc_417C
+jz	short loc_604C
 mov	di, [si]
 push	cx
 push	si
-call	sub_409A
-jnz	short loc_417A
+call	sub_5F6A
+jnz	short loc_604A
 test	byte ptr [si+0Ah], 80h
-jz	short loc_417A
+jz	short loc_604A
 mov	al, ds:2Ah
 cmp	al, [si+0Bh]
-jb	short loc_417A
+jb	short loc_604A
 mov	di, si
-call	sub_5124
-jb	short loc_417A
+call	sub_6FF4
+jb	short loc_604A
 sub	al, ds:11C7h
 add	al, 60h	; '`'
 cmp	al, 0C0h ; 'À'
-jnb	short loc_417A
+jnb	short loc_604A
 xor	ah, ah
 mov	cx, 0CEh ; 'Î'
 cmp	al, 60h	; '`'
-jb	short loc_4152
+jb	short loc_6022
 inc	ah
 add	cx, 2
 
-loc_4152:
+loc_6022:
 mov	ds:11F5h, cx
 mov	ds:0E1h, ah
-call	sub_6231
+call	sub_8101
 add	ax, 48h	; 'H'
 mov	ds:11F3h, ax
 mov	byte ptr ds:23h, 3
-call	sub_425B
-call	sub_4944
-call	sub_DBB2
-call	sub_2EFB
-call	sub_2FFB
-call	sub_D397
+call	sub_612B
+call	sub_6814
+call	sub_FA82
+call	sub_4DCB
+call	sub_4ECB
+call	sub_F267
 
-loc_417A:
+loc_604A:
 pop	si
 pop	cx
 
-loc_417C:
+loc_604C:
 add	si, 2
-loop	loc_4117
+loop	loc_5FE7
 
-locret_4181:
+locret_6051:
 retn
-sub_40F9 endp
+sub_5FC9 endp
 
 
 
 
-sub_4182 proc near
+sub_6052 proc near
 mov	al, ds:11C9h
 and	al, 3
 dec	al
-jnz	short locret_4181
+jnz	short locret_6051
 cmp	byte ptr ds:11CBh, 0
-jnz	short loc_419B
+jnz	short loc_606B
 mov	di, ds:11C5h
-call	sub_5D36
-jb	short loc_41C5
+call	sub_7C06
+jb	short loc_6095
 
-loc_419B:
-call	sub_407E
-call	sub_B532
+loc_606B:
+call	sub_5F4E
+call	sub_D402
 and	al, 30h
 cmp	al, 30h	; '0'
-jb	short loc_41C5
+jb	short loc_6095
 cmp	byte ptr ds:4726h, 0
-jnz	short loc_41B3
+jnz	short loc_6083
 mov	byte ptr ds:23h, 4
 
-loc_41B3:
+loc_6083:
 mov	al, 40h	; '@'
-call	sub_41CC
+call	sub_609C
 sub	byte ptr ds:4726h, 20h ; ' '
-jnz	short locret_4181
+jnz	short locret_6051
 mov	byte ptr ds:46D9h, 2
 retn
 
-loc_41C5:
+loc_6095:
 mov	byte ptr ds:4726h, 0
 xor	al, al
-sub_4182 endp
+sub_6052 endp
 
 
 
 
-sub_41CC proc near
+sub_609C proc near
 mov	ds:21FDh, al
 cmp	word ptr ds:1F12h, 4FFBh
-jnz	short locret_41DA
+jnz	short locret_60AA
 mov	ds:1F11h, al
 
-locret_41DA:
+locret_60AA:
 retn
-sub_41CC endp
+sub_609C endp
 
-; START	OF FUNCTION CHUNK FOR sub_41E1
+; START	OF FUNCTION CHUNK FOR sub_60B1
 
-loc_41DB:
+loc_60AB:
 dec	byte ptr ds:196Ch
 clc
 retn
-; END OF FUNCTION CHUNK	FOR sub_41E1
+; END OF FUNCTION CHUNK	FOR sub_60B1
 
 
 
-sub_41E1 proc near
+sub_60B1 proc near
 
 ; FUNCTION CHUNK AT 41DB SIZE 00000006 BYTES
 
 cmp	byte ptr ds:196Ch, 0
-jnz	short loc_41DB
+jnz	short loc_60AB
 mov	al, ds:11C7h
 add	al, 20h	; ' '
 test	al, 40h
 mov	cx, 1
 mov	ax, 8
-jz	short loc_41F8
+jz	short loc_60C8
 xchg	ax, cx
 
-loc_41F8:
-call	sub_B56C
+loc_60C8:
+call	sub_D43C
 mov	cx, 8
 
-loc_41FE:
+loc_60CE:
 lodsb
 test	al, 40h
-jnz	short loc_420A
+jnz	short loc_60DA
 
-loc_4203:
+loc_60D3:
 add	si, 2
-loop	loc_41FE
+loop	loc_60CE
 clc
 retn
 
-loc_420A:
+loc_60DA:
 mov	di, [si]
 push	cx
 push	si
-call	sub_409A
-jnz	short loc_4257
+call	sub_5F6A
+jnz	short loc_6127
 test	byte ptr [si+0Ah], 80h
-jz	short loc_4221
+jz	short loc_60F1
 mov	al, ds:2Ah
 cmp	al, [si+0Bh]
-jb	short loc_4257
+jb	short loc_6127
 
-loc_4221:
+loc_60F1:
 mov	di, si
-call	sub_5124
-jb	short loc_4257
+call	sub_6FF4
+jb	short loc_6127
 sub	al, ds:11C7h
 add	al, 20h	; ' '
 cmp	al, 40h	; '@'
-jnb	short loc_4257
+jnb	short loc_6127
 sub	al, 20h	; ' '
 cbw
 shl	ax, 1
@@ -8742,7 +8741,7 @@ shl	ax, 1
 shl	ax, 1
 mov	ds:1968h, ax
 xor	ax, ax
-call	sub_5E4F
+call	sub_7D1F
 mov	bx, 196Dh
 xlat
 mov	ds:196Ah, ax
@@ -8752,46 +8751,46 @@ mov	byte ptr ds:196Ch, 6
 stc
 retn
 
-loc_4257:
+loc_6127:
 pop	si
 pop	cx
-jmp	short loc_4203
-sub_41E1 endp
+jmp	short loc_60D3
+sub_60B1 endp
 
 
 
 
-sub_425B proc near
+sub_612B proc near
 test	byte ptr [di+0Ah], 80h
-jz	short locret_4284
+jz	short locret_6154
 and	byte ptr [di+0Ah], 7Fh
 mov	byte ptr [di+0Bh], 0
 cmp	byte ptr [di+8], 20h ; ' '
-jnb	short locret_4284
+jnb	short locret_6154
 inc	byte ptr ds:27h
 cmp	word ptr [di], 603h
-jnz	short locret_4284
-call	sub_E270
+jnz	short locret_6154
+call	sub_10140
 mov	al, 10h
-call	sub_121F
-call	sub_E283
+call	sub_30EF
+call	sub_10153
 
-locret_4284:
+locret_6154:
 retn
-sub_425B endp
+sub_612B endp
 
 
 
 
-sub_4285 proc near
+sub_6155 proc near
 mov	di, 15Fh
 cmp	word ptr cs:[di+2], 0
-jnz	short loc_42AA
+jnz	short loc_617A
 push	cs
 pop	es
 assume es:seg000
 mov	si, 0BEh ; '¾'
-call	sub_F0B9
+call	sub_10F89
 mov	si, 15Fh
 mov	di, 0AA66h
 push	ds
@@ -8801,198 +8800,198 @@ mov	cx, 4
 rep movs word ptr es:[di], word	ptr cs:[si]
 add	word ptr cs:[si], 167h
 
-loc_42AA:
+loc_617A:
 mov	word ptr ds:487Eh, 1
 mov	byte ptr ds:473Eh, 0
 mov	byte ptr ds:11C9h, 8
-mov	si, cs:word_167
+mov	si, cs:word_2037
 add	si, cs:[si]
 mov	ds:0AA6Eh, si
 mov	ax, 39h	; '9'
-call	sub_C13E
+call	sub_E00E
 call	dword ptr ds:3935h
 retn
-sub_4285 endp
+sub_6155 endp
 
-call	sub_98B2
-call	sub_4285
-jmp	short loc_4305
+call	sub_B782
+call	sub_6155
+jmp	short loc_61D5
 mov	dx, ds:4
 mov	bx, ds:6
 mov	dl, 1
-call	sub_4057
-call	loc_186B
-; START	OF FUNCTION CHUNK FOR sub_9215
+call	sub_5F27
+call	loc_373B
+; START	OF FUNCTION CHUNK FOR sub_B0E5
 
-loc_42E9:
-call	sub_98B2
-call	sub_38E1
+loc_61B9:
+call	sub_B782
+call	sub_57B1
 mov	ax, 24h	; '$'
-call	sub_C13E
+call	sub_E00E
 mov	byte ptr ds:473Eh, 1
 mov	byte ptr ds:11C9h, 4
 mov	word ptr ds:487Eh, 2
 
-loc_4305:
+loc_61D5:
 mov	bp, 212Eh
-call	sub_49EA
+call	sub_68BA
 
-loc_430B:
+loc_61DB:
 mov	bx, 4415h
-call	sub_D323
+call	sub_F1F3
 mov	ax, 1AC8h
-call	sub_D95E
-call	sub_4ACA
+call	sub_F82E
+call	sub_699A
 mov	word ptr ds:46FCh, 0
-call	sub_5B5D
+call	sub_7A2D
 mov	byte ptr ds:46EBh, 1
 mov	si, 1CCAh
-call	sub_D72B
+call	sub_F5FB
 mov	si, 149Ch
 mov	di, 46E3h
-call	sub_DAAA
-call	sub_5B99
-call	sub_439F
+call	sub_F97A
+call	sub_7A69
+call	sub_626F
 mov	ax, 2BCh
-call	sub_AB4F
-call	sub_4658
+call	sub_CA1F
+call	sub_6528
 mov	word ptr ds:46EDh, 4377h
-call	sub_5B93
-call	sub_B6C3
-call	sub_C137
-call	sub_5DCE
+call	sub_7A63
+call	sub_D593
+call	sub_E007
+call	sub_7C9E
 cmp	byte ptr ds:473Eh, 0
-jz	short loc_436E
+jz	short loc_623E
 mov	ax, 24h	; '$'
-call	sub_C13E
+call	sub_E00E
 mov	si, 14C0h
-call	sub_C21B
-call	sub_C0F4
+call	sub_E0EB
+call	sub_DFC4
 
-loc_436E:
-call	sub_C4DD
-call	sub_445D
-jmp	sub_D280
-; END OF FUNCTION CHUNK	FOR sub_9215
-call	sub_C07C
-call	sub_5B93
-call	sub_B6C3
-call	sub_C137
-call	sub_5DCE
+loc_623E:
+call	sub_E3AD
+call	sub_632D
+jmp	sub_F150
+; END OF FUNCTION CHUNK	FOR sub_B0E5
+call	sub_DF4C
+call	sub_7A63
+call	sub_D593
+call	sub_E007
+call	sub_7C9E
 cmp	byte ptr ds:473Eh, 0
-jz	short loc_4399
+jz	short loc_6269
 mov	ax, 24h	; '$'
-call	sub_C13E
+call	sub_E00E
 mov	si, 14C0h
-call	sub_C21B
+call	sub_E0EB
 
-loc_4399:
-call	sub_C4ED
-jmp	sub_445D
+loc_6269:
+call	sub_E3BD
+jmp	sub_632D
 
 
 
-sub_439F proc near
-call	sub_C07C
+sub_626F proc near
+call	sub_DF4C
 cmp	byte ptr ds:473Eh, 0
-jnz	short loc_43CC
+jnz	short loc_629C
 mov	ax, 24h	; '$'
-call	sub_C13E
-call	sub_C49A
-call	sub_C412
+call	sub_E00E
+call	sub_E36A
+call	sub_E2E2
 call	dword ptr ds:3935h
-call	sub_5B69
+call	sub_7A39
 mov	si, 14A4h
 mov	al, 0F5h ; 'õ'
 mov	es, word ptr ds:0DBDAh
 call	dword ptr ds:38DDh
-jmp	sub_C4DD
+jmp	sub_E3AD
 
-loc_43CC:
+loc_629C:
 cmp	byte ptr ds:2Bh, 0
-jnz	short loc_43D6
-call	sub_38B4
+jnz	short loc_62A6
+call	sub_5784
 
-loc_43D6:
+loc_62A6:
 mov	ax, 24h	; '$'
-call	sub_C13E
+call	sub_E00E
 mov	si, 14B4h
-call	sub_C21B
+call	sub_E0EB
 retn
-sub_439F endp
+sub_626F endp
 
 
 
 
-sub_43E3 proc near
+sub_62B3 proc near
 cmp	byte ptr ds:473Eh, 0
-jnz	short loc_43FC
+jnz	short loc_62CC
 cmp	word ptr ds:0DBEAh, 0
-jnz	short loc_440F
+jnz	short loc_62DF
 mov	si, 14ACh
 push	si
-call	sub_C446
+call	sub_E316
 pop	si
-jmp	sub_C4F0
+jmp	sub_E3C0
 
-loc_43FC:
+loc_62CC:
 cmp	byte ptr ds:6, 80h ; '€'
-jnz	short loc_440F
-call	sub_388D
-call	sub_C43E
-call	sub_C4DD
-jmp	sub_C0F4
+jnz	short loc_62DF
+call	sub_575D
+call	sub_E30E
+call	sub_E3AD
+jmp	sub_DFC4
 
-loc_440F:
-call	sub_4ABE
-jmp	sub_C0F4
-sub_43E3 endp
+loc_62DF:
+call	sub_698E
+jmp	sub_DFC4
+sub_62B3 endp
 
 xor	al, al
 xchg	al, ds:46EBh
 or	al, al
-jnz	short loc_4420
+jnz	short loc_62F0
 retn
 
-loc_4420:
+loc_62F0:
 mov	word ptr ds:0A5C0h, 0
-call	sub_DAA3
+call	sub_F973
 mov	si, 44ABh
-call	sub_DA5F
-call	sub_469B
-call	sub_5BA0
-call	sub_43E3
-call	sub_C0F4
+call	sub_F92F
+call	sub_656B
+call	sub_7A70
+call	sub_62B3
+call	sub_DFC4
 cmp	word ptr ds:11C5h, 0
-jnz	short loc_4447
+jnz	short loc_6317
 mov	byte ptr ds:11C9h, 0
 
-loc_4447:
-call	sub_D95B
-call	sub_D717
-call	sub_2FFB
+loc_6317:
+call	sub_F82B
+call	sub_F5E7
+call	sub_4ECB
 cmp	byte ptr ds:4728h, 0
-jle	short loc_445A
-call	sub_49D4
+jle	short loc_632A
+call	sub_68A4
 
-loc_445A:
-jmp	sub_4AC4
+loc_632A:
+jmp	sub_6994
 
 
 
-sub_445D proc near
+sub_632D proc near
 mov	si, 44ABh
-call	sub_DA5F
-call	sub_407E
-call	sub_62D6
-jnb	short loc_4472
+call	sub_F92F
+call	sub_5F4E
+call	sub_81A6
+jnb	short loc_6342
 mov	word ptr ds:4749h, 0
 retn
 
-loc_4472:
-call	sub_C137
+loc_6342:
+call	sub_E007
 mov	ax, 4Ch	; 'L'
-call	sub_C1F4
+call	sub_E0C4
 lods	word ptr es:[si]
 and	ah, 0Fh
 mov	bp, ax
@@ -9009,111 +9008,111 @@ mov	[di+4],	bp
 mov	[di+6],	ax
 mov	si, 44ABh
 mov	bp, 12Ch
-call	sub_DA25
+call	sub_F8F5
 mov	byte ptr ds:4751h, 0
 inc	byte ptr ds:4751h
 push	word ptr ds:0DBDAh
-call	sub_C08E
-call	sub_5B93
-call	sub_C137
+call	sub_DF5E
+call	sub_7A63
+call	sub_E007
 mov	si, 4749h
-call	sub_DB74
+call	sub_FA44
 mov	dx, [si]
 mov	bx, [si+2]
 mov	bp, [si+4]
 mov	ax, [si+6]
 mov	si, 0D834h
 cmp	bp, [si+4]
-jb	short loc_44D8
+jb	short loc_63A8
 mov	bp, [si+4]
 
-loc_44D8:
+loc_63A8:
 cmp	ax, [si+6]
-jb	short loc_44E0
+jb	short loc_63B0
 mov	ax, [si+6]
 
-loc_44E0:
+loc_63B0:
 cmp	dx, [si]
-jnb	short loc_44E6
+jnb	short loc_63B6
 mov	dx, [si]
 
-loc_44E6:
+loc_63B6:
 cmp	bx, [si+2]
-jnb	short loc_44EE
+jnb	short loc_63BE
 mov	bx, [si+2]
 
-loc_44EE:
-call	sub_C4FB
+loc_63BE:
+call	sub_E3CB
 mov	bl, ds:4751h
 shr	bl, 1
-jnb	short loc_4507
+jnb	short loc_63D7
 mov	ax, 4Ch	; 'L'
 mov	dx, ds:4749h
 mov	bx, ds:474Bh
-call	sub_C30D
+call	sub_E1DD
 
-loc_4507:
+loc_63D7:
 pop	word ptr ds:0DBDAh
-jmp	sub_DB67
-sub_445D endp
+jmp	sub_FA37
+sub_632D endp
 
 test	byte ptr ds:11C9h, 0Fh
-jz	short locret_4533
+jz	short locret_6403
 push	bx
 push	dx
-call	sub_4586
+call	sub_6456
 pop	dx
 pop	bx
 mov	di, ds:46FCh
 or	di, di
-jz	short locret_4533
-js	short loc_4534
+jz	short locret_6403
+js	short loc_6404
 test	byte ptr ds:11C9h, 3
-jnz	short loc_4534
+jnz	short loc_6404
 cmp	di, ds:114Eh
-jnz	short loc_4534
+jnz	short loc_6404
 
-locret_4533:
+locret_6403:
 retn
 
-loc_4534:
+loc_6404:
 push	bx
 push	dx
 push	di
-call	sub_456C
-call	sub_AB45
+call	sub_643C
+call	sub_CA15
 pop	di
 mov	cx, 9
 
-loc_4541:
+loc_6411:
 push	cx
 push	di
 mov	ax, 14h
-call	sub_E3A0
+call	sub_10270
 push	di
 xor	di, di
-call	sub_45DE
+call	sub_64AE
 pop	di
 mov	ax, 0Ah
-call	sub_E3A0
-call	sub_45DE
+call	sub_10270
+call	sub_64AE
 pop	di
 pop	cx
-loop	loc_4541
+loop	loc_6411
 push	di
-call	sub_ABA9
+call	sub_CA79
 pop	di
 pop	dx
 pop	bx
 mov	byte ptr ds:4732h, 80h ; '€'
-jmp	loc_4703
+jmp	loc_65D3
 
 
 
-sub_456C proc near
+sub_643C proc near
 mov	ax, di
 cmp	ah, 0FFh
-jz	short loc_4582
+jz	short loc_6452
 mov	ax, [di]
 dec	ax
 shl	al, 1
@@ -9123,38 +9122,38 @@ shl	al, 1
 or	al, ah
 xor	ah, ah
 
-loc_4582:
+loc_6452:
 add	ax, 2BCh
 retn
-sub_456C endp
+sub_643C endp
 
 
 
 
-sub_4586 proc near
-call	sub_5D1D
+sub_6456 proc near
+call	sub_7BED
 mov	di, 0
-jnb	short loc_45D3
+jnb	short loc_64A3
 mov	al, 0FFh
-call	sub_5E6D
+call	sub_7D3D
 cmp	ax, 9
-jb	short loc_45D3
+jb	short loc_64A3
 mov	di, 0FFFFh
 mov	dx, ds:4749h
 or	dx, dx
-jz	short loc_45D3
+jz	short loc_64A3
 add	dx, 0Bh
 sub	dx, ds:0DC36h
 neg	dx
 mov	bx, ds:0DC38h
 sub	bx, ds:474Fh
-call	loc_514E
+call	loc_701E
 add	al, 3
 mov	ah, al
 and	ah, 1Fh
 cmp	ah, 6
 mov	di, 0FFFFh
-jnb	short loc_45D3
+jnb	short loc_64A3
 rol	al, 1
 rol	al, 1
 rol	al, 1
@@ -9162,532 +9161,532 @@ and	al, 7
 or	ax, 0FFF0h
 mov	di, ax
 
-loc_45D3:
+loc_64A3:
 mov	ax, di
 xchg	ax, ds:46FCh
 cmp	ax, di
-jnz	short sub_45DE
+jnz	short sub_64AE
 retn
-sub_4586 endp
+sub_6456 endp
 
 
 
 
-sub_45DE proc near
+sub_64AE proc near
 push	word ptr ds:0DBDAh
-call	sub_C08E
-call	sub_DBB2
-call	sub_D075
+call	sub_DF5E
+call	sub_FA82
+call	sub_EF45
 mov	dx, 55h	; 'U'
 mov	bx, 22h	; '"'
 mov	cx, 0F5FEh
 cmp	byte ptr ds:473Eh, 0
-jz	short loc_4600
+jz	short loc_64D0
 add	bx, 4
 mov	ch, 20h	; ' '
 
-loc_4600:
+loc_64D0:
 or	di, di
-jz	short loc_462A
-call	sub_469B
+jz	short loc_64FA
+call	sub_656B
 cmp	di, 0FFF0h
-jb	short loc_4636
+jb	short loc_6506
 mov	ax, 0A4h ; '¤'
-call	sub_D194
+call	sub_F064
 sub	di, 0FFF0h
 cmp	di, 8
-jnb	short loc_4641
+jnb	short loc_6511
 mov	al, 20h	; ' '
 call	word ptr ds:2518h
 mov	ax, di
 add	ax, 0DAh ; 'Ú'
-call	sub_D19B
-jmp	short loc_4641
+call	sub_F06B
+jmp	short loc_6511
 
-loc_462A:
-call	sub_4658
+loc_64FA:
+call	sub_6528
 mov	ds:0DBE4h, cx
-call	sub_D04E
-jmp	short loc_4641
+call	sub_EF1E
+jmp	short loc_6511
 
-loc_4636:
+loc_6506:
 push	cx
-call	sub_629D
-call	sub_D05F
+call	sub_816D
+call	sub_EF2F
 pop	cx
-call	sub_62A6
+call	sub_8176
 
-loc_4641:
+loc_6511:
 cmp	word ptr ds:0D82Ch, 0EDh ; 'í'
-ja	short loc_4651
+ja	short loc_6521
 mov	al, 20h	; ' '
 call	word ptr ds:2518h
-jmp	short loc_4641
+jmp	short loc_6511
 
-loc_4651:
+loc_6521:
 pop	word ptr ds:0DBDAh
-jmp	sub_DBEC
-sub_45DE endp
+jmp	sub_FABC
+sub_64AE endp
 
 
 
 
-sub_4658 proc near
+sub_6528 proc near
 cmp	word ptr ds:473Fh, 0
-jnz	short locret_469A
-call	sub_E270
+jnz	short locret_656A
+call	sub_10140
 mov	si, 57h	; 'W'
-call	sub_CF70
+call	sub_EE40
 mov	word ptr ds:4741h, es
 mov	ds:473Fh, si
 mov	word ptr ds:4743h, 55h ; 'U'
 mov	cx, 0F561h
 mov	ax, 22h	; '"'
 cmp	byte ptr ds:473Eh, 0
-jz	short loc_4687
+jz	short loc_6557
 add	al, 4
 mov	ch, 20h	; ' '
 
-loc_4687:
+loc_6557:
 mov	ds:4745h, ax
 mov	ds:4747h, cx
 mov	si, 46B5h
 mov	bp, 18h
-call	sub_DA25
-call	sub_E283
+call	sub_F8F5
+call	sub_10153
 
-locret_469A:
+locret_656A:
 retn
-sub_4658 endp
+sub_6528 endp
 
 
 
 
-sub_469B proc near
+sub_656B proc near
 cmp	word ptr ds:473Fh, 0
-jz	short locret_46B4
+jz	short locret_6584
 mov	word ptr ds:473Fh, 0
-call	sub_E270
+call	sub_10140
 mov	si, 46B5h
-call	sub_DA5F
-call	sub_E283
+call	sub_F92F
+call	sub_10153
 
-locret_46B4:
+locret_6584:
 retn
-sub_469B endp
+sub_656B endp
 
 
-loc_46B5:
+loc_6585:
 les	si, ds:473Fh
 mov	al, es:[si]
 or	al, al
-js	short locret_4702
+js	short locret_65D2
 inc	word ptr ds:473Fh
 mov	si, 14A4h
-call	sub_DB74
+call	sub_FA44
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 mov	dx, ds:4743h
 mov	bx, ds:4745h
-call	sub_D04E
+call	sub_EF1E
 mov	cx, ds:4747h
 mov	ds:0DBE4h, cx
-call	sub_D075
+call	sub_EF45
 push	ax
-call	sub_D12F
-call	sub_D05F
+call	sub_EFFF
+call	sub_EF2F
 mov	ds:4743h, dx
 mov	ds:4745h, bx
 pop	ax
 pop	word ptr ds:0DBDAh
-call	sub_DB67
+call	sub_FA37
 cmp	al, 20h	; ' '
-jz	short loc_46B5
+jz	short loc_6585
 
-locret_4702:
+locret_65D2:
 retn
 
-loc_4703:
-call	sub_4944
-call	sub_38E1
+loc_65D3:
+call	sub_6814
+call	sub_57B1
 mov	al, ds:11C9h
 push	ax
 shr	al, 1
 shr	al, 1
 or	ds:11C9h, al
-call	sub_AD5E
+call	sub_CC2E
 cmp	byte ptr ds:2Bh, 0
-jz	short loc_4727
+jz	short loc_65F7
 mov	byte ptr ds:2Bh, 0
-call	sub_B21
+call	sub_29F1
 
-loc_4727:
-call	sub_D2EA
-call	sub_4D00
+loc_65F7:
+call	sub_F1BA
+call	sub_6BD0
 pop	ax
 test	al, 3
-jnz	short loc_478F
+jnz	short loc_665F
 mov	word ptr ds:472Bh, 0
 push	ax
-call	loc_41C5
+call	loc_6095
 mov	al, ds:11C9h
 and	al, 3
 dec	al
-jnz	short loc_4748
-call	sub_181E
+jnz	short loc_6618
+call	sub_36EE
 
-loc_4748:
-call	sub_C474
-call	sub_40D5
+loc_6618:
+call	sub_E344
+call	sub_5FA5
 pop	ax
 mov	bl, ds:11C7h
 push	bx
-call	sub_4795
+call	sub_6665
 pop	ax
 mov	ds:11C7h, al
 mov	byte ptr ds:8, 0FFh
-call	sub_4B3B
+call	sub_6A0B
 mov	word ptr ds:114Eh, 0
 mov	word ptr ds:4729h, 0
 cmp	byte ptr ds:46EBh, 0
-js	short loc_4779
-call	loc_2DBF
+js	short loc_6649
+call	loc_4C8F
 
-loc_4779:
-call	sub_4AB8
+loc_6649:
+call	sub_6988
 mov	al, ds:11C9h
 and	al, 3
 dec	al
-jnz	short loc_478F
+jnz	short loc_665F
 mov	di, ds:1150h
 dec	byte ptr [di+15h]
-jmp	sub_AC14
+jmp	sub_CAE4
 
-loc_478F:
-call	sub_2EB2
-jmp	sub_C0F4
+loc_665F:
+call	sub_4D82
+jmp	sub_DFC4
 
 
 
-sub_4795 proc near
+sub_6665 proc near
 cmp	byte ptr ds:46EBh, 0
-js	short locret_47CD
+js	short locret_669D
 cmp	al, 4
-jz	short loc_47CE
-call	sub_98AF
+jz	short loc_669E
+call	sub_B77F
 mov	byte ptr ds:0CEE8h, 0
 mov	al, 50h	; 'P'
-call	sub_121F
+call	sub_30EF
 mov	byte ptr ds:0E8h, 0
-call	sub_1797
+call	sub_3667
 mov	al, 10h
 mov	bp, 4913h
-call	sub_C108
+call	sub_DFD8
 mov	byte ptr ds:227Dh, 1
-call	sub_491C
+call	sub_67EC
 mov	byte ptr ds:227Dh, 0
-jmp	sub_AC14
+jmp	sub_CAE4
 
-locret_47CD:
+locret_669D:
 retn
 
-loc_47CE:
-call	sub_CE53
+loc_669E:
+call	sub_ED23
 xor	al, al
 xchg	al, ds:4732h
 shl	al, 1
-jnb	short locret_47CD
-call	sub_181E
+jnb	short locret_669D
+call	sub_36EE
 mov	byte ptr ds:4731h, 0FFh
-call	sub_C07C
-call	sub_37B2
-call	sub_C412
-call	sub_5BA0
+call	sub_DF4C
+call	sub_5682
+call	sub_E2E2
+call	sub_7A70
 mov	byte ptr ds:4731h, 0
 mov	al, 6
-call	sub_AB15
+call	sub_C9E5
 mov	cl, 1
-sub_4795 endp
+sub_6665 endp
 
 
 
 
-sub_47FB proc near
+sub_66CB proc near
 mov	bp, 4821h
 mov	ax, 14h
-call	sub_E353
+call	sub_10223
 add	ds:4731h, cl
 mov	al, ds:4731h
 cmp	al, 1Ah
-jnz	short loc_4816
+jnz	short loc_66E6
 or	cl, cl
-js	short loc_4816
-call	sub_AC30
+js	short loc_66E6
+call	sub_CB00
 
-loc_4816:
-call	sub_AE04
+loc_66E6:
+call	sub_CCD4
 cmp	byte ptr ds:4731h, 21h ; '!'
-jb	short sub_47FB
+jb	short sub_66CB
 retn
-sub_47FB endp
+sub_66CB endp
 
 push	cx
-call	sub_C43E
+call	sub_E30E
 mov	ax, 2Ah	; '*'
-call	sub_C13E
-call	sub_C0F4
-call	sub_C07C
-call	sub_3A95
+call	sub_E00E
+call	sub_DFC4
+call	sub_DF4C
+call	sub_5965
 mov	al, ds:4731h
 cmp	al, 0Dh
-jnz	short loc_4840
+jnz	short loc_6710
 push	ax
-call	sub_AC30
+call	sub_CB00
 pop	ax
 
-loc_4840:
+loc_6710:
 sub	al, 0Eh
-jbe	short loc_485D
+jbe	short loc_672D
 pop	cx
 push	cx
 or	cl, cl
 mov	cx, 5
-jns	short loc_484F
+jns	short loc_671F
 neg	cx
 
-loc_484F:
+loc_671F:
 mov	ah, al
 
-loc_4851:
+loc_6721:
 sub	dx, cx
 dec	ah
-jnz	short loc_4851
+jnz	short loc_6721
 mul	al
 sar	ax, 1
 sub	bx, ax
 
-loc_485D:
-call	sub_3AA9
-call	sub_3A95
+loc_672D:
+call	sub_5979
+call	sub_5965
 mov	cl, ds:46FFh
 xor	ch, ch
-jcxz	short loc_487B
+jcxz	short loc_674B
 mov	al, ds:4731h
 push	ax
 mov	byte ptr ds:4731h, 0
-call	sub_3A73
+call	sub_5943
 pop	ax
 mov	ds:4731h, al
 
-loc_487B:
-call	sub_C4DD
+loc_674B:
+call	sub_E3AD
 cmp	byte ptr ds:46D7h, 0
-jz	short loc_4888
-call	sub_3916
+jz	short loc_6758
+call	sub_57E6
 
-loc_4888:
+loc_6758:
 pop	cx
 retn
 
 
 
-sub_488A proc near
+sub_675A proc near
 mov	ax, 6
 mov	si, ds:114Eh
-call	sub_5E4F
+call	sub_7D1F
 cmp	al, 8
-jnb	short loc_48E5
+jnb	short loc_67B5
 mov	bx, ax
-call	sub_DBB2
+call	sub_FA82
 mov	byte ptr ds:4728h, 80h ; '€'
 
-loc_48A2:
+loc_6772:
 push	bx
-call	sub_CA60
+call	sub_E930
 xor	ax, ax
-call	sub_4EC6
+call	sub_6D96
 pop	bx
 cmp	word ptr ds:0DC00h, 2
-jnz	short loc_48A2
+jnz	short loc_6772
 mov	ax, 3Ch	; '<'
 cmp	bx, 6
-jz	short loc_48C0
+jz	short loc_6790
 mov	ax, 16h
 
-loc_48C0:
+loc_6790:
 cmp	ax, ds:0DBEAh
-jnz	short loc_48A2
-call	sub_CE4B
+jnz	short loc_6772
+call	sub_ED1B
 
-loc_48C9:
-call	sub_CA60
-call	sub_CC85
-jz	short loc_48C9
+loc_6799:
+call	sub_E930
+call	sub_EB55
+jz	short loc_6799
 
-loc_48D1:
+loc_67A1:
 dec	byte ptr ds:46E0h
 
-loc_48D5:
+loc_67A5:
 mov	byte ptr ds:4732h, 0
-jmp	sub_2D74
+jmp	sub_4C44
 
-loc_48DD:
+loc_67AD:
 mov	bp, 0C4CDh
-call	sub_C8FB
-jmp	short loc_48D1
+call	sub_E7CB
+jmp	short loc_67A1
 
-loc_48E5:
+loc_67B5:
 cmp	al, 9
-jz	short loc_48DD
+jz	short loc_67AD
 mov	byte ptr ds:4731h, 0FFh
-call	sub_C07C
-call	sub_5BA0
-call	sub_37B2
-call	sub_C0F4
-call	sub_C412
+call	sub_DF4C
+call	sub_7A70
+call	sub_5682
+call	sub_DFC4
+call	sub_E2E2
 mov	byte ptr ds:4731h, 1Fh
 mov	al, 7
-call	sub_AB15
+call	sub_C9E5
 mov	cl, 0FFh
-call	sub_47FB
+call	sub_66CB
 mov	byte ptr ds:4731h, 0
-jmp	short loc_48D5
-sub_488A endp
+jmp	short loc_67A5
+sub_675A endp
 
 mov	ax, 0Eh
-call	sub_CA1B
-jmp	sub_388D
+call	sub_E8EB
+jmp	sub_575D
 
 
 
-sub_491C proc near
-call	sub_C08E
-call	sub_C0F4
+sub_67EC proc near
+call	sub_DF5E
+call	sub_DFC4
 mov	al, 8
-call	sub_AB15
-call	sub_AE04
+call	sub_C9E5
+call	sub_CCD4
 
-loc_492A:
-call	sub_C9E8
-jz	short loc_4934
-call	sub_4937
-jz	short loc_492A
+loc_67FA:
+call	sub_E8B8
+jz	short loc_6804
+call	sub_6807
+jz	short loc_67FA
 
-loc_4934:
-jmp	sub_C07C
-sub_491C endp
-
-
+loc_6804:
+jmp	sub_DF4C
+sub_67EC endp
 
 
-sub_4937 proc near
+
+
+sub_6807 proc near
 mov	ax, ds:0DBE8h
 cmp	al, 0Bh
-jnz	short loc_4941
-call	sub_AC30
+jnz	short loc_6811
+call	sub_CB00
 
-loc_4941:
-jmp	sub_CC85
-sub_4937 endp
-
-
+loc_6811:
+jmp	sub_EB55
+sub_6807 endp
 
 
-sub_4944 proc near
-call	sub_50BE
+
+
+sub_6814 proc near
+call	sub_6F8E
 cmp	di, 0FFF0h
-jb	short loc_4965
+jb	short loc_6835
 dec	byte ptr ds:11CBh
-call	sub_B5F9
+call	sub_D4C9
 mov	cx, bx
 mov	di, dx
-call	sub_407E
-call	sub_5133
+call	sub_5F4E
+call	sub_7003
 mov	di, ds:1150h
 mov	cl, 1
-jmp	short loc_496A
+jmp	short loc_683A
 
-loc_4965:
-call	sub_5124
+loc_6835:
+call	sub_6FF4
 xor	cx, cx
 
-loc_496A:
+loc_683A:
 mov	ds:11C5h, di
 mov	ds:11C8h, cl
 mov	byte ptr ds:11C7h, 0
-jmp	sub_5119
-sub_4944 endp
+jmp	sub_6FE9
+sub_6814 endp
 
-call	sub_98E6
+call	sub_B7B6
 mov	bp, 212Eh
 mov	byte ptr ds:4728h, 1
-jmp	loc_430B
+jmp	loc_61DB
 
 
 
-sub_4988 proc near
+sub_6858 proc near
 mov	word ptr ds:46FCh, 0
-call	sub_5B5D
+call	sub_7A2D
 mov	si, 148Ah
 mov	di, 46E3h
-call	sub_5B99
+call	sub_7A69
 mov	word ptr ds:46EDh, 49A0h
-sub_4988 endp
+sub_6858 endp
 
 
 
 
-sub_49A0 proc near
-call	sub_C085
-call	sub_5B93
+sub_6870 proc near
+call	sub_DF55
+call	sub_7A63
 mov	byte ptr ds:46EBh, 1
-call	sub_B6C3
-call	sub_5B69
-call	sub_C137
-call	sub_5DCE
+call	sub_D593
+call	sub_7A39
+call	sub_E007
+call	sub_7C9E
 mov	si, ds:11C5h
 or	si, si
-jz	short loc_49CC
-call	sub_62C9
-jb	short loc_49CC
+jz	short loc_689C
+call	sub_8199
+jb	short loc_689C
 dec	bx
 dec	dx
 mov	ax, 2Eh	; '.'
-call	sub_C22F
+call	sub_E0FF
 
-loc_49CC:
+loc_689C:
 mov	byte ptr ds:46EBh, 0
-jmp	sub_C07C
-sub_49A0 endp
+jmp	sub_DF4C
+sub_6870 endp
 
 
 
 
-sub_49D4 proc near
-call	sub_4988
-jmp	short loc_49E3
-sub_49D4 endp
+sub_68A4 proc near
+call	sub_6858
+jmp	short loc_68B3
+sub_68A4 endp
 
 
 
 
-sub_49D9 proc near
+sub_68A9 proc near
 cmp	byte ptr ds:46EBh, 0
-js	short loc_49E6
-call	sub_49A0
+js	short loc_68B6
+call	sub_6870
 
-loc_49E3:
-jmp	short sub_4A5A
+loc_68B3:
+jmp	short sub_692A
 align 2
 
-loc_49E6:
+loc_68B6:
 jmp	word ptr ds:46EDh
-sub_49D9 endp
+sub_68A9 endp
 
 
 
 
-sub_49EA proc near
+sub_68BA proc near
 mov	byte ptr ds:4728h, 0
 push	cs
 pop	es
@@ -9695,18 +9694,18 @@ assume es:seg000
 mov	di, 0E40Ch
 mov	ax, 800h
 
-loc_49F7:
+loc_68C7:
 stosw
 stosw
 cmp	di, 0E85Ch
-jb	short loc_49F7
+jb	short loc_68C7
 retn
-sub_49EA endp
+sub_68BA endp
 
 
 
 
-sub_4A00 proc near
+sub_68D0 proc near
 push	cs
 pop	es
 mov	di, ds:149Ah
@@ -9715,303 +9714,303 @@ stosw
 mov	ax, bx
 stosw
 cmp	di, 0E85Ch
-jb	short loc_4A15
+jb	short loc_68E5
 mov	di, 0E40Ch
 
-loc_4A15:
+loc_68E5:
 mov	ds:149Ah, di
 retn
-sub_4A00 endp
+sub_68D0 endp
 
 
 
 
-sub_4A1A proc near
+sub_68EA proc near
 cmp	byte ptr ds:4728h, 0
-js	short locret_4A59
+js	short locret_6929
 mov	si, 148Ah
-call	sub_DB74
+call	sub_FA44
 mov	si, ds:149Ah
 cmp	si, 0E40Ch
-jnz	short loc_4A34
+jnz	short loc_6904
 mov	si, 0E85Ch
 
-loc_4A34:
+loc_6904:
 sub	si, 4
 lods	word ptr cs:[si]
 mov	dx, ax
 lods	word ptr cs:[si]
 mov	bx, ax
 dec	ah
-jns	short locret_4A59
-call	sub_62D6
-jb	short locret_4A59
+jns	short locret_6929
+call	sub_81A6
+jb	short locret_6929
 dec	bx
 dec	dx
-call	sub_C137
+call	sub_E007
 mov	ax, 2Fh	; '/'
-call	sub_C085
-call	sub_C22F
-call	sub_C07C
+call	sub_DF55
+call	sub_E0FF
+call	sub_DF4C
 
-locret_4A59:
+locret_6929:
 retn
-sub_4A1A endp
+sub_68EA endp
 
 
 
 
-sub_4A5A proc near
-call	sub_C137
+sub_692A proc near
+call	sub_E007
 push	word ptr ds:0DBDAh
-call	sub_C085
+call	sub_DF55
 mov	si, ds:149Ah
 
-loc_4A68:
+loc_6938:
 lods	word ptr cs:[si]
 mov	dx, ax
 lods	word ptr cs:[si]
 mov	bx, ax
 dec	ah
-jns	short loc_4A99
+jns	short loc_6969
 push	si
-call	sub_62D6
-jb	short loc_4A98
+call	sub_81A6
+jb	short loc_6968
 dec	bx
 dec	dx
 cmp	dx, 0CCh ; 'Ì'
-jl	short loc_4A98
+jl	short loc_6968
 cmp	bx, 4
-jl	short loc_4A98
+jl	short loc_6968
 cmp	dx, 13Ah
-jge	short loc_4A98
+jge	short loc_6968
 cmp	bx, 3Ah	; ':'
-jge	short loc_4A98
+jge	short loc_6968
 mov	ax, 2Fh	; '/'
-call	sub_C22F
+call	sub_E0FF
 
-loc_4A98:
+loc_6968:
 pop	si
 
-loc_4A99:
+loc_6969:
 cmp	si, 0E85Ch
-jb	short loc_4AA2
+jb	short loc_6972
 mov	si, 0E40Ch
 
-loc_4AA2:
+loc_6972:
 cmp	si, ds:149Ah
-jnz	short loc_4A68
+jnz	short loc_6938
 pop	word ptr ds:0DBDAh
 retn
-sub_4A5A endp
+sub_692A endp
 
 
-loc_4AAD:
+loc_697D:
 xor	byte ptr ds:4728h, 80h
-js	short locret_4AB7
-call	sub_49D4
+js	short locret_6987
+call	sub_68A4
 
-locret_4AB7:
+locret_6987:
 retn
 
 
 
-sub_4AB8 proc near
+sub_6988 proc near
 mov	byte ptr ds:4727h, 0FFh
 retn
-sub_4AB8 endp
+sub_6988 endp
 
 
 
 
-sub_4ABE proc near
-call	sub_37F4
-call	sub_C4DD
-sub_4ABE endp
+sub_698E proc near
+call	sub_56C4
+call	sub_E3AD
+sub_698E endp
 
 
 
 
-sub_4AC4 proc near
+sub_6994 proc near
 mov	byte ptr ds:11CAh, 0
 retn
-sub_4AC4 endp
+sub_6994 endp
 
 
 
 
-sub_4ACA proc near
+sub_699A proc near
 mov	byte ptr ds:11CAh, 1
 retn
-sub_4ACA endp
+sub_699A endp
 
 call	nullsub_14
 mov	ah, 0FCh ; 'ü'
-jmp	short loc_4ADC
+jmp	short loc_69AC
 call	nullsub_14
 mov	ah, 4
 
-loc_4ADC:
+loc_69AC:
 shr	al, 1
-jnb	short locret_4AEA
+jnb	short locret_69BA
 mov	byte ptr ds:11C8h, 1
 mov	al, ah
-call	sub_5119
+call	sub_6FE9
 
-locret_4AEA:
+locret_69BA:
 retn
 
 
 
-sub_4AEB proc near
+sub_69BB proc near
 mov	ax, 39h	; '9'
-call	sub_C13E
-call	sub_C07C
-call	sub_4D6C
-call	sub_4B2B
-jmp	sub_C4DD
-sub_4AEB endp
+call	sub_E00E
+call	sub_DF4C
+call	sub_6C3C
+call	sub_69FB
+jmp	sub_E3AD
+sub_69BB endp
 
-; START	OF FUNCTION CHUNK FOR sub_CC96
+; START	OF FUNCTION CHUNK FOR sub_EB66
 
-loc_4AFD:
+loc_69CD:
 cmp	byte ptr ds:227Dh, 0
-jnz	short sub_4B16
-call	sub_4B2B
+jnz	short sub_69E6
+call	sub_69FB
 mov	es, word ptr ds:0DBD8h
 assume es:nothing
 mov	si, ds:0DBD6h
 call	dword ptr ds:38FDh
-jmp	loc_DBE3
-; END OF FUNCTION CHUNK	FOR sub_CC96
+jmp	loc_FAB3
+; END OF FUNCTION CHUNK	FOR sub_EB66
 
 
 
-sub_4B16 proc near
+sub_69E6 proc near
 mov	ax, ds:0DBD8h
 mov	si, ds:0DBD6h
 cmp	ax, si
-jz	short locret_4B2A
+jz	short locret_69FA
 add	ax, 1E0h
 mov	es, ax
 call	dword ptr ds:38FDh
 
-locret_4B2A:
+locret_69FA:
 retn
-sub_4B16 endp
+sub_69E6 endp
 
 
 
 
-sub_4B2B proc near
+sub_69FB proc near
 
 ; FUNCTION CHUNK AT DBCA SIZE 00000019 BYTES
 
 cmp	byte ptr ds:4728h, 0
-js	short loc_4B38
+js	short loc_6A08
 mov	si, 1492h
-call	sub_C46F
+call	sub_E33F
 
-loc_4B38:
-jmp	loc_DBCA
-sub_4B2B endp
-
-
+loc_6A08:
+jmp	loc_FA9A
+sub_69FB endp
 
 
-sub_4B3B proc near
+
+
+sub_6A0B proc near
 inc	word ptr ds:472Bh
 test	word ptr ds:472Bh, 0Fh
-jnz	short loc_4B4D
+jnz	short loc_6A1D
 mov	cx, 1
-call	sub_FD9
+call	sub_2EA9
 
-loc_4B4D:
-call	sub_407E
-call	sub_5206
-call	sub_40C3
+loc_6A1D:
+call	sub_5F4E
+call	sub_70D6
+call	sub_5F93
 mov	ds:4, dx
 mov	ds:6, bx
 retn
-sub_4B3B endp
+sub_6A0B endp
 
 
 
 
-sub_4B5F proc near
+sub_6A2F proc near
 mov	si, 1470h
 mov	ax, dx
 add	ax, ds:487Ah
 cmp	dx, [si]
-jge	short loc_4B6E
+jge	short loc_6A3E
 mov	dx, [si]
 
-loc_4B6E:
+loc_6A3E:
 cmp	dx, [si+4]
-jle	short loc_4B76
+jle	short loc_6A46
 mov	dx, [si+4]
 
-loc_4B76:
+loc_6A46:
 mov	ds:4860h, dx
 cmp	ax, [si]
-jge	short loc_4B80
+jge	short loc_6A50
 mov	ax, [si]
 
-loc_4B80:
+loc_6A50:
 cmp	ax, [si+4]
-jle	short loc_4B88
+jle	short loc_6A58
 mov	ax, [si+4]
 
-loc_4B88:
+loc_6A58:
 mov	ds:4864h, ax
 mov	ax, bx
 add	ax, ds:487Ch
 cmp	bx, [si+2]
-jge	short loc_4B99
+jge	short loc_6A69
 mov	bx, [si+2]
 
-loc_4B99:
+loc_6A69:
 cmp	bx, [si+6]
-jle	short loc_4BA1
+jle	short loc_6A71
 mov	bx, [si+6]
 
-loc_4BA1:
+loc_6A71:
 mov	ds:4862h, bx
 cmp	ax, [si+2]
-jge	short loc_4BAD
+jge	short loc_6A7D
 mov	ax, [si+2]
 
-loc_4BAD:
+loc_6A7D:
 cmp	ax, [si+6]
-jle	short loc_4BB5
+jle	short loc_6A85
 mov	ax, [si+6]
 
-loc_4BB5:
+loc_6A85:
 mov	ds:4866h, ax
 retn
-sub_4B5F endp
+sub_6A2F endp
 
-call	sub_D41B
+call	sub_F2EB
 cmp	word ptr ds:47C6h, 0
-jnz	short locret_4BDE
+jnz	short locret_6AAE
 cmp	bp, 1F0Eh
-jnz	short locret_4BDE
+jnz	short locret_6AAE
 mov	si, 4860h
-call	sub_C446
-call	sub_4BDF
+call	sub_E316
+call	sub_6AAF
 mov	si, 4860h
-call	sub_DB74
-call	sub_C4F0
-call	sub_DB67
+call	sub_FA44
+call	sub_E3C0
+call	sub_FA37
 
-locret_4BDE:
+locret_6AAE:
 retn
 
 
 
-sub_4BDF proc near
+sub_6AAF proc near
 mov	ax, ds:485Eh
-call	sub_C13E
+call	sub_E00E
 mov	ax, ds:4878h
 xor	ah, ah
 add	ax, ds:4874h
@@ -10028,51 +10027,51 @@ cbw
 add	ds:486Eh, ax
 mov	dx, ds:486Eh
 mov	bx, ds:4870h
-call	sub_4B5F
+call	sub_6A2F
 mov	si, ds:486Ah
 mov	ds, word ptr ss:0DBB2h
 cmp	byte ptr [si], 0FFh
-jnz	short loc_4C29
+jnz	short loc_6AF9
 mov	si, ss:4868h
 
-loc_4C29:
+loc_6AF9:
 lodsb
 xor	ah, ah
 or	al, al
-jz	short loc_4C3E
+jz	short loc_6B0E
 cmp	al, 1
-jnz	short loc_4C37
+jnz	short loc_6B07
 mov	ah, al
 lodsb
 
-loc_4C37:
+loc_6B07:
 push	si
-call	sub_4C45
+call	sub_6B15
 pop	si
-jmp	short loc_4C29
+jmp	short loc_6AF9
 
-loc_4C3E:
+loc_6B0E:
 push	ss
 pop	ds
 assume ds:seg001
 mov	ds:486Ah, si
 retn
-sub_4BDF endp
+sub_6AAF endp
 
 
 
 
-sub_4C45 proc near
+sub_6B15 proc near
 sub	ax, 2
 shl	ax, 1
 mov	bp, ax
 mov	si, ss:486Ch
 add	si, ds:[bp+si]
 
-loc_4C54:
+loc_6B24:
 lodsb
 or	al, al
-jz	short locret_4C91
+jz	short locret_6B61
 xor	ah, ah
 mov	bp, ax
 lodsb
@@ -10093,17 +10092,17 @@ lodsw
 xor	ah, ah
 mov	cx, ax
 mov	bp, 4860h
-call	dword ptr ss:seg_F4B0+38CDh
+call	dword ptr ss:seg_11380+38CDh
 pop	si
-jmp	short loc_4C54
+jmp	short loc_6B24
 
-locret_4C91:
+locret_6B61:
 retn
-sub_4C45 endp
+sub_6B15 endp
 
-; START	OF FUNCTION CHUNK FOR sub_4D57
+; START	OF FUNCTION CHUNK FOR sub_6C27
 
-loc_4C92:
+loc_6B62:
 push	ds
 push	ax
 xor	ah, ah
@@ -10114,7 +10113,7 @@ mov	ds:4872h, bp
 mov	ds:4874h, cx
 mov	word ptr ds:4876h, 0
 mov	word ptr ds:4878h, 0
-call	sub_C13E
+call	sub_E00E
 push	ds
 pop	es
 assume es:seg001
@@ -10148,57 +10147,57 @@ mov	ss:4868h, si
 mov	ss:486Ah, si
 pop	ds
 retn
-; END OF FUNCTION CHUNK	FOR sub_4D57
+; END OF FUNCTION CHUNK	FOR sub_6C27
 
 
 
-sub_4D00 proc near
+sub_6BD0 proc near
 mov	si, 4BB9h
-jmp	sub_DA5F
-sub_4D00 endp
+jmp	sub_F92F
+sub_6BD0 endp
 
-; START	OF FUNCTION CHUNK FOR sub_37EB
+; START	OF FUNCTION CHUNK FOR sub_56BB
 
-loc_4D06:
+loc_6BD6:
 mov	byte ptr ds:0F6h, 0
 mov	di, ds:1150h
 mov	dx, [di+2]
 cmp	dx, ds:4
-jnz	short locret_4D56
+jnz	short locret_6C26
 mov	ax, ds:4733h
 or	ah, ah
-jz	short locret_4D56
+jz	short locret_6C26
 mov	bx, ds:6
 cmp	bl, [di+4]
-jnz	short locret_4D56
+jnz	short locret_6C26
 cmp	bh, ah
-ja	short locret_4D56
+ja	short locret_6C26
 push	ax
 push	bx
 inc	byte ptr ds:0F6h
 mov	ah, 1
-call	sub_4D57
-call	sub_4BDF
-call	sub_C412
+call	sub_6C27
+call	sub_6AAF
+call	sub_E2E2
 pop	bx
 pop	ax
 cmp	bh, al
-ja	short locret_4D56
+ja	short locret_6C26
 mov	al, 5
-call	sub_AB15
+call	sub_C9E5
 xor	ah, ah
-call	sub_4D57
+call	sub_6C27
 mov	si, 4BB9h
 mov	bp, 10h
-call	sub_DA25
+call	sub_F8F5
 
-locret_4D56:
+locret_6C26:
 retn
-; END OF FUNCTION CHUNK	FOR sub_37EB
+; END OF FUNCTION CHUNK	FOR sub_56BB
 
 
 
-sub_4D57 proc near
+sub_6C27 proc near
 
 ; FUNCTION CHUNK AT 4C92 SIZE 0000006E BYTES
 
@@ -10210,63 +10209,63 @@ add	dl, bh
 mov	bx, 29h	; ')'
 xor	bp, bp
 xor	cx, cx
-jmp	loc_4C92
-sub_4D57 endp
+jmp	loc_6B62
+sub_6C27 endp
 
 
 
 
-sub_4D6C proc near
+sub_6C3C proc near
 mov	si, ds:0AA6Eh
 cmp	byte ptr cs:[si], 0FFh
-jnz	short loc_4D82
-mov	si, cs:word_167
+jnz	short loc_6C52
+mov	si, cs:word_2037
 add	si, cs:[si]
 mov	ds:0AA6Eh, si
 
-loc_4D82:
+loc_6C52:
 push	cs
 pop	ds
 assume ds:seg000
 
-loc_4D84:
+loc_6C54:
 lodsb
 xor	ah, ah
 or	al, al
-jz	short loc_4D99
+jz	short loc_6C69
 cmp	al, 1
-jnz	short loc_4D92
+jnz	short loc_6C62
 mov	ah, al
 lodsb
 
-loc_4D92:
+loc_6C62:
 push	si
-call	sub_4DA0
+call	sub_6C70
 pop	si
-jmp	short loc_4D84
+jmp	short loc_6C54
 
-loc_4D99:
+loc_6C69:
 push	ss
 pop	ds
 assume ds:seg001
 mov	ds:0AA6Eh, si
 retn
-sub_4D6C endp
+sub_6C3C endp
 
 
 
 
-sub_4DA0 proc near
+sub_6C70 proc near
 sub	ax, 2
 shl	ax, 1
 mov	bp, ax
 mov	si, 169h
 add	si, cs:[bp+si]
 
-loc_4DAD:
+loc_6C7D:
 lodsb
 or	al, al
-jz	short locret_4DEC
+jz	short locret_6CBC
 xor	ah, ah
 mov	bp, ax
 lodsb
@@ -10290,605 +10289,605 @@ lodsw
 xor	ah, ah
 mov	cx, ax
 mov	bp, 0AA66h
-call	dword ptr ss:seg_F4B0+38CDh
+call	dword ptr ss:seg_11380+38CDh
 pop	ds
 pop	si
-jmp	short loc_4DAD
+jmp	short loc_6C7D
 
-locret_4DEC:
+locret_6CBC:
 retn
-sub_4DA0 endp
+sub_6C70 endp
 
 
 
 
-sub_4DED proc near
+sub_6CBD proc near
 xor	cx, cx
 mov	bp, 4E04h
 push	si
-call	sub_661D
+call	sub_84ED
 mov	ch, [di+14h]
 mov	ds:4733h, cx
 push	es
-call	sub_7F27
+call	sub_9DF7
 pop	es
 pop	si
 retn
-sub_4DED endp
+sub_6CBD endp
 
 cmp	byte ptr [si+3], 0
-jnz	short locret_4E11
+jnz	short locret_6CE1
 test	byte ptr [si+19h], 80h
-jz	short locret_4E11
+jz	short locret_6CE1
 inc	cx
 
-locret_4E11:
+locret_6CE1:
 retn
 
 
 
-sub_4E12 proc near
+sub_6CE2 proc near
 mov	word ptr ds:4733h, 0
-call	sub_407E
-call	sub_B532
+call	sub_5F4E
+call	sub_D402
 push	ax
-call	sub_4EC6
+call	sub_6D96
 mov	word ptr ds:196Ah, 0
 pop	ax
 test	al, 40h
-jz	short loc_4E78
-call	sub_409A
-jnz	short loc_4E78
+jz	short loc_6D48
+call	sub_5F6A
+jnz	short loc_6D48
 cmp	byte ptr ds:6, 80h ; '€'
-jz	short loc_4E78
+jz	short loc_6D48
 mov	ax, [si+2]
 sub	ax, dx
 add	ax, 4
 cmp	ax, 8
-jnb	short loc_4E78
+jnb	short loc_6D48
 mov	ds:1968h, ax
 inc	ax
 mov	ds:1964h, ax
 sub	ax, 2
 mov	ds:1960h, ax
 xor	ax, ax
-call	sub_5E4F
+call	sub_7D1F
 mov	bx, 196Dh
 xlat
 cmp	al, 13h
-jb	short loc_4E6E
+jb	short loc_6D3E
 sub	cl, 28h	; '('
 and	cl, 0FBh
 add	al, cl
 cmp	al, 17h
-jb	short loc_4E6E
+jb	short loc_6D3E
 mov	al, 17h
 
-loc_4E6E:
+loc_6D3E:
 mov	ds:196Ah, ax
 xchg	si, di
-call	sub_4DED
+call	sub_6CBD
 xchg	si, di
 
-loc_4E78:
+loc_6D48:
 mov	ax, ds:196Ah
 or	ax, ax
-jz	short locret_4E8C
+jz	short locret_6D5C
 mov	cx, ds:4733h
 mov	cl, ds:46FFh
 xor	ch, ch
-jcxz	short locret_4E8C
+jcxz	short locret_6D5C
 nop
 
-locret_4E8C:
+locret_6D5C:
 retn
-sub_4E12 endp
+sub_6CE2 endp
 
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_14. PRESS	KEYPAD "+" TO EXPAND]
-; START	OF FUNCTION CHUNK FOR sub_4F0C
+; START	OF FUNCTION CHUNK FOR sub_6DDC
 
-loc_4E8E:
+loc_6D5E:
 mov	dx, ds:4
 mov	bx, ds:6
 push	word ptr ds:11CCh
-call	sub_5206
-call	sub_5206
-call	sub_5206
-call	sub_5206
-call	sub_5206
-call	sub_5206
-call	sub_B532
+call	sub_70D6
+call	sub_70D6
+call	sub_70D6
+call	sub_70D6
+call	sub_70D6
+call	sub_70D6
+call	sub_D402
 push	ax
-call	sub_5206
+call	sub_70D6
 pop	ax
 pop	word ptr ds:11CCh
 push	ax
-call	sub_B532
+call	sub_D402
 push	ax
-call	sub_41E1
+call	sub_60B1
 pop	ax
 pop	bx
 add	al, bl
 shr	al, 1
-; END OF FUNCTION CHUNK	FOR sub_4F0C
+; END OF FUNCTION CHUNK	FOR sub_6DDC
 
 
 
-sub_4EC6 proc near
+sub_6D96 proc near
 push	bx
 mov	bx, ds:487Eh
 cmp	bx, 2
-jb	short loc_4EED
+jb	short loc_6DBD
 and	al, 0Fh
 cmp	al, 8
 mov	ax, ds:0DC00h
-jnb	short loc_4EF3
+jnb	short loc_6DC3
 cmp	ax, 2
-jbe	short loc_4EED
+jbe	short loc_6DBD
 mov	bx, 5
 cmp	ax, 4
-jbe	short loc_4EED
+jbe	short loc_6DBD
 mov	bx, 2
 mov	ds:487Eh, bx
 
-loc_4EED:
+loc_6DBD:
 mov	ds:0DC02h, bx
 pop	bx
 retn
 
-loc_4EF3:
+loc_6DC3:
 mov	bx, 3
 cmp	ax, 2
-jbe	short loc_4F03
+jbe	short loc_6DD3
 cmp	ax, 5
-jz	short loc_4F03
+jz	short loc_6DD3
 mov	bx, 4
 
-loc_4F03:
+loc_6DD3:
 mov	ds:0DC02h, bx
 pop	bx
 retn
-sub_4EC6 endp
+sub_6D96 endp
 
-call	sub_4AC4
+call	sub_6994
 
 
 
-sub_4F0C proc near
+sub_6DDC proc near
 
 ; FUNCTION CHUNK AT 16FC SIZE 0000000B BYTES
 ; FUNCTION CHUNK AT 4002 SIZE 00000055 BYTES
 ; FUNCTION CHUNK AT 4E8E SIZE 00000038 BYTES
 
 cmp	byte ptr ds:4727h, 0
-jz	short locret_4F33
+jz	short locret_6E03
 cmp	byte ptr ds:11CAh, 0
-jnz	short locret_4F33
+jnz	short locret_6E03
 mov	word ptr ds:1C06h, 80h ; '€'
 mov	ax, 0DBECh
 push	ax
-call	sub_CA60
+call	sub_E930
 mov	ax, ds:0CE7Ah
 sub	ax, ds:4729h
 cmp	ax, 300h
-jnb	short loc_4F34
+jnb	short loc_6E04
 
-locret_4F33:
+locret_6E03:
 retn
 
-loc_4F34:
+loc_6E04:
 mov	ax, ds:0CE7Ah
 mov	ds:4729h, ax
-call	sub_4B3B
-call	sub_4A1A
-call	sub_407E
-call	sub_4A00
-call	sub_B58B
+call	sub_6A0B
+call	sub_68EA
+call	sub_5F4E
+call	sub_68D0
+call	sub_D45B
 mov	si, ds:11C5h
 cmp	di, [si+6]
-jz	short loc_4FB0
-call	sub_2E52
+jz	short loc_6E80
+call	sub_4D22
 cmp	byte ptr ds:47A7h, 0
-jnz	short locret_4F33
+jnz	short locret_6E03
 cmp	byte ptr ds:4728h, 0
-js	short loc_4FAD
-jz	short loc_4F70
+js	short loc_6E7D
+jz	short loc_6E40
 mov	byte ptr ds:4728h, 0
-call	sub_5B5D
-call	sub_49D9
+call	sub_7A2D
+call	sub_68A9
 
-loc_4F70:
-call	sub_407E
-call	sub_62D6
-jb	short loc_4FAD
+loc_6E40:
+call	sub_5F4E
+call	sub_81A6
+jb	short loc_6E7D
 cmp	dx, 0D6h ; 'Ö'
-jl	short loc_4F8E
+jl	short loc_6E5E
 cmp	bx, 0Ah
-jl	short loc_4F8E
+jl	short loc_6E5E
 cmp	dx, 132h
-jge	short loc_4F8E
+jge	short loc_6E5E
 cmp	bx, 36h	; '6'
-jl	short loc_4F95
+jl	short loc_6E65
 
-loc_4F8E:
+loc_6E5E:
 mov	byte ptr ds:4728h, 1
-jmp	short loc_4FAD
+jmp	short loc_6E7D
 
-loc_4F95:
+loc_6E65:
 cmp	byte ptr ds:11CAh, 0
-jnz	short loc_4FAD
+jnz	short loc_6E7D
 dec	bx
 dec	dx
-call	sub_C137
+call	sub_E007
 mov	ax, 30h	; '0'
-call	sub_C085
-call	sub_C22F
-call	sub_C07C
+call	sub_DF55
+call	sub_E0FF
+call	sub_DF4C
 
-loc_4FAD:
-jmp	loc_4E8E
+loc_6E7D:
+jmp	loc_6D5E
 
-loc_4FB0:
+loc_6E80:
 mov	word ptr ds:1C06h, 0
 mov	al, ds:11C9h
 and	al, 1
 mov	ds:4732h, al
-jnz	short loc_4FC3
-call	sub_CA01
+jnz	short loc_6E93
+call	sub_E8D1
 
-loc_4FC3:
-call	sub_E3CC
+loc_6E93:
+call	sub_1029C
 mov	ds:0C5h, al
 xor	al, al
 mov	ds:4727h, al
 xchg	al, ds:11C9h
 and	al, 3
 dec	al
-jnz	short loc_4FDF
+jnz	short loc_6EAF
 mov	di, ds:11C5h
 inc	byte ptr [di+15h]
 
-loc_4FDF:
-call	sub_4AC4
-call	sub_DBB2
-call	sub_D717
+loc_6EAF:
+call	sub_6994
+call	sub_FA82
+call	sub_F5E7
 mov	di, ds:11C5h
 mov	bx, [di+4]
 mov	dx, [di+2]
 mov	word ptr ds:11C5h, 0
-jmp	loc_4002
-sub_4F0C endp
+jmp	loc_5ED2
+sub_6DDC endp
 
 mov	word ptr ds:1C06h, 0
-call	sub_CA01
+call	sub_E8D1
 mov	byte ptr ds:11C8h, 0
 mov	cx, 0C8h ; 'È'
 
-loc_500C:
+loc_6EDC:
 push	cx
-call	sub_4B3B
-call	sub_407E
-call	sub_B58B
+call	sub_6A0B
+call	sub_5F4E
+call	sub_D45B
 mov	si, ds:11C5h
 cmp	di, [si+6]
-jz	short loc_5039
+jz	short loc_6F09
 mov	byte ptr ds:23h, 0
-call	sub_4182
+call	sub_6052
 cmp	byte ptr ds:23h, 0
 pop	cx
-loope	loc_500C
-jz	short loc_4FC3
+loope	loc_6EDC
+jz	short loc_6E93
 add	byte ptr ds:4726h, 20h ; ' '
-jmp	sub_2E52
+jmp	sub_4D22
 
-loc_5039:
+loc_6F09:
 pop	cx
-jmp	short loc_4FC3
+jmp	short loc_6E93
 
 
 
-sub_503C proc near
+sub_6F0C proc near
 mov	byte ptr ds:0FDh, 0
 mov	byte ptr ds:2Bh, 0
 test	byte ptr [di+0Ah], 2
-jnz	short loc_5058
-call	sub_5D36
-jb	short locret_5081
-call	sub_5098
+jnz	short loc_6F28
+call	sub_7C06
+jb	short locret_6F51
+call	sub_6F68
 or	dx, dx
-jz	short loc_507A
+jz	short loc_6F4A
 
-loc_5058:
+loc_6F28:
 inc	byte ptr ds:2Bh
-call	sub_6144
+call	sub_8014
 mov	al, [di+8]
 mov	ah, 2Fh	; '/'
 cmp	al, 20h	; ' '
-jb	short loc_5075
+jb	short loc_6F45
 inc	ah
 cmp	al, 30h	; '0'
-jz	short loc_5075
+jz	short loc_6F45
 sub	al, 28h	; '('
-jb	short loc_5075
+jb	short loc_6F45
 add	ah, 3
 
-loc_5075:
+loc_6F45:
 mov	ds:11DDh, ah
 retn
 
-loc_507A:
-jcxz	short locret_5081
+loc_6F4A:
+jcxz	short locret_6F51
 mov	byte ptr ds:46D9h, 4
 
-locret_5081:
+locret_6F51:
 retn
-sub_503C endp
+sub_6F0C endp
 
 test	byte ptr [si+3], 20h
-jnz	short locret_5095
+jnz	short locret_6F65
 test	byte ptr [si+10h], 80h
-jnz	short loc_5096
+jnz	short loc_6F66
 cmp	byte ptr [si+3], 6
-jnz	short locret_5095
+jnz	short locret_6F65
 inc	dx
 
-locret_5095:
+locret_6F65:
 retn
 
-loc_5096:
+loc_6F66:
 inc	cx
 retn
 
 
 
-sub_5098 proc near
+sub_6F68 proc near
 mov	bp, 5082h
 xor	cx, cx
 xor	dx, dx
-jmp	sub_6603
-sub_5098 endp
+jmp	sub_84D3
+sub_6F68 endp
 
-call	sub_D2E2
+call	sub_F1B2
 mov	ax, ds:0DC00h
-call	sub_CA1B
+call	sub_E8EB
 mov	di, ds:1150h
-call	sub_407E
-call	loc_4965
-call	sub_4AC4
-call	sub_50BE
-jmp	sub_2EB2
+call	sub_5F4E
+call	loc_6835
+call	sub_6994
+call	sub_6F8E
+jmp	sub_4D82
 
 
 
-sub_50BE proc near
+sub_6F8E proc near
 mov	byte ptr ds:11CBh, 0
 retn
-sub_50BE endp
+sub_6F8E endp
 
-call	sub_407E
-call	sub_5344
-call	sub_4944
-call	sub_4AC4
+call	sub_5F4E
+call	sub_7214
+call	sub_6814
+call	sub_6994
 mov	byte ptr ds:11C8h, 0
-call	sub_50BE
-jmp	sub_2EB2
+call	sub_6F8E
+jmp	sub_4D82
 mov	word ptr ds:487Eh, 2
 mov	byte ptr ds:473Eh, 1
 mov	al, 4
-jmp	short loc_50EF
-call	sub_4285
+jmp	short loc_6FBF
+call	sub_6155
 mov	al, 8
 
-loc_50EF:
+loc_6FBF:
 mov	di, ds:46F8h
 push	di
 push	ax
-call	sub_D2BD
-call	sub_49EA
+call	sub_F18D
+call	sub_68BA
 mov	dx, ds:4
 mov	bx, ds:6
 pop	ax
 push	ax
 cmp	al, 4
-jnz	short loc_510B
+jnz	short loc_6FDB
 mov	dl, 1
 
-loc_510B:
-call	sub_4057
-call	loc_186B
+loc_6FDB:
+call	sub_5F27
+call	loc_373B
 pop	ax
 mov	ds:11C9h, al
 pop	di
-jmp	loc_4703
+jmp	loc_65D3
 
 
 
-sub_5119 proc near
+sub_6FE9 proc near
 add	ds:11C7h, al
 mov	word ptr ds:11CCh, 80h ; '€'
 retn
-sub_5119 endp
+sub_6FE9 endp
 
 
 
 
-sub_5124 proc near
+sub_6FF4 proc near
 push	di
-call	sub_407E
+call	sub_5F4E
 mov	cx, [di+4]
 mov	di, [di+2]
-call	sub_5133
+call	sub_7003
 pop	di
 retn
-sub_5124 endp
+sub_6FF4 endp
 
 
 
 
-sub_5133 proc near
+sub_7003 proc near
 sub	bx, cx
 neg	bx
 sub	dx, di
 neg	dx
 cmp	bx, 0FF80h
-jl	short loc_5146
+jl	short loc_7016
 cmp	bx, 80h	; '€'
-jl	short loc_514A
+jl	short loc_701A
 
-loc_5146:
+loc_7016:
 sar	bx, 1
 sar	dx, 1
 
-loc_514A:
+loc_701A:
 mov	bh, bl
 xor	bl, bl
 
-loc_514E:
+loc_701E:
 or	bx, bx
 mov	ax, bx
-jns	short loc_5156
+jns	short loc_7026
 neg	ax
 
-loc_5156:
+loc_7026:
 or	dx, dx
 mov	di, dx
 mov	cx, dx
-jns	short loc_5160
+jns	short loc_7030
 neg	cx
 
-loc_5160:
+loc_7030:
 cmp	cx, ax
-jb	short loc_5180
+jb	short loc_7050
 cmp	cx, 1
-jb	short locret_517F
+jb	short locret_704F
 mov	ax, 20h	; ' '
 mov	cx, dx
 imul	bx
 idiv	cx
 mov	dx, di
 or	cx, cx
-js	short loc_517C
+js	short loc_704C
 add	al, 40h	; '@'
 clc
 retn
 
-loc_517C:
+loc_704C:
 add	al, 0C0h ; 'À'
 clc
 
-locret_517F:
+locret_704F:
 retn
 
-loc_5180:
+loc_7050:
 cmp	ax, 1
-jb	short locret_517F
+jb	short locret_704F
 mov	ax, 20h	; ' '
 imul	dx
 idiv	bx
 mov	dx, di
 or	bx, bx
-js	short loc_5194
+js	short loc_7064
 sub	al, 80h	; '€'
 
-loc_5194:
+loc_7064:
 neg	al
 clc
 retn
-sub_5133 endp
+sub_7003 endp
 
 
 
 
-sub_5198 proc near
+sub_7068 proc near
 mov	bx, ax
 add	bl, 20h	; ' '
 mov	bh, bl
 and	bh, 7Fh
 cmp	bh, 40h	; '@'
-jb	short loc_51BA
+jb	short loc_708A
 mov	dx, 20h	; ' '
 sub	al, 40h	; '@'
 or	bl, bl
-jns	short loc_51B6
+jns	short loc_7086
 neg	dx
 sub	al, 80h	; '€'
 neg	al
 
-loc_51B6:
+loc_7086:
 cbw
 mov	bx, ax
 retn
 
-loc_51BA:
+loc_708A:
 or	bl, bl
 mov	bx, 0FFE0h
-jns	short loc_51C7
+jns	short loc_7097
 sub	al, 80h	; '€'
 neg	al
 neg	bx
 
-loc_51C7:
+loc_7097:
 cbw
 mov	dx, ax
 retn
-sub_5198 endp
+sub_7068 endp
 
 
 
 
-sub_51CB proc near
+sub_709B proc near
 cmp	byte ptr ds:11CBh, 0
-jnz	short loc_51D9
+jnz	short loc_70A9
 cmp	byte ptr ds:11C8h, 0
-jz	short loc_51F5
+jz	short loc_70C5
 
-loc_51D9:
+loc_70A9:
 cmp	bx, 0FFB3h
-jl	short loc_51E3
+jl	short loc_70B3
 cmp	bx, 4Dh	; 'M'
-jle	short locret_5205
+jle	short locret_70D5
 
-loc_51E3:
+loc_70B3:
 mov	al, ds:11C7h
 mov	ah, al
 sub	ah, 40h	; '@'
 xor	ah, bh
-js	short locret_5205
+js	short locret_70D5
 and	al, 80h
 or	al, 40h
-jmp	short loc_5202
+jmp	short loc_70D2
 
-loc_51F5:
+loc_70C5:
 mov	di, ds:11C5h
 push	bx
 push	dx
-call	sub_5124
+call	sub_6FF4
 pop	dx
 pop	bx
-jb	short locret_5205
+jb	short locret_70D5
 
-loc_5202:
+loc_70D2:
 mov	ds:11C7h, al
 
-locret_5205:
+locret_70D5:
 retn
-sub_51CB endp
+sub_709B endp
 
 
 
 
-sub_5206 proc near
-call	sub_51CB
+sub_70D6 proc near
+call	sub_709B
 mov	al, ds:11C7h
 push	dx
 push	bx
 shl	bx, 1
-jns	short loc_5214
+jns	short loc_70E4
 neg	bx
 
-loc_5214:
+loc_70E4:
 mov	bp, [bx+4880h]
-call	sub_5198
+call	sub_7068
 mov	cx, 20h	; ' '
 mov	ax, bp
 imul	dx
@@ -10899,13 +10898,13 @@ idiv	cx
 mov	dx, bx
 mov	bx, ax
 or	ax, ax
-jns	short loc_5233
+jns	short loc_7103
 neg	ax
 
-loc_5233:
+loc_7103:
 add	ax, ds:11CCh
 cmp	ah, 1
-jbe	short loc_524E
+jbe	short loc_711E
 mov	cx, ax
 mov	ax, dx
 cwd
@@ -10916,15 +10915,15 @@ idiv	cx
 mov	dx, ax
 mov	ax, 100h
 
-loc_524E:
+loc_711E:
 mov	ds:11CCh, al
 mov	al, ah
 cbw
 or	bx, bx
-jns	short loc_525A
+jns	short loc_712A
 neg	ax
 
-loc_525A:
+loc_712A:
 pop	bx
 add	bx, ax
 pop	ax
@@ -10932,18 +10931,18 @@ add	dx, ax
 mov	ax, bx
 add	ax, 60h	; '`'
 cmp	ax, 0C0h ; 'À'
-jb	short locret_5273
+jb	short locret_7143
 add	byte ptr ds:11C7h, 80h ; '€'
 add	dx, 8000h
 
-locret_5273:
+locret_7143:
 retn
-sub_5206 endp
+sub_70D6 endp
 
 
 
 
-sub_5274 proc near
+sub_7144 proc near
 mov	dx, [di+2]
 mov	bx, [di+4]
 push	si
@@ -10955,93 +10954,93 @@ mov	ds:0DCh, ax
 mov	ds:0E2h, ax
 mov	si, 100h
 
-loc_5290:
+loc_7160:
 cmp	word ptr [si], 0FFFFh
-jz	short loc_52FB
+jz	short loc_71CB
 cmp	si, di
-jz	short loc_52F6
+jz	short loc_71C6
 mov	cx, [si+2]
 sub	cx, dx
-jns	short loc_52A2
+jns	short loc_7172
 neg	cx
 
-loc_52A2:
+loc_7172:
 mov	ax, [si+4]
 sub	ax, bx
-jns	short loc_52AB
+jns	short loc_717B
 neg	ax
 
-loc_52AB:
+loc_717B:
 mov	cl, ch
 xor	ch, ch
 cmp	cl, al
-jnb	short loc_52B5
+jnb	short loc_7185
 mov	cx, ax
 
-loc_52B5:
+loc_7185:
 cmp	byte ptr [si+8], 28h ; '('
-jb	short loc_52C9
+jb	short loc_7199
 mov	bp, 0E2h ; 'â'
 test	byte ptr [si+0Ah], 80h
-jnz	short loc_52DD
+jnz	short loc_71AD
 mov	bp, 0DCh ; 'Ü'
-jmp	short loc_52DD
+jmp	short loc_71AD
 
-loc_52C9:
+loc_7199:
 mov	bp, 0D0h ; 'Ð'
 test	byte ptr [si+0Ah], 80h
-jz	short loc_52DD
+jz	short loc_71AD
 mov	al, ds:2Ah
 cmp	al, [si+0Bh]
-jb	short loc_52F6
+jb	short loc_71C6
 mov	bp, 0D6h ; 'Ö'
 
-loc_52DD:
+loc_71AD:
 cmp	cx, [bp+0]
-jnb	short loc_52E8
+jnb	short loc_71B8
 mov	[bp+0],	cx
 mov	[bp+2],	si
 
-loc_52E8:
+loc_71B8:
 cmp	cx, ds:0CAh
-jnb	short loc_52F6
+jnb	short loc_71C6
 mov	ds:0CAh, cx
 mov	ds:0CCh, si
 
-loc_52F6:
+loc_71C6:
 add	si, 1Ch
-jmp	short loc_5290
+jmp	short loc_7160
 
-loc_52FB:
+loc_71CB:
 push	di
 mov	bp, 0DEh ; 'Þ'
-call	sub_5323
+call	sub_71F3
 mov	bp, 0E4h ; 'ä'
-call	sub_5323
+call	sub_71F3
 mov	bp, 0D8h ; 'Ø'
-call	sub_5323
+call	sub_71F3
 add	ax, 0DAh ; 'Ú'
 mov	ds:11FDh, ax
 mov	bp, 0CCh ; 'Ì'
-call	sub_5323
+call	sub_71F3
 mov	bp, 0D2h ; 'Ò'
-call	sub_5323
+call	sub_71F3
 pop	di
 pop	si
 retn
-sub_5274 endp
+sub_7144 endp
 
 
 
 
-sub_5323 proc near
+sub_71F3 proc near
 push	bx
 push	dx
 mov	di, [bp+0]
 mov	cx, [di+4]
 mov	di, [di+2]
 push	bp
-call	sub_5133
+call	sub_7003
 pop	bp
 add	al, 10h
 rol	al, 1
@@ -11052,161 +11051,161 @@ mov	[bp+2],	al
 pop	dx
 pop	bx
 retn
-sub_5323 endp
+sub_71F3 endp
 
 
 
 
-sub_5344 proc near
+sub_7214 proc near
 push	si
 mov	bp, 0FFFFh
 mov	si, 100h
 
-loc_534B:
+loc_721B:
 cmp	word ptr [si], 0FFFFh
-jz	short loc_537F
+jz	short loc_724F
 test	byte ptr [si+0Ah], 80h
-jnz	short loc_537A
+jnz	short loc_724A
 mov	cx, [si+2]
 sub	cx, dx
-jns	short loc_535F
+jns	short loc_722F
 neg	cx
 
-loc_535F:
+loc_722F:
 mov	ax, [si+4]
 sub	ax, bx
-jns	short loc_5368
+jns	short loc_7238
 neg	ax
 
-loc_5368:
+loc_7238:
 mov	cl, ch
 xor	ch, ch
 cmp	cl, al
-jnb	short loc_5372
+jnb	short loc_7242
 mov	cx, ax
 
-loc_5372:
+loc_7242:
 cmp	cx, bp
-jnb	short loc_537A
+jnb	short loc_724A
 mov	bp, cx
 mov	di, si
 
-loc_537A:
+loc_724A:
 add	si, 1Ch
-jmp	short loc_534B
+jmp	short loc_721B
 
-loc_537F:
+loc_724F:
 pop	si
 retn
-sub_5344 endp
+sub_7214 endp
 
 push	si
 mov	bp, 0FFFFh
 mov	si, 100h
 
-loc_5388:
+loc_7258:
 cmp	word ptr [si], 0FFFFh
-jz	short loc_537F
+jz	short loc_724F
 mov	cx, [si+2]
 sub	cx, dx
-jns	short loc_5396
+jns	short loc_7266
 neg	cx
 
-loc_5396:
+loc_7266:
 mov	ax, [si+4]
 sub	ax, bx
-jns	short loc_539F
+jns	short loc_726F
 neg	ax
 
-loc_539F:
+loc_726F:
 mov	cl, ch
 xor	ch, ch
 cmp	cl, al
-jnb	short loc_53A9
+jnb	short loc_7279
 mov	cx, ax
 
-loc_53A9:
+loc_7279:
 cmp	cx, bp
-jnb	short loc_53B1
+jnb	short loc_7281
 mov	bp, cx
 mov	di, si
 
-loc_53B1:
+loc_7281:
 add	si, 1Ch
-jmp	short loc_5388
+jmp	short loc_7258
 push	si
 mov	bp, 0FFFFh
 mov	si, 100h
 
-loc_53BD:
+loc_728D:
 cmp	word ptr [si], 0FFFFh
-jz	short loc_537F
+jz	short loc_724F
 cmp	byte ptr [si+8], 28h ; '('
-jb	short loc_53EC
+jb	short loc_72BC
 mov	cx, [si+2]
 sub	cx, dx
-jns	short loc_53D1
+jns	short loc_72A1
 neg	cx
 
-loc_53D1:
+loc_72A1:
 mov	ax, [si+4]
 sub	ax, bx
-jns	short loc_53DA
+jns	short loc_72AA
 neg	ax
 
-loc_53DA:
+loc_72AA:
 mov	cl, ch
 xor	ch, ch
 cmp	cl, al
-jnb	short loc_53E4
+jnb	short loc_72B4
 mov	cx, ax
 
-loc_53E4:
+loc_72B4:
 cmp	cx, bp
-jnb	short loc_53EC
+jnb	short loc_72BC
 mov	bp, cx
 mov	di, si
 
-loc_53EC:
+loc_72BC:
 add	si, 1Ch
-jmp	short loc_53BD
+jmp	short loc_728D
 mov	byte ptr ds:4722h, 0
 test	byte ptr ds:46EBh, 40h
-jz	short loc_5400
-jmp	sub_58FA
+jz	short loc_72D0
+jmp	sub_77CA
 
-loc_5400:
+loc_72D0:
 mov	word ptr ds:4720h, 1E6Eh
 
 
 
-sub_5406 proc near
+sub_72D6 proc near
 mov	dx, ds:11C1h
 mov	bx, ds:11C3h
 mov	ds:4710h, dx
 mov	ds:4712h, bx
-call	sub_5BEB
-call	sub_5F79
-call	sub_79DE
-sub_5406 endp
+call	sub_7ABB
+call	sub_7E49
+call	sub_98AE
+sub_72D6 endp
 
 
 
 
-sub_541F proc near
+sub_72EF proc near
 push	word ptr ds:197Ch
 push	word ptr ds:197Eh
 pop	word ptr ds:1982h
 pop	word ptr ds:1980h
-sub_541F endp
+sub_72EF endp
 
 
 
 
-sub_542F proc near
+sub_72FF proc near
 mov	word ptr ds:46FCh, 0
 mov	word ptr ds:479Eh, 0
-call	sub_557B
+call	sub_744B
 mov	di, 46E3h
 add	dx, 5
 add	bx, 7
@@ -11221,31 +11220,31 @@ add	dx, 5
 mov	[si+4],	dx
 add	bx, 0Ch
 mov	[si+6],	bx
-call	near ptr byte_C13B
-call	sub_557B
+call	near ptr byte_E00B
+call	sub_744B
 mov	ax, 8Dh	; ''
-call	sub_C22F
-call	sub_C07C
-call	sub_5B8D
+call	sub_E0FF
+call	sub_DF4C
+call	sub_7A5D
 push	word ptr ds:0DD00h
 mov	ax, 3Ah	; ':'
-call	sub_C13E
-call	sub_5584
+call	sub_E00E
+call	sub_7454
 push	word ptr ds:0DBB2h
 pop	word ptr ds:0DD00h
 mov	byte ptr ds:46EBh, 40h ; '@'
-call	sub_B69A
-call	sub_B6C3
+call	sub_D56A
+call	sub_D593
 pop	word ptr ds:0DD00h
-call	sub_58E4
-call	sub_C137
-call	sub_5DCE
-call	sub_5605
-call	sub_563E
+call	sub_77B4
+call	sub_E007
+call	sub_7C9E
+call	sub_74D5
+call	sub_750E
 mov	word ptr ds:2772h, 5555h
 mov	dx, ds:1980h
 mov	bx, ds:1982h
-call	sub_B647
+call	sub_D517
 mov	cx, bx
 mov	di, dx
 sub	bx, 14h
@@ -11255,215 +11254,215 @@ add	di, 27h	; '''
 mov	ax, ds:4710h
 add	ax, 5
 cmp	dx, ax
-jge	short loc_54DA
+jge	short loc_73AA
 mov	dx, ax
 
-loc_54DA:
+loc_73AA:
 cmp	di, ax
-jge	short loc_54E0
+jge	short loc_73B0
 mov	di, ax
 
-loc_54E0:
+loc_73B0:
 add	ax, 9Fh	; 'Ÿ'
 cmp	dx, ax
-jbe	short loc_54E9
+jbe	short loc_73B9
 mov	dx, ax
 
-loc_54E9:
+loc_73B9:
 cmp	di, ax
-jbe	short loc_54EF
+jbe	short loc_73BF
 mov	di, ax
 
-loc_54EF:
+loc_73BF:
 mov	ax, ds:4712h
 add	ax, 7
 cmp	bx, ax
-jge	short loc_54FB
+jge	short loc_73CB
 mov	bx, ax
 
-loc_54FB:
+loc_73CB:
 cmp	cx, ax
-jge	short loc_5501
+jge	short loc_73D1
 mov	cx, ax
 
-loc_5501:
+loc_73D1:
 add	ax, 58h	; 'X'
 cmp	bx, ax
-jbe	short loc_550A
+jbe	short loc_73DA
 mov	bx, ax
 
-loc_550A:
+loc_73DA:
 cmp	cx, ax
-jbe	short loc_5510
+jbe	short loc_73E0
 mov	cx, ax
 
-loc_5510:
+loc_73E0:
 cmp	bx, cx
-jz	short loc_551D
+jz	short loc_73ED
 cmp	dx, di
-jz	short loc_551D
+jz	short loc_73ED
 mov	al, 0FBh ; 'û'
-call	sub_C560
+call	sub_E430
 
-loc_551D:
+loc_73ED:
 mov	word ptr ds:2772h, 0FFFFh
 mov	si, 4710h
 mov	di, 0DBE0h
 cmp	word ptr [di], 0
-jz	short loc_5535
+jz	short loc_7405
 cmp	[di], si
-jz	short loc_5535
+jz	short loc_7405
 mov	di, 0DBE2h
 
-loc_5535:
+loc_7405:
 mov	[di], si
 cmp	di, 0DBE2h
 pushf
 xor	di, di
 xchg	di, ds:4720h
 or	di, di
-jz	short loc_554D
+jz	short loc_741D
 xchg	si, di
 mov	al, 6
-call	sub_C0E8
+call	sub_DFB8
 
-loc_554D:
+loc_741D:
 popf
-jnz	short loc_5558
-call	sub_62F2
-call	sub_813E
-jmp	short loc_555B
+jnz	short loc_7428
+call	sub_81C2
+call	sub_A00E
+jmp	short loc_742B
 
-loc_5558:
-call	sub_6314
+loc_7428:
+call	sub_81E4
 
-loc_555B:
+loc_742B:
 mov	si, 4710h
-call	sub_C4F0
-call	sub_B69A
+call	sub_E3C0
+call	sub_D56A
 mov	byte ptr ds:46EBh, 0C0h	; 'À'
 mov	si, 1482h
 mov	di, 46E3h
-call	sub_5B99
-call	sub_5B8D
+call	sub_7A69
+call	sub_7A5D
 
-loc_5575:
+loc_7445:
 mov	si, 4710h
-jmp	sub_DAAA
-sub_542F endp
+jmp	sub_F97A
+sub_72FF endp
 
 
 
 
-sub_557B proc near
+sub_744B proc near
 mov	dx, ds:4710h
 mov	bx, ds:4712h
 retn
-sub_557B endp
+sub_744B endp
 
 
 
 
-sub_5584 proc near
+sub_7454 proc near
 xor	ax, ax
 xchg	ax, ds:115Ah
 or	ax, ax
-jz	short locret_55BF
-call	sub_E270
+jz	short locret_748F
+call	sub_10140
 push	ds
 push	es
 mov	cl, 0Ch
 
-loc_5595:
+loc_7465:
 shr	ax, 1
-jnb	short loc_55B8
+jnb	short loc_7488
 push	ax
 push	cx
 mov	bl, 0Dh
 sub	bl, cl
 mov	di, 100h
 
-loc_55A2:
+loc_7472:
 cmp	[di], bl
-jnz	short loc_55AB
-call	sub_5D36
-jnb	short loc_55B6
+jnz	short loc_747B
+call	sub_7C06
+jnb	short loc_7486
 
-loc_55AB:
+loc_747B:
 add	di, 1Ch
 cmp	byte ptr [di], 0FFh
-jnz	short loc_55A2
-call	sub_55C0
+jnz	short loc_7472
+call	sub_7490
 
-loc_55B6:
+loc_7486:
 pop	cx
 pop	ax
 
-loc_55B8:
-loop	loc_5595
+loc_7488:
+loop	loc_7465
 pop	es
 pop	ds
-call	sub_E283
+call	sub_10153
 
-locret_55BF:
+locret_748F:
 retn
-sub_5584 endp
+sub_7454 endp
 
 
 
 
-sub_55C0 proc near
+sub_7490 proc near
 mov	si, 100h
 
-loc_55C3:
+loc_7493:
 cmp	[si], bl
-jnz	short loc_55CD
+jnz	short loc_749D
 mov	al, [si+10h]
-call	sub_55DD
+call	sub_74AD
 
-loc_55CD:
+loc_749D:
 add	si, 1Ch
 cmp	byte ptr [si], 0FFh
-jnz	short loc_55C3
+jnz	short loc_7493
 mov	al, 42h	; 'B'
 cmp	bl, 7
-jz	short sub_55DD
+jz	short sub_74AD
 retn
-sub_55C0 endp
+sub_7490 endp
 
 
 
 
-sub_55DD proc near
+sub_74AD proc near
 push	ds
 or	al, al
-jz	short loc_5603
+jz	short loc_74D3
 les	di, ds:0DBB0h
 mov	ds, word ptr ds:0DD00h
 mov	cx, 0C5F9h
 
-loc_55ED:
+loc_74BD:
 repne scasb
-jnz	short loc_5603
+jnz	short loc_74D3
 mov	ah, [di-1]
 and	ah, 30h
 cmp	ah, 30h	; '0'
-jnz	short loc_5600
+jnz	short loc_74D0
 and	byte ptr [di-1], 0EFh
 
-loc_5600:
+loc_74D0:
 inc	cx
-loop	loc_55ED
+loop	loc_74BD
 
-loc_5603:
+loc_74D3:
 pop	ds
 retn
-sub_55DD endp
+sub_74AD endp
 
 
 
 
-sub_5605 proc near
+sub_74D5 proc near
 sub	sp, 8
 mov	si, 4710h
 mov	di, sp
@@ -11486,24 +11485,24 @@ mov	al, 0F5h ; 'õ'
 mov	es, word ptr ds:0DBDAh
 call	dword ptr ds:38DDh
 mov	byte ptr ds:4724h, 0FFh
-call	sub_D075
+call	sub_EF45
 add	sp, 8
-jmp	sub_557B
-sub_5605 endp
+jmp	sub_744B
+sub_74D5 endp
 
 
 
 
-sub_563E proc near
+sub_750E proc near
 add	bx, 62h	; 'b'
 add	dx, 6
 mov	cx, 0F5FEh
 mov	ds:4725h, cl
 cmp	byte ptr ds:4722h, 0
-jnz	short loc_568C
+jnz	short loc_755C
 push	dx
 mov	ax, 65h	; 'e'
-call	sub_D194
+call	sub_F064
 pop	ax
 add	ax, 53h	; 'S'
 mov	ds:0D82Ch, ax
@@ -11512,79 +11511,79 @@ call	word ptr ds:2518h
 add	word ptr ds:0D82Ch, 41h	; 'A'
 mov	al, 2Bh	; '+'
 call	word ptr ds:2518h
-call	near ptr byte_C13B
-call	sub_557B
+call	near ptr byte_E00B
+call	sub_744B
 add	dx, 5Fh	; '_'
 add	bx, 63h	; 'c'
 mov	ax, 80h	; '€'
-call	sub_C2FD
+call	sub_E1CD
 add	dx, 3Ch	; '<'
 mov	ax, 81h	; ''
-jmp	sub_C22F
+jmp	sub_E0FF
 
-loc_568C:
+loc_755C:
 mov	ax, 68h	; 'h'
-jmp	sub_D194
-sub_563E endp
+jmp	sub_F064
+sub_750E endp
 
 
 
 
-sub_5692 proc near
+sub_7562 proc near
 
 ; FUNCTION CHUNK AT 571A SIZE 0000000E BYTES
 
 push	di
-call	sub_5605
+call	sub_74D5
 pop	di
 or	di, di
-jz	short sub_563E
+jz	short sub_750E
 add	bx, 62h	; 'b'
 add	dx, 6
 mov	cx, 0F5FEh
-call	sub_629D
-call	sub_D05F
+call	sub_816D
+call	sub_EF2F
 mov	cx, 0F5FEh
-call	sub_62A6
+call	sub_8176
 cmp	di, 138h
-jb	short locret_5719
+jb	short locret_75E9
 cmp	byte ptr [di+8], 21h ; '!'
-jz	short locret_5719
+jz	short locret_75E9
 xor	bx, bx
 xor	cx, cx
 mov	bp, 5728h
-call	sub_6639
+call	sub_8509
 mov	dx, ds:4710h
 add	dx, 71h	; 'q'
 mov	ax, cx
 or	ax, bx
-jz	short loc_571A
-call	near ptr byte_C13B
+jz	short loc_75EA
+call	near ptr byte_E00B
 sub	byte ptr ds:0DBE4h, 3
 xor	ax, ax
-call	sub_56ED
+call	sub_75BD
 mov	bl, ch
 mov	ax, 1
-call	sub_56ED
+call	sub_75BD
 mov	bl, cl
 mov	ax, 2
-sub_5692 endp
+sub_7562 endp
 
 
 
 
-sub_56ED proc near
+sub_75BD proc near
 or	bl, bl
-jz	short locret_5719
+jz	short locret_75E9
 push	cx
 push	dx
 push	bx
 mov	bx, ds:4712h
 add	bx, 62h	; 'b'
 add	ax, 82h	; '‚'
-call	sub_C2FD
+call	sub_E1CD
 add	dx, 6
-call	sub_D04E
+call	sub_EF1E
 mov	al, 3Ah	; ':'
 call	word ptr ds:2518h
 pop	ax
@@ -11594,87 +11593,87 @@ pop	dx
 pop	cx
 add	dx, 12h
 
-locret_5719:
+locret_75E9:
 retn
-sub_56ED endp
+sub_75BD endp
 
-; START	OF FUNCTION CHUNK FOR sub_5692
+; START	OF FUNCTION CHUNK FOR sub_7562
 
-loc_571A:
+loc_75EA:
 push	dx
-call	sub_D05F
+call	sub_EF2F
 pop	dx
 mov	cx, 0F5FBh
 mov	ax, 66h	; 'f'
-jmp	sub_D194
-; END OF FUNCTION CHUNK	FOR sub_5692
-jnb	short locret_5745
+jmp	sub_F064
+; END OF FUNCTION CHUNK	FOR sub_7562
+jnb	short locret_7615
 mov	al, [si+3]
 and	al, 0Fh
 cmp	al, 2
-jz	short locret_5745
+jz	short locret_7615
 shr	al, 1
 shr	al, 1
-jnz	short loc_573C
+jnz	short loc_760C
 inc	bl
 retn
 
-loc_573C:
+loc_760C:
 cmp	al, 1
-jnz	short loc_5743
+jnz	short loc_7613
 inc	ch
 retn
 
-loc_5743:
+loc_7613:
 inc	cl
 
-locret_5745:
+locret_7615:
 retn
 
 
 
-sub_5746 proc near
+sub_7616 proc near
 
 ; FUNCTION CHUNK AT 57AD SIZE 00000005 BYTES
 
 mov	di, 4710h
-call	sub_D6FE
-jnb	short sub_57B2
+call	sub_F5CE
+jnb	short sub_7682
 mov	ax, ds:4716h
 sub	ax, 0Ah
 cmp	bx, ax
-jnb	short loc_57AD
-call	sub_57B2
+jnb	short loc_767D
+call	sub_7682
 cmp	byte ptr ds:4722h, 0
 jnz	short nullsub_15
 mov	es, word ptr ds:0DBD8h
 call	dword ptr ds:3965h
 sub	al, 50h	; 'P'
 cmp	al, 10h
-jb	short loc_5772
+jb	short loc_7642
 mov	al, 0FFh
 
-loc_5772:
+loc_7642:
 mov	ah, al
 xchg	al, ds:4724h
 cmp	al, ah
 jz	short nullsub_15
-call	sub_DBB2
-call	sub_578B
+call	sub_FA82
+call	sub_765B
 mov	al, ah
-call	sub_578B
-call	sub_DBEC
-sub_5746 endp
+call	sub_765B
+call	sub_FABC
+sub_7616 endp
 
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_15. PRESS	KEYPAD "+" TO EXPAND]
 
 
 
-sub_578B proc near
+sub_765B proc near
 or	al, al
 js	short nullsub_15
 push	ax
-call	sub_557B
+call	sub_744B
 add	dx, 5Eh	; '^'
 add	bx, 62h	; 'b'
 xor	ah, ah
@@ -11686,52 +11685,52 @@ mov	cx, 7
 call	dword ptr ds:3961h
 pop	ax
 retn
-sub_578B endp
+sub_765B endp
 
-; START	OF FUNCTION CHUNK FOR sub_5746
+; START	OF FUNCTION CHUNK FOR sub_7616
 
-loc_57AD:
+loc_767D:
 mov	cx, 0FEF5h
-jmp	short loc_57B5
-; END OF FUNCTION CHUNK	FOR sub_5746
+jmp	short loc_7685
+; END OF FUNCTION CHUNK	FOR sub_7616
 
 
 
-sub_57B2 proc near
+sub_7682 proc near
 mov	cx, 0F5FEh
 
-loc_57B5:
+loc_7685:
 mov	al, cl
 xchg	al, ds:4725h
 cmp	al, cl
 jz	short nullsub_15
 push	bx
 push	dx
-call	sub_C08E
-call	sub_557B
+call	sub_DF5E
+call	sub_744B
 add	bx, 62h	; 'b'
 add	dx, 6
 mov	ax, 65h	; 'e'
 cmp	byte ptr ds:4722h, 0
-jz	short loc_57DA
+jz	short loc_76AA
 mov	ax, 68h	; 'h'
 
-loc_57DA:
-call	sub_DBB2
-call	sub_D194
+loc_76AA:
+call	sub_FA82
+call	sub_F064
 pop	dx
 pop	bx
-jmp	sub_C07C
-sub_57B2 endp
+jmp	sub_DF4C
+sub_7682 endp
 
 
 
 
-sub_57E5 proc near
-call	sub_E270
+sub_76B5 proc near
+call	sub_10140
 push	es
 mov	ax, 3Ah	; ':'
-call	sub_C13E
+call	sub_E00E
 push	ds
 pop	es
 mov	di, bp
@@ -11739,26 +11738,26 @@ mov	al, 70h	; 'p'
 mov	cx, 100h
 rep stosb
 cmp	byte ptr ds:4722h, 0
-jnz	short loc_583F
+jnz	short loc_770F
 mov	si, 100h
 mov	di, bp
 xor	bx, bx
 
-loc_5808:
+loc_76D8:
 mov	al, [si+0Ah]
 test	al, 80h
-jnz	short loc_5832
+jnz	short loc_7702
 mov	bl, [si+10h]
 test	al, 40h
 pushf
 mov	al, 75h	; 'u'
 test	byte ptr ds:2942h, 2
-jz	short loc_5820
+jz	short loc_76F0
 mov	al, 78h	; 'x'
 
-loc_5820:
+loc_76F0:
 popf
-jz	short loc_5830
+jz	short loc_7700
 mov	al, [si+12h]
 shr	al, 1
 shr	al, 1
@@ -11766,397 +11765,397 @@ shr	al, 1
 shr	al, 1
 add	al, 50h	; 'P'
 
-loc_5830:
+loc_7700:
 mov	[bx+di], al
 
-loc_5832:
+loc_7702:
 add	si, 1Ch
 cmp	byte ptr [si], 0FFh
-jnz	short loc_5808
+jnz	short loc_76D8
 pop	es
-call	sub_E283
+call	sub_10153
 retn
 
-loc_583F:
+loc_770F:
 mov	di, 100h
 
-loc_5842:
+loc_7712:
 mov	al, [di+0Ah]
 test	al, 80h
-jnz	short loc_5861
+jnz	short loc_7731
 push	bp
 xor	bx, bx
 xor	cx, cx
 mov	bp, 5728h
-call	sub_6639
+call	sub_8509
 pop	bp
-call	sub_586E
+call	sub_773E
 mov	al, [di+10h]
 xor	ah, ah
 mov	si, ax
 mov	[bp+si], bh
 
-loc_5861:
+loc_7731:
 add	di, 1Ch
 cmp	byte ptr [di], 0FFh
-jnz	short loc_5842
+jnz	short loc_7712
 pop	es
-call	sub_E283
+call	sub_10153
 retn
-sub_57E5 endp
+sub_76B5 endp
 
 
 
 
-sub_586E proc near
+sub_773E proc near
 xor	ax, ax
 or	bl, bl
-jz	short loc_5876
+jz	short loc_7746
 mov	al, 1
 
-loc_5876:
+loc_7746:
 or	ch, ch
-jz	short loc_587C
+jz	short loc_774C
 add	al, 2
 
-loc_587C:
+loc_774C:
 or	cl, cl
-jz	short loc_5882
+jz	short loc_7752
 add	al, 4
 
-loc_5882:
+loc_7752:
 shl	ax, 1
 mov	si, ax
-jmp	cs:off_588B[si]
-off_588B dw offset loc_589B
-dw offset loc_589E
-dw offset loc_58A1
-dw offset loc_58A4
-dw offset loc_58B1
-dw offset loc_58B4
-dw offset loc_58C1
-dw offset loc_58CE
+jmp	cs:off_775B[si]
+off_775B dw offset loc_776B
+dw offset loc_776E
+dw offset loc_7771
+dw offset loc_7774
+dw offset loc_7781
+dw offset loc_7784
+dw offset loc_7791
+dw offset loc_779E
 
-loc_589B:
+loc_776B:
 xor	bh, bh
 retn
 
-loc_589E:
+loc_776E:
 mov	bh, 55h	; 'U'
 retn
 
-loc_58A1:
+loc_7771:
 mov	bh, 0AAh ; 'ª'
 retn
 
-loc_58A4:
+loc_7774:
 mov	bh, 66h	; 'f'
 cmp	bl, ch
-jz	short locret_58B0
+jz	short locret_7780
 mov	bh, 9Ah	; 'š'
-jb	short locret_58B0
+jb	short locret_7780
 not	bh
 
-locret_58B0:
+locret_7780:
 retn
 
-loc_58B1:
+loc_7781:
 mov	bh, 0FFh
 retn
 
-loc_58B4:
+loc_7784:
 mov	bh, 77h	; 'w'
 cmp	bl, cl
-jz	short locret_58C0
+jz	short locret_7790
 mov	bh, 0DFh ; 'ß'
-jb	short locret_58C0
+jb	short locret_7790
 mov	bh, 75h	; 'u'
 
-locret_58C0:
+locret_7790:
 retn
 
-loc_58C1:
+loc_7791:
 mov	bh, 0BBh ; '»'
 cmp	ch, cl
-jz	short locret_58CD
+jz	short locret_779D
 mov	bh, 0EFh ; 'ï'
-jb	short locret_58CD
+jb	short locret_779D
 mov	bh, 0BAh ; 'º'
 
-locret_58CD:
+locret_779D:
 retn
 
-loc_58CE:
+loc_779E:
 cmp	bl, ch
-jnb	short loc_58DB
+jnb	short loc_77AB
 mov	bh, 0DEh ; 'Þ'
 cmp	ch, cl
-jb	short locret_58DA
+jb	short locret_77AA
 mov	bh, 9Bh	; '›'
 
-locret_58DA:
+locret_77AA:
 retn
 
-loc_58DB:
+loc_77AB:
 mov	bh, 7Bh	; '{'
 cmp	bl, cl
-jb	short locret_58E3
+jb	short locret_77B3
 mov	bh, 67h	; 'g'
 
-locret_58E3:
+locret_77B3:
 retn
-sub_586E endp
+sub_773E endp
 
 
 
 
-sub_58E4 proc near
+sub_77B4 proc near
 sub	sp, 100h
 mov	bp, sp
-call	sub_57E5
+call	sub_76B5
 mov	bh, ds:4722h
 call	dword ptr ds:395Dh
 add	sp, 100h
 retn
-sub_58E4 endp
+sub_77B4 endp
 
 
 
 
-sub_58FA proc near
+sub_77CA proc near
 test	byte ptr ds:46EBh, 40h
-jz	short locret_5922
-call	sub_E270
+jz	short locret_77F2
+call	sub_10140
 and	byte ptr ds:46EBh, 0BFh
 mov	di, 0DBE0h
 cmp	word ptr [di], 4710h
-jz	short loc_5915
+jz	short loc_77E5
 mov	di, 0DBE2h
 
-loc_5915:
+loc_77E5:
 xor	si, si
 xchg	si, [di]
-call	sub_C6AD
-call	sub_5AD9
-call	sub_E283
+call	sub_E57D
+call	sub_79A9
+call	sub_10153
 
-locret_5922:
+locret_77F2:
 retn
-sub_58FA endp
+sub_77CA endp
 
 
-loc_5923:
-call	sub_5944
+loc_77F3:
+call	sub_7814
 push	bx
-call	sub_5C03
+call	sub_7AD3
 pop	bx
 mov	di, ds:46FCh
 or	di, di
-jz	short locret_5922
+jz	short locret_77F2
 and	byte ptr ds:46EBh, 0BFh
 mov	word ptr ds:0DBE0h, 0
-call	sub_5B55
-jmp	sub_8850
+call	sub_7A25
+jmp	sub_A720
 
 
 
-sub_5944 proc near
+sub_7814 proc near
 mov	ax, bx
 sub	ax, ds:4712h
 sub	ax, 7
-jb	short loc_5955
+jb	short loc_7825
 sub	ax, 59h	; 'Y'
-jnb	short loc_596D
+jnb	short loc_783D
 retn
 
-loc_5955:
+loc_7825:
 add	sp, 2
 mov	ax, dx
 sub	ax, ds:4710h
 sub	ax, 0Ah
-jnb	short loc_5978
-call	sub_82A0
-jz	short loc_596A
-jmp	short sub_58FA
+jnb	short loc_7848
+call	sub_A170
+jz	short loc_783A
+jmp	short sub_77CA
 
-loc_596A:
-jmp	sub_D2E2
+loc_783A:
+jmp	sub_F1B2
 
-loc_596D:
+loc_783D:
 add	sp, 2
 xor	byte ptr ds:4722h, 0FFh
-jmp	sub_542F
+jmp	sub_72FF
 
-loc_5978:
-call	sub_82A0
-jz	short locret_599E
+loc_7848:
+call	sub_A170
+jz	short locret_786E
 mov	byte ptr ds:4723h, 1
 
-loc_5982:
-call	sub_E270
+loc_7852:
+call	sub_10140
 mov	dx, ds:11C1h
 mov	bx, ds:11C3h
 mov	si, 0AAh ; 'ª'
 mov	cx, 6Ch	; 'l'
 mov	es, word ptr ds:0DBD8h
 call	dword ptr ds:3961h
-call	sub_E283
+call	sub_10153
 
-locret_599E:
+locret_786E:
 retn
-sub_5944 endp ;	sp =  2
+sub_7814 endp ;	sp =  2
 
 
-loc_599F:
+loc_786F:
 xor	al, al
 xchg	al, ds:4723h
 or	al, al
-jz	short locret_5A02
-call	sub_557B
+jz	short locret_78D2
+call	sub_744B
 cmp	dx, ds:11C1h
-jnz	short loc_59B8
+jnz	short loc_7888
 cmp	bx, ds:11C3h
-jz	short loc_5982
+jz	short loc_7852
 
-loc_59B8:
+loc_7888:
 mov	word ptr ds:0DBE0h, 0
-jmp	sub_5B10
+jmp	sub_79E0
 cmp	byte ptr ds:4723h, 0
-jz	short locret_5A02
+jz	short locret_78D2
 cmp	bx, 98h	; '˜'
-jnb	short loc_599F
-call	loc_5982
+jnb	short loc_786F
+call	loc_7852
 mov	si, 11C1h
 mov	ax, [si]
 add	ax, di
 sub	ax, 5
 cmp	ax, 8Ch	; 'Œ'
-jb	short loc_59E7
-jl	short loc_59E5
+jb	short loc_78B7
+jl	short loc_78B5
 sub	ax, 8Ch	; 'Œ'
 
-loc_59E5:
+loc_78B5:
 sub	di, ax
 
-loc_59E7:
+loc_78B7:
 add	[si], di
 mov	ax, [si+2]
 add	ax, cx
 sub	ax, 5
 cmp	ax, 18h
-jb	short loc_59FD
-jl	short loc_59FB
+jb	short loc_78CD
+jl	short loc_78CB
 sub	ax, 18h
 
-loc_59FB:
+loc_78CB:
 sub	cx, ax
 
-loc_59FD:
+loc_78CD:
 add	[si+2],	cx
-jmp	short loc_5982
+jmp	short loc_7852
 
-locret_5A02:
+locret_78D2:
 retn
-call	sub_8C8A
+call	sub_AB5A
 inc	byte ptr ds:46F3h
-call	sub_68EB
+call	sub_87BB
 mov	ds:1954h, al
 not	byte ptr ds:0FBh
-call	sub_5A1A
-jmp	loc_8685
+call	sub_78EA
+jmp	loc_A555
 
 
 
-sub_5A1A proc near
+sub_78EA proc near
 mov	byte ptr ds:28E7h, 1
-call	sub_18BA
-call	sub_5B5D
+call	sub_378A
+call	sub_7A2D
 mov	bp, 5A56h
 mov	al, 34h	; '4'
 mov	dx, 0FFFFh
-call	sub_C108
+call	sub_DFD8
 cmp	byte ptr ds:46F3h, 0
-jnz	short loc_5A3A
-call	sub_5BB0
+jnz	short loc_790A
+call	sub_7A80
 
-loc_5A3A:
-jmp	sub_17E6
-sub_5A1A endp
+loc_790A:
+jmp	sub_36B6
+sub_78EA endp
 
 
-loc_5A3D:
+loc_790D:
 mov	byte ptr ds:0FBh, 0FFh
-call	near ptr byte_C13B
+call	near ptr byte_E00B
 call	dword ptr ds:3935h
 mov	bp, 5A56h
 mov	al, 2
 xor	dx, dx
-call	sub_C108
-jmp	sub_AE04
+call	sub_DFD8
+jmp	sub_CCD4
 cmp	byte ptr ds:46EBh, 0
-js	short sub_5A9A
-call	sub_D2BD
-call	sub_4ACA
-call	sub_B930
+js	short loc_796A
+call	sub_F18D
+call	sub_699A
+call	sub_D800
 mov	si, 6B34h
 mov	bp, 0Fh
-call	sub_DA25
+call	sub_F8F5
 mov	si, 1482h
 mov	di, 46E3h
-call	sub_5B99
-call	sub_5B69
-call	sub_1797
+call	sub_7A69
+call	sub_7A39
+call	sub_3667
 mov	byte ptr ds:46EBh, 80h ; '€'
-call	sub_AD5E
+call	sub_CC2E
 mov	word ptr ds:2786h, 0C835h
 mov	ax, 5A9Ah
 mov	ds:46EDh, ax
-call	ax ; sub_5A9A
-call	sub_D792
-jmp	loc_D712
+call	ax ; loc_5A9A
+call	sub_F662
+jmp	loc_F5E2
 
-
-
-sub_5A9A proc near
-call	sub_C07C
-call	sub_5B8D
+loc_796A:
+call	sub_DF4C
+call	sub_7A5D
 mov	al, 80h	; '€'
 xchg	al, ds:46EBh
 push	ax
-call	sub_B6C3
-call	near ptr byte_C13B
-call	sub_5DCE
-call	sub_6314
-call	sub_C412
+call	sub_D593
+call	near ptr byte_E00B
+call	sub_7C9E
+call	sub_81E4
+call	sub_E2E2
 mov	word ptr ds:3CBEh, 0
-call	sub_6715
+call	sub_85E5
 mov	si, 46E3h
-call	sub_C6AD
-call	sub_878C
+call	sub_E57D
+call	sub_A65C
 pop	ax
 mov	ds:46EBh, al
 and	al, 40h
-jz	short loc_5AD3
-call	sub_5406
+jz	short sub_79A3
+call	sub_72D6
 
-loc_5AD3:
+
+
+sub_79A3 proc near
 mov	ax, 1A9Eh
-call	sub_D95E
-sub_5A9A endp
+call	sub_F82E
+sub_79A3 endp
 
 
 
 
-sub_5AD9 proc near
+sub_79A9 proc near
 mov	si, 46E3h
-jmp	sub_DAAA
-sub_5AD9 endp
+jmp	sub_F97A
+sub_79A9 endp
 
 
 
 
-sub_5ADF proc near
-call	sub_7B36
+sub_79AF proc near
+call	sub_9A06
 xor	ax, ax
 mov	ds:46EBh, al
 mov	ds:46F3h, al
@@ -12167,130 +12166,130 @@ mov	ds:0DBE2h, ax
 mov	ds:1954h, ax
 mov	word ptr ds:2786h, 0C827h
 mov	si, 6B34h
-jmp	sub_DA5F
-sub_5ADF endp
+jmp	sub_F92F
+sub_79AF endp
 
-call	sub_82A0
-jnz	short loc_5B0D
-jmp	sub_541F
+call	sub_A170
+jnz	short loc_79DD
+jmp	sub_72EF
 
-loc_5B0D:
-call	sub_5B5D
+loc_79DD:
+call	sub_7A2D
 
 
 
-sub_5B10 proc near
-call	sub_8850
+sub_79E0 proc near
+call	sub_A720
 test	byte ptr ds:46EBh, 40h
-jz	short locret_5B1D
-jmp	loc_5575
+jz	short locret_79ED
+jmp	loc_7445
 
-locret_5B1D:
+locret_79ED:
 retn
-sub_5B10 endp
+sub_79E0 endp
 
 mov	byte ptr ds:1955h, 3
 mov	si, 8E0h
 mov	dx, [si+6]
 mov	bx, [si+8]
 push	si
-call	loc_5B60
-call	sub_5B10
+call	loc_7A30
+call	sub_79E0
 pop	si
 cmp	word ptr ds:1176h, 1
-ja	short loc_5B4A
+ja	short loc_7A1A
 test	byte ptr [si+3], 40h
-jnz	short locret_5B51
+jnz	short locret_7A21
 mov	di, [si+4]
 cmp	di, ds:114Eh
-jnz	short locret_5B51
+jnz	short locret_7A21
 
-loc_5B4A:
+loc_7A1A:
 test	byte ptr ds:46EBh, 40h
-jz	short loc_5B52
+jz	short loc_7A22
 
-locret_5B51:
+locret_7A21:
 retn
 
-loc_5B52:
-jmp	loc_86CC
+loc_7A22:
+jmp	loc_A59C
 
 
 
-sub_5B55 proc near
+sub_7A25 proc near
 mov	dx, [di+2]
 mov	bx, [di+4]
-jmp	short loc_5B60
-sub_5B55 endp
+jmp	short loc_7A30
+sub_7A25 endp
 
 
 
 
-sub_5B5D proc near
-call	sub_407E
+sub_7A2D proc near
+call	sub_5F4E
 
-loc_5B60:
+loc_7A30:
 mov	ds:197Eh, bx
 mov	ds:197Ch, dx
 retn
-sub_5B5D endp
+sub_7A2D endp
 
 
 
 
-sub_5B69 proc near
+sub_7A39 proc near
 mov	si, 46E3h
 mov	al, 0FCh ; 'ü'
 
-loc_5B6E:
+loc_7A3E:
 mov	dx, [si]
 mov	bx, [si+2]
 mov	di, [si+4]
 mov	cx, [si+6]
 mov	bp, 4
 
-loc_5B7C:
+loc_7A4C:
 push	ax
 push	bp
 dec	dx
 dec	bx
-call	sub_C560
+call	sub_E430
 pop	bp
 pop	ax
 inc	di
 inc	cx
 sub	al, 2
 dec	bp
-jnz	short loc_5B7C
+jnz	short loc_7A4C
 retn
-sub_5B69 endp
+sub_7A39 endp
 
 
 
 
-sub_5B8D proc near
+sub_7A5D proc near
 mov	di, 0D83Ch
-call	sub_5B96
-sub_5B8D endp
+call	sub_7A66
+sub_7A5D endp
 
 
 
 
-sub_5B93 proc near
+sub_7A63 proc near
 mov	di, 0D834h
-sub_5B93 endp
+sub_7A63 endp
 
 
 
 
-sub_5B96 proc near
+sub_7A66 proc near
 mov	si, 46E3h
-sub_5B96 endp
+sub_7A66 endp
 
 
 
 
-sub_5B99 proc near
+sub_7A69 proc near
 push	ds
 pop	es
 movsw
@@ -12298,424 +12297,424 @@ movsw
 movsw
 movsw
 retn
-sub_5B99 endp
+sub_7A69 endp
 
 
 
 
-sub_5BA0 proc near
+sub_7A70 proc near
 mov	si, 1470h
 mov	di, 0D83Ch
-jmp	short sub_5B99
-sub_5BA0 endp
+jmp	short sub_7A69
+sub_7A70 endp
 
 
 
 
-sub_5BA8 proc near
+sub_7A78 proc near
 mov	si, 1470h
 mov	di, 0D834h
-jmp	short sub_5B99
-sub_5BA8 endp
+jmp	short sub_7A69
+sub_7A78 endp
 
 
 
 
-sub_5BB0 proc near
-call	sub_C08E
+sub_7A80 proc near
+call	sub_DF5E
 mov	si, 194Ah
 mov	ds:0DBE0h, si
-call	sub_7B1B
-call	sub_D068
+call	sub_99EB
+call	sub_EF38
 mov	si, 0E2h ; 'â'
-call	sub_CF70
-call	sub_D03C
+call	sub_EE40
+call	sub_EF0C
 mov	al, ds:28h
 xor	ah, ah
-call	sub_E2E3
+call	sub_101B3
 mov	dx, ds:194Ah
 mov	bx, ds:194Ch
 add	dx, 0Ah
 add	bx, 8
 mov	cx, 0F0h ; 'ð'
 mov	ax, 0E2h ; 'â'
-call	sub_D194
-jmp	sub_C07C
-sub_5BB0 endp
+call	sub_F064
+jmp	sub_DF4C
+sub_7A80 endp
 
 
 
 
-sub_5BEB proc near
+sub_7ABB proc near
 cmp	word ptr ds:0DBE0h, 194Ah
-jnz	short locret_5C02
-call	sub_E270
+jnz	short locret_7AD2
+call	sub_10140
 xor	si, si
 xchg	si, ds:0DBE0h
-call	sub_C6AD
-call	sub_E283
+call	sub_E57D
+call	sub_10153
 
-locret_5C02:
+locret_7AD2:
 retn
-sub_5BEB endp
+sub_7ABB endp
 
 
 
 
-sub_5C03 proc near
+sub_7AD3 proc near
 mov	di, ds:0DBE0h
 cmp	di, 194Ah
-jnz	short loc_5C22
+jnz	short loc_7AF2
 mov	ax, ds:0CE7Ah
 sub	ax, ds:0DC5Ah
 cmp	ax, 3E8h
-jb	short loc_5C22
-call	sub_DBB2
-call	sub_5BEB
-jmp	sub_DBEC
+jb	short loc_7AF2
+call	sub_FA82
+call	sub_7ABB
+jmp	sub_FABC
 
-loc_5C22:
+loc_7AF2:
 cmp	di, 4710h
-jz	short loc_5C32
+jz	short loc_7B02
 mov	di, ds:0DBE2h
 cmp	di, 4710h
-jnz	short locret_5C75
+jnz	short locret_7B45
 
-loc_5C32:
-call	sub_D6FE
-jnb	short loc_5C4B
+loc_7B02:
+call	sub_F5CE
+jnb	short loc_7B1B
 mov	byte ptr ds:46EBh, 40h ; '@'
 mov	al, 0FFh
-call	sub_5E6D
+call	sub_7D3D
 mov	byte ptr ds:46EBh, 0C0h	; 'À'
 cmp	ax, 9
-jb	short loc_5C4D
+jb	short loc_7B1D
 
-loc_5C4B:
+loc_7B1B:
 xor	di, di
 
-loc_5C4D:
+loc_7B1D:
 mov	ax, di
 xchg	ax, ds:46FCh
 cmp	ax, di
-jz	short loc_5C6E
+jz	short loc_7B3E
 push	bx
 push	dx
 push	di
 push	word ptr ds:0DBDAh
-call	sub_DBB2
-call	sub_C08E
-call	sub_5692
+call	sub_FA82
+call	sub_DF5E
+call	sub_7562
 pop	word ptr ds:0DBDAh
 pop	di
 pop	dx
 pop	bx
 
-loc_5C6E:
+loc_7B3E:
 or	di, di
-jnz	short locret_5C75
-call	sub_5746
+jnz	short locret_7B45
+call	sub_7616
 
-locret_5C75:
+locret_7B45:
 retn
-sub_5C03 endp
+sub_7AD3 endp
 
-call	sub_5BEB
-call	near ptr byte_C13B
+call	sub_7ABB
+call	near ptr byte_E00B
 mov	di, ds:0DBE0h
 or	di, di
-jz	short loc_5C95
-call	sub_D6FE
-jnb	short loc_5C95
+jz	short loc_7B65
+call	sub_F5CE
+jnb	short loc_7B65
 cmp	di, 4710h
-jnz	short loc_5C92
-jmp	loc_5923
+jnz	short loc_7B62
+jmp	loc_77F3
 
-loc_5C92:
-jmp	loc_7E97
+loc_7B62:
+jmp	loc_9D67
 
-loc_5C95:
+loc_7B65:
 mov	di, ds:0DBE2h
 or	di, di
-jz	short loc_5CA5
-call	sub_D6FE
-jnb	short loc_5CA5
-jmp	loc_7EB8
+jz	short loc_7B75
+call	sub_F5CE
+jnb	short loc_7B75
+jmp	loc_9D88
 
-loc_5CA5:
+loc_7B75:
 cmp	byte ptr ds:46F5h, 0
-jz	short loc_5CAF
-jmp	sub_D2E2
+jz	short loc_7B7F
+jmp	sub_F1B2
 
-loc_5CAF:
-call	sub_6946
-jnb	short loc_5CB7
-jmp	loc_872C
+loc_7B7F:
+call	sub_8816
+jnb	short loc_7B87
+jmp	loc_A5FC
 
-loc_5CB7:
+loc_7B87:
 mov	al, 31h	; '1'
-call	sub_5E6D
+call	sub_7D3D
 cmp	ax, 14h
-jnb	short loc_5CCA
+jnb	short loc_7B9A
 cmp	di, ds:46F8h
-jz	short loc_5CCA
-jmp	loc_5FB0
+jz	short loc_7B9A
+jmp	loc_7E80
 
-loc_5CCA:
-call	sub_5F79
-call	sub_79DE
-call	sub_58FA
+loc_7B9A:
+call	sub_7E49
+call	sub_98AE
+call	sub_77CA
 cmp	byte ptr ds:1954h, 0
-jz	short locret_5CE3
-call	sub_D316
-call	sub_8763
-call	sub_D280
+jz	short locret_7BB3
+call	sub_F1E6
+call	sub_A633
+call	sub_F150
 
-locret_5CE3:
+locret_7BB3:
 retn
-call	sub_5BEB
-call	near ptr byte_C13B
+call	sub_7ABB
+call	near ptr byte_E00B
 cmp	word ptr ds:0DBE2h, 0
-jnz	short locret_5CE3
+jnz	short locret_7BB3
 mov	di, ds:0DBE0h
 or	di, di
-jz	short loc_5D04
+jz	short loc_7BD4
 cmp	di, 18DFh
-jnz	short locret_5CE3
-call	sub_D6FE
-jb	short loc_5D1A
+jnz	short locret_7BB3
+call	sub_F5CE
+jb	short loc_7BEA
 
-loc_5D04:
-call	sub_6946
-jnb	short locret_5CE3
+loc_7BD4:
+call	sub_8816
+jnb	short locret_7BB3
 mov	si, [si+0Ah]
 cmp	si, ds:46FAh
-jz	short loc_5D1A
+jz	short loc_7BEA
 push	si
-call	sub_7B36
+call	sub_9A06
 pop	si
-jmp	loc_78BC
+jmp	loc_978C
 
-loc_5D1A:
-jmp	sub_79DE
+loc_7BEA:
+jmp	sub_98AE
 
 
 
-sub_5D1D proc near
+sub_7BED proc near
 cmp	dx, ds:46E3h
 cmc
-jnb	short locret_5D35
+jnb	short locret_7C05
 cmp	dx, ds:46E7h
-jnb	short locret_5D35
+jnb	short locret_7C05
 cmp	bx, ds:46E5h
 cmc
-jnb	short locret_5D35
+jnb	short locret_7C05
 cmp	bx, ds:46E9h
 
-locret_5D35:
+locret_7C05:
 retn
-sub_5D1D endp
+sub_7BED endp
 
 
 
 
-sub_5D36 proc near
+sub_7C06 proc near
 cmp	byte ptr [di+8], 28h ; '('
-jb	short locret_5D43
+jb	short locret_7C13
 test	byte ptr [di+0Ah], 8
-jz	short locret_5D43
+jz	short locret_7C13
 stc
 
-locret_5D43:
+locret_7C13:
 retn
-sub_5D36 endp
+sub_7C06 endp
 
-; START	OF FUNCTION CHUNK FOR sub_74B6
+; START	OF FUNCTION CHUNK FOR sub_9386
 
-loc_5D44:
+loc_7C14:
 test	byte ptr ds:11C9h, 3
-jz	short sub_5D50
+jz	short sub_7C20
 or	byte ptr ds:4728h, 1
-; END OF FUNCTION CHUNK	FOR sub_74B6
+; END OF FUNCTION CHUNK	FOR sub_9386
 
 
 
-sub_5D50 proc near
+sub_7C20 proc near
 push	si
 push	di
 test	byte ptr [di+0Ah], 80h
-jnz	short loc_5D6A
+jnz	short loc_7C3A
 cmp	byte ptr ds:46EBh, 0
-jz	short loc_5D6A
+jz	short loc_7C3A
 mov	si, di
-call	sub_62C9
-jb	short loc_5D6A
+call	sub_8199
+jb	short loc_7C3A
 inc	byte ptr ds:46ECh
 
-loc_5D6A:
+loc_7C3A:
 pop	di
 pop	si
 retn
-sub_5D50 endp
+sub_7C20 endp
 
 
 
 
-sub_5D6D proc near
+sub_7C3D proc near
 mov	byte ptr ds:46ECh, 0
 cmp	byte ptr ds:46EBh, 0
-js	short loc_5D82
-jz	short locret_5DCD
-call	sub_DBB2
+js	short loc_7C52
+jz	short locret_7C9D
+call	sub_FA82
 jmp	word ptr ds:46EDh
 
-loc_5D82:
-call	sub_C07C
-call	sub_DBB2
-call	sub_5B8D
+loc_7C52:
+call	sub_DF4C
+call	sub_FA82
+call	sub_7A5D
 mov	al, 80h	; '€'
 xchg	al, ds:46EBh
 push	ax
 push	word ptr ds:46EFh
-call	sub_B6C3
-call	near ptr byte_C13B
-call	sub_5DCE
-call	sub_6314
-call	sub_C412
+call	sub_D593
+call	near ptr byte_E00B
+call	sub_7C9E
+call	sub_81E4
+call	sub_E2E2
 mov	word ptr ds:3CBEh, 0
-call	sub_6715
+call	sub_85E5
 mov	si, 46E3h
-call	sub_C6AD
+call	sub_E57D
 pop	si
 or	si, si
-jz	short loc_5DBC
-call	sub_697C
+jz	short loc_7C8C
+call	sub_884C
 
-loc_5DBC:
-call	sub_1C18
+loc_7C8C:
+call	sub_3AE8
 pop	ax
 mov	ds:46EBh, al
 and	al, 40h
-jz	short loc_5DCA
-call	sub_542F
+jz	short loc_7C9A
+call	sub_72FF
 
-loc_5DCA:
-jmp	near ptr byte_C13B
+loc_7C9A:
+jmp	near ptr byte_E00B
 
-locret_5DCD:
+locret_7C9D:
 retn
-sub_5D6D endp
+sub_7C3D endp
 
 
 
 
-sub_5DCE proc near
+sub_7C9E proc near
 mov	al, ds:46EBh
 or	al, al
-jns	short loc_5DDA
+jns	short loc_7CAA
 push	ax
-call	sub_633B
+call	sub_820B
 pop	ax
 
-loc_5DDA:
+loc_7CAA:
 mov	di, 0A5C0h
 and	al, 40h
-jz	short loc_5DF1
+jz	short loc_7CC1
 sub	di, 6
 
-loc_5DE4:
+loc_7CB4:
 add	di, 6
 cmp	word ptr [di], 0
-jz	short loc_5DF1
+jz	short loc_7CC1
 test	[di+5],	al
-jz	short loc_5DE4
+jz	short loc_7CB4
 
-loc_5DF1:
+loc_7CC1:
 mov	si, 100h
 
-loc_5DF4:
+loc_7CC4:
 cmp	word ptr [si], 0FFFFh
-jz	short loc_5E3D
+jz	short loc_7D0D
 test	byte ptr [si+0Ah], 80h
-jnz	short loc_5E38
-call	sub_62C9
-jb	short loc_5E38
+jnz	short loc_7D08
+call	sub_8199
+jb	short loc_7D08
 mov	[di], si
 mov	[di+2],	dx
 mov	bh, ds:46EBh
 mov	[di+4],	bx
 xor	bh, bh
-call	sub_5E42
+call	sub_7D12
 cmp	cl, 20h	; ' '
-jnb	short loc_5E2E
+jnb	short loc_7CFE
 push	ax
 push	bx
 push	dx
 push	si
-call	sub_7C8F
+call	sub_9B5F
 cmp	ax, ds:1176h
 pop	si
 pop	dx
 pop	bx
 pop	ax
-jbe	short loc_5E2E
+jbe	short loc_7CFE
 add	ax, 5
 
-loc_5E2E:
+loc_7CFE:
 push	si
 push	di
-call	sub_C343
+call	sub_E213
 pop	di
 pop	si
 add	di, 6
 
-loc_5E38:
+loc_7D08:
 add	si, 1Ch
-jmp	short loc_5DF4
+jmp	short loc_7CC4
 
-loc_5E3D:
+loc_7D0D:
 mov	word ptr [di], 0
 retn
-sub_5DCE endp
+sub_7C9E endp
 
 
 
 
-sub_5E42 proc near
+sub_7D12 proc near
 mov	ax, 3Ah	; ':'
 test	byte ptr ds:46EBh, 80h
-jz	short sub_5E4F
+jz	short sub_7D1F
 mov	ax, 7Ah	; 'z'
-sub_5E42 endp
+sub_7D12 endp
 
 
 
 
-sub_5E4F proc near
+sub_7D1F proc near
 mov	cl, [si+8]
 cmp	cl, 20h	; ' '
-jb	short locret_5E6A
+jb	short locret_7D3A
 inc	ax
 cmp	cl, 21h	; '!'
-jb	short locret_5E6A
+jb	short locret_7D3A
 inc	ax
 cmp	cl, 28h	; '('
-jb	short locret_5E6A
+jb	short locret_7D3A
 inc	ax
 cmp	cl, 30h	; '0'
-jb	short locret_5E6A
+jb	short locret_7D3A
 inc	ax
 
-locret_5E6A:
+locret_7D3A:
 retn
-sub_5E4F endp
+sub_7D1F endp
 
 mov	al, 20h	; ' '
 
 
 ; Attributes: bp-based frame
 
-sub_5E6D proc near
+sub_7D3D proc near
 
 var_8= word ptr	-8
 var_6= word ptr	-6
@@ -12731,36 +12730,36 @@ mov	[bp+var_4], bx
 mov	[bp+var_2], 0
 mov	si, 0A5BAh
 
-loc_5E86:
+loc_7D56:
 add	si, 6
 mov	di, [si]
 or	di, di
-jz	short loc_5EBF
+jz	short loc_7D8F
 cmp	[di+8],	al
-jnb	short loc_5E86
+jnb	short loc_7D56
 mov	bx, [si+4]
 cmp	bh, ds:46EBh
-jnz	short loc_5E86
+jnz	short loc_7D56
 xor	bh, bh
 mov	dx, [si+2]
 sub	dx, [bp+var_6]
-jns	short loc_5EA9
+jns	short loc_7D79
 neg	dx
 
-loc_5EA9:
+loc_7D79:
 sub	bx, [bp+var_4]
-jns	short loc_5EB0
+jns	short loc_7D80
 neg	bx
 
-loc_5EB0:
+loc_7D80:
 add	dx, bx
 cmp	dx, [bp+var_8]
-jnb	short loc_5E86
+jnb	short loc_7D56
 mov	[bp+var_8], dx
 mov	[bp+var_2], di
-jmp	short loc_5E86
+jmp	short loc_7D56
 
-loc_5EBF:
+loc_7D8F:
 mov	di, [bp+var_2]
 mov	ax, [bp+var_8]
 mov	dx, [bp+var_6]
@@ -12768,60 +12767,60 @@ mov	bx, [bp+var_4]
 add	sp, 8
 pop	si
 retn
-sub_5E6D endp
+sub_7D3D endp
 
 
 
 
-sub_5ED0 proc near
+sub_7DA0 proc near
 mov	bp, 0A5BAh
 
-loc_5ED3:
+loc_7DA3:
 add	bp, 6
 mov	ax, [bp+0]
 cmp	ax, di
-jz	short locret_5EE3
+jz	short locret_7DB3
 or	ax, ax
-jnz	short loc_5ED3
+jnz	short loc_7DA3
 or	bp, bp
 
-locret_5EE3:
+locret_7DB3:
 retn
-sub_5ED0 endp
+sub_7DA0 endp
 
 
 
 
-sub_5EE4 proc near
-call	sub_5ED0
-jnz	short locret_5EE3
+sub_7DB4 proc near
+call	sub_7DA0
+jnz	short locret_7DB3
 mov	si, 1668h
-call	sub_6252
+call	sub_8122
 mov	bx, ax
 inc	ax
 cmp	di, ds:46F8h
-jnz	short loc_5F12
+jnz	short loc_7DE2
 cmp	al, ds:46F7h
-jnz	short loc_5F01
-jmp	sub_7B1B
+jnz	short loc_7DD1
+jmp	sub_99EB
 
-loc_5F01:
-call	sub_E270
+loc_7DD1:
+call	sub_10140
 mov	byte ptr ds:46D8h, 1
-call	sub_5F91
-call	sub_C08E
-call	sub_E283
+call	sub_7E61
+call	sub_DF5E
+call	sub_10153
 
-loc_5F12:
+loc_7DE2:
 mov	ds:46F7h, al
 mov	cl, [bx+11D0h]
 xor	ch, ch
 mov	dx, [bp+2]
 mov	bx, [bp+4]
 or	bh, bh
-jns	short locret_5EE3
+jns	short locret_7DB3
 
-loc_5F25:
+loc_7DF5:
 xor	bh, bh
 push	bx
 push	dx
@@ -12829,23 +12828,23 @@ mov	ax, cx
 shr	ax, 1
 sub	bx, ax
 cmp	bx, 4
-jge	short loc_5F37
+jge	short loc_7E07
 mov	bx, 4
 
-loc_5F37:
+loc_7E07:
 mov	ax, 94h	; '”'
 sub	ax, cx
 cmp	bx, ax
-jl	short loc_5F42
+jl	short loc_7E12
 mov	bx, ax
 
-loc_5F42:
+loc_7E12:
 add	dx, 0Fh
 cmp	dx, 0D2h ; 'Ò'
-jl	short loc_5F4F
+jl	short loc_7E1F
 sub	dx, 82h	; '‚'
 
-loc_5F4F:
+loc_7E1F:
 mov	[si], dx
 mov	[si+2],	bx
 add	dx, 6Ah	; 'j'
@@ -12862,144 +12861,144 @@ mov	di, 0D816h
 mov	[di], dx
 mov	[di+2],	bx
 mov	al, 6
-jmp	sub_7B0F
-sub_5EE4 endp
+jmp	sub_99DF
+sub_7DB4 endp
 
 
 
 
-sub_5F79 proc near
+sub_7E49 proc near
 xor	ax, ax
 xchg	ax, ds:46F8h
 or	ax, ax
-jz	short locret_5F90
-call	sub_D41B
+jz	short locret_7E60
+call	sub_F2EB
 mov	al, [bp+0]
 inc	al
-jz	short sub_5F91
-jmp	sub_D2E2
+jz	short sub_7E61
+jmp	sub_F1B2
 
-locret_5F90:
+locret_7E60:
 retn
-sub_5F79 endp
+sub_7E49 endp
 
 
 
 
-sub_5F91 proc near
+sub_7E61 proc near
 mov	word ptr ds:46F8h, 0
 mov	byte ptr ds:46F7h, 0
 mov	si, 1668h
 
-loc_5F9F:
-call	sub_C07C
+loc_7E6F:
+call	sub_DF4C
 mov	word ptr ds:0DBE0h, 0
-call	sub_C6AD
+call	sub_E57D
 mov	al, 8
-jmp	sub_7B2B
-sub_5F91 endp
+jmp	sub_99FB
+sub_7E61 endp
 
 
-loc_5FB0:
-call	sub_58FA
-call	sub_7B36
+loc_7E80:
+call	sub_77CA
+call	sub_9A06
 cmp	di, ds:114Eh
-jz	short sub_600E
+jz	short sub_7EDE
 cmp	byte ptr ds:8, 0FFh
-jz	short loc_5FF9
+jz	short loc_7EC9
 cmp	byte ptr ds:0Bh, 2
-jbe	short loc_5FD8
+jbe	short loc_7EA8
 cmp	byte ptr ds:8, 20h ; ' '
-jnb	short sub_600E
+jnb	short sub_7EDE
 cmp	byte ptr ds:8, 28h ; '('
-jnb	short sub_600E
+jnb	short sub_7EDE
 
-loc_5FD8:
+loc_7EA8:
 push	di
 mov	di, ds:114Eh
-call	sub_7F27
+call	sub_9DF7
 pop	di
 mov	bp, 20DAh
 mov	ax, [bp+2]
 and	ah, 1Fh
 cmp	byte ptr ds:46FFh, 0
-jnz	short loc_5FF4
+jnz	short loc_7EC4
 or	ah, 40h
 
-loc_5FF4:
+loc_7EC4:
 mov	[bp+2],	ax
-jmp	short loc_6003
+jmp	short loc_7ED3
 
-loc_5FF9:
+loc_7EC9:
 test	byte ptr ds:0Ah, 40h
-jz	short sub_600E
+jz	short sub_7EDE
 mov	bp, 20E6h
 
-loc_6003:
+loc_7ED3:
 push	bp
-call	sub_600E
+call	sub_7EDE
 pop	bp
 mov	bx, 5F91h
-jmp	sub_D323
+jmp	sub_F1F3
 
 
 
-sub_600E proc near
-call	sub_C08E
+sub_7EDE proc near
+call	sub_DF5E
 push	di
-call	sub_5EE4
+call	sub_7DB4
 pop	di
 mov	ds:46F8h, di
-call	sub_D068
+call	sub_EF38
 mov	cl, 9Ah	; 'š'
 mov	ch, ds:1671h
 mov	dx, ds:1668h
 mov	bx, ds:166Ah
 add	dx, 0Ch
 add	bx, 4
-call	sub_629D
+call	sub_816D
 mov	cl, 96h	; '–'
 sub	dx, 8
 add	bx, 9
-call	sub_62A6
-call	sub_6252
+call	sub_8176
+call	sub_8122
 cmp	al, 2
-jz	short loc_6059
+jz	short loc_7F29
 test	byte ptr ds:0Ah, 20h
-jz	short loc_6056
+jz	short loc_7F26
 or	al, al
-jnz	short loc_6056
+jnz	short loc_7F26
 push	ax
-call	sub_605C
+call	sub_7F2C
 pop	ax
 
-loc_6056:
-call	sub_60AC
+loc_7F26:
+call	sub_7F7C
 
-loc_6059:
-jmp	sub_C07C
-sub_600E endp
-
-
+loc_7F29:
+jmp	sub_DF4C
+sub_7EDE endp
 
 
-sub_605C proc near
-call	sub_D075
+
+
+sub_7F2C proc near
+call	sub_EF45
 mov	cl, 90h	; ''
 add	bx, 0Ah
 mov	dx, ds:1668h
 add	dx, 4
 mov	ax, 6Ch	; 'l'
-call	sub_D194
+call	sub_F064
 mov	al, [di+1Bh]
 mov	si, 75h	; 'u'
 mov	bp, 6Dh	; 'm'
 test	byte ptr [di+0Ah], 20h
-jz	short loc_609D
+jz	short loc_7F6D
 push	cx
 push	ax
 push	si
-call	sub_E295
+call	sub_10165
 pop	ax
 pop	cx
 add	bx, 7
@@ -13007,46 +13006,46 @@ mov	dx, ds:1668h
 add	dx, 4
 mov	bp, ds:166Ch
 push	bx
-call	sub_617A
+call	sub_804A
 pop	bx
 pop	cx
 retn
 
-loc_609D:
+loc_7F6D:
 mov	ax, bp
 add	bx, 7
 mov	dx, ds:1668h
 add	dx, 0Ah
-jmp	sub_D194
-sub_605C endp
+jmp	sub_F064
+sub_7F2C endp
 
 
 
 
-sub_60AC proc near
-call	near ptr byte_C13B
-call	sub_D068
+sub_7F7C proc near
+call	near ptr byte_E00B
+call	sub_EF38
 mov	cl, 9Ah	; 'š'
 mov	dx, ds:1668h
 add	bx, 0Ch
 add	dx, 4
-call	sub_627E
-jb	short loc_60D6
+call	sub_814E
+jb	short loc_7FA6
 mov	ax, 6Eh	; 'n'
-call	sub_D194
+call	sub_F064
 add	bx, 0Ah
 lea	si, [di+14h]
 mov	bp, ds:166Eh
-jmp	sub_7E3D
+jmp	sub_9D0D
 
-loc_60D6:
+loc_7FA6:
 mov	ax, 4Ch	; 'L'
-call	sub_D194
+call	sub_F064
 add	bx, 6
 add	dx, 2Fh	; '/'
 push	bx
 push	dx
-call	sub_60F8
+call	sub_7FC8
 xor	ah, ah
 add	ax, 0Fh
 mov	cl, 5
@@ -13054,104 +13053,104 @@ shr	ax, cl
 add	ax, 8Eh	; 'Ž'
 pop	dx
 pop	bx
-jmp	sub_C22F
-sub_60AC endp
+jmp	sub_E0FF
+sub_7F7C endp
 
 
 
 
-sub_60F8 proc near
+sub_7FC8 proc near
 xor	bx, bx
 xor	cx, cx
 xor	dx, dx
 mov	ds:0D81Ch, dx
 mov	bp, 6155h
-call	sub_6603
+call	sub_84D3
 xor	ax, ax
 add	bx, dx
-jz	short loc_6114
+jz	short loc_7FE4
 xchg	ah, dl
 xchg	dh, dl
 div	bx
 
-loc_6114:
+loc_7FE4:
 mov	bx, ax
 xor	ax, ax
 mov	dx, ds:0D81Ch
 add	cx, dx
-jz	short loc_6126
+jz	short loc_7FF6
 xchg	ah, dl
 xchg	dh, dl
 div	cx
 
-loc_6126:
+loc_7FF6:
 mov	cx, ax
 mov	si, bx
 cmp	si, cx
-jnb	short loc_6130
+jnb	short loc_8000
 mov	si, cx
 
-loc_6130:
+loc_8000:
 mov	ax, bx
 sub	ax, cx
 or	si, si
-jz	short loc_613F
+jz	short loc_800F
 cwd
 xchg	al, ah
 xchg	al, dl
 idiv	si
 
-loc_613F:
+loc_800F:
 sar	ax, 1
 add	al, 80h	; '€'
 retn
-sub_60F8 endp
+sub_7FC8 endp
 
 
 
 
-sub_6144 proc near
-call	sub_E270
+sub_8014 proc near
+call	sub_10140
 push	es
-call	sub_60F8
+call	sub_7FC8
 or	al, 1
 mov	ds:0FDh, al
 pop	es
-call	sub_E283
+call	sub_10153
 retn
-sub_6144 endp
+sub_8014 endp
 
 xor	ax, ax
 mov	al, [si+1Ah]
 test	byte ptr [si+10h], 80h
-jz	short loc_6165
+jz	short loc_8035
 add	ds:0D81Ch, ax
 retn
 
-loc_6165:
+loc_8035:
 cmp	byte ptr [si+3], 6
-jnz	short locret_6179
+jnz	short locret_8049
 test	byte ptr [si+3], 20h
-jnz	short loc_6173
+jnz	short loc_8043
 add	dx, ax
 
-loc_6173:
+loc_8043:
 add	cx, [si+0Ch]
 add	bx, [si+0Eh]
 
-locret_6179:
+locret_8049:
 retn
 
 
 
-sub_617A proc near
+sub_804A proc near
 and	cx, 0FFh
-jz	short locret_61D2
+jz	short locret_80A2
 push	bx
 push	di
 push	ax
 push	dx
-call	sub_C1F4
+call	sub_E0C4
 mov	di, bp
 sub	di, dx
 mov	bp, es:[si]
@@ -13161,57 +13160,57 @@ mov	ax, di
 xor	dx, dx
 div	cx
 cmp	ax, bp
-jnb	short loc_61B5
+jnb	short loc_8085
 sub	di, bp
 mov	ax, di
 xor	dx, dx
 div	cx
 mov	bp, ax
 cmp	bp, 2
-jnb	short loc_61B5
+jnb	short loc_8085
 mov	bp, 2
 mov	cx, di
 shr	cx, 1
 
-loc_61B5:
+loc_8085:
 pop	dx
 pop	ax
 
-loc_61B7:
+loc_8087:
 push	ax
 push	bx
 push	cx
 push	dx
 push	bp
-call	sub_C22F
+call	sub_E0FF
 pop	bp
 pop	dx
 pop	cx
 pop	bx
 pop	ax
 add	dx, bp
-loop	loc_61B7
+loop	loc_8087
 pop	di
 pop	bx
-call	sub_C1F4
+call	sub_E0C4
 add	bl, es:[si+2]
 inc	bx
 
-locret_61D2:
+locret_80A2:
 retn
-sub_617A endp
+sub_804A endp
 
 
 
 
-sub_61D3 proc near
+sub_80A3 proc near
 and	cx, 0FFh
-jz	short locret_61D2
+jz	short locret_80A2
 push	bx
 push	di
 push	ax
 push	dx
-call	sub_C1F4
+call	sub_E0C4
 mov	di, bp
 sub	di, bx
 mov	bp, es:[si+2]
@@ -13221,351 +13220,351 @@ mov	ax, di
 xor	dx, dx
 div	cx
 cmp	ax, bp
-jnb	short loc_620F
+jnb	short loc_80DF
 sub	di, bp
 mov	ax, di
 xor	dx, dx
 div	cx
 mov	bp, ax
 cmp	bp, 2
-jnb	short loc_620F
+jnb	short loc_80DF
 mov	bp, 2
 mov	cx, di
 shr	cx, 1
 
-loc_620F:
+loc_80DF:
 pop	dx
 pop	ax
 
-loc_6211:
+loc_80E1:
 push	ax
 push	bx
 push	cx
 push	dx
 push	bp
-call	sub_C22F
+call	sub_E0FF
 pop	bp
 pop	dx
 pop	cx
 pop	bx
 pop	ax
 add	bx, bp
-loop	loc_6211
+loop	loc_80E1
 pop	di
 pop	bx
-call	sub_C1F4
+call	sub_E0C4
 mov	ax, es:[si]
 and	ah, 0Fh
 add	dx, ax
 inc	dx
 retn
-sub_61D3 endp
+sub_80A3 endp
 
 
 
 
-sub_6231 proc near
+sub_8101 proc near
 push	bx
 mov	bl, [di+8]
 xor	ax, ax
 cmp	bl, 20h	; ' '
-jb	short loc_6250
+jb	short loc_8120
 inc	ax
 cmp	bl, 21h	; '!'
-jb	short loc_6250
+jb	short loc_8120
 inc	ax
 cmp	bl, 28h	; '('
-jb	short loc_6250
+jb	short loc_8120
 inc	ax
 cmp	bl, 30h	; '0'
-jb	short loc_6250
+jb	short loc_8120
 sub	al, 2
 
-loc_6250:
+loc_8120:
 pop	bx
 retn
-sub_6231 endp
+sub_8101 endp
 
 
 
 
-sub_6252 proc near
-call	sub_627E
-jb	short loc_627A
-call	sub_5D36
+sub_8122 proc near
+call	sub_814E
+jb	short loc_814A
+call	sub_7C06
 mov	ax, 2
-jb	short loc_6260
+jb	short loc_8130
 retn
 
-loc_6260:
+loc_8130:
 test	byte ptr [di+0Ah], 10h
-jz	short locret_627D
-call	sub_6231
+jz	short locret_814D
+call	sub_8101
 or	ax, ax
-jz	short locret_627D
+jz	short locret_814D
 cmp	al, 3
-jnz	short loc_6274
+jnz	short loc_8144
 xor	ax, ax
 retn
 
-loc_6274:
+loc_8144:
 cmp	al, 2
 mov	al, 2
-jnz	short locret_627D
+jnz	short locret_814D
 
-loc_627A:
+loc_814A:
 mov	ax, 1
 
-locret_627D:
+locret_814D:
 retn
-sub_6252 endp
+sub_8122 endp
 
 
 
 
-sub_627E proc near
-call	sub_E270
+sub_814E proc near
+call	sub_10140
 test	byte ptr [di+0Ah], 2
-jnz	short loc_6293
-call	sub_5D36
-jb	short loc_6298
-call	sub_5098
+jnz	short loc_8163
+call	sub_7C06
+jb	short loc_8168
+call	sub_6F68
 or	dx, dx
-jz	short loc_6298
+jz	short loc_8168
 
-loc_6293:
-call	sub_E283
+loc_8163:
+call	sub_10153
 stc
 retn
 
-loc_6298:
-call	sub_E283
+loc_8168:
+call	sub_10153
 clc
 retn
-sub_627E endp
+sub_814E endp
 
 
 
 
-sub_629D proc near
-call	sub_6231
+sub_816D proc near
+call	sub_8101
 add	ax, 44h	; 'D'
-jmp	sub_D194
-sub_629D endp
+jmp	sub_F064
+sub_816D endp
 
 
 
 
-sub_62A6 proc near
+sub_8176 proc near
 mov	al, [di]
 xor	ah, ah
 add	ax, 0
-call	sub_D194
+call	sub_F064
 cmp	byte ptr [di+1], 3
 mov	al, 20h	; ' '
-jb	short loc_62BA
+jb	short loc_818A
 mov	al, 2Dh	; '-'
 
-loc_62BA:
+loc_818A:
 call	word ptr ds:2518h
 mov	al, [di+1]
 xor	ah, ah
 add	ax, 0Ch
-jmp	sub_D19B
-sub_62A6 endp
+jmp	sub_F06B
+sub_8176 endp
 
 
 
 
-sub_62C9 proc near
+sub_8199 proc near
 cmp	byte ptr ds:46EBh, 1
-jb	short locret_62F1
+jb	short locret_81C1
 mov	dx, [si+2]
 mov	bx, [si+4]
-sub_62C9 endp
+sub_8199 endp
 
 
 
 
-sub_62D6 proc near
-call	sub_B647
+sub_81A6 proc near
+call	sub_D517
 cmp	dx, ds:46E3h
-jb	short locret_62F1
+jb	short locret_81C1
 cmp	dx, ds:46E7h
 cmc
-jb	short locret_62F1
+jb	short locret_81C1
 cmp	bx, ds:46E5h
-jb	short locret_62F1
+jb	short locret_81C1
 cmp	bx, ds:46E9h
 cmc
 
-locret_62F1:
+locret_81C1:
 retn
-sub_62D6 endp
+sub_81A6 endp
 
 
 
 
-sub_62F2 proc near
-call	sub_68EB
+sub_81C2 proc near
+call	sub_87BB
 test	byte ptr [si+3], 40h
-jnz	short loc_6306
+jnz	short loc_81D6
 mov	si, [si+4]
 
-loc_62FE:
-call	sub_62C9
+loc_81CE:
+call	sub_8199
 mov	ax, 36h	; '6'
-jmp	short loc_6322
+jmp	short loc_81F2
 
-loc_6306:
+loc_81D6:
 mov	dx, [si+6]
 mov	bx, [si+8]
-call	sub_62D6
+call	sub_81A6
 mov	ax, 36h	; '6'
-jmp	short loc_6322
-sub_62F2 endp
+jmp	short loc_81F2
+sub_81C2 endp
 
 
 
 
-sub_6314 proc near
-call	sub_407E
-call	sub_62D6
+sub_81E4 proc near
+call	sub_5F4E
+call	sub_81A6
 mov	ax, 4Ch	; 'L'
 pushf
 sub	dx, 0Dh
 popf
 
-loc_6322:
-jb	short locret_62F1
+loc_81F2:
+jb	short locret_81C1
 push	word ptr ds:2784h
 push	ax
-call	sub_C137
+call	sub_E007
 pop	ax
-call	sub_C1F4
+call	sub_E0C4
 sub	bl, es:[si+2]
-call	sub_C30D
+call	sub_E1DD
 pop	ax
-jmp	sub_C13E
-sub_6314 endp
+jmp	sub_E00E
+sub_81E4 endp
 
 
 
 
-sub_633B proc near
+sub_820B proc near
 mov	dx, ds:197Ch
 mov	bx, ds:197Eh
 sub	bx, 12h
 
-loc_6346:
-call	sub_634D
+loc_8216:
+call	sub_821D
 inc	bx
-jnb	short loc_6346
+jnb	short loc_8216
 retn
-sub_633B endp
+sub_820B endp
 
 
 
 
-sub_634D proc near
+sub_821D proc near
 push	bx
 push	dx
-call	sub_62D6
+call	sub_81A6
 pop	si
 pop	cx
-jb	short locret_6369
+jb	short locret_8239
 push	bx
 push	cx
 push	dx
 push	si
-call	sub_636A
+call	sub_823A
 pop	si
 pop	dx
 pop	cx
 pop	bx
 push	cx
 push	si
-call	sub_639A
+call	sub_826A
 pop	dx
 pop	bx
 clc
 
-locret_6369:
+locret_8239:
 retn
-sub_634D endp
+sub_821D endp
 
 
 
 
-sub_636A proc near
+sub_823A proc near
 xchg	dx, si
 xchg	bx, cx
-call	sub_B58B
+call	sub_D45B
 xchg	dx, si
 mov	bx, cx
 
-loc_6375:
+loc_8245:
 mov	ax, es:[di]
 and	ax, 3030h
 cmp	al, 10h
-jz	short loc_6395
+jz	short loc_8265
 
-loc_637F:
+loc_824F:
 add	dx, 4
 cmp	dx, ds:46E7h
-jnb	short locret_6394
+jnb	short locret_8264
 inc	di
 inc	si
 cmp	si, bp
-jb	short loc_6375
+jb	short loc_8245
 sub	si, bp
 sub	di, bp
-jmp	short loc_6375
+jmp	short loc_8245
 
-locret_6394:
+locret_8264:
 retn
 
-loc_6395:
-call	sub_63C7
-jmp	short loc_637F
-sub_636A endp
+loc_8265:
+call	sub_8297
+jmp	short loc_824F
+sub_823A endp
 
 
 
 
-sub_639A proc near
+sub_826A proc near
 xchg	dx, si
 xchg	bx, cx
-call	sub_B58B
+call	sub_D45B
 xchg	dx, si
 mov	bx, cx
 
-loc_63A5:
+loc_8275:
 mov	ax, es:[di]
 and	ax, 3030h
 cmp	al, 10h
-jz	short loc_63C2
+jz	short loc_8292
 
-loc_63AF:
+loc_827F:
 sub	dx, 4
 cmp	dx, ds:46E3h
-jb	short locret_6394
+jb	short locret_8264
 dec	di
 dec	si
-jns	short loc_63A5
+jns	short loc_8275
 add	si, bp
 add	di, bp
-jmp	short loc_63A5
+jmp	short loc_8275
 
-loc_63C2:
-call	sub_63C7
-jmp	short loc_63AF
-sub_639A endp
-
-
+loc_8292:
+call	sub_8297
+jmp	short loc_827F
+sub_826A endp
 
 
-sub_63C7 proc near
+
+
+sub_8297 proc near
 push	bx
 push	dx
 push	si
@@ -13574,10 +13573,10 @@ push	bp
 push	es
 cmp	ah, 10h
 mov	ax, 78h	; 'x'
-jnz	short loc_63D6
+jnz	short loc_82A6
 inc	ax
 
-loc_63D6:
+loc_82A6:
 add	bp, di
 and	di, 3
 shr	bp, 1
@@ -13585,7 +13584,7 @@ shr	bp, 1
 and	bp, 3
 add	bx, di
 add	dx, bp
-call	sub_C343
+call	sub_E213
 pop	es
 pop	bp
 pop	di
@@ -13593,144 +13592,144 @@ pop	si
 pop	dx
 pop	bx
 retn
-sub_63C7 endp
+sub_8297 endp
 
 
 
 
-sub_63F0 proc near
+sub_82C0 proc near
 
 ; FUNCTION CHUNK AT 65B6 SIZE 0000004D BYTES
 
 cmp	byte ptr ds:46DEh, 0
-jz	short locret_642D
+jz	short locret_82FD
 mov	es, word ptr ds:0DD00h
 mov	di, 100h
 
-loc_63FE:
+loc_82CE:
 mov	al, [di+0Ah]
 test	al, 20h
-jz	short loc_6422
+jz	short loc_82F2
 mov	bl, [di+1Bh]
 mov	bh, 0FAh ; 'ú'
 cmp	bl, bh
-jnb	short loc_6422
+jnb	short loc_82F2
 mov	si, [di+6]
-call	sub_642E
+call	sub_82FE
 shr	dx, 1
 inc	dx
 add	bl, dl
 cmp	bl, bh
-jb	short loc_641F
+jb	short loc_82EF
 mov	bl, bh
 
-loc_641F:
+loc_82EF:
 mov	[di+1Bh], bl
 
-loc_6422:
+loc_82F2:
 add	di, 1Ch
 cmp	word ptr [di], 0FFFFh
-jnz	short loc_63FE
-jmp	loc_65B6
+jnz	short loc_82CE
+jmp	loc_8486
 
-locret_642D:
+locret_82FD:
 retn
-sub_63F0 endp
+sub_82C0 endp
 
 
 
 
-sub_642E proc near
+sub_82FE proc near
 mov	cx, 3
 dec	si
 xor	dx, dx
 
-loc_6434:
+loc_8304:
 lods	word ptr es:[si]
 and	ax, 3030h
 cmp	ah, 10h
-jnz	short loc_643F
+jnz	short loc_830F
 inc	dx
 
-loc_643F:
+loc_830F:
 cmp	al, 10h
-jnz	short loc_6444
+jnz	short loc_8314
 inc	dx
 
-loc_6444:
-loop	loc_6434
+loc_8314:
+loop	loc_8304
 retn
-sub_642E endp
+sub_82FE endp
 
 
 
 
-sub_6447 proc near
+sub_8317 proc near
 mov	byte ptr ds:4739h, 30h ; '0'
-jmp	short loc_6458
-sub_6447 endp
+jmp	short loc_8328
+sub_8317 endp
 
 
 
 
-sub_644E proc near
+sub_831E proc near
 mov	byte ptr ds:4739h, 20h ; ' '
 xor	cx, cx
 mov	cl, [di+0Bh]
 
-loc_6458:
-mov	cs:word_64ED, 646Fh
+loc_8328:
+mov	cs:word_83BD, 646Fh
 mov	dx, [di+2]
 mov	bx, [di+4]
 mov	ds:0D81Ch, dx
 mov	ds:0D818h, bx
-jmp	short sub_64B2
-sub_644E endp
+jmp	short sub_8382
+sub_831E endp
 
 add	bx, ds:0D818h
 cmp	bx, 5Dh	; ']'
-jg	short locret_64B1
+jg	short locret_8381
 cmp	bx, 0FFA3h
-jl	short locret_64B1
+jl	short locret_8381
 push	dx
 mov	dx, ds:0D81Ch
-call	sub_B58B
+call	sub_D45B
 pop	ax
 add	di, ax
 add	dx, ax
-jns	short loc_6492
+jns	short loc_8362
 
-loc_648C:
+loc_835C:
 add	di, bp
 add	dx, bp
-js	short loc_648C
+js	short loc_835C
 
-loc_6492:
+loc_8362:
 mov	al, es:[di]
 mov	ah, al
 and	ah, 30h
 cmp	ah, 10h
-jz	short loc_64A5
+jz	short loc_8375
 xor	al, ah
 or	al, ds:4739h
 
-loc_64A5:
+loc_8375:
 stosb
 inc	dx
 cmp	dx, bp
-jb	short loc_64AF
+jb	short loc_837F
 sub	dx, bp
 sub	di, bp
 
-loc_64AF:
-loop	loc_6492
+loc_837F:
+loop	loc_8362
 
-locret_64B1:
+locret_8381:
 retn
 
 
 
-sub_64B2 proc near
+sub_8382 proc near
 xor	bx, bx
 mov	dx, bx
 mov	di, dx
@@ -13739,53 +13738,53 @@ mov	si, cx
 dec	si
 mov	ax, cx
 xor	bp, bp
-jmp	short loc_64C6
+jmp	short loc_8396
 
-loc_64C3:
+loc_8393:
 inc	bp
 inc	dx
 dec	di
 
-loc_64C6:
+loc_8396:
 sub	ax, bp
-jns	short loc_64C3
-call	sub_64EF
+jns	short loc_8393
+call	sub_83BF
 inc	bx
 dec	si
 add	ax, cx
-js	short loc_64D5
-loop	loc_64C3
+js	short loc_83A5
+loop	loc_8393
 
-loc_64D5:
+loc_83A5:
 inc	bp
 dec	cx
-jmp	short loc_64DE
+jmp	short loc_83AE
 
-loc_64D9:
+loc_83A9:
 inc	dx
 dec	di
 sub	ax, bp
 inc	bp
 
-loc_64DE:
-call	sub_64EF
+loc_83AE:
+call	sub_83BF
 inc	bx
 dec	si
 add	ax, cx
-jb	short loc_64E9
-loop	loc_64DE
+jb	short loc_83B9
+loop	loc_83AE
 
-loc_64E9:
+loc_83B9:
 dec	cx
-jns	short loc_64D9
+jns	short loc_83A9
 retn
-sub_64B2 endp
+sub_8382 endp
 
-word_64ED dw 0
+word_83BD dw 0
 
 
 
-sub_64EF proc near
+sub_83BF proc near
 push	ax
 push	bx
 push	cx
@@ -13800,11 +13799,11 @@ mov	dx, di
 push	si
 push	cx
 push	dx
-call	cs:word_64ED
+call	cs:word_83BD
 pop	dx
 pop	cx
 pop	bx
-call	cs:word_64ED
+call	cs:word_83BD
 pop	bp
 pop	di
 pop	si
@@ -13813,148 +13812,148 @@ pop	cx
 pop	bx
 pop	ax
 retn
-sub_64EF endp
+sub_83BF endp
 
 
 
 
-sub_6515 proc near
-call	sub_5D50
+sub_83E5 proc near
+call	sub_7C20
 mov	byte ptr ds:4736h, 44h ; 'D'
 xor	cx, cx
 mov	cl, [di+0Bh]
-mov	cs:word_64ED, 653Ah
+mov	cs:word_83BD, 653Ah
 mov	ax, [di+0Ch]
 mov	ds:0D81Ch, ax
 mov	ax, [di+0Eh]
 cbw
 mov	ds:0D818h, ax
-call	sub_64B2
+call	sub_8382
 retn
-sub_6515 endp
+sub_83E5 endp
 
 add	bx, ds:0D818h
 cmp	bx, 56h	; 'V'
-jg	short locret_65B3
+jg	short locret_8483
 cmp	bx, 0FFAAh
-jl	short locret_65B3
+jl	short locret_8483
 push	dx
 mov	dx, ds:0D81Ch
-call	sub_B58B
+call	sub_D45B
 pop	ax
 add	di, ax
 add	dx, ax
-jns	short loc_655D
+jns	short loc_842D
 
-loc_6557:
+loc_8427:
 add	di, bp
 add	dx, bp
-js	short loc_6557
+js	short loc_8427
 
-loc_655D:
+loc_842D:
 mov	al, es:[di]
 mov	ah, al
 and	al, 30h
 cmp	al, 10h
 mov	al, ah
-jz	short loc_65A7
+jz	short loc_8477
 test	al, 40h
-jz	short loc_6593
-call	sub_409A
-jnz	short loc_6593
+jz	short loc_8463
+call	sub_5F6A
+jnz	short loc_8463
 mov	byte ptr [si+12h], 0
-call	sub_E270
+call	sub_10140
 push	es
 mov	di, si
-call	sub_5D36
-jb	short loc_658F
+call	sub_7C06
+jb	short loc_845F
 cmp	di, 138h
-jb	short loc_658F
+jb	short loc_845F
 and	byte ptr [di+0Ah], 7Fh
-call	loc_7443
+call	loc_9313
 
-loc_658F:
+loc_845F:
 pop	es
-call	sub_E283
+call	sub_10153
 
-loc_6593:
+loc_8463:
 and	ax, 0ECFh
 or	al, 20h
 cmp	ah, 8
-jnb	short loc_65A7
+jnb	short loc_8477
 rol	byte ptr ds:4736h, 1
-jnb	short loc_65A7
+jnb	short loc_8477
 and	al, 0CFh
 or	al, 10h
 
-loc_65A7:
+loc_8477:
 stosb
 inc	dx
 cmp	dx, bp
-jb	short loc_65B1
+jb	short loc_8481
 sub	dx, bp
 sub	di, bp
 
-loc_65B1:
-loop	loc_655D
+loc_8481:
+loop	loc_842D
 
-locret_65B3:
+locret_8483:
 retn
-word_65B4 dw 1
-; START	OF FUNCTION CHUNK FOR sub_63F0
+word_8484 dw 1
+; START	OF FUNCTION CHUNK FOR sub_82C0
 
-loc_65B6:
+loc_8486:
 mov	es, word ptr ds:0DD00h
-mov	si, cs:word_65B4
+mov	si, cs:word_8484
 xor	bp, bp
 mov	cx, 46h	; 'F'
 
-loc_65C4:
+loc_8494:
 shr	si, 1
-jnb	short loc_65CC
+jnb	short loc_849C
 xor	si, 402h
 
-loc_65CC:
+loc_849C:
 mov	di, si
 
-loc_65CE:
+loc_849E:
 mov	al, es:[di]
 mov	ah, al
 and	ah, 30h
 cmp	ah, 10h
-jnz	short loc_65E2
+jnz	short loc_84B2
 and	al, 0CFh
 or	al, 20h
 stosb
 dec	di
 inc	bp
 
-loc_65E2:
+loc_84B2:
 add	di, 7FFh
 cmp	di, 0C5F9h
-jb	short loc_65CE
-loop	loc_65C4
-mov	cs:word_65B4, si
+jb	short loc_849E
+loop	loc_8494
+mov	cs:word_8484, si
 or	bp, bp
-jz	short locret_6602
+jz	short locret_84D2
 cmp	byte ptr ds:46EBh, 0
-jns	short locret_6602
+jns	short locret_84D2
 inc	byte ptr ds:46ECh
 
-locret_6602:
+locret_84D2:
 retn
-; END OF FUNCTION CHUNK	FOR sub_63F0
+; END OF FUNCTION CHUNK	FOR sub_82C0
 
 
 
-sub_6603 proc near
+sub_84D3 proc near
 push	si
 mov	al, [di+9]
 
-loc_6607:
+loc_84D7:
 or	al, al
-jz	short loc_661B
-call	sub_6906
+jz	short loc_84EB
+call	sub_87D6
 push	si
 push	di
 push	bp
@@ -13963,25 +13962,25 @@ pop	bp
 pop	di
 pop	si
 mov	al, [si+1]
-jmp	short loc_6607
+jmp	short loc_84D7
 
-loc_661B:
+loc_84EB:
 pop	si
 retn
-sub_6603 endp
+sub_84D3 endp
 
 
 
 
-sub_661D proc near
+sub_84ED proc near
 push	si
 mov	al, [di+9]
 
-loc_6621:
+loc_84F1:
 or	al, al
-jz	short loc_6637
-call	sub_6906
-jnb	short loc_6632
+jz	short loc_8507
+call	sub_87D6
+jnb	short loc_8502
 push	si
 push	di
 push	bp
@@ -13990,38 +13989,38 @@ pop	bp
 pop	di
 pop	si
 
-loc_6632:
+loc_8502:
 mov	al, [si+1]
-jmp	short loc_6621
+jmp	short loc_84F1
 
-loc_6637:
+loc_8507:
 pop	si
 retn
-sub_661D endp
+sub_84ED endp
 
 
 
 
-sub_6639 proc near
-call	sub_6603
+sub_8509 proc near
+call	sub_84D3
 push	si
 mov	si, 8AAh
 
-loc_6640:
+loc_8510:
 mov	al, [si+3]
 test	al, 40h
-jz	short loc_6665
+jz	short loc_8535
 push	bx
 mov	bx, [si+4]
 and	al, 3
 cmp	al, 3
-jnz	short loc_6654
+jnz	short loc_8524
 mov	bx, [si+0Ch]
 
-loc_6654:
+loc_8524:
 cmp	bx, di
 pop	bx
-jnz	short loc_6665
+jnz	short loc_8535
 push	si
 push	di
 push	bp
@@ -14031,277 +14030,277 @@ pop	bp
 pop	di
 pop	si
 
-loc_6665:
+loc_8535:
 add	si, 1Bh
 cmp	si, 0FBBh
-jb	short loc_6640
+jb	short loc_8510
 pop	si
 retn
-sub_6639 endp
+sub_8509 endp
 
 mov	bl, [si+3]
 and	bl, 0EFh
 xor	cx, cx
 mov	bp, 667Dh
-jmp	short sub_6603
+jmp	short sub_84D3
 mov	al, [si+3]
 and	al, 0EFh
 cmp	al, bl
-jnz	short locret_668E
+jnz	short locret_855E
 add	cx, [si+0Eh]
-jnb	short locret_668E
+jnb	short locret_855E
 mov	cx, 0FFFFh
 
-locret_668E:
+locret_855E:
 retn
 
 
 
-sub_668F proc near
+sub_855F proc near
 test	byte ptr [si+3], 20h
-jnz	short locret_66B0
+jnz	short locret_8580
 test	byte ptr [si+10h], 80h
-jnz	short locret_66B0
+jnz	short locret_8580
 or	byte ptr [si+3], 20h
 mov	byte ptr [si+19h], 0
 mov	ax, ds:2
 mov	[si+0Ah], ax
 push	di
 mov	al, 4
-call	sub_6FB0
+call	sub_8E80
 pop	di
 
-locret_66B0:
+locret_8580:
 retn
-sub_668F endp
+sub_855F endp
 
 
 
 
-sub_66B1 proc near
-call	sub_858C
+sub_8581 proc near
+call	sub_A45C
 push	si
 push	di
-call	sub_6917
-jnz	short loc_66BE
-call	sub_C58A
+call	sub_87E7
+jnz	short loc_858E
+call	sub_E45A
 
-loc_66BE:
+loc_858E:
 pop	di
 pop	si
 mov	word ptr [si+4], 0FBCh
 mov	byte ptr [si+3], 0A0h ;	' '
 mov	byte ptr [si+1Ah], 0
 retn
-sub_66B1 endp
+sub_8581 endp
 
 
 
 
-sub_66CE proc near
+sub_859E proc near
 test	byte ptr [si+3], 80h
-jz	short locret_6714
+jz	short locret_85E4
 test	byte ptr [si+10h], 80h
-jnz	short locret_6714
+jnz	short locret_85E4
 inc	byte ptr ds:28h
 mov	al, ds:28h
 cmp	al, ds:1178h
-jb	short loc_66EE
+jb	short loc_85BE
 push	si
 mov	al, 4Ch	; 'L'
-call	sub_121F
+call	sub_30EF
 pop	si
 
-loc_66EE:
+loc_85BE:
 mov	al, 1
-call	sub_6F78
+call	sub_8E48
 and	byte ptr [si+3], 20h
 or	byte ptr [si+3], 2
-call	sub_6B25
-call	sub_1AC5
+call	sub_89F5
+call	sub_3995
 mov	[si+14h], al
 mov	di, [si+4]
 cmp	byte ptr [di+0Bh], 0
-jnz	short locret_6714
+jnz	short locret_85E4
 mov	byte ptr [di+0Bh], 2
-call	sub_644E
+call	sub_831E
 
-locret_6714:
+locret_85E4:
 retn
-sub_66CE endp
+sub_859E endp
 
 
 
 
-sub_6715 proc near
+sub_85E5 proc near
 mov	bp, 0A5C0h
 
-loc_6718:
+loc_85E8:
 mov	di, [bp+0]
 or	di, di
-jz	short loc_6737
+jz	short loc_8607
 mov	al, [di+9]
 or	al, al
-jz	short loc_6732
+jz	short loc_8602
 
-loc_6726:
+loc_85F6:
 push	bp
-call	sub_6757
+call	sub_8627
 pop	bp
 mov	al, [si+1]
 or	al, al
-jnz	short loc_6726
+jnz	short loc_85F6
 
-loc_6732:
+loc_8602:
 add	bp, 6
-jmp	short loc_6718
+jmp	short loc_85E8
 
-loc_6737:
+loc_8607:
 mov	si, 88Fh
 
-loc_673A:
+loc_860A:
 add	si, 1Bh
 cmp	si, 0FBBh
-jnb	short locret_6756
+jnb	short locret_8626
 test	byte ptr [si+10h], 10h
-jnz	short loc_673A
+jnz	short loc_860A
 test	byte ptr [si+3], 40h
-jz	short loc_673A
+jz	short loc_860A
 mov	al, [si]
-call	sub_6757
-jmp	short loc_673A
+call	sub_8627
+jmp	short loc_860A
 
-locret_6756:
+locret_8626:
 retn
-sub_6715 endp
+sub_85E5 endp
 
 
 
 
-sub_6757 proc near
-call	sub_6906
-call	sub_686E
-jb	short locret_676D
-call	sub_6770
+sub_8627 proc near
+call	sub_87D6
+call	sub_873E
+jb	short locret_863D
+call	sub_8640
 cmp	bp, 1
-jb	short locret_676D
+jb	short locret_863D
 push	si
-call	sub_C5CF
+call	sub_E49F
 pop	si
 clc
 
-locret_676D:
+locret_863D:
 retn
-sub_6757 endp
+sub_8627 endp
 
 stc
 retn
 
 
 
-sub_6770 proc near
+sub_8640 proc near
 test	byte ptr [si+10h], 10h
-jnz	short loc_678F
+jnz	short loc_865F
 mov	al, [si+3]
 test	byte ptr [si+10h], 80h
-jnz	short loc_6792
+jnz	short loc_8662
 or	al, al
-jns	short loc_6792
+jns	short loc_8662
 mov	bp, [si+4]
 test	byte ptr [bp+0Ah], 10h
 mov	bp, 181Fh
-jnz	short locret_6791
+jnz	short locret_8661
 
-loc_678F:
+loc_865F:
 xor	bp, bp
 
-locret_6791:
+locret_8661:
 retn
 
-loc_6792:
+loc_8662:
 test	al, 40h
-jz	short loc_6799
-jmp	sub_6827
+jz	short loc_8669
+jmp	sub_86F7
 
-loc_6799:
+loc_8669:
 test	al, 30h
-jz	short loc_67C5
+jz	short loc_8695
 and	ax, 0Fh
 mov	bp, ax
 shl	bp, 1
 mov	bp, [bp+16B6h]
 or	ax, ax
-jnz	short locret_67C4
+jnz	short locret_8694
 mov	al, [si+19h]
 and	al, 0C0h
-jz	short locret_67C4
+jz	short locret_8694
 mov	bp, 1813h
 cmp	al, 80h	; '€'
-jz	short locret_67C4
+jz	short locret_8694
 mov	bp, 1817h
 cmp	al, 40h	; '@'
-jz	short locret_67C4
+jz	short locret_8694
 mov	bp, 181Bh
 
-locret_67C4:
+locret_8694:
 retn
 
-loc_67C5:
+loc_8695:
 and	ax, 0Fh
-jz	short loc_680A
+jz	short loc_86DA
 
-loc_67CA:
+loc_869A:
 mov	bp, ax
 shl	bp, 1
 mov	bp, [bp+179Ch]
 cmp	bp, 1774h
-jz	short loc_67ED
+jz	short loc_86BD
 cmp	bp, 1732h
-jnz	short locret_6791
+jnz	short locret_8661
 mov	bp, [si+4]
 test	byte ptr [bp+0Ah], 2
 mov	bp, 16AAh
-jnz	short locret_6791
+jnz	short locret_8661
 mov	bp, 1732h
 
-loc_67ED:
+loc_86BD:
 mov	al, [si+2]
 dec	al
 and	al, 7
 cmp	al, 3
-jb	short locret_6809
+jb	short locret_86D9
 add	bp, 0Ah
 cmp	al, 3
-jz	short locret_6809
+jz	short locret_86D9
 add	bp, 0Ah
 cmp	al, 4
-jz	short locret_6809
+jz	short locret_86D9
 add	bp, 0Ah
 
-locret_6809:
+locret_86D9:
 retn
 
-loc_680A:
+loc_86DA:
 test	byte ptr [si+19h], 0C0h
-jz	short loc_67CA
+jz	short loc_869A
 mov	al, [si+19h]
 and	al, 0C0h
 mov	bp, 17BCh
 cmp	al, 80h	; '€'
-jz	short locret_6826
+jz	short locret_86F6
 mov	bp, 17C9h
 cmp	al, 40h	; '@'
-jz	short locret_6826
+jz	short locret_86F6
 mov	bp, 1806h
 
-locret_6826:
+locret_86F6:
 retn
-sub_6770 endp
+sub_8640 endp
 
 
 
 
-sub_6827 proc near
+sub_86F7 proc near
 push	bx
 push	dx
 push	di
@@ -14313,29 +14312,29 @@ mov	al, ah
 cbw
 mov	dx, ax
 mov	di, dx
-jns	short loc_6841
+jns	short loc_8711
 neg	di
 
-loc_6841:
+loc_8711:
 sub	bx, [si+8]
 mov	cx, bx
-jns	short loc_684A
+jns	short loc_871A
 neg	cx
 
-loc_684A:
+loc_871A:
 mov	bp, 2
 cmp	di, cx
-jb	short loc_6854
+jb	short loc_8724
 dec	bp
 xchg	dx, bx
 
-loc_6854:
+loc_8724:
 or	bx, bx
-jns	short loc_685B
+jns	short loc_872B
 xor	bp, 2
 
-loc_685B:
-call	sub_693B
+loc_872B:
+call	sub_880B
 shl	ax, 1
 shl	ax, 1
 add	bp, ax
@@ -14345,25 +14344,25 @@ pop	di
 pop	dx
 pop	bx
 retn
-sub_6827 endp
+sub_86F7 endp
 
 
 
 
-sub_686E proc near
+sub_873E proc near
 cmp	byte ptr ds:46EBh, 80h ; '€'
-jb	short locret_68AE
+jb	short locret_877E
 test	byte ptr [si+3], 40h
-jnz	short loc_68AF
+jnz	short loc_877F
 mov	bl, [si+2]
 dec	bx
 push	di
 mov	di, [si+4]
 test	byte ptr [di+0Ah], 2
-jz	short loc_688C
+jz	short loc_875C
 xor	bl, 8
 
-loc_688C:
+loc_875C:
 pop	di
 and	bx, 0Fh
 add	bx, bx
@@ -14375,75 +14374,75 @@ cbw
 add	dx, [bp+2]
 mov	bx, [bp+4]
 cmp	bh, 80h	; '€'
-jb	short locret_68AE
+jb	short locret_877E
 xor	bh, bh
 add	bx, ax
 clc
 
-locret_68AE:
+locret_877E:
 retn
 
-loc_68AF:
+loc_877F:
 mov	dx, [si+6]
 mov	bx, [si+8]
-call	sub_B647
+call	sub_D517
 cmp	dx, 0FFF0h
-jle	short loc_68D0
+jle	short loc_87A0
 cmp	bx, 0FFF0h
-jle	short loc_68D0
+jle	short loc_87A0
 cmp	dx, 148h
-jge	short loc_68D0
+jge	short loc_87A0
 cmp	bx, 0A0h ; ' '
-jge	short loc_68D0
+jge	short loc_87A0
 clc
 retn
 
-loc_68D0:
+loc_87A0:
 stc
 retn
-sub_686E endp
+sub_873E endp
 
 
 
 
-sub_68D2 proc near
+sub_87A2 proc near
 xor	cx, cx
 mov	bp, 68DAh
-jmp	sub_6603
-sub_68D2 endp
+jmp	sub_84D3
+sub_87A2 endp
 
 test	byte ptr [si+10h], 10h
-jz	short locret_68EA
+jz	short locret_87BA
 
-loc_68E0:
+loc_87B0:
 and	byte ptr [si+10h], 0EFh
 inc	cx
 push	cx
-call	loc_846C
+call	loc_A33C
 pop	cx
 
-locret_68EA:
+locret_87BA:
 retn
 
 
 
-sub_68EB proc near
+sub_87BB proc near
 mov	al, ds:1954h
 cmp	byte ptr ds:46EBh, 80h ; '€'
-jnb	short sub_6906
+jnb	short sub_87D6
 mov	al, ds:476Ch
 xor	ah, ah
 add	ax, ax
 mov	si, ax
 mov	si, [si+4758h]
 mov	al, [si]
-jmp	short loc_6912
-sub_68EB endp
+jmp	short loc_87E2
+sub_87BB endp
 
 
 
 
-sub_6906 proc near
+sub_87D6 proc near
 mov	si, ax
 dec	al
 mov	ah, 1Bh
@@ -14451,198 +14450,198 @@ mul	ah
 add	ax, 8AAh
 xchg	ax, si
 
-loc_6912:
+loc_87E2:
 cmp	byte ptr [si+3], 80h ; '€'
 retn
-sub_6906 endp
+sub_87D6 endp
 
 
 
 
-sub_6917 proc near
+sub_87E7 proc near
 cmp	byte ptr ds:46EBh, 0
 mov	di, 3CAFh
-jns	short loc_6938
+jns	short loc_8808
 mov	cx, ds:3CBEh
 
-loc_6925:
-jcxz	short loc_6938
+loc_87F5:
+jcxz	short loc_8808
 
-loc_6927:
+loc_87F7:
 add	di, 11h
 cmp	[di+0Ah], si
-loopne	loc_6927
-jnz	short locret_6937
+loopne	loc_87F7
+jnz	short locret_8807
 test	byte ptr [di+0Ch], 40h
-jnz	short loc_6925
+jnz	short loc_87F5
 
-locret_6937:
+locret_8807:
 retn
 
-loc_6938:
+loc_8808:
 or	di, di
 retn
-sub_6917 endp
+sub_87E7 endp
 
 
 
 
-sub_693B proc near
+sub_880B proc near
 mov	al, [si+3]
 and	ax, 0Fh
 shr	ax, 1
 shr	ax, 1
 retn
-sub_693B endp
+sub_880B endp
 
 
 
 
-sub_6946 proc near
+sub_8816 proc near
 mov	si, 3CBEh
 lodsw
 mov	cx, ax
-jcxz	short loc_6972
+jcxz	short loc_8842
 mov	al, 11h
 mul	cl
 add	si, ax
 
-loc_6954:
+loc_8824:
 sub	si, 11h
 cmp	[si], dx
-jge	short loc_6970
+jge	short loc_8840
 cmp	[si+2],	bx
-jge	short loc_6970
+jge	short loc_8840
 cmp	dx, [si+4]
-jge	short loc_6970
+jge	short loc_8840
 test	byte ptr [si+0Ch], 40h
-jnz	short loc_6970
+jnz	short loc_8840
 cmp	bx, [si+6]
-jl	short loc_6974
+jl	short loc_8844
 
-loc_6970:
-loop	loc_6954
+loc_8840:
+loop	loc_8824
 
-loc_6972:
+loc_8842:
 clc
 retn
 
-loc_6974:
+loc_8844:
 mov	di, [si+0Ah]
 cmp	byte ptr [di+3], 80h ; '€'
 retn
-sub_6946 endp
+sub_8816 endp
 
 
 
 
-sub_697C proc near
-call	sub_6917
-jnz	short locret_69A2
+sub_884C proc near
+call	sub_87E7
+jnz	short locret_8872
 test	byte ptr [si+3], 40h
-jnz	short loc_698F
+jnz	short loc_885F
 mov	di, [si+4]
-call	sub_5ED0
-jnz	short locret_69A2
+call	sub_7DA0
+jnz	short locret_8872
 
-loc_698F:
-call	sub_686E
-jb	short locret_69A2
+loc_885F:
+call	sub_873E
+jb	short locret_8872
 mov	bp, 18FDh
-call	sub_C5CF
+call	sub_E49F
 or	byte ptr [di+0Ch], 40h
 mov	ds:4752h, di
 
-locret_69A2:
+locret_8872:
 retn
-sub_697C endp
+sub_884C endp
 
 
 
 
-sub_69A3 proc near
+sub_8873 proc near
 push	di
 xor	di, di
 xchg	di, ds:4752h
 or	di, di
-jz	short loc_69B1
-call	sub_C58A
+jz	short loc_8881
+call	sub_E45A
 
-loc_69B1:
+loc_8881:
 pop	di
 retn
-sub_69A3 endp
+sub_8873 endp
 
-call	sub_68EB
+call	sub_87BB
 mov	bp, 215Ah
 mov	al, [si+3]
 and	al, 0Fh
 cmp	al, 2
-jz	short loc_6A07
-call	sub_693B
+jz	short loc_88D7
+call	sub_880B
 mov	bp, 216Eh
 cmp	ax, 1
-jb	short loc_69F6
+jb	short loc_88C6
 mov	bp, 21A6h
-jnz	short loc_69F6
+jnz	short loc_88C6
 mov	bp, 2182h
 and	word ptr ds:2188h, 0BFFFh
 cmp	word ptr ds:0E2h, 1Eh
-jb	short loc_69E8
+jb	short loc_88B8
 or	word ptr ds:2188h, 4000h
 
-loc_69E8:
+loc_88B8:
 mov	al, [si+3]
 and	al, 0Fh
 cmp	al, 5
-jnz	short loc_69F6
+jnz	short loc_88C6
 mov	bp, 219Ah
-jmp	short loc_6A25
+jmp	short loc_88F5
 
-loc_69F6:
+loc_88C6:
 and	word ptr [bp+2], 0BFFFh
 cmp	byte ptr ds:2Ah, 10h
-jnb	short loc_6A07
+jnb	short loc_88D7
 or	word ptr [bp+2], 4000h
 
-loc_6A07:
+loc_88D7:
 lea	bx, [bp-2]
 
-loc_6A0A:
+loc_88DA:
 add	bx, 4
 mov	ax, [bx]
 and	ax, 0FFFh
-jz	short loc_6A25
+jz	short loc_88F5
 cmp	ax, 77h	; 'w'
-jnz	short loc_6A0A
+jnz	short loc_88DA
 test	byte ptr ds:0Ah, 20h
-jnz	short loc_6A23
+jnz	short loc_88F3
 or	ax, 4000h
 
-loc_6A23:
+loc_88F3:
 mov	[bx], ax
 
-loc_6A25:
+loc_88F5:
 mov	bx, 0F66h
-jmp	sub_D323
+jmp	sub_F1F3
 mov	al, 1
-jmp	short loc_6A35
+jmp	short loc_8905
 mov	al, 2
-jmp	short loc_6A35
+jmp	short loc_8905
 
 
 
-sub_6A33 proc near
+sub_8903 proc near
 mov	al, 3
 
-loc_6A35:
+loc_8905:
 push	ax
-call	sub_68EB
+call	sub_87BB
 pop	ax
 mov	cl, [si+3]
 and	cl, 0Ch
 or	cl, al
-jmp	short loc_6A89
+jmp	short loc_8959
 db 90h,	0B0h, 1, 0E8h, 0EBh, 0FFh, 0C6h
 db 6, 0D8h, 46h, 1, 0E8h, 99h, 0FEh, 80h
 db 64h,	10h, 0BFh, 8Bh,	7Ch, 4,	0E8h, 0C2h
@@ -14653,136 +14652,136 @@ db 0FEh, 32h, 0C9h, 81h, 0FEh, 0E0h, 8,	75h
 db 0Dh,	41h, 0E8h, 9, 0, 0E9h, 3Ch, 0C4h
 db 0B1h, 4, 0EBh, 2, 0B1h, 8
 
-loc_6A89:
-call	sub_68EB
+loc_8959:
+call	sub_87BB
 mov	al, [si+3]
 and	al, 0Fh
 cmp	al, cl
-jz	short loc_6AB5
+jz	short loc_8985
 push	word ptr [si+3]
 push	si
 push	word ptr [si+12h]
-call	loc_6ACB
-call	sub_A1C4
+call	loc_899B
+call	sub_C094
 mov	al, 0Ah
-call	sub_7BB9
-call	sub_A1E2
+call	sub_9A89
+call	sub_C0B2
 pop	ax
 pop	si
 pop	cx
-jz	short loc_6AB8
+jz	short loc_8988
 mov	[si+12h], ax
-call	loc_6ACB
+call	loc_899B
 
-loc_6AB5:
-jmp	sub_D2E2
+loc_8985:
+jmp	sub_F1B2
 
-loc_6AB8:
-call	sub_693B
+loc_8988:
+call	sub_880B
 or	al, al
-jz	short loc_6AB5
+jz	short loc_8985
 and	byte ptr [si+19h], 7Fh
-jmp	short loc_6AB5
-sub_6A33 endp
+jmp	short loc_8985
+sub_8903 endp
 
 
 
 
-sub_6AC5 proc near
+sub_8995 proc near
 mov	cl, [si+3]
 and	cl, 0FCh
 
-loc_6ACB:
+loc_899B:
 mov	al, [si+3]
 and	al, 0Fh
 cmp	al, cl
-jz	short locret_6B24
-sub_6AC5 endp
+jz	short locret_89F4
+sub_8995 endp
 
 
 
 
-sub_6AD4 proc near
+sub_89A4 proc near
 mov	di, [si+4]
 cmp	cl, 8
-jnz	short loc_6AEA
+jnz	short loc_89BA
 cmp	di, 7C8h
-jnz	short loc_6AEA
+jnz	short loc_89BA
 cmp	byte ptr [di+1Ah], 0
-jnz	short loc_6AEA
+jnz	short loc_89BA
 mov	cl, 0Ah
 
-loc_6AEA:
+loc_89BA:
 mov	[si+3],	cl
 and	byte ptr [si+12h], 0CFh
 and	word ptr [si+10h], 0FEFFh
-call	sub_6C15
-jb	short loc_6B00
+call	sub_8AE5
+jb	short loc_89D0
 or	word ptr [si+10h], 100h
 
-loc_6B00:
-call	sub_8461
-call	sub_6B25
+loc_89D0:
+call	sub_A331
+call	sub_89F5
 cmp	byte ptr [si+3], 2
-jz	short loc_6B19
-call	sub_693B
+jz	short loc_89E9
+call	sub_880B
 mov	cl, al
 mov	ax, 2000h
 shl	ax, cl
 or	[si+12h], ax
 
-loc_6B19:
+loc_89E9:
 mov	al, [si]
 cmp	al, ds:1954h
-jnz	short locret_6B24
-call	sub_7847
+jnz	short locret_89F4
+call	sub_9717
 
-locret_6B24:
+locret_89F4:
 retn
-sub_6AD4 endp
+sub_89A4 endp
 
 
 
 
-sub_6B25 proc near
+sub_89F5 proc near
 mov	ax, ds:2
 mov	[si+0Ah], ax
 xor	ax, ax
 mov	[si+0Ch], ax
 mov	[si+0Eh], ax
 retn
-sub_6B25 endp
+sub_89F5 endp
 
 inc	byte ptr ds:46F6h
 mov	al, ds:46F6h
 and	al, 3
-jz	short loc_6B4B
+jz	short loc_8A1B
 mov	cx, 1
 mov	di, ds:4752h
 or	di, di
-jnz	short loc_6B55
+jnz	short loc_8A25
 retn
 
-loc_6B4B:
+loc_8A1B:
 mov	si, 3CBEh
 lodsw
 mov	cx, ax
-jcxz	short locret_6B89
+jcxz	short locret_8A59
 mov	di, si
 
-loc_6B55:
+loc_8A25:
 test	byte ptr [di+0Ch], 1
-jz	short loc_6B84
+jz	short loc_8A54
 mov	si, [di+0Dh]
 lodsb
 or	al, al
-jnz	short loc_6B6D
+jnz	short loc_8A3D
 mov	si, [di+0Fh]
 lodsb
 test	byte ptr [di+0Ch], 2
-jnz	short loc_6B84
+jnz	short loc_8A54
 
-loc_6B6D:
+loc_8A3D:
 xor	ah, ah
 mov	[di+8],	ax
 lodsb
@@ -14794,94 +14793,94 @@ mov	bx, ax
 mov	[di+0Dh], si
 push	cx
 push	di
-call	sub_C661
+call	sub_E531
 pop	di
 pop	cx
 
-loc_6B84:
+loc_8A54:
 add	di, 11h
-loop	loc_6B55
+loop	loc_8A25
 
-locret_6B89:
+locret_8A59:
 retn
 
 
 
-sub_6B8A proc near
+sub_8A5A proc near
 mov	ah, [di+0Ah]
 and	ah, 41h
 cmp	ah, 1
 cmc
-jmp	short loc_6BB6
-sub_6B8A endp
+jmp	short loc_8A86
+sub_8A5A endp
 
 
 
 
-sub_6B96 proc near
+sub_8A66 proc near
 test	word ptr [si+10h], 200h
 stc
-jnz	short loc_6BB6
+jnz	short loc_8A86
 test	word ptr [si+12h], 30h
 stc
-jnz	short loc_6BB6
+jnz	short loc_8A86
 cmp	byte ptr [di+12h], 1
-jb	short loc_6BB6
+jb	short loc_8A86
 mov	al, [di+0Ah]
 xor	al, 40h
 and	al, 41h
-jz	short loc_6BB6
+jz	short loc_8A86
 stc
 
-loc_6BB6:
+loc_8A86:
 pushf
 sbb	ah, ah
 mov	al, [si+3]
 and	ax, 1010h
 cmp	al, ah
-jz	short loc_6BD5
+jz	short loc_8AA5
 xor	byte ptr [si+3], 10h
 push	ax
 push	di
-call	sub_8461
+call	sub_A331
 pop	di
 pop	ax
 test	al, 10h
-jz	short loc_6BD5
-call	sub_6B25
+jz	short loc_8AA5
+call	sub_89F5
 
-loc_6BD5:
+loc_8AA5:
 popf
 retn
-sub_6B96 endp
+sub_8A66 endp
 
 
 
 
-sub_6BD7 proc near
+sub_8AA7 proc near
 test	word ptr [si+12h], 30h
 stc
-jnz	short loc_6BB6
+jnz	short loc_8A86
 cmp	byte ptr [di+1Bh], 1
-jb	short loc_6BB6
+jb	short loc_8A86
 test	byte ptr [di+0Ah], 20h
 stc
-jz	short loc_6BB6
+jz	short loc_8A86
 mov	al, [si+19h]
 and	al, 2
 cmp	al, 1
-jmp	short loc_6BB6
-sub_6BD7 endp
+jmp	short loc_8A86
+sub_8AA7 endp
 
-off_6BF5 dw offset sub_6B96
-dw offset sub_6B8A
+off_8AC5 dw offset sub_8A66
+dw offset sub_8A5A
 dw offset nullsub_1
 dw offset nullsub_1
 dw offset nullsub_1
 dw offset nullsub_1
 dw offset nullsub_1
 dw offset nullsub_1
-dw offset sub_6BD7
+dw offset sub_8AA7
 dw offset nullsub_1
 dw offset nullsub_1
 dw offset nullsub_1
@@ -14892,26 +14891,26 @@ dw offset nullsub_1
 
 
 
-sub_6C15 proc near
+sub_8AE5 proc near
 mov	di, [si+4]
 mov	bl, [si+3]
 and	bx, 0Fh
 shl	bx, 1
 clc
-jmp	cs:off_6BF5[bx]
-sub_6C15 endp
+jmp	cs:off_8AC5[bx]
+sub_8AE5 endp
 
-off_6C26 dw offset sub_6FE5
-dw offset sub_70CC
+off_8AF6 dw offset sub_8EB5
+dw offset sub_8F9C
 dw offset nullsub_1
 dw offset nullsub_1
-dw offset sub_71EF
-dw offset sub_72B0
-dw offset sub_739E
+dw offset sub_90BF
+dw offset sub_9180
+dw offset sub_926E
 dw offset nullsub_1
-dw offset sub_7693
-dw offset sub_7711
-dw offset sub_767D
+dw offset sub_9563
+dw offset sub_95E1
+dw offset sub_954D
 dw offset nullsub_1
 dw offset nullsub_1
 dw offset nullsub_1
@@ -14920,137 +14919,137 @@ dw offset nullsub_1
 
 
 
-sub_6C46 proc near
+sub_8B16 proc near
 mov	al, ds:2Ah
 sub	al, 2Dh	; '-'
 cmp	al, 3
-jnb	short locret_6C6E
+jnb	short locret_8B3E
 test	word ptr ds:10h, 10h
-jnz	short locret_6C6E
+jnz	short locret_8B3E
 mov	di, ds:473Ch
 or	di, di
-jz	short locret_6C6E
-call	sub_331E
+jz	short locret_8B3E
+call	sub_51EE
 cmp	byte ptr ds:66h, 0
-jz	short locret_6C6E
+jz	short locret_8B3E
 mov	al, 30h	; '0'
-jmp	sub_121F
+jmp	sub_30EF
 
-locret_6C6E:
+locret_8B3E:
 retn
-sub_6C46 endp
+sub_8B16 endp
 
 
 
 
-sub_6C6F proc near
+sub_8B3F proc near
 xor	si, si
 mov	ax, ds:101Ah
 cmp	al, 80h	; '€'
-jnz	short loc_6C83
+jnz	short loc_8B53
 mov	al, 1Ch
 dec	ah
 mul	ah
 add	ax, 100h
 mov	si, ax
 
-loc_6C83:
+loc_8B53:
 mov	ds:473Ch, si
-call	sub_6C46
+call	sub_8B16
 mov	byte ptr ds:4737h, 0
 mov	si, 8AAh
 
-loc_6C92:
+loc_8B62:
 test	word ptr [si+12h], 430h
-jnz	short loc_6CD3
+jnz	short loc_8BA3
 cmp	byte ptr [si+1Ah], 14h
-jnb	short loc_6CA4
-call	sub_6D19
-jb	short loc_6CC3
+jnb	short loc_8B74
+call	sub_8BE9
+jb	short loc_8B93
 
-loc_6CA4:
+loc_8B74:
 mov	al, [si+3]
 test	al, 0A0h
-jnz	short loc_6CC3
+jnz	short loc_8B93
 test	al, 40h
-jnz	short loc_6CED
+jnz	short loc_8BBD
 and	ax, 0Fh
 mov	bx, ax
 shl	bx, 1
 push	si
 mov	di, [si+4]
-call	cs:off_6C26[bx]
+call	cs:off_8AF6[bx]
 pop	si
-call	sub_6D7B
+call	sub_8C4B
 
-loc_6CC3:
+loc_8B93:
 add	si, 1Bh
 cmp	si, 0FBBh
-jb	short loc_6C92
+jb	short loc_8B62
 mov	al, ds:4737h
 mov	ds:0FAh, al
 retn
 
-loc_6CD3:
+loc_8BA3:
 test	byte ptr [si+3], 40h
-jnz	short loc_6CED
+jnz	short loc_8BBD
 cmp	byte ptr ds:0FAh, 0
-jz	short loc_6CC3
+jz	short loc_8B93
 and	byte ptr [si+12h], 0CFh
 test	word ptr [si+12h], 400h
-jnz	short loc_6CC3
-jmp	short loc_6C92
+jnz	short loc_8B93
+jmp	short loc_8B62
 
-loc_6CED:
+loc_8BBD:
 mov	al, [si]
 cmp	al, ds:1954h
-jz	short loc_6CC3
+jz	short loc_8B93
 push	si
-call	sub_8308
+call	sub_A1D8
 pop	si
-jmp	short loc_6CC3
-sub_6C6F endp
+jmp	short loc_8B93
+sub_8B3F endp
 
 
 
 
-sub_6CFC proc near
+sub_8BCC proc near
 cmp	byte ptr [di+8], 20h ; ' '
-jnb	short locret_6D18
+jnb	short locret_8BE8
 cmp	byte ptr [di+0Bh], 0Ch
-jnb	short locret_6D18
+jnb	short locret_8BE8
 test	byte ptr [di+0Ah], 1
-jnz	short locret_6D18
+jnz	short locret_8BE8
 inc	byte ptr [di+0Bh]
 push	si
 push	di
-call	sub_644E
+call	sub_831E
 pop	di
 pop	si
 
-locret_6D18:
+locret_8BE8:
 retn
-sub_6CFC endp
+sub_8BCC endp
 
 
 
 
-sub_6D19 proc near
+sub_8BE9 proc near
 test	byte ptr [si+3], 0E3h
-jnz	short locret_6D5E
+jnz	short locret_8C2E
 test	byte ptr [si+10h], 80h
-jnz	short locret_6D5E
+jnz	short locret_8C2E
 cmp	si, 8E0h
-jz	short locret_6D5E
+jz	short locret_8C2E
 mov	di, [si+4]
 xor	bx, bx
 mov	cl, [si+1Ah]
 not	cl
 mov	dx, si
 mov	bp, 6D5Fh
-call	sub_661D
+call	sub_84ED
 or	bx, bx
-jz	short locret_6D5E
+jz	short locret_8C2E
 mov	al, [si+1Ah]
 add	[bx+1Ah], al
 mov	al, [si+19h]
@@ -15059,452 +15058,452 @@ and	al, [bx+19h]
 mov	[si+19h], al
 or	[bx+19h], ah
 or	word ptr [bx+12h], 200h
-call	sub_66B1
+call	sub_8581
 stc
 
-locret_6D5E:
+locret_8C2E:
 retn
-sub_6D19 endp
+sub_8BE9 endp
 
 test	byte ptr [si+3], 0A0h
-jnz	short locret_6D7A
+jnz	short locret_8C4A
 cmp	si, 8E0h
-jz	short locret_6D7A
+jz	short locret_8C4A
 cmp	si, dx
-jz	short locret_6D7A
+jz	short locret_8C4A
 mov	al, [si+1Ah]
 cmp	cl, al
-jb	short locret_6D7A
+jb	short locret_8C4A
 mov	bx, si
 mov	cl, al
 
-locret_6D7A:
+locret_8C4A:
 retn
 
 
 
-sub_6D7B proc near
+sub_8C4B proc near
 test	word ptr ds:2, 3Fh
-jz	short loc_6D84
+jz	short loc_8C54
 retn
 
-loc_6D84:
-call	sub_693B
+loc_8C54:
+call	sub_880B
 mov	cl, al
 mov	ax, 0C000h
 rol	ax, cl
 and	ax, [si+12h]
-jz	short locret_6DBA
+jz	short locret_8C8A
 shl	ax, 1
-jnb	short loc_6DA0
+jnb	short loc_8C70
 cmp	byte ptr [si+18h], 0
-jz	short loc_6DA0
+jz	short loc_8C70
 dec	byte ptr [si+18h]
 
-loc_6DA0:
+loc_8C70:
 shl	ax, 1
-jnb	short loc_6DAD
+jnb	short loc_8C7D
 cmp	byte ptr [si+17h], 0
-jz	short loc_6DAD
+jz	short loc_8C7D
 dec	byte ptr [si+17h]
 
-loc_6DAD:
+loc_8C7D:
 shl	ax, 1
-jnb	short locret_6DBA
+jnb	short locret_8C8A
 cmp	byte ptr [si+16h], 0
-jz	short locret_6DBA
+jz	short locret_8C8A
 dec	byte ptr [si+16h]
 
-locret_6DBA:
+locret_8C8A:
 retn
-sub_6D7B endp
+sub_8C4B endp
 
 
 
 
-sub_6DBB proc near
+sub_8C8B proc near
 push	si
-call	sub_40AE
+call	sub_5F7E
 mov	si, 0FD8h
 mov	cx, 0Ch
 
-loc_6DC5:
+loc_8C95:
 cmp	bx, [si+2]
-jnz	short loc_6DD6
+jnz	short loc_8CA6
 mov	ax, [si]
 mov	ah, dh
 cmp	al, 1
-jz	short loc_6DD4
+jz	short loc_8CA4
 mov	al, 2
 
-loc_6DD4:
+loc_8CA4:
 mov	[si], ax
 
-loc_6DD6:
+loc_8CA6:
 add	si, 10h
-loop	loc_6DC5
+loop	loc_8C95
 cmp	bx, ds:6
-jnz	short loc_6DFB
+jnz	short loc_8CCB
 or	byte ptr ds:473Bh, 80h
 mov	ax, ds:4
 mov	ah, dh
 cmp	al, 1
-jz	short loc_6DF1
+jz	short loc_8CC1
 mov	al, 2
 
-loc_6DF1:
+loc_8CC1:
 mov	ds:4, ax
 mov	ds:0Bh,	al
 mov	ds:8, ah
 
-loc_6DFB:
+loc_8CCB:
 pop	si
 mov	bp, 6E0Fh
-call	sub_6603
-sub_6DBB endp
+call	sub_84D3
+sub_8C8B endp
 
 
 
 
-sub_6E02 proc near
+sub_8CD2 proc near
 xor	cx, cx
 mov	bp, 764Dh
-call	sub_6603
+call	sub_84D3
 or	cx, cx
-jnz	short sub_6E02
+jnz	short sub_8CD2
 retn
-sub_6E02 endp
+sub_8CD2 endp
 
 test	word ptr [si+10h], 20h
-jz	short locret_6E1F
+jz	short locret_8CEF
 and	word ptr [si+10h], 0FFDFh
 or	word ptr [si+12h], 1000h
 
-locret_6E1F:
+locret_8CEF:
 retn
 
 
 
-sub_6E20 proc near
+sub_8CF0 proc near
 cmp	byte ptr ds:46DEh, 0
-jnz	short loc_6E28
+jnz	short loc_8CF8
 retn
 
-loc_6E28:
+loc_8CF8:
 test	byte ptr [di+0Ah], 8
-jz	short loc_6E4B
-call	sub_1AC5
+jz	short loc_8D1B
+call	sub_3995
 sub	al, [di+0Bh]
 cmp	al, 0FEh ; 'þ'
-jnb	short locret_6E81
+jnb	short locret_8D51
 and	byte ptr [di+0Ah], 0F7h
 and	byte ptr [di+8], 7
 inc	byte ptr ds:27h
-call	sub_6DBB
+call	sub_8C8B
 mov	byte ptr [di+0Bh], 5
 
-loc_6E4B:
-call	sub_6CFC
-call	sub_1AC5
+loc_8D1B:
+call	sub_8BCC
+call	sub_3995
 sub	al, [si+14h]
 cmp	al, 8
-jbe	short loc_6E5D
+jbe	short loc_8D2D
 mov	al, 1
-call	sub_6F93
+call	sub_8E63
 
-loc_6E5D:
+loc_8D2D:
 mov	al, [si]
 cmp	al, [di+9]
-jnz	short locret_6E81
+jnz	short locret_8D51
 xor	dx, dx
 mov	bp, 6E82h
-call	sub_661D
+call	sub_84ED
 cmp	dl, 3
-jnz	short locret_6E81
+jnz	short locret_8D51
 mov	bp, 6EA8h
-call	sub_661D
+call	sub_84ED
 mov	ax, 302h
 push	si
 push	di
-call	sub_29F0
+call	sub_48C0
 pop	di
 pop	si
 
-locret_6E81:
+locret_8D51:
 retn
-sub_6E20 endp
+sub_8CF0 endp
 
 cmp	di, ds:114Eh
-jz	short locret_6EA7
+jz	short locret_8D77
 cmp	byte ptr [di+8], 21h ; '!'
-jnb	short locret_6EA7
+jnb	short locret_8D77
 cmp	byte ptr [si+15h], 28h ; '('
-jnb	short locret_6EA7
+jnb	short locret_8D77
 mov	al, [si+3]
 and	al, 2Fh
-jnz	short locret_6EA7
+jnz	short locret_8D77
 mov	dh, 1
 test	byte ptr [si+12h], 80h
-jz	short loc_6EA5
+jz	short loc_8D75
 shl	dh, 1
 
-loc_6EA5:
+loc_8D75:
 or	dl, dh
 
-locret_6EA7:
+locret_8D77:
 retn
 cmp	byte ptr [si+15h], 28h ; '('
-jnb	short locret_6EBE
+jnb	short locret_8D8E
 mov	al, [si+3]
 and	al, 2Fh
 and	al, 0FBh
-jnz	short locret_6EBE
-call	sub_7085
+jnz	short locret_8D8E
+call	sub_8F55
 or	byte ptr [si+12h], 10h
 
-locret_6EBE:
+locret_8D8E:
 retn
 
 
 
-sub_6EBF proc near
+sub_8D8F proc near
 push	di
 mov	di, [si+4]
 mov	bp, 6ECBh
-call	sub_661D
+call	sub_84ED
 pop	di
 retn
-sub_6EBF endp
+sub_8D8F endp
 
 test	byte ptr [si+12h], 10h
-jz	short locret_6EDA
+jz	short locret_8DAA
 mov	cl, [si+3]
 and	cl, 0Fh
-jmp	sub_6AD4
+jmp	sub_89A4
 
-locret_6EDA:
+locret_8DAA:
 retn
-; START	OF FUNCTION CHUNK FOR sub_71EF
+; START	OF FUNCTION CHUNK FOR sub_90BF
 
-loc_6EDB:
+loc_8DAB:
 mov	al, 1
-; END OF FUNCTION CHUNK	FOR sub_71EF
+; END OF FUNCTION CHUNK	FOR sub_90BF
 
 
 
-sub_6EDD proc near
+sub_8DAD proc near
 mov	dl, [bx+si+16h]
 add	al, dl
 cmp	al, 5Fh	; '_'
-jbe	short loc_6EE8
+jbe	short loc_8DB8
 mov	al, 5Fh	; '_'
 
-loc_6EE8:
+loc_8DB8:
 mov	[bx+si+16h], al
 xor	al, dl
 and	al, 0F0h
-jz	short locret_6EFC
+jz	short locret_8DCC
 mov	ax, [si+10h]
 and	al, 0FCh
 inc	bx
 or	al, bl
 mov	[si+10h], ax
 
-locret_6EFC:
+locret_8DCC:
 retn
-sub_6EDD endp
+sub_8DAD endp
 
 
 
 
-sub_6EFD proc near
+sub_8DCD proc near
 mov	ah, [si+3]
 and	ah, 0Fh
 mov	al, [si+15h]
 cmp	byte ptr ds:0FAh, 0
-jz	short loc_6F0F
+jz	short loc_8DDF
 add	al, 14h
 
-loc_6F0F:
+loc_8DDF:
 cmp	ah, 6
-jnz	short loc_6F23
+jnz	short loc_8DF3
 push	di
 mov	di, [si+4]
 cmp	di, ds:114Eh
 pop	di
-jnz	short loc_6F31
+jnz	short loc_8E01
 add	al, 1Eh
-jmp	short loc_6F2B
+jmp	short loc_8DFB
 
-loc_6F23:
+loc_8DF3:
 and	ah, 0FEh
 cmp	ah, 8
-jz	short loc_6F2F
+jz	short loc_8DFF
 
-loc_6F2B:
+loc_8DFB:
 cmp	al, 64h	; 'd'
-jb	short loc_6F31
+jb	short loc_8E01
 
-loc_6F2F:
+loc_8DFF:
 mov	al, 64h	; 'd'
 
-loc_6F31:
+loc_8E01:
 cmp	byte ptr ds:2Ah, 64h ; 'd'
-jb	short locret_6F47
+jb	short locret_8E17
 cmp	byte ptr ds:2Ah, 68h ; 'h'
-jnb	short locret_6F47
+jnb	short locret_8E17
 sub	al, 28h	; '('
 cmp	al, 0Ah
-jge	short locret_6F47
+jge	short locret_8E17
 mov	al, 0Ah
 
-locret_6F47:
+locret_8E17:
 retn
-sub_6EFD endp
+sub_8DCD endp
 
 
 
 
-sub_6F48 proc near
+sub_8E18 proc near
 add	[si+15h], al
 cmp	byte ptr [si+15h], 64h ; 'd'
-jbe	short locret_6F55
+jbe	short locret_8E25
 mov	byte ptr [si+15h], 64h ; 'd'
 
-locret_6F55:
+locret_8E25:
 retn
-sub_6F48 endp
+sub_8E18 endp
 
 
 
 
-sub_6F56 proc near
+sub_8E26 proc near
 push	si
 mov	si, 8AAh
 
-loc_6F5A:
+loc_8E2A:
 test	byte ptr [si+3], 0A0h
-jnz	short loc_6F6D
+jnz	short loc_8E3D
 add	[si+15h], al
 cmp	byte ptr [si+15h], 64h ; 'd'
-jbe	short loc_6F6D
+jbe	short loc_8E3D
 mov	byte ptr [si+15h], 64h ; 'd'
 
-loc_6F6D:
+loc_8E3D:
 add	si, 1Bh
 cmp	si, 0FBBh
-jb	short loc_6F5A
+jb	short loc_8E2A
 pop	si
 retn
-sub_6F56 endp
+sub_8E26 endp
 
 
 
 
-sub_6F78 proc near
+sub_8E48 proc near
 mov	ah, ds:29h
 add	al, ah
 cmp	al, 0C8h ; 'È'
-jbe	short loc_6F84
+jbe	short loc_8E54
 mov	al, 0C8h ; 'È'
 
-loc_6F84:
+loc_8E54:
 mov	ds:29h,	al
 and	ax, 0FCFCh
 sub	al, ah
 shr	al, 1
 shr	al, 1
-jnz	short sub_6F56
+jnz	short sub_8E26
 retn
-sub_6F78 endp
+sub_8E48 endp
 
 
 
 
-sub_6F93 proc near
+sub_8E63 proc near
 sub	[si+15h], al
-jnb	short loc_6F9C
+jnb	short loc_8E6C
 mov	byte ptr [si+15h], 0
 
-loc_6F9C:
+loc_8E6C:
 cmp	byte ptr [si+15h], 5
-jnb	short locret_6FAF
+jnb	short locret_8E7F
 mov	byte ptr [si+15h], 4
 push	ax
-call	sub_7085
+call	sub_8F55
 or	word ptr [si+12h], 20h
 pop	ax
 
-locret_6FAF:
+locret_8E7F:
 retn
-sub_6F93 endp
+sub_8E63 endp
 
 
 
 
-sub_6FB0 proc near
+sub_8E80 proc near
 mov	ah, al
 mov	al, ds:29h
 sub	al, ah
-ja	short loc_6FBB
+ja	short loc_8E8B
 mov	al, 1
 
-loc_6FBB:
+loc_8E8B:
 mov	ah, al
 xchg	al, ds:29h
 and	ax, 0FCFCh
 sub	al, ah
 shr	al, 1
 shr	al, 1
-jnz	short loc_6FCD
+jnz	short loc_8E9D
 retn
 
-loc_6FCD:
+loc_8E9D:
 push	si
 mov	si, 8AAh
 
-loc_6FD1:
+loc_8EA1:
 test	byte ptr [si+3], 0A0h
-jnz	short loc_6FDA
-call	sub_6F93
+jnz	short loc_8EAA
+call	sub_8E63
 
-loc_6FDA:
+loc_8EAA:
 add	si, 1Bh
 cmp	si, 0FBBh
-jb	short loc_6FD1
+jb	short loc_8EA1
 pop	si
 retn
-sub_6FB0 endp
+sub_8E80 endp
 
 
 
 
-sub_6FE5 proc near
-call	sub_6E20
+sub_8EB5 proc near
+call	sub_8CF0
 test	word ptr [si+10h], 200h
-jnz	short loc_705C
-call	sub_6B96
-jnb	short loc_6FF7
-jmp	loc_707B
+jnz	short loc_8F2C
+call	sub_8A66
+jnb	short loc_8EC7
+jmp	loc_8F4B
 
-loc_6FF7:
-call	sub_714C
+loc_8EC7:
+call	sub_901C
 
-loc_6FFA:
+loc_8ECA:
 or	word ptr [si+10h], 100h
-call	sub_708A
+call	sub_8F5A
 push	ax
 mov	dx, [si+0Eh]
 add	ax, dx
 mov	[si+0Eh], ax
 xor	ax, dx
 and	ax, 0FF80h
-jz	short loc_7019
+jz	short loc_8EE9
 mov	al, 1
 xor	bx, bx
-call	sub_6EDD
+call	sub_8DAD
 
-loc_7019:
+loc_8EE9:
 pop	ax
 push	ax
 add	ax, ds:46E1h
@@ -15522,62 +15521,62 @@ mov	[di+13h], ah
 mov	ah, [di+12h]
 and	ah, 0Fh
 cmp	al, ah
-jbe	short loc_7052
+jbe	short loc_8F22
 test	byte ptr ds:46EBh, 40h
-jz	short loc_7052
+jz	short loc_8F22
 inc	byte ptr ds:46ECh
 
-loc_7052:
+loc_8F22:
 sub	[di+12h], al
-jnb	short locret_705B
+jnb	short locret_8F2B
 mov	byte ptr [di+12h], 0
 
-locret_705B:
+locret_8F2B:
 retn
 
-loc_705C:
+loc_8F2C:
 mov	ax, ds:2
 mov	ah, [si]
 and	ax, 0F0Fh
 cmp	al, ah
-jnz	short loc_7074
+jnz	short loc_8F44
 and	word ptr [si+10h], 0FDFFh
-call	sub_6B96
-jb	short locret_705B
-jmp	short loc_6FFA
+call	sub_8A66
+jb	short locret_8F2B
+jmp	short loc_8ECA
 
-loc_7074:
+loc_8F44:
 mov	word ptr [si+0Ch], 0
-jmp	short sub_7085
+jmp	short sub_8F55
 
-loc_707B:
+loc_8F4B:
 mov	word ptr [si+0Ch], 0
 mov	word ptr [si+0Eh], 0
-sub_6FE5 endp
+sub_8EB5 endp
 
 
 
 
-sub_7085 proc near
+sub_8F55 proc near
 or	byte ptr [si+3], 10h
 retn
-sub_7085 endp
+sub_8F55 endp
 
 
 
 
-sub_708A proc near
-call	sub_6EFD
+sub_8F5A proc near
+call	sub_8DCD
 mov	ah, [si+16h]
 and	ah, 0F0h
 add	al, ah
 mul	byte ptr [si+1Ah]
 test	byte ptr [si+19h], 80h
-jnz	short loc_70A2
+jnz	short loc_8F72
 shr	ax, 1
 shr	ax, 1
 
-loc_70A2:
+loc_8F72:
 mov	al, [di+12h]
 and	al, 0F0h
 inc	ax
@@ -15588,35 +15587,35 @@ and	ah, 1
 mov	dx, ax
 xchg	dx, [si+0Ch]
 sub	dx, ax
-jz	short locret_70CB
+jz	short locret_8F9B
 mov	bl, 8
-jb	short loc_70C0
+jb	short loc_8F90
 mov	bl, 4
 
-loc_70C0:
+loc_8F90:
 mov	cx, [si+10h]
 and	cl, 0F3h
 or	cl, bl
 mov	[si+10h], cx
 
-locret_70CB:
+locret_8F9B:
 retn
-sub_708A endp
+sub_8F5A endp
 
 
 
 
-sub_70CC proc near
+sub_8F9C proc near
 mov	al, [di+0Ah]
 test	al, 2
-jnz	short locret_710F
+jnz	short locret_8FDF
 test	al, 40h
-jnz	short loc_7126
-call	sub_6B8A
-jb	short locret_710F
+jnz	short loc_8FF6
+call	sub_8A5A
+jb	short locret_8FDF
 mov	ax, [si+0Ch]
 or	ax, ax
-jnz	short loc_70F7
+jnz	short loc_8FC7
 mov	al, [di+11h]
 mov	cl, 4
 shl	ax, cl
@@ -15626,268 +15625,268 @@ div	cl
 xor	ah, ah
 mov	[si+0Ch], ax
 
-loc_70F7:
+loc_8FC7:
 mov	cx, ds:2
 sub	cx, [si+0Ah]
 cmp	ax, cx
-jbe	short loc_7110
-jcxz	short locret_710F
+jbe	short loc_8FE0
+jcxz	short locret_8FDF
 mov	dx, 64h	; 'd'
 xchg	ax, cx
 mul	dx
 div	cx
 mov	[si+0Eh], ax
 
-locret_710F:
+locret_8FDF:
 retn
 
-loc_7110:
+loc_8FE0:
 xor	bx, bx
 mov	al, 2
-call	sub_6EDD
+call	sub_8DAD
 or	byte ptr [di+0Ah], 40h
 test	byte ptr ds:46EBh, 40h
-jz	short loc_7126
+jz	short loc_8FF6
 inc	byte ptr ds:46ECh
 
-loc_7126:
+loc_8FF6:
 mov	al, [si+3]
 push	ax
-call	sub_6B8A
+call	sub_8A5A
 mov	word ptr [si+0Eh], 64h ; 'd'
 pop	ax
 cmp	si, ds:46EFh
-jz	short locret_710F
+jz	short locret_8FDF
 cmp	word ptr ds:11D3h, 0
-jnz	short loc_7149
+jnz	short loc_9019
 test	al, 10h
-jnz	short locret_710F
+jnz	short locret_8FDF
 mov	al, 0Eh
-jmp	short sub_71B2
+jmp	short sub_9082
 db 90h
 
-loc_7149:
-jmp	sub_84A6
-sub_70CC endp
+loc_9019:
+jmp	sub_A376
+sub_8F9C endp
 
 
 
 
-sub_714C proc near
+sub_901C proc near
 
 ; FUNCTION CHUNK AT 71A4 SIZE 0000000E BYTES
 
 test	byte ptr ds:0Ah, 1
-jz	short locret_71BB
+jz	short locret_908B
 test	byte ptr [si+19h], 80h
-jz	short locret_71BB
+jz	short locret_908B
 mov	ax, ds:2
 mov	ah, [si]
 and	ax, 0F0Fh
 cmp	al, ah
-jnz	short locret_71BB
-call	sub_71BC
-call	sub_E3CC
+jnz	short locret_908B
+call	sub_908C
+call	sub_1029C
 mov	al, [di]
 mov	bx, 1141h
 xlat
 cmp	al, ah
-jb	short locret_71BB
+jb	short locret_908B
 or	word ptr [si+10h], 4000h
 test	byte ptr [si+19h], 40h
-jnz	short locret_71BB
+jnz	short locret_908B
 and	ah, 3
-jz	short locret_71BB
+jz	short locret_908B
 cmp	ah, 2
-ja	short loc_71A4
-jz	short sub_719C
+ja	short loc_9074
+jz	short sub_906C
 or	word ptr [si+10h], 2000h
 sub	byte ptr [si+1Ah], 2
-ja	short locret_71BB
+ja	short locret_908B
 add	byte ptr [si+1Ah], 2
 retn
-sub_714C endp
+sub_901C endp
 
 
 
 
-sub_719C proc near
+sub_906C proc near
 or	word ptr [si+10h], 200h
-jmp	sub_7085
-sub_719C endp
+jmp	sub_8F55
+sub_906C endp
 
-; START	OF FUNCTION CHUNK FOR sub_714C
+; START	OF FUNCTION CHUNK FOR sub_901C
 
-loc_71A4:
+loc_9074:
 or	word ptr [si+10h], 1000h
 and	byte ptr [si+19h], 7Fh
 dec	byte ptr [di+14h]
 mov	al, 6
-; END OF FUNCTION CHUNK	FOR sub_714C
+; END OF FUNCTION CHUNK	FOR sub_901C
 
 
 
-sub_71B2 proc near
+sub_9082 proc near
 mov	ah, 0Fh
 push	si
 push	di
-call	sub_29F0
+call	sub_48C0
 pop	di
 pop	si
 
-locret_71BB:
+locret_908B:
 retn
-sub_71B2 endp
+sub_9082 endp
 
 
 
 
-sub_71BC proc near
+sub_908C proc near
 cmp	byte ptr ds:2Ah, 35h ; '5'
-jb	short locret_71EE
+jb	short locret_90BE
 test	word ptr [si+12h], 40h
-jz	short locret_71EE
+jz	short locret_90BE
 rol	word ptr ds:0, 1
 rol	word ptr ds:0, 1
 rol	word ptr ds:0, 1
 test	word ptr ds:0, 7
-jnz	short locret_71EE
-call	sub_719C
+jnz	short locret_90BE
+call	sub_906C
 or	word ptr [si+10h], 8000h
 or	byte ptr [di+0Ah], 4
 mov	al, 3
-jmp	short sub_71B2
+jmp	short sub_9082
 
-locret_71EE:
+locret_90BE:
 retn
-sub_71BC endp
+sub_908C endp
 
 
 
 
-sub_71EF proc near
+sub_90BF proc near
 
 ; FUNCTION CHUNK AT 6EDB SIZE 00000002 BYTES
 
-call	sub_6E20
+call	sub_8CF0
 and	word ptr [si+10h], 0FDFFh
 test	byte ptr [di+0Ah], 4
-jnz	short loc_725F
+jnz	short loc_912F
 dec	word ptr [si+0Ch]
-js	short loc_7203
+js	short loc_90D3
 retn
 
-loc_7203:
+loc_90D3:
 cmp	di, ds:473Ch
-jnz	short loc_7212
+jnz	short loc_90E2
 or	word ptr [si+10h], 800h
 mov	al, 0A0h ; ' '
-jmp	short loc_721B
+jmp	short loc_90EB
 
-loc_7212:
-call	sub_7298
+loc_90E2:
+call	sub_9168
 mov	ax, dx
-jcxz	short loc_721B
+jcxz	short loc_90EB
 div	cl
 
-loc_721B:
+loc_90EB:
 xor	ah, ah
 sub	al, [si+17h]
-jnb	short loc_7224
+jnb	short loc_90F4
 xor	al, al
 
-loc_7224:
+loc_90F4:
 shl	ax, 1
 mov	cx, ax
-call	sub_6EFD
+call	sub_8DCD
 xor	ah, ah
 cmp	al, 1Eh
-jnb	short loc_7233
+jnb	short loc_9103
 mov	al, 1Eh
 
-loc_7233:
+loc_9103:
 add	cx, ax
 mov	bl, [si+19h]
 mov	ax, 0C8h ; 'È'
 test	bl, 0Ch
-jnz	short loc_7252
+jnz	short loc_9122
 mov	al, 0FAh ; 'ú'
 test	bl, 10h
-jnz	short loc_7252
+jnz	short loc_9122
 mov	ax, 12Ch
 test	bl, 20h
-jnz	short loc_7252
+jnz	short loc_9122
 mov	ax, 190h
 
-loc_7252:
+loc_9122:
 xor	dx, dx
 div	cx
 mov	[si+0Ch], ax
 mov	bx, 1
-jmp	loc_6EDB
+jmp	loc_8DAB
 
-loc_725F:
+loc_912F:
 mov	ax, [si+0Eh]
 cmp	ah, 0FFh
-jz	short loc_726D
+jz	short loc_913D
 mov	ax, 0FF40h
 sub	al, [si+17h]
 
-loc_726D:
+loc_913D:
 dec	al
-jns	short loc_7279
-call	sub_727D
+jns	short loc_9149
+call	sub_914D
 or	[si+12h], cx
 xor	ax, ax
 
-loc_7279:
+loc_9149:
 mov	[si+0Eh], ax
 retn
-sub_71EF endp
+sub_90BF endp
 
 
 
 
-sub_727D proc near
+sub_914D proc near
 and	byte ptr [di+0Ah], 0FBh
 mov	bp, 7289h
 xor	cx, cx
-jmp	sub_661D
-sub_727D endp
+jmp	sub_84ED
+sub_914D endp
 
 test	word ptr [si+12h], 40h
-jz	short locret_7297
+jz	short locret_9167
 and	word ptr [si+12h], 0FFBFh
 mov	cx, 100h
 
-locret_7297:
+locret_9167:
 retn
 
 
 
-sub_7298 proc near
+sub_9168 proc near
 mov	bp, 72A2h
 xor	cx, cx
 xor	dx, dx
-jmp	sub_661D
-sub_7298 endp
+jmp	sub_84ED
+sub_9168 endp
 
 cmp	byte ptr [si+3], 4
-jnz	short locret_72AF
+jnz	short locret_917F
 inc	cx
 add	dl, [si+17h]
 adc	dh, 0
 
-locret_72AF:
+locret_917F:
 retn
 
 
 
-sub_72B0 proc near
+sub_9180 proc near
 mov	bx, ds:2
 sub	bx, [si+0Ah]
 test	byte ptr [si+10h], 40h
-jnz	short loc_72F7
+jnz	short loc_91C7
 mov	al, 50h	; 'P'
 sub	al, [si+17h]
 cbw
@@ -15895,212 +15894,212 @@ sar	ax, 1
 mov	bp, ax
 sar	ax, 1
 cmp	ax, bx
-jge	short loc_72F7
+jge	short loc_91C7
 cmp	word ptr [si+0Ch], 0
-jnz	short loc_72DF
+jnz	short loc_91AF
 push	bx
 push	bp
-call	sub_68D2
+call	sub_87A2
 pop	bp
 pop	bx
-jcxz	short loc_72F3
+jcxz	short loc_91C3
 mov	[si+0Ch], cx
 
-loc_72DF:
+loc_91AF:
 cmp	bp, bx
-jge	short loc_72F7
+jge	short loc_91C7
 push	bx
-call	sub_33BE
+call	sub_528E
 pop	bx
 mov	ax, ds:94h
 xor	dx, dx
 div	word ptr [si+0Ch]
 mov	[si+0Eh], ax
 
-loc_72F3:
+loc_91C3:
 or	byte ptr [si+10h], 40h
 
-loc_72F7:
+loc_91C7:
 mov	al, [si]
 cmp	al, [di+9]
-jz	short locret_7316
+jz	short locret_91E6
 mov	al, [si+17h]
 xor	ah, ah
 shr	ax, 1
 cmp	ax, bx
-jnb	short locret_7316
-call	sub_E3CC
+jnb	short locret_91E6
+call	sub_1029C
 and	al, 3Fh
 cmp	al, [si+17h]
-jb	short locret_7316
-jmp	sub_668F
+jb	short locret_91E6
+jmp	sub_855F
 
-locret_7316:
+locret_91E6:
 retn
-sub_72B0 endp
+sub_9180 endp
 
 mov	byte ptr ds:473Ah, 1
 mov	di, ds:114Eh
-call	sub_33BE
+call	sub_528E
 mov	ax, ds:94h
 mov	ds:98h,	ax
 mov	ax, ds:96h
 mov	ds:9Ah,	ax
-call	sub_E3CC
+call	sub_1029C
 cmp	al, ds:9Ch
 mov	bp, 7516h
-jnb	short loc_733E
+jnb	short loc_920E
 mov	bp, 7419h
 
-loc_733E:
+loc_920E:
 mov	cx, 10h
 
-loc_7341:
+loc_9211:
 push	cx
 mov	di, ds:114Eh
 push	bp
-call	sub_33BE
+call	sub_528E
 pop	bp
-call	sub_6603
+call	sub_84D3
 pop	cx
 cmp	word ptr ds:94h, 0
-jz	short loc_735F
+jz	short loc_922F
 cmp	word ptr ds:96h, 0
-jz	short loc_735F
-loop	loc_7341
+jz	short loc_922F
+loop	loc_9211
 
-loc_735F:
-call	sub_33BE
+loc_922F:
+call	sub_528E
 mov	ax, ds:94h
 sub	ds:98h,	ax
 mov	ax, ds:96h
 sub	ds:9Ah,	ax
 mov	cx, 14h
 
-loc_7373:
+loc_9243:
 push	cx
 mov	bx, 201h
-call	sub_E3B7
+call	sub_10287
 or	al, al
 mov	al, 0Bh
-jz	short loc_7382
+jz	short loc_9252
 mov	al, 11h
 
-loc_7382:
+loc_9252:
 mov	ds:485Dh, al
 mov	al, ah
 xor	ah, ah
 add	al, 28h	; '('
-call	sub_DDB0
+call	sub_FC80
 pop	cx
-loop	loc_7373
+loop	loc_9243
 mov	byte ptr ds:473Ah, 0
-jmp	loc_1B8D
+jmp	loc_3A5D
 mov	byte ptr [si+3], 4
 retn
 
 
 
-sub_739E proc near
+sub_926E proc near
 
 ; FUNCTION CHUNK AT 751D SIZE 00000035 BYTES
 
 or	byte ptr ds:11BCh, 1
 cmp	di, 11Ch
-jnz	short loc_73D9
+jnz	short loc_92A9
 inc	byte ptr ds:0C2h
 mov	bp, 7399h
-call	sub_661D
-call	sub_6E02
+call	sub_84ED
+call	sub_8CD2
 les	di, ds:0DCFEh
 xor	di, di
 mov	cx, 0C5F9h
 
-loc_73BF:
+loc_928F:
 mov	al, es:[di]
 mov	ah, al
 and	ah, 30h
 cmp	ah, 30h	; '0'
-jnz	short loc_73CE
+jnz	short loc_929E
 and	al, 0EFh
 
-loc_73CE:
+loc_929E:
 stosb
-loop	loc_73BF
+loop	loc_928F
 mov	al, 0Ah
 mov	di, 11Ch
-jmp	sub_71B2
+jmp	sub_9082
 
-loc_73D9:
-call	sub_33BE
+loc_92A9:
+call	sub_528E
 cmp	word ptr ds:94h, 0
-jz	short loc_7429
-call	sub_E3CC
+jz	short loc_92F9
+call	sub_1029C
 cmp	al, ds:9Ch
-jb	short loc_73EF
-jmp	loc_751D
+jb	short loc_92BF
+jmp	loc_93ED
 
-loc_73EF:
-call	sub_5098
+loc_92BF:
+call	sub_6F68
 push	cx
-call	sub_342D
+call	sub_52FD
 pop	cx
-jcxz	short loc_73FD
+jcxz	short loc_92CD
 xor	dx, dx
 div	cx
 
-loc_73FD:
+loc_92CD:
 mov	dl, al
 inc	dl
-jnz	short loc_7405
+jnz	short loc_92D5
 dec	dl
 
-loc_7405:
+loc_92D5:
 xor	dh, dh
 xor	cx, cx
 xor	bx, bx
 mov	bp, 7552h
-call	sub_6603
+call	sub_84D3
 add	[si+0Ch], cx
 or	bx, bx
-jz	short loc_7429
+jz	short loc_92F9
 retn
 cmp	byte ptr [si+3], 6
-jnz	short locret_7428
+jnz	short locret_92F8
 cmp	word ptr ds:94h, 0
-jz	short loc_7429
-jmp	short loc_73EF
+jz	short loc_92F9
+jmp	short loc_92BF
 
-locret_7428:
+locret_92F8:
 retn
 
-loc_7429:
+loc_92F9:
 cmp	di, ds:114Eh
-jz	short loc_7434
+jz	short loc_9304
 mov	al, 7
-call	sub_71B2
+call	sub_9082
 
-loc_7434:
+loc_9304:
 cmp	byte ptr [di+8], 28h ; '('
-jnb	short loc_7443
+jnb	short loc_9313
 and	byte ptr [di+0Ah], 0FDh
 mov	bp, 75AFh
-jmp	short loc_7479
+jmp	short loc_9349
 
-loc_7443:
+loc_9313:
 push	si
 push	di
 mov	byte ptr [di+0Bh], 5
-call	sub_644E
+call	sub_831E
 pop	di
 pop	si
-call	sub_1AC5
+call	sub_3995
 add	al, 2
 mov	[di+0Bh], al
 mov	al, 4
-call	sub_6F78
+call	sub_8E48
 mov	al, 1
-call	sub_6F56
+call	sub_8E26
 or	byte ptr [di+0Ah], 8
 push	cx
 mov	cl, [di]
@@ -16109,135 +16108,135 @@ rol	ax, cl
 mov	ds:115Ah, ax
 pop	cx
 mov	bp, 75AFh
-call	sub_6603
+call	sub_84D3
 mov	bp, 75EAh
 
-loc_7479:
-call	sub_6603
+loc_9349:
+call	sub_84D3
 xor	dx, dx
 test	word ptr ds:0, 3
-jnz	short loc_7487
+jnz	short loc_9357
 inc	dx
 
-loc_7487:
+loc_9357:
 xor	cx, cx
 mov	bp, 762Ah
-call	sub_6603
+call	sub_84D3
 cmp	cx, dx
-ja	short loc_7487
+ja	short loc_9357
 push	si
 push	di
-call	sub_1CDA
+call	sub_3BAA
 cmp	dl, 1
-ja	short loc_74B1
+ja	short loc_9381
 mov	byte ptr ds:0C2h, 1
 and	byte ptr ds:0FF7h, 0FDh
 and	byte ptr ds:1007h, 0FDh
 pop	di
-call	sub_765E
+call	sub_952E
 push	di
 
-loc_74B1:
+loc_9381:
 pop	di
 pop	si
-jmp	sub_5D50
-sub_739E endp
+jmp	sub_7C20
+sub_926E endp
 
 
 
 
-sub_74B6 proc near
+sub_9386 proc near
 
 ; FUNCTION CHUNK AT 5D44 SIZE 0000000C BYTES
 
 and	byte ptr [di+0Ah], 0FDh
 cmp	di, ds:114Eh
-jz	short loc_7500
+jz	short loc_93D0
 mov	al, [di+8]
 cmp	al, 28h	; '('
-jnb	short loc_74EB
+jnb	short loc_93BB
 and	al, 7
 add	al, 28h	; '('
 mov	[di+8],	al
 dec	byte ptr ds:27h
 push	si
-call	sub_40AE
+call	sub_5F7E
 mov	dl, 3
 mov	si, 0FD8h
 mov	cx, 9
 
-loc_74DE:
+loc_93AE:
 cmp	bx, [si+2]
-jnz	short loc_74E5
+jnz	short loc_93B5
 mov	[si], dx
 
-loc_74E5:
+loc_93B5:
 add	si, 10h
-loop	loc_74DE
+loop	loc_93AE
 pop	si
 
-loc_74EB:
+loc_93BB:
 mov	bp, 7506h
-call	sub_6603
+call	sub_84D3
 push	di
 mov	cx, 5
-call	sub_6447
+call	sub_8317
 pop	di
 and	byte ptr [di+0Ah], 0F6h
-jmp	loc_5D44
+jmp	loc_7C14
 
-loc_7500:
+loc_93D0:
 mov	byte ptr ds:46D9h, 6
 retn
-sub_74B6 endp
+sub_9386 endp
 
 test	byte ptr [si+10h], 80h
-jz	short loc_7511
+jz	short loc_93E1
 or	byte ptr [si+10h], 10h
 retn
 
-loc_7511:
+loc_93E1:
 or	byte ptr [si+3], 20h
 retn
 cmp	byte ptr [si+3], 6
-jz	short loc_751D
+jz	short loc_93ED
 retn
-; START	OF FUNCTION CHUNK FOR sub_739E
+; START	OF FUNCTION CHUNK FOR sub_926E
 
-loc_751D:
+loc_93ED:
 mov	ax, ds:94h
 xor	dx, dx
 xor	cx, cx
 mov	cl, ds:60h
-jcxz	short loc_752C
+jcxz	short loc_93FC
 div	cx
 
-loc_752C:
+loc_93FC:
 mov	dx, ax
-call	sub_758D
+call	sub_945D
 add	[si+0Eh], ax
 sub	[si+1Ah], al
-ja	short locret_7551
+ja	short locret_9421
 mov	bx, 7Fh	; ''
-call	sub_E3B7
+call	sub_10287
 add	al, 1Eh
 mov	[si+1Ah], al
-call	sub_668F
-call	sub_5098
+call	sub_855F
+call	sub_6F68
 or	dx, dx
-jnz	short locret_7551
-call	sub_74B6
+jnz	short locret_9421
+call	sub_9386
 
-locret_7551:
+locret_9421:
 retn
-; END OF FUNCTION CHUNK	FOR sub_739E
+; END OF FUNCTION CHUNK	FOR sub_926E
 test	byte ptr [si+10h], 80h
-jz	short locret_758C
+jz	short locret_945C
 inc	bx
-call	sub_758D
+call	sub_945D
 add	cx, ax
 sub	[si+1Ah], al
-ja	short locret_758C
+ja	short locret_945C
 or	byte ptr [si+3], 20h
 or	byte ptr [si+10h], 10h
 dec	bx
@@ -16245,28 +16244,28 @@ push	bx
 push	cx
 push	dx
 mov	bx, 3
-call	sub_E3B7
-jnz	short loc_7581
+call	sub_10287
+jnz	short loc_9451
 mov	di, [si+4]
 and	byte ptr [si+19h], 0FBh
-call	sub_7F75
+call	sub_9E45
 
-loc_7581:
-call	sub_6917
-jnz	short loc_7589
-call	sub_C58A
+loc_9451:
+call	sub_87E7
+jnz	short loc_9459
+call	sub_E45A
 
-loc_7589:
+loc_9459:
 pop	dx
 pop	cx
 pop	bx
 
-locret_758C:
+locret_945C:
 retn
 
 
 
-sub_758D proc near
+sub_945D proc near
 push	dx
 mov	ax, dx
 mov	dx, 0FFh
@@ -16276,73 +16275,73 @@ mul	dx
 mov	al, ah
 xor	ah, ah
 or	dx, dx
-jz	short loc_75A5
+jz	short loc_9475
 mov	al, 0FFh
 
-loc_75A5:
+loc_9475:
 pop	dx
 cmp	al, [si+1Ah]
-jbe	short locret_75AE
+jbe	short locret_947E
 mov	al, [si+1Ah]
 
-locret_75AE:
+locret_947E:
 retn
-sub_758D endp
+sub_945D endp
 
-jnb	short locret_75E2
+jnb	short locret_94B2
 cmp	si, 8E0h
-jz	short loc_75E3
+jz	short loc_94B3
 test	byte ptr [si+3], 20h
-jnz	short loc_75DE
+jnz	short loc_94AE
 or	word ptr [si+10h], 400h
 cmp	byte ptr [di+8], 28h ; '('
-jb	short loc_75CC
+jb	short loc_949C
 or	word ptr [si+10h], 20h
 
-loc_75CC:
+loc_949C:
 mov	al, 4
-call	sub_6F48
+call	sub_8E18
 mov	bx, 1
 mov	al, 3
-call	sub_6EDD
+call	sub_8DAD
 mov	cl, 4
-jmp	loc_6ACB
+jmp	loc_899B
 
-loc_75DE:
+loc_94AE:
 mov	byte ptr [si+3], 22h ; '"'
 
-locret_75E2:
+locret_94B2:
 retn
 
-loc_75E3:
+loc_94B3:
 and	byte ptr [si+3], 0DFh
-jmp	sub_6B8A
-jb	short locret_764C
+jmp	sub_8A5A
+jb	short locret_951C
 test	byte ptr [si+10h], 80h
-jz	short locret_764C
-call	sub_858C
+jz	short locret_951C
+call	sub_A45C
 and	byte ptr [si+10h], 7Fh
-call	sub_851F
+call	sub_A3EF
 cmp	cl, 8
-jnb	short loc_7655
+jnb	short loc_9525
 mov	byte ptr [si+3], 0A0h ;	' '
 mov	bx, 0F7Fh
-call	sub_E3B7
+call	sub_10287
 add	ax, 1464h
 mov	[si+1Ah], al
 mov	[si+15h], ah
 mov	bx, 1F1Fh
-call	sub_E3B7
+call	sub_10287
 add	ax, 0A0Ah
 mov	[si+16h], al
 mov	[si+17h], ah
 mov	byte ptr [si+19h], 0
-jmp	loc_68E0
-jb	short locret_764C
+jmp	loc_87B0
+jb	short locret_951C
 test	byte ptr [si+10h], 80h
-jz	short locret_764C
+jz	short locret_951C
 cmp	cx, dx
-jnb	short loc_7655
+jnb	short loc_9525
 mov	byte ptr [si+3], 0ACh ;	'¬'
 or	byte ptr [si+10h], 10h
 mov	byte ptr [si+1Ah], 0
@@ -16350,74 +16349,74 @@ mov	word ptr [si+0Ch], 0
 mov	byte ptr [si+19h], 0
 inc	cx
 
-locret_764C:
+locret_951C:
 retn
-jb	short locret_765D
+jb	short locret_952D
 test	byte ptr [si+10h], 80h
-jz	short locret_765D
+jz	short locret_952D
 
-loc_7655:
+loc_9525:
 push	cx
 push	dx
-call	sub_66B1
+call	sub_8581
 pop	dx
 pop	cx
 inc	cx
 
-locret_765D:
+locret_952D:
 retn
 
 
 
-sub_765E proc near
-call	sub_E270
+sub_952E proc near
+call	sub_10140
 mov	si, 100h
 xor	cx, cx
 
-loc_7666:
+loc_9536:
 add	cl, [si+19h]
 add	si, 1Ch
 cmp	byte ptr [si], 0FFh
-jnz	short loc_7666
+jnz	short loc_9536
 sub	cl, 0Ah
-jb	short loc_7679
+jb	short loc_9549
 add	[di+19h], cl
 
-loc_7679:
-call	sub_E283
+loc_9549:
+call	sub_10153
 retn
-sub_765E endp
+sub_952E endp
 
 
 
 
-sub_767D proc near
+sub_954D proc near
 cmp	byte ptr [di+1Ah], 0
-jnz	short loc_768D
+jnz	short loc_955D
 inc	byte ptr ds:0ECh
-jnz	short locret_7692
+jnz	short locret_9562
 mov	byte ptr [di+1Ah], 10h
 
-loc_768D:
+loc_955D:
 mov	cl, 8
-jmp	loc_6ACB
+jmp	loc_899B
 
-locret_7692:
+locret_9562:
 retn
-sub_767D endp
+sub_954D endp
 
 
 
 
-sub_7693 proc near
+sub_9563 proc near
 test	byte ptr [si+3], 10h
-jnz	short locret_7706
-call	sub_6BD7
-jb	short locret_7706
+jnz	short locret_95D6
+call	sub_8AA7
+jb	short locret_95D6
 mov	byte ptr ds:4737h, 0FFh
 or	word ptr [si+10h], 100h
 test	byte ptr [di+0Ah], 1
-jnz	short loc_76CB
+jnz	short loc_959B
 or	byte ptr [di+0Ah], 1
 mov	byte ptr [di+12h], 0
 mov	dx, [di+2]
@@ -16426,175 +16425,175 @@ mov	[di+0Ch], dx
 xor	bh, bh
 mov	[di+0Eh], bx
 mov	byte ptr [di+0Bh], 4
-jmp	sub_6515
+jmp	sub_83E5
 
-loc_76CB:
-call	sub_6E20
+loc_959B:
+call	sub_8CF0
 mov	al, [si+18h]
 shr	al, 1
 shr	al, 1
-jnz	short loc_76D8
+jnz	short loc_95A8
 inc	ax
 
-loc_76D8:
+loc_95A8:
 add	[di+0Fh], al
-jnb	short locret_7706
+jnb	short locret_95D6
 mov	bx, 2
 mov	al, 1
-call	sub_6EDD
+call	sub_8DAD
 sub	byte ptr [di+1Bh], 0Ch
-jb	short loc_7707
+jb	short loc_95D7
 cmp	byte ptr [di+0Bh], 0Ch
-jnb	short loc_76F4
+jnb	short loc_95C4
 inc	byte ptr [di+0Bh]
 
-loc_76F4:
+loc_95C4:
 mov	ax, [di+0Eh]
 cbw
 sub	ax, 2
 cmp	ax, 0FFAEh
-jl	short loc_7703
+jl	short loc_95D3
 mov	[di+0Eh], al
 
-loc_7703:
-call	sub_6515
+loc_95D3:
+call	sub_83E5
 
-locret_7706:
+locret_95D6:
 retn
 
-loc_7707:
+loc_95D7:
 mov	byte ptr [di+1Bh], 0
-call	sub_7085
-jmp	sub_8461
-sub_7693 endp
+call	sub_8F55
+jmp	sub_A331
+sub_9563 endp
 
 
 
 
-sub_7711 proc near
+sub_95E1 proc near
 test	byte ptr [di+0Ah], 20h
-jnz	short loc_7731
+jnz	short loc_9601
 mov	al, 1
-call	sub_6F48
-call	sub_348A
+call	sub_8E18
+call	sub_535A
 add	[di+1Bh], al
-jb	short loc_7725
+jb	short loc_95F5
 retn
 
-loc_7725:
+loc_95F5:
 or	byte ptr [di+0Ah], 20h
 or	byte ptr [di+8], 8
 mov	byte ptr [di+1Bh], 5
 
-loc_7731:
-jmp	sub_6AC5
-sub_7711 endp
+loc_9601:
+jmp	sub_8995
+sub_95E1 endp
 
-call	sub_68EB
+call	sub_87BB
 mov	al, [si+19h]
 mov	bx, 2
 mov	cl, 20h	; ' '
 test	al, cl
-jz	short loc_7780
+jz	short loc_9650
 inc	bx
 shr	cl, 1
 test	al, cl
-jz	short loc_7780
+jz	short loc_9650
 inc	bx
 shr	cl, 1
 test	al, cl
-jz	short loc_7780
+jz	short loc_9650
 inc	bx
 shr	cl, 1
 test	al, cl
-jz	short loc_7780
+jz	short loc_9650
 mov	al, 0Fh
-jmp	short loc_77CA
-call	sub_68EB
+jmp	short loc_969A
+call	sub_87BB
 mov	al, [si+19h]
 mov	bx, 6
 test	al, 2
-jz	short loc_7780
+jz	short loc_9650
 mov	al, 0Fh
-jmp	short loc_77CA
-call	sub_68EB
+jmp	short loc_969A
+call	sub_87BB
 mov	al, [si+19h]
 xor	bx, bx
 test	al, 80h
-jz	short loc_7780
+jz	short loc_9650
 inc	bx
 test	al, 40h
 mov	al, 0Fh
-jnz	short loc_77CA
+jnz	short loc_969A
 
-loc_7780:
+loc_9650:
 push	si
 mov	ax, bx
 add	ax, 0E8h ; 'è'
 mov	ds:1203h, ax
-call	sub_77D7
-jb	short loc_7792
+call	sub_96A7
+jb	short loc_9662
 pop	si
-jmp	loc_7D81
+jmp	loc_9C51
 
-loc_7792:
-call	sub_7F90
+loc_9662:
+call	sub_9E60
 pop	si
 cmp	word ptr ds:470Ch, 0FFFFh
-jz	short loc_77C8
+jz	short loc_9698
 mov	cl, bl
 mov	bh, 80h	; '€'
 shr	bh, cl
 push	bx
 push	si
 push	word ptr ds:470Eh
-call	sub_6A33
+call	sub_8903
 pop	di
 pop	si
 pop	ax
-call	sub_A1E2
-jnz	short loc_77D4
+call	sub_C0B2
+jnz	short loc_96A4
 mov	[si+0Eh], ax
 mov	ax, [si+4]
 mov	[si+0Ch], ax
-call	sub_84A6
+call	sub_A376
 mov	byte ptr ds:46D8h, 1
-jmp	sub_8770
+jmp	sub_A640
 
-loc_77C8:
+loc_9698:
 mov	al, 0Eh
 
-loc_77CA:
+loc_969A:
 push	ax
 push	si
-call	loc_D2FD
+call	loc_F1CD
 pop	si
 pop	ax
-call	sub_7BB9
+call	sub_9A89
 
-loc_77D4:
-jmp	near ptr byte_C13B
+loc_96A4:
+jmp	near ptr byte_E00B
 
 
 
-sub_77D7 proc near
-call	sub_68EB
+sub_96A7 proc near
+call	sub_87BB
 mov	di, [si+4]
 push	bx
 push	si
-call	sub_7F27
+call	sub_9DF7
 pop	si
 pop	bx
 mov	al, 1
 cmp	bx, 1
-jnz	short loc_77F3
+jnz	short loc_96C3
 cmp	di, ds:1150h
-jnz	short loc_77F3
+jnz	short loc_96C3
 inc	al
 
-loc_77F3:
+loc_96C3:
 cmp	[bx+46FEh], al
-jb	short locret_7809
+jb	short locret_96D9
 mov	al, [si+19h]
 mov	ds:3Dh,	al
 mov	al, 80h	; '€'
@@ -16603,132 +16602,132 @@ shr	al, cl
 or	[si+19h], al
 clc
 
-locret_7809:
+locret_96D9:
 retn
-sub_77D7 endp
+sub_96A7 endp
 
 
 
 
-sub_780A proc near
-call	sub_7C63
+sub_96DA proc near
+call	sub_9B33
 mov	bp, 2122h
 cmp	ax, ds:1176h
-ja	short loc_783E
+ja	short loc_970E
 mov	al, [si+3]
 test	al, 20h
-jz	short loc_7821
+jz	short loc_96F1
 cmp	al, 22h	; '"'
-jnz	short loc_783E
+jnz	short loc_970E
 
-loc_7821:
+loc_96F1:
 mov	bp, 214Ah
 test	byte ptr [si+3], 40h
-jnz	short loc_783E
+jnz	short loc_970E
 mov	bp, 210Ah
 mov	ax, 52h	; 'R'
 cmp	byte ptr ds:46F3h, 1
 adc	ax, 0
 mov	[bp+12h], ax
-call	sub_7847
+call	sub_9717
 
-loc_783E:
+loc_970E:
 mov	bx, 8751h
-call	sub_D323
-jmp	near ptr byte_C13B
-sub_780A endp
+call	sub_F1F3
+jmp	near ptr byte_E00B
+sub_96DA endp
 
 
 
 
-sub_7847 proc near
+sub_9717 proc near
 mov	word ptr ds:2110h, 404Fh
 or	byte ptr ds:2115h, 40h
 or	byte ptr ds:2119h, 40h
 test	word ptr [si+12h], 400h
-jnz	short locret_78BB
+jnz	short locret_978B
 mov	al, [si+3]
 and	al, 0Fh
 cmp	al, 1
-jz	short loc_786C
+jz	short loc_973C
 and	byte ptr ds:2111h, 0BFh
 
-loc_786C:
+loc_973C:
 cmp	al, 2
-jnz	short loc_7876
+jnz	short loc_9746
 mov	byte ptr ds:2110h, 56h ; 'V'
 retn
 
-loc_7876:
+loc_9746:
 cmp	byte ptr ds:2Ah, 5
-jb	short loc_7882
+jb	short loc_9752
 and	byte ptr ds:2119h, 0BFh
 
-loc_7882:
+loc_9752:
 cmp	byte ptr ds:2Ah, 4
-jb	short locret_78BB
+jb	short locret_978B
 test	word ptr [si+10h], 200h
-jnz	short locret_78BB
+jnz	short locret_978B
 mov	di, [si+4]
 test	byte ptr [di+0Ah], 8
-jnz	short loc_789F
+jnz	short loc_976F
 cmp	byte ptr [di+8], 28h ; '('
-jnb	short locret_78BB
+jnb	short locret_978B
 
-loc_789F:
+loc_976F:
 push	si
-call	sub_7F27
+call	sub_9DF7
 mov	si, 46FEh
 mov	cx, 7
 xor	al, al
 
-loc_78AB:
+loc_977B:
 or	al, [si]
 inc	si
-loop	loc_78AB
+loop	loc_977B
 pop	si
 or	al, [si+19h]
-jz	short locret_78BB
+jz	short locret_978B
 and	byte ptr ds:2115h, 0BFh
 
-locret_78BB:
+locret_978B:
 retn
-sub_7847 endp
+sub_9717 endp
 
 
-loc_78BC:
+loc_978C:
 mov	di, [si+4]
-call	sub_7C63
+call	sub_9B33
 cmp	ax, ds:1176h
-jnb	short locret_78BB
-call	sub_6917
-jnz	short locret_78BB
-call	sub_C08E
+jnb	short locret_978B
+call	sub_87E7
+jnz	short locret_978B
+call	sub_DF5E
 mov	ds:46FAh, si
 push	si
 mov	si, 18DFh
 mov	bx, [di+2]
 mov	dx, [di]
 mov	cx, 64h	; 'd'
-call	loc_5F25
+call	loc_7DF5
 pop	si
 mov	al, [si]
 mov	ds:1955h, al
 
 
 
-sub_78E9 proc near
-call	sub_6917
-jz	short loc_78F1
-jmp	sub_79DE
+sub_97B9 proc near
+call	sub_87E7
+jz	short loc_97C1
+jmp	sub_98AE
 
-loc_78F1:
-call	sub_C08E
-call	sub_31F6
+loc_97C1:
+call	sub_DF5E
+call	sub_50C6
 add	word ptr ds:11F3h, 0Ch
 mov	si, 18DFh
-call	sub_7B1B
-call	sub_D075
+call	sub_99EB
+call	sub_EF45
 mov	cl, 9Ah	; 'š'
 mov	ch, ds:18E8h
 mov	dx, ds:18DFh
@@ -16737,120 +16736,120 @@ add	dx, 0Ch
 add	bx, 4
 mov	ax, 3Ah	; ':'
 test	byte ptr ds:30h, 40h
-jz	short loc_7924
+jz	short loc_97F4
 inc	ax
 
-loc_7924:
-call	sub_8865
+loc_97F4:
+call	sub_A735
 mov	cl, 96h	; '–'
 sub	dx, 8
 add	bx, 9
 mov	di, ds:2Ch
-call	sub_62A6
+call	sub_8176
 mov	cl, 9Ah	; 'š'
 add	bx, 0Ah
 mov	al, ds:30h
 test	al, 20h
-jz	short loc_794C
+jz	short loc_981C
 cmp	al, 22h	; '"'
 mov	ax, 41h	; 'A'
-jnz	short loc_79B6
+jnz	short loc_9886
 inc	ax
-jmp	short loc_79B6
+jmp	short loc_9886
 
-loc_794C:
+loc_981C:
 mov	ax, 3Ch	; '<'
-call	sub_8865
+call	sub_A735
 add	bx, 0Fh
 cmp	byte ptr ds:30h, 2
-jz	short loc_79BC
+jz	short loc_988C
 mov	al, ds:2Fh
 shr	al, 1
 and	ax, 6
 add	ax, 11F7h
 mov	si, ax
 mov	ax, [si]
-call	sub_D194
+call	sub_F064
 add	bx, 0Ah
 test	byte ptr ds:30h, 40h
-jnz	short loc_79BC
+jnz	short loc_988C
 mov	ax, 3Fh	; '?'
 test	word ptr ds:32h, 200h
-jnz	short loc_79B6
+jnz	short loc_9886
 mov	ax, 40h	; '@'
 test	word ptr ds:32h, 100h
-jz	short loc_79B6
+jz	short loc_9886
 test	word ptr ds:34h, 30h
-jnz	short loc_79B6
+jnz	short loc_9886
 mov	ax, 3Dh	; '='
 cmp	byte ptr ds:30h, 0
-jz	short loc_79B6
+jz	short loc_9886
 mov	ax, 43h	; 'C'
 cmp	byte ptr ds:2Fh, 1
-jz	short loc_79B6
+jz	short loc_9886
 mov	ax, 3Eh	; '>'
 cmp	byte ptr ds:30h, 6
-jz	short loc_79B6
-jmp	short loc_79BC
+jz	short loc_9886
+jmp	short loc_988C
 
-loc_79B6:
-call	sub_8865
+loc_9886:
+call	sub_A735
 add	bx, 11h
 
-loc_79BC:
+loc_988C:
 add	bx, 4
 mov	ax, 6Eh	; 'n'
 mov	cl, 96h	; '–'
-call	sub_D194
+call	sub_F064
 add	bx, 8
 mov	si, ds:46FAh
-call	sub_7EFB
+call	sub_9DCB
 mov	si, 4705h
 mov	bp, ds:18E5h
-call	sub_7E3D
+call	sub_9D0D
 
-loc_79DB:
-jmp	sub_C07C
-sub_78E9 endp
-
-
+loc_98AB:
+jmp	sub_DF4C
+sub_97B9 endp
 
 
-sub_79DE proc near
+
+
+sub_98AE proc near
 xor	ax, ax
 xchg	ax, ds:46FAh
 or	ax, ax
-jz	short loc_79DB
+jz	short loc_98AB
 mov	si, 18DFh
-jmp	loc_5F9F
-sub_79DE endp
+jmp	loc_7E6F
+sub_98AE endp
 
 
 
 
-sub_79EE proc near
+sub_98BE proc near
 mov	ds:46EFh, si
-call	sub_6917
+call	sub_87E7
 mov	si, 18E9h
-jnz	short loc_7A1E
+jnz	short loc_98EE
 mov	ax, 1Eh
 mov	bx, 5
 cmp	word ptr [di+2], 4Ch ; 'L'
-jge	short loc_7A0C
+jge	short loc_98DC
 mov	ax, 0Eh
 mov	bx, 50h	; 'P'
 
-loc_7A0C:
+loc_98DC:
 mov	[si+2],	bx
 add	bx, 43h	; 'C'
 mov	[si+6],	bx
 mov	word ptr ds:4710h, 5Ch ; '\'
 mov	ds:4712h, ax
 
-loc_7A1E:
+loc_98EE:
 mov	ds:0DBE0h, si
 mov	al, 2
-call	sub_7B0F
+call	sub_99DF
 mov	di, 18E9h
 mov	si, 18F3h
 mov	dx, [di]
@@ -16873,32 +16872,32 @@ add	dx, 3Dh	; '='
 add	bx, 3Dh	; '='
 mov	[si+4],	dx
 mov	[si+6],	bx
-call	sub_7B1B
+call	sub_99EB
 mov	si, ds:46EFh
 test	byte ptr [si+3], 20h
-jz	short loc_7A96
+jz	short loc_9966
 mov	di, [si+4]
 test	byte ptr [di+0Ah], 2
-jnz	short loc_7A82
-call	sub_5D36
-jb	short loc_7A96
+jnz	short loc_9952
+call	sub_7C06
+jb	short loc_9966
 
-loc_7A82:
+loc_9952:
 mov	ax, 0Ch
 mov	ds:47C4h, ax
-call	sub_91A0
-call	sub_C0F4
+call	sub_B070
+call	sub_DFC4
 mov	ax, 0Ch
 mov	bp, 0
-jmp	short loc_7AC1
+jmp	short loc_9991
 
-loc_7A96:
+loc_9966:
 mov	ax, 0Fh
 mov	ds:47C4h, ax
 mov	ds:4758h, si
 mov	byte ptr ds:476Ch, 0
-call	sub_91A0
-call	sub_C0F4
+call	sub_B070
+call	sub_DFC4
 mov	ax, ds:22A6h
 sub	ax, 0Eh
 shl	ax, 1
@@ -16909,7 +16908,7 @@ xor	bh, bh
 shl	bx, 1
 mov	bp, bx
 
-loc_7AC1:
+loc_9991:
 mov	si, 22B9h
 add	si, ax
 lodsw
@@ -16920,8 +16919,8 @@ push	ds
 mov	si, ss:47CAh
 mov	ds, word ptr ss:0DBB2h
 add	si, ds:[bp+si]
-mov	dx, word ptr ss:seg_F4B0+18F3h
-mov	bx, word ptr ss:seg_F4B0+18F5h
+mov	dx, word ptr ss:seg_11380+18F3h
+mov	bx, word ptr ss:seg_11380+18F5h
 inc	bx
 inc	dx
 mov	ss:47D4h, dx
@@ -16930,316 +16929,316 @@ add	dx, 3Bh	; ';'
 add	bx, 3Bh	; ';'
 mov	ss:47D8h, dx
 mov	ss:47DAh, bx
-call	sub_9D6A
+call	sub_BC3A
 pop	ds
 mov	si, 47D4h
-call	sub_C4AA
-jmp	near ptr byte_C13B
-sub_79EE endp
+call	sub_E37A
+jmp	near ptr byte_E00B
+sub_98BE endp
 
 
 
 
-sub_7B0F proc near
+sub_99DF proc near
 mov	byte ptr ds:46D8h, 0
 push	si
 xchg	si, di
-call	sub_C0E8
+call	sub_DFB8
 pop	si
-sub_7B0F endp
+sub_99DF endp
 
 
 
 
-sub_7B1B proc near
+sub_99EB proc near
 mov	es, word ptr ds:0DBDAh
 mov	al, [si+9]
 push	si
 call	dword ptr ds:38DDh
 pop	si
-jmp	sub_C551
-sub_7B1B endp
+jmp	sub_E421
+sub_99EB endp
 
 
 
 
-sub_7B2B proc near
+sub_99FB proc near
 cmp	byte ptr ds:46D8h, 0
-jnz	short locret_7B35
-jmp	sub_C0E8
+jnz	short locret_9A05
+jmp	sub_DFB8
 
-locret_7B35:
+locret_9A05:
 retn
-sub_7B2B endp
+sub_99FB endp
 
 
 
 
-sub_7B36 proc near
+sub_9A06 proc near
 push	si
 push	di
 mov	byte ptr ds:46D8h, 1
 mov	byte ptr ds:0DCE6h, 80h	; '€'
-call	sub_8770
-call	sub_5F79
-call	sub_79DE
+call	sub_A640
+call	sub_7E49
+call	sub_98AE
 mov	byte ptr ds:0DCE6h, 0
 mov	byte ptr ds:46F4h, 0
 pop	di
 pop	si
 retn
-sub_7B36 endp
+sub_9A06 endp
 
 
 
 
-sub_7B58 proc near
+sub_9A28 proc near
 mov	word ptr ds:1BEAh, 0
 mov	byte ptr ds:46F4h, 0
 xor	si, si
 mov	byte ptr ds:4Ch, 0
 xchg	si, ds:46EFh
 or	si, si
-jz	short locret_7BA2
+jz	short locret_9A72
 cmp	byte ptr ds:4Ch, 0
-jnz	short loc_7B8C
-call	sub_1EBE
+jnz	short loc_9A5C
+call	sub_3D8E
 and	word ptr [si+10h], 3F0h
 and	word ptr [si+12h], 0E5FFh
-call	sub_1AC5
+call	sub_3995
 mov	[si+14h], al
 
-loc_7B8C:
-call	sub_A7A5
+loc_9A5C:
+call	sub_C675
 mov	si, 18E9h
 xor	ax, ax
 mov	ds:0DBE0h, ax
 mov	ds:47BAh, ax
-call	sub_C6AD
+call	sub_E57D
 mov	al, 4
-call	sub_7B2B
+call	sub_99FB
 
-locret_7BA2:
+locret_9A72:
 retn
-sub_7B58 endp
+sub_9A28 endp
 
 
 
 
-sub_7BA3 proc near
-call	sub_C08E
+sub_9A73 proc near
+call	sub_DF5E
 cmp	si, ds:46EFh
-jz	short locret_7BB8
+jz	short locret_9A88
 push	si
 mov	ds:46F1h, si
-call	sub_79EE
-call	sub_9F40
+call	sub_98BE
+call	sub_BE10
 pop	si
 
-locret_7BB8:
+locret_9A88:
 retn
-sub_7BA3 endp
+sub_9A73 endp
 
 
 
 
-sub_7BB9 proc near
+sub_9A89 proc near
 push	ax
-call	sub_31F6
+call	sub_50C6
 pop	ax
 
-loc_7BBE:
+loc_9A8E:
 mov	ds:46F1h, si
 mov	ds:23h,	al
 mov	word ptr ds:47BAh, 0
-call	sub_C08E
+call	sub_DF5E
 mov	ax, 0Fh
-call	sub_96F1
-jb	short loc_7BD9
-call	sub_9EFD
+call	sub_B5C1
+jb	short loc_9AA9
+call	sub_BDCD
 
-loc_7BD9:
+loc_9AA9:
 mov	si, ds:46F1h
-jmp	short loc_7C56
-sub_7BB9 endp
+jmp	short loc_9B26
+sub_9A89 endp
 
 align 2
 
 
 
-sub_7BE0 proc near
+sub_9AB0 proc near
 
 ; FUNCTION CHUNK AT 7E97 SIZE 00000021 BYTES
 ; FUNCTION CHUNK AT 7EDE SIZE 00000003 BYTES
 
 cmp	si, ds:46EFh
-jz	short loc_7BE7
+jz	short loc_9AB7
 retn
 
-loc_7BE7:
+loc_9AB7:
 mov	word ptr ds:47BAh, 0
 cmp	byte ptr ds:46F4h, 0
-jz	short loc_7BFE
+jz	short loc_9ACE
 cmp	byte ptr ds:46F5h, 0
-jz	short loc_7BFE
-jmp	loc_7E97
+jz	short loc_9ACE
+jmp	loc_9D67
 
-loc_7BFE:
+loc_9ACE:
 mov	si, ds:46EFh
-sub_7BE0 endp
+sub_9AB0 endp
 
 
 
 
-sub_7C02 proc near
-call	sub_7BA3
-call	sub_31F6
+sub_9AD2 proc near
+call	sub_9A73
+call	sub_50C6
 mov	di, [si+4]
-call	sub_2E98
-call	sub_7C63
+call	sub_4D68
+call	sub_9B33
 cmp	ax, ds:1176h
-jbe	short loc_7C2D
+jbe	short loc_9AFD
 mov	byte ptr ds:4Ch, 0FFh
 mov	di, ds:4752h
 or	di, di
-jz	short loc_7C2D
+jz	short loc_9AFD
 mov	ax, 1916h
 mov	[di+0Dh], ax
 mov	[di+0Fh], ax
 
-loc_7C2D:
-call	sub_9719
+loc_9AFD:
+call	sub_B5E9
 mov	si, ds:46EFh
-jb	short loc_7C2D
+jb	short loc_9AFD
 push	si
-call	sub_9EFD
+call	sub_BDCD
 pop	si
 mov	byte ptr ds:46F4h, 0
 cmp	byte ptr ds:47A5h, 80h ; '€'
-jnz	short loc_7C56
+jnz	short loc_9B26
 inc	byte ptr ds:46F4h
-call	sub_7EFB
+call	sub_9DCB
 push	si
-call	sub_7E1E
+call	sub_9CEE
 pop	si
-jmp	short loc_7C56
+jmp	short loc_9B26
 align 2
 
-loc_7C56:
+loc_9B26:
 cmp	byte ptr ds:46EBh, 0
-jns	short loc_7C60
-call	sub_9901
+jns	short loc_9B30
+call	sub_B7D1
 
-loc_7C60:
-jmp	sub_C07C
-sub_7C02 endp
-
-
+loc_9B30:
+jmp	sub_DF4C
+sub_9AD2 endp
 
 
-sub_7C63 proc near
+
+
+sub_9B33 proc near
 push	si
-call	sub_407E
+call	sub_5F4E
 pop	si
 mov	bp, bx
 shl	bp, 1
-jns	short loc_7C70
+jns	short loc_9B40
 neg	bp
 
-loc_7C70:
+loc_9B40:
 mov	bp, [bp+4880h]
 mov	ax, [si+6]
 sub	ax, dx
-jns	short loc_7C7D
+jns	short loc_9B4D
 neg	ax
 
-loc_7C7D:
+loc_9B4D:
 xor	dx, dx
 div	bp
 sub	bx, [si+8]
-jns	short loc_7C88
+jns	short loc_9B58
 neg	bx
 
-loc_7C88:
+loc_9B58:
 cmp	ax, bx
-jnb	short locret_7C8E
+jnb	short locret_9B5E
 mov	ax, bx
 
-locret_7C8E:
+locret_9B5E:
 retn
-sub_7C63 endp
+sub_9B33 endp
 
 
 
 
-sub_7C8F proc near
+sub_9B5F proc near
 push	si
-call	sub_407E
+call	sub_5F4E
 pop	si
 mov	bp, bx
 shl	bp, 1
-jns	short loc_7C9C
+jns	short loc_9B6C
 neg	bp
 
-loc_7C9C:
+loc_9B6C:
 mov	bp, [bp+4880h]
 mov	ax, [si+2]
 sub	ax, dx
-jns	short loc_7CA9
+jns	short loc_9B79
 neg	ax
 
-loc_7CA9:
+loc_9B79:
 xor	dx, dx
 div	bp
 sub	bx, [si+4]
-jns	short loc_7CB4
+jns	short loc_9B84
 neg	bx
 
-loc_7CB4:
+loc_9B84:
 cmp	ax, bx
-jnb	short locret_7CBA
+jnb	short locret_9B8A
 mov	ax, bx
 
-locret_7CBA:
+locret_9B8A:
 retn
-sub_7C8F endp
+sub_9B5F endp
 
 mov	byte ptr ds:46F5h, 1
 mov	bp, 2012h
 mov	bx, 7D68h
-call	sub_D323
-call	near ptr byte_C13B
+call	sub_F1F3
+call	near ptr byte_E00B
 cmp	byte ptr ds:46F4h, 0
-jnz	short loc_7CF1
+jnz	short loc_9BC1
 mov	si, ds:46EFh
-call	sub_7BE0
-call	sub_7C02
+call	sub_9AB0
+call	sub_9AD2
 cmp	byte ptr ds:46F4h, 0
-jnz	short loc_7CF1
-call	sub_7C02
+jnz	short loc_9BC1
+call	sub_9AD2
 cmp	byte ptr ds:46F4h, 0
-jnz	short loc_7CF1
-call	sub_7C02
+jnz	short loc_9BC1
+call	sub_9AD2
 
-loc_7CF1:
-call	sub_7DD9
-call	sub_68EB
+loc_9BC1:
+call	sub_9CA9
+call	sub_87BB
 mov	al, [si+19h]
 mov	ds:3Dh,	al
-call	sub_7EFB
+call	sub_9DCB
 mov	di, [si+4]
-call	sub_7F27
+call	sub_9DF7
 mov	word ptr ds:1BEAh, 0
 
 
 
-sub_7D0C proc near
-call	sub_C08E
+sub_9BDC proc near
+call	sub_DF5E
 mov	si, 1936h
-call	sub_7B1B
+call	sub_99EB
 mov	si, 1940h
-call	sub_7B1B
-call	sub_7E1E
+call	sub_99EB
+call	sub_9CEE
 push	ds
 pop	es
 mov	si, 4C60h
@@ -17254,28 +17253,28 @@ mov	si, 46FEh
 mov	bp, ds:1946h
 mov	cx, ds:1948h
 mov	ds:0DBE4h, cx
-call	sub_7E3D
+call	sub_9D0D
 mov	cx, ds:1948h
 mov	dx, ds:1940h
 add	dx, 8
 mov	ax, 6Fh	; 'o'
-call	sub_D194
-call	sub_E270
-call	sub_D280
-call	sub_E283
-jmp	sub_C07C
-sub_7D0C endp
+call	sub_F064
+call	sub_10140
+call	sub_F150
+call	sub_10153
+jmp	sub_DF4C
+sub_9BDC endp
 
 mov	byte ptr ds:46F5h, 0
 xor	si, si
 mov	word ptr ds:0DBE2h, 0
 mov	si, 1940h
-call	sub_C6AD
-call	sub_68EB
-call	sub_7F11
+call	sub_E57D
+call	sub_87BB
+call	sub_9DE1
 
-loc_7D81:
-call	sub_8461
+loc_9C51:
+call	sub_A331
 mov	ah, [si+19h]
 mov	al, ds:3Dh
 mov	bl, al
@@ -17286,35 +17285,35 @@ and	al, bl
 mov	ds:3Eh,	al
 mov	byte ptr ds:3Fh, 0
 test	ah, 40h
-jz	short loc_7DB1
+jz	short loc_9C81
 mov	di, [si+4]
 cmp	di, ds:1150h
-jnz	short loc_7DB1
+jnz	short loc_9C81
 mov	byte ptr ds:3Fh, 40h ; '@'
 
-loc_7DB1:
+loc_9C81:
 mov	al, [si+3]
 and	al, 0Fh
 cmp	al, 8
-jnz	short loc_7DBD
-call	sub_6C15
+jnz	short loc_9C8D
+call	sub_8AE5
 
-loc_7DBD:
+loc_9C8D:
 mov	al, 0Ch
-call	sub_7BB9
+call	sub_9A89
 mov	byte ptr ds:46F4h, 0
 cmp	word ptr ds:1BEAh, 0
-jnz	short locret_7DD8
+jnz	short locret_9CA8
 mov	si, ds:46EFh
-call	sub_7BE0
-call	sub_7C02
+call	sub_9AB0
+call	sub_9AD2
 
-locret_7DD8:
+locret_9CA8:
 retn
 
 
 
-sub_7DD9 proc near
+sub_9CA9 proc near
 mov	si, 18E9h
 mov	di, 1936h
 mov	bp, 1940h
@@ -17334,21 +17333,21 @@ mov	ax, [si+6]
 mov	[di+6],	ax
 inc	ax
 cmp	ax, 70h	; 'p'
-jb	short loc_7E14
+jb	short loc_9CE4
 sub	ax, 6Dh	; 'm'
 
-loc_7E14:
+loc_9CE4:
 mov	[bp+2],	ax
 add	ax, 28h	; '('
 mov	[bp+6],	ax
 retn
-sub_7DD9 endp
+sub_9CA9 endp
 
 
 
 
-sub_7E1E proc near
-call	sub_D068
+sub_9CEE proc near
+call	sub_EF38
 mov	si, 4705h
 mov	dx, ds:18E9h
 mov	bx, ds:18EBh
@@ -17356,13 +17355,13 @@ add	dx, 80h	; '€'
 add	bx, 2Dh	; '-'
 mov	bp, ds:18EFh
 mov	word ptr ds:0DBE4h, 0F0h ; 'ð'
-sub_7E1E endp
+sub_9CEE endp
 
 
 
 
-sub_7E3D proc near
-call	near ptr byte_C13B
+sub_9D0D proc near
+call	near ptr byte_E00B
 push	di
 push	ds
 pop	es
@@ -17374,22 +17373,22 @@ mov	di, si
 mov	cx, 7
 xor	al, al
 repe scasb
-jnz	short loc_7E69
+jnz	short loc_9D39
 add	bx, 5
 add	dx, 0Ch
-call	sub_D04E
+call	sub_EF1E
 mov	ax, 69h	; 'i'
-call	sub_D19B
+call	sub_F06B
 pop	di
 retn
 
-loc_7E69:
+loc_9D39:
 xor	di, di
 
-loc_7E6B:
+loc_9D3B:
 mov	al, [si]
 or	al, al
-jz	short loc_7E8E
+jz	short loc_9D5E
 mov	cl, al
 push	si
 push	di
@@ -17399,126 +17398,126 @@ xor	ah, ah
 shl	di, 1
 shl	di, 1
 mov	[di+4C60h], dx
-call	sub_61D3
+call	sub_80A3
 mov	[di+4C62h], dx
 pop	bp
 pop	di
 pop	si
 
-loc_7E8E:
+loc_9D5E:
 inc	si
 inc	di
 cmp	di, 7
-jb	short loc_7E6B
+jb	short loc_9D3B
 pop	di
 retn
-sub_7E3D endp
+sub_9D0D endp
 
-; START	OF FUNCTION CHUNK FOR sub_7BE0
+; START	OF FUNCTION CHUNK FOR sub_9AB0
 
-loc_7E97:
+loc_9D67:
 cmp	byte ptr ds:46F5h, 0
 jz	short nullsub_16
 mov	di, 1936h
-call	sub_D6FE
+call	sub_F5CE
 jnb	short nullsub_16
 mov	si, 4C7Ch
-call	sub_7EE2
+call	sub_9DB2
 jnb	short nullsub_16
 dec	byte ptr [di+4705h]
 inc	byte ptr [di+46FEh]
-jmp	short loc_7EDE
-; END OF FUNCTION CHUNK	FOR sub_7BE0
+jmp	short loc_9DAE
+; END OF FUNCTION CHUNK	FOR sub_9AB0
 
-loc_7EB8:
+loc_9D88:
 cmp	byte ptr ds:46F5h, 0
 jz	short nullsub_16
 mov	di, 1940h
-call	sub_D6FE
+call	sub_F5CE
 jnb	short nullsub_16
 mov	si, 4C60h
-call	sub_7EE2
+call	sub_9DB2
 jnb	short nullsub_16
 cmp	byte ptr [di+4705h], 0
 jnz	short nullsub_16
 inc	byte ptr [di+4705h]
 dec	byte ptr [di+46FEh]
-; START	OF FUNCTION CHUNK FOR sub_7BE0
+; START	OF FUNCTION CHUNK FOR sub_9AB0
 
-loc_7EDE:
-call	sub_7D0C
-; END OF FUNCTION CHUNK	FOR sub_7BE0
+loc_9DAE:
+call	sub_9BDC
+; END OF FUNCTION CHUNK	FOR sub_9AB0
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_16. PRESS	KEYPAD "+" TO EXPAND]
 
 
 
-sub_7EE2 proc near
+sub_9DB2 proc near
 xor	di, di
 
-loc_7EE4:
+loc_9DB4:
 lodsw
 or	ax, ax
-jz	short loc_7EF1
+jz	short loc_9DC1
 cmp	dx, ax
-jb	short loc_7EF1
+jb	short loc_9DC1
 cmp	dx, [si]
 jb	short nullsub_16
 
-loc_7EF1:
+loc_9DC1:
 add	si, 2
 inc	di
 cmp	di, 7
-jb	short loc_7EE4
+jb	short loc_9DB4
 retn
-sub_7EE2 endp
+sub_9DB2 endp
 
 
 
 
-sub_7EFB proc near
+sub_9DCB proc near
 push	di
 push	ds
 pop	es
 mov	di, 4705h
 mov	ah, [si+19h]
 
-loc_7F04:
+loc_9DD4:
 xor	al, al
 rol	ax, 1
 stosb
 cmp	di, 470Ch
-jb	short loc_7F04
+jb	short loc_9DD4
 pop	di
 retn
-sub_7EFB endp
+sub_9DCB endp
 
 
 
 
-sub_7F11 proc near
+sub_9DE1 proc near
 push	si
 mov	si, 470Bh
 std
 xor	ax, ax
 
-loc_7F18:
+loc_9DE8:
 lodsb
 ror	ax, 1
 cmp	si, 4705h
-jnb	short loc_7F18
+jnb	short loc_9DE8
 pop	si
 cld
 mov	[si+19h], ah
 retn
-sub_7F11 endp
+sub_9DE1 endp
 
 
 
 
-sub_7F27 proc near
+sub_9DF7 proc near
 mov	bx, 46FEh
 
-loc_7F2A:
+loc_9DFA:
 push	di
 push	ds
 pop	es
@@ -17528,84 +17527,84 @@ mov	di, bx
 mov	cx, 7
 rep movsb
 
-loc_7F3A:
+loc_9E0A:
 or	al, al
-jz	short loc_7F5D
-call	sub_6906
+jz	short loc_9E2D
+call	sub_87D6
 mov	al, [si+19h]
 mov	di, bx
 shl	al, 1
-jnb	short loc_7F51
+jnb	short loc_9E21
 
-loc_7F4A:
+loc_9E1A:
 sub	byte ptr [di], 1
-jnb	short loc_7F51
+jnb	short loc_9E21
 inc	byte ptr [di]
 
-loc_7F51:
+loc_9E21:
 inc	di
 shl	al, 1
-jb	short loc_7F4A
-jnz	short loc_7F51
+jb	short loc_9E1A
+jnz	short loc_9E21
 mov	al, [si+1]
-jmp	short loc_7F3A
+jmp	short loc_9E0A
 
-loc_7F5D:
+loc_9E2D:
 pop	di
 retn
-sub_7F27 endp
+sub_9DF7 endp
 
 
 
 
-sub_7F5F proc near
+sub_9E2F proc near
 mov	al, [si+19h]
 push	di
 add	di, 14h
 shl	al, 1
-jnb	short loc_7F6C
+jnb	short loc_9E3C
 
-loc_7F6A:
+loc_9E3A:
 inc	byte ptr [di]
 
-loc_7F6C:
+loc_9E3C:
 inc	di
 shl	al, 1
-jb	short loc_7F6A
-jnz	short loc_7F6C
+jb	short loc_9E3A
+jnz	short loc_9E3C
 pop	di
 retn
-sub_7F5F endp
+sub_9E2F endp
 
 
 
 
-sub_7F75 proc near
+sub_9E45 proc near
 mov	al, [si+19h]
 push	di
 add	di, 14h
 shl	al, 1
-jnb	short loc_7F87
+jnb	short loc_9E57
 
-loc_7F80:
+loc_9E50:
 sub	byte ptr [di], 1
-jnb	short loc_7F87
+jnb	short loc_9E57
 inc	byte ptr [di]
 
-loc_7F87:
+loc_9E57:
 inc	di
 shl	al, 1
-jb	short loc_7F80
-jnz	short loc_7F87
+jb	short loc_9E50
+jnz	short loc_9E57
 pop	di
 retn
-sub_7F75 endp
+sub_9E45 endp
 
 
 
 ; Attributes: bp-based frame
 
-sub_7F90 proc near
+sub_9E60 proc near
 
 arg_0= word ptr	 2
 arg_2= word ptr	 4
@@ -17618,117 +17617,117 @@ mov	bp, sp
 mov	word ptr ds:470Ch, 0FFFFh
 mov	di, 138h
 
-loc_7FA5:
+loc_9E75:
 cmp	word ptr [di], 0FFFFh
-jz	short loc_8014
+jz	short loc_9EE4
 test	byte ptr [di+0Ah], 80h
-jnz	short loc_800F
+jnz	short loc_9EDF
 cmp	byte ptr [di+8], 28h ; '('
-jnb	short loc_800F
+jnb	short loc_9EDF
 cmp	di, [bp+arg_2]
-jz	short loc_800F
+jz	short loc_9EDF
 mov	dx, [di+2]
 sub	dx, [bp+0]
-jns	short loc_7FC5
+jns	short loc_9E95
 neg	dx
 
-loc_7FC5:
+loc_9E95:
 mov	ax, [di+4]
 sub	ax, [bp+arg_0]
-jns	short loc_7FCF
+jns	short loc_9E9F
 neg	ax
 
-loc_7FCF:
+loc_9E9F:
 mov	dl, dh
 xor	dh, dh
 cmp	dl, al
-jnb	short loc_7FD9
+jnb	short loc_9EA9
 mov	dx, ax
 
-loc_7FD9:
+loc_9EA9:
 cmp	dl, 32h	; '2'
-jnb	short loc_800F
+jnb	short loc_9EDF
 cmp	byte ptr [di+8], 21h ; '!'
-jb	short loc_7FE8
+jb	short loc_9EB8
 shr	dx, 1
 shr	dx, 1
 
-loc_7FE8:
+loc_9EB8:
 cmp	dx, ds:470Ch
-jnb	short loc_800F
+jnb	short loc_9EDF
 push	bx
 mov	bx, 4C60h
-call	loc_7F2A
+call	loc_9DFA
 pop	bx
 cmp	byte ptr [bx+4C60h], 0
-jz	short loc_800F
-call	sub_8018
+jz	short loc_9EDF
+call	sub_9EE8
 cmp	byte ptr [bx+4C60h], 0
-jz	short loc_800F
+jz	short loc_9EDF
 mov	ds:470Ch, dx
 mov	ds:470Eh, di
 
-loc_800F:
+loc_9EDF:
 add	di, 1Ch
-jmp	short loc_7FA5
+jmp	short loc_9E75
 
-loc_8014:
+loc_9EE4:
 add	sp, 6
 retn
-sub_7F90 endp
+sub_9E60 endp
 
 
 
 
-sub_8018 proc near
+sub_9EE8 proc near
 mov	si, 88Fh
 
-loc_801B:
+loc_9EEB:
 add	si, 1Bh
 cmp	si, 0FBBh
-jnb	short loc_804C
+jnb	short loc_9F1C
 mov	al, [si+3]
 test	al, 40h
-jz	short loc_801B
+jz	short loc_9EEB
 and	al, 3
 cmp	al, 3
-jnz	short loc_801B
+jnz	short loc_9EEB
 cmp	di, [si+4]
-jnz	short loc_801B
+jnz	short loc_9EEB
 cmp	di, [si+0Ch]
-jz	short loc_801B
+jz	short loc_9EEB
 cmp	bl, [si+0Eh]
-jnz	short loc_801B
+jnz	short loc_9EEB
 dec	byte ptr [bx+4C60h]
-jns	short loc_801B
+jns	short loc_9EEB
 inc	byte ptr [bx+4C60h]
-jmp	short loc_801B
+jmp	short loc_9EEB
 
-loc_804C:
+loc_9F1C:
 cmp	di, ds:1150h
-jnz	short locret_8063
+jnz	short locret_9F33
 cmp	byte ptr ds:2Ah, 50h ; 'P'
-jnb	short locret_8063
+jnb	short locret_9F33
 dec	byte ptr ds:4C61h
-jns	short locret_8063
+jns	short locret_9F33
 inc	byte ptr ds:4C61h
 
-locret_8063:
+locret_9F33:
 retn
-sub_8018 endp
+sub_9EE8 endp
 
 mov	ax, 1AACh
-call	sub_D95E
-call	sub_68EB
+call	sub_F82E
+call	sub_87BB
 cmp	si, 8E0h
-jz	short loc_8082
+jz	short loc_9F52
 mov	ax, 54h	; 'T'
-call	sub_80DF
+call	sub_9FAF
 mov	bp, 212Eh
 mov	bx, 824Dh
-jmp	sub_D323
+jmp	sub_F1F3
 
-loc_8082:
+loc_9F52:
 push	ds
 pop	es
 mov	di, 4718h
@@ -17744,50 +17743,50 @@ sub	cx, 3
 neg	cx
 mov	ds:4738h, cl
 mov	ax, 55h	; 'U'
-call	sub_80DF
-call	sub_80AC
-jmp	loc_D32F
+call	sub_9FAF
+call	sub_9F7C
+jmp	loc_F1FF
 
 
 
-sub_80AC proc near
+sub_9F7C proc near
 mov	bp, 2136h
 and	byte ptr [bp+3], 0BFh
 xor	cx, cx
 mov	al, ds:4738h
 dec	al
 cmp	al, 2
-jb	short loc_80C3
+jb	short loc_9F93
 or	byte ptr [bp+3], 40h
 inc	cx
 
-loc_80C3:
+loc_9F93:
 mov	bx, 824Dh
 retn
-sub_80AC endp
+sub_9F7C endp
 
 retn
 
 
 
-sub_80C8 proc near
+sub_9F98 proc near
 mov	byte ptr ds:4738h, 0
 xor	ax, ax
 mov	ds:4718h, ax
 mov	ds:471Ah, ax
 mov	ds:471Ch, ax
 retn
-sub_80C8 endp
+sub_9F98 endp
 
-call	sub_80C8
-jmp	loc_8286
+call	sub_9F98
+jmp	loc_A156
 
 
 
-sub_80DF proc near
+sub_9FAF proc near
 push	ax
-call	sub_C08E
-call	sub_8FD1
+call	sub_DF5E
+call	sub_AEA1
 pop	bx
 mov	si, 2244h
 mov	ax, [si+2]
@@ -17795,67 +17794,67 @@ push	ax
 push	word ptr [si+6]
 push	bx
 cmp	ax, 32h	; '2'
-jb	short loc_80FA
+jb	short loc_9FCA
 add	ax, 26h	; '&'
 
-loc_80FA:
+loc_9FCA:
 mov	[si+2],	ax
 mov	word ptr [si+6], 19h
-call	sub_9F82
+call	sub_BE52
 pop	ax
-call	sub_88AF
+call	sub_A77F
 cmp	byte ptr ds:4774h, 0
-jnz	short loc_811E
+jnz	short loc_9FEE
 mov	ax, 10Ah
 add	ax, ds:0D810h
 add	ds:4780h, ax
-call	sub_9EFD
+call	sub_BDCD
 
-loc_811E:
+loc_9FEE:
 pop	word ptr ds:224Ah
 pop	word ptr ds:2246h
-call	sub_C07C
+call	sub_DF4C
 mov	word ptr ds:4720h, 18F3h
 mov	byte ptr ds:4722h, 0
-call	sub_541F
+call	sub_72EF
 mov	word ptr ds:1BEAh, 0
 retn
-sub_80DF endp
+sub_9FAF endp
 
 
 
 
-sub_813E proc near
+sub_A00E proc near
 sub	sp, 30h
 mov	di, sp
-call	sub_68EB
+call	sub_87BB
 mov	dx, [si+6]
 mov	bx, [si+8]
-call	sub_81D7
+call	sub_A0A7
 cmp	si, 8E0h
-jnz	short loc_816A
+jnz	short loc_A03A
 mov	si, 4718h
 
-loc_8158:
+loc_A028:
 lodsw
 or	ax, ax
-jz	short loc_8176
+jz	short loc_A046
 mov	bx, ax
 mov	dx, [bx+2]
 mov	bx, [bx+4]
-call	sub_81D7
-jmp	short loc_8158
+call	sub_A0A7
+jmp	short loc_A028
 
-loc_816A:
+loc_A03A:
 mov	bx, [si+4]
 mov	dx, [bx+2]
 mov	bx, [bx+4]
-call	sub_81D7
+call	sub_A0A7
 
-loc_8176:
+loc_A046:
 mov	si, sp
 
-loc_8178:
+loc_A048:
 lodsw
 mov	dx, ax
 lodsw
@@ -17863,85 +17862,85 @@ mov	bx, ax
 lodsw
 mov	di, [si]
 cmp	di, 8000h
-jz	short loc_81D3
+jz	short loc_A0A3
 push	si
 mov	cx, [si+2]
 sub	ax, [si+4]
 mov	si, dx
 sub	si, di
 xor	ax, si
-jns	short loc_81C0
+jns	short loc_A090
 mov	ax, si
 or	ax, ax
-jns	short loc_819E
+jns	short loc_A06E
 neg	ax
 
-loc_819E:
+loc_A06E:
 cmp	ax, 50h	; 'P'
-jb	short loc_81C0
+jb	short loc_A090
 cmp	dx, ds:46E3h
-jl	short loc_81B5
+jl	short loc_A085
 cmp	dx, ds:46E7h
-jge	short loc_81B5
+jge	short loc_A085
 xchg	dx, di
 xchg	bx, cx
 neg	si
 
-loc_81B5:
+loc_A085:
 mov	ax, 190h
 or	si, si
-js	short loc_81BE
+js	short loc_A08E
 neg	ax
 
-loc_81BE:
+loc_A08E:
 add	dx, ax
 
-loc_81C0:
+loc_A090:
 mov	es, word ptr ds:0DBDAh
 mov	al, 0Ch
 mov	bp, 5555h
 mov	si, 46E3h
 call	dword ptr ds:3901h
 pop	si
-jmp	short loc_8178
+jmp	short loc_A048
 
-loc_81D3:
+loc_A0A3:
 add	sp, 30h
 retn
-sub_813E endp
+sub_A00E endp
 
 
 
 
-sub_81D7 proc near
+sub_A0A7 proc near
 mov	[di+4],	dx
 push	di
-call	sub_B647
+call	sub_D517
 pop	di
 mov	[di], dx
 mov	[di+2],	bx
 add	di, 6
 mov	word ptr [di], 8000h
 retn
-sub_81D7 endp
+sub_A0A7 endp
 
-call	near ptr byte_C13B
+call	near ptr byte_E00B
 mov	di, ds:0DBE2h
-call	sub_D6FE
-jnb	short loc_8246
-call	sub_5944
+call	sub_F5CE
+jnb	short loc_A116
+call	sub_7814
 mov	byte ptr ds:46EBh, 40h ; '@'
 mov	al, 0FFh
-call	sub_5E6D
+call	sub_7D3D
 mov	byte ptr ds:46EBh, 0C0h	; 'À'
 cmp	ax, 9
-jnb	short locret_824C
-call	sub_8256
-jb	short locret_824C
-call	sub_82B7
-call	sub_68EB
+jnb	short locret_A11C
+call	sub_A126
+jb	short locret_A11C
+call	sub_A187
+call	sub_87BB
 cmp	si, 8E0h
-jnz	short loc_8235
+jnz	short loc_A105
 push	si
 mov	si, 4718h
 mov	di, 11D3h
@@ -17953,192 +17952,192 @@ movsw
 pop	si
 mov	di, ds:11D3h
 or	di, di
-jz	short loc_8246
+jz	short loc_A116
 
-loc_8235:
-call	sub_82DA
-jnz	short loc_8246
-call	sub_84A6
-call	loc_D2FD
-call	sub_8250
-jmp	sub_878C
+loc_A105:
+call	sub_A1AA
+jnz	short loc_A116
+call	sub_A376
+call	loc_F1CD
+call	sub_A120
+jmp	sub_A65C
 
-loc_8246:
-call	sub_D2E2
-jmp	near ptr byte_C13B
+loc_A116:
+call	sub_F1B2
+jmp	near ptr byte_E00B
 
-locret_824C:
+locret_A11C:
 retn
-call	sub_82B7
+call	sub_A187
 
 
 
-sub_8250 proc near
-call	loc_5AD3
-jmp	near ptr byte_C13B
-sub_8250 endp
+sub_A120 proc near
+call	sub_79A3
+jmp	near ptr byte_E00B
+sub_A120 endp
 
 
 
 
-sub_8256 proc near
-call	sub_68EB
+sub_A126 proc near
+call	sub_87BB
 cmp	si, 8E0h
-jnz	short loc_829E
+jnz	short loc_A16E
 mov	al, [di+8]
 cmp	al, 20h	; ' '
-jb	short loc_826C
+jb	short loc_A13C
 test	byte ptr [di+0Ah], 8
-jz	short loc_8296
+jz	short loc_A166
 
-loc_826C:
+loc_A13C:
 cmp	byte ptr ds:4738h, 3
-jb	short loc_8276
-call	sub_80C8
+jb	short loc_A146
+call	sub_9F98
 
-loc_8276:
+loc_A146:
 xor	bx, bx
 mov	bl, ds:4738h
 inc	byte ptr ds:4738h
 shl	bx, 1
 mov	[bx+4718h], di
 
-loc_8286:
-call	sub_542F
-call	sub_80AC
-call	loc_D33A
+loc_A156:
+call	sub_72FF
+call	sub_9F7C
+call	loc_F20A
 cmp	byte ptr ds:4738h, 3
-jnb	short loc_8298
+jnb	short loc_A168
 
-loc_8296:
+loc_A166:
 stc
 retn
 
-loc_8298:
+loc_A168:
 mov	ax, 32h	; '2'
-call	sub_E3A0
+call	sub_10270
 
-loc_829E:
+loc_A16E:
 clc
 retn
-sub_8256 endp
+sub_A126 endp
 
 
 
 
-sub_82A0 proc near
-call	sub_D41B
+sub_A170 proc near
+call	sub_F2EB
 cmp	bp, 212Eh
-jz	short loc_82AD
+jz	short loc_A17D
 cmp	bp, 2136h
 
-loc_82AD:
-jnz	short locret_82B6
+loc_A17D:
+jnz	short locret_A186
 mov	al, ds:46EBh
 not	al
 test	al, 40h
 
-locret_82B6:
+locret_A186:
 retn
-sub_82A0 endp
+sub_A170 endp
 
 
 
 
-sub_82B7 proc near
+sub_A187 proc near
 test	byte ptr ds:46EBh, 40h
-jz	short locret_82D9
-call	sub_58FA
-call	sub_E270
-call	sub_C08E
+jz	short locret_A1A9
+call	sub_77CA
+call	sub_10140
+call	sub_DF5E
 mov	si, 18E9h
-call	sub_C551
-call	sub_68EB
-call	sub_7BE0
-call	sub_C07C
-call	sub_E283
+call	sub_E421
+call	sub_87BB
+call	sub_9AB0
+call	sub_DF4C
+call	sub_10153
 
-locret_82D9:
+locret_A1A9:
 retn
-sub_82B7 endp
+sub_A187 endp
 
 
 
 
-sub_82DA proc near
+sub_A1AA proc near
 push	di
 push	si
 mov	bp, [si+4]
 cmp	si, 8E0h
-jz	short loc_82EB
+jz	short loc_A1BB
 mov	al, 10h
 cmp	di, bp
-jz	short loc_82FA
+jz	short loc_A1CA
 
-loc_82EB:
+loc_A1BB:
 push	bp
 mov	[si+4],	di
-call	sub_31F6
-call	sub_2E98
+call	sub_50C6
+call	sub_4D68
 pop	word ptr [si+4]
 mov	al, 0Bh
 
-loc_82FA:
-call	sub_9F82
-call	sub_A1C4
-call	loc_7BBE
+loc_A1CA:
+call	sub_BE52
+call	sub_C094
+call	loc_9A8E
 pop	si
 pop	di
-jmp	sub_A1E2
-sub_82DA endp
+jmp	sub_C0B2
+sub_A1AA endp
 
 
 
 
-sub_8308 proc near
+sub_A1D8 proc near
 
 ; FUNCTION CHUNK AT C653 SIZE 0000000E BYTES
 
 mov	cx, 4
 test	byte ptr [si+19h], 40h
-jz	short loc_8313
+jz	short loc_A1E3
 mov	cl, 8
 
-loc_8313:
+loc_A1E3:
 push	cx
-call	sub_8604
+call	sub_A4D4
 pop	cx
 mov	ax, bx
 or	ax, dx
-jz	short sub_8357
+jz	short sub_A227
 add	[si+6],	dx
 add	[si+8],	bx
-loop	loc_8313
-call	sub_686E
-jb	short loc_8333
-call	sub_6917
-jnz	short loc_833C
-jmp	loc_C653
+loop	loc_A1E3
+call	sub_873E
+jb	short loc_A203
+call	sub_87E7
+jnz	short loc_A20C
+jmp	loc_E523
 
-loc_8333:
-call	sub_6917
-jnz	short locret_833B
-jmp	sub_C58A
+loc_A203:
+call	sub_87E7
+jnz	short locret_A20B
+jmp	sub_E45A
 
-locret_833B:
+locret_A20B:
 retn
 
-loc_833C:
-call	sub_6827
-call	sub_C5CF
+loc_A20C:
+call	sub_86F7
+call	sub_E49F
 mov	si, di
-jmp	sub_C6AD
-sub_8308 endp
+jmp	sub_E57D
+sub_A1D8 endp
 
 
 
 
-sub_8347 proc near
+sub_A217 proc near
 push	si
 push	di
 mov	di, 11D3h
@@ -18151,23 +18150,23 @@ movsw
 pop	di
 pop	si
 retn
-sub_8347 endp
+sub_A217 endp
 
 
 
 
-sub_8357 proc near
+sub_A227 proc near
 
 ; FUNCTION CHUNK AT 841F SIZE 00000035 BYTES
 
 cmp	si, 8E0h
-jnz	short loc_8368
+jnz	short loc_A238
 mov	ax, ds:11D3h
 cmp	ax, [si+4]
-jnz	short loc_8368
-call	sub_8347
+jnz	short loc_A238
+call	sub_A217
 
-loc_8368:
+loc_A238:
 mov	al, [si+3]
 and	al, 0Fh
 mov	di, [si+4]
@@ -18176,271 +18175,271 @@ mov	bx, [di+4]
 mov	[si+6],	dx
 mov	[si+8],	bx
 test	byte ptr [di+0Ah], 2
-jnz	short loc_8387
-call	sub_5D36
-jb	short loc_83A7
+jnz	short loc_A257
+call	sub_7C06
+jb	short loc_A277
 
-loc_8387:
+loc_A257:
 push	ax
-call	sub_83BC
+call	sub_A28C
 pop	ax
 cmp	al, 5
-jz	short loc_839A
+jz	short loc_A26A
 mov	al, [si]
 cmp	al, [di+9]
-jnz	short sub_83FD
-jmp	loc_7429
+jnz	short sub_A2CD
+jmp	loc_92F9
 
-loc_839A:
+loc_A26A:
 test	byte ptr [di+0Ah], 80h
-jz	short sub_83FD
+jz	short sub_A2CD
 and	byte ptr [di+0Ah], 7Fh
-jmp	loc_5D44
+jmp	loc_7C14
 
-loc_83A7:
+loc_A277:
 cmp	al, 5
-jb	short loc_83B6
+jb	short loc_A286
 cmp	al, 6
-ja	short loc_83B6
+ja	short loc_A286
 push	di
-call	sub_6AC5
+call	sub_8995
 pop	di
 xor	al, al
 
-loc_83B6:
+loc_A286:
 and	al, 3
 cmp	al, 3
-jz	short loc_841F
-sub_8357 endp
+jz	short loc_A2EF
+sub_A227 endp
 
 
 
 
-sub_83BC proc near
-call	sub_851F
+sub_A28C proc near
+call	sub_A3EF
 and	byte ptr [si+3], 0BFh
-call	sub_85CC
-call	sub_7F5F
+call	sub_A49C
+call	sub_9E2F
 mov	cl, [si+3]
 or	cl, cl
-js	short locret_83FC
+js	short locret_A2CC
 and	cl, 0Fh
-call	sub_6AD4
+call	sub_89A4
 mov	di, [si+4]
 cmp	di, ds:114Eh
-jnz	short locret_83FC
-call	sub_D41B
+jnz	short locret_A2CC
+call	sub_F2EB
 cmp	bp, 1F0Eh
-jnz	short locret_83FC
+jnz	short locret_A2CC
 mov	al, 1
 cmp	byte ptr ds:2Bh, 1
 adc	al, 0
 cmp	ds:0Bh,	al
-jnz	short locret_83FC
+jnz	short locret_A2CC
 or	byte ptr ds:473Bh, 1
 
-locret_83FC:
+locret_A2CC:
 retn
-sub_83BC endp
+sub_A28C endp
 
 
 
 
-sub_83FD proc near
+sub_A2CD proc near
 mov	bp, 8403h
-jmp	sub_661D
-sub_83FD endp
+jmp	sub_84ED
+sub_A2CD endp
 
 test	byte ptr [si+3], 20h
-jnz	short locret_841B
+jnz	short locret_A2EB
 mov	al, [si+3]
 and	al, 0Fh
 cmp	al, 1
-jz	short loc_841C
+jz	short loc_A2EC
 cmp	al, 6
-jz	short locret_841B
+jz	short locret_A2EB
 mov	cl, 6
-call	loc_6ACB
+call	loc_899B
 
-locret_841B:
+locret_A2EB:
 retn
 
-loc_841C:
-jmp	sub_7085
-; START	OF FUNCTION CHUNK FOR sub_8357
+loc_A2EC:
+jmp	sub_8F55
+; START	OF FUNCTION CHUNK FOR sub_A227
 
-loc_841F:
+loc_A2EF:
 mov	di, [si+4]
 cmp	di, [si+0Ch]
-jz	short loc_844D
+jz	short loc_A31D
 push	si
-call	sub_7F27
+call	sub_9DF7
 pop	si
 mov	bx, [si+0Eh]
 mov	cx, bx
 xor	bh, bh
 cmp	byte ptr [bx+46FEh], 0
-jz	short loc_8442
+jz	short loc_A312
 dec	byte ptr [bx+di+14h]
 or	[si+19h], ch
 xor	ch, ch
 
-loc_8442:
+loc_A312:
 mov	[si+0Eh], cx
 mov	di, [si+0Ch]
 mov	[si+4],	di
-jmp	short sub_8461
+jmp	short sub_A331
 
-loc_844D:
+loc_A31D:
 and	byte ptr [si+3], 0FCh
-jmp	sub_83BC
-; END OF FUNCTION CHUNK	FOR sub_8357
-call	sub_6AC5
-call	sub_851F
+jmp	sub_A28C
+; END OF FUNCTION CHUNK	FOR sub_A227
+call	sub_8995
+call	sub_A3EF
 and	byte ptr [si+3], 0BFh
-jmp	sub_7F5F
+jmp	sub_9E2F
 
 
 
-sub_8461 proc near
-call	sub_6917
-jz	short loc_8467
+sub_A331 proc near
+call	sub_87E7
+jz	short loc_A337
 retn
 
-loc_8467:
+loc_A337:
 push	si
-call	sub_C58A
+call	sub_E45A
 pop	si
 
-loc_846C:
+loc_A33C:
 push	si
 test	byte ptr [si+3], 40h
-jnz	short loc_847B
+jnz	short loc_A34B
 mov	di, [si+4]
-call	sub_5ED0
-jnz	short loc_848B
+call	sub_7DA0
+jnz	short loc_A35B
 
-loc_847B:
+loc_A34B:
 mov	al, [si]
-call	sub_6757
-jb	short loc_848B
+call	sub_8627
+jb	short loc_A35B
 mov	si, di
 push	di
-call	sub_C6AD
+call	sub_E57D
 pop	di
 
-loc_8489:
+loc_A359:
 pop	si
 retn
 
-loc_848B:
+loc_A35B:
 xor	di, di
-jmp	short loc_8489
-sub_8461 endp
+jmp	short loc_A359
+sub_A331 endp
 
 
 
 
-sub_848F proc near
+sub_A35F proc near
 mov	di, ds:11D3h
 cmp	[si+4],	di
-jnz	short loc_84A3
+jnz	short loc_A373
 test	byte ptr [si+3], 40h
-jnz	short loc_84A3
-call	sub_8347
-jmp	short sub_848F
+jnz	short loc_A373
+call	sub_A217
+jmp	short sub_A35F
 
-loc_84A3:
+loc_A373:
 or	di, di
 retn
-sub_848F endp
+sub_A35F endp
 
 
 
 
-sub_84A6 proc near
+sub_A376 proc near
 cmp	si, 8E0h
-jnz	short loc_84B2
-call	sub_848F
-jnz	short loc_84B2
+jnz	short loc_A382
+call	sub_A35F
+jnz	short loc_A382
 retn
 
-loc_84B2:
+loc_A382:
 test	byte ptr [si+3], 40h
-jz	short loc_84CA
+jz	short loc_A39A
 mov	[si+4],	di
 mov	al, 3
 and	al, [si+3]
 cmp	al, 3
-jnz	short loc_84C8
+jnz	short loc_A398
 and	byte ptr [si+3], 0FCh
 
-loc_84C8:
-jmp	short sub_8461
+loc_A398:
+jmp	short sub_A331
 
-loc_84CA:
-call	sub_6EBF
+loc_A39A:
+call	sub_8D8F
 push	di
-call	sub_858C
+call	sub_A45C
 pop	di
 cmp	byte ptr [si+3], 6
-jnz	short loc_8501
+jnz	short loc_A3D1
 push	di
 mov	di, [si+4]
 test	byte ptr [di+0Ah], 2
-jz	short loc_84EF
-call	sub_5098
-jcxz	short loc_84EF
+jz	short loc_A3BF
+call	sub_6F68
+jcxz	short loc_A3BF
 dec	dx
-jg	short loc_84EF
+jg	short loc_A3BF
 push	si
-call	sub_74B6
+call	sub_9386
 pop	si
 
-loc_84EF:
+loc_A3BF:
 pop	di
 cmp	byte ptr [di+8], 28h ; '('
-jnb	short loc_8501
+jnb	short loc_A3D1
 test	byte ptr [di+0Ah], 2
-jnz	short locret_851E
+jnz	short locret_A3EE
 mov	al, 3
-call	sub_6F93
+call	sub_8E63
 
-loc_8501:
+loc_A3D1:
 xchg	di, [si+4]
 or	byte ptr [si+3], 40h
 mov	byte ptr [si+2], 0
-call	sub_7F75
-call	sub_8461
+call	sub_9E45
+call	sub_A331
 test	byte ptr [si+10h], 10h
-jnz	short locret_851E
+jnz	short locret_A3EE
 mov	cx, 7
-jmp	loc_8313
+jmp	loc_A1E3
 
-locret_851E:
+locret_A3EE:
 retn
-sub_84A6 endp
+sub_A376 endp
 
 
 
 
-sub_851F proc near
+sub_A3EF proc near
 mov	ah, [si]
 mov	al, [di+9]
 or	al, al
-jnz	short loc_8540
+jnz	short loc_A410
 mov	[di+9],	ah
 mov	cx, 1
 mov	[si+2],	cl
 test	word ptr [si+10h], 80h
-jz	short locret_853F
+jz	short locret_A40F
 add	byte ptr [si+2], 8
 add	cl, 8
 
-locret_853F:
+locret_A40F:
 retn
 
-loc_8540:
+loc_A410:
 push	di
 push	ds
 pop	es
@@ -18455,22 +18454,22 @@ mov	di, sp
 push	si
 xor	bx, bx
 
-loc_8556:
-call	sub_6906
+loc_A426:
+call	sub_87D6
 mov	bl, [si+2]
 mov	byte ptr [bx+di-1], 0FFh
 mov	al, [si+1]
 or	al, al
-jnz	short loc_8556
+jnz	short loc_A426
 mov	[si+1],	ah
 mov	cx, 1Eh
 pop	si
 test	word ptr [si+10h], 80h
-jz	short loc_857B
+jz	short loc_A44B
 sub	cx, 8
 add	di, 8
 
-loc_857B:
+loc_A44B:
 xor	al, al
 repne scasb
 sub	cx, 1Eh
@@ -18479,378 +18478,378 @@ add	sp, 1Eh
 pop	di
 mov	[si+2],	cl
 retn
-sub_851F endp
+sub_A3EF endp
 
 
 
 
-sub_858C proc near
+sub_A45C proc near
 mov	bp, si
 mov	al, [si]
 mov	di, [si+4]
 push	di
 test	byte ptr [si+3], 40h
-jnz	short loc_85BA
+jnz	short loc_A48A
 cmp	al, [di+9]
-jz	short loc_85C2
+jz	short loc_A492
 mov	cl, al
 mov	al, [di+9]
 
-loc_85A4:
-call	sub_6906
+loc_A474:
+call	sub_87D6
 mov	al, [si+1]
 mov	di, si
 or	al, al
-jz	short loc_85BA
+jz	short loc_A48A
 cmp	al, cl
-jnz	short loc_85A4
+jnz	short loc_A474
 mov	ah, [bp+1]
 mov	[si+1],	ah
 
-loc_85BA:
+loc_A48A:
 mov	si, bp
 mov	byte ptr [si+1], 0
 pop	di
 retn
 
-loc_85C2:
+loc_A492:
 xor	ah, ah
 xchg	ah, [si+1]
 pop	di
 mov	[di+9],	ah
 retn
-sub_858C endp
+sub_A45C endp
 
 
 
 
-sub_85CC proc near
+sub_A49C proc near
 test	word ptr [si+10h], 80h
-jnz	short locret_8603
+jnz	short locret_A4D3
 cmp	byte ptr [si+2], 8
-jbe	short locret_8603
-call	sub_858C
+jbe	short locret_A4D3
+call	sub_A45C
 push	si
 mov	al, [di+9]
 
-loc_85E0:
+loc_A4B0:
 or	al, al
-jz	short loc_85FF
-call	sub_6906
+jz	short loc_A4CF
+call	sub_87D6
 mov	al, [si+1]
 test	byte ptr [si+10h], 80h
-jnz	short loc_85E0
+jnz	short loc_A4B0
 test	byte ptr [si+3], 20h
-jz	short loc_85E0
-call	sub_E270
-call	sub_66B1
-call	sub_E283
+jz	short loc_A4B0
+call	sub_10140
+call	sub_8581
+call	sub_10153
 
-loc_85FF:
+loc_A4CF:
 pop	si
-call	sub_851F
+call	sub_A3EF
 
-locret_8603:
+locret_A4D3:
 retn
-sub_85CC endp
+sub_A49C endp
 
 
 
 
-sub_8604 proc near
+sub_A4D4 proc near
 push	si
 mov	di, [si+4]
 mov	dx, [di+2]
 mov	bx, [si+8]
 mov	bp, bx
 shl	bp, 1
-jns	short loc_8616
+jns	short loc_A4E6
 neg	bp
 
-loc_8616:
+loc_A4E6:
 mov	bp, [bp+4880h]
 sub	bx, [di+4]
 neg	bx
 mov	di, 1
-jns	short loc_8628
+jns	short loc_A4F8
 neg	di
 neg	bx
 
-loc_8628:
+loc_A4F8:
 sub	dx, [si+6]
 mov	ax, dx
-jns	short loc_8631
+jns	short loc_A501
 neg	ax
 
-loc_8631:
+loc_A501:
 mov	si, dx
 xor	dx, dx
 div	bp
 mov	dx, si
 xchg	bx, di
 cmp	ax, di
-jb	short loc_8666
+jb	short loc_A536
 cmp	ax, 7
-jb	short loc_8660
+jb	short loc_A530
 or	di, di
-jnz	short loc_864A
+jnz	short loc_A51A
 xor	bx, bx
 
-loc_864A:
+loc_A51A:
 or	dx, dx
-jns	short loc_8650
+jns	short loc_A520
 neg	bp
 
-loc_8650:
+loc_A520:
 shr	ax, 1
-jz	short loc_865E
+jz	short loc_A52E
 mov	dx, bp
 rol	word ptr ds:0, 1
-jb	short loc_865E
+jb	short loc_A52E
 xor	bx, bx
 
-loc_865E:
+loc_A52E:
 pop	si
 retn
 
-loc_8660:
+loc_A530:
 xor	bx, bx
 xor	dx, dx
 pop	si
 retn
 
-loc_8666:
+loc_A536:
 cmp	di, 7
-jb	short loc_8660
+jb	short loc_A530
 or	ax, ax
-jz	short loc_865E
+jz	short loc_A52E
 or	dx, dx
-jns	short loc_8675
+jns	short loc_A545
 neg	bp
 
-loc_8675:
+loc_A545:
 shr	di, 1
-jz	short loc_865E
+jz	short loc_A52E
 mov	dx, bp
 rol	word ptr ds:0, 1
-jb	short loc_865E
+jb	short loc_A52E
 xor	dx, dx
 pop	si
 retn
-sub_8604 endp
+sub_A4D4 endp
 
 
-loc_8685:
+loc_A555:
 mov	byte ptr ds:46D8h, 1
-call	sub_69A3
-call	sub_7B58
-call	sub_5F79
-call	sub_79DE
-call	sub_58FA
+call	sub_8873
+call	sub_9A28
+call	sub_7E49
+call	sub_98AE
+call	sub_77CA
 mov	al, ds:1954h
 cmp	al, 43h	; 'C'
-ja	short locret_86B8
-call	sub_6906
-jnb	short locret_86B8
+ja	short locret_A588
+call	sub_87D6
+jnb	short locret_A588
 mov	ds:1955h, al
 push	si
-call	sub_697C
+call	sub_884C
 pop	si
 push	si
-call	sub_780A
+call	sub_96DA
 pop	si
 mov	di, [si+4]
-call	sub_7C02
+call	sub_9AD2
 
-locret_86B8:
+locret_A588:
 retn
 
-loc_86B9:
+loc_A589:
 mov	di, ds:114Eh
 mov	al, [di+9]
 mov	ds:1954h, al
-call	sub_5B5D
+call	sub_7A2D
 call	word ptr ds:46EDh
-jmp	short loc_8685
+jmp	short loc_A555
 
-loc_86CC:
-call	sub_5BEB
+loc_A59C:
+call	sub_7ABB
 cmp	byte ptr ds:28h, 0
-jz	short locret_86B8
+jz	short locret_A588
 cmp	word ptr ds:1176h, 2
-jb	short loc_86B9
+jb	short loc_A589
 mov	ax, ds:1954h
 or	al, al
-jnz	short loc_86FA
+jnz	short loc_A5CA
 mov	al, ah
 or	al, al
-jz	short loc_86FA
+jz	short loc_A5CA
 mov	ds:1954h, al
-call	sub_6906
-call	sub_6917
-jz	short loc_8685
+call	sub_87D6
+call	sub_87E7
+jz	short loc_A555
 mov	byte ptr ds:1954h, 0
 
-loc_86FA:
+loc_A5CA:
 mov	si, 3CBEh
 lodsw
 mov	cx, ax
-jcxz	short locret_86B8
+jcxz	short locret_A588
 mov	al, ds:1954h
 mov	bh, 0FFh
 xor	di, di
 
-loc_8709:
+loc_A5D9:
 mov	bp, [si+0Ah]
 cmp	byte ptr [bp+3], 80h ; '€'
-jnb	short loc_8721
+jnb	short loc_A5F1
 mov	ah, [bp+0]
 sub	ah, al
-jz	short loc_8721
+jz	short loc_A5F1
 cmp	ah, bh
-ja	short loc_8721
+ja	short loc_A5F1
 mov	bh, ah
 mov	di, si
 
-loc_8721:
+loc_A5F1:
 add	si, 11h
-loop	loc_8709
+loop	loc_A5D9
 or	di, di
-jz	short locret_86B8
+jz	short locret_A588
 mov	si, di
 
-loc_872C:
+loc_A5FC:
 mov	si, [si+0Ah]
 mov	al, [si]
 cmp	word ptr ds:1176h, 2
-jnb	short loc_8741
+jnb	short loc_A611
 mov	di, [si+4]
 cmp	di, ds:114Eh
-jnz	short locret_8750
+jnz	short locret_A620
 
-loc_8741:
+loc_A611:
 cmp	al, ds:1954h
-jz	short loc_874D
+jz	short loc_A61D
 mov	ds:1954h, al
-jmp	loc_8685
+jmp	loc_A555
 
-loc_874D:
-jmp	sub_7C02
+loc_A61D:
+jmp	sub_9AD2
 
-locret_8750:
+locret_A620:
 retn
 cmp	byte ptr ds:1954h, 0
-jz	short locret_878B
-call	sub_69A3
+jz	short locret_A65B
+call	sub_8873
 mov	byte ptr ds:1954h, 0
-jmp	sub_7B58
+jmp	sub_9A28
 
 
 
-sub_8763 proc near
+sub_A633 proc near
 cmp	byte ptr ds:46F3h, 0
-jz	short sub_8770
-call	sub_8770
-jmp	loc_186B
-sub_8763 endp
+jz	short sub_A640
+call	sub_A640
+jmp	loc_373B
+sub_A633 endp
 
 
 
 
-sub_8770 proc near
+sub_A640 proc near
 cmp	byte ptr ds:1954h, 0
-jz	short locret_878B
-call	sub_E270
+jz	short locret_A65B
+call	sub_10140
 mov	byte ptr ds:46F3h, 0
-call	sub_878C
+call	sub_A65C
 mov	word ptr ds:1BEAh, 0
-call	sub_E283
+call	sub_10153
 
-locret_878B:
+locret_A65B:
 retn
-sub_8770 endp
+sub_A640 endp
 
 
 
 
-sub_878C proc near
+sub_A65C proc near
 mov	word ptr ds:47BAh, 0
 mov	ax, 40A7h
 cmp	byte ptr ds:8, 0FFh
-jz	short loc_87C0
+jz	short loc_A690
 cmp	byte ptr ds:8, 20h ; ' '
-jb	short loc_87AA
+jb	short loc_A67A
 cmp	byte ptr ds:0Bh, 3
-jnb	short loc_87C0
+jnb	short loc_A690
 
-loc_87AA:
+loc_A67A:
 push	di
 mov	di, ds:114Eh
-call	sub_7F27
+call	sub_9DF7
 pop	di
 mov	ax, 0A7h ; '§'
 cmp	byte ptr ds:46FFh, 0
-jnz	short loc_87C0
+jnz	short loc_A690
 or	ah, 40h
 
-loc_87C0:
+loc_A690:
 mov	bp, 20F2h
 mov	[bp+0Eh], ax
 or	byte ptr [bp+0Bh], 40h
 mov	word ptr [bp+12h], 0
 cmp	byte ptr ds:2Ah, 5
-jb	short loc_87DF
+jb	short loc_A6AF
 and	byte ptr [bp+0Bh], 0BFh
 mov	word ptr [bp+12h], 67h ; 'g'
 
-loc_87DF:
+loc_A6AF:
 cmp	word ptr ds:1176h, 2
-jnb	short loc_8806
+jnb	short loc_A6D6
 mov	word ptr [bp+6], 4093h
 mov	di, ds:114Eh
 or	di, di
-jz	short loc_8816
+jz	short loc_A6E6
 mov	al, [di+9]
 or	al, al
-jz	short loc_8816
-call	sub_6906
-jnb	short loc_8816
+jz	short loc_A6E6
+call	sub_87D6
+jnb	short loc_A6E6
 and	word ptr [bp+6], 0BFFFh
-jmp	short loc_8816
+jmp	short loc_A6E6
 
-loc_8806:
+loc_A6D6:
 mov	ax, 62h	; 'b'
 cmp	word ptr ds:3CBEh, 0
-jnz	short loc_8813
+jnz	short loc_A6E3
 or	ah, 40h
 
-loc_8813:
+loc_A6E3:
 mov	[bp+6],	ax
 
-loc_8816:
+loc_A6E6:
 mov	bx, 0F66h
-call	sub_D338
-jmp	near ptr byte_C13B
-sub_878C endp
+call	sub_F208
+jmp	near ptr byte_E00B
+sub_A65C endp
 
 mov	si, 146Ah
-jmp	short loc_8831
+jmp	short loc_A701
 mov	si, 1462h
-jmp	short loc_8831
+jmp	short loc_A701
 mov	si, 145Eh
-jmp	short loc_8831
+jmp	short loc_A701
 mov	si, 1466h
 
-loc_8831:
+loc_A701:
 test	al, 1
-jz	short locret_8857
+jz	short locret_A727
 cmp	byte ptr ds:46EBh, 0
-jns	short loc_8846
+jns	short loc_A716
 test	byte ptr ds:46EBh, 40h
-jnz	short loc_8858
-call	sub_5BEB
+jnz	short loc_A728
+call	sub_7ABB
 
-loc_8846:
+loc_A716:
 lodsw
 add	ds:197Ch, ax
 lodsw
@@ -18858,50 +18857,50 @@ add	ds:197Eh, ax
 
 
 
-sub_8850 proc near
-call	sub_7B36
+sub_A720 proc near
+call	sub_9A06
 call	word ptr ds:46EDh
 
-locret_8857:
+locret_A727:
 retn
-sub_8850 endp
+sub_A720 endp
 
 
-loc_8858:
+loc_A728:
 lodsw
 add	ds:1980h, ax
 lodsw
 add	ds:1982h, ax
-jmp	sub_542F
+jmp	sub_72FF
 
 
 
-sub_8865 proc near
-call	sub_E270
+sub_A735 proc near
+call	sub_10140
 mov	si, ax
 mov	ds:0DBE4h, cx
-call	sub_D04E
-call	sub_CF70
-call	sub_88F1
+call	sub_EF1E
+call	sub_EE40
+call	sub_A7C1
 mov	di, 0A6B0h
 push	di
-call	sub_8944
+call	sub_A814
 pop	si
 push	ds
 pop	es
-call	sub_D1BB
-call	sub_E283
+call	sub_F08B
+call	sub_10153
 retn
-sub_8865 endp
+sub_A735 endp
 
-; START	OF FUNCTION CHUNK FOR sub_88D2
+; START	OF FUNCTION CHUNK FOR sub_A7A2
 
-loc_8888:
+loc_A758:
 cmp	byte ptr ds:46D9h, 0
-jnz	short loc_88E1
+jnz	short loc_A7B1
 mov	word ptr ds:479Eh, 1
 
-loc_8895:
+loc_A765:
 mov	al, ds:0FBh
 not	al
 and	al, 80h
@@ -18917,82 +18916,82 @@ stosw
 mov	al, 80h	; '€'
 stosw
 retn
-; END OF FUNCTION CHUNK	FOR sub_88D2
+; END OF FUNCTION CHUNK	FOR sub_A7A2
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_8. PRESS KEYPAD "+" TO EXPAND]
 
 
 
-sub_88AF proc near
+sub_A77F proc near
 or	ax, ax
 jz	short nullsub_8
 mov	ds:4780h, ax
 mov	byte ptr ds:47E0h, 0
 test	byte ptr ds:46EBh, 40h
-jz	short loc_88CA
+jz	short loc_A79A
 and	byte ptr ds:46EBh, 0BFh
-jmp	sub_80DF
+jmp	sub_9FAF
 
-loc_88CA:
+loc_A79A:
 mov	si, ax
-call	sub_CF70
-call	sub_88F1
-sub_88AF endp
+call	sub_EE40
+call	sub_A7C1
+sub_A77F endp
 
 
 
 
-sub_88D2 proc near
+sub_A7A2 proc near
 
 ; FUNCTION CHUNK AT 8888 SIZE 00000026 BYTES
 
 mov	di, 0A6B0h
 push	di
-call	sub_8944
+call	sub_A814
 pop	si
 cmp	byte ptr ds:28E7h, 2
-jnb	short loc_8888
+jnb	short loc_A758
 
-loc_88E1:
+loc_A7B1:
 lodsb
 or	al, al
-js	short locret_88F0
+js	short locret_A7C0
 dec	si
-call	sub_8B11
+call	sub_A9E1
 cmp	byte ptr [si], 0FEh ; 'þ'
-jnb	short locret_88F0
+jnb	short locret_A7C0
 nop
 
-locret_88F0:
+locret_A7C0:
 retn
-sub_88D2 endp
+sub_A7A2 endp
 
 
 
 
-sub_88F1 proc near
+sub_A7C1 proc near
 push	ds
 push	es
 pop	ds
 pop	es
 mov	di, 0A840h
 
-loc_88F8:
+loc_A7C8:
 lodsb
 cmp	al, 0FFh
-jz	short loc_893D
+jz	short loc_A80D
 cmp	al, 0FEh ; 'þ'
-jz	short loc_8905
+jz	short loc_A7D5
 cmp	al, 0E0h ; 'à'
-jnb	short loc_8910
+jnb	short loc_A7E0
 
-loc_8905:
+loc_A7D5:
 stosb
 mov	al, 0FFh
 cmp	di, 0A9CFh
-jnb	short loc_893D
-jmp	short loc_88F8
+jnb	short loc_A80D
+jmp	short loc_A7C8
 
-loc_8910:
+loc_A7E0:
 and	al, 0Fh
 mov	ch, al
 lodsw
@@ -19009,136 +19008,136 @@ add	si, ax
 rep movsb
 pop	si
 cmp	byte ptr [si], 0FFh
-jz	short loc_893C
+jz	short loc_A80C
 mov	byte ptr es:[di], 20h ;	' '
 inc	di
-jmp	short loc_88F8
+jmp	short loc_A7C8
 
-loc_893C:
+loc_A80C:
 lodsb
 
-loc_893D:
+loc_A80D:
 stosb
 mov	si, 0A840h
 push	ss
 pop	ds
 assume ds:seg001
 retn
-sub_88F1 endp
+sub_A7C1 endp
 
 
 
 
-sub_8944 proc near
+sub_A814 proc near
 sub	sp, 32h
 mov	bp, sp
 push	ds
 pop	es
 assume es:seg001
 
-loc_894B:
+loc_A81B:
 cmp	byte ptr [si], 20h ; ' '
-jnz	short loc_8953
+jnz	short loc_A823
 inc	si
-jmp	short loc_894B
+jmp	short loc_A81B
 
-loc_8953:
+loc_A823:
 lodsb
 or	al, al
-js	short loc_895B
+js	short loc_A82B
 stosb
-jmp	short loc_8953
+jmp	short loc_A823
 
-loc_895B:
+loc_A82B:
 mov	ds:477Fh, al
 cmp	al, 0F0h ; 'ð'
-jnb	short loc_89B0
+jnb	short loc_A880
 cmp	al, 0D0h ; 'Ð'
-jnb	short loc_899B
+jnb	short loc_A86B
 cmp	al, 0A0h ; ' '
-jnb	short loc_89AD
+jnb	short loc_A87D
 cmp	al, 90h	; ''
-jb	short loc_8970
-jmp	short loc_89E4
+jb	short loc_A840
+jmp	short loc_A8B4
 
-loc_8970:
+loc_A840:
 cmp	al, 80h	; '€'
-jnz	short loc_8979
+jnz	short loc_A849
 lodsw
 xchg	ah, al
-jmp	short loc_8984
+jmp	short loc_A854
 
-loc_8979:
+loc_A849:
 and	ax, 0Fh
 shl	ax, 1
 mov	bx, ax
 mov	ax, [bx+11EBh]
 
-loc_8984:
+loc_A854:
 mov	[bp+0],	si
 mov	word ptr [bp+2], ds
 add	bp, 4
 mov	si, ax
-call	sub_8A3B
+call	sub_A90B
 push	es
-call	sub_CF70
+call	sub_EE40
 push	es
 pop	ds
 pop	es
 assume es:nothing
-jmp	short loc_8953
+jmp	short loc_A823
 
-loc_899B:
+loc_A86B:
 stosb
 movsb
 cmp	al, 0D2h ; 'Ò'
-jb	short loc_89A3
-jmp	short loc_8953
+jb	short loc_A873
+jmp	short loc_A823
 
-loc_89A3:
+loc_A873:
 movsb
 cmp	al, 0D0h ; 'Ð'
-jnz	short loc_89AA
-jmp	short loc_8953
+jnz	short loc_A87A
+jmp	short loc_A823
 
-loc_89AA:
+loc_A87A:
 movsw
-jmp	short loc_8953
+jmp	short loc_A823
 
-loc_89AD:
+loc_A87D:
 stosb
-jmp	short loc_8953
+jmp	short loc_A823
 
-loc_89B0:
+loc_A880:
 mov	bx, sp
 cmp	bp, bx
-jz	short loc_89C1
+jz	short loc_A891
 sub	bp, 4
 mov	si, [bp+0]
 mov	ds, word ptr [bp+2]
 assume ds:nothing
-jmp	short loc_8953
+jmp	short loc_A823
 
-loc_89C1:
+loc_A891:
 stosb
 cmp	al, 0FFh
-jnz	short loc_89C8
+jnz	short loc_A898
 xor	si, si
 
-loc_89C8:
+loc_A898:
 mov	ds:47B6h, si
 mov	word ptr ds:47B8h, ds
 add	sp, 32h
 test	byte ptr ds:47DEh, 10h
-jz	short locret_89E3
+jz	short locret_A8B3
 mov	bx, 3
-call	sub_E3B7
-call	sub_8AC3
+call	sub_10287
+call	sub_A993
 
-locret_89E3:
+locret_A8B3:
 retn
 
-loc_89E4:
+loc_A8B4:
 push	bp
 mov	bl, al
 lodsb
@@ -19146,45 +19145,45 @@ xor	ah, ah
 mov	bp, ax
 mov	ax, [bp+0]
 cmp	bl, 92h	; '’'
-jz	short loc_89F7
+jz	short loc_A8C7
 xor	ah, ah
 
-loc_89F7:
+loc_A8C7:
 push	ax
-call	sub_8ACC
+call	sub_A99C
 pop	ax
-call	sub_8A23
+call	sub_A8F3
 xchg	ax, bx
 mov	cx, 5
-jmp	short loc_8A0D
+jmp	short loc_A8DD
 
-loc_8A05:
+loc_A8D5:
 mov	al, dh
 mov	dh, dl
 mov	dl, bh
 mov	bh, bl
 
-loc_8A0D:
+loc_A8DD:
 or	al, al
-loope	loc_8A05
+loope	loc_A8D5
 inc	cx
 
-loc_8A12:
+loc_A8E2:
 add	al, 30h	; '0'
 stosb
 mov	al, dh
 mov	dh, dl
 mov	dl, bh
 mov	bh, bl
-loop	loc_8A12
+loop	loc_A8E2
 pop	bp
-jmp	loc_8953
-sub_8944 endp
+jmp	loc_A823
+sub_A814 endp
 
 
 
 
-sub_8A23 proc near
+sub_A8F3 proc near
 xor	dx, dx
 mov	cx, 2710h
 div	cx
@@ -19197,219 +19196,219 @@ aam
 xchg	ax, dx
 aam
 retn
-sub_8A23 endp
+sub_A8F3 endp
 
 
 
 
-sub_8A3B proc near
+sub_A90B proc near
 test	byte ptr ds:47DEh, 10h
-jnz	short loc_8A43
+jnz	short loc_A913
 retn
 
-loc_8A43:
+loc_A913:
 push	bx
 mov	bh, ds:477Fh
 cmp	bh, 8Bh	; '‹'
-jnz	short loc_8A52
+jnz	short loc_A922
 sub	ax, 108h
-jmp	short loc_8ABE
+jmp	short loc_A98E
 
-loc_8A52:
+loc_A922:
 cmp	bh, 84h	; '„'
-jnz	short loc_8A69
+jnz	short loc_A939
 sub	ax, 48h	; 'H'
-jz	short loc_8ABE
+jz	short loc_A98E
 dec	ax
 cmp	al, 3
-jb	short loc_8ABE
+jb	short loc_A98E
 sub	ax, 0FFCFh
 cmp	ax, 0Ch
-jmp	short loc_8ABC
+jmp	short loc_A98C
 
-loc_8A69:
+loc_A939:
 cmp	bh, 83h	; 'ƒ'
-jz	short loc_8A71
+jz	short loc_A941
 cmp	bh, 8Ch	; 'Œ'
 
-loc_8A71:
-jnz	short loc_8A7A
+loc_A941:
+jnz	short loc_A94A
 sub	ax, 0E8h ; 'è'
 cmp	al, 7
-jmp	short loc_8ABC
+jmp	short loc_A98C
 
-loc_8A7A:
+loc_A94A:
 mov	bl, bh
 sub	bl, 86h	; '†'
 cmp	bl, 3
-jnb	short loc_8A97
+jnb	short loc_A967
 mov	bl, ds:47DEh
 and	bl, 0Fh
 cmp	bl, 1
-jnz	short loc_8AC1
+jnz	short loc_A991
 sub	ax, 0D1h ; 'Ñ'
 cmp	al, 7
-jmp	short loc_8ABC
+jmp	short loc_A98C
 
-loc_8A97:
+loc_A967:
 cmp	bh, 85h	; '…'
-jnz	short loc_8AB2
+jnz	short loc_A982
 mov	bl, ds:47DEh
 and	bl, 0Fh
 cmp	bl, 1
-jnz	short loc_8AC1
+jnz	short loc_A991
 cmp	ax, 74h	; 't'
 mov	al, 0
-jnz	short loc_8ABE
+jnz	short loc_A98E
 inc	ax
-jmp	short loc_8ABE
+jmp	short loc_A98E
 
-loc_8AB2:
+loc_A982:
 cmp	bh, 89h	; '‰'
-jnz	short loc_8AC1
+jnz	short loc_A991
 sub	ax, 0DAh ; 'Ú'
 cmp	al, 8
 
-loc_8ABC:
-jnb	short loc_8AC1
+loc_A98C:
+jnb	short loc_A991
 
-loc_8ABE:
-call	sub_8AC3
+loc_A98E:
+call	sub_A993
 
-loc_8AC1:
+loc_A991:
 pop	bx
 
-locret_8AC2:
+locret_A992:
 retn
-sub_8A3B endp
+sub_A90B endp
 
 
 
 
-sub_8AC3 proc near
+sub_A993 proc near
 mov	ds:47E0h, al
 and	byte ptr ds:47DEh, 0EFh
 retn
-sub_8AC3 endp
+sub_A993 endp
 
 
 
 
-sub_8ACC proc near
+sub_A99C proc near
 test	byte ptr ss:47DEh, 10h
-jz	short locret_8AC2
+jz	short locret_A992
 push	bx
 lea	bp, [bp+0]
 cmp	bp, 0CFh ; 'Ï'
-jz	short loc_8AFF
+jz	short loc_A9CF
 cmp	bp, 55h	; 'U'
-jz	short loc_8B07
+jz	short loc_A9D7
 cmp	bp, 61h	; 'a'
-jz	short loc_8B07
+jz	short loc_A9D7
 cmp	bp, 44h	; 'D'
-jnz	short loc_8AC1
+jnz	short loc_A991
 mov	bh, ss:47DEh
 and	bh, 0Fh
 cmp	bh, 1
-jnz	short loc_8AC1
+jnz	short loc_A991
 dec	ax
 
-loc_8AFF:
+loc_A9CF:
 cmp	al, 8
-jbe	short loc_8ABE
+jbe	short loc_A98E
 mov	al, 8
-jmp	short loc_8ABE
+jmp	short loc_A98E
 
-loc_8B07:
+loc_A9D7:
 dec	ax
 cmp	al, 4
-jbe	short loc_8ABE
+jbe	short loc_A98E
 mov	al, 4
-jmp	short loc_8ABE
-sub_8ACC endp
+jmp	short loc_A98E
+sub_A99C endp
 
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_9. PRESS KEYPAD "+" TO EXPAND]
 
 
 
-sub_8B11 proc near
+sub_A9E1 proc near
 push	si
-call	sub_8C8A
+call	sub_AB5A
 pop	si
-call	sub_8CCD
+call	sub_AB9D
 jb	short nullsub_9
-call	sub_8F28
-call	sub_8DF0
+call	sub_ADF8
+call	sub_ACC0
 mov	dx, ds:4791h
 mov	bx, ds:4793h
-call	sub_D04E
+call	sub_EF1E
 mov	bp, 0A9D0h
 mov	word ptr ds:479Ah, 0Ah
 mov	al, ds:4799h
 and	al, 0Ch
-jz	short loc_8B8B
+jz	short loc_AA5B
 cmp	al, 8
-jnb	short loc_8B66
+jnb	short loc_AA36
 mov	bx, [bp+0]
 xor	dx, dx
 mov	ax, ds:478Dh
 sub	ax, 8
 dec	bx
-jz	short loc_8B55
+jz	short loc_AA25
 div	bx
 mov	ds:479Ah, ax
-jmp	short loc_8B8B
+jmp	short loc_AA5B
 
-loc_8B55:
+loc_AA25:
 shr	ax, 1
 mov	bx, ax
 mov	dx, ds:0D82Ch
 add	bx, ds:0D82Eh
-call	sub_D04E
-jmp	short loc_8B8B
+call	sub_EF1E
+jmp	short loc_AA5B
 
-loc_8B66:
+loc_AA36:
 pushf
 mov	ax, [bp+0]
 mov	ah, 0Ah
 mul	ah
 mov	bx, ds:478Dh
 sub	bx, ax
-jnb	short loc_8B78
+jnb	short loc_AA48
 xor	bx, bx
 
-loc_8B78:
+loc_AA48:
 mov	ds:478Dh, ax
 popf
-jnz	short loc_8B80
+jnz	short loc_AA50
 shr	bx, 1
 
-loc_8B80:
+loc_AA50:
 mov	dx, ds:0D82Ch
 add	bx, ds:0D82Eh
-call	sub_D04E
+call	sub_EF1E
 
-loc_8B8B:
+loc_AA5B:
 mov	dx, [bp+0]
 add	bp, 2
 
-loc_8B91:
+loc_AA61:
 push	dx
 mov	cx, [bp+0]
 add	bp, 2
 mov	dx, [bp+0]
 mov	bx, [bp+2]
 add	bp, 4
-jcxz	short loc_8C0C
+jcxz	short loc_AADC
 test	byte ptr ds:4799h, 2
-jz	short loc_8BD1
+jz	short loc_AAA1
 mov	al, dl
 mov	dl, cl
 dec	dl
-jz	short loc_8BB4
+jz	short loc_AA84
 mul	dl
 
-loc_8BB4:
+loc_AA84:
 add	al, bl
 mov	dl, al
 mov	al, cl
@@ -19423,123 +19422,123 @@ shr	dx, 1
 add	ds:0D82Ch, dx
 and	byte ptr ds:4799h, 0FEh
 
-loc_8BD1:
+loc_AAA1:
 pop	ax
 push	ax
 cmp	ax, 1
-jz	short loc_8BDF
+jz	short loc_AAAF
 test	byte ptr ds:4799h, 1
-jnz	short loc_8BE5
+jnz	short loc_AAB5
 
-loc_8BDF:
+loc_AAAF:
 mov	dx, 6
 mov	bx, 0
 
-loc_8BE5:
+loc_AAB5:
 mov	ds:479Ch, bx
 
-loc_8BE9:
+loc_AAB9:
 lodsb
 or	al, al
-js	short loc_8C26
+js	short loc_AAF6
 cmp	al, 20h	; ' '
-jz	short loc_8C19
+jz	short loc_AAE9
 cmp	al, 0Dh
-jz	short loc_8C19
+jz	short loc_AAE9
 cmp	al, 6
-jz	short loc_8C0F
+jz	short loc_AADF
 cmp	al, 8
-jz	short loc_8C14
+jz	short loc_AAE4
 cmp	al, 1
-jnz	short loc_8C41
+jnz	short loc_AB11
 mov	ax, ds:0DBE4h
 xchg	ah, al
 mov	ds:0DBE4h, ax
-jmp	short loc_8BE9
+jmp	short loc_AAB9
 
-loc_8C0C:
-jmp	short loc_8C47
+loc_AADC:
+jmp	short loc_AB17
 db 90h
 
-loc_8C0F:
-call	sub_D075
-jmp	short loc_8BE9
+loc_AADF:
+call	sub_EF45
+jmp	short loc_AAB9
 
-loc_8C14:
-call	sub_D068
-jmp	short loc_8BE9
+loc_AAE4:
+call	sub_EF38
+jmp	short loc_AAB9
 
-loc_8C19:
+loc_AAE9:
 cmp	byte ptr [si], 20h ; ' '
-jz	short loc_8C23
+jz	short loc_AAF3
 cmp	byte ptr [si], 0Dh
-jnz	short loc_8C26
+jnz	short loc_AAF6
 
-loc_8C23:
+loc_AAF3:
 inc	si
-jmp	short loc_8C19
+jmp	short loc_AAE9
 
-loc_8C26:
+loc_AAF6:
 dec	cx
-jz	short loc_8C47
+jz	short loc_AB17
 push	dx
 add	dx, ds:0D82Ch
 cmp	word ptr ds:479Ch, 0
-jz	short loc_8C3A
+jz	short loc_AB0A
 inc	dx
 dec	word ptr ds:479Ch
 
-loc_8C3A:
+loc_AB0A:
 mov	ds:0D82Ch, dx
 pop	dx
-jmp	short loc_8BE9
+jmp	short loc_AAB9
 
-loc_8C41:
+loc_AB11:
 call	word ptr ds:2518h
-jmp	short loc_8BE9
+jmp	short loc_AAB9
 
-loc_8C47:
+loc_AB17:
 mov	dx, ds:0D830h
 mov	bx, ds:0D832h
 mov	ax, ds:479Ah
 add	bx, ax
 sub	ds:478Dh, ax
-jnb	short loc_8C60
+jnb	short loc_AB30
 mov	word ptr ds:478Dh, 0
 
-loc_8C60:
-call	sub_D04E
+loc_AB30:
+call	sub_EF1E
 pop	dx
 dec	dx
-jz	short loc_8C6A
-jmp	loc_8B91
+jz	short loc_AB3A
+jmp	loc_AA61
 
-loc_8C6A:
+loc_AB3A:
 mov	dx, ds:0D830h
 mov	bx, ds:0D832h
 mov	ds:4791h, dx
 mov	ds:4793h, bx
 dec	si
 cmp	word ptr ds:479Eh, 223Ch
-jnz	short locret_8C89
-call	sub_9046
-jmp	sub_C07C
+jnz	short locret_AB59
+call	sub_AF16
+jmp	sub_DF4C
 
-locret_8C89:
+locret_AB59:
 retn
-sub_8B11 endp
+sub_A9E1 endp
 
 
 
 
-sub_8C8A proc near
+sub_AB5A proc near
 xor	ax, ax
 xchg	ax, ds:479Eh
 cmp	ax, 2
-jb	short locret_8CCC
+jb	short locret_AB9C
 mov	si, 1470h
 cmp	byte ptr ds:28E7h, 0
-jz	short loc_8CB5
+jz	short loc_AB85
 mov	bp, 1BE2h
 mov	si, 4C60h
 mov	es, word ptr ds:0DBDEh
@@ -19547,45 +19546,45 @@ call	dword ptr ds:391Dh
 mov	si, 1BE2h
 mov	word ptr [si+8], 0
 
-loc_8CB5:
-call	sub_C446
+loc_AB85:
+call	sub_E316
 mov	si, ds:47C8h
 or	si, si
-jz	short loc_8CC9
+jz	short loc_AB99
 mov	word ptr ds:4540h, 0
-call	sub_9BAC
+call	sub_BA7C
 
-loc_8CC9:
-call	sub_C4DD
+loc_AB99:
+call	sub_E3AD
 
-locret_8CCC:
+locret_AB9C:
 retn
-sub_8C8A endp
+sub_AB5A endp
 
 
 
 
-sub_8CCD proc near
+sub_AB9D proc near
 mov	byte ptr ds:4799h, 9
 mov	word ptr ds:0DBE4h, 0F0h ; 'ð'
 cmp	byte ptr ds:46EBh, 0
-jz	short loc_8CFB
+jz	short loc_ABCB
 cmp	word ptr ds:46EFh, 0
-jnz	short loc_8CF5
-call	sub_E270
+jnz	short loc_ABC5
+call	sub_10140
 push	es
 mov	si, ds:46F1h
-call	sub_79EE
+call	sub_98BE
 pop	es
-call	sub_E283
+call	sub_10153
 
-loc_8CF5:
+loc_ABC5:
 mov	bp, 2244h
-jmp	loc_8DDB
+jmp	loc_ACAB
 
-loc_8CFB:
+loc_ABCB:
 cmp	word ptr ds:47C4h, 0FFFFh
-jnz	short loc_8D1B
+jnz	short loc_ABEB
 mov	ax, 48h	; 'H'
 mov	ds:4784h, ax
 mov	al, 10h
@@ -19594,11 +19593,11 @@ mov	al, 8
 mov	ds:4788h, ax
 mov	ds:478Ah, ax
 mov	bp, 224Ch
-jmp	loc_8DDB
+jmp	loc_ACAB
 
-loc_8D1B:
+loc_ABEB:
 cmp	byte ptr ds:0C6h, 0
-jz	short loc_8D43
+jz	short loc_AC13
 mov	bp, 2265h
 mov	ax, 3Ch	; '<'
 mov	ds:4784h, ax
@@ -19608,12 +19607,12 @@ mov	al, 0Ah
 mov	ds:4788h, ax
 mov	ds:478Ah, ax
 mov	byte ptr ds:0DBE4h, 64h	; 'd'
-call	sub_D082
-jmp	loc_8DDB
+call	sub_EF52
+jmp	loc_ACAB
 
-loc_8D43:
+loc_AC13:
 cmp	byte ptr ds:227Dh, 0
-jz	short loc_8D62
+jz	short loc_AC32
 mov	byte ptr ds:0DBE4h, 6
 mov	bp, 2275h
 xor	ax, ax
@@ -19621,11 +19620,11 @@ mov	ds:4788h, ax
 mov	ds:478Ah, ax
 mov	ds:4784h, ax
 mov	ds:4786h, ax
-jmp	short loc_8DDB
+jmp	short loc_ACAB
 
-loc_8D62:
+loc_AC32:
 cmp	byte ptr ds:28E7h, 0
-jnz	short loc_8D8A
+jnz	short loc_AC5A
 mov	byte ptr ds:4799h, 1
 mov	byte ptr ds:0DBE4h, 0Fh
 mov	bp, 223Ch
@@ -19636,20 +19635,20 @@ mov	ds:4788h, ax
 mov	ax, 10h
 mov	ds:4784h, ax
 mov	ds:4786h, ax
-jmp	short loc_8DDB
+jmp	short loc_ACAB
 
-loc_8D8A:
+loc_AC5A:
 mov	bp, 2224h
 mov	cx, 3
 
-loc_8D90:
+loc_AC60:
 mov	ax, [bp+4]
 sub	ax, ds:4784h
 sub	ax, ds:4786h
 mov	ds:478Fh, ax
 push	si
 push	cx
-call	sub_8E16
+call	sub_ACE6
 pop	cx
 pop	si
 mov	ax, ds:0A9D0h
@@ -19658,9 +19657,9 @@ mul	ah
 add	ax, ds:4788h
 add	ax, ds:478Ah
 cmp	ax, [bp+6]
-jb	short loc_8DCD
+jb	short loc_AC9D
 add	bp, 8
-loop	loc_8D90
+loop	loc_AC60
 sub	bp, 8
 xor	ax, ax
 mov	ds:4788h, ax
@@ -19668,64 +19667,64 @@ xchg	ax, ds:478Ah
 or	ax, ax
 retn
 
-loc_8DCD:
+loc_AC9D:
 dec	cx
-jz	short loc_8DEE
+jz	short loc_ACBE
 mov	bx, 1
-call	sub_E3B7
-jz	short loc_8DEE
+call	sub_10287
+jz	short loc_ACBE
 add	bp, 8
 
-loc_8DDB:
+loc_ACAB:
 mov	ax, [bp+4]
 sub	ax, ds:4784h
 sub	ax, ds:4786h
 mov	ds:478Fh, ax
 push	si
-call	sub_8E16
+call	sub_ACE6
 pop	si
 
-loc_8DEE:
+loc_ACBE:
 clc
 retn
-sub_8CCD endp
+sub_AB9D endp
 
 
 
 
-sub_8DF0 proc near
+sub_ACC0 proc near
 test	byte ptr ds:4799h, 1
-jz	short locret_8E15
+jz	short locret_ACE5
 push	si
 mov	si, 0A9D0h
 lodsw
 mov	cx, ax
 
-loc_8DFE:
+loc_ACCE:
 lodsw
 or	ax, ax
-jz	short loc_8E08
+jz	short loc_ACD8
 cmp	word ptr [si], 1Eh
-jnb	short loc_8E0F
+jnb	short loc_ACDF
 
-loc_8E08:
+loc_ACD8:
 add	si, 4
-loop	loc_8DFE
+loop	loc_ACCE
 pop	si
 retn
 
-loc_8E0F:
+loc_ACDF:
 and	byte ptr ds:4799h, 0FEh
 pop	si
 
-locret_8E15:
+locret_ACE5:
 retn
-sub_8DF0 endp
+sub_ACC0 endp
 
 
 
 
-sub_8E16 proc near
+sub_ACE6 proc near
 push	ds
 pop	es
 mov	byte ptr ds:478Ch, 0
@@ -19734,57 +19733,57 @@ xor	dh, dh
 mov	bx, ds:478Fh
 xor	dl, dl
 
-loc_8E28:
+loc_ACF8:
 mov	al, [si]
 or	al, al
-js	short loc_8E74
+js	short loc_AD44
 cmp	al, 0Dh
-jz	short loc_8E39
+jz	short loc_AD09
 cmp	al, 20h	; ' '
-jnz	short loc_8E4B
+jnz	short loc_AD1B
 inc	si
-jmp	short loc_8E28
+jmp	short loc_ACF8
 
-loc_8E39:
-call	sub_8E9E
+loc_AD09:
+call	sub_AD6E
 mov	word ptr [di-4], 6
 mov	word ptr [di-2], 0
 xor	dl, dl
 inc	si
-jmp	short loc_8E28
+jmp	short loc_ACF8
 
-loc_8E4B:
-call	sub_8ED3
+loc_AD1B:
+call	sub_ADA3
 or	cx, cx
-jz	short loc_8E28
+jz	short loc_ACF8
 add	cx, 6
 
-loc_8E55:
+loc_AD25:
 sub	bx, cx
-jb	short loc_8E5D
+jb	short loc_AD2D
 inc	dl
-jmp	short loc_8E28
+jmp	short loc_ACF8
 
-loc_8E5D:
+loc_AD2D:
 add	bx, 6
-js	short loc_8E69
+js	short loc_AD39
 inc	dl
-call	sub_8E9E
-jmp	short loc_8E28
+call	sub_AD6E
+jmp	short loc_ACF8
 
-loc_8E69:
+loc_AD39:
 or	dl, dl
-jz	short loc_8E97
+jz	short loc_AD67
 add	bx, cx
-call	sub_8E9E
-jmp	short loc_8E55
+call	sub_AD6E
+jmp	short loc_AD25
 
-loc_8E74:
+loc_AD44:
 or	dl, dl
-jz	short loc_8E7B
-call	sub_8E9E
+jz	short loc_AD4B
+call	sub_AD6E
 
-loc_8E7B:
+loc_AD4B:
 mov	word ptr [di-4], 6
 mov	word ptr [di-2], 0
 mov	word ptr [di], 0
@@ -19794,31 +19793,31 @@ xchg	dh, dl
 mov	ds:0A9D0h, dx
 retn
 
-loc_8E97:
+loc_AD67:
 mov	word ptr ds:0A9D0h, 0C8h ; 'È'
 retn
-sub_8E16 endp
+sub_ACE6 endp
 
 
 
 
-sub_8E9E proc near
+sub_AD6E proc near
 mov	ax, dx
 xor	ah, ah
 stosw
 add	ds:478Ch, al
 or	ax, ax
-jz	short loc_8ECA
+jz	short loc_AD9A
 push	dx
 mov	ax, bx
 mov	bx, dx
 xor	bh, bh
 xor	dx, dx
 dec	bx
-jz	short loc_8EB9
+jz	short loc_AD89
 div	bx
 
-loc_8EB9:
+loc_AD89:
 add	ax, 6
 stosw
 mov	ax, dx
@@ -19829,73 +19828,73 @@ xor	dl, dl
 mov	bx, ds:478Fh
 retn
 
-loc_8ECA:
+loc_AD9A:
 stosw
 stosw
 inc	dh
 mov	bx, ds:478Fh
 retn
-sub_8E9E endp
+sub_AD6E endp
 
 
 
 
-sub_8ED3 proc near
+sub_ADA3 proc near
 xor	cx, cx
 push	bx
 mov	bx, ds:47A0h
 
-loc_8EDA:
+loc_ADAA:
 lodsb
 cmp	al, 20h	; ' '
-jz	short loc_8F25
+jz	short loc_ADF5
 cmp	al, 0Dh
-jz	short loc_8F25
+jz	short loc_ADF5
 or	al, al
-jz	short loc_8EED
+jz	short loc_ADBD
 cmp	al, 9
-jb	short loc_8F09
-js	short loc_8F25
+jb	short loc_ADD9
+js	short loc_ADF5
 
-loc_8EED:
+loc_ADBD:
 cmp	word ptr ds:2518h, 0D0FFh
-jnz	short loc_8F04
+jnz	short loc_ADD4
 cmp	si, 0A6B1h
-jnz	short loc_8F04
-call	sub_D0E3
-jb	short loc_8F04
+jnz	short loc_ADD4
+call	sub_EFB3
+jb	short loc_ADD4
 add	cl, al
-jmp	short loc_8EDA
+jmp	short loc_ADAA
 
-loc_8F04:
+loc_ADD4:
 xlat
 add	cl, al
-jmp	short loc_8EDA
+jmp	short loc_ADAA
 
-loc_8F09:
+loc_ADD9:
 cmp	al, 0Dh
-jz	short loc_8F25
+jz	short loc_ADF5
 cmp	al, 6
-jz	short loc_8F1D
+jz	short loc_ADED
 cmp	al, 8
-jnz	short loc_8EDA
+jnz	short loc_ADAA
 mov	word ptr ds:47A0h, 0CEECh
-jmp	short loc_8EDA
+jmp	short loc_ADAA
 
-loc_8F1D:
+loc_ADED:
 mov	word ptr ds:47A0h, 0CF6Ch
-jmp	short loc_8EDA
+jmp	short loc_ADAA
 
-loc_8F25:
+loc_ADF5:
 dec	si
 pop	bx
 retn
-sub_8ED3 endp
+sub_ADA3 endp
 
 
 
 
-sub_8F28 proc near
+sub_ADF8 proc near
 
 ; FUNCTION CHUNK AT 8FF5 SIZE 00000030 BYTES
 
@@ -19927,23 +19926,23 @@ sub	ax, ds:478Ah
 mov	ds:478Dh, ax
 mov	ax, dx
 cmp	ax, 140h
-jb	short loc_8F7B
+jb	short loc_AE4B
 mov	ax, 140h
 
-loc_8F7B:
+loc_AE4B:
 stosw
 mov	ax, bx
 stosw
 cmp	byte ptr ds:46EBh, 0
-jnz	short sub_8FD1
+jnz	short sub_AEA1
 cmp	byte ptr ds:0C6h, 0
-jnz	short loc_8FF5
+jnz	short loc_AEC5
 cmp	byte ptr ds:227Dh, 0
-jnz	short locret_8FD0
+jnz	short locret_AEA0
 cmp	byte ptr ds:46D9h, 0
-jnz	short locret_8FD0
+jnz	short locret_AEA0
 cmp	byte ptr ds:28E7h, 0
-jz	short loc_900B
+jz	short loc_AEDB
 push	si
 mov	si, 4C60h
 mov	bp, 1BE2h
@@ -19953,21 +19952,21 @@ mov	ds:1C06h, ax
 mov	word ptr [bp+0Ch], 9468h
 mov	es, word ptr ds:0DBDEh
 call	dword ptr ds:3919h
-call	sub_C137
+call	sub_E007
 mov	si, 1BE2h
 mov	es, word ptr ds:0DBD6h
 mov	ax, 1Ch
-call	sub_C370
+call	sub_E240
 pop	si
 
-locret_8FD0:
+locret_AEA0:
 retn
-sub_8F28 endp
+sub_ADF8 endp
 
 
 
 
-sub_8FD1 proc near
+sub_AEA1 proc near
 push	si
 mov	si, 1BE2h
 mov	word ptr [si+8], 80h ; '€'
@@ -19979,22 +19978,22 @@ call	dword ptr ds:38DDh
 add	word ptr ds:1BE4h, 2
 pop	si
 retn
-sub_8FD1 endp
+sub_AEA1 endp
 
-; START	OF FUNCTION CHUNK FOR sub_8F28
+; START	OF FUNCTION CHUNK FOR sub_ADF8
 
-loc_8FF5:
+loc_AEC5:
 push	si
 mov	ax, 32h	; '2'
-call	sub_C13E
+call	sub_E00E
 mov	ax, 3
 mov	si, 2265h
 mov	es, word ptr ds:0DBD6h
-call	sub_C370
+call	sub_E240
 pop	si
 retn
 
-loc_900B:
+loc_AEDB:
 mov	di, 4C60h
 mov	cx, 5960h
 push	ds
@@ -20004,13 +20003,13 @@ rep stosb
 mov	ax, 4C6Fh
 and	al, 0F0h
 mov	ds:22FCh, ax
-call	sub_C085
-jmp	loc_8895
-; END OF FUNCTION CHUNK	FOR sub_8F28
+call	sub_DF55
+jmp	loc_A765
+; END OF FUNCTION CHUNK	FOR sub_ADF8
 
 
 
-sub_9025 proc near
+sub_AEF5 proc near
 mov	cx, ds:4793h
 mov	bx, 92h	; '’'
 sub	bx, cx
@@ -20022,12 +20021,12 @@ mov	es, word ptr ds:0DBDAh
 mov	ds:4782h, bx
 call	dword ptr ds:38C9h
 retn
-sub_9025 endp
+sub_AEF5 endp
 
 
 
 
-sub_9046 proc near
+sub_AF16 proc near
 push	ds
 pop	es
 mov	ax, ds:4793h
@@ -20037,45 +20036,45 @@ mov	di, ds:22FCh
 mov	ax, 0F00Fh
 xor	bx, bx
 cmp	byte ptr ds:0EAh, 0
-jle	short loc_9063
+jle	short loc_AF33
 mov	ah, 8
 
-loc_9063:
+loc_AF33:
 repne scasb
-jnz	short locret_908B
+jnz	short locret_AF5B
 cmp	[di-2],	bl
-jnz	short loc_906F
+jnz	short loc_AF3F
 mov	[di-2],	ah
 
-loc_906F:
+loc_AF3F:
 cmp	[di], bl
-jnz	short loc_9075
+jnz	short loc_AF45
 mov	[di], ah
 
-loc_9075:
+loc_AF45:
 cmp	[di-141h], bl
-jnz	short loc_907F
+jnz	short loc_AF4F
 mov	[di-141h], ah
 
-loc_907F:
+loc_AF4F:
 cmp	[di+13Fh], bl
-jnz	short loc_9063
+jnz	short loc_AF33
 mov	[di+13Fh], ah
-jmp	short loc_9063
+jmp	short loc_AF33
 
-locret_908B:
+locret_AF5B:
 retn
-sub_9046 endp
+sub_AF16 endp
 
 
 
 
-sub_908C proc near
+sub_AF5C proc near
 mov	ax, ds:0D83Ah
 cmp	ax, ds:4782h
-jbe	short locret_90BC
+jbe	short locret_AF8C
 cmp	word ptr ds:479Eh, 223Ch
-jnz	short locret_90BC
+jnz	short locret_AF8C
 mov	cx, ds:4793h
 mov	bx, 92h	; '’'
 sub	bx, cx
@@ -20087,163 +20086,163 @@ mov	es, word ptr ds:0DBDAh
 mov	bp, 0D834h
 call	dword ptr ds:38CDh
 
-locret_90BC:
+locret_AF8C:
 retn
-sub_908C endp
+sub_AF5C endp
 
 
 
 
-sub_90BD proc near
+sub_AF8D proc near
 mov	al, [si+0Eh]
 cmp	al, 0Ch
-jz	short loc_90D9
+jz	short loc_AFA9
 test	word ptr ds:12h, 1000h
-jz	short loc_90D9
+jz	short loc_AFA9
 mov	bx, 9Ch	; 'œ'
 mov	dx, 9584h
 test	byte ptr ds:10A7h, 10h
-jz	short loc_9111
+jz	short loc_AFE1
 
-loc_90D9:
+loc_AFA9:
 cmp	al, 0Fh
 mov	bx, 93h	; '“'
 mov	dx, 5A03h
-jz	short loc_9111
+jz	short loc_AFE1
 cmp	al, 0Eh
-jnz	short loc_90F7
+jnz	short loc_AFC7
 mov	bx, 96h	; '–'
 mov	dx, 95C1h
 test	byte ptr ds:0Ah, 10h
-jz	short loc_9111
+jz	short loc_AFE1
 inc	bx
-jmp	short loc_9111
+jmp	short loc_AFE1
 
-loc_90F7:
+loc_AFC7:
 mov	cl, [si+0Fh]
 mov	bx, 4091h
 test	cl, 80h
-jnz	short loc_9111
+jnz	short loc_AFE1
 and	bh, 0BFh
 mov	dx, 95E2h
 test	cl, 40h
-jz	short loc_9111
+jz	short loc_AFE1
 inc	bx
 mov	dx, 9533h
 
-loc_9111:
+loc_AFE1:
 mov	bp, 1F7Eh
 mov	[bp+6],	bx
 mov	[bp+8],	dx
-call	sub_D316
+call	sub_F1E6
 mov	bx, 97CFh
-jmp	sub_D338
-sub_90BD endp
+jmp	sub_F208
+sub_AF8D endp
 
 
 
 
-sub_9123 proc near
+sub_AFF3 proc near
 cmp	al, 11h
-jnb	short loc_917A
+jnb	short loc_B04A
 xor	ah, ah
 cmp	al, 0Dh
-jb	short loc_9173
-jnz	short loc_913B
+jb	short loc_B043
+jnz	short loc_B00B
 mov	di, ds:114Eh
 mov	ah, [di]
 shr	ah, 1
 inc	ah
-jmp	short loc_9173
+jmp	short loc_B043
 
-loc_913B:
+loc_B00B:
 mov	si, ds:4756h
 cmp	al, 0Eh
-jz	short loc_9155
+jz	short loc_B025
 cmp	byte ptr ds:2Ah, 0C8h ;	'È'
-jz	short loc_9173
+jz	short loc_B043
 mov	al, ds:476Ch
 shl	ax, 1
 mov	si, ax
 mov	si, [si+4758h]
 
-loc_9155:
+loc_B025:
 mov	al, [si]
 push	dx
 mov	dl, 3
 div	dl
 mov	dl, 0Fh
 or	ah, ah
-jz	short loc_9164
+jz	short loc_B034
 mov	dl, 11h
 
-loc_9164:
+loc_B034:
 cmp	al, dl
-jb	short loc_916C
+jb	short loc_B03C
 sub	al, dl
-jmp	short loc_9164
+jmp	short loc_B034
 
-loc_916C:
+loc_B03C:
 pop	dx
 xchg	al, ah
 add	al, 0Eh
 
-loc_9171:
+loc_B041:
 inc	ah
 
-loc_9173:
+loc_B043:
 mov	ds:47D0h, ah
 xor	ah, ah
 retn
 
-loc_917A:
+loc_B04A:
 mov	ax, ds:2
 shl	ax, 1
 shl	ax, 1
 cmp	ah, 8
-jb	short loc_9188
+jb	short loc_B058
 mov	ah, 8
 
-loc_9188:
+loc_B058:
 shl	ah, 1
 cmp	byte ptr ds:0F4h, 10h
 cmc
 adc	ah, 0
 mov	al, 2Dh	; '-'
-jmp	short loc_9171
-sub_9123 endp
+jmp	short loc_B041
+sub_AFF3 endp
 
 
 
 
-sub_9197 proc near
+sub_B067 proc near
 mov	ax, ds:47C4h
 cmp	ax, 0FFFFh
-jnz	short sub_91A0
+jnz	short sub_B070
 retn
-sub_9197 endp
+sub_B067 endp
 
 
 
 
-sub_91A0 proc near
+sub_B070 proc near
 mov	word ptr ds:0F0h, 0
 cmp	ax, 0Ch
-jnz	short loc_91B8
+jnz	short loc_B088
 test	byte ptr ds:10A7h, 10h
-jz	short loc_91B8
+jz	short loc_B088
 mov	word ptr ds:0F0h, 0Ah
 
-loc_91B8:
-call	sub_9123
+loc_B088:
+call	sub_AFF3
 cmp	ax, ds:22A6h
-jz	short sub_920F
+jz	short sub_B0DF
 push	ax
-call	sub_98B2
+call	sub_B782
 pop	ax
 mov	ds:22A6h, ax
 mov	si, ax
-call	sub_920F
+call	sub_B0DF
 mov	al, [si+22A8h]
 xor	ah, ah
 mov	ds:2224h, ax
@@ -20272,262 +20271,262 @@ pop	ds
 mov	ds:47CAh, si
 mov	ds:47D2h, di
 retn
-sub_91A0 endp
+sub_B070 endp
 
 
 
 
-sub_920F proc near
+sub_B0DF proc near
 add	ax, 2
-jmp	sub_C13E
-sub_920F endp
+jmp	sub_E00E
+sub_B0DF endp
 
 
 
 
-sub_9215 proc near
+sub_B0E5 proc near
 
 ; FUNCTION CHUNK AT 3F15 SIZE 00000005 BYTES
 ; FUNCTION CHUNK AT 42E9 SIZE 0000008E BYTES
 ; FUNCTION CHUNK AT 9381 SIZE 0000005E BYTES
 ; FUNCTION CHUNK AT 945B SIZE 00000098 BYTES
 
-call	sub_D41B
+call	sub_F2EB
 cmp	bp, 1F0Eh
-jnz	short loc_9248
+jnz	short loc_B118
 cmp	byte ptr ds:11C9h, 0
-jnz	short locret_9281
-call	sub_9285
-jnb	short loc_9263
+jnz	short locret_B151
+call	sub_B155
+jnb	short loc_B133
 cmp	cl, 2Fh	; '/'
-jz	short loc_9282
+jz	short loc_B152
 cmp	cl, 0Fh
-jnb	short loc_9240
+jnb	short loc_B110
 
-loc_9234:
+loc_B104:
 mov	al, 10h
 mul	cl
 add	ax, 0FD8h
 mov	si, ax
 jmp	word ptr [si+4]
 
-loc_9240:
+loc_B110:
 sub	cl, 0Fh
 mov	al, cl
-jmp	loc_9381
+jmp	loc_B251
 
-loc_9248:
+loc_B118:
 cmp	bp, 1F7Eh
-jnz	short locret_9281
-call	sub_92C9
-jnb	short locret_9281
+jnz	short locret_B151
+call	sub_B199
+jnb	short locret_B151
 cmp	cx, ds:47C4h
-jnz	short loc_925C
-jmp	loc_945B
+jnz	short loc_B12C
+jmp	loc_B32B
 
-loc_925C:
+loc_B12C:
 push	cx
-call	sub_D2BD
+call	sub_F18D
 pop	cx
-jmp	short loc_9234
+jmp	short loc_B104
 
-loc_9263:
+loc_B133:
 cmp	byte ptr ds:0Bh, 1
-jnz	short locret_9281
+jnz	short locret_B151
 cmp	bx, 98h	; '˜'
-jnb	short locret_9281
+jnb	short locret_B151
 cmp	byte ptr ds:8, 21h ; '!'
-jz	short locret_9281
+jz	short locret_B151
 cmp	byte ptr ds:2Bh, 0
-jnz	short locret_9281
-jmp	loc_3F15
+jnz	short locret_B151
+jmp	loc_5DE5
 
-locret_9281:
+locret_B151:
 retn
 
-loc_9282:
-jmp	loc_42E9
-sub_9215 endp
+loc_B152:
+jmp	loc_61B9
+sub_B0E5 endp
 
 
 
 
-sub_9285 proc near
+sub_B155 proc near
 
 ; FUNCTION CHUNK AT 92EB SIZE 00000007 BYTES
 
 cmp	bx, 98h	; '˜'
-jnb	short sub_92C9
+jnb	short sub_B199
 mov	si, 47F8h
 mov	cx, 17h
 
-loc_9291:
+loc_B161:
 lodsw
 mov	di, ax
 lodsw
 mov	bp, ax
 or	di, di
-js	short loc_92A9
+js	short loc_B179
 sub	di, dx
 cmp	di, 0FFE0h
-jb	short loc_92A9
+jb	short loc_B179
 sub	bp, bx
 cmp	bp, 0FFB0h
-jnb	short loc_92EB
+jnb	short loc_B1BB
 
-loc_92A9:
-loop	loc_9291
+loc_B179:
+loop	loc_B161
 mov	ax, ds:472Dh
 or	ax, ax
-jz	short locret_92C8
+jz	short locret_B198
 sub	ax, dx
 cmp	ax, 0FFB2h
 cmc
-jnb	short locret_92C8
+jnb	short locret_B198
 mov	ax, bx
 sub	ax, ds:472Fh
 cmp	ax, 3Ch	; '<'
-jnb	short locret_92C8
+jnb	short locret_B198
 mov	cx, 2Fh	; '/'
 
-locret_92C8:
+locret_B198:
 retn
-sub_9285 endp
+sub_B155 endp
 
 
 
 
-sub_92C9 proc near
+sub_B199 proc near
 xor	cx, cx
 mov	cl, ds:1152h
 cmp	cl, 0FFh
-jz	short locret_9281
+jz	short locret_B151
 mov	di, 1C0Ch
-call	sub_D6FE
-jb	short locret_9281
+call	sub_F5CE
+jb	short locret_B151
 mov	cl, ds:1153h
 cmp	cl, 0FFh
-jz	short locret_9281
+jz	short locret_B151
 mov	di, 1C1Ah
-jmp	sub_D6FE
-sub_92C9 endp
+jmp	sub_F5CE
+sub_B199 endp
 
-; START	OF FUNCTION CHUNK FOR sub_9285
+; START	OF FUNCTION CHUNK FOR sub_B155
 
-loc_92EB:
+loc_B1BB:
 sub	cx, 17h
 neg	cx
 stc
 retn
-; END OF FUNCTION CHUNK	FOR sub_9285
+; END OF FUNCTION CHUNK	FOR sub_B155
 xor	al, al
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 1
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 2
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 3
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 4
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 5
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 6
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 7
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 8
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 9
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 0Ah
-jmp	loc_93AA
+jmp	loc_B27A
 mov	al, 0Bh
-jmp	short loc_93AA
+jmp	short loc_B27A
 align 2
 mov	si, ds:4768h
-call	sub_31F6
-call	sub_407E
+call	sub_50C6
+call	sub_5F4E
 mov	bp, 44h	; 'D'
 cmp	word ptr [bp+0], 0
-jnz	short loc_9356
+jnz	short loc_B226
 mov	ax, ds:0E2h
 cmp	ax, 1Eh
-jnb	short loc_936B
+jnb	short loc_B23B
 mov	bp, 0E4h ; 'ä'
 mov	si, ds:4768h
 mov	ax, [bp+0]
 mov	[si+0Ch], ax
 
-loc_9356:
+loc_B226:
 push	word ptr [bp+0]
-call	sub_5323
+call	sub_71F3
 pop	di
 add	ax, 0DAh ; 'Ú'
 push	ax
-call	sub_331E
-call	sub_2E98
+call	sub_51EE
+call	sub_4D68
 pop	word ptr ds:11FDh
 
-loc_936B:
+loc_B23B:
 mov	al, 0Ch
-jmp	short loc_93AA
+jmp	short loc_B27A
 mov	al, 0Dh
-jmp	short loc_93AA
+jmp	short loc_B27A
 mov	si, ds:4756h
-call	sub_31F6
+call	sub_50C6
 mov	al, 0Eh
-jmp	short loc_93AA
+jmp	short loc_B27A
 sub	ax, 87h	; '‡'
-; START	OF FUNCTION CHUNK FOR sub_9215
+; START	OF FUNCTION CHUNK FOR sub_B0E5
 
-loc_9381:
+loc_B251:
 cmp	al, 9
-jb	short loc_9387
+jb	short loc_B257
 xor	ax, ax
 
-loc_9387:
+loc_B257:
 cmp	al, 8
-jnz	short loc_9394
+jnz	short loc_B264
 mov	al, ds:476Bh
 dec	al
-jns	short loc_9394
+jns	short loc_B264
 xor	ax, ax
 
-loc_9394:
+loc_B264:
 mov	ds:476Ch, al
 mov	si, 4758h
 xor	ah, ah
 add	ax, ax
 add	si, ax
 mov	si, [si]
-call	sub_1EBE
-call	sub_31F6
+call	sub_3D8E
+call	sub_50C6
 mov	al, 0Fh
 
-loc_93AA:
+loc_B27A:
 xor	ah, ah
 mov	word ptr ds:47E1h, 0
 push	ax
 mov	ds:47C4h, ax
-call	sub_91A0
-call	sub_3AF9
-call	sub_9197
-call	sub_9908
+call	sub_B070
+call	sub_59C9
+call	sub_B067
+call	sub_B7D8
 mov	si, ds:47C8h
 mov	word ptr ds:4540h, 0
-call	sub_9BAC
-call	sub_1834
-call	sub_C0F4
-call	sub_C4DD
+call	sub_BA7C
+call	sub_3704
+call	sub_DFC4
+call	sub_E3AD
 pop	ax
-call	sub_93DF
-jmp	loc_9472
-; END OF FUNCTION CHUNK	FOR sub_9215
+call	sub_B2AF
+jmp	loc_B342
+; END OF FUNCTION CHUNK	FOR sub_B0E5
 
 
 
-sub_93DF proc near
+sub_B2AF proc near
 mov	cl, al
 shl	al, 1
 shl	al, 1
@@ -20543,259 +20542,259 @@ add	ax, 0FD8h
 mov	ds:47A2h, ax
 mov	si, ax
 mov	word ptr ds:47BAh, 0
-call	sub_90BD
+call	sub_AF8D
 mov	word ptr ds:47B6h, 0
 mov	byte ptr ds:47C2h, 80h ; '€'
 mov	byte ptr ds:19h, 0
 retn
-sub_93DF endp
+sub_B2AF endp
 
 cmp	byte ptr ds:47A9h, 0
-jz	short loc_9427
-jmp	loc_2993
+jz	short loc_B2F7
+jmp	loc_4863
 
-loc_9427:
-call	sub_D41B
+loc_B2F7:
+call	sub_F2EB
 cmp	bp, 20C2h
-jnz	short loc_9436
-call	sub_D2EA
-jmp	loc_EB9
+jnz	short loc_B306
+call	sub_F1BA
+jmp	loc_2D89
 
-loc_9436:
+loc_B306:
 test	byte ptr ds:11C9h, 3
-jz	short loc_9447
+jz	short loc_B317
 cmp	byte ptr ds:11CAh, 0
-jnz	short loc_9447
-jmp	loc_4AAD
+jnz	short loc_B317
+jmp	loc_697D
 
-loc_9447:
+loc_B317:
 cmp	word ptr ds:479Eh, 0
-jnz	short loc_9458
+jnz	short loc_B328
 push	bx
 push	dx
-call	sub_2DB1
+call	sub_4C81
 pop	dx
 pop	bx
-jmp	sub_9215
+jmp	sub_B0E5
 
-loc_9458:
-jmp	sub_D2E2
-; START	OF FUNCTION CHUNK FOR sub_9215
+loc_B328:
+jmp	sub_F1B2
+; START	OF FUNCTION CHUNK FOR sub_B0E5
 
-loc_945B:
+loc_B32B:
 cmp	word ptr ds:479Eh, 0
-jnz	short loc_9468
+jnz	short loc_B338
 mov	ax, ds:47C4h
-jmp	loc_93AA
+jmp	loc_B27A
 
-loc_9468:
-call	sub_D41B
+loc_B338:
+call	sub_F2EB
 cmp	bp, 1FFEh
-jnz	short loc_9472
+jnz	short loc_B342
 retn
 
-loc_9472:
-call	sub_9F40
+loc_B342:
+call	sub_BE10
 mov	byte ptr ds:226Dh, 0Ah
 mov	byte ptr ds:1Bh, 0
 cmp	word ptr ds:47B6h, 0
-jnz	short loc_94DD
+jnz	short loc_B3AD
 mov	si, ds:47BAh
 or	si, si
-jnz	short loc_949A
+jnz	short loc_B36A
 mov	si, ds:47BEh
 
-loc_9492:
+loc_B362:
 mov	ax, si
 shl	si, 1
 mov	si, [si-558Ah]
 
-loc_949A:
+loc_B36A:
 cmp	si, 0FFFFh
-jz	short loc_94B9
-call	sub_9B49
-call	sub_9F9E
+jz	short loc_B389
+call	sub_BA19
+call	sub_BE6E
 
-loc_94A5:
+loc_B375:
 mov	ds:47BAh, si
-jnb	short loc_94DA
+jnb	short loc_B3AA
 mov	ax, ds:47BEh
 inc	ax
 mov	ds:47BEh, ax
 mov	si, ax
 and	ax, 3
-jnz	short loc_9492
+jnz	short loc_B362
 
-loc_94B9:
+loc_B389:
 cmp	word ptr ds:47C4h, 0Dh
-jz	short loc_94C3
-jmp	sub_D2E2
+jz	short loc_B393
+jmp	sub_F1B2
 
-loc_94C3:
+loc_B393:
 cmp	si, 0FFFFh
-jnz	short loc_94CC
+jnz	short loc_B39C
 mov	si, ds:47BEh
 
-loc_94CC:
+loc_B39C:
 and	si, 0FFF8h
 mov	ds:47BEh, si
 mov	byte ptr ds:47C2h, 20h ; ' '
-jmp	short loc_9492
+jmp	short loc_B362
 
-loc_94DA:
-jmp	sub_D280
+loc_B3AA:
+jmp	sub_F150
 
-loc_94DD:
+loc_B3AD:
 lds	si, ds:47B6h
-call	sub_88D2
+call	sub_A7A2
 mov	si, ds:47BAh
 add	word ptr ds:4780h, 1000h
-call	sub_A03F
-jmp	short loc_94A5
-; END OF FUNCTION CHUNK	FOR sub_9215
+call	sub_BF0F
+jmp	short loc_B375
+; END OF FUNCTION CHUNK	FOR sub_B0E5
 
 
 
-sub_94F3 proc near
+sub_B3C3 proc near
 cmp	word ptr ds:47C4h, 10h
-jnb	short locret_9532
+jnb	short locret_B402
 push	si
 mov	si, ds:47A2h
 mov	al, [si+0Fh]
 mov	ds:18h,	al
 test	al, 40h
 mov	ax, [si+8]
-jnz	short loc_950F
+jnz	short loc_B3DF
 mov	ax, [si+0Ah]
 
-loc_950F:
+loc_B3DF:
 sub	ax, ds:2
 neg	ax
 mov	ds:16h,	ax
 pop	si
 cmp	byte ptr ds:2Ah, 64h ; 'd'
-jnb	short locret_9532
+jnb	short locret_B402
 cmp	word ptr ds:47C4h, 9
-jnb	short locret_9532
+jnb	short locret_B402
 mov	di, ds:11DBh
 or	di, di
-jz	short locret_9532
-call	sub_2E98
+jz	short locret_B402
+call	sub_4D68
 
-locret_9532:
+locret_B402:
 retn
-sub_94F3 endp
+sub_B3C3 endp
 
-call	sub_A1C4
+call	sub_C094
 mov	ax, 6
-call	sub_9F31
-call	sub_9F8B
+call	sub_BE01
+call	sub_BE5B
 inc	byte ptr ds:1Bh
-call	sub_A1E2
-jnz	short locret_956C
+call	sub_C0B2
+jnz	short locret_B43C
 mov	si, ds:47A2h
-call	sub_1E01
-jnb	short sub_9556
+call	sub_3CD1
+jnb	short sub_B426
 add	byte ptr ds:0F9h, 10h
 
 
 
-sub_9556 proc near
+sub_B426 proc near
 and	byte ptr [si+0Fh], 0BFh
 mov	bx, 2
-call	sub_956D
+call	sub_B43D
 mov	cl, [si+0Eh]
 mov	ax, 0FFFEh
 rol	ax, cl
 and	ds:10h,	ax
 
-locret_956C:
+locret_B43C:
 retn
-sub_9556 endp
+sub_B426 endp
 
 
 
 
-sub_956D proc near
+sub_B43D proc near
 mov	bp, bx
 xor	bp, 2
 mov	ax, ds:2
 sub	ax, [bp+si+8]
 cmp	ax, 2
-jb	short locret_9583
+jb	short locret_B453
 mov	ax, ds:2
 mov	[bx+si+8], ax
 
-locret_9583:
+locret_B453:
 retn
-sub_956D endp
+sub_B43D endp
 
 mov	si, ds:47A2h
 mov	cl, [si+0Eh]
 mov	ax, 1
 shl	ax, cl
 test	ds:0EEh, ax
-jnz	short loc_95B4
+jnz	short loc_B484
 or	ds:0EEh, ax
 mov	si, ds:4768h
 mov	al, 20h	; ' '
 sub	byte ptr [si+15h], 29h ; ')'
 sub	byte ptr ds:0EDh, 29h ;	')'
-jns	short loc_95B4
+jns	short loc_B484
 or	byte ptr [si+3], 10h
 or	byte ptr ds:10A7h, 10h
 
-loc_95B4:
+loc_B484:
 mov	ax, 85h	; '…'
 inc	byte ptr ds:47DCh
-call	loc_970B
-jmp	loc_96EB
+call	loc_B5DB
+jmp	loc_B5BB
 mov	ax, 64h	; 'd'
 cmp	word ptr ds:0ACh, 3E8h
-jb	short loc_95DE
+jb	short loc_B4AE
 sub	al, ds:29h
-jb	short loc_95DE
+jb	short loc_B4AE
 shr	al, 1
 shr	al, 1
 cmp	al, ds:36h
-jbe	short loc_95DE
+jbe	short loc_B4AE
 mov	ah, 2
 
-loc_95DE:
+loc_B4AE:
 mov	ds:23h,	ah
-call	sub_A1C4
+call	sub_C094
 mov	ax, 5
-call	sub_9F31
-call	sub_9F8B
+call	sub_BE01
+call	sub_BE5B
 inc	byte ptr ds:1Bh
 mov	byte ptr ds:23h, 0
-call	sub_A1E2
+call	sub_C0B2
 jnz	short nullsub_10
 mov	si, ds:47A2h
 mov	cl, [si+0Eh]
 cmp	cl, 0Eh
-jz	short loc_961B
+jz	short loc_B4EB
 or	byte ptr [si+0Fh], 40h
 xor	bx, bx
-call	sub_956D
+call	sub_B43D
 mov	ax, 1
 shl	ax, cl
 or	ds:10h,	ax
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_10. PRESS	KEYPAD "+" TO EXPAND]
 
-loc_961B:
+loc_B4EB:
 mov	si, ds:4756h
 push	si
-call	sub_66CE
-call	sub_2EFB
-call	loc_3093
+call	sub_859E
+call	sub_4DCB
+call	loc_4F63
 pop	si
 cmp	si, 8E0h
-jnz	short loc_9639
+jnz	short loc_B509
 add	byte ptr [si+15h], 18h
 add	byte ptr ds:36h, 18h
 
-loc_9639:
+loc_B509:
 mov	ax, si
 mov	cx, 8
 push	ds
@@ -20806,43 +20805,43 @@ mov	al, 7
 sub	al, cl
 mov	ds:476Ch, al
 mov	si, 10C8h
-call	sub_90BD
-jmp	sub_D280
+call	sub_AF8D
+jmp	sub_F150
 
 
 
-sub_9655 proc near
+sub_B525 proc near
 mov	cl, [si+0Eh]
 mov	di, 1153h
 mov	al, 0FFh
 cmp	[di], cl
-jz	short loc_9669
+jz	short loc_B539
 dec	di
 cmp	[di], cl
 jnz	short nullsub_10
 xchg	al, [di+1]
 
-loc_9669:
+loc_B539:
 mov	[di], al
 mov	byte ptr [di+10D0h], 0
-jmp	sub_D763
-sub_9655 endp
+jmp	sub_F633
+sub_B525 endp
 
 
 
 
-sub_9673 proc near
+sub_B543 proc near
 mov	cl, [si+0Eh]
 mov	di, 1152h
 cmp	[di], cl
 jz	short nullsub_10
 cmp	byte ptr [di], 0FFh
-jz	short loc_96AB
+jz	short loc_B57B
 inc	di
 cmp	[di], cl
 jz	short nullsub_10
 cmp	byte ptr [di], 0FFh
-jz	short loc_96AB
+jz	short loc_B57B
 dec	di
 push	cx
 mov	cl, [di]
@@ -20853,125 +20852,125 @@ mov	si, ax
 mov	al, [si+0Eh]
 add	al, 64h	; 'd'
 mov	ds:23h,	al
-call	sub_9556
+call	sub_B426
 pop	cx
 inc	di
 mov	al, [di]
 mov	[di-1],	al
 
-loc_96AB:
+loc_B57B:
 mov	[di], cl
 mov	byte ptr [di+10D0h], 10h
-jmp	sub_D763
-sub_9673 endp
+jmp	sub_F633
+sub_B543 endp
 
 
 
 
-sub_96B5 proc near
+sub_B585 proc near
 push	word ptr ds:47C4h
 push	word ptr ds:47C2h
 mov	word ptr ds:47C4h, 10h
 mov	byte ptr ds:47C2h, 80h ; '€'
 mov	si, ds:0AB84h
-call	sub_9F9E
+call	sub_BE6E
 pop	word ptr ds:47C2h
 pop	word ptr ds:47C4h
 retn
-sub_96B5 endp
+sub_B585 endp
 
 
 
 
-sub_96D8 proc near
+sub_B5A8 proc near
 mov	ds:47C4h, ax
 inc	byte ptr ds:47DCh
 mov	ax, 10h
-call	sub_9702
+call	sub_B5D2
 mov	word ptr ds:1BEAh, 0
 
-loc_96EB:
+loc_B5BB:
 mov	byte ptr ds:47DCh, 0
 retn
-sub_96D8 endp
+sub_B5A8 endp
 
 
 
 
-sub_96F1 proc near
+sub_B5C1 proc near
 mov	ds:47C4h, ax
 cmp	al, 0Eh
-jnz	short sub_9702
+jnz	short sub_B5D2
 mov	si, ds:4756h
-call	sub_31F6
+call	sub_50C6
 mov	ax, 0Eh
-sub_96F1 endp
+sub_B5C1 endp
 
 
 
 
-sub_9702 proc near
+sub_B5D2 proc near
 shl	ax, 1
 shl	ax, 1
 shl	ax, 1
 or	ax, 4
 
-loc_970B:
+loc_B5DB:
 mov	si, ax
 shl	si, 1
 mov	si, [si-558Ah]
-call	sub_9F40
-jmp	sub_9F8B
-sub_9702 endp
+call	sub_BE10
+jmp	sub_BE5B
+sub_B5D2 endp
 
 
 
 
-sub_9719 proc near
+sub_B5E9 proc near
 cmp	byte ptr ds:4Ch, 0
-js	short loc_972C
+js	short loc_B5FC
 mov	si, ds:46EFh
 mov	di, [si+4]
 mov	al, 0Fh
-call	sub_2A51
+call	sub_4921
 
-loc_972C:
-call	sub_9F82
+loc_B5FC:
+call	sub_BE52
 mov	word ptr ds:47C4h, 0Fh
 mov	word ptr ds:47A2h, 10C8h
-call	sub_A1C4
+call	sub_C094
 mov	si, ds:47BAh
 inc	si
-jz	short loc_9748
+jz	short loc_B618
 dec	si
-jnz	short loc_974C
+jnz	short loc_B61C
 
-loc_9748:
+loc_B618:
 mov	si, ds:0AB6Ah
 
-loc_974C:
+loc_B61C:
 mov	byte ptr ds:47C2h, 20h ; ' '
-call	sub_9F9E
+call	sub_BE6E
 mov	ds:47BAh, si
-jnb	short locret_9760
+jnb	short locret_B630
 mov	word ptr ds:47BAh, 0
 
-locret_9760:
+locret_B630:
 retn
-sub_9719 endp
+sub_B5E9 endp
 
 
 
 
-sub_9761 proc near
+sub_B631 proc near
 mov	ds:47C4h, ax
 cmp	al, 0Eh
-jnz	short loc_9772
+jnz	short loc_B642
 mov	si, ds:4756h
-call	sub_31F6
+call	sub_50C6
 mov	ax, 0Eh
 
-loc_9772:
+loc_B642:
 shl	ax, 1
 shl	ax, 1
 shl	ax, 1
@@ -20979,207 +20978,207 @@ or	ax, 7
 mov	si, ax
 shl	si, 1
 mov	si, [si-558Ah]
-call	sub_9F40
+call	sub_BE10
 mov	byte ptr ds:47C2h, 80h ; '€'
-jmp	sub_9F9E
-sub_9761 endp
+jmp	sub_BE6E
+sub_B631 endp
 
 
 
 
-sub_978E proc near
-call	sub_4ACA
+sub_B65E proc near
+call	sub_699A
 mov	ax, ds:47C4h
 cmp	ax, 0FFFFh
-jz	short locret_97CE
-call	sub_91A0
-call	sub_9908
+jz	short locret_B69E
+call	sub_B070
+call	sub_B7D8
 cmp	word ptr ds:479Eh, 0
-jz	short loc_97AC
+jz	short loc_B67C
 mov	si, 1BE2h
-call	sub_C477
+call	sub_E347
 
-loc_97AC:
+loc_B67C:
 mov	si, ds:47C8h
 or	si, si
-jz	short loc_97C8
+jz	short loc_B698
 mov	word ptr ds:4540h, 0
-call	sub_9BAC
+call	sub_BA7C
 cmp	word ptr ds:479Eh, 223Ch
-jnz	short loc_97C8
-call	sub_9025
+jnz	short loc_B698
+call	sub_AEF5
 
-loc_97C8:
-call	sub_C0F4
-jmp	sub_C4DD
+loc_B698:
+call	sub_DFC4
+jmp	sub_E3AD
 
-locret_97CE:
+locret_B69E:
 retn
-sub_978E endp
+sub_B65E endp
 
 
 
 
-sub_97CF proc near
-call	sub_A7A5
+sub_B69F proc near
+call	sub_C675
 cmp	word ptr ds:47C4h, 0FFFFh
-jz	short locret_97CE
+jz	short locret_B69E
 mov	si, ds:47A2h
 or	byte ptr [si+0Fh], 20h
 and	byte ptr [si+0Fh], 0FBh
 mov	word ptr ds:47E1h, 0
 cmp	byte ptr ds:11C9h, 0
-jz	short loc_980C
-call	sub_8C8A
+jz	short loc_B6DC
+call	sub_AB5A
 mov	bp, 98B2h
-call	sub_C097
+call	sub_DF67
 xor	al, al
 xchg	al, ds:11CAh
 push	ax
-call	sub_2FFB
+call	sub_4ECB
 pop	ax
 mov	ds:11CAh, al
-jmp	sub_4ABE
+jmp	sub_698E
 
-loc_980C:
-call	sub_8C8A
+loc_B6DC:
+call	sub_AB5A
 cmp	byte ptr ds:47A4h, 0
 mov	si, ds:47A2h
-js	short loc_9849
+js	short loc_B719
 cmp	byte ptr ds:2Bh, 0
-jz	short loc_9825
+jz	short loc_B6F5
 mov	ax, 9840h
 push	ax
 
-loc_9825:
+loc_B6F5:
 test	byte ptr [si+0Fh], 40h
-jz	short loc_982E
-jmp	sub_9673
+jz	short loc_B6FE
+jmp	sub_B543
 
-loc_982E:
-call	sub_9655
+loc_B6FE:
+call	sub_B525
 cmp	byte ptr ds:2Bh, 0
-jnz	short locret_983F
+jnz	short locret_B70F
 test	byte ptr ds:47A4h, 1
-jz	short loc_9879
+jz	short loc_B749
 
-locret_983F:
+locret_B70F:
 retn
-call	sub_9B8B
-call	sub_C43E
-jmp	sub_C4DD
+call	sub_BA5B
+call	sub_E30E
+jmp	sub_E3AD
 
-loc_9849:
+loc_B719:
 mov	word ptr ds:1C06h, 0
 test	byte ptr [si+0Fh], 40h
-jz	short loc_9858
-call	sub_9673
+jz	short loc_B728
+call	sub_B543
 
-loc_9858:
+loc_B728:
 xor	ax, ax
 mov	ds:4540h, ax
 mov	ds:479Eh, ax
 and	byte ptr ds:47D1h, 3Fh
 mov	ds:47C8h, ax
 and	byte ptr ds:47A4h, 7Fh
-call	sub_9B8B
+call	sub_BA5B
 mov	al, ds:23h
 sub	al, 64h	; 'd'
 cmp	al, 10h
-jb	short loc_9898
+jb	short loc_B768
 
-loc_9879:
-call	sub_2EFB
+loc_B749:
+call	sub_4DCB
 cmp	byte ptr ds:11C9h, 0
-jnz	short loc_9886
-call	sub_3090
+jnz	short loc_B756
+call	sub_4F60
 
-loc_9886:
-call	sub_37B2
-call	sub_C412
-call	sub_C0F4
-call	sub_1834
-call	sub_C4DD
-jmp	sub_17E6
+loc_B756:
+call	sub_5682
+call	sub_E2E2
+call	sub_DFC4
+call	sub_3704
+call	sub_E3AD
+jmp	sub_36B6
 
-loc_9898:
+loc_B768:
 mov	bp, 37B2h
-call	sub_C097
-call	sub_36D3
+call	sub_DF67
+call	sub_55A3
 mov	ax, 0C8h ; 'È'
-call	sub_E3A0
+call	sub_10270
 mov	word ptr ds:1C06h, 0
-jmp	short loc_9858
-sub_97CF endp
+jmp	short loc_B728
+sub_B69F endp
 
 
 
 
-sub_98AF proc near
-call	sub_8C8A
-sub_98AF endp
+sub_B77F proc near
+call	sub_AB5A
+sub_B77F endp
 
 
 
 
-sub_98B2 proc near
+sub_B782 proc near
 cmp	byte ptr ds:47C3h, 0
-jnz	short locret_98E5
+jnz	short locret_B7B5
 xor	ax, ax
 mov	ds:4540h, ax
 and	byte ptr ds:47D1h, 3Fh
 xchg	ax, ds:47C8h
 or	ax, ax
-jz	short locret_98E5
+jz	short locret_B7B5
 mov	si, 1BF0h
 mov	word ptr [si+8], 0
 mov	word ptr ds:1C06h, 0
-call	sub_C446
+call	sub_E316
 mov	si, 1BF0h
-call	sub_C4F0
-jmp	sub_9B8B
+call	sub_E3C0
+jmp	sub_BA5B
 
-locret_98E5:
+locret_B7B5:
 retn
-sub_98B2 endp
+sub_B782 endp
 
 
 
 
-sub_98E6 proc near
-call	sub_98F5
+sub_B7B6 proc near
+call	sub_B7C5
 mov	ds:47C8h, ax
 mov	ds:47AAh, ax
 mov	ds:479Eh, ax
-jmp	sub_9B8B
-sub_98E6 endp
+jmp	sub_BA5B
+sub_B7B6 endp
 
 
 
 
-sub_98F5 proc near
+sub_B7C5 proc near
 xor	ax, ax
 mov	ds:1C06h, ax
 mov	ds:1BF8h, ax
 mov	ds:1BEAh, ax
 retn
-sub_98F5 endp
+sub_B7C5 endp
 
 
 
 
-sub_9901 proc near
+sub_B7D1 proc near
 mov	word ptr ds:479Eh, 0
 retn
-sub_9901 endp
+sub_B7D1 endp
 
 
 
 
-sub_9908 proc near
+sub_B7D8 proc near
 mov	si, ds:47CAh
 mov	es, word ptr ds:0DBB2h
-call	sub_994F
+call	sub_B81F
 mov	byte ptr ds:47D1h, 0C0h	; 'À'
 mov	al, ds:478Ch
 xor	ah, ah
@@ -21187,257 +21186,257 @@ shl	ax, 1
 shl	ax, 1
 mov	ds:47CEh, ax
 add	si, es:[bp+si]
-call	sub_996C
+call	sub_B83C
 mov	ds:47C8h, si
 xchg	si, ds:47C6h
 or	si, si
-jnz	short locret_994E
+jnz	short locret_B81E
 cmp	byte ptr ds:0EAh, 0
-jg	short locret_994E
+jg	short locret_B81E
 mov	ax, ds:47C4h
-call	sub_127C
-jb	short locret_994E
-sub_9908 endp
+call	sub_314C
+jb	short locret_B81E
+sub_B7D8 endp
 
 
 
 
-sub_9945 proc near
+sub_B815 proc near
 mov	si, 99BEh
 mov	bp, 10h
-call	sub_DA25
+call	sub_F8F5
 
-locret_994E:
+locret_B81E:
 retn
-sub_9945 endp
+sub_B815 endp
 
 
 
 
-sub_994F proc near
+sub_B81F proc near
 mov	al, ds:47D0h
 or	al, al
-jnz	short loc_9963
+jnz	short loc_B833
 mov	bx, 6
-call	sub_E3B7
+call	sub_10287
 mov	bp, ax
 add	bp, ds:0F0h
 retn
 
-loc_9963:
+loc_B833:
 dec	al
 xor	ah, ah
 shl	ax, 1
 mov	bp, ax
 retn
-sub_994F endp
+sub_B81F endp
 
 
 
 
-sub_996C proc near
+sub_B83C proc near
 cmp	byte ptr ds:47D0h, 0
-jz	short locret_9981
+jz	short locret_B851
 mov	cx, 20h	; ' '
 push	es
 pop	ds
 
-loc_9978:
+loc_B848:
 lodsb
 or	al, al
-jnz	short loc_9978
-loop	loc_9978
+jnz	short loc_B848
+loop	loc_B848
 push	ss
 pop	ds
 assume ds:seg001
 
-locret_9981:
+locret_B851:
 retn
-sub_996C endp
+sub_B83C endp
 
-; START	OF FUNCTION CHUNK FOR sub_9985
+; START	OF FUNCTION CHUNK FOR sub_B855
 
-loc_9982:
-call	sub_99BE
-; END OF FUNCTION CHUNK	FOR sub_9985
+loc_B852:
+call	sub_B88E
+; END OF FUNCTION CHUNK	FOR sub_B855
 
 
 
-sub_9985 proc near
+sub_B855 proc near
 
 ; FUNCTION CHUNK AT 9982 SIZE 00000003 BYTES
 
 test	word ptr ds:47CEh, 7
-jnz	short loc_9982
+jnz	short loc_B852
 retn
-sub_9985 endp
+sub_B855 endp
 
 
 
 
-sub_998E proc near
+sub_B85E proc near
 mov	di, 4C60h
 mov	si, 1BF0h
 mov	cx, 4
-call	sub_99B2
+call	sub_B882
 mov	si, 22A6h
 mov	cx, 1
-call	sub_99B2
+call	sub_B882
 mov	si, 4540h
 mov	cx, 0C9h ; 'É'
-call	sub_99B2
+call	sub_B882
 mov	si, 47C4h
 mov	cx, 7
-sub_998E endp
+sub_B85E endp
 
 
 
 
-sub_99B2 proc near
+sub_B882 proc near
 lodsw
 xchg	ax, [di]
 mov	[si-2],	ax
 add	di, 2
-loop	sub_99B2
+loop	sub_B882
 retn
-sub_99B2 endp
+sub_B882 endp
 
 
 
 
-sub_99BE proc near
+sub_B88E proc near
 cmp	byte ptr ds:47C3h, 0
-jz	short sub_99DA
-call	sub_998E
+jz	short sub_B8AA
+call	sub_B85E
 mov	ax, 7
-call	sub_920F
-call	sub_99DA
-call	sub_998E
+call	sub_B0DF
+call	sub_B8AA
+call	sub_B85E
 mov	ax, 2Dh	; '-'
-call	sub_920F
-sub_99BE endp
+call	sub_B0DF
+sub_B88E endp
 
 
 
 
-sub_99DA proc near
-call	sub_9197
+sub_B8AA proc near
+call	sub_B067
 mov	al, ds:47D1h
 or	al, al
-jns	short locret_9A1C
+jns	short locret_B8EC
 test	al, 10h
-jnz	short loc_9A40
+jnz	short loc_B910
 mov	si, ds:47C6h
 mov	es, word ptr ds:0DBB2h
 
-loc_99F0:
+loc_B8C0:
 cmp	byte ptr es:[si], 0FFh
-jz	short loc_9A1D
+jz	short loc_B8ED
 
-loc_99F6:
+loc_B8C6:
 dec	word ptr ds:47CEh
 mov	ds:47C8h, si
-call	sub_9BB1
+call	sub_BA81
 mov	ds:47C6h, si
 cmp	word ptr ds:0D834h, 13Fh
-jz	short locret_9A1C
-call	sub_908C
+jz	short locret_B8EC
+call	sub_AF5C
 mov	si, 0D834h
-call	sub_DB74
-call	sub_C4F0
-jmp	sub_DB67
+call	sub_FA44
+call	sub_E3C0
+jmp	sub_FA37
 
-locret_9A1C:
+locret_B8EC:
 retn
 
-loc_9A1D:
+loc_B8ED:
 cmp	word ptr ds:47CEh, 0
-js	short loc_9A3B
+js	short loc_B90B
 mov	si, ds:47CAh
 mov	es, word ptr ds:0DBB2h
-call	sub_994F
+call	sub_B81F
 add	si, es:[bp+si]
-call	sub_996C
+call	sub_B83C
 mov	ds:47C6h, si
-jmp	short loc_99F0
+jmp	short loc_B8C0
 
-loc_9A3B:
+loc_B90B:
 or	byte ptr ds:47D1h, 10h
 
-loc_9A40:
+loc_B910:
 mov	si, ds:47C6h
 mov	es, word ptr ds:0DBB2h
 cmp	word ptr ds:47CEh, 0
-jg	short loc_99F6
-call	sub_9AB4
-jb	short loc_99F6
-call	sub_9A7B
+jg	short loc_B8C6
+call	sub_B984
+jb	short loc_B8C6
+call	sub_B94B
 or	ah, ah
-jnz	short locret_9A1C
-call	sub_9A60
-jmp	short loc_99F6
-sub_99DA endp
+jnz	short locret_B8EC
+call	sub_B930
+jmp	short loc_B8C6
+sub_B8AA endp
 
 
 
 
-sub_9A60 proc near
+sub_B930 proc near
 or	al, al
-jz	short loc_9A74
+jz	short loc_B944
 mov	bx, ax
 xor	al, al
 mov	cx, 0FFFFh
 mov	di, si
 
-loc_9A6D:
+loc_B93D:
 repne scasb
 dec	bx
-jnz	short loc_9A6D
+jnz	short loc_B93D
 mov	si, di
 
-loc_9A74:
+loc_B944:
 mov	word ptr ds:47CEh, 8
 retn
-sub_9A60 endp
+sub_B930 endp
 
 
 
 
-sub_9A7B proc near
+sub_B94B proc near
 mov	al, ds:47D0h
 mov	bx, 0F18h
 or	al, al
-jnz	short loc_9A9A
+jnz	short loc_B96A
 mov	al, 5
 mov	bx, 0F38h
 cmp	word ptr ds:47C4h, 7
-jnz	short loc_9A9A
-cmp	seg_F4B0+2Ah, 0C8h ; 'È'
-jb	short loc_9A9A
+jnz	short loc_B96A
+cmp	seg_11380+2Ah, 0C8h ; 'È'
+jb	short loc_B96A
 inc	al
 
-loc_9A9A:
+loc_B96A:
 dec	al
 xor	ah, ah
 shl	ax, 1
 mov	bp, ax
-add	bp, word ptr seg_F4B0+0F0h
+add	bp, word ptr seg_11380+0F0h
 mov	si, ds:47CAh
 mov	es, word ptr ds:0DBB2h
 add	si, es:[bp+si]
-jmp	sub_E3B7
-sub_9A7B endp
+jmp	sub_10287
+sub_B94B endp
 
 
 
 
-sub_9AB4 proc near
+sub_B984 proc near
 mov	al, ds:47E1h
 or	al, al
-jz	short locret_9B08
-js	short loc_9ADB
+jz	short locret_B9D8
+js	short loc_B9AB
 or	byte ptr ds:47E1h, 80h
-call	sub_9B09
+call	sub_B9D9
 mov	al, ds:47E2h
 xor	ah, ah
 mov	bp, ax
@@ -21447,14 +21446,14 @@ mov	word ptr ds:47CEh, 14h
 stc
 retn
 
-loc_9ADB:
+loc_B9AB:
 shr	al, 1
-jnb	short locret_9B08
+jnb	short locret_B9D8
 mov	byte ptr ds:47E1h, 80h ; '€'
-call	sub_D075
+call	sub_EF45
 mov	si, ds:47E4h
 cmp	word ptr [si], 38h ; '8'
-jnb	short locret_9B08
+jnb	short locret_B9D8
 lodsw
 mov	cx, ax
 lodsw
@@ -21463,41 +21462,41 @@ lodsw
 mov	bx, ax
 lodsw
 xchg	ax, cx
-call	sub_8865
-call	sub_D068
-call	sub_DBB2
-call	sub_C4DD
+call	sub_A735
+call	sub_EF38
+call	sub_FA82
+call	sub_E3AD
 clc
 
-locret_9B08:
+locret_B9D8:
 retn
-sub_9AB4 endp
+sub_B984 endp
 
 
 
 
-sub_9B09 proc near
+sub_B9D9 proc near
 mov	si, ds:47E4h
 cmp	word ptr [si], 38h ; '8'
-jb	short locret_9B48
-mov	ax, word ptr seg_F4B0+20h
-jz	short loc_9B1C
-mov	al, seg_F4B0+9Dh
+jb	short locret_BA18
+mov	ax, word ptr seg_11380+20h
+jz	short loc_B9EC
+mov	al, seg_11380+9Dh
 xor	ah, ah
 
-loc_9B1C:
-call	sub_8A23
+loc_B9EC:
+call	sub_A8F3
 mov	cx, ax
 les	si, ds:0DBB0h
 mov	di, si
 mov	bp, 5
 
-loc_9B2A:
+loc_B9FA:
 and	bx, 0Fh
-jz	short loc_9B32
+jz	short loc_BA02
 mov	bp, 6
 
-loc_9B32:
+loc_BA02:
 add	bx, bp
 shl	bx, 1
 mov	ax, es:[bx+si]
@@ -21508,22 +21507,22 @@ mov	dl, ch
 mov	ch, cl
 mov	cl, 0FFh
 cmp	bl, cl
-jnz	short loc_9B2A
+jnz	short loc_B9FA
 
-locret_9B48:
+locret_BA18:
 retn
-sub_9B09 endp
+sub_B9D9 endp
 
 
 
 
-sub_9B49 proc near
+sub_BA19 proc near
 mov	ax, ds:47E1h
 cmp	al, 80h	; '€'
-jnz	short loc_9B84
+jnz	short loc_BA54
 push	si
 push	ax
-call	sub_9197
+call	sub_B067
 pop	ax
 mov	al, ah
 xor	ah, ah
@@ -21535,89 +21534,89 @@ mov	es, word ptr ds:0DBB2h
 add	si, es:[bp+si]
 mov	byte ptr ds:47E1h, 81h ; ''
 
-loc_9B6E:
+loc_BA3E:
 push	es
 mov	bp, 99F6h
 mov	ax, 0Ch
-call	sub_E353
+call	sub_10223
 pop	es
 mov	si, ds:47C6h
 cmp	byte ptr es:[si], 0FFh
-jnz	short loc_9B6E
+jnz	short loc_BA3E
 pop	si
 
-loc_9B84:
+loc_BA54:
 mov	word ptr ds:47E1h, 0
 retn
-sub_9B49 endp
+sub_BA19 endp
 
 
 
 
-sub_9B8B proc near
-call	sub_A7A5
+sub_BA5B proc near
+call	sub_C675
 xor	ax, ax
 mov	byte ptr ds:47C3h, 0
 mov	ds:47CEh, ax
 and	byte ptr ds:47D1h, 7Fh
 xchg	ax, ds:47C6h
 or	ax, ax
-jz	short locret_9BAB
+jz	short locret_BA7B
 mov	si, 99BEh
-jmp	sub_DA5F
+jmp	sub_F92F
 
-locret_9BAB:
+locret_BA7B:
 retn
-sub_9B8B endp
+sub_BA5B endp
 
 
 
 
-sub_9BAC proc near
+sub_BA7C proc near
 push	si
-call	sub_9197
+call	sub_B067
 pop	si
-sub_9BAC endp
+sub_BA7C endp
 
 
 
 
-sub_9BB1 proc near
-call	sub_9BEE
+sub_BA81 proc near
+call	sub_BABE
 push	si
 cmp	word ptr ds:4540h, 0
-jnz	short loc_9BCC
+jnz	short loc_BA9C
 mov	si, 1BF0h
 mov	di, 0D834h
-call	sub_5B99
+call	sub_7A69
 mov	word ptr [si], 80h ; '€'
-jmp	short loc_9BD7
+jmp	short loc_BAA7
 align 2
 
-loc_9BCC:
-call	sub_9C2D
+loc_BA9C:
+call	sub_BAFD
 cmp	word ptr ds:0D834h, 13Fh
-jz	short loc_9BEC
+jz	short loc_BABC
 
-loc_9BD7:
+loc_BAA7:
 mov	si, 0D834h
 cmp	word ptr [si+6], 98h ; '˜'
-jb	short loc_9BE6
+jb	short loc_BAB6
 mov	word ptr [si+6], 98h ; '˜'
 
-loc_9BE6:
-call	sub_C446
-call	sub_9D16
+loc_BAB6:
+call	sub_E316
+call	sub_BBE6
 
-loc_9BEC:
+loc_BABC:
 pop	si
 retn
-sub_9BB1 endp ;	sp =  2
+sub_BA81 endp ;	sp =  2
 
 
 
 
-sub_9BEE proc near
+sub_BABE proc near
 xor	cx, cx
 push	ds
 pop	es
@@ -21626,17 +21625,17 @@ mov	ds, word ptr ss:0DBB2h
 assume ds:nothing
 mov	di, 460Ah
 
-loc_9BFA:
+loc_BACA:
 lodsb
 xor	ah, ah
 or	al, al
-jz	short loc_9C25
+jz	short loc_BAF5
 cmp	al, 1
-jnz	short loc_9C08
+jnz	short loc_BAD8
 mov	ah, al
 lodsb
 
-loc_9C08:
+loc_BAD8:
 push	si
 sub	ax, 2
 shl	ax, 1
@@ -21644,31 +21643,31 @@ mov	bp, ax
 mov	si, ss:47CCh
 add	si, ds:[bp+si]
 
-loc_9C18:
+loc_BAE8:
 lodsb
 or	al, al
-jz	short loc_9C22
+jz	short loc_BAF2
 stosb
 movsw
 inc	cx
-jmp	short loc_9C18
+jmp	short loc_BAE8
 
-loc_9C22:
+loc_BAF2:
 pop	si
-jmp	short loc_9BFA
+jmp	short loc_BACA
 
-loc_9C25:
+loc_BAF5:
 mov	ss:4608h, cx
 push	ss
 pop	ds
 assume ds:seg001
 retn
-sub_9BEE endp
+sub_BABE endp
 
 
 
 
-sub_9C2D proc near
+sub_BAFD proc near
 mov	word ptr ds:0D834h, 13Fh
 mov	word ptr ds:0D836h, 0C7h ; 'Ç'
 xor	ax, ax
@@ -21678,25 +21677,25 @@ mov	ax, ds
 mov	es, ax
 mov	si, 4540h
 mov	di, 4608h
-call	sub_9C54
+call	sub_BB24
 mov	si, 4608h
 mov	di, 4540h
-sub_9C2D endp
+sub_BAFD endp
 
 
 
 
-sub_9C54 proc near
+sub_BB24 proc near
 lodsw
 mov	cx, ax
 
-loc_9C57:
+loc_BB27:
 push	cx
 push	di
 mov	cx, [di]
 add	di, 2
 
-loc_9C5E:
+loc_BB2E:
 cmpsw
 lahf
 cmpsb
@@ -21704,54 +21703,54 @@ mov	al, ah
 lahf
 and	al, ah
 test	al, 40h
-jnz	short loc_9C75
+jnz	short loc_BB45
 sub	si, 3
-loop	loc_9C5E
-call	sub_9CC6
+loop	loc_BB2E
+call	sub_BB96
 add	si, 3
 
-loc_9C75:
+loc_BB45:
 pop	di
 pop	cx
-loop	loc_9C57
+loop	loc_BB27
 cmp	byte ptr ds:47E1h, 81h ; ''
-jz	short loc_9CA6
-call	sub_ABCC
-jz	short loc_9CA6
+jz	short loc_BB76
+call	sub_CA9C
+jz	short loc_BB76
 mov	ax, ds:47C4h
 cmp	al, 9
-jz	short locret_9CC5
+jz	short locret_BB95
 cmp	al, 0Ch
-jz	short locret_9CC5
+jz	short locret_BB95
 mov	si, ds:0DC28h
 mov	ax, [si+2]
 cmp	ax, ds:0D83Ah
-jnb	short loc_9CA6
+jnb	short loc_BB76
 mov	ds:0D83Ah, ax
 cmp	ax, ds:0D836h
-jle	short loc_9CBF
+jle	short loc_BB8F
 
-loc_9CA6:
+loc_BB76:
 cmp	byte ptr ds:47E1h, 80h ; '€'
-jnz	short locret_9CC5
+jnz	short locret_BB95
 mov	ax, 4Ch	; 'L'
 cmp	ax, ds:0D83Ah
-jnb	short locret_9CC5
+jnb	short locret_BB95
 mov	ds:0D83Ah, ax
 cmp	ax, ds:0D836h
-jg	short locret_9CC5
+jg	short locret_BB95
 
-loc_9CBF:
+loc_BB8F:
 mov	word ptr ds:0D834h, 13Fh
 
-locret_9CC5:
+locret_BB95:
 retn
-sub_9C54 endp
+sub_BB24 endp
 
 
 
 
-sub_9CC6 proc near
+sub_BB96 proc near
 push	si
 push	ds
 xor	ah, ah
@@ -21760,25 +21759,25 @@ mov	bp, ax
 dec	bp
 lodsb
 mov	dx, ax
-add	dx, word ptr seg_F4B0+1BF0h
+add	dx, word ptr seg_11380+1BF0h
 lodsb
 mov	bx, ax
-add	bx, word ptr seg_F4B0+1BF2h
+add	bx, word ptr seg_11380+1BF2h
 lds	si, ds:0DBB0h
 assume ds:nothing
 shl	bp, 1
 add	si, ds:[bp+si]
 mov	bp, 0D834h
 cmp	[bp+0],	dx
-jb	short loc_9CF0
+jb	short loc_BBC0
 mov	[bp+0],	dx
 
-loc_9CF0:
+loc_BBC0:
 cmp	[bp+2],	bx
-jb	short loc_9CF8
+jb	short loc_BBC8
 mov	[bp+2],	bx
 
-loc_9CF8:
+loc_BBC8:
 lodsw
 and	ax, 1FFh
 add	dx, ax
@@ -21786,24 +21785,24 @@ lodsw
 xor	ah, ah
 add	bx, ax
 cmp	[bp+4],	dx
-jnb	short loc_9D0B
+jnb	short loc_BBDB
 mov	[bp+4],	dx
 
-loc_9D0B:
+loc_BBDB:
 cmp	[bp+6],	bx
-jnb	short loc_9D13
+jnb	short loc_BBE3
 mov	[bp+6],	bx
 
-loc_9D13:
+loc_BBE3:
 pop	ds
 pop	si
 retn
-sub_9CC6 endp
+sub_BB96 endp
 
 
 
 
-sub_9D16 proc near
+sub_BBE6 proc near
 push	ds
 pop	es
 assume es:nothing
@@ -21817,16 +21816,16 @@ add	cx, ax
 add	cx, 2
 rep movsb
 pop	si
-sub_9D16 endp
+sub_BBE6 endp
 
 
 
 
-sub_9D2D proc near
+sub_BBFD proc near
 lodsw
 mov	cx, ax
 
-loc_9D30:
+loc_BC00:
 push	cx
 lodsb
 xor	ah, ah
@@ -21849,62 +21848,62 @@ lodsw
 xor	ah, ah
 mov	cx, ax
 mov	bp, 0D834h
-call	dword ptr ss:seg_F4B0+38CDh
+call	dword ptr ss:seg_11380+38CDh
 push	ss
 pop	ds
 assume ds:seg001
 pop	si
 pop	cx
-loop	loc_9D30
+loop	loc_BC00
 retn
-sub_9D2D endp ;	sp =  2
+sub_BBFD endp ;	sp =  2
 
 
 
 
-sub_9D6A proc near
+sub_BC3A proc near
 mov	es, word ptr ss:0DBD8h
 
-loc_9D6F:
+loc_BC3F:
 lodsb
 xor	ah, ah
 or	al, al
-jz	short locret_9D93
+jz	short locret_BC63
 cmp	al, 1
-jnz	short loc_9D7D
+jnz	short loc_BC4D
 mov	ah, al
 lodsb
 
-loc_9D7D:
+loc_BC4D:
 push	si
 sub	ax, 2
 shl	ax, 1
 mov	bp, ax
 mov	si, ss:47CCh
 add	si, ds:[bp+si]
-call	sub_9D94
+call	sub_BC64
 pop	si
-jmp	short loc_9D6F
+jmp	short loc_BC3F
 
-locret_9D93:
+locret_BC63:
 retn
-sub_9D6A endp
+sub_BC3A endp
 
 
 
 
-sub_9D94 proc near
+sub_BC64 proc near
 lodsb
 and	ax, 0FFh
-jz	short locret_9D93
+jz	short locret_BC63
 xor	ah, ah
 mov	bp, ax
 lodsb
 mov	dx, ax
 lodsb
 mov	bx, ax
-add	dx, word ptr ss:seg_F4B0+1BF0h
-add	bx, word ptr ss:seg_F4B0+1BF2h
+add	dx, word ptr ss:seg_11380+1BF0h
+add	bx, word ptr ss:seg_11380+1BF2h
 sub	dx, ss:46D2h
 sub	bx, ss:46D4h
 add	dx, ss:47D4h
@@ -21922,26 +21921,26 @@ lodsw
 xor	ah, ah
 mov	cx, ax
 mov	bp, 47D4h
-call	dword ptr ss:seg_F4B0+38CDh
+call	dword ptr ss:seg_11380+38CDh
 pop	ds
 pop	si
-jmp	short sub_9D94
-sub_9D94 endp
+jmp	short sub_BC64
+sub_BC64 endp
 
-; START	OF FUNCTION CHUNK FOR sub_A82E
+; START	OF FUNCTION CHUNK FOR sub_C6FE
 
-loc_9DE3:
+loc_BCB3:
 cmp	word ptr ds:47C4h, 10h
-jnb	short locret_9D93
+jnb	short locret_BC63
 push	ax
 push	si
-call	sub_9197
+call	sub_B067
 pop	si
 pop	ax
 cmp	byte ptr ds:46EBh, 0
-js	short loc_9E75
+js	short loc_BD45
 mov	di, 0D834h
-call	sub_5B99
+call	sub_7A69
 mov	dx, ds:1BF0h
 mov	bx, ds:1BF2h
 add	[di-8],	dx
@@ -21951,64 +21950,64 @@ add	[di-2],	bx
 mov	si, ds:47D2h
 mov	ah, ds:47D0h
 dec	ah
-js	short loc_9E2D
+js	short loc_BCFD
 cmp	word ptr ds:22A6h, 0Dh
-jnz	short loc_9E27
+jnz	short loc_BCF7
 add	al, ah
 
-loc_9E27:
+loc_BCF7:
 shl	ah, 1
 shl	ah, 1
 add	al, ah
 
-loc_9E2D:
+loc_BCFD:
 xor	ah, ah
 shl	ax, 1
 add	si, ax
-call	sub_9BEE
+call	sub_BABE
 mov	si, 4608h
 cmp	byte ptr ds:0EAh, 0
-jg	short locret_9E74
+jg	short locret_BD44
 cmp	word ptr [si], 2
-jb	short loc_9E57
-call	sub_9D2D
-call	sub_908C
+jb	short loc_BD27
+call	sub_BBFD
+call	sub_AF5C
 mov	si, 0D834h
-call	sub_DB74
-call	sub_C4F0
-jmp	sub_DB67
+call	sub_FA44
+call	sub_E3C0
+jmp	sub_FA37
 
-loc_9E57:
+loc_BD27:
 mov	si, 0D834h
-call	sub_DB74
+call	sub_FA44
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 mov	si, 4608h
-call	sub_9D2D
-call	sub_908C
+call	sub_BBFD
+call	sub_AF5C
 pop	word ptr ds:0DBDAh
-jmp	sub_DB67
+jmp	sub_FA37
 
-locret_9E74:
+locret_BD44:
 retn
 
-loc_9E75:
+loc_BD45:
 mov	si, ds:47D2h
 cmp	word ptr ds:47C4h, 0Ch
-jz	short loc_9E8C
+jz	short loc_BD5C
 mov	ah, ds:47D0h
 dec	ah
 shl	ah, 1
 shl	ah, 1
 add	al, ah
 
-loc_9E8C:
+loc_BD5C:
 xor	ah, ah
 shl	ax, 1
 add	si, ax
 push	si
 mov	si, 47D4h
-call	sub_DB74
+call	sub_FA44
 pop	si
 push	ds
 mov	ds, word ptr ss:0DBB2h
@@ -22020,50 +22019,50 @@ mov	bp, ax
 mov	si, ss:47CCh
 add	si, ds:[bp+si]
 cmp	byte ptr [si+3], 0
-jz	short loc_9EC9
+jz	short loc_BD99
 mov	es, word ptr ss:0DBD6h
-call	sub_9D94
+call	sub_BC64
 pop	ds
 mov	si, 47D4h
-call	sub_C4F0
-jmp	sub_DB67
+call	sub_E3C0
+jmp	sub_FA37
 
-loc_9EC9:
+loc_BD99:
 mov	es, word ptr ss:0DBD8h
-call	sub_9D94
+call	sub_BC64
 pop	ds
-jmp	sub_DB67
-; END OF FUNCTION CHUNK	FOR sub_A82E
-; START	OF FUNCTION CHUNK FOR sub_1707
+jmp	sub_FA37
+; END OF FUNCTION CHUNK	FOR sub_C6FE
+; START	OF FUNCTION CHUNK FOR sub_35D7
 
-loc_9ED5:
+loc_BDA5:
 cmp	word ptr ds:47C4h, 10h
-jnb	short loc_9EEB
-call	sub_9985
+jnb	short loc_BDBB
+call	sub_B855
 cmp	byte ptr ds:47E1h, 81h ; ''
-jnz	short loc_9EEB
+jnz	short loc_BDBB
 mov	byte ptr ds:47E1h, 1
 
-loc_9EEB:
-call	sub_C85B
+loc_BDBB:
+call	sub_E72B
 mov	al, ds:47DDh
-; END OF FUNCTION CHUNK	FOR sub_1707
+; END OF FUNCTION CHUNK	FOR sub_35D7
 
 
 
-sub_9EF1 proc near
+sub_BDC1 proc near
 mov	ds:47DCh, al
-call	sub_9EFD
+call	sub_BDCD
 mov	byte ptr ds:47DCh, 0
 
-locret_9EFC:
+locret_BDCC:
 retn
-sub_9EF1 endp
+sub_BDC1 endp
 
 
 
 
-sub_9EFD proc near
+sub_BDCD proc near
 
 ; FUNCTION CHUNK AT A75C SIZE 0000002D BYTES
 
@@ -22071,147 +22070,147 @@ mov	al, ds:47DCh
 mov	ds:47DDh, al
 mov	ax, ds:4780h
 mov	bx, ds:47C4h
-call	sub_A6CC
-jnb	short locret_9EFC
+call	sub_C59C
+jnb	short locret_BDCC
 cmp	word ptr ds:47C4h, 10h
-jnb	short loc_9F19
-call	sub_9F1C
+jnb	short loc_BDE9
+call	sub_BDEC
 
-loc_9F19:
-jmp	loc_A75C
-sub_9EFD endp
-
-
+loc_BDE9:
+jmp	loc_C62C
+sub_BDCD endp
 
 
-sub_9F1C proc near
-call	sub_9197
+
+
+sub_BDEC proc near
+call	sub_B067
 or	byte ptr ds:47D1h, 10h
-call	sub_9A7B
+call	sub_B94B
 xor	ah, ah
-call	sub_9A60
+call	sub_B930
 mov	ds:47C6h, si
 retn
-sub_9F1C endp
+sub_BDEC endp
 
 
 
 
-sub_9F31 proc near
+sub_BE01 proc near
 mov	si, ds:47BEh
 and	si, 0FFF8h
 add	si, ax
 shl	si, 1
 mov	si, [si-558Ah]
-sub_9F31 endp
+sub_BE01 endp
 
 
 
 
-sub_9F40 proc near
+sub_BE10 proc near
 mov	ax, ds:47C4h
 cmp	ax, 2
-jnz	short loc_9F56
+jnz	short loc_BE26
 cmp	byte ptr ds:0C2h, 4
-jnz	short loc_9F56
+jnz	short loc_BE26
 push	ax
 push	si
-call	sub_1243
+call	sub_3113
 pop	si
 pop	ax
 
-loc_9F56:
+loc_BE26:
 mov	cl, 10h
 mul	cl
 add	ax, 0FD8h
 mov	ds:47A2h, ax
 cmp	byte ptr ds:46EBh, 0
-jnz	short sub_9F82
-call	sub_C07C
+jnz	short sub_BE52
+call	sub_DF4C
 mov	word ptr ds:4784h, 28h ; '('
 mov	word ptr ds:4786h, 10h
 mov	word ptr ds:4788h, 10h
 mov	word ptr ds:478Ah, 10h
-sub_9F40 endp
+sub_BE10 endp
 
 
 
 
-sub_9F82 proc near
+sub_BE52 proc near
 mov	word ptr ds:0DBE4h, 0F0h ; 'ð'
-jmp	sub_D068
-sub_9F82 endp
+jmp	sub_EF38
+sub_BE52 endp
 
 
 
 
-sub_9F8B proc near
+sub_BE5B proc near
 push	word ptr ds:47C2h
 mov	byte ptr ds:47C2h, 20h ; ' '
-call	sub_9F9E
+call	sub_BE6E
 pop	word ptr ds:47C2h
 retn
-sub_9F8B endp
+sub_BE5B endp
 
-; START	OF FUNCTION CHUNK FOR sub_9F9E
+; START	OF FUNCTION CHUNK FOR sub_BE6E
 
-loc_9F9C:
+loc_BE6C:
 stc
 retn
-; END OF FUNCTION CHUNK	FOR sub_9F9E
+; END OF FUNCTION CHUNK	FOR sub_BE6E
 
 
 
-sub_9F9E proc near
+sub_BE6E proc near
 
 ; FUNCTION CHUNK AT 9F9C SIZE 00000002 BYTES
 
 mov	ds:477Ch, si
-call	sub_94F3
+call	sub_B3C3
 mov	word ptr ds:47BCh, 0A6B0h
 
-loc_9FAB:
+loc_BE7B:
 mov	ax, [si]
 cmp	ax, 0FFFFh
-jz	short loc_9F9C
+jz	short loc_BE6C
 test	al, 80h
-jz	short loc_9FC0
+jz	short loc_BE90
 test	al, 40h
-jnz	short loc_9FC0
+jnz	short loc_BE90
 and	al, ds:47C2h
-jnz	short loc_9FD3
+jnz	short loc_BEA3
 
-loc_9FC0:
+loc_BE90:
 push	si
 mov	al, ah
 mov	ah, [si+2]
 rol	ah, 1
 rol	ah, 1
 and	ah, 3
-call	sub_A396
+call	sub_C266
 pop	si
-jnz	short loc_9FD8
+jnz	short loc_BEA8
 
-loc_9FD3:
+loc_BEA3:
 add	si, 4
-jmp	short loc_9FAB
+jmp	short loc_BE7B
 
-loc_9FD8:
+loc_BEA8:
 cmp	byte ptr ds:46EBh, 0
-jnz	short loc_9FF7
+jnz	short loc_BEC7
 mov	ax, ds:47C4h
 cmp	ax, 10h
-jnb	short loc_9FF7
+jnb	short loc_BEC7
 push	si
 push	ax
-call	sub_A0F1
-call	sub_1803
-call	sub_3AF9
+call	sub_BFC1
+call	sub_36D3
+call	sub_59C9
 pop	ax
-call	sub_91A0
+call	sub_B070
 pop	si
 
-loc_9FF7:
+loc_BEC7:
 push	si
 lodsw
 mov	ds:47DEh, ax
@@ -22221,46 +22220,46 @@ and	ax, 3FFh
 or	ax, 800h
 mov	di, ds:47BCh
 cmp	di, 0A6B0h
-jz	short loc_A034
+jz	short loc_BF04
 mov	si, ax
-call	sub_CF70
+call	sub_EE40
 cmp	byte ptr es:[si], 80h ;	'€'
-jb	short loc_A026
+jb	short loc_BEF6
 pop	ax
 sub	ax, 4
 push	ax
 mov	byte ptr [di-1], 0FFh
-jmp	short loc_A02C
+jmp	short loc_BEFC
 align 2
 
-loc_A026:
-call	sub_88F1
-call	sub_8944
+loc_BEF6:
+call	sub_A7C1
+call	sub_A814
 
-loc_A02C:
+loc_BEFC:
 mov	si, 0A6B0h
-call	sub_8B11
-jmp	short loc_A03E
+call	sub_A9E1
+jmp	short loc_BF0E
 
-loc_A034:
+loc_BF04:
 cmp	byte ptr ds:0C6h, 0
-jnz	short loc_A03E
-call	sub_88AF
+jnz	short loc_BF0E
+call	sub_A77F
 
-loc_A03E:
+loc_BF0E:
 pop	si
-sub_9F9E endp
+sub_BE6E endp
 
 
 
 
-sub_A03F proc near
-call	sub_C85B
+sub_BF0F proc near
+call	sub_E72B
 cmp	word ptr ds:47B6h, 0
-jnz	short loc_A0AA
+jnz	short loc_BF7A
 mov	al, [si]
 and	al, 0Fh
-jz	short loc_A05E
+jz	short loc_BF2E
 xor	ah, ah
 push	si
 dec	ax
@@ -22270,12 +22269,12 @@ add	bx, ax
 call	word ptr cs:[bx]
 pop	si
 
-loc_A05E:
+loc_BF2E:
 mov	al, [si+2]
 and	al, 0Ch
-jz	short loc_A092
+jz	short loc_BF62
 test	byte ptr [si], 80h
-jnz	short loc_A092
+jnz	short loc_BF62
 mov	ax, si
 sub	ax, 0AA78h
 shr	ax, 1
@@ -22290,67 +22289,67 @@ mov	cs:[bp+0], ax
 mov	word ptr cs:[bp+2], 0
 add	word ptr ds:11BDh, 2
 
-loc_A092:
+loc_BF62:
 mov	byte ptr ds:19h, 0FFh
 or	byte ptr [si], 80h
 add	si, 4
 xor	al, al
 xchg	al, ds:47A8h
 or	al, al
-jz	short loc_A0AA
+jz	short loc_BF7A
 mov	si, 0FFFFh
 
-loc_A0AA:
+loc_BF7A:
 cmp	byte ptr ds:46EBh, 0
-jnz	short loc_A0E2
+jnz	short loc_BFB2
 cmp	word ptr ds:47C4h, 10h
-jnb	short loc_A0E2
+jnb	short loc_BFB2
 push	si
-call	sub_978E
+call	sub_B65E
 pop	si
 cmp	byte ptr ds:4774h, 0
-jz	short loc_A0C9
+jz	short loc_BF99
 push	si
-call	sub_2EBF
+call	sub_4D8F
 pop	si
 
-loc_A0C9:
+loc_BF99:
 cmp	byte ptr ds:0EAh, 0
-jg	short loc_A0E2
-call	sub_E270
-call	sub_9EFD
+jg	short loc_BFB2
+call	sub_10140
+call	sub_BDCD
 mov	ax, 0F66h
 xchg	ax, ds:227Eh
-call	ax ; nullsub_1
-call	sub_E283
+call	ax
+call	sub_10153
 
-loc_A0E2:
+loc_BFB2:
 cmp	byte ptr ds:0FBh, 0
-js	short loc_A0EF
+js	short loc_BFBF
 mov	al, ds:28E8h
 mov	ds:28E7h, al
 
-loc_A0EF:
+loc_BFBF:
 clc
 retn
-sub_A03F endp ;	sp =  2
+sub_BF0F endp ;	sp =  2
 
 
 
 
-sub_A0F1 proc near
+sub_BFC1 proc near
 cmp	byte ptr ds:28E7h, 2
-jnz	short locret_A103
+jnz	short locret_BFD3
 test	byte ptr [si+2], 10h
-jz	short loc_A104
+jz	short loc_BFD4
 mov	byte ptr ds:28E7h, 1
 
-locret_A103:
+locret_BFD3:
 retn
 
-loc_A104:
-jmp	sub_8C8A
-sub_A0F1 endp
+loc_BFD4:
+jmp	sub_AB5A
+sub_BFC1 endp
 
 db 0D0h, 0A1h, 0D6h, 0A1h, 0F7h, 0A1h, 44h
 db 0A2h, 48h, 0A2h, 0E8h, 0A1h,	0DCh, 0A1h
@@ -22379,10 +22378,10 @@ db 0D5h, 0, 0C3h
 
 
 
-sub_A1C4 proc near
+sub_C094 proc near
 mov	byte ptr ds:47A5h, 0FFh
 retn
-sub_A1C4 endp
+sub_C094 endp
 
 mov	byte ptr ds:47A5h, 0
 retn
@@ -22395,64 +22394,64 @@ retn
 
 
 
-sub_A1E2 proc near
+sub_C0B2 proc near
 cmp	byte ptr ds:47A5h, 0FFh
 retn
-sub_A1E2 endp
+sub_C0B2 endp
 
 
 
 
-sub_A1E8 proc near
+sub_C0B8 proc near
 inc	byte ptr ds:47A8h
 retn
-sub_A1E8 endp
+sub_C0B8 endp
 
 test	byte ptr [si], 80h
-jnz	short locret_A234
+jnz	short locret_C104
 inc	byte ptr ds:0C2h
 retn
 mov	bl, ds:2Ah
 mov	ax, 12F8h
 cmp	bl, 14h
-jb	short loc_A216
+jb	short loc_C0E6
 mov	ax, 134Fh
 cmp	bl, 18h
-jb	short loc_A216
+jb	short loc_C0E6
 mov	ax, 1370h
 cmp	bl, 30h	; '0'
-jb	short loc_A216
+jb	short loc_C0E6
 mov	ax, 12DBh
 
-loc_A216:
-jmp	sub_1771
+loc_C0E6:
+jmp	sub_3641
 test	byte ptr [si], 80h
-jnz	short locret_A234
+jnz	short locret_C104
 inc	byte ptr ds:2Ah
 mov	byte ptr ds:0FFh, 0
-call	sub_B17A
+call	sub_D04A
 cmp	byte ptr ds:2Ah, 1
-jnz	short locret_A234
-call	sub_100B
+jnz	short locret_C104
+call	sub_2EDB
 
-locret_A234:
+locret_C104:
 retn
 test	byte ptr [si], 80h
-jnz	short locret_A234
+jnz	short locret_C104
 mov	al, ds:2Ah
 and	al, 0FCh
 add	al, 4
-jmp	sub_121F
+jmp	sub_30EF
 xor	al, al
-jmp	short loc_A24A
+jmp	short loc_C11A
 mov	al, 1
 
-loc_A24A:
+loc_C11A:
 mov	ds:476Dh, al
 mov	byte ptr ds:9Fh, 0
 mov	bp, 1FFEh
 mov	bx, 0F66h
-call	sub_D323
+call	sub_F1F3
 push	si
 push	ds
 pop	es
@@ -22460,49 +22459,49 @@ mov	ax, ds:4780h
 mov	bx, 0A01h
 mov	di, 197Ch
 
-loc_A267:
+loc_C137:
 add	di, 8
 scasw
-ja	short loc_A267
-jnz	short loc_A28C
+ja	short loc_C137
+jnz	short loc_C15C
 cmp	word ptr [di], 38h ; '8'
-jnz	short loc_A276
+jnz	short loc_C146
 mov	bh, 10h
 
-loc_A276:
+loc_C146:
 mov	al, ds:47D0h
 dec	al
-js	short loc_A284
+js	short loc_C154
 shl	al, 1
 inc	ax
 shl	al, 1
 add	bh, al
 
-loc_A284:
+loc_C154:
 mov	ds:47E1h, bx
 mov	ds:47E4h, di
 
-loc_A28C:
+loc_C15C:
 pop	si
 retn
 push	si
 cmp	word ptr ds:47C4h, 0Eh
-jb	short loc_A2A0
+jb	short loc_C170
 mov	di, ds:47E6h
-call	sub_456C
+call	sub_643C
 mov	ds:0DC30h, ax
 
-loc_A2A0:
+loc_C170:
 cmp	byte ptr ds:28E7h, 1
-jz	short loc_A28C
+jz	short loc_C15C
 mov	ax, ds:47E6h
 cmp	ax, ds:114Eh
-jz	short loc_A28C
+jz	short loc_C15C
 mov	byte ptr ds:47A4h, 0
 mov	ax, 21h	; '!'
-call	sub_C13E
+call	sub_E00E
 mov	si, 22E4h
-call	sub_C21B
+call	sub_E0EB
 mov	si, ds:22FCh
 mov	cx, 2A80h
 add	si, cx
@@ -22516,142 +22515,142 @@ inc	di
 mov	ds:22FCh, di
 mov	di, ds:47E6h
 push	di
-call	sub_5B55
+call	sub_7A25
 mov	byte ptr ds:46EBh, 1
 mov	si, 22F4h
 mov	di, 46E3h
-call	sub_5B99
-call	sub_5B93
-call	sub_B6C3
-call	sub_C137
-call	sub_5DCE
+call	sub_7A69
+call	sub_7A63
+call	sub_D593
+call	sub_E007
+call	sub_7C9E
 pop	si
-call	loc_62FE
+call	loc_81CE
 mov	byte ptr ds:46EBh, 0
 mov	si, 22ECh
-call	sub_C477
+call	sub_E347
 pop	si
 retn
 
 
 
-sub_A30B proc near
+sub_C1DB proc near
 lods	byte ptr es:[si]
 cmp	al, 80h	; '€'
-jnb	short loc_A32A
+jnb	short loc_C1FA
 push	bx
 mov	bl, es:[si]
 inc	si
 xor	bh, bh
 cmp	al, 1
-jz	short loc_A322
+jz	short loc_C1F2
 mov	ax, [bx+0]
 pop	bx
 retn
 
-loc_A322:
+loc_C1F2:
 mov	al, [bx+0]
 xor	ah, ah
 pop	bx
 retn
 
-loc_A32A:
-jnz	short loc_A331
+loc_C1FA:
+jnz	short loc_C201
 lods	byte ptr es:[si]
 xor	ah, ah
 retn
 
-loc_A331:
+loc_C201:
 lods	word ptr es:[si]
 retn
-sub_A30B endp
+sub_C1DB endp
 
 
 
 
-sub_A334 proc near
+sub_C204 proc near
 and	bx, 1Fh
-jmp	cs:off_A376[bx]
+jmp	cs:off_C246[bx]
 
-loc_A33C:
+loc_C20C:
 add	dx, ax
 retn
 
-loc_A33F:
+loc_C20F:
 sub	dx, ax
 retn
 
-loc_A342:
+loc_C212:
 and	dx, ax
 retn
 
-loc_A345:
+loc_C215:
 or	dx, ax
 retn
 
-loc_A348:
+loc_C218:
 cmp	dx, ax
-jz	short loc_A372
+jz	short loc_C242
 xor	dx, dx
 retn
 
-loc_A34F:
+loc_C21F:
 cmp	dx, ax
-jb	short loc_A372
+jb	short loc_C242
 xor	dx, dx
 retn
 
-loc_A356:
+loc_C226:
 cmp	dx, ax
-ja	short loc_A372
+ja	short loc_C242
 xor	dx, dx
 retn
 
-loc_A35D:
+loc_C22D:
 cmp	dx, ax
-jnz	short loc_A372
+jnz	short loc_C242
 xor	dx, dx
 retn
 
-loc_A364:
+loc_C234:
 cmp	dx, ax
-jle	short loc_A372
+jle	short loc_C242
 xor	dx, dx
 retn
 
-loc_A36B:
+loc_C23B:
 cmp	dx, ax
-jge	short loc_A372
+jge	short loc_C242
 
-loc_A36F:
+loc_C23F:
 xor	dx, dx
 retn
 
-loc_A372:
+loc_C242:
 mov	dx, 0FFFFh
 retn
-sub_A334 endp
+sub_C204 endp
 
-off_A376 dw offset loc_A348
-dw offset loc_A34F
-dw offset loc_A356
-dw offset loc_A35D
-dw offset loc_A364
-dw offset loc_A36B
-dw offset loc_A33C
-dw offset loc_A33F
-dw offset loc_A342
-dw offset loc_A345
-dw offset loc_A36F
-dw offset loc_A36F
-dw offset loc_A36F
-dw offset loc_A36F
-dw offset loc_A36F
-dw offset loc_A36F
+off_C246 dw offset loc_C218
+dw offset loc_C21F
+dw offset loc_C226
+dw offset loc_C22D
+dw offset loc_C234
+dw offset loc_C23B
+dw offset loc_C20C
+dw offset loc_C20F
+dw offset loc_C212
+dw offset loc_C215
+dw offset loc_C23F
+dw offset loc_C23F
+dw offset loc_C23F
+dw offset loc_C23F
+dw offset loc_C23F
+dw offset loc_C23F
 
 
 
-sub_A396 proc near
+sub_C266 proc near
 sub	sp, 32h
 mov	bp, sp
 shl	ax, 1
@@ -22659,122 +22658,122 @@ les	si, ds:0AA72h
 add	si, ax
 mov	si, es:[si-2]
 
-loc_A3A7:
-call	sub_A30B
+loc_C277:
+call	sub_C1DB
 mov	dx, ax
 
-loc_A3AC:
+loc_C27C:
 lods	byte ptr es:[si]
 cmp	al, 0FFh
-jz	short loc_A3CB
+jz	short loc_C29B
 test	al, 80h
-jnz	short loc_A3C0
+jnz	short loc_C290
 mov	bl, al
-call	sub_A30B
-call	sub_A334
-jmp	short loc_A3AC
+call	sub_C1DB
+call	sub_C204
+jmp	short loc_C27C
 
-loc_A3C0:
+loc_C290:
 mov	[bp+0],	dx
 mov	[bp+2],	ax
 add	bp, 4
-jmp	short loc_A3A7
+jmp	short loc_C277
 
-loc_A3CB:
+loc_C29B:
 mov	si, sp
 cmp	si, bp
-jz	short loc_A3E2
+jz	short loc_C2B2
 mov	[bp+0],	dx
 lodsw
 mov	dx, ax
 
-loc_A3D7:
+loc_C2A7:
 lodsw
 mov	bx, ax
 lodsw
-call	sub_A334
+call	sub_C204
 cmp	si, bp
-jb	short loc_A3D7
+jb	short loc_C2A7
 
-loc_A3E2:
+loc_C2B2:
 add	sp, 32h
 or	dx, dx
 retn
-sub_A396 endp
+sub_C266 endp
 
 align 10h
 mov	ax, 1AD6h
-call	sub_D95E
-call	sub_D2BD
+call	sub_F82E
+call	sub_F18D
 
-loc_A3F9:
+loc_C2C9:
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 mov	ax, 55h	; 'U'
-call	sub_C13E
+call	sub_E00E
 xor	ax, ax
 mov	dx, ds:2886h
 mov	bx, ds:2888h
-call	sub_C22F
+call	sub_E0FF
 pop	word ptr ds:0DBDAh
-call	sub_A4C6
-call	sub_A47D
-call	sub_A42C
-call	sub_A44C
-call	sub_AC3A
+call	sub_C396
+call	sub_C34D
+call	sub_C2FC
+call	sub_C31C
+call	sub_CB0A
 mov	bx, 0A541h
-jmp	loc_D32F
+jmp	loc_F1FF
 
 
 
-sub_A42C proc near
+sub_C2FC proc near
 mov	ax, 55h	; 'U'
-call	sub_C13E
+call	sub_E00E
 mov	al, ds:0CEEBh
 
-loc_A435:
+loc_C305:
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 cbw
-call	sub_A465
+call	sub_C335
 shl	ax, 1
 add	al, 1Ch
-call	sub_C22F
+call	sub_E0FF
 pop	word ptr ds:0DBDAh
 retn
-sub_A42C endp
+sub_C2FC endp
 
 
 
 
-sub_A44C proc near
+sub_C31C proc near
 mov	al, ds:28E7h
 add	al, 8
-jmp	short loc_A435
-sub_A44C endp
+jmp	short loc_C305
+sub_C31C endp
 
 
 
 
-sub_A453 proc near
+sub_C323 proc near
 sub	dx, ds:2886h
 sub	bx, ds:2888h
 retn
-sub_A453 endp
+sub_C323 endp
 
 
 
 
-sub_A45C proc near
+sub_C32C proc near
 add	dx, ds:2886h
 add	bx, ds:2888h
 retn
-sub_A45C endp
+sub_C32C endp
 
 
 
 
-sub_A465 proc near
+sub_C335 proc near
 push	ax
 mov	dx, ds:28C7h
 mov	bx, 28DCh
@@ -22783,36 +22782,36 @@ mov	bl, 7
 mul	bl
 mov	bx, ax
 add	bx, ds:28C9h
-call	sub_A45C
+call	sub_C32C
 pop	ax
 retn
-sub_A465 endp
+sub_C335 endp
 
 
 
 
-sub_A47D proc near
+sub_C34D proc near
 test	word ptr ds:0DBC8h, 8
-jz	short loc_A48B
+jz	short loc_C35B
 mov	si, 28A6h
-call	sub_A49C
+call	sub_C36C
 
-loc_A48B:
+loc_C35B:
 test	word ptr ds:0DBC8h, 800h
-jz	short locret_A4C5
+jz	short locret_C395
 mov	si, 28AEh
-call	sub_A49C
+call	sub_C36C
 mov	si, 28B6h
-sub_A47D endp
+sub_C34D endp
 
 
 
 
-sub_A49C proc near
+sub_C36C proc near
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 mov	ax, 55h	; 'U'
-call	sub_C13E
+call	sub_E00E
 lodsb
 aam
 mov	al, ah
@@ -22822,54 +22821,54 @@ mov	byte ptr [si], 1
 inc	si
 mov	dx, [si]
 mov	bx, [si+2]
-call	sub_A45C
-call	sub_C22F
+call	sub_C32C
+call	sub_E0FF
 pop	word ptr ds:0DBDAh
 
-locret_A4C5:
+locret_C395:
 retn
-sub_A49C endp
+sub_C36C endp
 
 
 
 
-sub_A4C6 proc near
-call	sub_AE2F
-jz	short loc_A4DE
+sub_C396 proc near
+call	sub_CCFF
+jz	short loc_C3AE
 mov	si, 288Eh
-call	sub_A502
+call	sub_C3D2
 test	word ptr ds:0DBC8h, 4
-jnz	short loc_A4DE
+jnz	short loc_C3AE
 mov	byte ptr ds:288Fh, 0
 
-loc_A4DE:
-call	sub_AE28
-jz	short locret_A540
+loc_C3AE:
+call	sub_CCF8
+jz	short locret_C410
 mov	si, 2896h
-call	sub_A502
+call	sub_C3D2
 mov	si, 289Eh
-call	sub_A502
+call	sub_C3D2
 test	word ptr ds:0DBC8h, 400h
-jnz	short locret_A540
+jnz	short locret_C410
 mov	byte ptr ds:2897h, 0
 mov	byte ptr ds:289Fh, 0
 retn
-sub_A4C6 endp
+sub_C396 endp
 
 
 
 
-sub_A502 proc near
+sub_C3D2 proc near
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 push	si
 mov	ax, 55h	; 'U'
-call	sub_C13E
+call	sub_E00E
 mov	dx, [si+2]
 mov	bx, 22h	; '"'
-call	sub_A45C
+call	sub_C32C
 mov	ax, 1
-call	sub_C2FD
+call	sub_E1CD
 pop	si
 lodsb
 mov	byte ptr [si], 1
@@ -22882,67 +22881,67 @@ mov	bx, ax
 sub	ax, ds:2888h
 mov	[si+3],	ax
 mov	ax, 2
-call	sub_C22F
+call	sub_E0FF
 pop	word ptr ds:0DBDAh
 
-locret_A540:
+locret_C410:
 retn
-sub_A502 endp
+sub_C3D2 endp
 
 mov	al, ds:28E7h
 mov	ds:28E8h, al
-call	sub_DAA3
-call	sub_D95B
+call	sub_F973
+call	sub_F82B
 mov	si, 2886h
-jmp	sub_C4F0
+jmp	sub_E3C0
 
-loc_A553:
-call	sub_AE2F
-jz	short locret_A540
+loc_C423:
+call	sub_CCFF
+jz	short locret_C410
 mov	ax, 4
 mov	bx, 5
-call	sub_A8BC
-call	sub_A83F
-call	sub_ADE0
+call	sub_C78C
+call	sub_C70F
+call	sub_CCB0
 mov	byte ptr ds:0DC2Bh, 1
 mov	si, 3811h
 call	dword ptr ds:3991h
-jmp	sub_ABA9
+jmp	sub_CA79
 mov	di, 2886h
-call	sub_D6FE
-jb	short loc_A581
-jmp	sub_D2E2
+call	sub_F5CE
+jb	short loc_C451
+jmp	sub_F1B2
 
-loc_A581:
-call	sub_A453
+loc_C451:
+call	sub_C323
 mov	di, 28BFh
-call	sub_D6FE
-jb	short loc_A553
+call	sub_F5CE
+jb	short loc_C423
 mov	di, 28C7h
-call	sub_D6FE
-jb	short loc_A5B0
+call	sub_F5CE
+jb	short loc_C480
 
 
 
-sub_A594 proc near
-call	sub_A672
-jnb	short loc_A59F
+sub_C464 proc near
+call	sub_C542
+jnb	short loc_C46F
 mov	byte ptr ds:28BEh, 1
 retn
 
-loc_A59F:
-call	sub_A69F
-jnb	short loc_A5AA
+loc_C46F:
+call	sub_C56F
+jnb	short loc_C47A
 mov	byte ptr ds:28BEh, 2
 retn
 
-loc_A5AA:
+loc_C47A:
 mov	byte ptr ds:28BEh, 0
 retn
-sub_A594 endp
+sub_C464 endp
 
 
-loc_A5B0:
+loc_C480:
 sub	bx, [di+2]
 mov	ax, bx
 mov	bl, 7
@@ -22950,222 +22949,222 @@ div	bl
 mov	bx, 28CFh
 xlat
 cmp	al, 7
-jb	short loc_A5CA
-jz	short locret_A5DE
+jb	short loc_C49A
+jz	short locret_C4AE
 sub	al, 8
 mov	ds:28E7h, al
-jmp	short loc_A5DB
+jmp	short loc_C4AB
 
-loc_A5CA:
+loc_C49A:
 cmp	al, ds:0CEEBh
-jz	short locret_A5DE
+jz	short locret_C4AE
 and	byte ptr ds:28E7h, 0FDh
 mov	ds:0CEEBh, al
-call	loc_CFE4
+call	loc_EEB4
 
-loc_A5DB:
-jmp	loc_A3F9
+loc_C4AB:
+jmp	loc_C2C9
 
-locret_A5DE:
+locret_C4AE:
 retn
-call	sub_A453
+call	sub_C323
 sub	bx, cx
-call	sub_A594
+call	sub_C464
 cmp	byte ptr ds:28BEh, 1
-jz	short loc_A61A
+jz	short loc_C4EA
 cmp	byte ptr ds:28BEh, 2
-jnz	short locret_A619
+jnz	short locret_C4E9
 cmp	ax, 6
-jnb	short loc_A5FC
+jnb	short loc_C4CC
 neg	cx
 
-loc_A5FC:
+loc_C4CC:
 cmp	bp, 5
-jb	short loc_A603
+jb	short loc_C4D3
 neg	di
 
-loc_A603:
+loc_C4D3:
 mov	al, 0Ah
 add	cx, di
-jns	short loc_A60B
+jns	short loc_C4DB
 neg	al
 
-loc_A60B:
+loc_C4DB:
 add	al, [si]
 cmp	al, 0F1h ; 'ñ'
-jnb	short locret_A619
+jnb	short locret_C4E9
 mov	[si], al
 push	word ptr [si+6]
-jmp	sub_A49C
+jmp	sub_C36C
 
-locret_A619:
+locret_C4E9:
 retn
 
-loc_A61A:
-jcxz	short locret_A619
+loc_C4EA:
+jcxz	short locret_C4E9
 mov	ax, [si+4]
 add	ax, cx
 sub	ax, 22h	; '"'
 cmp	ax, 40h	; '@'
-jnb	short locret_A619
+jnb	short locret_C4E9
 shl	ax, 1
 shl	ax, 1
 not	ax
 mov	[si], al
 push	word ptr [si+6]
-jmp	sub_A502
+jmp	sub_C3D2
 
 
 
-sub_A637 proc near
+sub_C507 proc near
 test	word ptr ds:0DBC8h, 4
-jnz	short loc_A644
+jnz	short loc_C514
 mov	byte ptr ds:288Eh, 0FFh
 
-loc_A644:
+loc_C514:
 mov	al, ds:288Eh
 mov	ah, ds:28A6h
 call	dword ptr ds:39A5h
 retn
-sub_A637 endp
+sub_C507 endp
 
 
 
 
-sub_A650 proc near
+sub_C520 proc near
 test	word ptr ds:0DBC8h, 400h
-jnz	short loc_A660
+jnz	short loc_C530
 mov	al, 0FFh
 mov	ds:2896h, al
 mov	ds:289Eh, al
 
-loc_A660:
+loc_C530:
 mov	ah, ds:28AEh
 mov	al, ds:2896h
 cmp	al, 4
-jnb	short loc_A66D
+jnb	short loc_C53D
 mov	al, 4
 
-loc_A66D:
+loc_C53D:
 call	dword ptr ds:3985h
 retn
-sub_A650 endp
+sub_C520 endp
 
 
 
 
-sub_A672 proc near
+sub_C542 proc near
 mov	si, 288Eh
-call	sub_A685
-jb	short locret_A69E
+call	sub_C555
+jb	short locret_C56E
 mov	si, 2896h
-call	sub_A685
-jb	short locret_A69E
+call	sub_C555
+jb	short locret_C56E
 mov	si, 289Eh
-sub_A672 endp
+sub_C542 endp
 
 
 
 
-sub_A685 proc near
+sub_C555 proc near
 cmp	byte ptr [si+1], 1
 cmc
-jnb	short locret_A69E
+jnb	short locret_C56E
 mov	ax, dx
 sub	ax, [si+2]
 mov	bp, bx
 sub	bp, [si+4]
 cmp	ax, 16h
-jnb	short locret_A69E
+jnb	short locret_C56E
 cmp	bp, 5
 
-locret_A69E:
+locret_C56E:
 retn
-sub_A685 endp
+sub_C555 endp
 
 
 
 
-sub_A69F proc near
+sub_C56F proc near
 mov	si, 28A6h
-call	sub_A6B2
-jb	short locret_A6CB
+call	sub_C582
+jb	short locret_C59B
 mov	si, 28AEh
-call	sub_A6B2
-jb	short locret_A6CB
+call	sub_C582
+jb	short locret_C59B
 mov	si, 28B6h
-sub_A69F endp
+sub_C56F endp
 
 
 
 
-sub_A6B2 proc near
+sub_C582 proc near
 cmp	byte ptr [si+1], 1
 cmc
-jnb	short locret_A6CB
+jnb	short locret_C59B
 mov	ax, dx
 sub	ax, [si+2]
 mov	bp, bx
 sub	bp, [si+4]
 cmp	ax, 0Dh
-jnb	short locret_A6CB
+jnb	short locret_C59B
 cmp	bp, 0Bh
 
-locret_A6CB:
+locret_C59B:
 retn
-sub_A6B2 endp
+sub_C582 endp
 
 
 
 
-sub_A6CC proc near
+sub_C59C proc near
 cmp	bx, 0FFFFh
-jnz	short loc_A6E6
+jnz	short loc_C5B6
 mov	ax, 0FFFh
-xor	byte ptr cs:loc_A6D1+2,	10h
+xor	byte ptr cs:loc_C5A1+2,	10h
 mov	bx, ds:22A6h
-call	sub_A8BC
-call	sub_A7A5
-jmp	short loc_A740
+call	sub_C78C
+call	sub_C675
+jmp	short loc_C610
 
-loc_A6E6:
+loc_C5B6:
 push	bx
 cmp	bl, 0Eh
-jb	short loc_A6EE
+jb	short loc_C5BE
 mov	bl, 0Eh
 
-loc_A6EE:
+loc_C5BE:
 and	ah, 0F3h
 cmp	byte ptr ds:47DCh, 0
-jz	short loc_A701
+jz	short loc_C5D1
 sub	ax, ds:0D814h
 add	ax, 3E7h
-jmp	short loc_A710
+jmp	short loc_C5E0
 
-loc_A701:
+loc_C5D1:
 cmp	byte ptr ds:227Dh, 0
-jnz	short loc_A710
+jnz	short loc_C5E0
 shl	bx, 1
 sub	ax, [bx-280Ch]
 shr	bx, 1
 
-loc_A710:
+loc_C5E0:
 cmp	bl, 0Eh
-jnz	short loc_A727
+jnz	short loc_C5F7
 mov	cx, ax
 and	cl, 0FEh
 cmp	cl, 2Ch	; ','
-jnz	short loc_A727
+jnz	short loc_C5F7
 pop	cx
 mov	cl, 0Ch
 mov	ds:47C4h, cx
 push	cx
 
-loc_A727:
-call	sub_A8BC
-call	sub_A7A5
+loc_C5F7:
+call	sub_C78C
+call	sub_C675
 pop	ax
-call	sub_9123
+call	sub_AFF3
 shl	ax, 1
 shl	ax, 1
 shl	ax, 1
@@ -23173,90 +23172,90 @@ add	ax, 27FAh
 mov	si, ax
 mov	ds:0DC28h, si
 
-loc_A740:
+loc_C610:
 mov	byte ptr ds:0DC2Ah, 0FFh
-call	sub_A83F
-jb	short loc_A754
+call	sub_C70F
+jb	short loc_C624
 xor	byte ptr ds:37E2h, 6
-call	sub_A83F
-jnb	short locret_A75B
+call	sub_C70F
+jnb	short locret_C62B
 
-loc_A754:
-call	sub_ADE0
-call	sub_D617
+loc_C624:
+call	sub_CCB0
+call	sub_F4E7
 stc
 
-locret_A75B:
+locret_C62B:
 retn
-sub_A6CC endp
+sub_C59C endp
 
-; START	OF FUNCTION CHUNK FOR sub_9EFD
+; START	OF FUNCTION CHUNK FOR sub_BDCD
 
-loc_A75C:
-call	sub_9197
+loc_C62C:
+call	sub_B067
 mov	bp, 0
 mov	si, 0A7C2h
-call	sub_DA25
+call	sub_F8F5
 mov	byte ptr ds:0DC2Bh, 1
 mov	si, 3811h
 call	dword ptr ds:3991h
 mov	ax, ds:0CE7Ah
 mov	ds:0DC2Ch, ax
 mov	word ptr ds:0DC2Eh, 8000h
-call	sub_A814
-jnb	short locret_A788
-call	sub_A82E
+call	sub_C6E4
+jnb	short locret_C658
+call	sub_C6FE
 
-locret_A788:
+locret_C658:
 retn
-; END OF FUNCTION CHUNK	FOR sub_9EFD
-; START	OF FUNCTION CHUNK FOR sub_A7C2
+; END OF FUNCTION CHUNK	FOR sub_BDCD
+; START	OF FUNCTION CHUNK FOR sub_C692
 
-loc_A789:
+loc_C659:
 xor	ax, ax
 xchg	ax, ds:0DC30h
 or	ax, ax
-jz	short sub_A7A5
+jz	short sub_C675
 push	ax
-call	sub_A7A5
+call	sub_C675
 pop	ax
 add	ax, ds:0D810h
 mov	bl, 0Eh
-call	sub_A6CC
-jnb	short locret_A788
-jmp	short loc_A75C
-; END OF FUNCTION CHUNK	FOR sub_A7C2
+call	sub_C59C
+jnb	short locret_C658
+jmp	short loc_C62C
+; END OF FUNCTION CHUNK	FOR sub_C692
 
 
 
-sub_A7A5 proc near
+sub_C675 proc near
 mov	si, 0A7C2h
-call	sub_DA5F
+call	sub_F92F
 mov	word ptr ds:0DC26h, 0
-call	sub_D61D
-call	sub_ABCC
-jz	short locret_A788
-call	sub_ABC6
-call	sub_A9A1
-jmp	sub_ADED
-sub_A7A5 endp
+call	sub_F4ED
+call	sub_CA9C
+jz	short locret_C658
+call	sub_CA96
+call	sub_C871
+jmp	sub_CCBD
+sub_C675 endp
 
 
 
 
-sub_A7C2 proc near
+sub_C692 proc near
 
 ; FUNCTION CHUNK AT A789 SIZE 0000001C BYTES
 
-call	sub_ABCC
-jz	short locret_A788
+call	sub_CA9C
+jz	short locret_C658
 cmp	word ptr ds:0DC26h, 0
-jnz	short loc_A7D5
-call	sub_A9E7
-jnz	short loc_A789
-jmp	short loc_A811
+jnz	short loc_C6A5
+call	sub_C8B7
+jnz	short loc_C659
+jmp	short loc_C6E1
 
-loc_A7D5:
+loc_C6A5:
 mov	dx, ds:0CE7Ah
 xor	di, di
 mov	bx, ds:0DC2Ch
@@ -23266,80 +23265,80 @@ mov	si, ds:2884h
 add	bp, si
 adc	bx, cx
 sub	dx, bx
-js	short loc_A811
+js	short loc_C6E1
 
-loc_A7F3:
+loc_C6C3:
 push	di
-call	sub_A814
+call	sub_C6E4
 pop	di
-jnb	short loc_A789
+jnb	short loc_C659
 sub	di, si
 sbb	dx, cx
-jb	short loc_A806
+jb	short loc_C6D6
 add	bp, si
 adc	bx, cx
-jmp	short loc_A7F3
+jmp	short loc_C6C3
 
-loc_A806:
+loc_C6D6:
 mov	ds:0DC2Ch, bx
 mov	ds:0DC2Eh, bp
-call	sub_A82E
+call	sub_C6FE
 
-loc_A811:
-jmp	sub_A9B9
-sub_A7C2 endp
-
-
+loc_C6E1:
+jmp	sub_C889
+sub_C692 endp
 
 
-sub_A814 proc near
+
+
+sub_C6E4 proc near
 mov	di, ds:0DC26h
 or	di, di
-jz	short locret_A82D
+jz	short locret_C6FD
 mov	es, word ptr ds:3813h
 mov	al, es:[di]
 cmp	al, 0FFh
-jnb	short locret_A82D
+jnb	short locret_C6FD
 inc	di
 mov	ds:0DC26h, di
 stc
 
-locret_A82D:
+locret_C6FD:
 retn
-sub_A814 endp
+sub_C6E4 endp
 
 
 
 
-sub_A82E proc near
+sub_C6FE proc near
 
 ; FUNCTION CHUNK AT 9DE3 SIZE 000000F2 BYTES
 
 cmp	al, ds:0DC2Ah
-jz	short locret_A83E
+jz	short locret_C70E
 mov	ds:0DC2Ah, al
 mov	si, ds:0DC28h
-jmp	loc_9DE3
+jmp	loc_BCB3
 
-locret_A83E:
+locret_C70E:
 retn
-sub_A82E endp
+sub_C6FE endp
 
 
 
 
-sub_A83F proc near
+sub_C70F proc near
 mov	word ptr ds:0DC26h, 0
-call	sub_AE2F
-jz	short locret_A87D
-call	sub_AC14
-call	sub_A90B
+call	sub_CCFF
+jz	short locret_C74D
+call	sub_CAE4
+call	sub_C7DB
 cmc
-jnb	short locret_A87D
+jnb	short locret_C74D
 les	di, ds:3811h
 add	di, 1Ah
 cmp	byte ptr es:[di], 5
-jnz	short loc_A871
+jnz	short loc_C741
 mov	cx, es:[di+1]
 add	di, 4
 mov	ax, di
@@ -23347,34 +23346,34 @@ add	ax, 2
 mov	ds:0DC26h, ax
 add	di, cx
 
-loc_A871:
+loc_C741:
 mov	ds:3811h, di
 sub	ds:3815h, di
-call	sub_A9B9
+call	sub_C889
 stc
 
-locret_A87D:
+locret_C74D:
 retn
-sub_A83F endp
+sub_C70F endp
 
 
 
 
-sub_A87E proc near
+sub_C74E proc near
 pushf
 sti
-call	sub_AE2F
-jz	short loc_A8AF
-call	sub_AC14
+call	sub_CCFF
+jz	short loc_C77F
+call	sub_CAE4
 mov	al, 0Bh
-call	sub_ABE9
+call	sub_CAB9
 mov	si, 3811h
 call	dword ptr ds:3991h
 push	word ptr ds:0CE7Ah
 
-loc_A898:
-call	sub_A9E7
-jz	short loc_A898
+loc_C768:
+call	sub_C8B7
+jz	short loc_C768
 mov	ax, ds:0CE7Ah
 pop	bx
 sub	ax, bx
@@ -23383,29 +23382,29 @@ mul	cx
 mov	ds:2882h, dx
 mov	ds:2884h, ax
 
-loc_A8AF:
+loc_C77F:
 popf
 retn
-sub_A87E endp
+sub_C74E endp
 
 
 
 
-sub_A8B1 proc near
+sub_C781 proc near
 and	al, 0Fh
 add	al, 30h	; '0'
 cmp	al, 39h	; '9'
-jbe	short locret_A8BB
+jbe	short locret_C78B
 add	al, 7
 
-locret_A8BB:
+locret_C78B:
 retn
-sub_A8B1 endp
+sub_C781 endp
 
 
 
 
-sub_A8BC proc near
+sub_C78C proc near
 mov	di, 37DBh
 push	ds
 pop	es
@@ -23419,52 +23418,52 @@ stosb
 pop	bx
 mov	cl, 4
 mov	al, bh
-call	sub_A8B1
+call	sub_C781
 stosb
 mov	al, bl
 shr	al, cl
-call	sub_A8B1
+call	sub_C781
 stosb
 mov	al, bl
-call	sub_A8B1
+call	sub_C781
 stosb
 mov	al, 4Fh	; 'O'
 cmp	byte ptr ds:0EAh, 0
-jg	short loc_A8FA
+jg	short loc_C7CA
 cmp	byte ptr ds:6, 80h ; '€'
-jnz	short loc_A8FA
+jnz	short loc_C7CA
 cmp	byte ptr ds:4, 1
-jz	short loc_A8FA
+jz	short loc_C7CA
 mov	al, 49h	; 'I'
 
-loc_A8FA:
+loc_C7CA:
 stosb
 mov	al, 20h	; ' '
 shr	bh, cl
 or	bh, ds:47E0h
-jz	short loc_A909
+jz	short loc_C7D9
 mov	al, bh
 add	al, 41h	; 'A'
 
-loc_A909:
+loc_C7D9:
 stosb
 
-locret_A90A:
+locret_C7DA:
 retn
-sub_A8BC endp
+sub_C78C endp
 
 
 
 
-sub_A90B proc near
+sub_C7DB proc near
 mov	dx, 37DAh
 xor	ax, ax
 mov	ds:3811h, ax
 mov	ds:3817h, ax
 mov	ds:381Fh, ax
 mov	ds:3823h, al
-call	sub_F1FB
-jb	short locret_A90A
+call	sub_110CB
+jb	short locret_C7DA
 mov	ds:3821h, bx
 sub	cx, 1
 sbb	bp, 0
@@ -23474,12 +23473,12 @@ mov	ds:0DBC0h, ax
 mov	ds:0DBC2h, dx
 mov	si, 3811h
 les	dx, [si]
-sub_A90B endp
+sub_C7DB endp
 
 
 
 
-sub_A93F proc near
+sub_C80F proc near
 push	dx
 mov	dx, ds:0DBC0h
 mov	cx, ds:0DBC2h
@@ -23493,11 +23492,11 @@ mov	cx, 2000h
 mov	ax, ds:0DBC4h
 sub	ds:0DBC4h, cx
 sbb	word ptr ds:0DBC6h, 0
-jnb	short loc_A964
+jnb	short loc_C834
 mov	cx, ax
 inc	cx
 
-loc_A964:
+loc_C834:
 push	es
 pop	ds
 mov	ah, 3Fh
@@ -23507,120 +23506,120 @@ int	21h		; DOS -	2+ - READ FROM FILE WITH HANDLE
 pop	ds
 pop	si
 mov	[si+4],	ax
-jb	short locret_A9B8
+jb	short locret_C888
 add	ds:0DBC0h, ax
 adc	word ptr ds:0DBC2h, 0
 mov	byte ptr ds:376Ah, 0FFh
 mov	byte ptr [si+6], 1
 mov	bl, ds:3823h
 cmp	bl, 3Fh	; '?'
-jnb	short loc_A992
+jnb	short loc_C862
 inc	byte ptr ds:3823h
 inc	bl
 
-loc_A992:
+loc_C862:
 mov	[si+7],	bl
 cmp	word ptr ds:0DBC6h, 0
 clc
-jns	short locret_A9B8
+jns	short locret_C888
 or	byte ptr [si+7], 80h
-sub_A93F endp
+sub_C80F endp
 
 
 
 
-sub_A9A1 proc near
+sub_C871 proc near
 xor	bx, bx
 xchg	bx, ds:3821h
 or	bx, bx
-jz	short loc_A9B7
+jz	short loc_C887
 cmp	bx, ds:0DBBAh
-jz	short loc_A9B7
+jz	short loc_C887
 push	ax
 mov	ah, 3Eh
 int	21h		; DOS -	2+ - CLOSE A FILE WITH HANDLE
 			; BX = file handle
 pop	ax
 
-loc_A9B7:
+loc_C887:
 clc
 
-locret_A9B8:
+locret_C888:
 retn
-sub_A9A1 endp
+sub_C871 endp
 
 
 
 
-sub_A9B9 proc near
-call	sub_ABA3
-jz	short locret_A9E6
+sub_C889 proc near
+call	sub_CA73
+jz	short locret_C8B6
 mov	si, 3811h
 cmp	byte ptr ds:3817h, 0
-jz	short loc_A9D2
+jz	short loc_C8A2
 cmp	byte ptr ds:381Fh, 0
-jnz	short locret_A9E6
+jnz	short locret_C8B6
 mov	si, 3819h
 
-loc_A9D2:
+loc_C8A2:
 mov	bx, ds:3821h
 les	dx, [si]
 add	dx, 6
 push	si
-call	sub_A93F
+call	sub_C80F
 pop	si
-jb	short locret_A9E6
+jb	short locret_C8B6
 call	dword ptr ds:39A1h
 
-locret_A9E6:
+locret_C8B6:
 retn
-sub_A9B9 endp
+sub_C889 endp
 
 
 
 
-sub_A9E7 proc near
+sub_C8B7 proc near
 cmp	byte ptr ds:3817h, 3
-jz	short locret_A9F3
+jz	short locret_C8C3
 cmp	byte ptr ds:381Fh, 3
 
-locret_A9F3:
+locret_C8C3:
 retn
-sub_A9E7 endp
+sub_C8B7 endp
 
 
 
 
-sub_A9F4 proc near
+sub_C8C4 proc near
 mov	si, ds:3824h
 les	di, [si]
 add	di, 6
-call	sub_AA70
+call	sub_C940
 call	dword ptr ds:39A1h
 mov	ax, 3811h
 xor	ax, 3819h
 xor	ds:3824h, ax
 
-locret_AA0E:
+locret_C8DE:
 retn
-sub_A9F4 endp
+sub_C8C4 endp
 
 
 
 
-sub_AA0F proc near
+sub_C8DF proc near
 mov	ax, ds:0DC1Ch
 inc	ax
-jz	short locret_AA0E
+jz	short locret_C8DE
 mov	byte ptr ds:376Ah, 0FFh
-call	sub_AC14
+call	sub_CAE4
 xor	ax, ax
 mov	ds:3811h, ax
 mov	ds:3817h, ax
 mov	ds:381Fh, ax
 mov	si, 3811h
 les	di, [si]
-call	sub_AA70
+call	sub_C940
 sub	word ptr ds:3815h, 20h ; ' '
 mov	cx, ds:3815h
 mov	ds:381Dh, cx
@@ -23644,12 +23643,12 @@ call	dword ptr ds:3991h
 mov	si, 3811h
 call	dword ptr ds:39A1h
 retn
-sub_AA0F endp
+sub_C8DF endp
 
 
 
 
-sub_AA70 proc near
+sub_C940 proc near
 push	si
 push	ds
 mov	si, ds:0DC1Ch
@@ -23667,243 +23666,243 @@ mov	[si+4],	ax
 mov	byte ptr [si+6], 1
 mov	byte ptr [si+7], 41h ; 'A'
 retn
-sub_AA70 endp
+sub_C940 endp
 
 
 
 
-sub_AA96 proc near
+sub_C966 proc near
 xor	ax, ax
 cmp	ds:4774h, ah
-jz	short loc_AAA7
+jz	short loc_C977
 cmp	byte ptr ds:2Ah, 48h ; 'H'
-jnz	short locret_AB14
-jmp	short loc_AB12
+jnz	short locret_C9E4
+jmp	short loc_C9E2
 
-loc_AAA7:
+loc_C977:
 mov	al, 0Dh
 cmp	ds:46D9h, ah
-jnz	short locret_AB14
+jnz	short locret_C9E4
 mov	al, 1
 cmp	ds:0DD03h, ah
-jnz	short locret_AB14
+jnz	short locret_C9E4
 inc	ax
 cmp	ds:0FBh, ah
-js	short locret_AB14
+js	short locret_C9E4
 inc	ax
 cmp	ds:0C6h, ah
-jnz	short locret_AB14
+jnz	short locret_C9E4
 inc	ax
 cmp	ds:0EAh, ah
-jg	short locret_AB14
+jg	short locret_C9E4
 inc	ax
 mov	dx, ds:4
 mov	bx, ds:6
 cmp	bl, 80h	; '€'
-jnz	short loc_AADF
+jnz	short loc_C9AF
 cmp	dl, 1
-jnz	short loc_AAEF
+jnz	short loc_C9BF
 
-loc_AADF:
+loc_C9AF:
 mov	bl, ds:11C9h
 and	bl, 3
-jz	short locret_AB14
+jz	short locret_C9E4
 inc	ax
 dec	bl
-jz	short locret_AB14
+jz	short locret_C9E4
 inc	ax
 retn
 
-loc_AAEF:
+loc_C9BF:
 cmp	dh, 20h	; ' '
-jnb	short loc_AB08
+jnb	short loc_C9D8
 mov	al, 9
 cmp	dh, 7
 sbb	al, 0
 cmp	byte ptr ds:2Ah, 48h ; 'H'
-jb	short locret_AB14
+jb	short locret_C9E4
 shr	bl, 1
-jb	short locret_AB14
-jmp	short loc_AB12
+jb	short locret_C9E4
+jmp	short loc_C9E2
 
-loc_AB08:
+loc_C9D8:
 mov	al, 0Ch
-jnz	short locret_AB14
+jnz	short locret_C9E4
 dec	ax
 cmp	dl, 3
-jnz	short locret_AB14
+jnz	short locret_C9E4
 
-loc_AB12:
+loc_C9E2:
 mov	al, 0Ah
 
-locret_AB14:
+locret_C9E4:
 retn
-sub_AA96 endp
+sub_C966 endp
 
 
 
 
-sub_AB15 proc near
-call	sub_ABCC
-jnz	short locret_AB44
-call	sub_AE2F
-jz	short locret_AB44
+sub_C9E5 proc near
+call	sub_CA9C
+jnz	short locret_CA14
+call	sub_CCFF
+jz	short locret_CA14
 push	es
-call	sub_E270
+call	sub_10140
 cmp	al, ds:376Ah
-jz	short loc_AB35
-call	sub_AC14
+jz	short loc_CA05
+call	sub_CAE4
 or	al, al
-jz	short loc_AB40
-call	sub_ABE9
-jmp	short loc_AB39
+jz	short loc_CA10
+call	sub_CAB9
+jmp	short loc_CA09
 
-loc_AB35:
+loc_CA05:
 les	di, ds:3811h
 
-loc_AB39:
+loc_CA09:
 mov	si, 3811h
 call	dword ptr ds:3991h
 
-loc_AB40:
-call	sub_E283
+loc_CA10:
+call	sub_10153
 pop	es
 
-locret_AB44:
+locret_CA14:
 retn
-sub_AB15 endp
+sub_C9E5 endp
 
 
 
 
-sub_AB45 proc near
-call	sub_AE2F
-jz	short locret_AB44
+sub_CA15 proc near
+call	sub_CCFF
+jz	short locret_CA14
 push	ax
-call	sub_ADE0
+call	sub_CCB0
 pop	ax
-sub_AB45 endp
+sub_CA15 endp
 
 
 
 
-sub_AB4F proc near
+sub_CA1F proc near
 mov	byte ptr ds:47E0h, 0
 mov	bx, 19h
-call	sub_A8BC
+call	sub_C78C
 mov	byte ptr ds:37E2h, 49h ; 'I'
-call	sub_ABCC
-jnz	short locret_AB44
-call	sub_AE2F
-jz	short locret_AB44
+call	sub_CA9C
+jnz	short locret_CA14
+call	sub_CCFF
+jz	short locret_CA14
 push	es
-call	sub_E270
-call	sub_AC14
-call	sub_A90B
-jb	short loc_AB8D
+call	sub_10140
+call	sub_CAE4
+call	sub_C7DB
+jb	short loc_CA5D
 add	word ptr ds:3811h, 1Ah
-call	sub_A9B9
+call	sub_C889
 mov	si, 0AB92h
 mov	bp, 1
-call	sub_DA25
+call	sub_F8F5
 mov	si, 3811h
 call	dword ptr ds:3991h
 
-loc_AB8D:
-call	sub_E283
+loc_CA5D:
+call	sub_10153
 pop	es
 retn
-sub_AB4F endp ;	sp =  2
+sub_CA1F endp ;	sp =  2
 
 
 
 
-sub_AB92 proc near
-call	sub_A9B9
-call	sub_ABA3
-jnz	short locret_AB44
-call	sub_ADED
+sub_CA62 proc near
+call	sub_C889
+call	sub_CA73
+jnz	short locret_CA14
+call	sub_CCBD
 mov	si, 0AB92h
-jmp	sub_DA5F
-sub_AB92 endp
+jmp	sub_F92F
+sub_CA62 endp
 
 
 
 
-sub_ABA3 proc near
+sub_CA73 proc near
 cmp	word ptr ds:3821h, 0
 retn
-sub_ABA3 endp
+sub_CA73 endp
 
 
 
 
-sub_ABA9 proc near
-call	sub_AE2F
-jz	short locret_AB44
+sub_CA79 proc near
+call	sub_CCFF
+jz	short locret_CA14
 mov	bx, ds:0CE7Ah
 
-loc_ABB2:
+loc_CA82:
 push	bx
-call	sub_AB92
-call	sub_ABA3
+call	sub_CA62
+call	sub_CA73
 pop	bx
-jz	short sub_ABC6
+jz	short sub_CA96
 mov	ax, ds:0CE7Ah
 sub	ax, bx
 cmp	ax, 3E8h
-jb	short loc_ABB2
-sub_ABA9 endp
+jb	short loc_CA82
+sub_CA79 endp
 
 
 
 
-sub_ABC6 proc near
+sub_CA96 proc near
 mov	byte ptr ds:0DC2Bh, 0
 retn
-sub_ABC6 endp
+sub_CA96 endp
 
 
 
 
-sub_ABCC proc near
+sub_CA9C proc near
 cmp	byte ptr ds:0DC2Bh, 0
 retn
-sub_ABCC endp
+sub_CA9C endp
 
-; START	OF FUNCTION CHUNK FOR sub_ABD5
+; START	OF FUNCTION CHUNK FOR sub_CAA5
 
-loc_ABD2:
-call	sub_A7C2
-; END OF FUNCTION CHUNK	FOR sub_ABD5
+loc_CAA2:
+call	sub_C692
+; END OF FUNCTION CHUNK	FOR sub_CAA5
 
 
 
-sub_ABD5 proc near
+sub_CAA5 proc near
 
 ; FUNCTION CHUNK AT ABD2 SIZE 00000003 BYTES
 
-call	sub_ABCC
-jnz	short loc_ABD2
+call	sub_CA9C
+jnz	short loc_CAA2
 retn
-sub_ABD5 endp
+sub_CAA5 endp
 
 
 
 
-sub_ABDB proc near
-call	sub_AEC6
-jb	short locret_AC13
-call	sub_AE2F
+sub_CAAB proc near
+call	sub_CD96
+jb	short locret_CAE3
+call	sub_CCFF
 stc
-jz	short locret_AC13
-call	sub_A9A1
-sub_ABDB endp
+jz	short locret_CAE3
+call	sub_C871
+sub_CAAB endp
 
 
 
 
-sub_ABE9 proc near
+sub_CAB9 proc near
 mov	word ptr ds:3811h, 0
 les	di, ds:3811h
 add	word ptr ds:3811h, 1Ah
@@ -23911,19 +23910,19 @@ xor	ah, ah
 mov	si, ax
 add	si, 0AEh ; '®'
 mov	ds:376Ah, al
-call	sub_F0B9
+call	sub_10F89
 sub	cx, 1Ah
 mov	ds:3815h, cx
 mov	word ptr ds:3817h, 8101h
 
-locret_AC13:
+locret_CAE3:
 retn
-sub_ABE9 endp
+sub_CAB9 endp
 
 
 
 
-sub_AC14 proc near
+sub_CAE4 proc near
 push	ax
 push	bx
 push	cx
@@ -23932,8 +23931,8 @@ push	di
 push	bp
 push	es
 mov	si, 0AB92h
-call	sub_DA5F
-call	sub_A9A1
+call	sub_F92F
+call	sub_C871
 call	dword ptr ds:3995h
 pop	es
 pop	bp
@@ -23943,55 +23942,55 @@ pop	cx
 pop	bx
 pop	ax
 retn
-sub_AC14 endp
+sub_CAE4 endp
 
 
 
 
-sub_AC30 proc near
+sub_CB00 proc near
 call	dword ptr ds:3999h
 retn
-sub_AC30 endp
+sub_CB00 endp
 
 call	dword ptr ds:399Dh
 retn
 
 
 
-sub_AC3A proc near
+sub_CB0A proc near
 mov	bp, 201Ah
 or	byte ptr [bp+3], 40h
 or	byte ptr [bp+7], 40h
 or	byte ptr [bp+0Bh], 40h
 mov	cl, 0FFh
-call	sub_AE28
-jz	short locret_AC6D
+call	sub_CCF8
+jz	short locret_CB3D
 and	byte ptr [bp+3], 0BFh
 and	byte ptr [bp+7], 0BFh
 and	byte ptr [bp+0Bh], 0BFh
 xor	cx, cx
 test	byte ptr ds:2943h, 10h
-jnz	short locret_AC6D
+jnz	short locret_CB3D
 mov	cl, ds:3810h
 and	cl, 1
 inc	cx
 
-locret_AC6D:
+locret_CB3D:
 retn
-sub_AC3A endp
+sub_CB0A endp
 
 and	byte ptr ds:2943h, 0EFh
 mov	byte ptr ds:3810h, 0
-call	sub_D2E2
-jmp	sub_AD5E
+call	sub_F1B2
+jmp	sub_CC2E
 mov	bp, 206Ah
 mov	bx, 0D917h
 mov	cl, ds:3810h
 and	cx, 2
 shr	cl, 1
-jmp	loc_D32F
+jmp	loc_F1FF
 or	byte ptr ds:3810h, 3
-jmp	short loc_ACAE
+jmp	short loc_CB7E
 or	byte ptr ds:3810h, 1
 and	byte ptr ds:3810h, 0FDh
 push	ds
@@ -24001,158 +24000,158 @@ mov	di, 37FAh
 mov	cx, 9
 rep movsb
 
-loc_ACAE:
-call	sub_AEB7
-call	loc_D2FD
-call	sub_D2E2
+loc_CB7E:
+call	sub_CD87
+call	loc_F1CD
+call	sub_F1B2
 and	byte ptr ds:2943h, 0EFh
-jmp	short loc_AD21
+jmp	short loc_CBF1
 db 90h
 
 
 
-sub_ACBF proc near
+sub_CB8F proc near
 mov	bp, 37FAh
 mov	cx, 12h
 
-loc_ACC5:
+loc_CB95:
 mov	bx, 8
-call	sub_E3DF
+call	sub_102AF
 mov	si, ax
 mov	ax, ds:0CE7Ah
 xor	ax, cx
 add	ds:0D828h, ax
-call	sub_E3DF
+call	sub_102AF
 mov	di, ax
 mov	al, [bp+si]
 xchg	al, [bp+di]
 mov	[bp+si], al
-loop	loc_ACC5
+loop	loc_CB95
 mov	si, bp
 retn
-sub_ACBF endp
+sub_CB8F endp
 
 
 
 
-sub_ACE6 proc near
-call	sub_ABCC
-jnz	short locret_AD36
+sub_CBB6 proc near
+call	sub_CA9C
+jnz	short locret_CC06
 test	byte ptr ds:3810h, 1
-jz	short loc_AD37
+jz	short loc_CC07
 cmp	byte ptr ds:227Dh, 0
-jnz	short locret_AD36
+jnz	short locret_CC06
 cmp	byte ptr ds:0DBCDh, 0
-js	short locret_AD36
+js	short locret_CC06
 mov	ax, ds:0DBD2h
 or	ax, ax
-jnz	short loc_AD0D
+jnz	short loc_CBDD
 mov	ax, ds:0CE7Ah
 mov	ds:0DBD2h, ax
 
-loc_AD0D:
+loc_CBDD:
 sub	ax, ds:0CE7Ah
 neg	ax
 cmp	ax, 0C8h ; 'È'
-jb	short locret_AD36
+jb	short locret_CC06
 
-loc_AD18:
+loc_CBE8:
 mov	si, ds:380Eh
 lodsb
 or	al, al
-jns	short loc_AD30
+jns	short loc_CC00
 
-loc_AD21:
+loc_CBF1:
 mov	si, 37FAh
 lodsb
 test	byte ptr ds:3810h, 2
-jz	short loc_AD30
-call	sub_ACBF
+jz	short loc_CC00
+call	sub_CB8F
 lodsb
 
-loc_AD30:
+loc_CC00:
 mov	ds:380Eh, si
-jmp	short loc_AD95
+jmp	short loc_CC65
 
-locret_AD36:
+locret_CC06:
 retn
 
-loc_AD37:
-call	sub_AEC6
-jb	short locret_AD36
+loc_CC07:
+call	sub_CD96
+jb	short locret_CC06
 cmp	byte ptr ds:0DBCDh, 0
-js	short locret_AD36
-sub_ACE6 endp
+js	short locret_CC06
+sub_CBB6 endp
 
 
 
 
-sub_AD43 proc near
+sub_CC13 proc near
 mov	al, ds:0DBCCh
 mov	byte ptr ds:0DBCBh, 0
 or	al, al
-jnz	short loc_AD95
+jnz	short loc_CC65
 retn
-sub_AD43 endp
+sub_CC13 endp
 
 
 
 
-sub_AD50 proc near
-call	sub_AEB7
+sub_CC20 proc near
+call	sub_CD87
 mov	al, 3
-jmp	short loc_AD95
-sub_AD50 endp
+jmp	short loc_CC65
+sub_CC20 endp
 
 
 
 
-sub_AD57 proc near
-call	sub_AEB7
+sub_CC27 proc near
+call	sub_CD87
 mov	al, 6
-jmp	short loc_AD95
-sub_AD57 endp
+jmp	short loc_CC65
+sub_CC27 endp
 
 
 
 
-sub_AD5E proc near
-call	sub_AEC6
-jb	short locret_AD74
-call	sub_AA96
+sub_CC2E proc near
+call	sub_CD96
+jb	short locret_CC44
+call	sub_C966
 cmp	byte ptr ds:3810h, 0
-jz	short loc_AD75
+jz	short loc_CC45
 cmp	byte ptr ds:0DBCDh, 0
-jns	short loc_AD18
+jns	short loc_CBE8
 
-locret_AD74:
+locret_CC44:
 retn
 
-loc_AD75:
+loc_CC45:
 mov	bx, 375Ch
 xlat
 or	al, al
-jz	short locret_ADBD
+jz	short locret_CC8D
 or	al, al
-js	short loc_AD89
+js	short loc_CC59
 mov	ds:0DBCCh, al
 call	dword ptr ds:3979h
 retn
 
-loc_AD89:
+loc_CC59:
 and	al, 3Fh
 mov	ds:0DBCCh, al
 cmp	al, ds:0DBCBh
-jnz	short sub_ADBE
+jnz	short sub_CC8E
 retn
 
-loc_AD95:
+loc_CC65:
 xor	ah, ah
-call	sub_AEC6
-jb	short locret_ADBD
+call	sub_CD96
+jb	short locret_CC8D
 cmp	al, ds:0DBCBh
-jz	short locret_ADBD
-call	sub_AE62
+jz	short locret_CC8D
+call	sub_CD32
 mov	ds:0DBCBh, al
 les	si, ds:0DBB6h
 mov	al, ds:3810h
@@ -24162,20 +24161,20 @@ mov	ds:0DBCDh, al
 xor	ax, ax
 mov	ds:0DBD2h, ax
 
-locret_ADBD:
+locret_CC8D:
 retn
-sub_AD5E endp
+sub_CC2E endp
 
 
 
 
-sub_ADBE proc near
-call	sub_AEC6
-jb	short locret_ADBD
+sub_CC8E proc near
+call	sub_CD96
+jb	short locret_CC8D
 test	byte ptr ds:3810h, 1
-jnz	short locret_ADBD
+jnz	short locret_CC8D
 test	byte ptr ds:0DBCDh, 40h
-jnz	short locret_ADBD
+jnz	short locret_CC8D
 push	bx
 mov	ax, 12Ch
 xor	bx, bx
@@ -24183,68 +24182,68 @@ call	dword ptr ds:397Dh
 mov	ds:0DBCDh, al
 pop	bx
 retn
-sub_ADBE endp
+sub_CC8E endp
 
 
 
 
-sub_ADE0 proc near
+sub_CCB0 proc near
 mov	ax, 64h	; 'd'
 mov	bl, ds:289Eh
 mov	bh, ds:28B6h
-jmp	short loc_ADF8
-sub_ADE0 endp
+jmp	short loc_CCC8
+sub_CCB0 endp
 
 
 
 
-sub_ADED proc near
+sub_CCBD proc near
 mov	ax, 190h
 mov	bl, ds:2896h
 mov	bh, ds:28AEh
 
-loc_ADF8:
+loc_CCC8:
 cmp	bl, 4
-jnb	short loc_ADFF
+jnb	short loc_CCCF
 mov	bl, 4
 
-loc_ADFF:
+loc_CCCF:
 call	dword ptr ds:397Dh
 retn
-sub_ADED endp
+sub_CCBD endp
 
 
 
 
-sub_AE04 proc near
-call	sub_AEC6
-jb	short locret_ADBD
+sub_CCD4 proc near
+call	sub_CD96
+jb	short locret_CC8D
 test	byte ptr ds:3810h, 1
-jnz	short locret_ADBD
+jnz	short locret_CC8D
 cmp	byte ptr ds:0DBCDh, 0
-jns	short loc_AE1E
+jns	short loc_CCEE
 test	byte ptr ds:0DBCDh, 40h
-jz	short locret_ADBD
+jz	short locret_CC8D
 
-loc_AE1E:
-call	sub_E270
-call	sub_AD43
-call	sub_E283
+loc_CCEE:
+call	sub_10140
+call	sub_CC13
+call	sub_10153
 retn
-sub_AE04 endp
+sub_CCD4 endp
 
 
 
 
-sub_AE28 proc near
+sub_CCF8 proc near
 test	word ptr ds:0DBC8h, 100h
 retn
-sub_AE28 endp
+sub_CCF8 endp
 
 
 
 
-sub_AE2F proc near
+sub_CCFF proc near
 push	ax
 push	ds
 mov	ax, seg	seg001
@@ -24255,42 +24254,42 @@ pop	ds
 assume ds:nothing
 pop	ax
 
-locret_AE3E:
+locret_CD0E:
 retn
-sub_AE2F endp
+sub_CCFF endp
 
 
 
 
-sub_AE3F proc near
-call	sub_AE28
-jz	short locret_AE3E
+sub_CD0F proc near
+call	sub_CCF8
+jz	short locret_CD0E
 mov	di, 0DBB6h
 mov	ax, [di]
 or	ax, [di+2]
-jnz	short locret_AE3E
+jnz	short locret_CD0E
 mov	cx, 9C40h
-jmp	sub_F0F6
-sub_AE3F endp
+jmp	sub_10FC6
+sub_CD0F endp
 
 
 
 
-sub_AE54 proc near
-call	sub_AE2F
-jz	short locret_AE3E
+sub_CD24 proc near
+call	sub_CCFF
+jz	short locret_CD0E
 mov	di, 3811h
 mov	cx, 4E20h
-jmp	sub_F0F6
-sub_AE54 endp
+jmp	sub_10FC6
+sub_CD24 endp
 
 
 
 
-sub_AE62 proc near
+sub_CD32 proc near
 cmp	al, ds:0DBCAh
-jz	short locret_AE84
-call	sub_AEB7
+jz	short locret_CD54
+call	sub_CD87
 mov	ds:0DBCAh, al
 push	ax
 add	ax, 0A4h ; '¤'
@@ -24298,21 +24297,21 @@ mov	si, ax
 les	di, ds:0DBB6h
 mov	ax, es
 cmp	ax, ds:0CE68h
-jnb	short loc_AE85
-call	sub_F0B9
+jnb	short loc_CD55
+call	sub_10F89
 pop	ax
 
-locret_AE84:
+locret_CD54:
 retn
 
-loc_AE85:
+loc_CD55:
 push	word ptr ds:2784h
 push	si
 mov	cx, 2AFh
-call	sub_F11C
+call	sub_10FEC
 pop	si
 inc	byte ptr ds:0CE71h
-call	sub_F0B9
+call	sub_10F89
 dec	byte ptr ds:0CE71h
 push	ds
 push	di
@@ -24320,74 +24319,74 @@ push	es
 les	di, ds:0DBB6h
 pop	ds
 pop	si
-call	sub_F403
+call	sub_112D3
 pop	ds
 pop	ax
-call	sub_C13E
+call	sub_E00E
 pop	ax
 retn
-sub_AE62 endp
+sub_CD32 endp
 
 or	byte ptr ds:2943h, 10h
-call	sub_D2E2
+call	sub_F1B2
 
 
 
-sub_AEB7 proc near
+sub_CD87 proc near
 push	ax
 mov	byte ptr ds:0DBCBh, 0
 call	dword ptr ds:3975h
 mov	ds:0DBCDh, al
 pop	ax
 retn
-sub_AEB7 endp
+sub_CD87 endp
 
 
 
 
-sub_AEC6 proc near
+sub_CD96 proc near
 test	byte ptr ds:2943h, 10h
-jnz	short loc_AED4
-call	sub_AE28
-jz	short loc_AED4
+jnz	short loc_CDA4
+call	sub_CCF8
+jz	short loc_CDA4
 clc
 retn
 
-loc_AED4:
+loc_CDA4:
 stc
 retn
-sub_AEC6 endp
+sub_CD96 endp
 
 cmp	byte ptr ds:11C9h, 0
-jz	short loc_AEDE
+jz	short loc_CDAE
 retn
 
-loc_AEDE:
-call	sub_18BA
-call	sub_181E
-call	sub_DAA3
+loc_CDAE:
+call	sub_378A
+call	sub_36EE
+call	sub_F973
 mov	byte ptr ds:0C6h, 1
-call	sub_B2B9
-call	sub_D95B
-call	sub_AD5E
+call	sub_D189
+call	sub_F82B
+call	sub_CC2E
 mov	al, 34h	; '4'
 mov	bp, 0AF26h
-call	sub_C108
-jmp	sub_AE04
+call	sub_DFD8
+jmp	sub_CCD4
 
 
 
-sub_AF00 proc near
+sub_CDD0 proc near
 mov	bh, 4
 
-loc_AF02:
+loc_CDD2:
 mov	bl, 1Ch
-call	sub_B147
+call	sub_D017
 mov	ax, 4000h
-jz	short loc_AF0E
+jz	short loc_CDDE
 xor	ah, ah
 
-loc_AF0E:
+loc_CDDE:
 xor	cx, cx
 mov	cl, bh
 mov	si, 2034h
@@ -24396,137 +24395,137 @@ and	word ptr [si], 0BFFFh
 or	[si], ax
 add	bh, 4
 cmp	bh, 0Ch
-jbe	short loc_AF02
+jbe	short loc_CDD2
 retn
-sub_AF00 endp
+sub_CDD0 endp
 
-call	sub_D7AD
+call	sub_F67D
 mov	si, 1E1Ah
-call	sub_D72B
-call	sub_AF00
+call	sub_F5FB
+call	sub_CDD0
 mov	word ptr ds:2406h, 0
 mov	bp, 2032h
 mov	bx, 0D917h
 xor	cx, cx
-call	loc_D33A
+call	loc_F20A
 or	byte ptr ds:0C6h, 2
-call	sub_C432
+call	sub_E302
 mov	al, 32h	; '2'
-call	sub_C2F2
+call	sub_E1C2
 mov	byte ptr ds:1C30h, 0
-jmp	sub_1797
+jmp	sub_3667
 mov	bx, 0
 mov	bp, 0
-jmp	short loc_AF76
+jmp	short loc_CE46
 mov	bx, 41Ch
 mov	bp, 4
-jmp	short loc_AF76
+jmp	short loc_CE46
 mov	bx, 81Ch
 mov	bp, 8
-jmp	short loc_AF76
+jmp	short loc_CE46
 mov	bx, 0C1Ch
 mov	bp, 0Ch
 
-loc_AF76:
+loc_CE46:
 push	bp
 test	byte ptr ds:0C6h, 2
-jnz	short loc_AF86
+jnz	short loc_CE56
 push	bx
-call	sub_A3E
-call	sub_B024
+call	sub_290E
+call	sub_CEF4
 pop	bx
 
-loc_AF86:
-call	sub_B147
+loc_CE56:
+call	sub_D017
 pop	bp
-jz	short locret_AFC6
+jz	short locret_CE96
 mov	ds:2406h, bx
 mov	ax, 0A8h ; '¨'
 test	byte ptr ds:0C6h, 2
-jz	short loc_AF9D
+jz	short loc_CE6D
 add	ax, 2
 
-loc_AF9D:
+loc_CE6D:
 mov	ds:11BFh, ax
 mov	si, 2034h
 mov	cx, 4
 push	si
 
-loc_AFA7:
+loc_CE77:
 and	word ptr [si], 7FFFh
 add	si, 4
-loop	loc_AFA7
+loop	loc_CE77
 pop	si
 or	word ptr [bp+si], 8000h
 mov	cx, 1
 mov	dx, 2
 test	byte ptr ds:0C6h, 2
-jz	short loc_AFE6
+jz	short loc_CEB6
 xor	dx, dx
-jmp	short loc_AFE6
+jmp	short loc_CEB6
 
-locret_AFC6:
+locret_CE96:
 retn
 test	byte ptr ds:0C6h, 2
-jnz	short locret_AFC6
+jnz	short locret_CE96
 test	byte ptr ds:0C6h, 4
-jz	short loc_AFE0
+jz	short loc_CEB0
 add	word ptr ds:11BFh, 2
-call	sub_A3E
-call	sub_AD5E
+call	sub_290E
+call	sub_CC2E
 
-loc_AFE0:
+loc_CEB0:
 mov	cx, 1
 mov	dx, 0FFFEh
 
-loc_AFE6:
+loc_CEB6:
 mov	bx, ds:2406h
 mov	si, ds:11BFh
-call	loc_B150
-jz	short loc_B006
+call	loc_D020
+jz	short loc_CED6
 mov	ds:11BFh, di
-call	sub_B1AF
+call	sub_D07F
 mov	bp, 0B039h
-call	sub_B02C
-call	sub_9901
-jmp	sub_D397
+call	sub_CEFC
+call	sub_B7D1
+jmp	sub_F267
 
-loc_B006:
+loc_CED6:
 or	dx, dx
-js	short sub_B024
+js	short sub_CEF4
 test	byte ptr ds:0C6h, 4
-jnz	short locret_AFC6
+jnz	short locret_CE96
 or	byte ptr ds:0C6h, 4
-call	sub_9F5
+call	sub_28C5
 xor	dx, dx
-call	sub_B1AF
+call	sub_D07F
 mov	bp, 1797h
-jmp	short sub_B02C
+jmp	short sub_CEFC
 align 2
 
 
 
-sub_B024 proc near
+sub_CEF4 proc near
 mov	dh, 0FFh
-call	sub_B1AF
+call	sub_D07F
 mov	bp, 0AF43h
-sub_B024 endp
+sub_CEF4 endp
 
 
 
 
-sub_B02C proc near
-call	sub_AC14
+sub_CEFC proc near
+call	sub_CAE4
 mov	al, 2
-call	sub_AB15
+call	sub_C9E5
 mov	al, 0Eh
-jmp	sub_C108
-sub_B02C endp
+jmp	sub_DFD8
+sub_CEFC endp
 
 
 
 
-sub_B039 proc near
+sub_CF09 proc near
 and	byte ptr ds:0C6h, 0F9h
 mov	si, 0A6B0h
 mov	ds:47BCh, si
@@ -24534,14 +24533,14 @@ push	si
 mov	si, ds:11BFh
 mov	si, cs:[si]
 mov	ax, si
-call	sub_B254
+call	sub_D124
 shr	ah, 1
 shr	ah, 1
 shr	ah, 1
 mov	al, ah
 xor	ah, ah
 add	ax, 0F3h ; 'ó'
-call	sub_B126
+call	sub_CFF6
 and	si, 7FFh
 shl	si, 1
 shl	si, 1
@@ -24553,30 +24552,30 @@ push	ax
 xchg	al, ah
 and	ah, 3
 or	ah, 8
-call	sub_B126
+call	sub_CFF6
 mov	di, ds:47BCh
 mov	byte ptr [di-1], 0FFh
-call	loc_88E1
+call	loc_A7B1
 mov	si, 2408h
-call	sub_C551
-call	sub_1797
+call	sub_E421
+call	sub_3667
 mov	ax, ds:0D82Eh
 mov	bx, 8Ch	; 'Œ'
 sub	bx, ax
 shr	bx, 1
 add	bx, ax
 cmp	bx, 8Ah	; 'Š'
-jnb	short loc_B0B5
+jnb	short loc_CF85
 mov	dx, 93h	; '“'
 mov	ax, 32h	; '2'
-call	sub_C13E
+call	sub_E00E
 mov	ax, 4
-call	sub_C22F
+call	sub_E0FF
 
-loc_B0B5:
+loc_CF85:
 pop	ax
 cmp	word ptr ds:11BFh, 0AAh	; 'ª'
-jz	short loc_B0D4
+jz	short loc_CFA4
 and	ax, 0Ch
 shr	ax, 1
 shr	ax, 1
@@ -24584,12 +24583,12 @@ add	ax, 103h
 mov	bx, 8Bh	; '‹'
 mov	dx, 0FAh ; 'ú'
 mov	cx, 64h	; 'd'
-call	sub_D194
+call	sub_F064
 
-loc_B0D4:
+loc_CFA4:
 mov	bx, 3
 mov	dx, 132h
-call	sub_D04E
+call	sub_EF1E
 mov	word ptr ds:0DBE4h, 53h	; 'S'
 mov	ax, ds:11BFh
 sub	ax, 0AAh ; 'ª'
@@ -24599,191 +24598,191 @@ aam
 add	ax, 3030h
 xchg	al, ah
 cmp	al, 30h	; '0'
-jnz	short loc_B0F9
+jnz	short loc_CFC9
 mov	al, 20h	; ' '
 
-loc_B0F9:
+loc_CFC9:
 push	ax
-call	sub_D12F
+call	sub_EFFF
 pop	ax
 mov	al, ah
-call	sub_D12F
+call	sub_EFFF
 mov	byte ptr ds:1C30h, 0
 mov	ax, ds:243Eh
 or	ax, ax
-jz	short locret_B125
+jz	short locret_CFF5
 mov	byte ptr ds:1C30h, 80h ; '€'
 mov	si, 2412h
 add	ax, 0FFF5h
 mov	[si], ax
 mov	[si+6],	ax
 mov	[si+0Ch], ax
-call	sub_C21B
+call	sub_E0EB
 
-locret_B125:
+locret_CFF5:
 retn
-sub_B039 endp
+sub_CF09 endp
 
 
 
 
-sub_B126 proc near
+sub_CFF6 proc near
 push	si
 mov	si, ax
-call	sub_CF70
+call	sub_EE40
 mov	di, ds:47BCh
 push	di
-call	sub_88F1
+call	sub_A7C1
 pop	di
 cmp	byte ptr [si], 20h ; ' '
-jz	short loc_B141
-call	sub_8944
+jz	short loc_D011
+call	sub_A814
 dec	di
 mov	al, 20h	; ' '
 stosb
 
-loc_B141:
+loc_D011:
 mov	ds:47BCh, di
 pop	si
 retn
-sub_B126 endp
+sub_CFF6 endp
 
 
 
 
-sub_B147 proc near
+sub_D017 proc near
 mov	si, 0A8h ; '¨'
 mov	dx, 2
 mov	cx, 1
 
-loc_B150:
+loc_D020:
 xor	di, di
 
-loc_B152:
+loc_D022:
 add	si, dx
 or	dx, 2
 mov	bp, cs:[si]
 and	bp, 7FFh
-jz	short loc_B177
+jz	short loc_D047
 shl	bp, 1
 shl	bp, 1
 add	bp, 0AA78h
 mov	al, [bp+2]
 and	al, bl
-jz	short loc_B173
+jz	short loc_D043
 cmp	al, bh
-jnz	short loc_B152
+jnz	short loc_D022
 
-loc_B173:
+loc_D043:
 mov	di, si
-loop	loc_B152
+loop	loc_D022
 
-loc_B177:
+loc_D047:
 or	di, di
 retn
-sub_B147 endp
+sub_D017 endp
 
 
 
 
-sub_B17A proc near
+sub_D04A proc near
 mov	al, ds:0C6h
 push	ax
 or	al, 80h
 mov	ds:0C6h, al
-call	sub_96B5
+call	sub_B585
 pop	ax
 mov	ds:0C6h, al
 retn
-sub_B17A endp
+sub_D04A endp
 
-call	sub_ADBE
+call	sub_CC8E
 mov	byte ptr ds:2788h, 0
 mov	byte ptr ds:0C6h, 0
 mov	byte ptr ds:1C30h, 0
-call	sub_CA01
-call	sub_A3E
-call	sub_9901
+call	sub_E8D1
+call	sub_290E
+call	sub_B7D1
 mov	ax, 26h	; '&'
-call	sub_C13E
-jmp	loc_1877
+call	sub_E00E
+jmp	loc_3747
 
 
 
-sub_B1AF proc near
+sub_D07F proc near
 push	dx
-call	sub_C08E
-call	sub_C137
+call	sub_DF5E
+call	sub_E007
 mov	ax, 0Bh
 or	dx, dx
-js	short loc_B1BE
+js	short loc_D08E
 dec	ax
 
-loc_B1BE:
+loc_D08E:
 mov	bx, 9Eh	; 'ž'
 mov	dx, 1Bh
 push	ax
-call	sub_C2FD
+call	sub_E1CD
 mov	ax, 0Ah
-call	sub_E387
+call	sub_10257
 pop	ax
 inc	ax
 cmp	ax, 0Bh
-jz	short loc_B1D8
+jz	short loc_D0A8
 sub	ax, 2
 
-loc_B1D8:
-call	sub_C22F
+loc_D0A8:
+call	sub_E0FF
 mov	ax, 0Ah
-call	sub_E387
+call	sub_10257
 mov	si, 1AF4h
 mov	cx, 1
-call	sub_D1F2
+call	sub_F0C2
 pop	dx
-jmp	sub_C07C
-sub_B1AF endp
+jmp	sub_DF4C
+sub_D07F endp
 
 call	dword ptr ds:3959h
-call	sub_AEB7
+call	sub_CD87
 mov	byte ptr ds:0DC2Bh, 1
 mov	al, 34h	; '4'
 mov	bp, 0B236h
-call	sub_C108
-call	sub_C08E
+call	sub_DFD8
+call	sub_DF5E
 mov	byte ptr ds:0CE80h, 0
-call	sub_DE4E
+call	sub_FD1E
 
-loc_B20D:
-call	sub_C9E8
-jb	short loc_B217
-call	sub_CC85
-jz	short loc_B20D
+loc_D0DD:
+call	sub_E8B8
+jb	short loc_D0E7
+call	sub_EB55
+jz	short loc_D0DD
 
-loc_B217:
-call	sub_CA01
+loc_D0E7:
+call	sub_E8D1
 inc	byte ptr ds:0CE80h
-call	sub_AC14
-call	sub_C07C
+call	sub_CAE4
+call	sub_DF4C
 call	dword ptr ds:3969h
 mov	al, 34h	; '4'
 mov	bp, 0B23Fh
-call	sub_C108
-call	sub_C412
-jmp	sub_ABC6
-call	sub_C0AD
+call	sub_DFD8
+call	sub_E2E2
+jmp	sub_CA96
+call	sub_DF7D
 mov	ax, ds:243Eh
-jmp	sub_CA1B
-call	sub_C0AD
+jmp	sub_E8EB
+call	sub_DF7D
 mov	cx, 12h
 mov	si, 1AE6h
-call	sub_D1F2
-call	sub_D397
-call	sub_B039
-jmp	sub_9901
+call	sub_F0C2
+call	sub_F267
+call	sub_CF09
+jmp	sub_B7D1
 
 
 
-sub_B254 proc near
+sub_D124 proc near
 push	ax
 push	si
 push	ds
@@ -24792,21 +24791,21 @@ mov	di, 2426h
 mov	cx, 0Ch
 repne scasw
 mov	ax, 0
-jnz	short loc_B26A
+jnz	short loc_D13A
 mov	ax, 24h	; '$'
 sub	ax, cx
 
-loc_B26A:
+loc_D13A:
 mov	ds:243Eh, ax
 pop	si
 pop	ax
 retn
-sub_B254 endp
+sub_D124 endp
 
 
 
 
-sub_B270 proc near
+sub_D140 proc near
 mov	si, 242Ah
 mov	di, ds:11BDh
 push	cs
@@ -24817,71 +24816,71 @@ rep movsw
 mov	ds:11BDh, di
 xor	ax, ax
 stosw
-mov	byte ptr cs:sub_B270, 0C3h ; 'Ã'
+mov	byte ptr cs:sub_D140, 0C3h ; 'Ã'
 retn
-sub_B270 endp
+sub_D140 endp
 
 mov	bp, 207Ah
-call	sub_B2AA
+call	sub_D17A
 mov	cx, 8000h
 mov	si, 207Ch
-call	sub_B30F
-jmp	sub_D397
+call	sub_D1DF
+jmp	sub_F267
 mov	cx, 4000h
 mov	si, 208Ch
-call	sub_B30F
+call	sub_D1DF
 mov	bp, 208Ah
 
 
 
-sub_B2AA proc near
-call	sub_B2B9
+sub_D17A proc near
+call	sub_D189
 mov	bx, 0B2B3h
-jmp	sub_D323
-sub_B2AA endp
+jmp	sub_F1F3
+sub_D17A endp
 
 
 
 
-sub_B2B3 proc near
+sub_D183 proc near
 dec	byte ptr ds:2788h
-jns	short locret_B2BD
-sub_B2B3 endp
+jns	short locret_D18D
+sub_D183 endp
 
 
 
 
-sub_B2B9 proc near
+sub_D189 proc near
 inc	byte ptr ds:2788h
 
-locret_B2BD:
+locret_D18D:
 retn
-sub_B2B9 endp
+sub_D189 endp
 
 
 
 
-sub_B2BE proc near
+sub_D18E proc near
 mov	byte ptr ds:2788h, 0
 retn
-sub_B2BE endp
+sub_D18E endp
 
 
 
 
-sub_B2C4 proc near
+sub_D194 proc near
 cmp	byte ptr ds:38AFh, 32h ; '2'
-ja	short locret_B30E
+ja	short locret_D1DE
 mov	ax, [si]
 
-loc_B2CD:
-call	sub_E270
+loc_D19D:
+call	sub_10140
 push	es
 and	ax, 0FFFh
 mov	si, ax
-call	sub_CF70
-call	sub_D03C
-call	sub_D03C
+call	sub_EE40
+call	sub_EF0C
+call	sub_EF0C
 mov	ax, ds:0D816h
 push	ax
 add	ax, 3
@@ -24890,10 +24889,10 @@ shr	ax, 1
 shr	ax, 1
 shr	ax, 1
 inc	ax
-call	sub_E2E3
+call	sub_101B3
 lea	di, [si+3]
 mov	si, 117h
-call	sub_CF70
+call	sub_EE40
 pop	ax
 and	al, 0Fh
 mov	ah, 0Ah
@@ -24903,28 +24902,28 @@ mov	cx, 0Ah
 rep movs byte ptr es:[di], byte	ptr es:[si]
 pop	es
 assume es:nothing
-call	sub_E283
+call	sub_10153
 
-locret_B30E:
+locret_D1DE:
 retn
-sub_B2C4 endp
+sub_D194 endp
 
 
 
 
-sub_B30F proc near
+sub_D1DF proc near
 mov	di, 38A8h
 mov	byte ptr [di+7], 31h ; '1'
 
-loc_B316:
+loc_D1E6:
 mov	dx, di
-call	sub_F2FC
+call	sub_111CC
 mov	ax, 3D00h
 int	21h		; DOS -	2+ - OPEN DISK FILE WITH HANDLE
 			; DS:DX	-> ASCIZ filename
 			; AL = access mode
 			; 0 - read
-jb	short loc_B33C
+jb	short loc_D20C
 mov	bx, ax
 mov	dx, 0D816h
 push	cx
@@ -24935,61 +24934,61 @@ int	21h		; DOS -	2+ - READ FROM FILE WITH HANDLE
 			; DS:DX	-> buffer
 cmp	ax, cx
 pop	cx
-jb	short loc_B33C
+jb	short loc_D20C
 mov	ah, 3Eh
 int	21h		; DOS -	2+ - CLOSE A FILE WITH HANDLE
 			; BX = file handle
-call	sub_B2C4
+call	sub_D194
 clc
 
-loc_B33C:
+loc_D20C:
 sbb	ax, ax
 cmp	ch, 80h	; '€'
-jnz	short loc_B345
+jnz	short loc_D215
 not	ax
 
-loc_B345:
+loc_D215:
 and	ax, cx
 and	word ptr [si], 3FFFh
 or	[si], ax
 add	si, 4
 inc	byte ptr [di+7]
 cmp	word ptr [si], 0A3h ; '£'
-jnz	short loc_B316
+jnz	short loc_D1E6
 retn
-sub_B30F endp
+sub_D1DF endp
 
 mov	bx, ds:2
 mov	ds:0D816h, bx
-call	sub_DBB2
-call	loc_B2CD
+call	sub_FA82
+call	loc_D19D
 push	cx
-call	sub_D48A
+call	sub_F35A
 pop	cx
-call	sub_B389
+call	sub_D259
 pushf
 mov	ax, 113h
 adc	al, 0
 mov	cx, 4
-call	sub_D48A
+call	sub_F35A
 mov	ax, 12Ch
-call	sub_DDB0
+call	sub_FC80
 popf
-jb	short locret_B388
-jmp	sub_D2E2
+jb	short locret_D258
+jmp	sub_F1B2
 
-locret_B388:
+locret_D258:
 retn
 
 
 
-sub_B389 proc near
+sub_D259 proc near
 
 ; FUNCTION CHUNK AT F27C SIZE 0000001F BYTES
 
 add	cl, 31h	; '1'
 mov	ds:38AFh, cl
-call	sub_B427
+call	sub_D2F7
 mov	ax, ds:2
 push	ds
 push	es
@@ -24997,28 +24996,28 @@ pop	ds
 mov	si, di
 xor	di, di
 stosw
-call	sub_B4EA
+call	sub_D3BA
 pop	ds
 mov	dx, 38A8h
-call	sub_F2FC
+call	sub_111CC
 xor	di, di
 add	cx, 2
-jmp	loc_F27C
-sub_B389 endp
+jmp	loc_1114C
+sub_D259 endp
 
 
-loc_B3B0:
+loc_D280:
 cmp	byte ptr ds:46D9h, 0
-jz	short loc_B3BA
-jmp	loc_E49
+jz	short loc_D28A
+jmp	loc_2D19
 
-loc_B3BA:
+loc_D28A:
 add	cl, 31h	; '1'
 mov	ds:38AFh, cl
 mov	cx, 578h
-call	sub_F11C
+call	sub_10FEC
 mov	dx, 38A8h
-call	sub_F255
+call	sub_11125
 mov	al, ds:0FBh
 push	ax
 push	ds
@@ -25034,38 +25033,38 @@ rep movsb
 cld
 lea	si, [di+1]
 xor	di, di
-call	sub_B4BB
+call	sub_D38B
 mov	si, di
-call	sub_B473
+call	sub_D343
 pop	ds
-call	sub_3AE9
-call	sub_DA53
+call	sub_59B9
+call	sub_F923
 mov	word ptr ds:22A6h, 0FFFFh
-call	sub_B2BE
+call	sub_D18E
 pop	ax
 mov	ds:0FBh, al
 or	al, al
-jns	short loc_B41B
+jns	short loc_D2EB
 cmp	byte ptr ds:0DD02h, 0
-jz	short loc_B412
-call	sub_B915
+jz	short loc_D2E2
+call	sub_D7E5
 
-loc_B412:
-call	sub_B96B
-call	sub_B8EA
-jmp	sub_BA9E
+loc_D2E2:
+call	sub_D83B
+call	sub_D7BA
+jmp	sub_D96E
 
-loc_B41B:
-call	sub_D2BD
-call	sub_1A0F
-call	sub_ADBE
-jmp	sub_2DB1
+loc_D2EB:
+call	sub_F18D
+call	sub_38DF
+call	sub_CC8E
+jmp	sub_4C81
 
 
 
-sub_B427 proc near
+sub_D2F7 proc near
 mov	cx, 578h
-call	sub_F11C
+call	sub_10FEC
 mov	di, 100h
 push	di
 push	es
@@ -25076,19 +25075,19 @@ mov	cx, 0C5FCh
 shr	cx, 1
 shr	cx, 1
 
-loc_B440:
+loc_D310:
 mov	ah, 3
 
-loc_B442:
+loc_D312:
 lodsb
 shl	al, 1
 shl	al, 1
 shl	ax, 1
 shl	ax, 1
-jnb	short loc_B442
+jnb	short loc_D312
 mov	al, ah
 stosb
-loop	loc_B440
+loop	loc_D310
 push	cs
 pop	ds
 assume ds:seg000
@@ -25107,26 +25106,26 @@ pop	es
 pop	di
 mov	cx, 567Ah
 retn
-sub_B427 endp
+sub_D2F7 endp
 
 
 
 
-sub_B473 proc near
+sub_D343 proc near
 mov	es, word ptr ss:0DD00h
 xor	di, di
 mov	bx, 0C5FCh
 shr	bx, 1
 shr	bx, 1
 
-loc_B481:
+loc_D351:
 lodsb
 mov	cx, 4
 mov	ah, al
 ror	ah, 1
 ror	ah, 1
 
-loc_B48B:
+loc_D35B:
 mov	al, es:[di]
 xor	al, ah
 and	al, 0CFh
@@ -25134,9 +25133,9 @@ xor	al, ah
 stosb
 rol	ah, 1
 rol	ah, 1
-loop	loc_B48B
+loop	loc_D35B
 dec	bx
-jnz	short loc_B481
+jnz	short loc_D351
 push	cs
 pop	es
 assume es:seg000
@@ -25153,12 +25152,12 @@ mov	di, 0
 mov	cx, 1261h
 rep movsb
 retn
-sub_B473 endp
+sub_D343 endp
 
 
 
 
-sub_B4BB proc near
+sub_D38B proc near
 lodsw
 mov	bl, al
 lodsw
@@ -25166,20 +25165,20 @@ mov	cx, ax
 sub	cx, 4
 push	di
 
-loc_B4C5:
+loc_D395:
 lodsb
 cmp	al, bl
-jz	short loc_B4D3
+jz	short loc_D3A3
 stosb
-loop	loc_B4C5
+loop	loc_D395
 
-loc_B4CD:
+loc_D39D:
 pop	cx
 sub	di, cx
 xchg	cx, di
 retn
 
-loc_B4D3:
+loc_D3A3:
 lodsb
 mov	dx, cx
 mov	cl, al
@@ -25188,44 +25187,44 @@ lodsb
 rep stosb
 mov	cx, dx
 sub	cx, 2
-jcxz	short loc_B4CD
-jb	short loc_B4CD
-loop	loc_B4C5
-jmp	short loc_B4CD
-sub_B4BB endp
+jcxz	short loc_D39D
+jb	short loc_D39D
+loop	loc_D395
+jmp	short loc_D39D
+sub_D38B endp
 
 
 
 
-sub_B4EA proc near
+sub_D3BA proc near
 mov	dl, 0F7h ; '÷'
 push	di
 add	di, 4
 
-loc_B4F0:
+loc_D3C0:
 xor	dh, dh
 
-loc_B4F2:
+loc_D3C2:
 lodsb
 inc	dh
 cmp	al, [si]
-jnz	short loc_B504
+jnz	short loc_D3D4
 cmp	dh, 0FFh
-jz	short loc_B504
+jz	short loc_D3D4
 dec	cx
 or	cx, cx
-jnz	short loc_B4F2
+jnz	short loc_D3C2
 inc	cx
 
-loc_B504:
+loc_D3D4:
 cmp	al, dl
-jz	short loc_B512
+jz	short loc_D3E2
 cmp	dh, 1
-jz	short loc_B51C
+jz	short loc_D3EC
 cmp	dh, 2
-jz	short loc_B52F
+jz	short loc_D3FF
 
-loc_B512:
+loc_D3E2:
 mov	ah, al
 mov	al, dl
 stosb
@@ -25233,9 +25232,9 @@ mov	al, dh
 stosb
 mov	al, ah
 
-loc_B51C:
+loc_D3EC:
 stosb
-loop	loc_B4F0
+loop	loc_D3C0
 mov	cx, di
 xor	ax, ax
 stosw
@@ -25245,41 +25244,41 @@ mov	es:[di], dx
 mov	es:[di+2], cx
 retn
 
-loc_B52F:
+loc_D3FF:
 stosb
-jmp	short loc_B51C
-sub_B4EA endp
+jmp	short loc_D3EC
+sub_D3BA endp
 
 
 
 
-sub_B532 proc near
+sub_D402 proc near
 push	dx
-call	sub_B58B
+call	sub_D45B
 pop	dx
 mov	al, es:[di]
 retn
-sub_B532 endp
+sub_D402 endp
 
 
 
 
-sub_B53B proc near
+sub_D40B proc near
 push	bx
 push	cx
 push	dx
 push	ax
-call	sub_B58B
+call	sub_D45B
 pop	ax
 mov	cx, ax
 shr	ax, 1
 sub	di, ax
 sub	dx, ax
-jnb	short loc_B551
+jnb	short loc_D421
 add	dx, bp
 add	di, bp
 
-loc_B551:
+loc_D421:
 mov	al, es:[di]
 mov	[si], al
 mov	[si+1],	di
@@ -25287,49 +25286,49 @@ add	si, 3
 inc	di
 inc	dx
 cmp	dx, bp
-jb	short loc_B566
+jb	short loc_D436
 sub	dx, bp
 sub	di, bp
 
-loc_B566:
-loop	loc_B551
+loc_D436:
+loop	loc_D421
 pop	dx
 pop	cx
 pop	bx
 retn
-sub_B53B endp
+sub_D40B endp
 
 
 
 
-sub_B56C proc near
+sub_D43C proc near
 push	cx
 mov	si, cx
 shr	si, 1
 sub	bx, si
 cmp	bx, 0FF9Eh
-jge	short loc_B57B
+jge	short loc_D44B
 mov	bx, 0FF9Eh
 
-loc_B57B:
+loc_D44B:
 mov	si, 9E68h
 
-loc_B57E:
+loc_D44E:
 push	ax
-call	sub_B53B
+call	sub_D40B
 pop	ax
 inc	bx
-loop	loc_B57E
+loop	loc_D44E
 mov	si, 9E68h
 pop	cx
 retn
-sub_B56C endp
+sub_D43C endp
 
 
 
 
-sub_B58B proc near
-call	sub_B5A0
+sub_D45B proc near
+call	sub_D470
 les	di, ds:0DCFEh
 assume es:nothing
 add	di, ax
@@ -25339,17 +25338,17 @@ shl	ax, 1
 adc	dx, 0
 add	di, dx
 retn
-sub_B58B endp
+sub_D45B endp
 
 
 
 
-sub_B5A0 proc near
+sub_D470 proc near
 push	bx
 shl	bx, 1
 shl	bx, 1
 shl	bx, 1
-jns	short loc_B5B9
+jns	short loc_D489
 neg	bx
 mov	ax, [bx+4948h]
 neg	ax
@@ -25358,115 +25357,115 @@ shl	bp, 1
 pop	bx
 retn
 
-loc_B5B9:
+loc_D489:
 mov	ax, [bx+4948h]
 mov	bp, [bx+494Ah]
 shl	bp, 1
 pop	bx
 retn
-sub_B5A0 endp
+sub_D470 endp
 
 
 
 
-sub_B5C5 proc near
-call	sub_B58B
+sub_D495 proc near
+call	sub_D45B
 xor	ax, ax
 div	bp
 mov	dx, ax
 retn
-sub_B5C5 endp
+sub_D495 endp
 
 
 
 
-sub_B5CF proc near
+sub_D49F proc near
 or	ah, ah
-jz	short loc_B5F5
-js	short loc_B5E6
+jz	short loc_D4C5
+js	short loc_D4B6
 add	bh, ah
-jnb	short loc_B5F5
+jnb	short loc_D4C5
 inc	bl
 cmp	bl, 62h	; 'b'
-jl	short loc_B5F5
+jl	short loc_D4C5
 dec	bl
 sub	bh, ah
-jmp	short loc_B5F5
+jmp	short loc_D4C5
 
-loc_B5E6:
+loc_D4B6:
 add	bh, ah
-jb	short loc_B5F5
+jb	short loc_D4C5
 dec	bl
 cmp	bl, 9Eh	; 'ž'
-jg	short loc_B5F5
+jg	short loc_D4C5
 inc	bl
 sub	bh, ah
 
-loc_B5F5:
+loc_D4C5:
 cbw
 add	dx, ax
 retn
-sub_B5CF endp
+sub_D49F endp
 
 
 
 
-sub_B5F9 proc near
+sub_D4C9 proc near
 sub	dx, ds:0DCF6h
 sub	bx, ds:0DCF8h
 xor	cx, cx
 test	byte ptr ds:46EBh, 80h
-jz	short loc_B60C
+jz	short loc_D4DC
 mov	cl, 2
 
-loc_B60C:
+loc_D4DC:
 sar	bx, cl
 add	bx, ds:197Eh
 mov	ax, bx
-jns	short loc_B618
+jns	short loc_D4E8
 neg	ax
 
-loc_B618:
+loc_D4E8:
 shl	ax, 1
 shl	ax, 1
 shl	ax, 1
 mov	si, 4948h
 add	si, ax
-jcxz	short loc_B62C
+jcxz	short loc_D4FC
 sar	dx, cl
 add	dx, [si+4]
-jmp	short loc_B63E
+jmp	short loc_D50E
 
-loc_B62C:
+loc_D4FC:
 add	dx, [si+6]
 mov	cx, [si+2]
 shl	cx, 1
 cmp	dx, cx
-jb	short loc_B640
-js	short loc_B63E
+jb	short loc_D510
+js	short loc_D50E
 sub	dx, cx
-jmp	short loc_B640
+jmp	short loc_D510
 
-loc_B63E:
+loc_D50E:
 add	dx, cx
 
-loc_B640:
+loc_D510:
 xor	ax, ax
 div	cx
 mov	dx, ax
 retn
-sub_B5F9 endp
+sub_D4C9 endp
 
 
 
 
-sub_B647 proc near
+sub_D517 proc near
 xor	cx, cx
 test	byte ptr ds:46EBh, 80h
-jz	short loc_B652
+jz	short loc_D522
 mov	cl, 2
 
-loc_B652:
+loc_D522:
 mov	bp, bx
 sub	bx, ds:197Eh
 shl	bx, cl
@@ -25474,55 +25473,55 @@ add	bx, ds:0DCF8h
 shl	bp, 1
 shl	bp, 1
 shl	bp, 1
-jns	short loc_B668
+jns	short loc_D538
 neg	bp
 
-loc_B668:
+loc_D538:
 mov	bp, [bp+494Ah]
 add	bp, bp
 sub	dx, ds:197Ch
 mov	ax, dx
 imul	bp
-jcxz	short loc_B67E
+jcxz	short loc_D54E
 
-loc_B678:
+loc_D548:
 shl	ax, 1
 rcl	dx, 1
-loop	loc_B678
+loop	loc_D548
 
-loc_B67E:
+loc_D54E:
 add	dx, ds:0DCF6h
 retn
-sub_B647 endp
+sub_D517 endp
 
 
 
 
-sub_B683 proc near
-js	short loc_B68B
+sub_D553 proc near
+js	short loc_D55B
 sub	bp, dx
 neg	bp
-jmp	short loc_B68F
+jmp	short loc_D55F
 
-loc_B68B:
+loc_D55B:
 xchg	dx, bp
 add	dx, bp
 
-loc_B68F:
+loc_D55F:
 mov	cx, bp
 neg	cx
 cmp	cx, dx
-jnb	short locret_B699
+jnb	short locret_D569
 mov	dx, bp
 
-locret_B699:
+locret_D569:
 retn
-sub_B683 endp
+sub_D553 endp
 
 
 
 
-sub_B69A proc near
+sub_D56A proc near
 mov	ax, ds:197Ch
 xchg	ax, ds:1980h
 mov	ds:197Ch, ax
@@ -25536,14 +25535,14 @@ mov	ax, ds:0DCF8h
 xchg	ax, ds:0DCFCh
 mov	ds:0DCF8h, ax
 retn
-sub_B69A endp
+sub_D56A endp
 
 
 
 
-sub_B6C3 proc near
+sub_D593 proc near
 test	byte ptr ds:46EBh, 80h
-jz	short loc_B714
+jz	short loc_D5E4
 push	ds
 pop	es
 mov	word ptr ds:0DCF6h, 0A0h ; ' '
@@ -25553,21 +25552,21 @@ mov	bx, 4Bh	; 'K'
 mov	ax, ds:197Eh
 or	ax, ax
 mov	dx, ax
-jns	short loc_B6E9
+jns	short loc_D5B9
 neg	ax
 
-loc_B6E9:
+loc_D5B9:
 cmp	ax, bx
-jb	short loc_B6F8
+jb	short loc_D5C8
 mov	ax, bx
 or	dx, dx
-jns	short loc_B6F5
+jns	short loc_D5C5
 neg	ax
 
-loc_B6F5:
+loc_D5C5:
 mov	ds:197Eh, ax
 
-loc_B6F8:
+loc_D5C8:
 mov	bp, 4948h
 mov	dx, ds:197Ch
 mov	ax, ds:197Eh
@@ -25578,7 +25577,7 @@ mov	bx, ds:0DBDAh
 call	dword ptr ds:3929h
 retn
 
-loc_B714:
+loc_D5E4:
 mov	di, 4C60h
 mov	ax, ds:46E7h
 sub	ax, ds:46E3h
@@ -25604,21 +25603,21 @@ sub	bx, ax
 mov	ax, ds:197Eh
 or	ax, ax
 mov	dx, ax
-jns	short loc_B75A
+jns	short loc_D62A
 neg	ax
 
-loc_B75A:
+loc_D62A:
 cmp	ax, bx
-jb	short loc_B769
+jb	short loc_D639
 mov	ax, bx
 or	dx, dx
-jns	short loc_B766
+jns	short loc_D636
 neg	ax
 
-loc_B766:
+loc_D636:
 mov	ds:197Eh, ax
 
-loc_B769:
+loc_D639:
 mov	bp, 4948h
 mov	dx, ds:197Ch
 mov	ax, ds:197Eh
@@ -25628,37 +25627,37 @@ mov	cx, ds:0DCF4h
 shl	ax, 1
 shl	ax, 1
 shl	ax, 1
-jns	short loc_B79C
+jns	short loc_D66C
 neg	ax
 add	bp, ax
 
-loc_B786:
+loc_D656:
 push	cx
 mov	cx, [bp+0]
 mov	bx, [bp+2]
 neg	cx
-jz	short loc_B7A5
-call	sub_B7D2
+jz	short loc_D675
+call	sub_D6A2
 sub	bp, 8
 pop	cx
-loop	loc_B786
-jmp	short loc_B7AE
+loop	loc_D656
+jmp	short loc_D67E
 
-loc_B79C:
+loc_D66C:
 add	bp, ax
 
-loc_B79E:
+loc_D66E:
 push	cx
 mov	cx, [bp+0]
 mov	bx, [bp+2]
 
-loc_B7A5:
-call	sub_B7D2
+loc_D675:
+call	sub_D6A2
 add	bp, 8
 pop	cx
-loop	loc_B79E
+loop	loc_D66E
 
-loc_B7AE:
+loc_D67E:
 mov	es, word ptr ds:0DBDAh
 mov	di, ds:0DCF2h
 mov	cx, ds:0DCF4h
@@ -25667,17 +25666,17 @@ mov	bx, ds:46E5h
 mov	si, 4C60h
 pop	ax
 test	byte ptr ds:46EBh, 40h
-jnz	short locret_B7D1
+jnz	short locret_D6A1
 call	dword ptr ds:390Dh
 
-locret_B7D1:
+locret_D6A1:
 retn
-sub_B6C3 endp
+sub_D593 endp
 
 
 
 
-sub_B7D2 proc near
+sub_D6A2 proc near
 push	dx
 push	di
 push	ds
@@ -25693,30 +25692,30 @@ mov	[bp+6],	dx
 mov	ax, dx
 mov	dx, ss:0DCF2h
 cmp	bx, dx
-jnb	short loc_B7FB
+jnb	short loc_D6CB
 mov	cx, dx
 sub	cx, bx
 shr	cx, 1
 add	di, cx
 mov	dx, bx
 
-loc_B7FB:
+loc_D6CB:
 mov	cx, dx
 shr	cx, 1
 sub	ax, cx
-jns	short loc_B805
+jns	short loc_D6D5
 add	ax, bx
 
-loc_B805:
+loc_D6D5:
 mov	cx, dx
 sub	bx, ax
 sub	cx, bx
-jns	short loc_B813
+jns	short loc_D6E3
 add	cx, bx
 add	si, ax
-jmp	short loc_B81D
+jmp	short loc_D6ED
 
-loc_B813:
+loc_D6E3:
 xchg	bx, cx
 push	si
 add	si, ax
@@ -25724,291 +25723,291 @@ rep movsb
 pop	si
 xchg	bx, cx
 
-loc_B81D:
+loc_D6ED:
 rep movsb
 pop	ds
 pop	di
 pop	dx
 add	di, 0C8h ; 'È'
 retn
-sub_B7D2 endp
+sub_D6A2 endp
 
 mov	byte ptr ds:0DD02h, 0
-call	sub_B84A
+call	sub_D71A
 mov	word ptr ds:0DD0Fh, 0
-call	sub_B87E
-call	sub_1797
-call	sub_B941
-call	sub_D7B2
+call	sub_D74E
+call	sub_3667
+call	sub_D811
+call	sub_F682
 mov	si, 1DC6h
-call	sub_D72B
-jmp	sub_AD5E
+call	sub_F5FB
+jmp	sub_CC2E
 
 
 
-sub_B84A proc near
-call	sub_C07C
+sub_D71A proc near
+call	sub_DF4C
 mov	es, word ptr ds:0DBDAh
 assume es:nothing
 mov	si, 1470h
 mov	al, 0F0h ; 'ð'
 call	dword ptr ds:38DDh
-sub_B84A endp
+sub_D71A endp
 
 
 
 
-sub_B85A proc near
+sub_D72A proc near
 mov	ax, 1
-call	sub_C13E
+call	sub_E00E
 mov	dx, 5Bh	; '['
 mov	bx, 14h
 mov	ax, 2
-call	sub_C22F
+call	sub_E0FF
 mov	si, 2448h
-call	sub_DAAA
+call	sub_F97A
 mov	si, 2440h
 mov	di, 0D834h
-call	sub_5B99
-jmp	sub_B977
-sub_B85A endp
+call	sub_7A69
+jmp	sub_D847
+sub_D72A endp
 
 
 
 
-sub_B87E proc near
-call	sub_5BA8
+sub_D74E proc near
+call	sub_7A78
 mov	ax, 1
-call	sub_C13E
+call	sub_E00E
 mov	dx, ds:0DD0Fh
 xor	bx, bx
 xor	ax, ax
-call	sub_C305
+call	sub_E1D5
 sub	dx, 0D6h ; 'Ö'
 neg	dx
 mov	ax, 1
-call	sub_C30D
+call	sub_E1DD
 mov	si, 2440h
 mov	di, 0D834h
-jmp	sub_5B99
-sub_B87E endp
+jmp	sub_7A69
+sub_D74E endp
 
 
 
 
-sub_B8A7 proc near
+sub_D777 proc near
 push	ds
 pop	es
 mov	di, 4C60h
 mov	si, 92h	; '’'
-call	sub_F0B9
+call	sub_10F89
 mov	dx, ds:197Ch
 mov	bx, ds:197Eh
-call	sub_BA75
+call	sub_D945
 mov	ax, 1
-call	sub_C13E
-jmp	sub_C0F4
-sub_B8A7 endp
+call	sub_E00E
+jmp	sub_DFC4
+sub_D777 endp
 
-call	sub_D2BD
-call	sub_5ADF
-call	sub_B8A7
+call	sub_F18D
+call	sub_79AF
+call	sub_D777
 inc	byte ptr ds:0DD03h
 xor	al, al
 mov	dx, 0FFFFh
 mov	bp, 0B827h
-call	sub_C108
-call	sub_AE04
+call	sub_DFD8
+call	sub_CCD4
 mov	ax, 2562h
-call	sub_D95E
-call	sub_17E6
+call	sub_F82E
+call	sub_36B6
 
 
 
-sub_B8EA proc near
+sub_D7BA proc near
 mov	si, 0B9AEh
 mov	bp, 1
-jmp	sub_DA25
-sub_B8EA endp
+jmp	sub_F8F5
+sub_D7BA endp
 
 
 
 
-sub_B8F3 proc near
-call	sub_B84A
+sub_D7C3 proc near
+call	sub_D71A
 mov	bp, 0BE1Dh
-call	sub_C097
-call	sub_C474
+call	sub_DF67
+call	sub_E344
 
-loc_B8FF:
-call	sub_C43E
-call	sub_B87E
-call	sub_C4DD
+loc_D7CF:
+call	sub_E30E
+call	sub_D74E
+call	sub_E3AD
 sub	word ptr ds:0DD0Fh, 10h
 cmp	word ptr ds:0DD0Fh, 0FF96h
-jg	short loc_B8FF
+jg	short loc_D7CF
 retn
-sub_B8F3 endp
+sub_D7C3 endp
 
 
 
 
-sub_B915 proc near
-call	loc_B93B
-call	sub_C08E
+sub_D7E5 proc near
+call	loc_D80B
+call	sub_DF5E
 
-loc_B91B:
+loc_D7EB:
 add	word ptr ds:0DD0Fh, 10h
-call	sub_B87E
+call	sub_D74E
 cmp	word ptr ds:0DD0Fh, 0
-jnz	short loc_B91B
-call	sub_C07C
-jmp	sub_B87E
-sub_B915 endp
+jnz	short loc_D7EB
+call	sub_DF4C
+jmp	sub_D74E
+sub_D7E5 endp
 
 
 
 
-sub_B930 proc near
+sub_D800 proc near
 mov	byte ptr ds:0DD03h, 0
 mov	si, 0B9AEh
-call	sub_DA5F
+call	sub_F92F
 
-loc_B93B:
+loc_D80B:
 mov	si, 0BE57h
-jmp	sub_DA5F
-sub_B930 endp
+jmp	sub_F92F
+sub_D800 endp
 
 
 
 
-sub_B941 proc near
+sub_D811 proc near
 mov	bp, 204Ah
 mov	ax, 0B1h ; '±'
 mov	bx, 0B96Bh
 cmp	byte ptr ds:0DD02h, 0
-jz	short loc_B955
+jz	short loc_D825
 inc	ax
 mov	bx, 0B961h
 
-loc_B955:
+loc_D825:
 mov	[bp+6],	ax
 mov	[bp+8],	bx
 mov	bx, 0D917h
-jmp	sub_D338
-sub_B941 endp
+jmp	sub_F208
+sub_D811 endp
 
-call	sub_B915
+call	sub_D7E5
 mov	byte ptr ds:0DD02h, 0
-jmp	short loc_B972
+jmp	short loc_D842
 
 
 
-sub_B96B proc near
-call	sub_B8F3
+sub_D83B proc near
+call	sub_D7C3
 dec	byte ptr ds:0DD02h
 
-loc_B972:
-call	sub_B98B
-jmp	short sub_B941
-sub_B96B endp
+loc_D842:
+call	sub_D85B
+jmp	short sub_D811
+sub_D83B endp
 
 
 
 
-sub_B977 proc near
+sub_D847 proc near
 mov	bp, 4948h
 mov	es, word ptr ds:0DBD6h
 mov	al, ds:0DD02h
 lds	si, ds:0DCFEh
-call	dword ptr ss:seg_F4B0+3911h
+call	dword ptr ss:seg_11380+3911h
 retn
-sub_B977 endp
+sub_D847 endp
 
 
 
 
-sub_B98B proc near
-call	sub_B977
+sub_D85B proc near
+call	sub_D847
 
-loc_B98E:
-call	sub_BAF2
+loc_D85E:
+call	sub_D9C2
 push	bx
 push	dx
 mov	si, 0D834h
-call	sub_DB74
-call	sub_C4ED
+call	sub_FA44
+call	sub_E3BD
 pop	dx
 pop	bx
 or	dx, dx
-jz	short loc_B9A5
-call	sub_BC0C
+jz	short loc_D875
+call	sub_DADC
 
-loc_B9A5:
-call	sub_DB67
+loc_D875:
+call	sub_FA37
 mov	ax, 1
-jmp	short sub_B9E0
-sub_B98B endp
+jmp	short sub_D8B0
+sub_D85B endp
 
 align 2
 mov	es, word ptr ds:0DBD6h
 call	dword ptr ds:3915h
-jb	short loc_B98E
+jb	short loc_D85E
 retn
 shr	ax, 1
 mov	ax, 8
-jmp	short loc_B9C5
+jmp	short loc_D895
 shr	ax, 1
 mov	ax, 0FFF8h
 
-loc_B9C5:
-jnb	short locret_B9DF
-call	sub_BA15
-jmp	short sub_B98B
+loc_D895:
+jnb	short locret_D8AF
+call	sub_D8E5
+jmp	short sub_D85B
 shr	ax, 1
 mov	ax, 0FFE0h
-jmp	short loc_B9D8
+jmp	short loc_D8A8
 shr	ax, 1
 mov	ax, 20h	; ' '
 
-loc_B9D8:
-jnb	short locret_B9DF
-call	sub_B9E0
-jmp	short sub_B98B
+loc_D8A8:
+jnb	short locret_D8AF
+call	sub_D8B0
+jmp	short sub_D85B
 
-locret_B9DF:
+locret_D8AF:
 retn
 
 
 
-sub_B9E0 proc near
+sub_D8B0 proc near
 mov	si, 494Ch
 mov	dx, [si]
 mov	cx, 18Eh
 add	dx, ax
-jns	short loc_B9EE
+jns	short loc_D8BE
 add	dx, cx
 
-loc_B9EE:
+loc_D8BE:
 cmp	dx, cx
-js	short loc_B9F4
+js	short loc_D8C4
 sub	dx, cx
 
-loc_B9F4:
+loc_D8C4:
 mov	[si], dx
-sub_B9E0 endp
+sub_D8B0 endp
 
 
 
 
-sub_B9F6 proc near
+sub_D8C6 proc near
 mov	ax, 8000h
 mov	cx, 18Eh
 div	cx
 mov	cx, 62h	; 'b'
 mov	bx, ax
 
-loc_BA03:
+loc_D8D3:
 add	si, 6
 lodsw
 mul	bx
@@ -26016,33 +26015,33 @@ add	ax, ax
 adc	dx, dx
 mov	[si], dx
 mov	[si+2],	ax
-loop	loc_BA03
+loop	loc_D8D3
 retn
-sub_B9F6 endp
+sub_D8C6 endp
 
 
 
 
-sub_BA15 proc near
+sub_D8E5 proc near
 add	ax, ds:2460h
 mov	cx, 62h	; 'b'
 cmp	ax, cx
-jl	short loc_BA22
+jl	short loc_D8F2
 mov	ax, cx
 
-loc_BA22:
+loc_D8F2:
 neg	cx
 cmp	ax, cx
-jg	short loc_BA2A
+jg	short loc_D8FA
 mov	ax, cx
 
-loc_BA2A:
+loc_D8FA:
 mov	ds:2460h, ax
-sub_BA15 endp
+sub_D8E5 endp
 
-; START	OF FUNCTION CHUNK FOR sub_BA75
+; START	OF FUNCTION CHUNK FOR sub_D945
 
-loc_BA2D:
+loc_D8FD:
 push	ds
 pop	es
 mov	di, 8B77h
@@ -26051,58 +26050,58 @@ mov	cx, 0C4h ; 'Ä'
 mov	ax, ds:2460h
 add	ax, bx
 cmp	ax, bx
-jle	short loc_BA55
+jle	short loc_D925
 neg	bx
 add	al, bl
 add	al, bl
 
-loc_BA47:
+loc_D917:
 dec	al
 stosw
 cmp	al, bl
-jle	short loc_BA50
-loop	loc_BA47
+jle	short loc_D920
+loop	loc_D917
 
-loc_BA50:
+loc_D920:
 neg	bx
 mov	ax, bx
 dec	cx
 
-loc_BA55:
+loc_D925:
 stosw
 dec	al
-js	short loc_BA5C
-loop	loc_BA55
+js	short loc_D92C
+loop	loc_D925
 
-loc_BA5C:
+loc_D92C:
 dec	cx
-jle	short locret_BA74
+jle	short locret_D944
 neg	ax
 
-loc_BA61:
+loc_D931:
 stosw
 inc	al
 cmp	al, bl
-jg	short loc_BA6A
-loop	loc_BA61
+jg	short loc_D93A
+loop	loc_D931
 
-loc_BA6A:
+loc_D93A:
 dec	cx
-jle	short locret_BA74
+jle	short locret_D944
 neg	al
 
-loc_BA6F:
+loc_D93F:
 inc	al
 stosw
-loop	loc_BA6F
+loop	loc_D93F
 
-locret_BA74:
+locret_D944:
 retn
-; END OF FUNCTION CHUNK	FOR sub_BA75
+; END OF FUNCTION CHUNK	FOR sub_D945
 
 
 
-sub_BA75 proc near
+sub_D945 proc near
 
 ; FUNCTION CHUNK AT BA2D SIZE 00000048 BYTES
 
@@ -26113,92 +26112,92 @@ mov	[si], dx
 mov	word ptr [si+2], 0
 mov	ax, bx
 cmp	ax, 20h	; ' '
-jnb	short loc_BA8E
+jnb	short loc_D95E
 mov	ax, 20h	; ' '
 
-loc_BA8E:
+loc_D95E:
 cmp	ax, 0FFE0h
-jb	short loc_BA96
+jb	short loc_D966
 mov	ax, 0FFE0h
 
-loc_BA96:
+loc_D966:
 mov	ds:2460h, ax
-call	sub_B9F6
-jmp	short loc_BA2D
-sub_BA75 endp
+call	sub_D8C6
+jmp	short loc_D8FD
+sub_D945 endp
 
 
 
 
-sub_BA9E proc near
-call	sub_407E
+sub_D96E proc near
+call	sub_5F4E
 mov	ax, 18Eh
 mul	dx
 mov	bp, ds:494Ah
 add	bp, bp
 sub	dx, ds:494Ch
-call	sub_B683
+call	sub_D553
 mov	cx, 1
 mov	ax, 20h	; ' '
 cmp	dx, ax
-jl	short loc_BAC0
+jl	short loc_D990
 mov	dx, ax
 inc	cx
 
-loc_BAC0:
+loc_D990:
 neg	ax
 cmp	dx, ax
-jg	short loc_BAC9
+jg	short loc_D999
 mov	dx, ax
 inc	cx
 
-loc_BAC9:
+loc_D999:
 sub	bx, ds:2460h
 mov	ax, 18h
 cmp	bx, ax
-jl	short loc_BAD7
+jl	short loc_D9A7
 mov	bx, ax
 inc	cx
 
-loc_BAD7:
+loc_D9A7:
 neg	ax
 cmp	bx, ax
-jg	short loc_BAE0
+jg	short loc_D9B0
 mov	bx, ax
 inc	cx
 
-loc_BAE0:
+loc_D9B0:
 mov	ax, dx
 push	cx
 push	bx
-call	sub_B9E0
+call	sub_D8B0
 pop	ax
-call	sub_BA15
-call	sub_B98B
+call	sub_D8E5
+call	sub_D85B
 pop	cx
-loop	sub_BA9E
-sub_BA9E endp
+loop	sub_D96E
+sub_D96E endp
 
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_13. PRESS	KEYPAD "+" TO EXPAND]
 
 
 
-sub_BAF2 proc near
+sub_D9C2 proc near
 xor	dx, dx
 cmp	byte ptr ds:227Dh, 0
 jnz	short nullsub_13
-call	sub_407E
+call	sub_5F4E
 sub	sp, 0Ah
 mov	bp, sp
 mov	word ptr [bp+0], 0
 shl	bx, 1
 shl	bx, 1
 shl	bx, 1
-jns	short loc_BB16
+jns	short loc_D9E6
 mov	byte ptr [bp+1], 0FFh
 neg	bx
 
-loc_BB16:
+loc_D9E6:
 mov	cx, [bx+494Ah]
 mov	ax, cx
 add	ax, ax
@@ -26207,28 +26206,28 @@ add	ax, ax
 adc	dx, 0
 xor	ax, ax
 sub	dx, [bx+494Ch]
-jns	short loc_BB31
+jns	short loc_DA01
 neg	dx
 not	ax
 
-loc_BB31:
+loc_DA01:
 cmp	dx, cx
-jb	short loc_BB3D
+jb	short loc_DA0D
 sub	dx, cx
 sub	dx, cx
 neg	dx
 not	ax
 
-loc_BB3D:
+loc_DA0D:
 shr	cx, 1
 cmp	dx, cx
-jb	short loc_BB4D
+jb	short loc_DA1D
 mov	byte ptr [bp+0], 80h ; '€'
 sub	dx, cx
 sub	dx, cx
 neg	dx
 
-loc_BB4D:
+loc_DA1D:
 mov	[bp+4],	al
 shr	bx, 1
 shr	bx, 1
@@ -26239,44 +26238,44 @@ mov	ax, bx
 mov	cx, 64h	; 'd'
 xor	bx, bx
 
-loc_BB60:
+loc_DA30:
 repne scasb
-jnz	short loc_BB7A
+jnz	short loc_DA4A
 inc	cx
 cmp	dl, [di+63h]
-jbe	short loc_BB7D
+jbe	short loc_DA4D
 mov	[bp+2],	cx
 inc	bx
 add	di, 0C7h ; 'Ç'
 cmp	di, 8B3Bh
-jb	short loc_BB60
-jmp	short loc_BBE6
+jb	short loc_DA30
+jmp	short loc_DAB6
 
-loc_BB7A:
+loc_DA4A:
 mov	cx, [bp+2]
 
-loc_BB7D:
+loc_DA4D:
 mov	ax, 64h	; 'd'
 sub	ax, cx
 mov	[bp+2],	bx
 mov	cx, [bp+0]
 mov	ah, ch
 or	cl, cl
-jns	short loc_BB90
+jns	short loc_DA60
 neg	al
 
-loc_BB90:
+loc_DA60:
 mov	di, 8BBBh
 mov	cx, 80h	; '€'
 repne scasw
-jnz	short loc_BBE6
+jnz	short loc_DAB6
 xor	al, al
 sub	di, 8C3Dh
-jns	short loc_BBA6
+jns	short loc_DA76
 neg	di
 not	al
 
-loc_BBA6:
+loc_DA76:
 mov	[bp+5],	al
 mov	bx, 36h	; '6'
 mov	ax, di
@@ -26287,142 +26286,142 @@ mov	cl, al
 mov	ch, 0FFh
 xor	ax, ax
 
-loc_BBBC:
+loc_DA8C:
 lodsb
 inc	al
-jz	short loc_BBE1
+jz	short loc_DAB1
 neg	al
 cmp	al, dl
-jbe	short loc_BBE1
+jbe	short loc_DAB1
 mov	di, si
 add	si, ax
 add	di, dx
 mov	al, [di]
 sub	al, cl
 cmp	al, ch
-jnb	short loc_BBDE
+jnb	short loc_DAAE
 mov	ch, al
 mov	[bp+6],	bx
 or	al, al
-jz	short loc_BBEC
+jz	short loc_DABC
 
-loc_BBDE:
+loc_DAAE:
 dec	bx
-jnz	short loc_BBBC
+jnz	short loc_DA8C
 
-loc_BBE1:
+loc_DAB1:
 cmp	ch, 2
-jbe	short loc_BBEC
+jbe	short loc_DABC
 
-loc_BBE6:
+loc_DAB6:
 add	sp, 0Ah
 xor	dx, dx
 retn
 
-loc_BBEC:
+loc_DABC:
 mov	ax, [bp+4]
 mov	bx, [bp+6]
 sub	bx, 36h	; '6'
 or	ah, ah
-jz	short loc_BBFB
+jz	short loc_DACB
 neg	bx
 
-loc_BBFB:
+loc_DACB:
 add	bx, 4Fh	; 'O'
 or	al, al
-jz	short loc_BC04
+jz	short loc_DAD4
 neg	dx
 
-loc_BC04:
+loc_DAD4:
 add	dx, 0A0h ; ' '
 add	sp, 0Ah
 retn
-sub_BAF2 endp
+sub_D9C2 endp
 
 
 
 
-sub_BC0C proc near
-call	sub_C08E
-call	sub_C137
+sub_DADC proc near
+call	sub_DF5E
+call	sub_E007
 mov	ax, 36h	; '6'
-call	sub_C1F4
+call	sub_E0C4
 sub	bl, es:[si+2]
-jmp	sub_C22F
-sub_BC0C endp
+jmp	sub_E0FF
+sub_DADC endp
 
-call	sub_D41B
+call	sub_F2EB
 cmp	bp, 204Ah
-jz	short loc_BC2C
+jz	short loc_DAFC
 cmp	bp, 2062h
 
-loc_BC2C:
-jnz	short locret_BC4D
-call	sub_BC4E
-jb	short loc_BC3C
+loc_DAFC:
+jnz	short locret_DB1D
+call	sub_DB1E
+jb	short loc_DB0C
 cmp	bp, 204Ah
-jz	short locret_BC4D
-jmp	sub_B941
+jz	short locret_DB1D
+jmp	sub_D811
 
-loc_BC3C:
+loc_DB0C:
 cmp	bp, 2062h
-jz	short locret_BC4D
+jz	short locret_DB1D
 mov	bp, 2062h
 mov	bx, 0D917h
 xor	cx, cx
-jmp	loc_D33A
+jmp	loc_F20A
 
-locret_BC4D:
+locret_DB1D:
 retn
 
 
 
-sub_BC4E proc near
+sub_DB1E proc near
 sub	dx, 60h	; '`'
 cmc
-jnb	short locret_BC63
+jnb	short locret_DB33
 cmp	dx, 80h	; '€'
-jnb	short locret_BC63
+jnb	short locret_DB33
 sub	bx, 19h
 cmc
-jnb	short locret_BC63
+jnb	short locret_DB33
 cmp	bx, 6Dh	; 'm'
 
-locret_BC63:
+locret_DB33:
 retn
-sub_BC4E endp
+sub_DB1E endp
 
 push	bx
 push	dx
-call	sub_BC4E
-jnb	short loc_BC7E
-call	sub_BD25
-jnb	short loc_BC7E
+call	sub_DB1E
+jnb	short loc_DB4E
+call	sub_DBF5
+jnb	short loc_DB4E
 mov	ds:197Ch, ax
 mov	ds:197Eh, bx
-call	sub_B98B
+call	sub_D85B
 pop	dx
 pop	bx
-jmp	short loc_BC8D
+jmp	short loc_DB5D
 
-loc_BC7E:
+loc_DB4E:
 pop	dx
 pop	bx
 retn
-call	sub_BA9E
-call	sub_5B5D
+call	sub_D96E
+call	sub_7A2D
 mov	dx, 0A0h ; ' '
 mov	bx, 4Fh	; 'O'
 
-loc_BC8D:
-call	sub_DBB2
-call	sub_BC99
-call	sub_ADBE
-jmp	loc_5A3D
+loc_DB5D:
+call	sub_FA82
+call	sub_DB69
+call	sub_CC8E
+jmp	loc_790D
 
 
 
-sub_BC99 proc near
+sub_DB69 proc near
 mov	si, 0DD06h
 mov	[si], dx
 mov	[si+2],	bx
@@ -26432,57 +26431,57 @@ inc	bx
 mov	[si+4],	dx
 mov	[si+6],	bx
 mov	byte ptr [si+8], 7
-call	sub_C08E
+call	sub_DF5E
 mov	cx, 8
 
-loc_BCB4:
+loc_DB84:
 push	cx
 mov	si, 0DD06h
 mov	di, 2440h
 mov	cx, 2
 mov	dx, 0FFFCh
 
-loc_BCC1:
+loc_DB91:
 mov	ax, [si]
 add	ax, dx
 cmp	ax, [di]
-jnb	short loc_BCCB
+jnb	short loc_DB9B
 mov	ax, [di]
 
-loc_BCCB:
+loc_DB9B:
 mov	[si], ax
 add	di, 2
 add	si, 2
 sar	dx, 1
-loop	loc_BCC1
+loop	loc_DB91
 mov	cx, 2
 mov	dx, 4
 
-loc_BCDD:
+loc_DBAD:
 mov	ax, [si]
 add	ax, dx
 cmp	ax, [di]
-jb	short loc_BCE7
+jb	short loc_DBB7
 mov	ax, [di]
 
-loc_BCE7:
+loc_DBB7:
 mov	[si], ax
 add	di, 2
 add	si, 2
 sar	dx, 1
-loop	loc_BCDD
+loop	loc_DBAD
 mov	si, 0DD06h
-call	sub_C551
-call	sub_BD00
+call	sub_E421
+call	sub_DBD0
 pop	cx
-loop	loc_BCB4
+loop	loc_DB84
 retn
-sub_BC99 endp
+sub_DB69 endp
 
 
 
 
-sub_BD00 proc near
+sub_DBD0 proc near
 xor	ax, ax
 mov	cx, 0Ah
 mov	si, 0DD06h
@@ -26490,56 +26489,56 @@ inc	word ptr [si]
 inc	word ptr [si+2]
 dec	word ptr [si+4]
 dec	word ptr [si+6]
-call	sub_C0D5
+call	sub_DFA5
 mov	si, 0DD06h
 dec	word ptr [si]
 dec	word ptr [si+2]
 inc	word ptr [si+4]
 inc	word ptr [si+6]
 retn
-sub_BD00 endp
+sub_DBD0 endp
 
 
 
 
-sub_BD25 proc near
+sub_DBF5 proc near
 sub	bx, 36h	; '6'
 mov	cx, bx
-jns	short loc_BD2E
+jns	short loc_DBFE
 neg	cx
 
-loc_BD2E:
+loc_DBFE:
 push	ds
 pop	es
 mov	si, 4C60h
 inc	cx
 xor	ax, ax
 
-loc_BD36:
+loc_DC06:
 add	si, ax
 lodsb
 inc	al
 neg	al
-loopne	loc_BD36
+loopne	loc_DC06
 mov	di, si
 add	di, ax
 sub	dx, 40h	; '@'
 mov	ax, dx
-jns	short loc_BD4C
+jns	short loc_DC1C
 neg	dx
 
-loc_BD4C:
+loc_DC1C:
 add	si, dx
 cmp	si, di
-jnb	short locret_BDBA
+jnb	short locret_DC8A
 push	ax
 lodsb
 xor	ah, ah
 or	bx, bx
-js	short loc_BD5C
+js	short loc_DC2C
 neg	ax
 
-loc_BD5C:
+loc_DC2C:
 mov	si, 8C3Bh
 add	si, ax
 add	si, ax
@@ -26549,10 +26548,10 @@ mov	si, 593Ah
 cbw
 mov	bp, ax
 or	ax, ax
-jns	short loc_BD71
+jns	short loc_DC41
 neg	bp
 
-loc_BD71:
+loc_DC41:
 mov	ax, 0C8h ; 'È'
 mul	dx
 add	si, ax
@@ -26566,103 +26565,103 @@ add	di, di
 mov	cx, [di+494Ah]
 pop	dx
 or	dh, dh
-jns	short loc_BD92
+jns	short loc_DC62
 neg	bx
 
-loc_BD92:
+loc_DC62:
 or	dl, dl
-jns	short loc_BD9A
+jns	short loc_DC6A
 neg	ax
 add	ax, cx
 
-loc_BD9A:
+loc_DC6A:
 add	cx, cx
 mov	dx, [di+494Ch]
 pop	di
 or	di, di
-jns	short loc_BDA7
+jns	short loc_DC77
 neg	ax
 
-loc_BDA7:
+loc_DC77:
 add	dx, ax
-jns	short loc_BDAD
+jns	short loc_DC7D
 add	dx, cx
 
-loc_BDAD:
+loc_DC7D:
 cmp	dx, cx
-jb	short loc_BDB3
+jb	short loc_DC83
 sub	dx, cx
 
-loc_BDB3:
+loc_DC83:
 xor	ax, ax
 div	cx
 sar	bx, 1
 stc
 
-locret_BDBA:
+locret_DC8A:
 retn
-sub_BD25 endp
+sub_DBF5 endp
 
 
 
 
-sub_BDBB proc near
+sub_DC8B proc near
 cmp	word ptr ds:0DD0Fh, 0
-jz	short locret_BDF9
-call	sub_C08E
-call	sub_DBB2
-call	sub_BDFA
-call	sub_BED7
+jz	short locret_DCC9
+call	sub_DF5E
+call	sub_FA82
+call	sub_DCCA
+call	sub_DDA7
 mov	ax, ds:2
 and	ax, 0FFF0h
 mov	ds:115Ch, ax
-call	sub_D075
+call	sub_EF45
 mov	si, 2494h
-call	sub_D1A6
+call	sub_F076
 mov	si, 0DD11h
 mov	di, 0DD17h
 push	ds
 pop	es
 mov	cx, 6
 
-loc_BDEB:
+loc_DCBB:
 cmpsb
-loopne	loc_BDEB
-jnz	short locret_BDF9
+loopne	loc_DCBB
+jnz	short locret_DCC9
 dec	byte ptr [di-1]
 inc	cx
-loop	loc_BDEB
-call	sub_DBEC
+loop	loc_DCBB
+call	sub_FABC
 
-locret_BDF9:
+locret_DCC9:
 retn
-sub_BDBB endp
+sub_DC8B endp
 
 
 
 
-sub_BDFA proc near
+sub_DCCA proc near
 mov	si, 0C2h ; 'Â'
-call	sub_1AD1
+call	sub_39A1
 inc	ax
-call	sub_E2DB
-call	sub_BFA7
+call	sub_101AB
+call	sub_DE77
 mov	al, ds:29h
 xor	ah, ah
 shr	ax, 1
 mov	si, 0C3h ; 'Ã'
-call	sub_E2DB
-call	sub_D068
+call	sub_101AB
+call	sub_EF38
 mov	si, 2482h
-jmp	sub_D1A6
-sub_BDFA endp
+jmp	sub_F076
+sub_DCCA endp
 
 mov	ax, 1
-call	sub_C13E
+call	sub_E00E
 mov	si, 2506h
-call	sub_C21B
-call	sub_BED7
-call	sub_BDFA
+call	sub_E0EB
+call	sub_DDA7
+call	sub_DCCA
 mov	si, 0DD17h
 xor	ax, ax
 mov	[si], ax
@@ -26671,35 +26670,35 @@ mov	[si+4],	ax
 mov	ax, ds:2
 and	ax, 0FFF0h
 mov	ds:115Ch, ax
-call	sub_D075
+call	sub_EF45
 mov	si, 2494h
-call	sub_D1A6
+call	sub_F076
 mov	si, 0BE57h
 mov	bp, 0Ch
-call	sub_DA25
-call	sub_C08E
+call	sub_F8F5
+call	sub_DF5E
 mov	si, 1470h
-call	sub_DB74
-call	sub_C137
+call	sub_FA44
+call	sub_E007
 mov	si, 0DD11h
 xor	bp, bp
 
-loc_BE68:
+loc_DD38:
 mov	cl, [si]
 sub	cl, [si+6]
-jz	short loc_BECD
+jz	short loc_DD9D
 mov	al, 1
-jnb	short loc_BE75
+jnb	short loc_DD45
 neg	al
 
-loc_BE75:
+loc_DD45:
 add	[si+6],	al
 mov	al, [si+6]
 cmp	al, 1Eh
-jb	short loc_BE81
+jb	short loc_DD51
 mov	al, 1Eh
 
-loc_BE81:
+loc_DD51:
 mov	bx, bp
 shl	bx, 1
 shl	bx, 1
@@ -26712,42 +26711,42 @@ push	bp
 mov	ax, 37h	; '7'
 shr	bp, 1
 adc	ax, 0
-call	sub_C2FD
+call	sub_E1CD
 sub	bx, 0Ah
 mov	ax, 39h	; '9'
-call	sub_C2FD
+call	sub_E1CD
 pop	bp
 pop	si
 mov	al, [si]
 cmp	al, [si+6]
-jnz	short loc_BECD
+jnz	short loc_DD9D
 test	bp, 1
 mov	ax, 3Fh	; '?'
-jz	short loc_BEBD
+jz	short loc_DD8D
 mov	al, 25h	; '%'
 
-loc_BEBD:
+loc_DD8D:
 mov	ds:0DBE4h, ax
 add	dx, 4
-call	sub_D04E
+call	sub_EF1E
 mov	al, [bp+116Ah]
-call	sub_D12F
+call	sub_EFFF
 
-loc_BECD:
+loc_DD9D:
 inc	si
 inc	bp
 cmp	bp, 6
-jb	short loc_BE68
-jmp	sub_C07C
+jb	short loc_DD38
+jmp	sub_DF4C
 
 
 
-sub_BED7 proc near
+sub_DDA7 proc near
 mov	ax, ds:2
 and	ax, 0FFF0h
 mov	ds:115Ch, ax
-call	sub_C02E
-call	sub_BF26
+call	sub_DEFE
+call	sub_DDF6
 push	ds
 pop	es
 mov	di, 0DD11h
@@ -26782,97 +26781,97 @@ mov	al, ah
 inc	al
 stosb
 retn
-sub_BED7 endp
+sub_DDA7 endp
 
 
 
 
-sub_BF26 proc near
+sub_DDF6 proc near
 mov	di, 115Eh
 mov	bp, 116Ah
 mov	si, 0C4h ; 'Ä'
-call	sub_CF70
+call	sub_EE40
 mov	ax, ds:0A4h
-call	sub_BF73
+call	sub_DE43
 mov	ax, ds:0A2h
-call	sub_BF73
+call	sub_DE43
 mov	ax, ds:0A8h
-call	sub_BF61
+call	sub_DE31
 mov	ax, ds:0A6h
-call	sub_BF61
+call	sub_DE31
 mov	ax, ds:0ACh
-call	sub_BF61
+call	sub_DE31
 mov	ax, ds:0AAh
-jmp	short sub_BF61
-sub_BF26 endp
+jmp	short sub_DE31
+sub_DDF6 endp
 
 push	di
 push	ax
-call	sub_D03C
+call	sub_EF0C
 pop	ax
 push	ax
-call	sub_E31C
-jmp	short loc_BF7D
+call	sub_101EC
+jmp	short loc_DE4D
 
 
 
-sub_BF61 proc near
+sub_DE31 proc near
 push	di
 push	ax
-call	sub_D03C
+call	sub_EF0C
 dec	si
 mov	byte ptr es:[si], 30h ;	'0'
 pop	ax
 push	ax
-call	sub_E31C
+call	sub_101EC
 inc	si
-jmp	short loc_BF7D
-sub_BF61 endp
+jmp	short loc_DE4D
+sub_DE31 endp
 
 
 
 
-sub_BF73 proc near
+sub_DE43 proc near
 push	di
 push	ax
-call	sub_D03C
+call	sub_EF0C
 pop	ax
 push	ax
-call	sub_E2E3
+call	sub_101B3
 
-loc_BF7D:
+loc_DE4D:
 pop	ax
 pop	di
 mov	dx, ax
 xchg	ax, [di]
 cmp	dx, ax
 mov	al, 3
-jnz	short loc_BF99
+jnz	short loc_DE69
 mov	ax, ds:2
 and	ax, 0FFF0h
 cmp	ds:115Ch, ax
-jz	short loc_BFA2
+jz	short loc_DE72
 mov	al, 3
-jmp	short loc_BF9F
+jmp	short loc_DE6F
 
-loc_BF99:
+loc_DE69:
 mov	al, 2
-jb	short loc_BF9F
+jb	short loc_DE6F
 dec	al
 
-loc_BF9F:
+loc_DE6F:
 mov	[bp+0],	al
 
-loc_BFA2:
+loc_DE72:
 add	di, 2
 inc	bp
 retn
-sub_BF73 endp
+sub_DE43 endp
 
 
 
 
-sub_BFA7 proc near
+sub_DE77 proc near
 mov	bl, ds:0CEEBh
 xor	bh, bh
 shl	bx, 1
@@ -26883,31 +26882,31 @@ mov	ax, es:[si-2]
 xchg	al, ah
 and	al, 0Fh
 cmp	ah, 31h	; '1'
-jz	short loc_BFDD
+jz	short loc_DEAD
 cmp	al, 4
-jnb	short loc_BFDD
+jnb	short loc_DEAD
 cmp	al, 1
-jnz	short loc_BFD7
+jnz	short loc_DEA7
 cmp	bx, 2522h
-jnz	short loc_BFD7
+jnz	short loc_DEA7
 cmp	ah, 20h	; ' '
-jnz	short loc_BFDD
+jnz	short loc_DEAD
 
-loc_BFD7:
+loc_DEA7:
 xor	ah, ah
 shl	ax, 1
 add	bx, ax
 
-loc_BFDD:
+loc_DEAD:
 mov	ax, [bx]
 mov	es:[si], ax
 retn
-sub_BFA7 endp
+sub_DE77 endp
 
 
 
 
-sub_BFE3 proc near
+sub_DEB3 proc near
 push	ds
 xor	bx, bx
 xor	dx, dx
@@ -26915,17 +26914,17 @@ mov	cx, 0C5F9h
 xor	si, si
 mov	ds, word ptr ds:0DD00h
 
-loc_BFF1:
+loc_DEC1:
 lodsb
 and	al, 30h
-jz	short loc_BFFC
+jz	short loc_DECC
 inc	dx
 cmp	al, 30h	; '0'
-jz	short loc_BFFC
+jz	short loc_DECC
 inc	bx
 
-loc_BFFC:
-loop	loc_BFF1
+loc_DECC:
+loop	loc_DEC1
 sub	dx, bx
 xor	ax, ax
 sub	si, 188h
@@ -26947,166 +26946,166 @@ pop	ds
 mov	ds:0A2h, dx
 mov	ds:0A4h, bx
 retn
-sub_BFE3 endp
+sub_DEB3 endp
 
 
 
 
-sub_C02E proc near
-call	sub_BFE3
+sub_DEFE proc near
+call	sub_DEB3
 mov	ax, ds:0A0h
 add	ax, ds:1172h
 sub	ax, ds:1170h
-jnb	short loc_C040
+jnb	short loc_DF10
 xor	ax, ax
 
-loc_C040:
+loc_DF10:
 cmp	ax, ds:0A6h
-jb	short loc_C049
+jb	short loc_DF19
 mov	ds:0A6h, ax
 
-loc_C049:
+loc_DF19:
 xor	ax, ax
 mov	ds:0AAh, ax
 mov	ds:0ACh, ax
 mov	si, 8AAh
 
-loc_C054:
+loc_DF24:
 mov	al, [si+1Ah]
 test	byte ptr [si+3], 20h
-jnz	short loc_C073
+jnz	short loc_DF43
 test	byte ptr [si+10h], 80h
-jz	short loc_C069
+jz	short loc_DF39
 add	ds:0ACh, ax
-jmp	short loc_C073
+jmp	short loc_DF43
 
-loc_C069:
+loc_DF39:
 test	byte ptr [si+3], 80h
-jnz	short loc_C073
+jnz	short loc_DF43
 add	ds:0AAh, ax
 
-loc_C073:
+loc_DF43:
 add	si, 1Bh
 cmp	byte ptr [si], 0
-jnz	short loc_C054
+jnz	short loc_DF24
 retn
-sub_C02E endp
+sub_DEFE endp
 
 
 
 
-sub_C07C proc near
+sub_DF4C proc near
 push	word ptr ds:0DBD6h
 pop	word ptr ds:0DBDAh
 retn
-sub_C07C endp
+sub_DF4C endp
 
 
 
 
-sub_C085 proc near
+sub_DF55 proc near
 push	word ptr ds:0DC32h
 pop	word ptr ds:0DBDAh
 retn
-sub_C085 endp
+sub_DF55 endp
 
 
 
 
-sub_C08E proc near
+sub_DF5E proc near
 push	word ptr ds:0DBD8h
 pop	word ptr ds:0DBDAh
 retn
-sub_C08E endp
+sub_DF5E endp
 
 
 
 
-sub_C097 proc near
-call	sub_C07C
+sub_DF67 proc near
+call	sub_DF4C
 push	word ptr ds:0DBD8h
 push	word ptr ds:0DBD6h
 pop	word ptr ds:0DBD8h
 call	bp
 pop	word ptr ds:0DBD8h
 retn
-sub_C097 endp
+sub_DF67 endp
 
 
 
 
-sub_C0AD proc near
+sub_DF7D proc near
 mov	es, word ptr ds:0DBDAh
 call	dword ptr ds:38D5h
 retn
-sub_C0AD endp
+sub_DF7D endp
 
-call	sub_D41B
+call	sub_F2EB
 cmp	bp, 2012h
-jz	short locret_C0D4
+jz	short locret_DFA4
 cmp	bp, 201Ah
-jz	short locret_C0D4
+jz	short locret_DFA4
 mov	al, 0Ch
-call	sub_C0D5
+call	sub_DFA5
 cmp	cx, 18h
-jnz	short locret_C0D4
+jnz	short locret_DFA4
 mov	al, 4
-jmp	sub_AB15
+jmp	sub_C9E5
 
-locret_C0D4:
+locret_DFA4:
 retn
 
 
 
-sub_C0D5 proc near
+sub_DFA5 proc near
 push	ds
 mov	es, word ptr ds:0DBD8h
 mov	ds, word ptr ds:0DBD6h
 mov	bp, 0CE7Ah
-call	dword ptr ss:seg_F4B0+392Dh
+call	dword ptr ss:seg_11380+392Dh
 pop	ds
 retn
-sub_C0D5 endp
+sub_DFA5 endp
 
 
 
 
-sub_C0E8 proc near
+sub_DFB8 proc near
 mov	es, word ptr ds:0DBD8h
 mov	bp, 0CE7Ah
 call	dword ptr ds:392Dh
 retn
-sub_C0E8 endp
+sub_DFB8 endp
 
 
 
 
-sub_C0F4 proc near
+sub_DFC4 proc near
 mov	ax, ds:0DBD6h
 cmp	ax, ds:0DBD8h
-jz	short locret_C101
+jz	short locret_DFD1
 call	dword ptr ds:3935h
 
-locret_C101:
+locret_DFD1:
 retn
-sub_C0F4 endp
+sub_DFC4 endp
 
 
 
 
-sub_C102 proc near
+sub_DFD2 proc near
 call	dword ptr ds:3959h
 mov	al, 3Ah	; ':'
-sub_C102 endp
+sub_DFD2 endp
 
 
 
 
-sub_C108 proc near
+sub_DFD8 proc near
 mov	byte ptr ds:0DCE6h, 80h	; '€'
 push	ax
 push	dx
-call	sub_C097
+call	sub_DF67
 pop	dx
 pop	ax
 push	ds
@@ -27114,44 +27113,44 @@ mov	si, ds:0DBDEh
 mov	es, word ptr ds:0DBD8h
 mov	ds, word ptr ds:0DBD6h
 mov	bp, 0CE7Ah
-call	dword ptr ss:seg_F4B0+3921h
+call	dword ptr ss:seg_11380+3921h
 pop	ds
-call	sub_C4CD
+call	sub_E39D
 call	dword ptr ds:3935h
 mov	byte ptr ds:0DCE6h, 0
 retn
-sub_C108 endp
+sub_DFD8 endp
 
 
 
 
-sub_C137 proc near
+sub_E007 proc near
 xor	ax, ax
-jmp	short sub_C13E
-sub_C137 endp
+jmp	short sub_E00E
+sub_E007 endp
 
-byte_C13B db 0B8h
-byte_C13C db 25h
+byte_E00B db 0B8h
+byte_E00C db 25h
 align 2
 
 
 
-sub_C13E proc near
+sub_E00E proc near
 or	ax, ax
-js	short locret_C1A9
+js	short locret_E079
 push	bx
 mov	bx, ax
 xchg	bx, ds:2784h
 cmp	ax, bx
-jz	short loc_C1A8
+jz	short loc_E078
 push	si
 push	di
 shl	bx, 1
-js	short loc_C15B
+js	short loc_E02B
 mov	si, ds:0CE7Bh
 mov	[bx-2574h], si
 
-loc_C15B:
+loc_E02B:
 mov	si, ax
 shl	si, 1
 shl	si, 1
@@ -27159,24 +27158,24 @@ add	si, 0D844h
 les	di, [si]
 mov	bx, es
 or	bx, bx
-jz	short loc_C177
+jz	short loc_E047
 cmp	di, 2
-jbe	short loc_C19E
-call	sub_C1AA
-jmp	short loc_C19E
+jbe	short loc_E06E
+call	sub_E07A
+jmp	short loc_E06E
 
-loc_C177:
+loc_E047:
 push	cx
 push	dx
 push	bp
 push	si
 mov	si, ax
-call	sub_F0B9
+call	sub_10F89
 cmp	word ptr es:[di], 2
-jbe	short loc_C189
-call	sub_C1AA
+jbe	short loc_E059
+call	sub_E07A
 
-loc_C189:
+loc_E059:
 pop	si
 mov	di, es:[di]
 sub	cx, di
@@ -27188,57 +27187,57 @@ pop	bp
 pop	dx
 pop	cx
 
-loc_C19E:
+loc_E06E:
 mov	ds:0DBB0h, di
 mov	word ptr ds:0DBB2h, es
 pop	di
 pop	si
 
-loc_C1A8:
+loc_E078:
 pop	bx
 
-locret_C1A9:
+locret_E079:
 retn
-sub_C13E endp
+sub_E00E endp
 
 
 
 
-sub_C1AA proc near
+sub_E07A proc near
 mov	ax, ds:2784h
 mov	ah, al
 xchg	al, ds:0DBB4h
 cmp	al, ah
-jz	short locret_C1A9
+jz	short locret_E079
 mov	si, 2
-sub_C1AA endp
+sub_E07A endp
 
 
 
 
-sub_C1BA proc near
+sub_E08A proc near
 push	cx
 push	dx
 push	di
 
-loc_C1BD:
+loc_E08D:
 lods	word ptr es:[si]
 cmp	ax, 100h
-jnz	short loc_C1C9
+jnz	short loc_E099
 add	si, 3
-jmp	short loc_C1BD
+jmp	short loc_E08D
 
-loc_C1C9:
+loc_E099:
 mov	bx, ax
 inc	ax
-jz	short loc_C1F0
+jz	short loc_E0C0
 mov	cl, bh
 xor	bh, bh
 and	cx, 0FFh
-jnz	short loc_C1DA
+jnz	short loc_E0AA
 inc	ch
 
-loc_C1DA:
+loc_E0AA:
 mov	ax, bx
 add	bx, bx
 add	bx, ax
@@ -27248,19 +27247,19 @@ add	cx, ax
 mov	dx, si
 add	si, cx
 call	dword ptr ds:38BDh
-jmp	short loc_C1BD
+jmp	short loc_E08D
 
-loc_C1F0:
+loc_E0C0:
 pop	di
 pop	dx
 pop	cx
 retn
-sub_C1BA endp
+sub_E08A endp
 
 
 
 
-sub_C1F4 proc near
+sub_E0C4 proc near
 push	bx
 les	si, ds:0DBB0h
 mov	bx, ax
@@ -27268,15 +27267,15 @@ shl	bx, 1
 add	si, es:[bx+si]
 pop	bx
 retn
-sub_C1F4 endp
+sub_E0C4 endp
 
 
 
 
-sub_C202 proc near
+sub_E0D2 proc near
 push	ax
 push	si
-call	sub_C1F4
+call	sub_E0C4
 lods	word ptr es:[si]
 and	ah, 0Fh
 shr	ax, 1
@@ -27288,31 +27287,31 @@ sub	bx, ax
 pop	si
 pop	ax
 retn
-sub_C202 endp
+sub_E0D2 endp
 
-byte_C21A db 0
+byte_E0EA db 0
 
 
 
-sub_C21B proc near
+sub_E0EB proc near
 lodsw
 cmp	ax, 0FFFFh
-jz	short locret_C26A
+jz	short locret_E13A
 mov	bx, ax
 lodsw
 mov	dx, ax
 lodsw
 xchg	ax, bx
 push	si
-call	sub_C22F
+call	sub_E0FF
 pop	si
-jmp	short sub_C21B
-sub_C21B endp
+jmp	short sub_E0EB
+sub_E0EB endp
 
 
 
 
-sub_C22F proc near
+sub_E0FF proc near
 mov	es, word ptr ds:0DBDAh
 lds	si, ds:0DBB0h
 mov	bp, ax
@@ -27327,23 +27326,23 @@ or	ah, ch
 mov	di, ax
 lodsw
 mov	cx, ax
-cmp	cs:byte_C21A, 0
-jz	short loc_C25D
-mov	ch, cs:byte_C21A
+cmp	cs:byte_E0EA, 0
+jz	short loc_E12D
+mov	ch, cs:byte_E0EA
 
-loc_C25D:
+loc_E12D:
 pop	ax
 and	ax, 1C00h
-jnz	short loc_C26B
-call	dword ptr ss:seg_F4B0+38C9h
+jnz	short loc_E13B
+call	dword ptr ss:seg_11380+38C9h
 push	ss
 pop	ds
 assume ds:seg001
 
-locret_C26A:
+locret_E13A:
 retn
 
-loc_C26B:
+loc_E13B:
 xchg	ah, al
 mov	bp, ax
 shr	bp, 1
@@ -27366,20 +27365,20 @@ pop	dx
 mov	cl, al
 pop	ax
 or	di, di
-jns	short loc_C299
-call	sub_C2A1
+jns	short loc_E169
+call	sub_E171
 
-loc_C299:
-call	dword ptr ss:seg_F4B0+3941h
+loc_E169:
+call	dword ptr ss:seg_11380+3941h
 push	ss
 pop	ds
 retn
-sub_C22F endp
+sub_E0FF endp
 
 
 
 
-sub_C2A1 proc near
+sub_E171 proc near
 push	ax
 push	bx
 push	cx
@@ -27399,34 +27398,34 @@ shl	bp, 1
 mov	cx, [si-2]
 xor	ch, ch
 
-loc_C2C0:
+loc_E190:
 push	cx
 mov	bx, bp
 
-loc_C2C3:
+loc_E193:
 lodsb
 test	al, 80h
-jnz	short loc_C2D6
+jnz	short loc_E1A6
 mov	cl, 1
 add	cl, al
 xor	ch, ch
 sub	bx, cx
 rep movsb
-jnz	short loc_C2C3
-jmp	short loc_C2E3
+jnz	short loc_E193
+jmp	short loc_E1B3
 
-loc_C2D6:
+loc_E1A6:
 mov	cl, 1
 sub	cl, al
 xor	ch, ch
 sub	bx, cx
 lodsb
 rep stosb
-jnz	short loc_C2C3
+jnz	short loc_E193
 
-loc_C2E3:
+loc_E1B3:
 pop	cx
-loop	loc_C2C0
+loop	loc_E190
 mov	si, 4C60h
 push	ss
 pop	ds
@@ -27438,47 +27437,47 @@ pop	cx
 pop	bx
 pop	ax
 retn
-sub_C2A1 endp
+sub_E171 endp
 
 
 
 
-sub_C2F2 proc near
+sub_E1C2 proc near
 xor	ah, ah
-call	sub_C13E
+call	sub_E00E
 xor	ax, ax
 xor	bx, bx
 xor	dx, dx
-sub_C2F2 endp
+sub_E1C2 endp
 
 
 
 
-sub_C2FD proc near
+sub_E1CD proc near
 push	bx
 push	dx
-call	sub_C22F
+call	sub_E0FF
 pop	dx
 pop	bx
 retn
-sub_C2FD endp
+sub_E1CD endp
 
 
 
 
-sub_C305 proc near
+sub_E1D5 proc near
 push	bx
 push	dx
-call	sub_C30D
+call	sub_E1DD
 pop	dx
 pop	bx
 retn
-sub_C305 endp
+sub_E1D5 endp
 
 
 
 
-sub_C30D proc near
+sub_E1DD proc near
 mov	es, word ptr ds:0DBDAh
 lds	si, ds:0DBB0h
 assume ds:nothing
@@ -27491,37 +27490,37 @@ lodsw
 xor	ah, ah
 mov	cx, ax
 mov	bp, 0D834h
-call	dword ptr ss:seg_F4B0+38CDh
+call	dword ptr ss:seg_11380+38CDh
 push	ss
 pop	ds
 assume ds:seg001
 
-locret_C32E:
+locret_E1FE:
 retn
-sub_C30D endp
+sub_E1DD endp
 
 
 
 
-sub_C32F proc near
+sub_E1FF proc near
 lodsw
 cmp	ax, 0FFFFh
-jz	short locret_C32E
+jz	short locret_E1FE
 mov	bx, ax
 lodsw
 mov	dx, ax
 lodsw
 xchg	ax, bx
 push	si
-call	sub_C30D
+call	sub_E1DD
 pop	si
-jmp	short sub_C32F
-sub_C32F endp
+jmp	short sub_E1FF
+sub_E1FF endp
 
 
 
 
-sub_C343 proc near
+sub_E213 proc near
 mov	es, word ptr ds:0DBDAh
 lds	si, ds:0DBB0h
 assume ds:nothing
@@ -27539,22 +27538,22 @@ mov	cx, ax
 shr	ax, 1
 sub	bx, ax
 mov	bp, 0D834h
-call	dword ptr ss:seg_F4B0+38CDh
+call	dword ptr ss:seg_11380+38CDh
 push	ss
 pop	ds
 assume ds:seg001
 retn
-sub_C343 endp
+sub_E213 endp
 
 
 
 
-sub_C370 proc near
+sub_E240 proc near
 push	ds
 push	ds
 push	ax
 push	si
-call	dword ptr seg_F4B0+38D9h
+call	dword ptr seg_11380+38D9h
 pop	si
 pop	ax
 pop	ds
@@ -27581,7 +27580,7 @@ lodsw
 mov	cx, ax
 xor	ah, ah
 push	ax
-call	dword ptr ss:seg_F4B0+38C9h
+call	dword ptr ss:seg_11380+38C9h
 push	es
 pop	ds
 mov	bp, sp
@@ -27597,97 +27596,97 @@ mov	bp, sp
 mov	dx, [bp+12h]
 sub	dx, [bp+4]
 
-loc_C3C7:
+loc_E297:
 mov	ax, [bp+4]
 add	[bp+8],	ax
 sub	dx, ax
-jnb	short loc_C3D4
+jnb	short loc_E2A4
 add	[bp+4],	dx
 
-loc_C3D4:
+loc_E2A4:
 push	dx
-call	dword ptr ss:seg_F4B0+3931h
+call	dword ptr ss:seg_11380+3931h
 pop	dx
 cmp	dx, 0
-jg	short loc_C3C7
+jg	short loc_E297
 mov	ax, [bp+12h]
 mov	[bp+4],	ax
 mov	ax, [bp+0]
 mov	[bp+8],	ax
 mov	bx, [bp+10h]
 sub	bx, [bp+6]
-jz	short loc_C40D
+jz	short loc_E2DD
 
-loc_C3F4:
+loc_E2C4:
 mov	ax, [bp+6]
 add	[bp+0Ah], ax
 sub	bx, ax
-jnb	short loc_C401
+jnb	short loc_E2D1
 add	[bp+6],	bx
 
-loc_C401:
+loc_E2D1:
 push	bx
-call	dword ptr ss:seg_F4B0+3931h
+call	dword ptr ss:seg_11380+3931h
 pop	bx
 cmp	bx, 0
-jg	short loc_C3F4
+jg	short loc_E2C4
 
-loc_C40D:
+loc_E2DD:
 add	sp, 18h
 pop	ds
 retn
-sub_C370 endp
+sub_E240 endp
 
 
 
 
-sub_C412 proc near
+sub_E2E2 proc near
 push	ds
 mov	es, word ptr ds:0DBDEh
 mov	ds, word ptr ds:0DBDAh
-call	dword ptr ss:seg_F4B0+38E1h
+call	dword ptr ss:seg_11380+38E1h
 pop	ds
 retn
-sub_C412 endp
+sub_E2E2 endp
 
 mov	es, word ptr ds:0DBDAh
 push	ds
 mov	ds, word ptr ds:0DBDEh
-call	dword ptr ss:seg_F4B0+38E9h
+call	dword ptr ss:seg_11380+38E9h
 pop	ds
 retn
 
 
 
-sub_C432 proc near
+sub_E302 proc near
 mov	si, 1470h
 mov	es, word ptr ds:0DBDAh
 call	dword ptr ds:38D9h
 retn
-sub_C432 endp
+sub_E302 endp
 
 
 
 
-sub_C43E proc near
+sub_E30E proc near
 mov	si, 1470h
-jmp	short sub_C446
-sub_C43E endp
+jmp	short sub_E316
+sub_E30E endp
 
 
 
 
-sub_C443 proc near
+sub_E313 proc near
 mov	si, 0D834h
-sub_C443 endp
+sub_E313 endp
 
 
 
 
-sub_C446 proc near
+sub_E316 proc near
 mov	ax, ds:0DBDEh
 
-loc_C449:
+loc_E319:
 push	cx
 mov	cx, ax
 mov	dx, [si]
@@ -27695,9 +27694,9 @@ mov	bx, [si+2]
 mov	bp, [si+4]
 mov	ax, [si+6]
 sub	bp, dx
-jbe	short loc_C46D
+jbe	short loc_E33D
 sub	ax, bx
-jbe	short loc_C46D
+jbe	short loc_E33D
 mov	es, word ptr ds:0DBD6h
 push	si
 push	ds
@@ -27706,186 +27705,186 @@ call	dword ptr ds:38EDh
 pop	ds
 pop	si
 
-loc_C46D:
+loc_E33D:
 pop	cx
 retn
-sub_C446 endp
+sub_E316 endp
 
 
 
 
-sub_C46F proc near
+sub_E33F proc near
 mov	ax, ds:0DC32h
-jmp	short loc_C449
-sub_C46F endp
+jmp	short loc_E319
+sub_E33F endp
 
 
 
 
-sub_C474 proc near
+sub_E344 proc near
 mov	si, 1470h
-sub_C474 endp
+sub_E344 endp
 
 
 
 
-sub_C477 proc near
+sub_E347 proc near
 mov	dx, [si]
 mov	bx, [si+2]
 mov	bp, [si+4]
 mov	ax, [si+6]
 sub	bp, dx
-jbe	short locret_C499
+jbe	short locret_E369
 sub	ax, bx
-jbe	short locret_C499
+jbe	short locret_E369
 mov	es, word ptr ds:0DBDEh
 push	ds
 mov	ds, word ptr ds:0DBD6h
-call	dword ptr ss:seg_F4B0+38E5h
+call	dword ptr ss:seg_11380+38E5h
 pop	ds
 
-locret_C499:
+locret_E369:
 retn
-sub_C477 endp
+sub_E347 endp
 
 
 
 
-sub_C49A proc near
+sub_E36A proc near
 push	ds
 mov	es, word ptr ds:0DBD6h
 mov	ds, word ptr ds:0DBD8h
-call	dword ptr ss:seg_F4B0+38F1h
+call	dword ptr ss:seg_11380+38F1h
 pop	ds
 retn
-sub_C49A endp
+sub_E36A endp
 
 
 
 
-sub_C4AA proc near
+sub_E37A proc near
 mov	dx, [si]
 mov	bx, [si+2]
 mov	bp, [si+4]
 mov	ax, [si+6]
 sub	bp, dx
-jbe	short locret_C4CC
+jbe	short locret_E39C
 sub	ax, bx
-jbe	short locret_C4CC
+jbe	short locret_E39C
 push	ds
 mov	es, word ptr ds:0DBD6h
 mov	ds, word ptr ds:0DBD8h
-call	dword ptr ss:seg_F4B0+38F5h
+call	dword ptr ss:seg_11380+38F5h
 pop	ds
 
-locret_C4CC:
+locret_E39C:
 retn
-sub_C4AA endp
+sub_E37A endp
 
 
 
 
-sub_C4CD proc near
+sub_E39D proc near
 push	ds
 mov	es, word ptr ds:0DBD8h
 mov	ds, word ptr ds:0DBD6h
-call	dword ptr ss:seg_F4B0+38F1h
+call	dword ptr ss:seg_11380+38F1h
 pop	ds
 retn
-sub_C4CD endp
+sub_E39D endp
 
 
 
 
-sub_C4DD proc near
+sub_E3AD proc near
 mov	ax, ds:0DC38h
 cmp	ax, 98h	; '˜'
-jnb	short loc_C4E8
-call	sub_DBB2
+jnb	short loc_E3B8
+call	sub_FA82
 
-loc_C4E8:
+loc_E3B8:
 mov	si, 1470h
-jmp	short sub_C4F0
-sub_C4DD endp
+jmp	short sub_E3C0
+sub_E3AD endp
 
 
 
 
-sub_C4ED proc near
+sub_E3BD proc near
 mov	si, 0D834h
-sub_C4ED endp
+sub_E3BD endp
 
 
 
 
-sub_C4F0 proc near
+sub_E3C0 proc near
 mov	dx, [si]
 mov	bx, [si+2]
 mov	bp, [si+4]
 mov	ax, [si+6]
-sub_C4F0 endp
+sub_E3C0 endp
 
 
 
 
-sub_C4FB proc near
+sub_E3CB proc near
 cmp	byte ptr ds:227Dh, 0
-jnz	short sub_C51E
+jnz	short sub_E3EE
 cmp	ax, 89h	; '‰'
-jl	short sub_C51E
+jl	short sub_E3EE
 cmp	bp, 7Eh	; '~'
-jl	short sub_C51E
+jl	short sub_E3EE
 cmp	dx, 0C2h ; 'Â'
-jge	short sub_C51E
+jge	short sub_E3EE
 push	ax
 push	bx
 push	dx
 push	bp
-call	sub_1797
+call	sub_3667
 pop	bp
 pop	dx
 pop	bx
 pop	ax
-sub_C4FB endp
+sub_E3CB endp
 
 
 
 
-sub_C51E proc near
+sub_E3EE proc near
 sub	bp, dx
-jbe	short locret_C53D
+jbe	short locret_E40D
 sub	ax, bx
-jbe	short locret_C53D
+jbe	short locret_E40D
 
-loc_C526:
+loc_E3F6:
 cmp	word ptr ds:2570h, 1AD6h
-jz	short locret_C53D
+jz	short locret_E40D
 push	ds
 mov	es, word ptr ds:0DBD8h
 mov	ds, word ptr ds:0DBD6h
-call	dword ptr ss:seg_F4B0+38F5h
+call	dword ptr ss:seg_11380+38F5h
 pop	ds
 
-locret_C53D:
+locret_E40D:
 retn
-sub_C51E endp ;	sp =  2
+sub_E3EE endp ;	sp =  2
 
 
 
 
-sub_C53E proc near
+sub_E40E proc near
 mov	si, 276Ah
 mov	bp, ds:2772h
 mov	al, ds:0DBE4h
 mov	es, word ptr ds:0DBDAh
 call	dword ptr ds:3901h
 retn
-sub_C53E endp
+sub_E40E endp
 
 
 
 
-sub_C551 proc near
+sub_E421 proc near
 lodsw
 mov	dx, ax
 lodsw
@@ -27897,13 +27896,13 @@ lodsw
 mov	cx, ax
 dec	cx
 lodsb
-sub_C551 endp
+sub_E421 endp
 
 
 
 ; Attributes: bp-based frame
 
-sub_C560 proc near
+sub_E430 proc near
 
 arg_2= word ptr	 4
 arg_4= word ptr	 6
@@ -27914,97 +27913,97 @@ push	cx
 push	dx
 push	di
 mov	cx, bx
-call	sub_C53E
+call	sub_E40E
 mov	bp, sp
 mov	cx, [bp+arg_2]
 mov	bx, cx
-call	sub_C53E
+call	sub_E40E
 mov	bp, sp
 mov	di, dx
 mov	bx, [bp+arg_4]
-call	sub_C53E
+call	sub_E40E
 pop	di
 mov	dx, di
-call	sub_C53E
+call	sub_E40E
 pop	dx
 pop	cx
 pop	bx
 retn
-sub_C560 endp
+sub_E430 endp
 
 
 
 
-sub_C58A proc near
-call	near ptr byte_C13B
+sub_E45A proc near
+call	near ptr byte_E00B
 mov	si, 3CBEh
 lodsw
 or	ax, ax
-jz	short locret_C5CE
+jz	short locret_E49E
 mov	ah, 11h
 mul	ah
 add	si, ax
 cmp	di, si
-jnb	short locret_C5CE
+jnb	short locret_E49E
 or	byte ptr [di+0Ch], 80h
 push	si
 push	di
 mov	si, di
-call	sub_C6AD
+call	sub_E57D
 pop	di
 pop	cx
 push	di
 lea	si, [di+11h]
 sub	cx, si
-jz	short loc_C5B8
+jz	short loc_E488
 push	ds
 pop	es
 rep movsb
 
-loc_C5B8:
+loc_E488:
 dec	word ptr ds:3CBEh
 pop	di
 mov	si, 4752h
 mov	cx, 2
 
-loc_C5C3:
+loc_E493:
 lodsw
 cmp	ax, di
-jb	short loc_C5CC
+jb	short loc_E49C
 sub	word ptr [si-2], 11h
 
-loc_C5CC:
-loop	loc_C5C3
+loc_E49C:
+loop	loc_E493
 
-locret_C5CE:
+locret_E49E:
 retn
-sub_C58A endp
+sub_E45A endp
 
 
 
 
-sub_C5CF proc near
+sub_E49F proc near
 xor	ah, ah
 mov	al, [bp+0]
 cmp	byte ptr [bp+3], 0
-jz	short sub_C60B
+jz	short sub_E4DB
 push	bp
-call	sub_C60B
+call	sub_E4DB
 pop	bp
 mov	[di+0Fh], bp
 push	si
 mov	si, bp
 mov	bx, 0FFFFh
 
-loc_C5E8:
+loc_E4B8:
 inc	bx
-js	short loc_C609
+js	short loc_E4D9
 add	si, 3
 cmp	byte ptr [si], 0
-jnz	short loc_C5E8
+jnz	short loc_E4B8
 or	bx, bx
-jz	short loc_C609
-call	sub_E3DF
+jz	short loc_E4D9
+call	sub_102AF
 mov	bx, ax
 shl	ax, 1
 add	ax, bx
@@ -28012,21 +28011,21 @@ add	bp, ax
 mov	[di+0Dh], bp
 or	byte ptr [di+0Ch], 1
 
-loc_C609:
+loc_E4D9:
 pop	si
 retn
-sub_C5CF endp
+sub_E49F endp
 
 
 
 
-sub_C60B proc near
+sub_E4DB proc near
 push	ax
-call	near ptr byte_C13B
+call	near ptr byte_E00B
 pop	ax
-call	sub_C202
+call	sub_E0D2
 
-loc_C613:
+loc_E4E3:
 push	si
 mov	di, 3CBEh
 mov	bp, ax
@@ -28041,7 +28040,7 @@ mov	[di+2],	bx
 mov	[di+8],	ax
 mov	[di+0Ah], si
 mov	byte ptr [di+0Ch], 0
-call	sub_C1F4
+call	sub_E0C4
 lods	word ptr es:[si]
 and	ah, 0Fh
 add	dx, ax
@@ -28051,25 +28050,25 @@ mov	[di+4],	dx
 mov	[di+6],	bx
 pop	si
 retn
-sub_C60B endp
+sub_E4DB endp
 
-call	loc_C613
+call	loc_E4E3
 mov	si, di
-jmp	short sub_C6AD
-; START	OF FUNCTION CHUNK FOR sub_8308
+jmp	short sub_E57D
+; START	OF FUNCTION CHUNK FOR sub_A1D8
 
-loc_C653:
-call	near ptr byte_C13B
+loc_E523:
+call	near ptr byte_E00B
 mov	ax, [di+8]
-call	sub_C202
+call	sub_E0D2
 sub	dx, [di]
 sub	bx, [di+2]
-; END OF FUNCTION CHUNK	FOR sub_8308
+; END OF FUNCTION CHUNK	FOR sub_A1D8
 
 
 
-sub_C661 proc near
-call	near ptr byte_C13B
+sub_E531 proc near
+call	near ptr byte_E00B
 mov	si, di
 sub	sp, 8
 mov	di, sp
@@ -28086,104 +28085,104 @@ add	[si+2],	bx
 add	[si+4],	dx
 add	[si+6],	bx
 or	dx, dx
-js	short loc_C68E
+js	short loc_E55E
 mov	ax, [si+4]
 mov	[di+4],	ax
-jmp	short loc_C692
+jmp	short loc_E562
 
-loc_C68E:
+loc_E55E:
 mov	ax, [si]
 mov	[di], ax
 
-loc_C692:
+loc_E562:
 or	bx, bx
-js	short loc_C69E
+js	short loc_E56E
 mov	ax, [si+6]
 mov	[di+6],	ax
-jmp	short loc_C6A4
+jmp	short loc_E574
 
-loc_C69E:
+loc_E56E:
 mov	ax, [si+2]
 mov	[di+2],	ax
 
-loc_C6A4:
+loc_E574:
 mov	si, di
-call	sub_C6AD
+call	sub_E57D
 add	sp, 8
 
-locret_C6AC:
+locret_E57C:
 retn
-sub_C661 endp
+sub_E531 endp
 
 
 
 
-sub_C6AD proc near
-call	near ptr byte_C13B
+sub_E57D proc near
+call	near ptr byte_E00B
 cmp	byte ptr ds:0DC46h, 0
-js	short loc_C6E4
+js	short loc_E5B4
 mov	ax, ds:0DC44h
 cmp	ax, [si+6]
-jge	short loc_C6E4
+jge	short loc_E5B4
 add	ax, 10h
 cmp	ax, [si+2]
-jle	short loc_C6E4
+jle	short loc_E5B4
 mov	ax, ds:0DC42h
 cmp	ax, [si+4]
-jge	short loc_C6E4
+jge	short loc_E5B4
 add	ax, 10h
 mov	bx, [si]
 and	bh, 0Fh
 cmp	ax, bx
-jle	short loc_C6E4
+jle	short loc_E5B4
 mov	ax, 0DBECh
 push	ax
 push	si
-call	sub_DBB2
+call	sub_FA82
 pop	si
 
-loc_C6E4:
+loc_E5B4:
 mov	ax, ds
 mov	es, ax
 mov	di, 0D834h
 mov	bx, 8
 lodsw
 cmp	ax, [bx+di]
-jge	short loc_C6F5
+jge	short loc_E5C5
 mov	ax, [bx+di]
 
-loc_C6F5:
+loc_E5C5:
 stosw
 lodsw
 cmp	ax, [bx+di]
-jge	short loc_C6FD
+jge	short loc_E5CD
 mov	ax, [bx+di]
 
-loc_C6FD:
+loc_E5CD:
 stosw
 lodsw
 cmp	ax, [bx+di]
-jle	short loc_C705
+jle	short loc_E5D5
 mov	ax, [bx+di]
 
-loc_C705:
+loc_E5D5:
 cmp	ax, [di-4]
-jle	short locret_C6AC
+jle	short locret_E57C
 stosw
 lodsw
 cmp	ax, [bx+di]
-jle	short loc_C712
+jle	short loc_E5E2
 mov	ax, [bx+di]
 
-loc_C712:
+loc_E5E2:
 cmp	ax, [di-4]
-jle	short locret_C6AC
+jle	short locret_E57C
 stosw
-call	sub_C443
+call	sub_E313
 sub	sp, 200h
 mov	di, sp
 mov	cx, ds:3CBEh
-jcxz	short loc_C780
+jcxz	short loc_E650
 mov	si, 0D834h
 lodsw
 mov	dx, ax
@@ -28194,233 +28193,233 @@ mov	bp, ax
 mov	ax, [si]
 mov	si, 3CC0h
 
-loc_C738:
+loc_E608:
 cmp	byte ptr [si+0Ch], 0
-js	short loc_C756
+js	short loc_E626
 cmp	[si], bp
-jge	short loc_C756
+jge	short loc_E626
 cmp	[si+2],	ax
-jge	short loc_C756
+jge	short loc_E626
 cmp	[si+4],	dx
-jle	short loc_C756
+jle	short loc_E626
 cmp	[si+6],	bx
-jle	short loc_C756
+jle	short loc_E626
 mov	[di], si
 add	di, 2
 
-loc_C756:
+loc_E626:
 add	si, 11h
-loop	loc_C738
+loop	loc_E608
 mov	cx, di
 sub	cx, sp
 shr	cx, 1
-jz	short loc_C780
+jz	short loc_E650
 
-loc_C763:
+loc_E633:
 mov	si, sp
 push	cx
 call	word ptr ds:2786h
-js	short loc_C77F
+js	short loc_E64F
 xor	si, si
 xchg	si, [bx-2]
 mov	ax, [si+8]
 mov	dx, [si]
 mov	bx, [si+2]
-call	sub_C30D
+call	sub_E1DD
 pop	cx
-jmp	short loc_C763
+jmp	short loc_E633
 
-loc_C77F:
+loc_E64F:
 pop	cx
 
-loc_C780:
+loc_E650:
 cmp	byte ptr ds:227Dh, 0
-jnz	short loc_C7A2
+jnz	short loc_E672
 cmp	word ptr ds:0D83Ah, 89h	; '‰'
-jl	short loc_C7A2
+jl	short loc_E672
 cmp	word ptr ds:0D838h, 7Eh	; '~'
-jl	short loc_C7A2
+jl	short loc_E672
 cmp	word ptr ds:0D834h, 0C2h ; 'Â'
-jge	short loc_C7A2
-call	sub_1797
+jge	short loc_E672
+call	sub_3667
 
-loc_C7A2:
+loc_E672:
 mov	si, ds:0DBE0h
 or	si, si
-jz	short loc_C7BE
+jz	short loc_E68E
 mov	di, 0D834h
-call	sub_C7D4
+call	sub_E6A4
 mov	si, ds:0DBE2h
 or	si, si
-jz	short loc_C7BE
+jz	short loc_E68E
 mov	di, 0D834h
-call	sub_C7D4
+call	sub_E6A4
 
-loc_C7BE:
+loc_E68E:
 mov	si, 0D834h
 mov	dx, [si]
 mov	bx, [si+2]
 mov	bp, [si+4]
 mov	ax, [si+6]
-call	sub_C51E
+call	sub_E3EE
 add	sp, 200h
 retn
-sub_C6AD endp ;	sp = -2
+sub_E57D endp ;	sp = -2
 
 
 
 
-sub_C7D4 proc near
+sub_E6A4 proc near
 lodsw
 cmp	ax, [di+4]
-jge	short locret_C826
+jge	short locret_E6F6
 mov	dx, ax
 lodsw
 cmp	ax, [di+6]
-jge	short locret_C826
+jge	short locret_E6F6
 mov	bx, ax
 lodsw
 cmp	ax, [di]
-jle	short locret_C826
+jle	short locret_E6F6
 mov	bp, ax
 lodsw
 cmp	ax, [di+2]
-jle	short locret_C826
+jle	short locret_E6F6
 cmp	dx, [di]
-jnb	short loc_C7F7
+jnb	short loc_E6C7
 mov	dx, [di]
 
-loc_C7F7:
+loc_E6C7:
 cmp	bp, [di+4]
-jb	short loc_C7FF
+jb	short loc_E6CF
 mov	bp, [di+4]
 
-loc_C7FF:
+loc_E6CF:
 cmp	bx, [di+2]
-jnb	short loc_C807
+jnb	short loc_E6D7
 mov	bx, [di+2]
 
-loc_C807:
+loc_E6D7:
 cmp	ax, [di+6]
-jb	short loc_C80F
+jb	short loc_E6DF
 mov	ax, [di+6]
 
-loc_C80F:
+loc_E6DF:
 sub	bp, dx
-jbe	short locret_C826
+jbe	short locret_E6F6
 sub	ax, bx
-jbe	short locret_C826
+jbe	short locret_E6F6
 mov	es, word ptr ds:0DBD6h
 mov	ds, word ptr ds:0DBD8h
-call	dword ptr ss:seg_F4B0+38F5h
+call	dword ptr ss:seg_11380+38F5h
 push	ss
 pop	ds
 assume ds:seg001
 
-locret_C826:
+locret_E6F6:
 retn
-sub_C7D4 endp
+sub_E6A4 endp
 
 
-loc_C827:
+loc_E6F7:
 lodsw
 or	ax, ax
-loope	loc_C827
-jz	short loc_C833
+loope	loc_E6F7
+jz	short loc_E703
 mov	bx, si
 mov	ax, 1
 
-loc_C833:
+loc_E703:
 dec	ax
 retn
 mov	dx, 0FFFFh
 
-loc_C838:
+loc_E708:
 lodsw
 or	ax, ax
-jz	short loc_C856
+jz	short loc_E726
 mov	di, ax
 mov	ax, [di+4]
 add	ax, [di+6]
 test	byte ptr [di+0Ch], 40h
-jz	short loc_C84E
+jz	short loc_E71E
 mov	ax, 7FFFh
 
-loc_C84E:
+loc_E71E:
 cmp	ax, dx
-ja	short loc_C856
+ja	short loc_E726
 mov	dx, ax
 mov	bx, si
 
-loc_C856:
-loop	loc_C838
+loc_E726:
+loop	loc_E708
 or	dx, dx
 retn
 
 
 
-sub_C85B proc near
+sub_E72B proc near
 mov	ax, ds:0CE7Ah
 mov	ds:476Eh, ax
 mov	word ptr ds:4772h, 1770h
 retn
-sub_C85B endp
+sub_E72B endp
 
 
 
 
-sub_C868 proc near
-call	sub_ABCC
-jnz	short locret_C8C0
-mov	si, word ptr seg_F4B0+22A6h
+sub_E738 proc near
+call	sub_CA9C
+jnz	short locret_E790
+mov	si, word ptr seg_11380+22A6h
 cmp	si, 11h
-jnb	short locret_C8C0
+jnb	short locret_E790
 shl	si, 1
 shl	si, 1
 mov	dx, [si+27B6h]
 mov	bx, [si+27B8h]
 mov	ax, bx
 or	ax, dx
-jz	short locret_C8C0
+jz	short locret_E790
 mov	si, 2792h
-cmp	seg_F4B0+227Dh,	0
-jnz	short loc_C8A3
+cmp	seg_11380+227Dh, 0
+jnz	short loc_E773
 push	bx
 mov	bx, 1
-call	sub_E3B7
+call	sub_10287
 pop	bx
 mov	si, 2789h
-jz	short loc_C8A3
+jz	short loc_E773
 mov	si, 278Eh
 
-loc_C8A3:
+loc_E773:
 lodsb
 or	al, al
-jz	short loc_C8BD
-jns	short loc_C8B2
+jz	short loc_E78D
+jns	short loc_E782
 mov	ax, 12Ch
-call	sub_E387
-jmp	short loc_C8A3
+call	sub_10257
+jmp	short loc_E773
 
-loc_C8B2:
+loc_E782:
 push	si
 xor	ah, ah
 mov	bp, ax
-call	sub_C8C1
+call	sub_E791
 pop	si
-jmp	short loc_C8A3
+jmp	short loc_E773
 
-loc_C8BD:
-call	sub_C4DD
+loc_E78D:
+call	sub_E3AD
 
-locret_C8C0:
+locret_E790:
 retn
-sub_C868 endp
+sub_E738 endp
 
 
 
 
-sub_C8C1 proc near
+sub_E791 proc near
 push	bx
 push	dx
 push	word ptr ds:0CE7Ah
@@ -28428,89 +28427,89 @@ mov	si, bp
 shl	si, 1
 shl	si, 1
 sub	dx, [si+2796h]
-jnb	short loc_C8D5
+jnb	short loc_E7A5
 xor	dx, dx
 
-loc_C8D5:
+loc_E7A5:
 sub	bx, [si+2798h]
-jnb	short loc_C8DD
+jnb	short loc_E7AD
 xor	bx, bx
 
-loc_C8DD:
+loc_E7AD:
 push	ds
 mov	es, word ptr ds:0DBD8h
 mov	ds, word ptr ds:0DBD6h
 assume ds:nothing
-call	dword ptr ss:seg_F4B0+3949h
+call	dword ptr ss:seg_11380+3949h
 pop	ds
 pop	bx
 
-loc_C8ED:
+loc_E7BD:
 mov	ax, ds:0CE7Ah
 sub	ax, bx
 cmp	al, ds:0DBE6h
-jb	short loc_C8ED
+jb	short loc_E7BD
 pop	dx
 pop	bx
 retn
-sub_C8C1 endp
+sub_E791 endp
 
 
 
 
-sub_C8FB proc near
-call	sub_C07C
+sub_E7CB proc near
+call	sub_DF4C
 push	bp
-call	sub_CA1B
-call	sub_C4DD
-call	sub_C0F4
+call	sub_E8EB
+call	sub_E3AD
+call	sub_DFC4
 pop	bp
 call	bp
 
-loc_C90B:
-call	sub_C9F4
-jz	short loc_C90B
-call	sub_C4DD
-call	sub_ACE6
-call	sub_CC85
-jz	short loc_C90B
-call	sub_C412
-jmp	sub_CA01
-sub_C8FB endp
+loc_E7DB:
+call	sub_E8C4
+jz	short loc_E7DB
+call	sub_E3AD
+call	sub_CBB6
+call	sub_EB55
+jz	short loc_E7DB
+call	sub_E2E2
+jmp	sub_E8D1
+sub_E7CB endp
 
 
 
 
-sub_C921 proc near
+sub_E7F1 proc near
 mov	bx, 33A3h
 add	bx, ax
 add	bx, ax
 mov	bx, [bx]
 retn
-sub_C921 endp
+sub_E7F1 endp
 
 
 
 
-sub_C92B proc near
+sub_E7FB proc near
 mov	ds:0DC00h, ax
-call	sub_CA01
-call	sub_CE1A
+call	sub_E8D1
+call	sub_ECEA
 mov	byte ptr ds:0DBE7h, 0
-call	sub_CE01
-sub_C92B endp
+call	sub_ECD1
+sub_E7FB endp
 
 
 
 
-sub_C93C proc near
+sub_E80C proc near
 mov	ax, ds:0DC00h
 mov	ds:0DC02h, ax
-call	sub_C921
+call	sub_E7F1
 mov	ax, [bx]
 mov	ds:0DBFEh, ax
 lea	dx, [bx+2]
-call	sub_F229
+call	sub_110F9
 mov	ds:35A6h, bx
 mov	ds:0DC04h, ax
 mov	ds:0DC06h, dx
@@ -28518,50 +28517,50 @@ mov	ds:0DC08h, cx
 mov	ds:0DC0Ah, bp
 push	word ptr ds:0DC1Ah
 push	word ptr ds:0DC0Ch
-call	sub_CD8F
-jb	short loc_C988
+call	sub_EC5F
+jb	short loc_E858
 add	si, ax
-jb	short loc_C97A
+jb	short loc_E84A
 cmp	si, ds:0CE74h
-jbe	short loc_C980
+jbe	short loc_E850
 
-loc_C97A:
+loc_E84A:
 mov	word ptr ds:0DC0Ch, 0
 
-loc_C980:
+loc_E850:
 sub	ax, 2
 mov	cx, ax
-call	sub_CDBF
+call	sub_EC8F
 
-loc_C988:
+loc_E858:
 pop	word ptr ds:0DC0Ch
 pop	word ptr ds:0DC1Ah
-jb	short locret_C9E7
+jb	short locret_E8B7
 les	si, ds:0DC0Ch
 lods	word ptr es:[si]
 add	ax, si
-jb	short loc_C9A2
+jb	short loc_E872
 cmp	ax, ds:0CE74h
-jbe	short loc_C9A4
+jbe	short loc_E874
 
-loc_C9A2:
+loc_E872:
 xor	si, si
 
-loc_C9A4:
+loc_E874:
 mov	byte ptr ds:0DBB4h, 0FFh
-call	sub_C1BA
+call	sub_E08A
 dec	si
 
-loc_C9AD:
+loc_E87D:
 inc	si
 cmp	byte ptr es:[si], 0FFh
-jz	short loc_C9AD
+jz	short loc_E87D
 xor	bx, bx
 test	byte ptr ds:0DBFEh, 4
-jz	short loc_C9BF
+jz	short loc_E88F
 mov	bl, 10h
 
-loc_C9BF:
+loc_E88F:
 mov	cx, es:[bx+si]
 mov	bx, es:[bx+si+2]
 mov	ax, ds:0DC04h
@@ -28578,285 +28577,285 @@ sbb	ax, bx
 mov	ds:0DBFCh, ax
 clc
 
-locret_C9E7:
+locret_E8B7:
 retn
-sub_C93C endp
+sub_E80C endp
 
 
 
 
-sub_C9E8 proc near
-call	sub_CA60
-call	sub_DD63
-jb	short loc_C9F1
+sub_E8B8 proc near
+call	sub_E930
+call	sub_FC33
+jb	short loc_E8C1
 retn
 
-loc_C9F1:
-jmp	sub_DE4E
-sub_C9E8 endp
+loc_E8C1:
+jmp	sub_FD1E
+sub_E8B8 endp
 
 
 
 
-sub_C9F4 proc near
+sub_E8C4 proc near
 push	word ptr ds:0DBE8h
-call	sub_CA60
+call	sub_E930
 pop	ax
 cmp	ax, ds:0DBE8h
 retn
-sub_C9F4 endp
+sub_E8C4 endp
 
 
 
 
-sub_CA01 proc near
+sub_E8D1 proc near
 xor	bx, bx
 xchg	bx, ds:35A6h
 or	bx, bx
-jz	short loc_CA18
-call	sub_CE01
+jz	short loc_E8E8
+call	sub_ECD1
 cmp	bx, ds:0DBBAh
-jz	short loc_CA18
+jz	short loc_E8E8
 mov	ah, 3Eh
 int	21h		; DOS -	2+ - CLOSE A FILE WITH HANDLE
 			; BX = file handle
 
-loc_CA18:
+loc_E8E8:
 xor	cx, cx
 retn
-sub_CA01 endp
+sub_E8D1 endp
 
 
 
 
-sub_CA1B proc near
-call	sub_C92B
-jb	short sub_CA01
-call	sub_CDA0
-jb	short sub_CA01
+sub_E8EB proc near
+call	sub_E7FB
+jb	short sub_E8D1
+call	sub_EC70
+jb	short sub_E8D1
 mov	byte ptr ds:0DCE6h, 0
 les	si, ds:0DC10h
 lods	word ptr es:[si]
 mov	bp, ds:0DBDEh
-call	loc_CCF4
-call	sub_AA0F
-call	sub_CC96
-call	sub_CE1A
+call	loc_EBC4
+call	sub_C8DF
+call	sub_EB66
+call	sub_ECEA
 inc	word ptr ds:0DBE8h
 inc	word ptr ds:0DBEAh
 test	byte ptr ds:0DBFEh, 40h
-jnz	short sub_CA59
+jnz	short sub_E929
 mov	cx, 32h	; '2'
 
-loc_CA52:
+loc_E922:
 push	cx
-call	sub_CB1A
+call	sub_E9EA
 pop	cx
-loop	loc_CA52
-sub_CA1B endp
+loop	loc_E922
+sub_E8EB endp
 
 
 
 
-sub_CA59 proc near
+sub_E929 proc near
 mov	ax, ds:0CE7Ah
 mov	ds:0DC22h, ax
 retn
-sub_CA59 endp
+sub_E929 endp
 
 
 
 
-sub_CA60 proc near
+sub_E930 proc near
 cmp	word ptr ds:35A6h, 0
-jz	short sub_CA9A
+jz	short sub_E96A
 cmp	byte ptr ds:0DBFEh, 0
-jns	short loc_CA71
-call	sub_CA8F
+jns	short loc_E941
+call	sub_E95F
 
-loc_CA71:
-call	sub_CAA0
-jnb	short loc_CA7B
-call	sub_CB1A
-jmp	short sub_CA60
+loc_E941:
+call	sub_E970
+jnb	short loc_E94B
+call	sub_E9EA
+jmp	short sub_E930
 
-loc_CA7B:
-call	sub_CAD4
-jb	short sub_CA8F
+loc_E94B:
+call	sub_E9A4
+jb	short sub_E95F
 mov	ax, ds:0DC1Eh
 inc	ax
-jz	short loc_CA89
-call	sub_CE3B
+jz	short loc_E959
+call	sub_ED0B
 
-loc_CA89:
-call	sub_CC96
-call	sub_CC4E
-sub_CA60 endp
-
-
+loc_E959:
+call	sub_EB66
+call	sub_EB1E
+sub_E930 endp
 
 
-sub_CA8F proc near
+
+
+sub_E95F proc near
 mov	al, ds:0DBFEh
 and	al, 80h
 mov	ds:0DBB5h, al
-call	sub_CB1A
-sub_CA8F endp
+call	sub_E9EA
+sub_E95F endp
 
 
 
 
-sub_CA9A proc near
+sub_E96A proc near
 mov	byte ptr ds:0DBB5h, 0
 retn
-sub_CA9A endp
+sub_E96A endp
 
 
 
 
-sub_CAA0 proc near
+sub_E970 proc near
 cmp	word ptr ds:0DC16h, 0
-ja	short locret_CAD3
+ja	short locret_E9A3
 mov	cx, ds:0DC1Ah
 stc
-jcxz	short locret_CAD3
+jcxz	short locret_E9A3
 les	si, ds:0DC10h
 lods	word ptr es:[si]
 cmp	word ptr es:[si], 6D6Dh
-jz	short loc_CABF
+jz	short loc_E98F
 cmp	cx, ax
-jb	short locret_CAD3
+jb	short locret_E9A3
 
-loc_CABF:
+loc_E98F:
 mov	bp, ds:0DBD6h
 test	byte ptr ds:0DBFEh, 40h
-jz	short loc_CACE
+jz	short loc_E99E
 mov	bp, ds:0DC32h
 
-loc_CACE:
-call	loc_CCF4
+loc_E99E:
+call	loc_EBC4
 xor	ax, ax
 
-locret_CAD3:
+locret_E9A3:
 retn
-sub_CAA0 endp
+sub_E970 endp
 
 
 
 
-sub_CAD4 proc near
+sub_E9A4 proc near
 mov	ax, ds:0DC1Ch
 inc	ax
-jnz	short loc_CAF0
+jnz	short loc_E9C0
 mov	ax, ds:0CE7Ah
 sub	ax, ds:0DC22h
 or	ah, ah
-jnz	short loc_CAEB
+jnz	short loc_E9BB
 cmp	al, ds:0DBFFh
-jb	short locret_CAEF
+jb	short locret_E9BF
 
-loc_CAEB:
-call	sub_CA59
+loc_E9BB:
+call	sub_E929
 clc
 
-locret_CAEF:
+locret_E9BF:
 retn
 
-loc_CAF0:
+loc_E9C0:
 mov	si, ds:3824h
 cmp	byte ptr [si+6], 1
 cmc
-jb	short locret_CAEF
-call	sub_A9F4
+jb	short locret_E9BF
+call	sub_C8C4
 clc
 retn
-sub_CAD4 endp
+sub_E9A4 endp
 
-; START	OF FUNCTION CHUNK FOR sub_CB1A
+; START	OF FUNCTION CHUNK FOR sub_E9EA
 
-loc_CB00:
+loc_E9D0:
 mov	ax, ds:0DBEAh
 cmp	ax, ds:0DBEEh
-jz	short loc_CB61
+jz	short loc_EA31
 mov	ax, ds:0DC08h
 or	ax, ds:0DC0Ah
-jz	short loc_CB61
-call	sub_CD8F
-jb	short locret_CB44
-call	sub_CC0C
-; END OF FUNCTION CHUNK	FOR sub_CB1A
+jz	short loc_EA31
+call	sub_EC5F
+jb	short locret_EA14
+call	sub_EADC
+; END OF FUNCTION CHUNK	FOR sub_E9EA
 
 
 
-sub_CB1A proc near
+sub_E9EA proc near
 
 ; FUNCTION CHUNK AT CB00 SIZE 0000001A BYTES
 ; FUNCTION CHUNK AT CB45 SIZE 000000C7 BYTES
 
 mov	cx, ds:0DC20h
-jcxz	short loc_CB00
+jcxz	short loc_E9D0
 cmp	byte ptr ds:0DBFEh, 0
-js	short loc_CB38
+js	short loc_EA08
 mov	ax, ds:0DC04h
 neg	ax
 and	ax, 7FFh
 add	ah, 8
 cmp	ax, cx
-jnb	short loc_CB38
+jnb	short loc_EA08
 mov	cx, ax
 
-loc_CB38:
-call	sub_CC2B
-jb	short locret_CB44
+loc_EA08:
+call	sub_EAFB
+jb	short locret_EA14
 sub	ds:0DC20h, cx
-jmp	sub_CDBF
+jmp	sub_EC8F
 
-locret_CB44:
+locret_EA14:
 retn
-sub_CB1A endp
+sub_E9EA endp
 
-; START	OF FUNCTION CHUNK FOR sub_CB1A
+; START	OF FUNCTION CHUNK FOR sub_E9EA
 
-loc_CB45:
+loc_EA15:
 mov	ds:0DC00h, ax
-call	sub_C93C
+call	sub_E80C
 retn
 
-loc_CB4C:
+loc_EA1C:
 or	byte ptr ds:0DBE7h, 1
 cmp	word ptr ds:0DC1Ah, 0
-jnz	short locret_CB60
+jnz	short locret_EA30
 or	byte ptr ds:0DBE7h, 2
-call	sub_CA01
+call	sub_E8D1
 
-locret_CB60:
+locret_EA30:
 retn
 
-loc_CB61:
+loc_EA31:
 test	byte ptr ds:0DBFEh, 1
-jz	short loc_CB4C
+jz	short loc_EA1C
 mov	cx, 1000h
-call	sub_CC2B
-jb	short locret_CB44
+call	sub_EAFB
+jb	short locret_EA14
 mov	ax, ds:0DBEAh
-call	sub_CE07
+call	sub_ECD7
 mov	ds:0DBECh, ax
-call	sub_CA9A
+call	sub_E96A
 mov	ax, ds:0DC02h
 cmp	ax, ds:0DC00h
-jz	short loc_CBA0
-call	sub_C921
+jz	short loc_EA70
+call	sub_E7F1
 test	byte ptr [bx], 8
-jz	short loc_CB45
+jz	short loc_EA15
 cmp	word ptr [bx-6], 0
-jz	short loc_CB45
+jz	short loc_EA15
 mov	ds:0DC00h, ax
 lea	si, [bx-8]
 mov	di, 0DBF6h
-call	sub_5B99
+call	sub_7A69
 movsb
 
-loc_CBA0:
+loc_EA70:
 mov	ax, ds:0DBFAh
 mov	ds:0DC08h, ax
 mov	ax, ds:0DBFCh
@@ -28866,21 +28865,21 @@ mov	ds:0DC04h, ax
 mov	ax, ds:0DBF8h
 mov	ds:0DC06h, ax
 test	byte ptr ds:0DBFEh, 4
-jz	short loc_CC09
+jz	short loc_EAD9
 mov	ax, ds:0DC00h
 add	ax, 61h	; 'a'
-call	sub_C13E
+call	sub_E00E
 mov	bp, ds:0DBB0h
 mov	cx, 4
 
-loc_CBCF:
+loc_EA9F:
 les	di, ds:0DC0Ch
 mov	ax, 2
-call	sub_CDF7
+call	sub_ECC7
 mov	ax, 0Ah
 stosw
 mov	si, di
-call	sub_CC0C
+call	sub_EADC
 mov	es, word ptr ds:0DBB2h
 push	word ptr es:[bp+0]
 push	es
@@ -28895,124 +28894,124 @@ pop	ax
 stosw
 add	bp, ax
 mov	ax, 8
-call	sub_CDF7
-loop	loc_CBCF
+call	sub_ECC7
+loop	loc_EA9F
 mov	byte ptr ds:0DBB5h, 80h	; '€'
 
-loc_CC09:
-jmp	loc_CB00
-; END OF FUNCTION CHUNK	FOR sub_CB1A
+loc_EAD9:
+jmp	loc_E9D0
+; END OF FUNCTION CHUNK	FOR sub_E9EA
 
 
 
-sub_CC0C proc near
+sub_EADC proc near
 add	si, ax
-jb	short loc_CC16
+jb	short loc_EAE6
 cmp	si, ds:0CE74h
-jbe	short loc_CC20
+jbe	short loc_EAF0
 
-loc_CC16:
+loc_EAE6:
 xor	cx, cx
 xchg	cx, ds:0DC0Ch
 mov	ds:0DC18h, cx
 
-loc_CC20:
+loc_EAF0:
 sub	ax, 2
 mov	ds:0DC20h, ax
 inc	word ptr ds:0DBEAh
 retn
-sub_CC0C endp
+sub_EADC endp
 
 
 
 
-sub_CC2B proc near
+sub_EAFB proc near
 mov	ax, ds:0DC0Ch
 mov	bx, ds:0DC10h
 cmp	ax, bx
-jnb	short loc_CC3F
+jnb	short loc_EB0F
 add	ax, cx
 add	ax, 12h
 cmp	bx, ax
-jb	short locret_CC4D
+jb	short locret_EB1D
 
-loc_CC3F:
+loc_EB0F:
 mov	ax, ds:0DC1Ah
 add	ax, 0Ah
 add	ax, cx
-jb	short locret_CC4D
+jb	short locret_EB1D
 cmp	ds:0DC18h, ax
 
-locret_CC4D:
+locret_EB1D:
 retn
-sub_CC2B endp
+sub_EAFB endp
 
 
 
 
-sub_CC4E proc near
+sub_EB1E proc near
 les	si, ds:0DC10h
 lods	word ptr es:[si]
 sub	ds:0DC1Ah, ax
 add	si, ax
-jb	short loc_CC62
+jb	short loc_EB32
 cmp	si, ds:0CE74h
-jbe	short loc_CC6A
+jbe	short loc_EB3A
 
-loc_CC62:
+loc_EB32:
 sub	ax, 2
 mov	ds:0DC10h, ax
 xor	ax, ax
 
-loc_CC6A:
+loc_EB3A:
 add	ds:0DC10h, ax
 mov	ax, ds:0DBE8h
 inc	ax
 cmp	ax, ds:0DBECh
-jbe	short loc_CC81
+jbe	short loc_EB51
 mov	ax, 1
 mov	word ptr ds:0DBECh, 0FFFFh
 
-loc_CC81:
+loc_EB51:
 mov	ds:0DBE8h, ax
 retn
-sub_CC4E endp
+sub_EB1E endp
 
 
 
 
-sub_CC85 proc near
+sub_EB55 proc near
 cmp	byte ptr ds:0DBE7h, 0
-jz	short locret_CC91
+jz	short locret_EB61
 cmp	byte ptr ds:0DBE7h, 1
 
-locret_CC91:
+locret_EB61:
 retn
-sub_CC85 endp
+sub_EB55 endp
 
-word_CC92 dw 133h
-word_CC94 dw 0
+word_EB62 dw 133h
+word_EB64 dw 0
 
 
 
-sub_CC96 proc near
+sub_EB66 proc near
 
 ; FUNCTION CHUNK AT 4AFD SIZE 00000019 BYTES
 ; FUNCTION CHUNK AT DBE3 SIZE 00000009 BYTES
 
 mov	ax, ds:38FBh
-mov	cs:word_CC94, ax
+mov	cs:word_EB64, ax
 xor	bp, bp
 xchg	bp, ds:0DC16h
 or	bp, bp
-jz	short locret_CC4D
+jz	short locret_EB1D
 mov	si, ds:0DC14h
 mov	al, ds:0DBFEh
 test	al, 30h
-jnz	short loc_CCEA
+jnz	short loc_EBBA
 push	ds
 test	word ptr ds:0DC24h, 400h
-jnz	short loc_CCE1
+jnz	short loc_EBB1
 mov	es, word ptr ds:0DBDAh
 mov	bx, ds:0DC00h
 mov	ds, bp
@@ -29022,89 +29021,89 @@ mov	di, ax
 lodsw
 mov	cx, ax
 or	cl, cl
-jz	short loc_CCE1
+jz	short loc_EBB1
 lodsw
 mov	dx, ax
 lodsw
 xchg	ax, bx
 cmp	ax, 19h
-jnb	short loc_CCE3
-call	dword ptr ss:seg_F4B0+38C9h
+jnb	short loc_EBB3
+call	dword ptr ss:seg_11380+38C9h
 
-loc_CCE1:
+loc_EBB1:
 pop	ds
 retn
 
-loc_CCE3:
-call	dword ptr cs:word_CC92
+loc_EBB3:
+call	dword ptr cs:word_EB62
 pop	ds
 retn
 
-loc_CCEA:
+loc_EBBA:
 test	al, 20h
-jnz	short loc_CCF1
-jmp	loc_4AFD
+jnz	short loc_EBC1
+jmp	loc_69CD
 
-loc_CCF1:
-jmp	sub_4AEB
-sub_CC96 endp
+loc_EBC1:
+jmp	sub_69BB
+sub_EB66 endp
 
 
-loc_CCF4:
+loc_EBC4:
 mov	word ptr ds:0DC1Ch, 0FFFFh
 mov	word ptr ds:0DC1Eh, 0FFFFh
 add	ax, si
-jb	short loc_CD0A
+jb	short loc_EBDA
 cmp	ax, ds:0CE74h
-jbe	short loc_CD0C
+jbe	short loc_EBDC
 
-loc_CD0A:
+loc_EBDA:
 xor	si, si
 
-loc_CD0C:
+loc_EBDC:
 lods	word ptr es:[si]
 cmp	ax, 6473h
-jnz	short loc_CD25
-call	sub_AE2F
-jz	short loc_CD1C
+jnz	short loc_EBF5
+call	sub_CCFF
+jz	short loc_EBEC
 mov	ds:0DC1Ch, si
 
-loc_CD1C:
+loc_EBEC:
 lods	word ptr es:[si]
 sub	ax, 4
 add	si, ax
 lods	word ptr es:[si]
 
-loc_CD25:
+loc_EBF5:
 cmp	ax, 6C70h
-jnz	short loc_CD37
+jnz	short loc_EC07
 lods	word ptr es:[si]
 mov	ds:0DC1Eh, si
 sub	ax, 4
 add	si, ax
-jmp	short loc_CD0C
+jmp	short loc_EBDC
 
-loc_CD37:
+loc_EC07:
 cmp	ax, 6D6Dh
-jnz	short loc_CD4E
+jnz	short loc_EC1E
 mov	bx, es:[si+4]
 les	si, es:[si]
 lods	word ptr es:[si]
 cmp	ax, bx
 lods	word ptr es:[si]
-jz	short loc_CD4E
-jmp	sub_CC4E
+jz	short loc_EC1E
+jmp	sub_EB1E
 
-loc_CD4E:
+loc_EC1E:
 push	ds
 push	es
 mov	es, bp
 xor	di, di
 test	ah, 4
-jz	short loc_CD5D
+jz	short loc_EC2D
 mov	es, word ptr ds:0DBDAh
 
-loc_CD5D:
+loc_EC2D:
 mov	word ptr ds:0DC16h, es
 mov	ds:0DC14h, di
 mov	ds:0DC24h, ax
@@ -29113,22 +29112,22 @@ mov	cx, ax
 lodsw
 xchg	ax, cx
 test	ah, 4
-jnz	short loc_CD7C
+jnz	short loc_EC4C
 stosw
 xchg	ax, cx
 stosw
-jcxz	short loc_CD7F
+jcxz	short loc_EC4F
 test	ch, 2
-jz	short loc_CD81
+jz	short loc_EC51
 
-loc_CD7C:
-call	sub_F403
+loc_EC4C:
+call	sub_112D3
 
-loc_CD7F:
+loc_EC4F:
 pop	ds
-byte_CD80 db 0C3h
+byte_EC50 db 0C3h
 
-loc_CD81:
+loc_EC51:
 sub	si, 4
 mov	ax, ds
 pop	ds
@@ -29138,24 +29137,24 @@ retn
 
 
 
-sub_CD8F proc near
+sub_EC5F proc near
 mov	cx, 2
-call	sub_CDBF
-jb	short locret_CD9F
+call	sub_EC8F
+jb	short locret_EC6F
 les	si, ds:0DC0Ch
 mov	ax, es:[si-2]
 
-locret_CD9F:
+locret_EC6F:
 retn
-sub_CD8F endp
+sub_EC5F endp
 
 
 
 
-sub_CDA0 proc near
-call	sub_CE1A
-call	sub_CD8F
-jb	short locret_CE00
+sub_EC70 proc near
+call	sub_ECEA
+call	sub_EC5F
+jb	short locret_ECD0
 mov	di, ds:0CE74h
 sub	di, ax
 sub	di, 2
@@ -29164,17 +29163,17 @@ stosw
 mov	ds:0DC0Ch, di
 mov	cx, ax
 sub	cx, 2
-sub_CDA0 endp
+sub_EC70 endp
 
 
 
 
-sub_CDBF proc near
+sub_EC8F proc near
 mov	bx, ds:35A6h
 cmp	bx, 1
-jb	short locret_CE00
+jb	short locret_ECD0
 
-loc_CDC8:
+loc_EC98:
 push	cx
 mov	cx, ds:0DC06h
 mov	dx, ds:0DC04h
@@ -29190,46 +29189,46 @@ int	21h		; DOS -	2+ - READ FROM FILE WITH HANDLE
 			; DS:DX	-> buffer
 pop	ds
 cmp	ax, cx
-jb	short loc_CDC8
+jb	short loc_EC98
 sub	ds:0DC08h, ax
 sbb	word ptr ds:0DC0Ah, 0
 add	ds:0DC04h, ax
 adc	word ptr ds:0DC06h, 0
-sub_CDBF endp
+sub_EC8F endp
 
 
 
 
-sub_CDF7 proc near
+sub_ECC7 proc near
 add	ds:0DC0Ch, ax
 add	ds:0DC1Ah, ax
 clc
 
-locret_CE00:
+locret_ECD0:
 retn
-sub_CDF7 endp
+sub_ECC7 endp
 
 
 
 
-sub_CE01 proc near
+sub_ECD1 proc near
 mov	word ptr ds:0DBE8h, 0
-sub_CE01 endp
+sub_ECD1 endp
 
 
 
 
-sub_CE07 proc near
+sub_ECD7 proc near
 mov	word ptr ds:0DBEAh, 0
 mov	word ptr ds:0DBECh, 0FFFFh
 mov	word ptr ds:0DBEEh, 0FFFFh
 retn
-sub_CE07 endp
+sub_ECD7 endp
 
 
 
 
-sub_CE1A proc near
+sub_ECEA proc near
 mov	ax, ds:0DBDEh
 mov	ds:0DC0Eh, ax
 mov	ds:0DC12h, ax
@@ -29242,116 +29241,116 @@ mov	ds:0DC16h, ax
 mov	ax, ds:0CE74h
 mov	ds:0DC18h, ax
 retn
-sub_CE1A endp
+sub_ECEA endp
 
 
 
 
-sub_CE3B proc near
+sub_ED0B proc near
 les	si, ds:0DC0Ch
 mov	si, ds:0DC1Eh
-call	sub_C1BA
+call	sub_E08A
 call	dword ptr ds:3935h
 retn
-sub_CE3B endp
+sub_ED0B endp
 
 
 
 
-sub_CE4B proc near
+sub_ED1B proc near
 mov	ds:0DC02h, bx
 mov	ds:0DBEEh, ax
 retn
-sub_CE4B endp
+sub_ED1B endp
 
 
 
 
-sub_CE53 proc near
+sub_ED23 proc near
 test	byte ptr ds:3403h, 4
-jz	short locret_CE6B
+jz	short locret_ED3B
 mov	ax, 2
 
-loc_CE5D:
+loc_ED2D:
 push	ax
 add	ax, 61h	; 'a'
-call	sub_C13E
+call	sub_E00E
 pop	ax
 inc	ax
 cmp	ax, 8
-jb	short loc_CE5D
+jb	short loc_ED2D
 
-locret_CE6B:
+locret_ED3B:
 retn
-sub_CE53 endp
+sub_ED23 endp
 
 
 
 
-sub_CE6C proc near
+sub_ED3C proc near
 test	byte ptr ds:2943h, 2
-jnz	short loc_CE7B
+jnz	short loc_ED4B
 cmp	word ptr ds:39A9h, 15Eh
-jnb	short loc_CE8A
+jnb	short loc_ED5A
 
-loc_CE7B:
+loc_ED4B:
 mov	ax, 2
 
-loc_CE7E:
-call	sub_C921
+loc_ED4E:
+call	sub_E7F1
 and	byte ptr [bx], 0FBh
 inc	ax
 cmp	ax, 9
-jb	short loc_CE7E
+jb	short loc_ED4E
 
-loc_CE8A:
+loc_ED5A:
 test	byte ptr ds:2943h, 3
-jz	short loc_CE9F
+jz	short loc_ED6F
 xor	ax, ax
 
-loc_CE93:
-call	sub_C921
+loc_ED63:
+call	sub_E7F1
 and	byte ptr [bx], 7Fh
 inc	ax
 cmp	ax, 25h	; '%'
-jb	short loc_CE93
+jb	short loc_ED63
 
-loc_CE9F:
+loc_ED6F:
 mov	ax, 2
 
-loc_CEA2:
+loc_ED72:
 push	ax
-call	sub_CEB0
+call	sub_ED80
 pop	ax
 inc	ax
 cmp	ax, 8
-jb	short loc_CEA2
-jmp	sub_CA01
-sub_CE6C endp
+jb	short loc_ED72
+jmp	sub_E8D1
+sub_ED3C endp
 
 
 
 
-sub_CEB0 proc near
-call	sub_C921
+sub_ED80 proc near
+call	sub_E7F1
 push	bx
-call	sub_C92B
+call	sub_E7FB
 pop	di
-jb	short locret_CEC8
+jb	short locret_ED98
 test	byte ptr [di], 8
-jz	short locret_CEC8
+jz	short locret_ED98
 sub	di, 8
 mov	si, 0DBF6h
-call	sub_5B99
+call	sub_7A69
 
-locret_CEC8:
+locret_ED98:
 retn
-sub_CEB0 endp
+sub_ED80 endp
 
 
 
 
-sub_CEC9 proc near
+sub_ED99 proc near
 pushf
 push	bx
 push	cx
@@ -29364,17 +29363,17 @@ xor	ax, ax
 xchg	al, ds:0DBB5h
 sti
 push	ax
-call	sub_CAA0
-jbe	short loc_CEEF
+call	sub_E970
+jbe	short loc_EDBF
 mov	ax, ds:0DC1Eh
 inc	ax
-jnz	short loc_CEEF
-call	sub_CAD4
-jb	short loc_CEEF
-call	sub_CC96
-call	sub_CC4E
+jnz	short loc_EDBF
+call	sub_E9A4
+jb	short loc_EDBF
+call	sub_EB66
+call	sub_EB1E
 
-loc_CEEF:
+loc_EDBF:
 pop	ax
 mov	ds:0DBB5h, al
 pop	es
@@ -29386,74 +29385,74 @@ pop	cx
 pop	bx
 popf
 retn
-sub_CEC9 endp
+sub_ED99 endp
 
 mov	ax, 69h	; 'i'
 add	al, ds:0CEEBh
-call	sub_C13E
+call	sub_E00E
 mov	word ptr ds:3622h, 35A8h
 xor	ax, ax
 call	dword ptr ds:3939h
-call	sub_C0AD
+call	sub_DF7D
 mov	ax, 19h
-jmp	sub_CA1B
+jmp	sub_E8EB
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 
-loc_CF22:
+loc_EDF2:
 mov	si, ds:3622h
 lodsw
 cmp	ax, ds:0DBE8h
-ja	short loc_CF30
-call	sub_CF4B
+ja	short loc_EE00
+call	sub_EE1B
 
-loc_CF30:
-call	sub_C9E8
-jb	short loc_CF3B
-call	sub_CC85
-jz	short loc_CF22
+loc_EE00:
+call	sub_E8B8
+jb	short loc_EE0B
+call	sub_EB55
+jz	short loc_EDF2
 clc
 
-loc_CF3B:
+loc_EE0B:
 pushf
-call	sub_CA01
-call	sub_AC14
-call	sub_AD57
+call	sub_E8D1
+call	sub_CAE4
+call	sub_CC27
 popf
 pop	word ptr ds:0DBDAh
 retn
 
 
 
-sub_CF4B proc near
+sub_EE1B proc near
 mov	ax, si
 mov	ds:3622h, ax
 sub	ax, 35A8h
 shr	ax, 1
 shr	ax, 1
-jnb	short loc_CF61
+jnb	short loc_EE31
 mov	bx, 0BEh ; '¾'
 xor	dx, dx
-jmp	sub_C22F
+jmp	sub_E0FF
 
-loc_CF61:
+loc_EE31:
 mov	di, 0ED80h
 mov	es, word ptr ds:0DBD8h
 xor	ax, ax
 mov	cx, 0B40h
 rep stosw
 retn
-sub_CF4B endp
+sub_EE1B endp
 
 
 
 
-sub_CF70 proc near
+sub_EE40 proc near
 push	bx
 dec	si
 test	si, 800h
-jz	short loc_CF95
-call	sub_D00F
+jz	short loc_EE65
+call	sub_EEDF
 les	bx, ds:47B0h
 and	si, 7FFh
 shl	si, 1
@@ -29464,52 +29463,52 @@ mov	ds:47B4h, bx
 pop	bx
 retn
 
-loc_CF95:
+loc_EE65:
 shl	si, 1
 les	bx, ds:47ACh
 mov	si, es:[bx+si]
 pop	bx
 retn
-sub_CF70 endp
+sub_EE40 endp
 
 
 
 
-sub_CFA0 proc near
-call	sub_AE2F
-jz	short locret_CFB8
+sub_EE70 proc near
+call	sub_CCFF
+jz	short locret_EE88
 mov	al, ds:0CEEBh
 or	al, al
-jz	short loc_CFB0
+jz	short loc_EE80
 cmp	al, 3
-jnz	short locret_CFB8
+jnz	short locret_EE88
 
-loc_CFB0:
+loc_EE80:
 mov	al, 2
 mov	ds:28E7h, al
 mov	ds:28E8h, al
 
-locret_CFB8:
+locret_EE88:
 retn
-sub_CFA0 endp
+sub_EE70 endp
 
 
 
 
-sub_CFB9 proc near
+sub_EE89 proc near
 xor	bx, bx
 mov	di, 0D7F4h
 push	ds
 pop	es
 
-loc_CFC0:
+loc_EE90:
 mov	si, [bx-558Ah]
 cmp	word ptr [si], 0FFFFh
-jnz	short loc_CFCE
+jnz	short loc_EE9E
 add	bx, 2
-jmp	short loc_CFC0
+jmp	short loc_EE90
 
-loc_CFCE:
+loc_EE9E:
 mov	ax, [si+2]
 xchg	al, ah
 and	ax, 3FFh
@@ -29518,136 +29517,136 @@ stosw
 and	bx, 0FFF0h
 add	bx, 10h
 cmp	bx, 110h
-jb	short loc_CFC0
+jb	short loc_EE90
 
-loc_CFE4:
+loc_EEB4:
 mov	al, ds:0CEEBh
 mov	si, 0BBh ; '»'
 cmp	al, 6
-jnz	short loc_CFF1
+jnz	short loc_EEC1
 mov	si, 0C7h ; 'Ç'
 
-loc_CFF1:
+loc_EEC1:
 mov	di, 0CEECh
 push	ds
 pop	es
-call	sub_F0B9
+call	sub_10F89
 mov	al, 0C0h ; 'À'
 add	al, ds:0CEEBh
 xor	ah, ah
 mov	si, ax
 les	di, ds:47ACh
-call	sub_F0B9
-call	sub_98
-jmp	short loc_D01A
-sub_CFB9 endp
+call	sub_10F89
+call	sub_1F68
+jmp	short loc_EEEA
+sub_EE89 endp
 
 
 
 
-sub_D00F proc near
+sub_EEDF proc near
 mov	ax, ds:477Ch
 cmp	ax, ds:0AAD6h
 mov	al, 93h	; '“'
-jb	short loc_D01C
+jb	short loc_EEEC
 
-loc_D01A:
+loc_EEEA:
 mov	al, 9Ah	; 'š'
 
-loc_D01C:
+loc_EEEC:
 add	al, ds:0CEEBh
 cmp	al, ds:477Eh
-jz	short locret_D03B
+jz	short locret_EF0B
 push	si
 mov	ds:477Eh, al
 xor	ah, ah
 mov	si, ax
 les	di, ds:47B0h
-call	sub_F0B9
+call	sub_10F89
 push	cx
-call	sub_98
+call	sub_1F68
 pop	cx
 pop	si
 
-locret_D03B:
+locret_EF0B:
 retn
-sub_D00F endp
+sub_EEDF endp
 
 
 
 
-sub_D03C proc near
+sub_EF0C proc near
 lods	byte ptr es:[si]
 sub	al, 30h	; '0'
 cmp	al, 9
-ja	short sub_D03C
+ja	short sub_EF0C
 
-loc_D044:
+loc_EF14:
 lods	byte ptr es:[si]
 sub	al, 30h	; '0'
 cmp	al, 9
-jbe	short loc_D044
+jbe	short loc_EF14
 dec	si
 retn
-sub_D03C endp
+sub_EF0C endp
 
 
 
 
-sub_D04E proc near
+sub_EF1E proc near
 mov	ds:0D82Ch, dx
 mov	ds:0D82Eh, bx
 mov	ds:0D830h, dx
 mov	ds:0D832h, bx
 retn
-sub_D04E endp
+sub_EF1E endp
 
 
 
 
-sub_D05F proc near
+sub_EF2F proc near
 mov	dx, ds:0D82Ch
 mov	bx, ds:0D82Eh
 retn
-sub_D05F endp
+sub_EF2F endp
 
 
 
 
-sub_D068 proc near
+sub_EF38 proc near
 mov	word ptr ds:2518h, 0D096h
 mov	word ptr ds:47A0h, 0CEECh
 retn
-sub_D068 endp
+sub_EF38 endp
 
 
 
 
-sub_D075 proc near
+sub_EF45 proc near
 mov	word ptr ds:2518h, 0D12Fh
 mov	word ptr ds:47A0h, 0CF6Ch
 retn
-sub_D075 endp
+sub_EF45 endp
 
 
 
 
-sub_D082 proc near
+sub_EF52 proc near
 mov	word ptr ds:2518h, 0D0FFh
 mov	word ptr ds:47A0h, 0CEECh
 retn
-sub_D082 endp
+sub_EF52 endp
 
 
 
 
-sub_D08F proc near
+sub_EF5F proc near
 mov	word ptr ds:2518h, 0D16Ah
 retn
-sub_D08F endp
+sub_EF5F endp
 
 
-loc_D096:
+loc_EF66:
 push	ax
 push	bx
 push	cx
@@ -29665,7 +29664,7 @@ add	si, ax
 add	si, ds:2514h
 mov	bx, 0CEECh
 xlat
-call	sub_D05F
+call	sub_EF2F
 add	ds:0D82Ch, ax
 mov	cl, al
 mov	ch, 9
@@ -29697,7 +29696,7 @@ pop	ds
 
 
 
-sub_D0E3 proc near
+sub_EFB3 proc near
 push	cx
 push	di
 push	es
@@ -29710,44 +29709,44 @@ repne scasb
 pop	es
 assume es:nothing
 stc
-jnz	short loc_D0FC
+jnz	short loc_EFCC
 mov	al, cs:[di+8]
 mov	ah, 0Dh
 sub	ah, cl
 
-loc_D0FC:
+loc_EFCC:
 pop	di
 pop	cx
 retn
-sub_D0E3 endp
+sub_EFB3 endp
 
-call	sub_D068
-call	sub_D0E3
-jb	short loc_D096
-call	sub_E270
+call	sub_EF38
+call	sub_EFB3
+jb	short loc_EF66
+call	sub_10140
 push	es
 push	ax
 mov	ax, 32h	; '2'
-call	sub_C13E
-call	sub_D05F
+call	sub_E00E
+call	sub_EF2F
 pop	ax
 mov	cl, ah
 xor	ah, ah
 add	ds:0D82Ch, ax
 mov	al, cl
 sub	bx, 13h
-jnb	short loc_D127
+jnb	short loc_EFF7
 xor	bx, bx
 
-loc_D127:
-call	sub_C22F
+loc_EFF7:
+call	sub_E0FF
 pop	es
-call	sub_E283
+call	sub_10153
 retn
 
 
 
-sub_D12F proc near
+sub_EFFF proc near
 push	ax
 push	bx
 push	cx
@@ -29765,7 +29764,7 @@ sub	si, ax
 add	si, ds:2516h
 mov	bx, 0CF6Ch
 xlat
-call	sub_D05F
+call	sub_EF2F
 add	ds:0D82Ch, ax
 mov	cl, al
 mov	ch, 7
@@ -29781,58 +29780,58 @@ pop	cx
 pop	bx
 pop	ax
 retn
-sub_D12F endp
+sub_EFFF endp
 
-call	sub_E270
+call	sub_10140
 push	es
 xor	ah, ah
 sub	al, 20h	; ' '
 push	ax
 mov	ax, 13h
-call	sub_C13E
+call	sub_E00E
 pop	ax
 push	ax
-call	sub_C1F4
+call	sub_E0C4
 lods	word ptr es:[si]
 xor	ah, ah
 add	al, 2
-call	sub_D05F
+call	sub_EF2F
 add	ds:0D82Ch, ax
 pop	ax
-call	sub_C22F
+call	sub_E0FF
 pop	es
-call	sub_E283
+call	sub_10153
 retn
 
 
 
-sub_D194 proc near
+sub_F064 proc near
 mov	ds:0DBE4h, cx
-call	sub_D04E
-sub_D194 endp
+call	sub_EF1E
+sub_F064 endp
 
 
 
 
-sub_D19B proc near
+sub_F06B proc near
 push	si
 mov	si, ax
-call	sub_CF70
-call	sub_D1BB
+call	sub_EE40
+call	sub_F08B
 pop	si
 
-locret_D1A5:
+locret_F075:
 retn
-sub_D19B endp
+sub_F06B endp
 
 
 
 
-sub_D1A6 proc near
+sub_F076 proc near
 lodsw
 mov	cx, ax
 inc	ax
-jz	short locret_D1A5
+jz	short locret_F075
 lodsw
 mov	dx, ax
 lodsw
@@ -29840,76 +29839,76 @@ mov	bx, ax
 lodsw
 xchg	ax, cx
 push	si
-call	sub_D194
+call	sub_F064
 pop	si
-jmp	short sub_D1A6
-sub_D1A6 endp
+jmp	short sub_F076
+sub_F076 endp
 
 
 
 
-sub_D1BB proc near
+sub_F08B proc near
 lods	byte ptr es:[si]
 cmp	al, 0FFh
-jz	short locret_D1A5
+jz	short locret_F075
 cmp	al, 0Dh
-jz	short loc_D1D1
+jz	short loc_F0A1
 or	al, al
-jns	short loc_D1CB
+jns	short loc_F09B
 mov	al, 40h	; '@'
 
-loc_D1CB:
+loc_F09B:
 call	word ptr ds:2518h
-jmp	short sub_D1BB
+jmp	short sub_F08B
 
-loc_D1D1:
+loc_F0A1:
 mov	ax, ds:0D830h
 mov	ds:0D82Ch, ax
 mov	ax, 0Ah
 cmp	word ptr ds:2518h, 0D12Fh
-jnz	short loc_D1E5
+jnz	short loc_F0B5
 mov	ax, 7
 
-loc_D1E5:
+loc_F0B5:
 add	ds:0D832h, ax
 add	ds:0D82Eh, ax
-jmp	short sub_D1BB
-sub_D1BB endp
+jmp	short sub_F08B
+sub_F08B endp
 
 lodsw
 mov	cx, ax
 
 
 
-sub_D1F2 proc near
-call	sub_C137
+sub_F0C2 proc near
+call	sub_E007
 
-loc_D1F5:
+loc_F0C5:
 push	cx
-call	sub_D200
+call	sub_F0D0
 pop	cx
 add	si, 0Eh
-loop	loc_D1F5
+loop	loc_F0C5
 retn
-sub_D1F2 endp
+sub_F0C2 endp
 
 
 
 
-sub_D200 proc near
+sub_F0D0 proc near
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 push	si
 test	byte ptr [si+8], 40h
-jz	short loc_D218
+jz	short loc_F0E8
 mov	es, word ptr ds:0DBDAh
 push	si
 call	dword ptr ds:38D9h
 pop	si
 
-loc_D218:
+loc_F0E8:
 test	byte ptr [si+8], 20h
-jnz	short loc_D233
+jnz	short loc_F103
 lodsw
 mov	dx, ax
 lodsw
@@ -29921,202 +29920,202 @@ mov	cx, ax
 lodsw
 lodsw
 inc	ax
-jz	short loc_D233
+jz	short loc_F103
 dec	ax
-call	sub_C22F
+call	sub_E0FF
 
-loc_D233:
+loc_F103:
 pop	si
 pop	word ptr ds:0DBDAh
 retn
-sub_D200 endp
+sub_F0D0 endp
 
 
 
 
-sub_D239 proc near
+sub_F109 proc near
 mov	ch, 2
-jmp	short loc_D23F
-sub_D239 endp
+jmp	short loc_F10F
+sub_F109 endp
 
 
 
 
-sub_D23D proc near
+sub_F10D proc near
 xor	cx, cx
 
-loc_D23F:
+loc_F10F:
 mov	si, 1AF4h
 mov	ax, [si+0Ah]
 sub	ax, 0
 mov	cl, 3
 div	cl
 cmp	ch, ah
-jz	short locret_D27F
+jz	short locret_F14F
 mov	ax, 1
-jnb	short loc_D257
+jnb	short loc_F127
 neg	ax
 
-loc_D257:
+loc_F127:
 push	ax
 push	si
 add	[si+0Ah], ax
 add	[si+18h], ax
 mov	cx, 2
-call	sub_D1F2
-call	sub_1A34
+call	sub_F0C2
+call	sub_3904
 mov	ax, 0Ah
-call	sub_E387
+call	sub_10257
 pop	si
 pop	ax
 add	[si+0Ah], ax
 add	[si+18h], ax
 mov	cx, 2
-call	sub_D1F2
-call	sub_1A34
+call	sub_F0C2
+call	sub_3904
 
-locret_D27F:
+locret_F14F:
 retn
-sub_D23D endp
+sub_F10D endp
 
 
 
 
-sub_D280 proc near
+sub_F150 proc near
 cmp	byte ptr ds:0DCE6h, 0
-jle	short locret_D2BC
-call	sub_E270
+jle	short locret_F18C
+call	sub_10140
 mov	byte ptr ds:0DCE6h, 0
-call	sub_D239
+call	sub_F109
 mov	cx, 11h
 
-loc_D295:
+loc_F165:
 push	cx
 push	word ptr ds:0CE7Ah
 mov	si, ds:0DBDEh
 mov	al, 18h
-call	sub_C0D5
+call	sub_DFA5
 pop	bx
 
-loc_D2A4:
+loc_F174:
 push	bx
-call	sub_A7C2
+call	sub_C692
 pop	bx
 mov	ax, ds:0CE7Ah
 sub	ax, bx
 cmp	ax, 6
-jb	short loc_D2A4
+jb	short loc_F174
 pop	cx
-loop	loc_D295
-call	sub_D23D
-call	sub_E283
+loop	loc_F165
+call	sub_F10D
+call	sub_10153
 
-locret_D2BC:
+locret_F18C:
 retn
-sub_D280 endp
+sub_F150 endp
 
 
 
 
-sub_D2BD proc near
+sub_F18D proc near
 mov	al, ds:0DCE6h
 push	ax
 
-loc_D2C1:
+loc_F191:
 mov	byte ptr ds:0DCE6h, 80h	; '€'
 mov	si, ds:21DAh
 mov	si, [si]
 lodsb
 cmp	al, 0FFh
-jz	short loc_D2DA
+jz	short loc_F1AA
 and	al, 0Fh
-jz	short loc_D2DA
-call	sub_D2EA
-jmp	short loc_D2C1
+jz	short loc_F1AA
+call	sub_F1BA
+jmp	short loc_F191
 
-loc_D2DA:
+loc_F1AA:
 pop	ax
 mov	ds:0DCE6h, al
 retn
-sub_D2BD endp
+sub_F18D endp
 
-call	loc_D2FD
-
-
-
-sub_D2E2 proc near
-call	sub_D316
-call	sub_D2EA
-jmp	short sub_D280
-sub_D2E2 endp
+call	loc_F1CD
 
 
 
+sub_F1B2 proc near
+call	sub_F1E6
+call	sub_F1BA
+jmp	short sub_F150
+sub_F1B2 endp
 
-sub_D2EA proc near
+
+
+
+sub_F1BA proc near
 mov	si, ds:21DAh
 mov	di, [si]
 mov	al, [di]
 and	al, 0Fh
 cmp	al, 0Fh
-jz	short locret_D315
+jz	short locret_F1E5
 mov	ax, [si+2]
 call	ax
 
-loc_D2FD:
+loc_F1CD:
 mov	si, ds:21DAh
 cmp	si, 21BEh
-jz	short locret_D315
+jz	short locret_F1E5
 sub	si, 4
 mov	ds:21DAh, si
 mov	bp, [si]
 mov	cl, 0FFh
-call	sub_D36D
+call	sub_F23D
 
-locret_D315:
+locret_F1E5:
 retn
-sub_D2EA endp
+sub_F1BA endp
 
 
 
 
-sub_D316 proc near
+sub_F1E6 proc near
 cmp	word ptr ds:35A6h, 0
-jnz	short locret_D322
+jnz	short locret_F1F2
 or	byte ptr ds:0DCE6h, 1
 
-locret_D322:
+locret_F1F2:
 retn
-sub_D316 endp
+sub_F1E6 endp
 
 
 
 
-sub_D323 proc near
-call	sub_D316
-call	sub_D338
-call	sub_D280
-jmp	loc_D410
-sub_D323 endp
+sub_F1F3 proc near
+call	sub_F1E6
+call	sub_F208
+call	sub_F150
+jmp	loc_F2E0
+sub_F1F3 endp
 
 
-loc_D32F:
-call	sub_D316
-call	loc_D33A
-jmp	sub_D280
+loc_F1FF:
+call	sub_F1E6
+call	loc_F20A
+jmp	sub_F150
 
 
 
-sub_D338 proc near
+sub_F208 proc near
 mov	cl, 0FFh
 
-loc_D33A:
+loc_F20A:
 mov	si, ds:21DAh
 mov	di, [si]
 mov	al, [bp+0]
 cmp	al, [di]
-jz	short loc_D368
-jb	short loc_D35B
+jz	short loc_F238
+jb	short loc_F22B
 push	bp
 push	bx
 push	cx
@@ -30126,48 +30125,48 @@ sub	word ptr ds:21DAh, 4
 pop	cx
 pop	bx
 pop	bp
-jmp	short loc_D33A
+jmp	short loc_F20A
 
-loc_D35B:
+loc_F22B:
 cmp	si, 21D6h
-jz	short loc_D368
+jz	short loc_F238
 add	si, 4
 mov	ds:21DAh, si
 
-loc_D368:
+loc_F238:
 mov	[si], bp
 mov	[si+2],	bx
-sub_D338 endp
+sub_F208 endp
 
 
 
 
-sub_D36D proc near
+sub_F23D proc near
 mov	si, ds:21DAh
 mov	[si], bp
 mov	si, bp
 add	bp, 2
 
-loc_D378:
+loc_F248:
 cmp	word ptr [bp+0], 0
-jz	short loc_D388
+jz	short loc_F258
 and	word ptr [bp+0], 7FFFh
 add	bp, 4
-jmp	short loc_D378
+jmp	short loc_F248
 
-loc_D388:
+loc_F258:
 cmp	cx, 5
-jnb	short sub_D397
+jnb	short sub_F267
 shl	cx, 1
 shl	cx, 1
 mov	bx, cx
 or	byte ptr [bx+si+3], 80h
-sub_D36D endp
+sub_F23D endp
 
 
 
 
-sub_D397 proc near
+sub_F267 proc near
 mov	byte ptr ds:0DCE7h, 0FFh
 mov	si, ds:21DAh
 mov	si, [si]
@@ -30180,103 +30179,103 @@ xor	cx, cx
 mov	ds:0DCE8h, cl
 mov	byte ptr ds:0DCE5h, 0FFh
 
-loc_D3B5:
+loc_F285:
 mov	ax, [si]
 or	ax, ax
-jz	short loc_D3EF
+jz	short loc_F2BF
 cmp	cl, 4
-jb	short loc_D3D9
+jb	short loc_F2A9
 cmp	byte ptr ds:0DCE4h, 0
-jnz	short loc_D3CD
+jnz	short loc_F29D
 cmp	word ptr [si+4], 0
-jz	short loc_D3D9
+jz	short loc_F2A9
 
-loc_D3CD:
+loc_F29D:
 or	byte ptr ds:0DCE4h, 80h
 mov	ax, 0A0h ; ' '
 mov	ds:0DCE5h, cl
 
-loc_D3D9:
+loc_F2A9:
 add	si, 4
 push	cx
 push	si
 inc	byte ptr ds:0DCE8h
-call	sub_D48A
+call	sub_F35A
 pop	si
 pop	cx
 inc	cx
 cmp	cl, 5
-jb	short loc_D3B5
-jmp	short loc_D410
+jb	short loc_F285
+jmp	short loc_F2E0
 
-loc_D3EF:
+loc_F2BF:
 cmp	byte ptr ds:0DCE4h, 0
-jz	short loc_D403
+jz	short loc_F2D3
 mov	ax, 0A0h ; ' '
 mov	ds:0DCE5h, cl
 inc	byte ptr ds:0DCE8h
-jmp	short loc_D405
+jmp	short loc_F2D5
 
-loc_D403:
+loc_F2D3:
 xor	ax, ax
 
-loc_D405:
+loc_F2D5:
 push	cx
-call	sub_D48A
+call	sub_F35A
 pop	cx
 inc	cx
 cmp	cl, 5
-jb	short loc_D403
+jb	short loc_F2D3
 
-loc_D410:
+loc_F2E0:
 mov	dx, ds:0DC36h
 mov	bx, ds:0DC38h
-jmp	sub_D50F
-sub_D397 endp
+jmp	sub_F3DF
+sub_F267 endp
 
 
 
 
-sub_D41B proc near
+sub_F2EB proc near
 mov	bp, ds:21DAh
 mov	bp, [bp+0]
 retn
-sub_D41B endp
+sub_F2EB endp
 
 add	byte ptr [si], 10h
-jmp	sub_D397
+jmp	sub_F267
 mov	byte ptr [si], 0
-jmp	sub_D397
+jmp	sub_F267
 mov	cx, 4
-jmp	short loc_D445
+jmp	short loc_F315
 mov	cx, 3
-jmp	short loc_D445
+jmp	short loc_F315
 mov	cx, 2
-jmp	short loc_D445
+jmp	short loc_F315
 mov	cx, 1
-jmp	short loc_D445
+jmp	short loc_F315
 xor	cx, cx
 
-loc_D445:
-call	sub_D454
+loc_F315:
+call	sub_F324
 or	bx, bx
-jz	short locret_D453
+jz	short locret_F323
 test	ah, 40h
-jnz	short locret_D453
+jnz	short locret_F323
 jmp	bx
 
-locret_D453:
+locret_F323:
 retn
 
 
 
-sub_D454 proc near
+sub_F324 proc near
 mov	si, ds:21DAh
 mov	si, [si]
 inc	si
 xor	ch, ch
 cmp	cl, ds:0DCE5h
-jz	short loc_D475
+jz	short loc_F345
 lodsb
 cbw
 add	si, ax
@@ -30288,31 +30287,31 @@ mov	ax, [si]
 mov	bx, [si+2]
 retn
 
-loc_D475:
+loc_F345:
 mov	ax, 0A0h ; ' '
 mov	bx, 0D423h
 cmp	byte ptr ds:0DCE4h, 0
-js	short locret_D489
+js	short locret_F359
 mov	bx, 0D429h
-jg	short locret_D489
+jg	short locret_F359
 xor	bx, bx
 
-locret_D489:
+locret_F359:
 retn
-sub_D454 endp
+sub_F324 endp
 
 
 
 
-sub_D48A proc near
+sub_F35A proc near
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 cmp	byte ptr ds:0DCE6h, 0
-jle	short loc_D49B
-call	sub_C07C
+jle	short loc_F36B
+call	sub_DF4C
 
-loc_D49B:
-call	sub_D075
+loc_F36B:
+call	sub_EF45
 mov	si, ax
 mov	al, 0Eh
 mul	cl
@@ -30321,30 +30320,30 @@ add	di, 1B48h
 mov	bx, [di+2]
 inc	bx
 mov	dx, 5Dh	; ']'
-call	sub_D04E
+call	sub_EF1E
 mov	byte ptr ds:0DBE5h, 0F3h ; 'ó'
 and	byte ptr [di+8], 7Fh
 mov	ax, si
 and	si, 3FFFh
-jz	short loc_D4E9
+jz	short loc_F3B9
 mov	al, 0F5h ; 'õ'
 test	ah, 40h
-jnz	short loc_D4DA
+jnz	short loc_F3AA
 or	byte ptr [di+8], 80h
 mov	al, 0FAh ; 'ú'
 or	ah, ah
-jns	short loc_D4DA
+jns	short loc_F3AA
 xchg	al, ds:0DBE5h
 
-loc_D4DA:
+loc_F3AA:
 mov	ds:0DBE4h, al
-call	sub_CF70
+call	sub_EE40
 mov	al, 20h	; ' '
 call	word ptr ds:2518h
-call	sub_D1BB
+call	sub_F08B
 
-loc_D4E9:
-call	sub_D05F
+loc_F3B9:
+call	sub_EF2F
 mov	si, 0DCE9h
 mov	[si], dx
 mov	[si+2],	bx
@@ -30356,12 +30355,12 @@ mov	es, word ptr ds:0DBDAh
 call	dword ptr ds:38DDh
 pop	word ptr ds:0DBDAh
 retn
-sub_D48A endp
+sub_F35A endp
 
 
 
 
-sub_D50F proc near
+sub_F3DF proc near
 push	bx
 push	cx
 push	dx
@@ -30369,127 +30368,127 @@ push	si
 push	di
 push	bp
 cmp	byte ptr ds:4774h, 0
-jz	short loc_D523
+jz	short loc_F3F3
 mov	cl, ds:4775h
-jmp	loc_D5DD
+jmp	loc_F4AD
 
-loc_D523:
-call	sub_D41B
+loc_F3F3:
+call	sub_F2EB
 cmp	bp, 1F0Eh
-jnz	short loc_D575
+jnz	short loc_F445
 cmp	byte ptr ds:11C9h, 0
-jnz	short loc_D575
+jnz	short loc_F445
 mov	di, 1BF0h
 cmp	byte ptr [di+8], 0
-jns	short loc_D545
-call	sub_D6FE
+jns	short loc_F415
+call	sub_F5CE
 mov	cx, ds:47C4h
-jb	short loc_D55D
+jb	short loc_F42D
 
-loc_D545:
+loc_F415:
 push	bp
-call	sub_9285
+call	sub_B155
 pop	bp
-jnb	short loc_D575
+jnb	short loc_F445
 mov	al, cl
 sub	al, 0Fh
-jb	short loc_D55D
+jb	short loc_F42D
 inc	al
 cmp	al, ds:476Bh
-jnz	short loc_D55D
+jnz	short loc_F42D
 mov	cx, 17h
 
-loc_D55D:
+loc_F42D:
 mov	bp, cx
 add	bp, 78h	; 'x'
 xor	cx, cx
 
-loc_D565:
-call	sub_D454
+loc_F435:
+call	sub_F324
 cmp	ax, bp
-jz	short loc_D5DD
+jz	short loc_F4AD
 inc	cx
 cmp	cl, ds:0DCE8h
-jb	short loc_D565
-jmp	short loc_D5DB
+jb	short loc_F435
+jmp	short loc_F4AB
 
-loc_D575:
+loc_F445:
 cmp	bp, 1F7Eh
-jnz	short loc_D5B1
+jnz	short loc_F481
 mov	di, 1BE2h
 cmp	byte ptr [di+8], 0
-jns	short loc_D593
+jns	short loc_F463
 xor	cx, cx
-call	sub_D6FE
-jb	short loc_D5DD
+call	sub_F5CE
+jb	short loc_F4AD
 mov	di, 1BF0h
-call	sub_D6FE
-jb	short loc_D5DD
+call	sub_F5CE
+jb	short loc_F4AD
 
-loc_D593:
+loc_F463:
 cmp	byte ptr ds:1BF8h, 0
-jns	short loc_D5B1
+jns	short loc_F481
 mov	di, 1BFEh
-call	sub_D6FE
+call	sub_F5CE
 mov	cl, 3
-jb	short loc_D5DD
-call	sub_92C9
-jnb	short loc_D5B1
+jb	short loc_F4AD
+call	sub_B199
+jnb	short loc_F481
 cmp	cx, ds:47C4h
 mov	cl, 2
-jz	short loc_D5DD
+jz	short loc_F4AD
 
-loc_D5B1:
+loc_F481:
 cmp	bx, 98h	; '˜'
-jb	short loc_D5DB
+jb	short loc_F4AB
 mov	cl, 0FFh
 mov	di, 1B48h
 cmp	dx, [di]
-jb	short loc_D5DD
+jb	short loc_F4AD
 cmp	dx, [di+4]
-jnb	short loc_D5DD
+jnb	short loc_F4AD
 xor	cx, cx
 
-loc_D5C7:
+loc_F497:
 cmp	bx, [di+2]
-jbe	short loc_D5DB
+jbe	short loc_F4AB
 cmp	bx, [di+6]
-jbe	short loc_D5DD
+jbe	short loc_F4AD
 add	di, 0Eh
 inc	cx
 cmp	cl, ds:0DCE8h
-jb	short loc_D5C7
+jb	short loc_F497
 
-loc_D5DB:
+loc_F4AB:
 mov	cl, 0FFh
 
-loc_D5DD:
+loc_F4AD:
 mov	al, cl
 xchg	cl, ds:0DCE7h
 cmp	al, cl
-jz	short loc_D610
-call	sub_DBB2
+jz	short loc_F4E0
+call	sub_FA82
 or	cl, cl
-js	short loc_D5FC
+js	short loc_F4CC
 cmp	cl, ds:0DCE8h
-jnb	short loc_D5FC
+jnb	short loc_F4CC
 push	ax
-call	sub_D454
-call	sub_D48A
+call	sub_F324
+call	sub_F35A
 pop	ax
 
-loc_D5FC:
+loc_F4CC:
 cmp	al, ds:0DCE8h
-jnb	short loc_D60D
+jnb	short loc_F4DD
 mov	cx, ax
-call	sub_D454
+call	sub_F324
 or	ah, 80h
-call	sub_D48A
+call	sub_F35A
 
-loc_D60D:
-call	sub_DBEC
+loc_F4DD:
+call	sub_FABC
 
-loc_D610:
+loc_F4E0:
 pop	bp
 pop	di
 pop	si
@@ -30497,244 +30496,244 @@ pop	dx
 pop	cx
 pop	bx
 retn
-sub_D50F endp
+sub_F3DF endp
 
 
 
 
-sub_D617 proc near
+sub_F4E7 proc near
 push	ax
 mov	ax, 90h	; ''
-jmp	short loc_D621
-sub_D617 endp
+jmp	short loc_F4F1
+sub_F4E7 endp
 
 
 
 
-sub_D61D proc near
+sub_F4ED proc near
 push	ax
 mov	ax, 9Fh	; 'Ÿ'
 
-loc_D621:
-call	sub_E270
-call	sub_D41B
+loc_F4F1:
+call	sub_10140
+call	sub_F2EB
 mov	si, 1F7Eh
 cmp	[si+2],	ax
 mov	[si+2],	ax
-jz	short loc_D649
+jz	short loc_F519
 cmp	bp, si
-jnz	short loc_D649
-call	sub_DBB2
+jnz	short loc_F519
+call	sub_FA82
 xor	cx, cx
-call	sub_D454
-call	sub_D48A
+call	sub_F324
+call	sub_F35A
 mov	byte ptr ds:0DCE7h, 0FFh
-call	sub_DBEC
+call	sub_FABC
 
-loc_D649:
-call	sub_E283
+loc_F519:
+call	sub_10153
 pop	ax
 retn
-sub_D61D endp
+sub_F4ED endp
 
 
 
 
-sub_D64E proc near
+sub_F51E proc near
 push	bx
 push	dx
 xor	bx, bx
 xor	dx, dx
-call	sub_D50F
+call	sub_F3DF
 pop	dx
 pop	bx
 retn
-sub_D64E endp
+sub_F51E endp
 
 
 
 
-sub_D65A proc near
+sub_F52A proc near
 test	byte ptr [di+9], 20h
-jz	short locret_D676
+jz	short locret_F546
 mov	ds:0DC60h, di
 inc	word ptr [di+0Ah]
 push	si
 push	di
 mov	si, di
 mov	cx, 1
-call	sub_D1F2
+call	sub_F0C2
 pop	di
 pop	si
 dec	word ptr [di+0Ah]
 
-locret_D676:
+locret_F546:
 retn
-sub_D65A endp
+sub_F52A endp
 
-call	sub_E270
+call	sub_10140
 xor	si, si
 xchg	si, ds:0DC60h
 or	si, si
-jz	short loc_D690
-call	sub_DBB2
+jz	short loc_F560
+call	sub_FA82
 mov	cx, 1
-call	sub_D1F2
-call	sub_DBEC
+call	sub_F0C2
+call	sub_FABC
 
-loc_D690:
-call	sub_E283
+loc_F560:
+call	sub_10153
 retn
 
 
 
-sub_D694 proc near
+sub_F564 proc near
 mov	ax, ds:2582h
 mov	di, 1B9Ch
 cmp	ax, 260Ch
-jz	short loc_D6B5
+jz	short loc_F585
 add	di, 0Eh
 cmp	ax, 2650h
-jz	short loc_D6B5
+jz	short loc_F585
 add	di, 0Eh
 cmp	ax, 2694h
-jz	short loc_D6B5
+jz	short loc_F585
 add	di, 0Eh
 cmp	ax, 26D8h
 
-loc_D6B5:
+loc_F585:
 stc
 retn
-sub_D694 endp
+sub_F564 endp
 
 
 
 
-sub_D6B7 proc near
-call	sub_D694
-jz	short locret_D6FD
+sub_F587 proc near
+call	sub_F564
+jz	short locret_F5CD
 mov	di, 1AE4h
 mov	cx, [di]
 add	di, 2
 cmp	word ptr ds:2570h, 1AD6h
-jnz	short loc_D6CF
+jnz	short loc_F59F
 sub	cx, 5
 
-loc_D6CF:
+loc_F59F:
 cmp	byte ptr ds:46D9h, 0
-jz	short loc_D6DC
+jz	short loc_F5AC
 mov	cx, 5
 mov	di, 1B48h
 
-loc_D6DC:
+loc_F5AC:
 cmp	byte ptr [di+8], 0
-jns	short loc_D6F7
+jns	short loc_F5C7
 cmp	dx, [di]
-jbe	short loc_D6F7
+jbe	short loc_F5C7
 cmp	dx, [di+4]
-jnb	short loc_D6F7
+jnb	short loc_F5C7
 cmp	bx, [di+2]
-jbe	short loc_D6F7
+jbe	short loc_F5C7
 dec	bx
 cmp	bx, [di+6]
 inc	bx
-jb	short locret_D6FD
+jb	short locret_F5CD
 
-loc_D6F7:
+loc_F5C7:
 add	di, 0Eh
-loop	loc_D6DC
+loop	loc_F5AC
 clc
 
-locret_D6FD:
+locret_F5CD:
 retn
-sub_D6B7 endp
+sub_F587 endp
 
 
 
 
-sub_D6FE proc near
+sub_F5CE proc near
 cmp	dx, [di]
-jbe	short loc_D710
+jbe	short loc_F5E0
 cmp	dx, [di+4]
-jnb	short loc_D710
+jnb	short loc_F5E0
 cmp	bx, [di+2]
-jbe	short loc_D710
+jbe	short loc_F5E0
 cmp	bx, [di+6]
 retn
 
-loc_D710:
+loc_F5E0:
 clc
 retn
-sub_D6FE endp
+sub_F5CE endp
 
-; START	OF FUNCTION CHUNK FOR sub_D717
+; START	OF FUNCTION CHUNK FOR sub_F5E7
 
-loc_D712:
+loc_F5E2:
 mov	si, 1CCAh
-jmp	short sub_D72B
-; END OF FUNCTION CHUNK	FOR sub_D717
+jmp	short sub_F5FB
+; END OF FUNCTION CHUNK	FOR sub_F5E7
 
 
 
-sub_D717 proc near
+sub_F5E7 proc near
 
 ; FUNCTION CHUNK AT D712 SIZE 00000005 BYTES
 
 cmp	byte ptr ds:46EBh, 0
-jnz	short loc_D712
+jnz	short loc_F5E2
 mov	si, 1C76h
 test	byte ptr ds:11C9h, 3
-jz	short sub_D72B
+jz	short sub_F5FB
 mov	si, 1D72h
-sub_D717 endp
+sub_F5E7 endp
 
 
 
 
-sub_D72B proc near
+sub_F5FB proc near
 push	ds
 pop	es
 mov	di, 1B8Eh
 mov	cx, 2Ah	; '*'
 rep movsw
 
-loc_D735:
-call	sub_D741
+loc_F605:
+call	sub_F611
 mov	si, 1B8Eh
 mov	cx, 6
-jmp	sub_D1F2
-sub_D72B endp
+jmp	sub_F0C2
+sub_F5FB endp
 
 
 
 
-sub_D741 proc near
+sub_F611 proc near
 mov	ax, ds:1B0Ch
 sub	ax, 3
 cmp	ax, 3
-jnb	short locret_D759
+jnb	short locret_F629
 mov	si, 2458h
 mov	es, word ptr ds:0DBD8h
 mov	al, 0F0h ; 'ð'
 call	dword ptr ds:38DDh
 
-locret_D759:
+locret_F629:
 retn
-sub_D741 endp
+sub_F611 endp
 
 mov	si, 1C36h
-call	loc_D795
-call	sub_1A34
+call	loc_F665
+call	sub_3904
 
 
 
-sub_D763 proc near
+sub_F633 proc near
 mov	si, 1C0Ch
 mov	ax, 40h	; '@'
 mov	[si+0Ah], ax
 mov	[si+18h], ax
 mov	cx, 2
-call	sub_D1F2
+call	sub_F0C2
 mov	si, 1C0Ch
 mov	al, ds:1152h
 cbw
@@ -30745,139 +30744,139 @@ cbw
 add	ax, 41h	; 'A'
 mov	[si+18h], ax
 mov	cx, 2
-jmp	sub_D1F2
-sub_D763 endp
+jmp	sub_F0C2
+sub_F633 endp
 
 
 
 
-sub_D792 proc near
+sub_F662 proc near
 mov	si, 1C66h
 
-loc_D795:
+loc_F665:
 push	ds
 pop	es
 mov	di, 1AEEh
 mov	cx, 4
 
-loc_D79D:
+loc_F66D:
 movsw
 movsw
 add	di, 0Ah
-loop	loc_D79D
+loop	loc_F66D
 mov	si, 1AE6h
 mov	cx, 3
-jmp	sub_D1F2
-sub_D792 endp
+jmp	sub_F0C2
+sub_F662 endp
 
 
 
 
-sub_D7AD proc near
+sub_F67D proc near
 mov	si, 1C56h
-jmp	short loc_D795
-sub_D7AD endp
+jmp	short loc_F665
+sub_F67D endp
 
 
 
 
-sub_D7B2 proc near
+sub_F682 proc near
 mov	si, 1C46h
-jmp	short loc_D795
-sub_D7B2 endp
+jmp	short loc_F665
+sub_F682 endp
 
 
 
 
-sub_D7B7 proc near
+sub_F687 proc near
 mov	ax, ds:0CE7Ah
 shl	ax, 1
 shl	ax, 1
 cmp	ah, ds:0DCF1h
-jz	short locret_D814
+jz	short locret_F6E4
 mov	ds:0DCF1h, ah
 mov	ax, ds:2222h
 or	ax, ax
-jz	short locret_D814
+jz	short locret_F6E4
 mov	bx, ds:1152h
 push	bx
 or	al, al
-jz	short loc_D7E0
+jz	short loc_F6B0
 dec	al
 test	al, 1
-jz	short loc_D7E0
+jz	short loc_F6B0
 mov	bl, 0FFh
 
-loc_D7E0:
+loc_F6B0:
 or	ah, ah
-jz	short loc_D7ED
+jz	short loc_F6BD
 dec	ah
 test	ah, 1
-jz	short loc_D7ED
+jz	short loc_F6BD
 mov	bh, 0FFh
 
-loc_D7ED:
+loc_F6BD:
 mov	ds:2222h, ax
 mov	ds:1152h, bx
 cmp	word ptr ds:1AFEh, 0
-jnz	short loc_D810
+jnz	short loc_F6E0
 push	word ptr ds:2784h
-call	sub_C137
-call	sub_DBB2
-call	sub_D763
-call	sub_DBEC
+call	sub_E007
+call	sub_FA82
+call	sub_F633
+call	sub_FABC
 pop	ax
-call	sub_C13E
+call	sub_E00E
 
-loc_D810:
+loc_F6E0:
 pop	word ptr ds:1152h
 
-locret_D814:
+locret_F6E4:
 retn
-sub_D7B7 endp
+sub_F687 endp
 
 
 
 
-sub_D815 proc near
+sub_F6E5 proc near
 mov	ax, ds:0CE7Ah
 mov	ds:0DC68h, ax
 mov	byte ptr ds:0DC4Bh, 0
 
-loc_D820:
+loc_F6F0:
 cmp	byte ptr ds:0CEE8h, 2Fh	; '/'
-jnz	short loc_D831
+jnz	short loc_F701
 cmp	byte ptr ds:0CE9Eh, 0FFh
-jnz	short loc_D831
-call	sub_B270
+jnz	short loc_F701
+call	sub_D140
 
-loc_D831:
+loc_F701:
 cmp	byte ptr ds:46D9h, 0
-jnz	short loc_D83E
-call	sub_D7B7
-call	sub_1B0D
+jnz	short loc_F70E
+call	sub_F687
+call	sub_39DD
 
-loc_D83E:
-call	sub_D9D2
+loc_F70E:
+call	sub_F8A2
 cmp	byte ptr ds:46D9h, 0
-jz	short loc_D84B
-call	sub_D8E
+jz	short loc_F71B
+call	sub_2C5E
 
-loc_D84B:
-call	sub_E3CC
+loc_F71B:
+call	sub_1029C
 mov	ds:0, ax
-call	sub_4F0C
+call	sub_6DDC
 cmp	byte ptr ds:0DC4Bh, 0
-jz	short loc_D860
-call	sub_D962
-jmp	short loc_D866
+jz	short loc_F730
+call	sub_F832
+jmp	short loc_F736
 
-loc_D860:
-call	sub_DF1E
-call	sub_DB4C
+loc_F730:
+call	sub_FDEE
+call	sub_FA1C
 
-loc_D866:
-call	sub_DC20
+loc_F736:
+call	sub_FAF0
 mov	di, dx
 xchg	di, ds:0DC62h
 mov	cx, bx
@@ -30888,193 +30887,193 @@ neg	di
 neg	cx
 mov	si, ds:2570h
 and	ax, 0Fh
-jnz	short loc_D893
-call	sub_D50F
+jnz	short loc_F763
+call	sub_F3DF
 mov	ax, cx
 or	ax, di
 jz	short $+2
 call	word ptr [si]
-jmp	short loc_D820
+jmp	short loc_F6F0
 
-loc_D893:
+loc_F763:
 mov	bp, ds:0CE7Ah
 mov	ds:0DC5Ah, bp
 cmp	byte ptr ds:4774h, 0
-jz	short loc_D8B1
+jz	short loc_F781
 and	al, 5
 cmp	al, 5
-jnz	short loc_D8D7
-call	sub_DBB2
-call	sub_1707
-jmp	loc_D820
+jnz	short loc_F7A7
+call	sub_FA82
+call	sub_35D7
+jmp	loc_F6F0
 
-loc_D8B1:
+loc_F781:
 test	al, 5
-jnz	short loc_D8BA
+jnz	short loc_F78A
 add	si, 2
 shr	ax, 1
 
-loc_D8BA:
+loc_F78A:
 and	al, 5
 dec	al
-jnz	short loc_D8F4
+jnz	short loc_F7C4
 mov	bp, ds:0DC5Ch
 or	bp, bp
-jnz	short loc_D8DA
+jnz	short loc_F7AA
 mov	ax, cx
 or	ax, di
-jz	short loc_D8D7
-call	sub_DBB2
+jz	short loc_F7A7
+call	sub_FA82
 mov	al, ds:0DC35h
 call	word ptr [si+0Ah]
 
-loc_D8D7:
-jmp	loc_D820
+loc_F7A7:
+jmp	loc_F6F0
 
-loc_D8DA:
+loc_F7AA:
 mov	ax, ds:0CE7Ah
 sub	ax, ds:0DC5Eh
 cmp	ax, 32h	; '2'
-jb	short loc_D8D7
-call	sub_D6B7
-jnb	short loc_D8D7
+jb	short loc_F7A7
+call	sub_F587
+jnb	short loc_F7A7
 cmp	di, bp
-jnz	short loc_D8D7
-call	sub_DBB2
-jmp	short loc_D92B
+jnz	short loc_F7A7
+call	sub_FA82
+jmp	short loc_F7FB
 
-loc_D8F4:
-call	sub_DBB2
+loc_F7C4:
+call	sub_FA82
 call	nullsub_4
 sub	al, 3
-jz	short loc_D944
+jz	short loc_F814
 cmp	si, ds:2570h
-jnz	short loc_D90E
-call	sub_D6B7
-jb	short loc_D918
+jnz	short loc_F7DE
+call	sub_F587
+jb	short loc_F7E8
 push	si
-call	sub_9215
+call	sub_B0E5
 pop	si
 
-loc_D90E:
+loc_F7DE:
 mov	al, ds:0DC35h
 call	word ptr [si+2]
-jmp	loc_D820
+jmp	loc_F6F0
 retn
 
-loc_D918:
+loc_F7E8:
 mov	ds:0DC60h, di
-call	sub_D65A
+call	sub_F52A
 test	byte ptr [di+9], 40h
-jz	short loc_D92B
+jz	short loc_F7FB
 mov	ds:0DC5Ch, di
-jmp	short loc_D935
+jmp	short loc_F805
 
-loc_D92B:
+loc_F7FB:
 mov	byte ptr ds:0CE9Dh, 0
 mov	byte ptr ds:0CEBAh, 0
 
-loc_D935:
+loc_F805:
 mov	ax, ds:0CE7Ah
 mov	ds:0DC5Eh, ax
 mov	al, ds:0DC35h
 call	word ptr [di+0Ch]
-jmp	loc_D820
+jmp	loc_F6F0
 
-loc_D944:
+loc_F814:
 mov	di, ds:0DC5Ch
 mov	word ptr ds:0DC5Ch, 0
 or	di, di
-jnz	short loc_D92B
+jnz	short loc_F7FB
 mov	al, ds:0DC35h
 call	word ptr [si+6]
-jmp	loc_D820
-sub_D815 endp
+jmp	loc_F6F0
+sub_F6E5 endp
 
 
 
 
-sub_D95B proc near
+sub_F82B proc near
 mov	ax, 2572h
-sub_D95B endp
+sub_F82B endp
 
 
 
 
-sub_D95E proc near
+sub_F82E proc near
 mov	ds:2570h, ax
 retn
-sub_D95E endp
+sub_F82E endp
 
 
 
 
-sub_D962 proc near
+sub_F832 proc near
 mov	ax, ds:0CE7Ah
 sub	al, ds:0DC4Ah
 cmp	al, 6
-jb	short loc_D9CF
+jb	short loc_F89F
 mov	cx, 2
 cmp	al, 0Ch
-jb	short loc_D97A
+jb	short loc_F84A
 dec	cx
 cmp	al, 18h
-jb	short loc_D97A
+jb	short loc_F84A
 dec	cx
 
-loc_D97A:
+loc_F84A:
 mov	ax, ds:0CE7Ah
 mov	ds:0DC4Ah, al
 dec	byte ptr ds:0DC4Bh
 mov	dx, ds:0DC4Ch
 mov	bx, ds:0DC4Eh
 sub	dx, ds:0DC36h
-jz	short loc_D9A3
-jcxz	short loc_D99B
+jz	short loc_F873
+jcxz	short loc_F86B
 sar	dx, cl
 or	dl, 1
-jmp	short loc_D9A3
+jmp	short loc_F873
 
-loc_D99B:
+loc_F86B:
 mov	ax, dx
 sar	ax, 1
 sar	ax, 1
 sub	dx, ax
 
-loc_D9A3:
+loc_F873:
 sub	bx, ds:0DC38h
-jz	short loc_D9BA
-jcxz	short loc_D9B2
+jz	short loc_F88A
+jcxz	short loc_F882
 sar	bx, cl
 or	bl, 1
-jmp	short loc_D9BA
+jmp	short loc_F88A
 
-loc_D9B2:
+loc_F882:
 mov	ax, bx
 sar	ax, 1
 sar	ax, 1
 sub	bx, ax
 
-loc_D9BA:
+loc_F88A:
 mov	ax, bx
 or	ax, dx
-jnz	short loc_D9C7
+jnz	short loc_F897
 mov	byte ptr ds:0DC4Bh, 0
-jmp	short loc_D9CF
+jmp	short loc_F89F
 
-loc_D9C7:
-call	sub_DAAF
+loc_F897:
+call	sub_F97F
 mov	byte ptr ds:0DC34h, 0
 
-loc_D9CF:
-jmp	sub_DB4C
-sub_D962 endp
+loc_F89F:
+jmp	sub_FA1C
+sub_F832 endp
 
 
 
 
-sub_D9D2 proc near
-call	sub_ACE6
+sub_F8A2 proc near
+call	sub_CBB6
 mov	ax, ds:0CE7Ah
 mov	cx, ax
 mov	bx, ax
@@ -31082,34 +31081,34 @@ mov	si, 0DC68h
 xchg	cx, [si]
 sub	bx, cx
 mov	cx, [si+2]
-jcxz	short locret_DA03
+jcxz	short locret_F8D3
 add	si, 4
 
-loc_D9EB:
+loc_F8BB:
 lodsw
 mov	bp, ax
 mov	ax, bx
 add	ax, [si]
 cmp	ax, bp
-jnb	short loc_DA04
+jnb	short loc_F8D4
 mov	[si], ax
 add	si, 4
-loop	loc_D9EB
+loop	loc_F8BB
 
-loc_D9FD:
+loc_F8CD:
 mov	word ptr ds:0DC66h, 0
 
-locret_DA03:
+locret_F8D3:
 retn
 
-loc_DA04:
+loc_F8D4:
 or	bp, bp
-jz	short loc_DA0E
+jz	short loc_F8DE
 xor	dx, dx
 div	bp
 mov	[si], dx
 
-loc_DA0E:
+loc_F8DE:
 sub	si, 2
 push	bx
 push	cx
@@ -31120,21 +31119,21 @@ pop	si
 pop	cx
 pop	bx
 add	si, 6
-loop	loc_D9EB
-jmp	short loc_D9FD
-sub_D9D2 endp
+loop	loc_F8BB
+jmp	short loc_F8CD
+sub_F8A2 endp
 
 
 
 
-sub_DA25 proc near
+sub_F8F5 proc near
 push	ds
 pop	es
 mov	di, 0DC6Ah
 mov	ax, [di]
 inc	ax
 cmp	ax, 14h
-ja	short locret_DA52
+ja	short locret_F922
 stosw
 dec	ax
 add	ax, ax
@@ -31150,57 +31149,57 @@ mov	ax, si
 stosw
 mov	bp, ds:0DC66h
 or	bp, bp
-jz	short locret_DA52
+jz	short locret_F922
 inc	word ptr [bp+2]
 
-locret_DA52:
+locret_F922:
 retn
-sub_DA25 endp
+sub_F8F5 endp
 
 
 
 
-sub_DA53 proc near
+sub_F923 proc near
 mov	word ptr ds:0DC6Ah, 0
 mov	byte ptr ds:46D7h, 0
 retn
-sub_DA53 endp
+sub_F923 endp
 
 
 
 
-sub_DA5F proc near
+sub_F92F proc near
 mov	di, 0DC6Ah
 mov	cx, [di]
-jcxz	short locret_DA72
+jcxz	short locret_F942
 add	di, 6
 
-loc_DA69:
+loc_F939:
 cmp	[di], si
-jz	short loc_DA73
+jz	short loc_F943
 add	di, 6
-loop	loc_DA69
+loop	loc_F939
 
-locret_DA72:
+locret_F942:
 retn
 
-loc_DA73:
+loc_F943:
 sub	di, 4
 dec	word ptr ds:0DC6Ah
 mov	bp, ds:0DC66h
 or	bp, bp
-jz	short loc_DA90
+jz	short loc_F960
 cmp	di, [bp+0]
-ja	short loc_DA8D
+ja	short loc_F95D
 sub	word ptr [bp+0], 6
-jmp	short loc_DA90
+jmp	short loc_F960
 
-loc_DA8D:
+loc_F95D:
 dec	word ptr [bp+2]
 
-loc_DA90:
+loc_F960:
 dec	cx
-jz	short locret_DA72
+jz	short locret_F942
 mov	ax, cx
 add	cx, cx
 add	cx, ax
@@ -31210,66 +31209,66 @@ push	ds
 pop	es
 rep movsw
 retn
-sub_DA5F endp
+sub_F92F endp
 
 
 
 
-sub_DAA3 proc near
+sub_F973 proc near
 mov	word ptr ds:0DC58h, 0
 retn
-sub_DAA3 endp
+sub_F973 endp
 
 
 
 
-sub_DAAA proc near
+sub_F97A proc near
 mov	ds:0DC58h, si
 retn
-sub_DAAA endp
+sub_F97A endp
 
 
 
 
-sub_DAAF proc near
+sub_F97F proc near
 mov	si, 0DC3Ah
 mov	ax, ds:0DC36h
 add	ax, dx
 cmp	ax, [si]
-jge	short loc_DABD
+jge	short loc_F98D
 mov	ax, [si]
 
-loc_DABD:
+loc_F98D:
 add	si, 2
 cmp	ax, [si]
-jle	short loc_DAC6
+jle	short loc_F996
 mov	ax, [si]
 
-loc_DAC6:
+loc_F996:
 mov	ds:0DC36h, ax
 add	si, 2
 mov	ax, ds:0DC38h
 add	ax, bx
 cmp	ax, [si]
-jge	short loc_DAD7
+jge	short loc_F9A7
 mov	ax, [si]
 
-loc_DAD7:
+loc_F9A7:
 add	si, 2
 cmp	ax, [si]
-jle	short loc_DAE0
+jle	short loc_F9B0
 mov	ax, [si]
 
-loc_DAE0:
+loc_F9B0:
 mov	ds:0DC38h, ax
-sub_DAAF endp
+sub_F97F endp
 
 
 
 
-sub_DAE3 proc near
+sub_F9B3 proc near
 test	byte ptr ds:2942h, 40h
-jnz	short locret_DB02
+jnz	short locret_F9D2
 mov	ax, ds:0DC36h
 mov	dx, ds:0DC38h
 mov	cx, ds:2580h
@@ -31281,66 +31280,66 @@ mov	ax, 4
 int	33h		; - MS MOUSE - POSITION	MOUSE CURSOR
 			; CX = column, DX = row
 
-locret_DB02:
+locret_F9D2:
 retn
-sub_DAE3 endp
+sub_F9B3 endp
 
 
 
 
-sub_DB03 proc near
-call	sub_DBB2
+sub_F9D3 proc near
+call	sub_FA82
 mov	ds:0DC36h, dx
 mov	ds:0DC38h, bx
-call	sub_DAE3
-jmp	sub_DBEC
-sub_DB03 endp
+call	sub_F9B3
+jmp	sub_FABC
+sub_F9D3 endp
 
 
 
 
-sub_DB14 proc near
+sub_F9E4 proc near
 mov	di, 0DC3Ah
 mov	[di], cx
 mov	[di+2],	dx
 mov	[di+4],	ax
 mov	[di+6],	bx
 test	byte ptr ds:2942h, 40h
-jnz	short locret_DB43
+jnz	short locret_FA13
 push	ax
 push	bx
 mov	al, ds:2580h
-call	sub_DB44
+call	sub_FA14
 mov	ax, 7
 int	33h		; - MS MOUSE - DEFINE HORIZONTAL CURSOR	RANGE
 			; CX = minimum column, DX = maximum column
 pop	dx
 pop	cx
 mov	al, ds:2581h
-call	sub_DB44
+call	sub_FA14
 mov	ax, 8
 int	33h		; - MS MOUSE - DEFINE VERTICAL CURSOR RANGE
 			; CX = minimum row, DX = maximum row
 
-locret_DB43:
+locret_FA13:
 retn
-sub_DB14 endp
+sub_F9E4 endp
 
 
 
 
-sub_DB44 proc near
+sub_FA14 proc near
 xchg	ax, cx
 shl	ax, cl
 shl	dx, cl
 mov	cx, ax
 retn
-sub_DB44 endp
+sub_FA14 endp
 
 
 
 
-sub_DB4C proc near
+sub_FA1C proc near
 mov	ax, ds:0DC34h
 and	al, 3
 mov	ds:0DC35h, al
@@ -31352,24 +31351,24 @@ xor	ah, ah
 mov	dx, ds:0DC36h
 mov	bx, ds:0DC38h
 retn
-sub_DB4C endp
+sub_FA1C endp
 
 
 
 
-sub_DB67 proc near
+sub_FA37 proc near
 cmp	byte ptr ds:0DC47h, 0
-jns	short locret_DBAB
+jns	short locret_FA7B
 inc	byte ptr ds:0DC47h
-jmp	short sub_DBEC
-sub_DB67 endp
+jmp	short sub_FABC
+sub_FA37 endp
 
 
 
 
-sub_DB74 proc near
+sub_FA44 proc near
 cmp	byte ptr ds:0DC46h, 0
-js	short locret_DBAB
+js	short locret_FA7B
 push	bx
 push	dx
 mov	bx, ds:2582h
@@ -31379,79 +31378,79 @@ mov	bx, [bx+2]
 neg	bx
 add	bx, ds:0DC44h
 cmp	dx, [si+4]
-jge	short loc_DBA9
+jge	short loc_FA79
 cmp	bx, [si+6]
-jge	short loc_DBA9
+jge	short loc_FA79
 add	dx, 10h
 cmp	dx, [si]
-jle	short loc_DBA9
+jle	short loc_FA79
 add	bx, 10h
 cmp	bx, [si+2]
-jg	short loc_DBAC
+jg	short loc_FA7C
 
-loc_DBA9:
+loc_FA79:
 pop	dx
 pop	bx
 
-locret_DBAB:
+locret_FA7B:
 retn
 
-loc_DBAC:
+loc_FA7C:
 pop	dx
 pop	bx
 dec	byte ptr ds:0DC47h
-sub_DB74 endp
+sub_FA44 endp
 
 
 
 
-sub_DBB2 proc near
+sub_FA82 proc near
 push	ax
 mov	al, ds:0DC46h
 dec	byte ptr ds:0DC46h
-js	short loc_DBC0
+js	short loc_FA90
 inc	byte ptr ds:0DC46h
 
-loc_DBC0:
+loc_FA90:
 or	al, al
-js	short loc_DBC8
+js	short loc_FA98
 call	dword ptr ds:38C5h
 
-loc_DBC8:
+loc_FA98:
 pop	ax
 retn
-sub_DBB2 endp
+sub_FA82 endp
 
-; START	OF FUNCTION CHUNK FOR sub_4B2B
+; START	OF FUNCTION CHUNK FOR sub_69FB
 
-loc_DBCA:
+loc_FA9A:
 mov	ax, ds:0DC44h
 cmp	ax, 98h	; '˜'
-jnb	short locret_DBE2
+jnb	short locret_FAB2
 cmp	ax, 88h	; 'ˆ'
-jnb	short sub_DBB2
+jnb	short sub_FA82
 dec	byte ptr ds:0DC46h
-js	short locret_DBE2
+js	short locret_FAB2
 mov	byte ptr ds:0DC46h, 80h	; '€'
 
-locret_DBE2:
+locret_FAB2:
 retn
-; END OF FUNCTION CHUNK	FOR sub_4B2B
-; START	OF FUNCTION CHUNK FOR sub_CC96
+; END OF FUNCTION CHUNK	FOR sub_69FB
+; START	OF FUNCTION CHUNK FOR sub_EB66
 
-loc_DBE3:
+loc_FAB3:
 mov	ax, ds:0DC44h
 cmp	ax, 98h	; '˜'
-jb	short sub_DBEC
+jb	short sub_FABC
 retn
-; END OF FUNCTION CHUNK	FOR sub_CC96
+; END OF FUNCTION CHUNK	FOR sub_EB66
 
 
 
-sub_DBEC proc near
+sub_FABC proc near
 inc	byte ptr ds:0DC46h
-js	short locret_DC1A
-jnz	short loc_DC1B
+js	short locret_FAEA
+jnz	short loc_FAEB
 push	ax
 push	bx
 push	cx
@@ -31473,18 +31472,18 @@ pop	cx
 pop	bx
 pop	ax
 
-locret_DC1A:
+locret_FAEA:
 retn
 
-loc_DC1B:
+loc_FAEB:
 dec	byte ptr ds:0DC46h
 retn
-sub_DBEC endp
+sub_FABC endp
 
 
 
 
-sub_DC20 proc near
+sub_FAF0 proc near
 push	ax
 push	bx
 push	cx
@@ -31494,29 +31493,29 @@ push	di
 push	bp
 mov	dx, ds:0DC36h
 mov	bx, ds:0DC38h
-call	sub_DC6A
+call	sub_FB3A
 mov	si, bp
 xchg	bp, ds:2582h
 xor	al, al
 xchg	al, ds:0DC46h
 or	al, al
-js	short loc_DC56
+js	short loc_FB26
 cmp	dx, ds:0DC42h
-jnz	short loc_DC52
+jnz	short loc_FB22
 cmp	bx, ds:0DC44h
-jnz	short loc_DC52
+jnz	short loc_FB22
 cmp	si, bp
-jz	short loc_DC62
+jz	short loc_FB32
 
-loc_DC52:
+loc_FB22:
 call	dword ptr ds:38C5h
 
-loc_DC56:
+loc_FB26:
 mov	ds:0DC42h, dx
 mov	ds:0DC44h, bx
 call	dword ptr ds:38C1h
 
-loc_DC62:
+loc_FB32:
 pop	bp
 pop	di
 pop	si
@@ -31525,69 +31524,69 @@ pop	cx
 pop	bx
 pop	ax
 retn
-sub_DC20 endp
+sub_FAF0 endp
 
 
 
 
-sub_DC6A proc near
+sub_FB3A proc near
 cmp	byte ptr ds:28BEh, 0
 mov	bp, 25C8h
-jnz	short locret_DCDF
+jnz	short locret_FBAF
 mov	bp, 2584h
 cmp	byte ptr ds:4723h, 0
-jnz	short locret_DCDF
+jnz	short locret_FBAF
 mov	di, ds:0DC58h
 or	di, di
-jz	short locret_DCDF
+jz	short locret_FBAF
 cmp	bx, 9Bh	; '›'
-jge	short locret_DCDF
-call	sub_D6FE
+jge	short locret_FBAF
+call	sub_F5CE
 mov	bp, 25C8h
-jb	short locret_DCDF
+jb	short locret_FBAF
 cmp	bx, [di+2]
-jl	short loc_DCB9
+jl	short loc_FB89
 cmp	bx, [di+6]
-jge	short loc_DCB9
+jge	short loc_FB89
 mov	bp, 26D8h
 mov	ax, [di]
 sub	ax, dx
 cmp	ax, 32h	; '2'
-jb	short locret_DCDF
+jb	short locret_FBAF
 mov	bp, 2650h
 mov	ax, dx
 sub	ax, [di+4]
 cmp	ax, 32h	; '2'
-jb	short locret_DCDF
-jmp	short loc_DCDC
+jb	short locret_FBAF
+jmp	short loc_FBAC
 
-loc_DCB9:
+loc_FB89:
 cmp	dx, [di]
-jl	short loc_DCDC
+jl	short loc_FBAC
 cmp	dx, [di+4]
-jge	short loc_DCDC
+jge	short loc_FBAC
 mov	bp, 260Ch
 mov	ax, [di+2]
 sub	ax, bx
 cmp	ax, 19h
-jb	short locret_DCDF
+jb	short locret_FBAF
 mov	bp, 2694h
 mov	ax, bx
 sub	ax, [di+6]
 cmp	ax, 19h
-jb	short locret_DCDF
+jb	short locret_FBAF
 
-loc_DCDC:
+loc_FBAC:
 mov	bp, 2584h
 
-locret_DCDF:
+locret_FBAF:
 retn
-sub_DC6A endp
+sub_FB3A endp
 
 
 
 
-sub_DCE0 proc near
+sub_FBB0 proc near
 mov	dx, 201h
 pushf
 cli
@@ -31598,95 +31597,95 @@ xor	bx, bx
 mov	cx, bx
 mov	di, 800h
 
-loc_DCED:		; Game I/O port
+loc_FBBD:		; Game I/O port
 in	al, dx		; bits 0-3: Coordinates	(resistive, time-dependent inputs)
 			; bits 4-7: Buttons/Triggers (digital inputs)
 mov	ah, al
 shr	ah, 1
 and	ax, 101h
-jz	short loc_DD09
+jz	short loc_FBD9
 add	cl, al
 adc	ch, 0
 add	bl, ah
 adc	bh, 0
 dec	di
-jnz	short loc_DCED
+jnz	short loc_FBBD
 and	byte ptr ds:2942h, 7Fh
 
-loc_DD09:		; Game I/O port
+loc_FBD9:		; Game I/O port
 in	al, dx		; bits 0-3: Coordinates	(resistive, time-dependent inputs)
 			; bits 4-7: Buttons/Triggers (digital inputs)
 popf
 mov	dx, cx
 not	al
 retn
-sub_DCE0 endp
+sub_FBB0 endp
 
 
 
 
-sub_DD10 proc near
-call	sub_DCE0
+sub_FBE0 proc near
+call	sub_FBB0
 mov	ah, al
 xor	al, al
 test	ah, 30h
-jz	short loc_DD1E
+jz	short loc_FBEE
 not	al
 
-loc_DD1E:
+loc_FBEE:
 mov	ds:0CEE6h, al
 mov	ax, 0FFh
 cmp	dx, ds:39ABh
-ja	short loc_DD2E
+ja	short loc_FBFE
 xchg	ah, al
-jmp	short loc_DD36
+jmp	short loc_FC06
 
-loc_DD2E:
+loc_FBFE:
 cmp	dx, ds:39ADh
-jnb	short loc_DD36
+jnb	short loc_FC06
 xor	ax, ax
 
-loc_DD36:
+loc_FC06:
 mov	ds:0CEE1h, al
 mov	ds:0CEDFh, ah
 mov	ax, 0FFh
 cmp	bx, ds:39AFh
-ja	short loc_DD4A
+ja	short loc_FC1A
 xchg	al, ah
-jmp	short loc_DD52
+jmp	short loc_FC22
 
-loc_DD4A:
+loc_FC1A:
 cmp	bx, ds:39B1h
-jnb	short loc_DD52
+jnb	short loc_FC22
 xor	ax, ax
 
-loc_DD52:
+loc_FC22:
 mov	ds:0CEE4h, al
 mov	ds:0CEDCh, ah
 retn
-sub_DD10 endp
+sub_FBE0 endp
 
 
 
 
-sub_DD5A proc near
+sub_FC2A proc near
 xor	al, al
 xchg	al, ds:0CEE8h
 or	al, al
 retn
-sub_DD5A endp
+sub_FC2A endp
 
 
 
 
-sub_DD63 proc near
-call	sub_DE7B
-call	sub_DE54
-jz	short loc_DDAE
+sub_FC33 proc near
+call	sub_FD4B
+call	sub_FD24
+jz	short loc_FC7E
 cmp	byte ptr ds:0CEE8h, 0
-jnz	short loc_DDAE
+jnz	short loc_FC7E
 test	byte ptr ds:2942h, 40h
-jnz	short loc_DD89
+jnz	short loc_FC59
 mov	ax, 3
 int	33h		; - MS MOUSE - RETURN POSITION AND BUTTON STATUS
 			; Return: BX = button status, CX = column, DX =	row
@@ -31694,113 +31693,113 @@ xchg	bx, si
 xor	bx, si
 and	bx, si
 and	bl, 7
-jnz	short loc_DDAE
+jnz	short loc_FC7E
 
-loc_DD89:
+loc_FC59:
 test	byte ptr ds:2942h, 80h
-jz	short loc_DD9E
+jz	short loc_FC6E
 push	di
-call	sub_DCE0
+call	sub_FBB0
 pop	di
 xchg	ax, di
 xor	ax, di
 and	ax, di
 and	al, 30h
-jnz	short loc_DDAE
+jnz	short loc_FC7E
 
-loc_DD9E:
+loc_FC6E:
 push	si
 push	di
-call	sub_E3CC
+call	sub_1029C
 mov	ds:0, ax
-call	sub_D9D2
+call	sub_F8A2
 pop	di
 pop	si
 or	al, 1
 retn
 
-loc_DDAE:
+loc_FC7E:
 stc
 retn
-sub_DD63 endp
+sub_FC33 endp
 
 
 
 
-sub_DDB0 proc near
-call	sub_E270
+sub_FC80 proc near
+call	sub_10140
 push	ax
 mov	byte ptr ds:0CEE8h, 0
 cmp	byte ptr ds:227Dh, 0
-jnz	short loc_DDC3
-call	sub_D64E
+jnz	short loc_FC93
+call	sub_F51E
 
-loc_DDC3:
+loc_FC93:
 mov	si, 0FFFFh
 mov	di, si
 pop	cx
 sti
 
-loc_DDCA:
+loc_FC9A:
 push	word ptr ds:0CE7Ah
 push	cx
-call	sub_DD63
+call	sub_FC33
 pop	cx
 pop	ax
-jb	short loc_DDE7
+jb	short loc_FCB7
 mov	bx, ax
 
-loc_DDD8:
+loc_FCA8:
 mov	ax, bx
 sub	ax, ss:0CE7Ah
-jz	short loc_DDD8
+jz	short loc_FCA8
 add	cx, ax
-jb	short loc_DDCA
+jb	short loc_FC9A
 or	al, 1
 
-loc_DDE7:
+loc_FCB7:
 pushf
-call	sub_DE4E
+call	sub_FD1E
 popf
-call	sub_E283
+call	sub_10153
 retn
-sub_DDB0 endp
+sub_FC80 endp
 
 
 
 
-sub_DDF0 proc near
+sub_FCC0 proc near
 cmp	byte ptr ds:0DBCDh, 0
-js	short loc_DE07
-call	sub_ABA3
-jz	short sub_DDB0
+js	short loc_FCD7
+call	sub_CA73
+jz	short sub_FC80
 
-loc_DDFC:
-call	sub_ABA3
-jz	short loc_DE07
-call	sub_DD63
-jnb	short loc_DDFC
+loc_FCCC:
+call	sub_CA73
+jz	short loc_FCD7
+call	sub_FC33
+jnb	short loc_FCCC
 retn
 
-loc_DE07:
+loc_FCD7:
 push	ax
 or	al, 1
 pop	ax
 retn
-sub_DDF0 endp
+sub_FCC0 endp
 
 
 
 
-sub_DE0C proc near
+sub_FCDC proc near
 cmp	byte ptr ds:0DBCDh, 0
-jns	short loc_DE07
-call	sub_E270
+jns	short loc_FCD7
+call	sub_10140
 mov	byte ptr ds:0CEE8h, 0
 mov	si, 0FFFFh
 mov	di, si
 
-loc_DE20:
+loc_FCF0:
 mov	ax, 60h	; '`'
 sub	ax, ds:0DBD0h
 xor	ah, ah
@@ -31814,48 +31813,48 @@ shl	dx, 1
 shl	dx, 1
 or	dl, al
 cmp	bx, dx
-jbe	short loc_DE4A
+jbe	short loc_FD1A
 push	bx
-call	sub_DD63
+call	sub_FC33
 pop	bx
-jb	short loc_DDE7
-jmp	short loc_DE20
+jb	short loc_FCB7
+jmp	short loc_FCF0
 
-loc_DE4A:
+loc_FD1A:
 or	al, 1
-jmp	short loc_DDE7
-sub_DE0C endp
+jmp	short loc_FCB7
+sub_FCDC endp
 
 
 
 
-sub_DE4E proc near
+sub_FD1E proc near
 mov	byte ptr ds:0CEE8h, 0
 retn
-sub_DE4E endp
+sub_FD1E endp
 
 
 
 
-sub_DE54 proc near
+sub_FD24 proc near
 mov	byte ptr ds:0CEE9h, 0
 cmp	byte ptr ds:0CEE8h, 1
-jnz	short locret_DE67
+jnz	short locret_FD37
 mov	byte ptr ds:0CEE9h, 1
-jmp	short sub_DE4E
+jmp	short sub_FD1E
 
-locret_DE67:
+locret_FD37:
 retn
-sub_DE54 endp
+sub_FD24 endp
 
 
 
 
-sub_DE68 proc near
-call	sub_DD5A
-jnz	short sub_DE68
-jmp	sub_F08E
-sub_DE68 endp
+sub_FD38 proc near
+call	sub_FC2A
+jnz	short sub_FD38
+jmp	sub_10F5E
+sub_FD38 endp
 
 db 32h,	0E4h, 0CDh, 16h, 0B4h, 1, 0CDh,	16h
 db 75h,	0F6h
@@ -31863,86 +31862,86 @@ db 75h,	0F6h
 
 
 
-sub_DE7B proc near
+sub_FD4B proc near
 cmp	byte ptr ds:0CE9Ah, 0
 jz	short nullsub_11
 cmp	byte ptr ds:0CE80h, 0
 jz	short nullsub_11
-call	sub_E270
+call	sub_10140
 mov	al, 1
 xchg	al, ds:2788h
 push	ax
 push	word ptr ds:0CE7Ah
-call	sub_DBB2
+call	sub_FA82
 push	word ptr ds:0DBDAh
-call	sub_C08E
+call	sub_DF5E
 push	word ptr ds:0DBD6h
 call	dword ptr ds:38B9h
 mov	ds:0DBD6h, ax
 mov	si, 2945h
-call	sub_7B1B
+call	sub_99EB
 mov	cx, 0F1FEh
 mov	dx, 82h	; '‚'
 mov	bx, 0A9h ; '©'
 mov	ax, 115h
-call	sub_D068
-call	sub_D194
-call	sub_D075
+call	sub_EF38
+call	sub_F064
+call	sub_EF45
 mov	dx, 60h	; '`'
 mov	bx, 0B8h ; '¸'
 mov	ax, 116h
 mov	cx, 0F1F7h
-call	sub_D194
+call	sub_F064
 
-loc_DED6:
+loc_FDA6:
 cmp	byte ptr ds:0CE9Ah, 0
-jnz	short loc_DED6
-call	sub_DE68
+jnz	short loc_FDA6
+call	sub_FD38
 
-loc_DEE0:
-call	sub_DD5A
-jz	short loc_DEE0
+loc_FDB0:
+call	sub_FC2A
+jz	short loc_FDB0
 push	ax
-call	sub_DE68
-call	sub_DF07
+call	sub_FD38
+call	sub_FDD7
 pop	ax
 dec	al
-jz	short loc_DEE0
+jz	short loc_FDB0
 pop	word ptr ds:0DBD6h
 pop	word ptr ds:0DBDAh
 pop	word ptr ds:0CE7Ah
 pop	ax
 mov	ds:2788h, al
-call	sub_E283
+call	sub_10153
 xor	ax, ax
 retn
-sub_DE7B endp
+sub_FD4B endp
 
 
 
 
-sub_DF07 proc near
+sub_FDD7 proc near
 push	word ptr ds:2784h
 mov	si, 1B48h
 mov	cx, 5
-call	sub_D1F2
+call	sub_F0C2
 pop	ax
-call	sub_C13E
-call	sub_D397
-jmp	sub_DBEC
-sub_DF07 endp
+call	sub_E00E
+call	sub_F267
+jmp	sub_FABC
+sub_FDD7 endp
 
 
 
 
-sub_DF1E proc near
+sub_FDEE proc near
 
 ; FUNCTION CHUNK AT E1D1 SIZE 00000072 BYTES
 
-call	sub_DE7B
+call	sub_FD4B
 xor	al, al
 test	byte ptr ds:2942h, 40h
-jnz	short loc_DF49
+jnz	short loc_FE19
 mov	ax, 3
 int	33h		; - MS MOUSE - RETURN POSITION AND BUTTON STATUS
 			; Return: BX = button status, CX = column, DX =	row
@@ -31957,13 +31956,13 @@ and	al, 3
 mov	ds:0DC36h, cx
 mov	ds:0DC38h, dx
 
-loc_DF49:
+loc_FE19:
 mov	ds:0DC34h, al
 test	byte ptr ds:2942h, 80h
-jz	short loc_DF56
-call	sub_DD10
+jz	short loc_FE26
+call	sub_FBE0
 
-loc_DF56:
+loc_FE26:
 mov	si, 0CEC8h
 mov	di, ds:0DC48h
 xor	dx, dx
@@ -31971,17 +31970,17 @@ mov	bx, dx
 mov	ax, dx
 mov	cx, 0Dh
 
-loc_DF66:
+loc_FE36:
 lodsb
 or	al, [si+12h]
-jz	short loc_DF74
+jz	short loc_FE44
 or	ah, [di]
 add	dx, [di+2]
 add	bx, [di+4]
 
-loc_DF74:
+loc_FE44:
 add	di, 6
-loop	loc_DF66
+loop	loc_FE36
 mov	al, ds:0CEBAh
 or	al, ds:0CE9Dh
 or	al, ds:0CEE6h
@@ -31994,50 +31993,50 @@ or	al, ah
 mov	ds:0DC34h, al
 mov	ax, dx
 or	ax, bx
-jnz	short loc_DFB7
+jnz	short loc_FE87
 mov	ds:0DC51h, ax
 mov	ds:0DC53h, ax
 mov	ds:0DC55h, ax
 
-locret_DFA6:
+locret_FE76:
 retn
 db 0A2h, 0E1h, 6Fh, 0E1h, 0CBh,	0E1h, 0B9h
 db 0E1h, 8Ch, 0E1h, 0C3h, 0E1h,	92h, 0E1h
 db 9Bh,	0E1h
 
-loc_DFB7:
+loc_FE87:
 cmp	byte ptr ds:0CE9Eh, 0FFh
-jnz	short loc_DFC1
-jmp	loc_E1D1
+jnz	short loc_FE91
+jmp	loc_100A1
 
-loc_DFC1:
+loc_FE91:
 mov	di, 0DFA9h
 or	dl, dl
-jz	short loc_DFDB
-jns	short loc_DFCD
+jz	short loc_FEAB
+jns	short loc_FE9D
 add	di, 6
 
-loc_DFCD:
+loc_FE9D:
 or	bl, bl
-jz	short loc_DFE7
+jz	short loc_FEB7
 lea	di, [di-2]
-js	short loc_DFE7
+js	short loc_FEB7
 add	di, 4
-jmp	short loc_DFE7
+jmp	short loc_FEB7
 
-loc_DFDB:
+loc_FEAB:
 mov	di, 0DFB3h
 or	bl, bl
-jz	short locret_DFA6
-js	short loc_DFE7
+jz	short locret_FE76
+js	short loc_FEB7
 add	di, 2
 
-loc_DFE7:
+loc_FEB7:
 mov	bx, cs:[di]
 sub	sp, 0Ah
 mov	bp, sp
 mov	[bp+0],	bx
-call	sub_DE4E
+call	sub_FD1E
 mov	dx, ds:0DC36h
 mov	bx, ds:0DC38h
 mov	di, 1AE4h
@@ -32045,29 +32044,29 @@ mov	cx, [di]
 mov	word ptr [bp+2], 8000h
 add	di, 2
 
-loc_E00A:
+loc_FEDA:
 test	byte ptr [di+8], 80h
-jz	short loc_E02C
-call	sub_D6FE
-jb	short loc_E02C
-call	sub_E159
+jz	short loc_FEFC
+call	sub_F5CE
+jb	short loc_FEFC
+call	sub_10029
 call	word ptr [bp+0]
 cmp	ax, [bp+2]
-jnb	short loc_E02C
+jnb	short loc_FEFC
 mov	[bp+2],	ax
-call	sub_E159
+call	sub_10029
 mov	[bp+4],	ax
 mov	[bp+6],	si
 
-loc_E02C:
+loc_FEFC:
 add	di, 0Eh
-loop	loc_E00A
-call	sub_E068
-call	sub_E0A2
-call	sub_E0DB
-call	sub_E11C
+loop	loc_FEDA
+call	sub_FF38
+call	sub_FF72
+call	sub_FFAB
+call	sub_FFEC
 cmp	word ptr [bp+2], 0
-js	short loc_E064
+js	short loc_FF34
 mov	byte ptr ds:0CEBAh, 0
 or	byte ptr ds:0CE9Dh, 0
 mov	ax, [bp+4]
@@ -32078,105 +32077,105 @@ mov	byte ptr ds:0DC4Bh, 64h	; 'd'
 mov	ax, ds:0CE7Ah
 mov	ds:0DC4Ah, al
 
-loc_E064:
+loc_FF34:
 add	sp, 0Ah
 retn
-sub_DF1E endp
+sub_FDEE endp
 
 
 
 
-sub_E068 proc near
+sub_FF38 proc near
 push	bp
-call	sub_D41B
+call	sub_F2EB
 cmp	bp, 201Ah
 pop	bp
-jnz	short locret_E0A1
+jnz	short locret_FF71
 mov	di, 28E9h
 
-loc_E076:
+loc_FF46:
 mov	si, [di+2]
 mov	ax, [di]
 cmp	ax, dx
-jnz	short loc_E083
+jnz	short loc_FF53
 cmp	si, bx
-jz	short loc_E099
+jz	short loc_FF69
 
-loc_E083:
+loc_FF53:
 call	word ptr [bp+0]
 cmp	ax, [bp+2]
-jnb	short loc_E099
+jnb	short loc_FF69
 mov	[bp+2],	ax
 mov	ax, [di]
 mov	[bp+4],	ax
 mov	si, [di+2]
 mov	[bp+6],	si
 
-loc_E099:
+loc_FF69:
 add	di, 4
 cmp	word ptr [di], 0FFFFh
-jnz	short loc_E076
+jnz	short loc_FF46
 
-locret_E0A1:
+locret_FF71:
 retn
-sub_E068 endp
+sub_FF38 endp
 
 
 
 
-sub_E0A2 proc near
+sub_FF72 proc near
 cmp	byte ptr ds:46EBh, 0
-jns	short locret_E0DA
+jns	short locret_FFAA
 mov	di, 3CBEh
 mov	cx, [di]
-jcxz	short locret_E0DA
+jcxz	short locret_FFAA
 add	di, 2
 
-loc_E0B3:
+loc_FF83:
 test	byte ptr [di+0Ch], 0C0h
-jnz	short loc_E0D5
-call	sub_D6FE
-jb	short loc_E0D5
-call	sub_E159
+jnz	short loc_FFA5
+call	sub_F5CE
+jb	short loc_FFA5
+call	sub_10029
 call	word ptr [bp+0]
 cmp	ax, [bp+2]
-jnb	short loc_E0D5
+jnb	short loc_FFA5
 mov	[bp+2],	ax
-call	sub_E159
+call	sub_10029
 mov	[bp+4],	ax
 mov	[bp+6],	si
 
-loc_E0D5:
+loc_FFA5:
 add	di, 11h
-loop	loc_E0B3
+loop	loc_FF83
 
-locret_E0DA:
+locret_FFAA:
 retn
-sub_E0A2 endp
+sub_FF72 endp
 
 
 
 
-sub_E0DB proc near
+sub_FFAB proc near
 cmp	byte ptr ds:46EBh, 0
-jz	short locret_E0DA
+jz	short locret_FFAA
 mov	di, 0A5C0h
 
-loc_E0E5:
+loc_FFB5:
 cmp	word ptr [di], 0
-jz	short locret_E0DA
+jz	short locret_FFAA
 mov	si, [di+4]
 and	si, 0FFh
 mov	ax, [di+2]
 cmp	ax, dx
-jnz	short loc_E0FC
+jnz	short loc_FFCC
 cmp	si, bx
-jz	short loc_E117
+jz	short loc_FFE7
 
-loc_E0FC:
+loc_FFCC:
 call	word ptr [bp+0]
 cmp	ax, [bp+2]
-jnb	short loc_E117
+jnb	short loc_FFE7
 mov	[bp+2],	ax
 mov	ax, [di+2]
 mov	[bp+4],	ax
@@ -32184,50 +32183,50 @@ mov	si, [di+4]
 and	si, 0FFh
 mov	[bp+6],	si
 
-loc_E117:
+loc_FFE7:
 add	di, 6
-jmp	short loc_E0E5
-sub_E0DB endp
+jmp	short loc_FFB5
+sub_FFAB endp
 
 
 
 
-sub_E11C proc near
+sub_FFEC proc near
 test	byte ptr ds:46EBh, 1
-jz	short locret_E0DA
+jz	short locret_FFAA
 cmp	word ptr ds:4749h, 0
-jz	short locret_E0DA
+jz	short locret_FFAA
 mov	di, 2462h
 mov	cx, 8
 
-loc_E130:
+loc_10000:
 mov	ax, [di]
 mov	si, [di+2]
 cmp	ax, dx
-jnz	short loc_E13D
+jnz	short loc_1000D
 cmp	si, bx
-jz	short loc_E153
+jz	short loc_10023
 
-loc_E13D:
+loc_1000D:
 call	word ptr [bp+0]
 cmp	ax, [bp+2]
-jnb	short loc_E153
+jnb	short loc_10023
 mov	[bp+2],	ax
 mov	ax, [di]
 mov	si, [di+2]
 mov	[bp+4],	ax
 mov	[bp+6],	si
 
-loc_E153:
+loc_10023:
 add	di, 4
-loop	loc_E130
+loop	loc_10000
 retn
-sub_E11C endp
+sub_FFEC endp
 
 
 
 
-sub_E159 proc near
+sub_10029 proc near
 mov	si, [di+6]
 mov	ax, si
 sub	ax, [di+2]
@@ -32238,138 +32237,138 @@ mov	ax, [di]
 add	ax, [di+4]
 shr	ax, 1
 retn
-sub_E159 endp
+sub_10029 endp
 
 sub	ax, dx
 
-loc_E171:
+loc_10041:
 sub	si, bx
 
-loc_E173:
-jns	short loc_E177
+loc_10043:
+jns	short loc_10047
 neg	si
 
-loc_E177:
+loc_10047:
 cmp	ax, 6
-jl	short loc_E186
+jl	short loc_10056
 cmp	si, 32h	; '2'
-jnb	short loc_E186
+jnb	short loc_10056
 add	ax, si
 add	ax, si
 retn
 
-loc_E186:
+loc_10056:
 mov	ax, 0FFFFh
 mov	si, ax
 retn
 sub	ax, dx
 neg	ax
-jmp	short loc_E171
+jmp	short loc_10041
 xchg	ax, si
 sub	ax, bx
 neg	ax
 sub	si, dx
-jmp	short loc_E173
+jmp	short loc_10043
 xchg	ax, si
 sub	ax, bx
 sub	si, dx
-jmp	short loc_E173
+jmp	short loc_10043
 sub	ax, dx
 sub	si, bx
 neg	si
 
-loc_E1A8:
+loc_10078:
 cmp	ax, 6
-jl	short loc_E186
+jl	short loc_10056
 cmp	si, 6
-jl	short loc_E186
+jl	short loc_10056
 sub	ax, si
-jns	short locret_E1B8
+jns	short locret_10088
 neg	ax
 
-locret_E1B8:
+locret_10088:
 retn
 sub	ax, dx
 neg	ax
 sub	si, bx
 neg	si
-jmp	short loc_E1A8
+jmp	short loc_10078
 sub	ax, dx
 neg	ax
 sub	si, bx
-jmp	short loc_E1A8
+jmp	short loc_10078
 sub	ax, dx
 sub	si, bx
-jmp	short loc_E1A8
-; START	OF FUNCTION CHUNK FOR sub_DF1E
+jmp	short loc_10078
+; START	OF FUNCTION CHUNK FOR sub_FDEE
 
-loc_E1D1:
+loc_100A1:
 or	dl, dl
-jz	short loc_E1F3
+jz	short loc_100C3
 mov	ax, ds:0DC51h
 or	ax, ax
-jns	short loc_E1DE
+jns	short loc_100AE
 neg	ax
 
-loc_E1DE:
+loc_100AE:
 cmp	ax, 4
-jb	short loc_E1F3
+jb	short loc_100C3
 add	dl, dl
 cmp	ax, 0Ch
-jb	short loc_E1F3
+jb	short loc_100C3
 add	dl, dl
 cmp	ax, 24h	; '$'
-jb	short loc_E1F3
+jb	short loc_100C3
 add	dl, dl
 
-loc_E1F3:
+loc_100C3:
 or	bl, bl
-jz	short loc_E213
+jz	short loc_100E3
 mov	ax, ds:0DC53h
-jns	short loc_E1FE
+jns	short loc_100CE
 neg	ax
 
-loc_E1FE:
+loc_100CE:
 cmp	ax, 3
-jb	short loc_E213
+jb	short loc_100E3
 add	bl, bl
 cmp	ax, 0Ah
-jb	short loc_E213
+jb	short loc_100E3
 add	bl, bl
 cmp	ax, 1Ch
-jb	short loc_E213
+jb	short loc_100E3
 add	bl, bl
 
-loc_E213:
+loc_100E3:
 mov	al, ds:0CE7Ah
 mov	ah, al
 xchg	ah, ds:0DC50h
 sub	al, ah
 cmp	al, 8
-jb	short loc_E224
+jb	short loc_100F4
 mov	al, 8
 
-loc_E224:
+loc_100F4:
 mov	cl, al
 mov	si, 0DC55h
 mov	al, dl
-call	sub_E243
+call	sub_10113
 mov	dx, ax
 add	ds:0DC51h, ax
 inc	si
 mov	al, bl
-call	sub_E243
+call	sub_10113
 mov	bx, ax
 add	ds:0DC53h, ax
-jmp	sub_DAAF
-; END OF FUNCTION CHUNK	FOR sub_DF1E
+jmp	sub_F97F
+; END OF FUNCTION CHUNK	FOR sub_FDEE
 
 
 
-sub_E243 proc near
+sub_10113 proc near
 imul	cl
 or	ax, ax
-js	short loc_E25A
+js	short loc_1012A
 add	al, [si]
 mov	ch, al
 and	ch, 7
@@ -32380,7 +32379,7 @@ shr	ax, 1
 shr	ax, 1
 retn
 
-loc_E25A:
+loc_1012A:
 neg	ax
 add	al, [si]
 mov	ch, al
@@ -32392,14 +32391,14 @@ shr	ax, 1
 shr	ax, 1
 neg	ax
 retn
-sub_E243 endp
+sub_10113 endp
 
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_4. PRESS KEYPAD "+" TO EXPAND]
 
 
 ; Attributes: bp-based frame
 
-sub_E270 proc near
+sub_10140 proc near
 push	bx
 push	cx
 push	dx
@@ -32412,13 +32411,13 @@ push	ax
 mov	ax, [bp+0Ch]
 mov	bp, [bp+0]
 retn
-sub_E270 endp ;	sp = -0Eh
+sub_10140 endp ; sp = -0Eh
 
 
 
 ; Attributes: bp-based frame
 
-sub_E283 proc near
+sub_10153 proc near
 
 arg_A= word ptr	 0Ch
 
@@ -32432,51 +32431,51 @@ pop	dx
 pop	cx
 pop	bx
 retn
-sub_E283 endp ;	sp =  0Eh
+sub_10153 endp ; sp =  0Eh
 
 
 
 
-sub_E290 proc near
-call	sub_D04E
-jmp	short loc_E297
-sub_E290 endp
+sub_10160 proc near
+call	sub_EF1E
+jmp	short loc_10167
+sub_10160 endp
 
 
 
 
-sub_E295 proc near
+sub_10165 proc near
 xor	ah, ah
 
-loc_E297:
+loc_10167:
 push	cx
 mov	cx, 64h	; 'd'
 div	cl
 add	al, 30h	; '0'
 cmp	al, 30h	; '0'
-jnz	short loc_E2A7
+jnz	short loc_10177
 mov	al, 20h	; ' '
 dec	ch
 
-loc_E2A7:
+loc_10177:
 call	word ptr ds:2518h
 mov	al, ah
 aam
 xchg	al, ah
 add	ax, 3030h
 or	ch, ch
-jz	short loc_E2BE
+jz	short loc_1018E
 cmp	al, 30h	; '0'
-jnz	short loc_E2BE
+jnz	short loc_1018E
 mov	al, 20h	; ' '
 
-loc_E2BE:
+loc_1018E:
 call	word ptr ds:2518h
 mov	al, ah
 call	word ptr ds:2518h
 pop	cx
 retn
-sub_E295 endp
+sub_10165 endp
 
 aam
 xchg	al, ah
@@ -32487,58 +32486,58 @@ jmp	word ptr ds:2518h
 
 
 
-sub_E2DB proc near
+sub_101AB proc near
 push	ax
-call	sub_CF70
-call	sub_D03C
+call	sub_EE40
+call	sub_EF0C
 pop	ax
-sub_E2DB endp
+sub_101AB endp
 
 
 
 
-sub_E2E3 proc near
+sub_101B3 proc near
 push	bx
 push	cx
 mov	cx, 64h	; 'd'
 mov	bx, cx
 cmp	ax, 3E8h
-jb	short loc_E2F2
+jb	short loc_101C2
 mov	ax, 3E7h
 
-loc_E2F2:
+loc_101C2:
 div	cl
 add	al, 30h	; '0'
 
-loc_E2F6:
+loc_101C6:
 cmp	al, 30h	; '0'
-jnz	short loc_E2FE
+jnz	short loc_101CE
 mov	al, 20h	; ' '
 xor	bx, bx
 
-loc_E2FE:
+loc_101CE:
 mov	es:[si-3], al
 mov	al, ah
 aam
 xchg	al, ah
 add	ax, 3030h
 or	bx, bx
-jnz	short loc_E315
+jnz	short loc_101E5
 cmp	al, 30h	; '0'
-jnz	short loc_E315
+jnz	short loc_101E5
 mov	al, 20h	; ' '
 
-loc_E315:
+loc_101E5:
 mov	es:[si-2], ax
 pop	cx
 pop	bx
 retn
-sub_E2E3 endp ;	sp =  2
+sub_101B3 endp ; sp =  2
 
 
 
 
-sub_E31C proc near
+sub_101EC proc near
 push	bx
 push	cx
 mov	cx, 3E8h
@@ -32549,14 +32548,14 @@ aam
 xchg	al, ah
 add	ax, 3030h
 cmp	al, 30h	; '0'
-jnz	short loc_E33D
+jnz	short loc_1020D
 mov	al, 20h	; ' '
 cmp	ah, 30h	; '0'
-jnz	short loc_E33D
+jnz	short loc_1020D
 mov	ah, al
 xor	bx, bx
 
-loc_E33D:
+loc_1020D:
 mov	es:[si-5], ax
 mov	ax, dx
 xor	dx, dx
@@ -32564,24 +32563,24 @@ mov	cx, 64h	; 'd'
 div	cl
 add	al, 30h	; '0'
 or	bx, bx
-jnz	short loc_E2FE
+jnz	short loc_101CE
 inc	bx
-jmp	short loc_E2F6
-sub_E31C endp
+jmp	short loc_101C6
+sub_101EC endp
 
 
 
 
-sub_E353 proc near
+sub_10223 proc near
 push	ax
 push	word ptr ds:0CE7Ah
 call	bp
 pop	bx
 pop	bp
 
-loc_E35C:
+loc_1022C:
 cmp	byte ptr ds:227Dh, 0
-jz	short loc_E378
+jz	short loc_10248
 push	bx
 push	cx
 push	dx
@@ -32589,7 +32588,7 @@ push	si
 push	di
 push	bp
 push	es
-call	sub_DD63
+call	sub_FC33
 pop	es
 pop	bp
 pop	di
@@ -32597,72 +32596,72 @@ pop	si
 pop	dx
 pop	cx
 pop	bx
-jb	short locret_E386
-jmp	short loc_E37B
+jb	short locret_10256
+jmp	short loc_1024B
 
-loc_E378:
-call	sub_DE7B
+loc_10248:
+call	sub_FD4B
 
-loc_E37B:
+loc_1024B:
 mov	ax, ds:0CE7Ah
 sub	ax, bx
 cmp	ax, bp
-jb	short loc_E35C
+jb	short loc_1022C
 or	al, 1
 
-locret_E386:
+locret_10256:
 retn
-sub_E353 endp
+sub_10223 endp
 
 
 
 
-sub_E387 proc near
+sub_10257 proc near
 push	ax
 push	cx
 mov	cx, ax
-jcxz	short loc_E39D
+jcxz	short loc_1026D
 pushf
 sti
 
-loc_E38F:
+loc_1025F:
 mov	ax, ss:0CE7Ah
 
-loc_E393:
+loc_10263:
 cmp	ax, ss:0CE7Ah
-jz	short loc_E393
-loop	loc_E38F
+jz	short loc_10263
+loop	loc_1025F
 popf
 
-loc_E39D:
+loc_1026D:
 pop	cx
 pop	ax
 retn
-sub_E387 endp
+sub_10257 endp
 
 
 
 
-sub_E3A0 proc near
+sub_10270 proc near
 mov	cx, ax
 
-loc_E3A2:
+loc_10272:
 mov	ax, ds:0CE7Ah
 
-loc_E3A5:
+loc_10275:
 cmp	ax, ds:0CE7Ah
-jz	short loc_E3A5
-call	sub_E270
-call	sub_D9D2
-call	sub_E283
-loop	loc_E3A2
+jz	short loc_10275
+call	sub_10140
+call	sub_F8A2
+call	sub_10153
+loop	loc_10272
 retn
-sub_E3A0 endp
+sub_10270 endp
 
 
 
 
-sub_E3B7 proc near
+sub_10287 proc near
 push	dx
 mov	ax, ds:0D824h
 mov	dx, 0E56Dh
@@ -32674,12 +32673,12 @@ mov	ah, dl
 and	ax, bx
 pop	dx
 retn
-sub_E3B7 endp
+sub_10287 endp
 
 
 
 
-sub_E3CC proc near
+sub_1029C proc near
 push	dx
 mov	ax, ds:0D826h
 mov	dx, 0CBD1h
@@ -32690,26 +32689,26 @@ mov	al, ah
 mov	ah, dl
 pop	dx
 retn
-sub_E3CC endp
+sub_1029C endp
 
 
 
 
-sub_E3DF proc near
+sub_102AF proc near
 push	cx
 push	dx
 mov	ax, bx
 or	ax, ax
-jz	short loc_E408
+jz	short loc_102D8
 mov	cx, 0FFFFh
 
-loc_E3EA:
+loc_102BA:
 shl	cx, 1
 shr	ax, 1
-jnz	short loc_E3EA
+jnz	short loc_102BA
 not	cx
 
-loc_E3F2:
+loc_102C2:
 mov	ax, ds:0D828h
 mov	dx, 0CBD1h
 mul	dx
@@ -32719,13 +32718,13 @@ mov	al, ah
 mov	ah, dl
 and	ax, cx
 cmp	ax, bx
-ja	short loc_E3F2
+ja	short loc_102C2
 
-loc_E408:
+loc_102D8:
 pop	dx
 pop	cx
 retn
-sub_E3DF endp
+sub_102AF endp
 
 align 2
 db 33h,	38h, 36h, 0, 1,	2 dup(0), 4Dh, 4Fh
@@ -32750,47 +32749,47 @@ db 57h,	52h, 49h, 2 dup(0), 26h, 38h
 
 
 
-sub_E4AD proc near
+sub_1037D proc near
 mov	si, 80h	; '€'
 lodsb
 xor	ah, ah
 mov	bp, ax
 add	bp, si
 
-loc_E4B7:
+loc_10387:
 push	cs
 pop	es
 assume es:seg000
 
-loc_E4B9:
-call	sub_E56B
-jb	short locret_E4E5
-jz	short loc_E4B9
+loc_10389:
+call	sub_1043B
+jb	short locret_103B5
+jz	short loc_10389
 mov	dl, al
-call	sub_E56B
-jbe	short loc_E542
+call	sub_1043B
+jbe	short loc_10412
 mov	ah, al
-call	sub_E56B
-jbe	short loc_E542
+call	sub_1043B
+jbe	short loc_10412
 xchg	al, dl
 mov	di, 0E40Ch
 mov	cx, 17h
 
-loc_E4D6:
+loc_103A6:
 scasw
-jnz	short loc_E4DE
+jnz	short loc_103AE
 cmp	dl, es:[di]
-jz	short loc_E4E6
+jz	short loc_103B6
 
-loc_E4DE:
+loc_103AE:
 add	di, 5
-loop	loc_E4D6
-jmp	short loc_E542
+loop	loc_103A6
+jmp	short loc_10412
 
-locret_E4E5:
+locret_103B5:
 retn
 
-loc_E4E6:
+loc_103B6:
 mov	ax, seg	seg001
 mov	es, ax
 assume es:seg001
@@ -32801,116 +32800,116 @@ mov	al, cs:[di+2]
 or	es:[bx], al
 mov	bx, cs:[di+3]
 or	bx, bx
-jz	short loc_E542
-call	sub_E56B
-jb	short locret_E4E5
-jz	short loc_E542
+jz	short loc_10412
+call	sub_1043B
+jb	short locret_103B5
+jz	short loc_10412
 dec	si
 cmp	bx, 3826h
-jz	short loc_E54D
+jz	short loc_1041D
 
-loc_E512:
+loc_103E2:
 xor	dx, dx
 
-loc_E514:
-call	sub_E56B
+loc_103E4:
+call	sub_1043B
 mov	ah, al
-jbe	short loc_E537
+jbe	short loc_10407
 sub	al, 30h	; '0'
-jb	short loc_E537
+jb	short loc_10407
 cmp	al, 9
-jbe	short loc_E52B
+jbe	short loc_103FB
 sub	al, 7
-jb	short loc_E537
+jb	short loc_10407
 cmp	al, 0Fh
-ja	short loc_E537
+ja	short loc_10407
 
-loc_E52B:
+loc_103FB:
 shl	dx, 1
 shl	dx, 1
 shl	dx, 1
 shl	dx, 1
 or	dl, al
-jmp	short loc_E514
+jmp	short loc_103E4
 
-loc_E537:
+loc_10407:
 mov	es:[bx], dx
 add	bx, 2
 cmp	ah, 20h	; ' '
-ja	short loc_E512
+ja	short loc_103E2
 
-loc_E542:
+loc_10412:
 dec	si
 
-loc_E543:
-call	sub_E56B
-jb	short locret_E4E5
-jnz	short loc_E543
-jmp	loc_E4B7
+loc_10413:
+call	sub_1043B
+jb	short locret_103B5
+jnz	short loc_10413
+jmp	loc_10387
 
-loc_E54D:
+loc_1041D:
 mov	di, bx
 
-loc_E54F:
-call	sub_E56B
-jbe	short loc_E55B
+loc_1041F:
+call	sub_1043B
+jbe	short loc_1042B
 stosb
 cmp	di, 3898h
-jb	short loc_E54F
+jb	short loc_1041F
 
-loc_E55B:
+loc_1042B:
 mov	al, 5Ch	; '\'
 cmp	es:[di-1], al
-jz	short loc_E564
+jz	short loc_10434
 stosb
 
-loc_E564:
-mov	word ptr es:seg_F4B0+38A6h, di
-jmp	short loc_E542
-sub_E4AD endp
+loc_10434:
+mov	word ptr es:seg_11380+38A6h, di
+jmp	short loc_10412
+sub_1037D endp
 
 
 
 
-sub_E56B proc near
+sub_1043B proc near
 mov	al, 0Dh
 cmp	si, bp
-jnb	short loc_E578
+jnb	short loc_10448
 lodsb
 cmp	al, 61h	; 'a'
-jb	short loc_E578
+jb	short loc_10448
 and	al, 0DFh
 
-loc_E578:
+loc_10448:
 cmp	al, 20h	; ' '
 retn
-sub_E56B endp
+sub_1043B endp
 
 
 
 
-sub_E57B proc near
+sub_1044B proc near
 push	cx
 push	si
 add	ax, 0C8h ; 'È'
 mov	si, ax
-call	sub_F0B9
+call	sub_10F89
 pop	si
 pop	cx
 mov	ax, es
 sub	ax, 10h
 
-loc_E58C:
+loc_1045C:
 mov	[si], ax
 add	si, 4
-loop	loc_E58C
+loop	loc_1045C
 retn
-sub_E57B endp
+sub_1044B endp
 
 
 
 
-sub_E594 proc near
+sub_10464 proc near
 mov	ax, seg	seg001
 mov	es, ax
 mov	cx, 0DD1Dh
@@ -32925,7 +32924,7 @@ pop	ds
 assume ds:seg001
 mov	ds:0CE68h, ax
 mov	cx, 0DD1Dh
-call	sub_F0FF
+call	sub_10FCF
 mov	ax, 4C6Fh
 mov	cl, 4
 shr	ax, cl
@@ -32940,33 +32939,33 @@ mov	ax, 3301h
 int	21h		; DOS -	EXTENDED CONTROL-BREAK CHECKING
 			; AL = 00h get state / 01h set state / 02h set AND get
 			; DL = 00h for OFF or 01h for ON
-mov	seg_F4B0+2941h,	dl
+mov	seg_11380+2941h, dl
 mov	ax, 3301h
 xor	dx, dx
 int	21h		; DOS -	EXTENDED CONTROL-BREAK CHECKING
 			; AL = 00h get state / 01h set state / 02h set AND get
 			; DL = 00h for OFF or 01h for ON
-call	sub_E675
-mov	al, seg_F4B0+2942h
+call	sub_10545
+mov	al, seg_11380+2942h
 and	ax, 1
 mov	si, 38B7h
 mov	cx, 2Eh	; '.'
-call	sub_E57B
-call	dword ptr seg_F4B0+38B9h
+call	sub_1044B
+call	dword ptr seg_11380+38B9h
 mov	ds:0DBD8h, ax
-call	sub_C08E
+call	sub_DF5E
 mov	ds:0CE74h, cx
 mov	di, 0DBDCh
-call	sub_F0F6
+call	sub_10FC6
 mov	ds:0DBD6h, bp
 or	bp, bp
-jnz	short loc_E610
+jnz	short loc_104E0
 mov	di, 0DBD4h
-call	sub_F0F6
+call	sub_10FC6
 
-loc_E610:
-call	dword ptr seg_F4B0+38B5h
-mov	al, seg_F4B0+2942h
+loc_104E0:
+call	dword ptr seg_11380+38B5h
+mov	al, seg_11380+2942h
 push	ax
 shr	al, 1
 shr	al, 1
@@ -32974,61 +32973,61 @@ and	al, 7
 mov	ds:0CEEBh, al
 pop	ax
 or	al, al
-jns	short loc_E62B
+jns	short loc_104FB
 push	ax
-call	sub_EA32
+call	sub_10902
 pop	ax
 
-loc_E62B:
+loc_104FB:
 test	al, 40h
-jnz	short loc_E632
-call	sub_E97A
+jnz	short loc_10502
+call	sub_1084A
 
-loc_E632:
-call	sub_E85C
-call	sub_EA7B
-mov	al, seg_F4B0+2942h
+loc_10502:
+call	sub_1072C
+call	sub_1094B
+mov	al, seg_11380+2942h
 and	al, 2
 mov	bp, 0CE7Ah
-call	dword ptr seg_F4B0+3925h
+call	dword ptr seg_11380+3925h
 mov	word ptr ds:0DC48h, 271Ch
 mov	byte ptr ds:0DC46h, 0FFh
 xor	ax, ax
 mov	bx, 0C7h ; 'Ç'
 xor	cx, cx
 mov	dx, 13Fh
-call	sub_DB14
+call	sub_F9E4
 mov	bx, 0ABh ; '«'
 mov	dx, 0EDh ; 'í'
-call	sub_DB03
-call	sub_E76A
-call	sub_CE6C
-call	sub_C07C
-call	sub_C0AD
-jmp	sub_C412
-sub_E594 endp
+call	sub_F9D3
+call	sub_1063A
+call	sub_ED3C
+call	sub_DF4C
+call	sub_DF7D
+jmp	sub_E2E2
+sub_10464 endp
 
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_12. PRESS	KEYPAD "+" TO EXPAND]
 
 
 
-sub_E675 proc near
+sub_10545 proc near
 mov	dx, 37F2h
-call	sub_F1FB
-jb	short loc_E692
-les	di, dword ptr seg_F4B0+39B7h
+call	sub_110CB
+jb	short loc_10562
+les	di, dword ptr seg_11380+39B7h
 assume es:nothing
-call	sub_F260
+call	sub_11130
 cmp	word ptr es:[di], 0C089h
-jnz	short loc_E692
+jnz	short loc_10562
 mov	dx, 31FFh
-call	dword ptr seg_F4B0+39B7h
+call	dword ptr seg_11380+39B7h
 
-loc_E692:
+loc_10562:
 mov	si, 37F7h
 inc	byte ptr [si]
 cmp	byte ptr [si], 39h ; '9'
-jbe	short sub_E675
+jbe	short sub_10545
 mov	dx, 37E9h
 mov	ax, 3D00h
 int	21h		; DOS -	2+ - OPEN DISK FILE WITH HANDLE
@@ -33037,10 +33036,10 @@ int	21h		; DOS -	2+ - OPEN DISK FILE WITH HANDLE
 			; 0 - read
 jb	short nullsub_12
 mov	ds:0DBBAh, ax
-call	sub_E741
+call	sub_10611
 mov	si, di
 mov	bp, es
-les	di, dword ptr seg_F4B0+39B7h
+les	di, dword ptr seg_11380+39B7h
 mov	ds:0DBBCh, di
 mov	word ptr ds:0DBBEh, es
 mov	ax, 145h
@@ -33054,13 +33053,13 @@ mov	ds, bp
 assume ds:nothing
 lodsw
 
-loc_E6CF:
+loc_1059F:
 push	si
-call	sub_F314
+call	sub_111E4
 pop	si
-jb	short loc_E702
-call	sub_F3A7
-jz	short loc_E6F9
+jb	short loc_105D2
+call	sub_11277
+jz	short loc_105C9
 push	ax
 push	dx
 push	si
@@ -33079,14 +33078,14 @@ pop	si
 pop	dx
 pop	ax
 
-loc_E6F9:
-call	sub_E75B
+loc_105C9:
+call	sub_1062B
 add	word ptr ss:0D820h, 0Ah
 
-loc_E702:
+loc_105D2:
 add	si, 19h
 cmp	byte ptr [si], 0
-jnz	short loc_E6CF
+jnz	short loc_1059F
 pop	ds
 mov	si, 145h
 mov	ax, ds:0D820h
@@ -33100,7 +33099,7 @@ mov	dx, ax
 les	di, ss:0DBBCh
 add	di, 2
 
-loc_E729:
+loc_105F9:
 add	si, dx
 push	si
 movs	word ptr es:[di], word ptr es:[si]
@@ -33109,32 +33108,32 @@ pop	si
 mov	ax, si
 stosw
 cmp	di, 140h
-jb	short loc_E729
+jb	short loc_105F9
 mov	cx, ds:0D820h
-jmp	sub_F0FF
-sub_E675 endp
+jmp	sub_10FCF
+sub_10545 endp
 
 
 
 
-sub_E741 proc near
+sub_10611 proc near
 xor	ax, ax
 xor	dx, dx
-call	sub_F2D6
+call	sub_111A6
 mov	ax, ds:39B9h
 add	ax, 800h
 mov	es, ax
 xor	di, di
 mov	cx, 0FFFFh
-call	sub_F2EA
-jb	short sub_E741
+call	sub_111BA
+jb	short sub_10611
 retn
-sub_E741 endp
+sub_10611 endp
 
 
 
 
-sub_E75B proc near
+sub_1062B proc near
 push	si
 stosw
 mov	al, dl
@@ -33147,12 +33146,12 @@ movsw
 movsw
 pop	si
 retn
-sub_E75B endp
+sub_1062B endp
 
 
 
 
-sub_E76A proc near
+sub_1063A proc near
 
 ; FUNCTION CHUNK AT F131 SIZE 0000000E BYTES
 
@@ -33163,16 +33162,16 @@ add	al, 7
 xor	ah, ah
 mov	si, 398Bh
 mov	cx, 8
-call	sub_E57B
+call	sub_1044B
 mov	ax, ds:39B5h
 call	dword ptr ds:3989h
 mov	ds:0DBC8h, bx
-call	sub_A637
-call	sub_AE54
-call	sub_E851
-jb	short loc_E7BC
+call	sub_C507
+call	sub_CD24
+call	sub_10721
+jb	short loc_1068C
 test	byte ptr ds:2944h, 0F0h
-jz	short loc_E7B9
+jz	short loc_10689
 and	byte ptr ds:2944h, 0Fh
 xor	ax, ax
 mov	ds:3813h, ax
@@ -33181,34 +33180,34 @@ mov	ax, ds:398Bh
 add	ax, 10h
 mov	ds:39B9h, ax
 mov	word ptr ds:3CBCh, 3624h
-jmp	short sub_E76A
+jmp	short sub_1063A
 
-loc_E7B9:
-jmp	loc_F131
+loc_10689:
+jmp	loc_11001
 
-loc_E7BC:
+loc_1068C:
 mov	ax, ds:3813h
 mov	ds:381Bh, ax
-call	sub_A87E
+call	sub_C74E
 
-loc_E7C5:
+loc_10695:
 mov	al, ds:2944h
 and	ax, 0Fh
 add	ax, 2
 mov	si, 396Fh
 mov	cx, 7
-call	sub_E57B
+call	sub_1044B
 mov	bp, 3349h
 mov	cx, 0Ah
 mov	ax, ds:39B3h
 call	dword ptr ds:396Dh
 or	ds:0DBC8h, bx
-call	sub_A650
-call	sub_AE3F
-call	sub_E851
-jb	short loc_E818
+call	sub_C520
+call	sub_CD0F
+call	sub_10721
+jb	short loc_106E8
 test	byte ptr ds:2944h, 0Fh
-jz	short loc_E7B9
+jz	short loc_10689
 and	byte ptr ds:2944h, 0F0h
 xor	ax, ax
 mov	ds:0DBB8h, ax
@@ -33217,25 +33216,25 @@ mov	ax, ds:396Fh
 add	ax, 10h
 mov	ds:39B9h, ax
 mov	word ptr ds:3CBCh, 364Bh
-jmp	short loc_E7C5
+jmp	short loc_10695
 
-loc_E818:
-call	sub_AE28
-jz	short locret_E825
-call	sub_E826
+loc_106E8:
+call	sub_CCF8
+jz	short locret_106F5
+call	sub_106F6
 and	byte ptr ds:2943h, 0EFh
 
-locret_E825:
+locret_106F5:
 retn
-sub_E76A endp
+sub_1063A endp
 
 
 
 
-sub_E826 proc near
+sub_106F6 proc near
 cmp	word ptr ds:0DBBAh, 0
-jz	short locret_E850
-call	sub_E741
+jz	short locret_10720
+call	sub_10611
 push	ds
 mov	si, di
 push	es
@@ -33243,89 +33242,89 @@ pop	ds
 lodsw
 mov	cx, 0FAh ; 'ú'
 
-loc_E839:
+loc_10709:
 push	cx
 push	si
-call	sub_F314
+call	sub_111E4
 pop	si
-jb	short loc_E849
-call	sub_F3A7
-jnz	short loc_E849
-call	sub_E75B
+jb	short loc_10719
+call	sub_11277
+jnz	short loc_10719
+call	sub_1062B
 
-loc_E849:
+loc_10719:
 add	si, 19h
 pop	cx
-loop	loc_E839
+loop	loc_10709
 pop	ds
 
-locret_E850:
+locret_10720:
 retn
-sub_E826 endp
+sub_106F6 endp
 
 
 
 
-sub_E851 proc near
+sub_10721 proc near
 mov	ax, ds:39B9h
 add	ax, 2F13h
 cmp	ax, ds:0CE68h
 retn
-sub_E851 endp
+sub_10721 endp
 
 
 
 
-sub_E85C proc near
+sub_1072C proc near
 cli
-call	sub_E913
+call	sub_107E3
 xor	ax, ax
 mov	es, ax
-assume es:seg000
+assume es:nothing
 mov	di, 20h	; ' '
 mov	word ptr es:[di], 0E8B8h
 pushf
 sti
 
-loc_E86E:
-cmp	cs:byte_E8D4, 0
-jz	short loc_E86E
+loc_1073E:
+cmp	cs:byte_107A4, 0
+jz	short loc_1073E
 popf
 mov	word ptr es:[di], 0EF6Ah
-mov	ax, cs:word_E8D2
+mov	ax, cs:word_107A2
 or	ah, ah
-jz	short loc_E8A5
+jz	short loc_10775
 or	al, al
-jz	short loc_E8A5
+jz	short loc_10775
 xor	dx, dx
 mov	cx, 1745h
 div	cx
 shl	dx, 1
 cmp	dx, cx
-jb	short loc_E896
+jb	short loc_10766
 inc	ax
 
-loc_E896:
+loc_10766:
 dec	ax
-jns	short loc_E89A
+jns	short loc_1076A
 inc	ax
 
-loc_E89A:
+loc_1076A:
 cmp	ax, 0Ah
-jb	short loc_E8A1
+jb	short loc_10771
 mov	al, 0Ah
 
-loc_E8A1:
-mov	cs:byte_EFD9, al
+loc_10771:
+mov	cs:byte_10EA9, al
 
-loc_E8A5:
+loc_10775:
 mov	ax, 1745h
-sub_E85C endp
+sub_1072C endp
 
 
 
 
-sub_E8A8 proc near
+sub_10778 proc near
 pushf
 push	ax
 cli
@@ -33337,7 +33336,7 @@ mov	al, ah
 out	40h, al		; Timer	8253-5 (AT: 8254.2).
 popf
 retn
-sub_E8A8 endp
+sub_10778 endp
 
 push	ax
 mov	al, 36h	; '6'
@@ -33346,58 +33345,58 @@ in	al, 40h		; Timer	8253-5 (AT: 8254.2).
 mov	ah, al
 in	al, 40h		; Timer	8253-5 (AT: 8254.2).
 xchg	ah, al
-mov	cs:word_E8D2, ax
-inc	cs:byte_E8D4
+mov	cs:word_107A2, ax
+inc	cs:byte_107A4
 pop	ax
-jmp	loc_EF6A
-word_E8D2 dw 0
-byte_E8D4 db 0
+jmp	loc_10E3A
+word_107A2 dw 0
+byte_107A4 db 0
 
 
 
-sub_E8D5 proc near
-cmp	cs:word_EE8A, 0
-jz	short loc_E8E2
+sub_107A5 proc near
+cmp	cs:word_10D5A, 0
+jz	short loc_107B2
 mov	ah, 0Ah
-call	sub_EF2B
+call	sub_10DFB
 
-loc_E8E2:
-cmp	cs:word_ED3A, 0
-jz	short loc_E8EF
+loc_107B2:
+cmp	cs:word_10C0A, 0
+jz	short loc_107BF
 mov	ah, 45h	; 'E'
-call	sub_ED40
+call	sub_10C10
 
-loc_E8EF:
-mov	dx, cs:word_ED3E
+loc_107BF:
+mov	dx, cs:word_10C0E
 or	dx, dx
-jz	short loc_E8FD
+jz	short loc_107CD
 mov	ah, 45h	; 'E'
-call	sub_ED45
+call	sub_10C15
 
-loc_E8FD:
+loc_107CD:
 xor	ax, ax
-call	sub_E8A8
+call	sub_10778
 mov	dl, ds:2941h
 mov	ax, 3301h
 int	21h		; DOS -	EXTENDED CONTROL-BREAK CHECKING
 			; AL = 00h get state / 01h set state / 02h set AND get
 			; DL = 00h for OFF or 01h for ON
 cmp	byte ptr ds:0CE73h, 0
-jnz	short sub_E913
+jnz	short sub_107E3
 retn
-sub_E8D5 endp
+sub_107A5 endp
 
 
 
 
-sub_E913 proc near
+sub_107E3 proc near
 xor	byte ptr ds:0CE73h, 0FFh
 mov	si, 2913h
 pushf
 cli
 lodsw
 
-loc_E91E:
+loc_107EE:
 mov	di, ax
 lodsw
 xchg	ax, di
@@ -33416,54 +33415,54 @@ mov	cs:[di+2], ax
 pop	si
 lodsw
 or	ax, ax
-jns	short loc_E91E
+jns	short loc_107EE
 popf
 retn
-sub_E913 endp
+sub_107E3 endp
 
 
-loc_E94A:
+loc_1081A:
 push	bp
 mov	bp, sp
 add	word ptr [bp+2], 2
 pop	bp
 iret
-byte_E953 db 33h, 0C0h,	0CFh, 4Ah, 0E9h
+byte_10823 db 33h, 0C0h, 0CFh, 4Ah, 0E9h
 dw seg seg000
-dd loc_E94A
-dd loc_E94A
-dd loc_E94A
-dd loc_E94A
-dd byte_E953+2
-dd byte_E953+2
-dd byte_E953+2
-dd byte_E953
+dd loc_1081A
+dd loc_1081A
+dd loc_1081A
+dd loc_1081A
+dd byte_10823+2
+dd byte_10823+2
+dd byte_10823+2
+dd byte_10823
 
 
 
-sub_E97A proc near
+sub_1084A proc near
 mov	ax, 3533h
 int	21h		; DOS -	2+ - GET INTERRUPT VECTOR
 			; AL = interrupt number
 			; Return: ES:BX	= value	of interrupt vector
 mov	ax, es
 or	ax, bx
-jz	short locret_E9F3
+jz	short locret_108C3
 mov	ax, 0
 int	33h		; - MS MOUSE - RESET DRIVER AND	READ STATUS
 			; Return: AX = status
 			; BX = number of buttons
 inc	ax
-jnz	short locret_E9F3
+jnz	short locret_108C3
 xor	cx, cx
 xor	dx, dx
 mov	ax, 4
 int	33h		; - MS MOUSE - POSITION	MOUSE CURSOR
 			; CX = column, DX = row
 
-loc_E996:
+loc_10866:
 inc	byte ptr ds:2580h
-js	short loc_E9B3
+js	short loc_10883
 mov	cl, ds:2580h
 mov	ax, 1
 shl	ax, cl
@@ -33474,11 +33473,11 @@ int	33h		; - MS MOUSE - POSITION	MOUSE CURSOR
 mov	ax, 3
 int	33h		; - MS MOUSE - RETURN POSITION AND BUTTON STATUS
 			; Return: BX = button status, CX = column, DX =	row
-jcxz	short loc_E996
+jcxz	short loc_10866
 
-loc_E9B3:
+loc_10883:
 inc	byte ptr ds:2581h
-js	short loc_E9D0
+js	short loc_108A0
 mov	cl, ds:2581h
 mov	dx, 1
 shl	dx, cl
@@ -33489,9 +33488,9 @@ mov	ax, 3
 int	33h		; - MS MOUSE - RETURN POSITION AND BUTTON STATUS
 			; Return: BX = button status, CX = column, DX =	row
 or	dx, dx
-jz	short loc_E9B3
+jz	short loc_10883
 
-loc_E9D0:
+loc_108A0:
 mov	ax, 10h
 mov	dx, ax
 and	word ptr ds:2580h, 7F7Fh
@@ -33510,72 +33509,72 @@ mov	ax, 13h
 int	33h		; - MS MOUSE - DEFINE DOUBLE-SPEED THRESHOLD
 			; DX = threshold speed in mickeys/second, 0000h	= default of 64/second
 
-locret_E9F3:
+locret_108C3:
 retn
-sub_E97A endp
+sub_1084A endp
 
 push	ax
 push	ds
-mov	ds, cs:seg_EA30
+mov	ds, cs:seg_10900
 assume ds:seg001
 mov	ds:0DC36h, cx
 mov	ds:0DC38h, dx
 shr	al, 1
-jz	short loc_EA2D
+jz	short loc_108FD
 push	cx
 mov	cl, ds:0DC34h
 shr	al, 1
-jnb	short loc_EA13
+jnb	short loc_108E3
 or	cl, 1
 
-loc_EA13:
+loc_108E3:
 shr	al, 1
-jnb	short loc_EA1A
+jnb	short loc_108EA
 and	cl, 0FEh
 
-loc_EA1A:
+loc_108EA:
 shr	al, 1
-jnb	short loc_EA21
+jnb	short loc_108F1
 or	cl, 2
 
-loc_EA21:
+loc_108F1:
 shr	al, 1
-jnb	short loc_EA28
+jnb	short loc_108F8
 and	cl, 0FDh
 
-loc_EA28:
+loc_108F8:
 mov	ds:0DC34h, cl
 pop	cx
 
-loc_EA2D:
+loc_108FD:
 pop	ds
 assume ds:nothing
 pop	ax
 retf
-seg_EA30 dw seg	seg001
+seg_10900 dw seg seg001
 
 
 
-sub_EA32 proc near
+sub_10902 proc near
 mov	si, 39ABh
 xor	bx, bx
 mov	cx, 4
 
-loc_EA3A:
+loc_1090A:
 lodsw
 or	bx, ax
-loop	loc_EA3A
+loop	loc_1090A
 or	bx, bx
-jnz	short locret_EA74
-call	sub_DCE0
+jnz	short locret_10944
+call	sub_FBB0
 mov	ax, dx
 sub	ax, 4
 cmp	ah, 4
-jnb	short locret_E9F3
+jnb	short locret_108C3
 mov	ax, bx
 sub	ax, 4
 cmp	ah, 4
-jnb	short locret_E9F3
+jnb	short locret_108C3
 mov	ax, dx
 shr	ax, 1
 add	dx, ax
@@ -33588,29 +33587,29 @@ add	bx, ax
 mov	[si+4],	ax
 mov	[si+6],	bx
 
-locret_EA74:
+locret_10944:
 retn
-sub_EA32 endp
+sub_10902 endp
 
-word_EA75 dw 0
-off_EA77 dw offset sub_EC9C
-off_EA79 dw offset sub_ECEC
+word_10945 dw 0
+off_10947 dw offset sub_10B6C
+off_10949 dw offset sub_10BBC
 
 
 
-sub_EA7B proc near
+sub_1094B proc near
 test	byte ptr ds:2943h, 80h
-jz	short loc_EA85
-call	sub_EEA0
+jz	short loc_10955
+call	sub_10D70
 
-loc_EA85:
+loc_10955:
 test	byte ptr ds:2943h, 48h
-jz	short loc_EA8F
-call	sub_ED4C
+jz	short loc_1095F
+call	sub_10C1C
 
-loc_EA8F:
+loc_1095F:
 test	byte ptr ds:2943h, 0E8h
-jz	short locret_EAB6
+jz	short locret_10986
 mov	di, 0CE6Ah
 mov	cx, ds:39A9h
 mov	ax, 0B9h ; '¹'
@@ -33619,22 +33618,22 @@ add	cx, ax
 add	cx, ax
 push	cx
 shl	cx, 1
-call	sub_F0F6
+call	sub_10FC6
 les	di, ds:0CE6Ah
 assume es:nothing
 pop	cx
 xor	ax, ax
 rep stosw
 
-locret_EAB6:
+locret_10986:
 retn
-sub_EA7B endp
+sub_1094B endp
 
 
 
 
-sub_EAB7 proc near
-call	sub_E270
+sub_10987 proc near
+call	sub_10140
 push	ds
 push	es
 sub	sp, 6
@@ -33650,140 +33649,140 @@ mov	[bp+0],	ax
 shl	si, 1
 add	si, ax
 mov	dx, si
-mov	ax, cs:word_EA75
+mov	ax, cs:word_10945
 inc	ax
 mov	es:[si+172h], ax
-mov	cs:word_EA75, ax
+mov	cs:word_10945, ax
 mov	[bp+2],	cx
 pop	ds
 pop	si
 
-loc_EAED:
+loc_109BD:
 cmp	di, [bp+0]
-jb	short loc_EAF4
+jb	short loc_109C4
 
-loc_EAF2:
+loc_109C2:
 xor	di, di
 
-loc_EAF4:
+loc_109C4:
 mov	cx, [bp+0]
 sub	cx, di
 shr	cx, 1
 xor	ax, ax
 repne scasw
-jz	short loc_EB08
-call	sub_EB74
-jb	short loc_EAF2
-jmp	short loc_EB60
+jz	short loc_109D8
+call	sub_10A44
+jb	short loc_109C2
+jmp	short loc_10A30
 
-loc_EB08:
+loc_109D8:
 sub	di, 2
 xor	cx, cx
 mov	bx, di
 shr	bx, 1
 inc	bx
 mov	[bp+4],	bx
-jmp	short loc_EB28
+jmp	short loc_109F8
 
-loc_EB17:
+loc_109E7:
 mov	di, dx
 add	di, 2
 cmp	di, [bp+0]
-jnb	short loc_EB3F
+jnb	short loc_10A0F
 cmp	word ptr es:[di], 0
-jnz	short loc_EB3F
+jnz	short loc_10A0F
 inc	bx
 
-loc_EB28:
+loc_109F8:
 xchg	di, dx
 mov	es:[di], bx
 mov	ax, 400h
 add	cx, ax
 sub	[bp+2],	ax
-ja	short loc_EB17
+ja	short loc_109E7
 mov	di, dx
 mov	ax, [bp+2]
 stosw
 add	cx, ax
 
-loc_EB3F:
+loc_10A0F:
 mov	bx, [bp+4]
 push	dx
-call	sub_EC59
+call	sub_10B29
 pop	dx
 mov	di, dx
 or	word ptr es:[di], 8000h
 mov	ax, [bp+2]
 dec	ax
 cmp	ax, 0FC00h
-jbe	short loc_EAED
+jbe	short loc_109BD
 
-loc_EB57:
+loc_10A27:
 add	sp, 6
 pop	es
 pop	ds
-call	sub_E283
+call	sub_10153
 retn
 
-loc_EB60:
+loc_10A30:
 mov	si, [bp+0]
 mov	ax, 0FFFFh
 xchg	ax, ss:0CE6Eh
 add	si, ax
 add	si, ax
-call	sub_EBAA
-jmp	short loc_EB57
-sub_EAB7 endp
+call	sub_10A7A
+jmp	short loc_10A27
+sub_10987 endp
 
 
 
 
-sub_EB74 proc near
+sub_10A44 proc near
 push	dx
 push	si
 mov	si, [bp+0]
 mov	cx, 0B9h ; '¹'
-mov	dx, cs:word_EA75
+mov	dx, cs:word_10945
 xor	bx, bx
 
-loc_EB83:
+loc_10A53:
 mov	ax, es:[si]
 or	ax, ax
-jz	short loc_EB99
+jz	short loc_10A69
 mov	ax, dx
 sub	ax, es:[si+172h]
 cmp	ax, bx
-jb	short loc_EB99
+jb	short loc_10A69
 mov	di, si
 mov	bx, ax
 
-loc_EB99:
+loc_10A69:
 add	si, 2
-loop	loc_EB83
+loop	loc_10A53
 or	bx, bx
-jz	short loc_EBA7
+jz	short loc_10A77
 mov	si, di
-call	sub_EBAA
+call	sub_10A7A
 
-loc_EBA7:
+loc_10A77:
 pop	si
 pop	dx
 retn
-sub_EB74 endp
+sub_10A44 endp
 
 
 
 
-sub_EBAA proc near
+sub_10A7A proc near
 xor	bx, bx
 xchg	bx, es:[si]
 shl	bx, 1
 mov	si, bx
 dec	si
 dec	si
-jnb	short sub_EBAA
+jnb	short sub_10A7A
 retn
-sub_EBAA endp
+sub_10A7A endp
 
 push	ds
 xor	cx, cx
@@ -33793,27 +33792,27 @@ add	si, ax
 shl	si, 1
 mov	si, [si]
 or	si, si
-jz	short loc_EBE1
+jz	short loc_10AB1
 mov	cx, 0FC00h
 
-loc_EBD0:
+loc_10AA0:
 add	cx, 400h
 shl	si, 1
-jb	short loc_EBDD
+jb	short loc_10AAD
 mov	si, [si-2]
-jmp	short loc_EBD0
+jmp	short loc_10AA0
 
-loc_EBDD:
+loc_10AAD:
 sar	si, 1
 add	cx, si
 
-loc_EBE1:
+loc_10AB1:
 pop	ds
 retn
 
 
 
-sub_EBE3 proc near
+sub_10AB3 proc near
 push	dx
 push	ds
 mov	si, ds:39A9h
@@ -33822,46 +33821,46 @@ add	si, ax
 shl	si, 1
 mov	ax, [si]
 or	ax, ax
-jz	short loc_EC43
+jz	short loc_10B13
 mov	bx, ax
-mov	ax, cs:word_EA75
+mov	ax, cs:word_10945
 inc	ax
 mov	[si+172h], ax
-mov	cs:word_EA75, ax
+mov	cs:word_10945, ax
 mov	ax, bx
 push	di
 push	es
 
-loc_EC0A:
+loc_10ADA:
 mov	bx, ax
 mov	dx, ax
 xor	cx, cx
 
-loc_EC10:
+loc_10AE0:
 add	cx, 400h
 shl	ax, 1
-jb	short loc_EC33
+jb	short loc_10B03
 mov	si, ax
 sub	si, 2
 inc	dx
 mov	ax, [si]
 cmp	ax, dx
-jz	short loc_EC10
+jz	short loc_10AE0
 shl	ax, 1
-jb	short loc_EC33
+jb	short loc_10B03
 shr	ax, 1
 push	ax
-call	sub_EC46
+call	sub_10B16
 pop	ax
-jb	short loc_EC3A
-jmp	short loc_EC0A
+jb	short loc_10B0A
+jmp	short loc_10ADA
 
-loc_EC33:
+loc_10B03:
 sar	ax, 1
 add	cx, ax
-call	sub_EC46
+call	sub_10B16
 
-loc_EC3A:
+loc_10B0A:
 mov	cx, di
 pop	es
 pop	di
@@ -33870,22 +33869,22 @@ sub	cx, di
 popf
 cmc
 
-loc_EC43:
+loc_10B13:
 pop	ds
 pop	dx
 retn
-sub_EBE3 endp
+sub_10AB3 endp
 
 
 
 
-sub_EC46 proc near
+sub_10B16 proc near
 push	cx
 push	di
 push	ds
 push	es
 dec	bx
-call	cs:off_EA79
+call	cs:off_10949
 pop	es
 pop	ds
 pop	di
@@ -33894,18 +33893,18 @@ pushf
 add	di, cx
 popf
 retn
-sub_EC46 endp
+sub_10B16 endp
 
 
 
 
-sub_EC59 proc near
+sub_10B29 proc near
 push	si
 push	ds
 push	es
 push	cx
 dec	bx
-call	cs:off_EA77
+call	cs:off_10947
 pop	ax
 pop	es
 pop	ds
@@ -33914,7 +33913,7 @@ pushf
 add	si, ax
 popf
 retn
-sub_EC59 endp
+sub_10B29 endp
 
 db 10h dup(0), 2 dup(0FFh), 3 dup(0), 92h
 db 2 dup(0), 2 dup(0FFh), 3 dup(0), 92h
@@ -33922,7 +33921,7 @@ db 12h dup(0)
 
 
 
-sub_EC9C proc near
+sub_10B6C proc near
 mov	di, 0EC6Ch
 inc	cx
 shr	cx, 1
@@ -33934,10 +33933,10 @@ mov	ax, ds
 xor	dx, dx
 mov	cx, 4
 
-loc_ECB4:
+loc_10B84:
 shl	ax, 1
 rcl	dx, 1
-loop	loc_ECB4
+loop	loc_10B84
 add	ax, si
 adc	dx, 0
 mov	cs:[di+12h], ax
@@ -33963,12 +33962,12 @@ int	15h		; EXTENDED MEMORY - BLOCK MOVE (AT,XT286,PS)
 			; CX = number of words to move,	ES:SI -> global	descriptor table
 			; Return: CF set on error, AH =	status
 retn
-sub_EC9C endp
+sub_10B6C endp
 
 
 
 
-sub_ECEC proc near
+sub_10BBC proc near
 mov	si, 0EC6Ch
 inc	cx
 shr	cx, 1
@@ -33980,10 +33979,10 @@ mov	ax, es
 xor	dx, dx
 mov	cx, 4
 
-loc_ED04:
+loc_10BD4:
 shl	ax, 1
 rcl	dx, 1
-loop	loc_ED04
+loop	loc_10BD4
 add	ax, di
 adc	dx, 0
 mov	cs:[si+1Ah], ax
@@ -34007,112 +34006,112 @@ int	15h		; EXTENDED MEMORY - BLOCK MOVE (AT,XT286,PS)
 			; CX = number of words to move,	ES:SI -> global	descriptor table
 			; Return: CF set on error, AH =	status
 retn
-sub_ECEC endp
+sub_10BBC endp
 
-word_ED3A dw 0
-word_ED3C dw 0
-word_ED3E dw 0
-
-
-
-sub_ED40 proc near
-mov	dx, cs:word_ED3A
-sub_ED40 endp
+word_10C0A dw 0
+word_10C0C dw 0
+word_10C0E dw 0
 
 
 
+sub_10C10 proc near
+mov	dx, cs:word_10C0A
+sub_10C10 endp
 
-sub_ED45 proc near
+
+
+
+sub_10C15 proc near
 int	67h		;  - LIM EMS
 cmp	ah, 80h	; '€'
 cmc
 retn
-sub_ED45 endp
+sub_10C15 endp
 
 
 
 
-sub_ED4C proc near
+sub_10C1C proc near
 mov	ah, 41h	; 'A'
-call	sub_ED45
-jb	short loc_EDB3
-mov	cs:word_ED3C, bx
+call	sub_10C15
+jb	short loc_10C83
+mov	cs:word_10C0C, bx
 mov	ah, 42h	; 'B'
 xor	bx, bx
-call	sub_ED45
-jb	short loc_EDB3
+call	sub_10C15
+jb	short loc_10C83
 cmp	bx, 3
-jb	short loc_EDB3
-call	sub_EDB9
+jb	short loc_10C83
+call	sub_10C89
 test	byte ptr ds:2943h, 8
-jnz	short loc_EDB3
+jnz	short loc_10C83
 mov	ah, 42h	; 'B'
 xor	bx, bx
-call	sub_ED45
-jb	short loc_EDB3
+call	sub_10C15
+jb	short loc_10C83
 cmp	bx, 4
-jb	short loc_EDB3
+jb	short loc_10C83
 cmp	bx, 80h	; '€'
-jb	short loc_ED87
+jb	short loc_10C57
 mov	bx, 80h	; '€'
 
-loc_ED87:
+loc_10C57:
 mov	ax, bx
 shl	ax, 1
-jz	short loc_EDB3
+jz	short loc_10C83
 shl	ax, 1
 shl	ax, 1
 shl	ax, 1
 mov	ds:39A9h, ax
 mov	ah, 43h	; 'C'
-call	sub_ED45
-jb	short loc_EDB3
-mov	cs:word_ED3A, dx
+call	sub_10C15
+jb	short loc_10C83
+mov	cs:word_10C0A, dx
 mov	si, 0EE46h
 mov	di, 0EE02h
-mov	cs:off_EA77, di
-mov	cs:off_EA79, si
+mov	cs:off_10947, di
+mov	cs:off_10949, si
 retn
 
-loc_EDB3:
+loc_10C83:
 and	byte ptr ds:2943h, 0B7h
 retn
-sub_ED4C endp
+sub_10C1C endp
 
 
 
 
-sub_EDB9 proc near
+sub_10C89 proc near
 test	byte ptr ds:2944h, 0Fh
-jz	short locret_EDFC
+jz	short locret_10CCC
 mov	bx, 3
 mov	ah, 43h	; 'C'
-call	sub_ED45
-jb	short locret_EDFC
-mov	cs:word_ED3E, dx
+call	sub_10C15
+jb	short locret_10CCC
+mov	cs:word_10C0E, dx
 mov	ax, 4401h
 xor	bx, bx
-call	sub_ED45
-jb	short loc_EDFD
+call	sub_10C15
+jb	short loc_10CCD
 mov	ax, 4402h
 mov	bx, 1
-call	sub_ED45
-jb	short loc_EDFD
+call	sub_10C15
+jb	short loc_10CCD
 mov	ax, 4403h
 mov	bx, 2
-call	sub_ED45
-jb	short loc_EDFD
-mov	ax, cs:word_ED3C
+call	sub_10C15
+jb	short loc_10CCD
+mov	ax, cs:word_10C0C
 mov	ds:0DBB8h, ax
 mov	word ptr ds:0DBB6h, 4000h
 
-locret_EDFC:
+locret_10CCC:
 retn
 
-loc_EDFD:
+loc_10CCD:
 mov	ah, 45h	; 'E'
-jmp	sub_ED45
-sub_EDB9 endp
+jmp	sub_10C15
+sub_10C89 endp
 
 mov	ax, bx
 shl	ax, 1
@@ -34125,35 +34124,35 @@ shr	bx, 1
 shr	bx, 1
 shr	bx, 1
 
-loc_EE17:
+loc_10CE7:
 mov	ax, 4400h
-call	sub_ED40
-jb	short locret_EE45
-mov	es, cs:word_ED3C
+call	sub_10C10
+jb	short locret_10D15
+mov	es, cs:word_10C0C
 assume es:nothing
 mov	dx, cx
 mov	cx, 4000h
 sub	cx, di
 cmp	cx, dx
-jb	short loc_EE31
+jb	short loc_10D01
 mov	cx, dx
 
-loc_EE31:
+loc_10D01:
 sub	dx, cx
 shr	cx, 1
 rep movsw
 adc	cl, cl
 rep movsb
 mov	cx, dx
-jcxz	short loc_EE44
+jcxz	short loc_10D14
 inc	bx
 xor	di, di
-jmp	short loc_EE17
+jmp	short loc_10CE7
 
-loc_EE44:
+loc_10D14:
 clc
 
-locret_EE45:
+locret_10D15:
 retn
 mov	ax, bx
 shl	ax, 1
@@ -34166,70 +34165,70 @@ shr	bx, 1
 shr	bx, 1
 shr	bx, 1
 
-loc_EE5B:
+loc_10D2B:
 mov	ax, 4400h
-call	sub_ED40
-jb	short locret_EE45
-mov	ds, cs:word_ED3C
+call	sub_10C10
+jb	short locret_10D15
+mov	ds, cs:word_10C0C
 mov	dx, cx
 mov	cx, 4000h
 sub	cx, si
 cmp	cx, dx
-jb	short loc_EE75
+jb	short loc_10D45
 mov	cx, dx
 
-loc_EE75:
+loc_10D45:
 sub	dx, cx
 shr	cx, 1
 rep movsw
 adc	cl, cl
 rep movsb
 mov	cx, dx
-jcxz	short loc_EE88
+jcxz	short loc_10D58
 inc	bx
 xor	si, si
-jmp	short loc_EE5B
+jmp	short loc_10D2B
 
-loc_EE88:
+loc_10D58:
 clc
 retn
-word_EE8A dw 0
-dword_EE8C dd 0
+word_10D5A dw 0
+dword_10D5C dd 0
 db 10h dup(0)
 
 
 
-sub_EEA0 proc near
+sub_10D70 proc near
 mov	ax, 4310h
 int	2Fh		; - Multiplex -	XMS - GET DRIVER ADDRESS
 			; Return: ES:BX	-> driver entry	point
-mov	word ptr cs:dword_EE8C,	bx
-mov	word ptr cs:dword_EE8C+2, es
+mov	word ptr cs:dword_10D5C, bx
+mov	word ptr cs:dword_10D5C+2, es
 mov	ah, 8
-call	sub_EF22
+call	sub_10DF2
 cmp	ax, 3Fh	; '?'
-jb	short loc_EEE3
+jb	short loc_10DB3
 cmp	ax, 800h
-jb	short loc_EEC1
+jb	short loc_10D91
 mov	ax, 800h
 
-loc_EEC1:
+loc_10D91:
 mov	ds:39A9h, ax
 mov	dx, ax
 mov	ah, 9
-call	sub_EF22
-jb	short loc_EEE3
-mov	cs:word_EE8A, dx
+call	sub_10DF2
+jb	short loc_10DB3
+mov	cs:word_10D5A, dx
 mov	si, 0EF32h
 mov	di, 0EEE9h
-mov	cs:off_EA77, di
-mov	cs:off_EA79, si
+mov	cs:off_10947, di
+mov	cs:off_10949, si
 retn
 
-loc_EEE3:
+loc_10DB3:
 and	byte ptr ds:2943h, 7Fh
 retn
-sub_EEA0 endp
+sub_10D70 endp
 
 mov	di, 0EE90h
 mov	word ptr cs:[di+8], ds
@@ -34243,7 +34242,7 @@ mov	[di], cx
 xor	ax, ax
 mov	[di+2],	ax
 mov	[di+4],	ax
-mov	ax, cs:word_EE8A
+mov	ax, cs:word_10D5A
 mov	[di+0Ah], ax
 xor	dx, dx
 xchg	bl, bh
@@ -34259,19 +34258,19 @@ mov	ah, 0Bh
 
 
 
-sub_EF22 proc near
-call	cs:dword_EE8C
+sub_10DF2 proc near
+call	cs:dword_10D5C
 cmp	ax, 1
 retn
-sub_EF22 endp
+sub_10DF2 endp
 
 
 
 
-sub_EF2B proc near
-mov	dx, cs:word_EE8A
-jmp	short sub_EF22
-sub_EF2B endp
+sub_10DFB proc near
+mov	dx, cs:word_10D5A
+jmp	short sub_10DF2
+sub_10DFB endp
 
 push	cs
 pop	ds
@@ -34284,7 +34283,7 @@ mov	[si+2],	ax
 mov	[si+0Ah], ax
 mov	[si+0Ch], di
 mov	word ptr [si+0Eh], es
-mov	ax, cs:word_EE8A
+mov	ax, cs:word_10D5A
 mov	[si+4],	ax
 xor	dx, dx
 xchg	bl, bh
@@ -34296,9 +34295,9 @@ rcl	dl, 1
 mov	[si+6],	bx
 mov	[si+8],	dx
 mov	ah, 0Bh
-jmp	short sub_EF22
+jmp	short sub_10DF2
 
-loc_EF6A:
+loc_10E3A:
 push	ax
 push	ds
 push	es
@@ -34307,35 +34306,35 @@ mov	ds, ax
 assume ds:seg001
 cld
 cmp	byte ptr ds:0CEEAh, 0
-jg	short loc_EFA2
+jg	short loc_10E72
 inc	word ptr ds:0CE7Ah
-jnz	short loc_EF84
+jnz	short loc_10E54
 inc	word ptr ds:0CE7Ch
 
-loc_EF84:
-cmp	seg_F4B0+2788h,	0
-jnz	short loc_EF9F
+loc_10E54:
+cmp	seg_11380+2788h, 0
+jnz	short loc_10E6F
 dec	word ptr ds:46DBh
-jns	short loc_EF9F
-mov	ax, word ptr seg_F4B0+146Eh
+jns	short loc_10E6F
+mov	ax, word ptr seg_11380+146Eh
 mov	ds:46DBh, ax
-inc	word ptr seg_F4B0+2
+inc	word ptr seg_11380+2
 inc	byte ptr ds:46DDh
 
-loc_EF9F:
-call	sub_EFBA
+loc_10E6F:
+call	sub_10E8A
 
-loc_EFA2:
+loc_10E72:
 pop	es
 dec	byte ptr ds:0CE72h
-js	short near ptr byte_EFD5
+js	short near ptr byte_10EA5
 mov	al, 20h	; ' '
 out	20h, al		; Interrupt controller,	8259A.
 cmp	byte ptr ds:0DBB5h, 0
-jz	short loc_EFB7
-call	sub_CEC9
+jz	short loc_10E87
+call	sub_ED99
 
-loc_EFB7:
+loc_10E87:
 pop	ds
 assume ds:nothing
 pop	ax
@@ -34343,10 +34342,10 @@ iret
 
 
 
-sub_EFBA proc near
+sub_10E8A proc near
 push	bx
 test	byte ptr ds:2943h, 10h
-jnz	short loc_EFD3
+jnz	short loc_10EA3
 push	cx
 call	dword ptr ds:3981h
 mov	ds:0DBCDh, al
@@ -34354,23 +34353,23 @@ mov	ds:0DBCEh, bx
 mov	ds:0DBD0h, cx
 pop	cx
 
-loc_EFD3:
+loc_10EA3:
 pop	bx
 retn
-sub_EFBA endp
+sub_10E8A endp
 
-byte_EFD5 db 0C6h, 6, 72h, 0CEh
-byte_EFD9 db 0Ah
+byte_10EA5 db 0C6h, 6, 72h, 0CEh
+byte_10EA9 db 0Ah
 pop	ds
 pop	ax
-jmp	far ptr	loc_EF6A
+jmp	far ptr	loc_10E3A
 
-loc_EFE1:
-call	sub_F08E
-jmp	short loc_F031
+loc_10EB1:
+call	sub_10F5E
+jmp	short loc_10F01
 db 90h
 
-loc_EFE7:
+loc_10EB7:
 push	ax
 push	cx
 push	di
@@ -34381,37 +34380,37 @@ assume ds:seg001
 cld
 in	al, 60h		; AT Keyboard controller 8042.
 cmp	al, 0FFh
-jz	short loc_EFE1
+jz	short loc_10EB1
 mov	di, ax
 and	di, 7Fh
 cmp	di, 5Ah	; 'Z'
-jnb	short loc_F031
+jnb	short loc_10F01
 add	di, 0CE81h
 cbw
 not	ah
 xchg	al, ah
 mov	[di], al
 or	al, al
-jz	short loc_F031
+jz	short loc_10F01
 mov	al, ah
 mov	ds:0CEE8h, al
 cmp	al, 53h	; 'S'
-jnz	short loc_F026
+jnz	short loc_10EF6
 mov	al, ds:0CEB9h
 add	al, ds:0CE9Eh
 cmp	al, 0FEh ; 'þ'
-jz	short loc_F052
+jz	short loc_10F22
 mov	al, 53h	; 'S'
 
-loc_F026:
+loc_10EF6:
 cmp	al, 2Eh	; '.'
-jnz	short loc_F031
+jnz	short loc_10F01
 cmp	byte ptr ds:0CE9Eh, 0FFh
-jz	short loc_F057
+jz	short loc_10F27
 
-loc_F031:
+loc_10F01:
 cmp	al, 70h	; 'p'
-jnb	short loc_F049
+jnb	short loc_10F19
 in	al, 61h		; PC/XT	PPI port B bits:
 			; 0: Tmr 2 gate	ÍËÍ OR	03H=spkr ON
 			; 1: Tmr 2 data	Í¼  AND	0fcH=spkr OFF
@@ -34448,25 +34447,25 @@ pop	cx
 pop	ax
 iret
 
-loc_F049:
+loc_10F19:
 pop	ds
 pop	di
 pop	cx
 pop	ax
-jmp	far ptr	loc_EFE7
+jmp	far ptr	loc_10EB7
 
-loc_F052:
+loc_10F22:
 jmp	far ptr	0F000h:0FFF0h
 
-loc_F057:
-call	sub_F05C
-jmp	short loc_F031
+loc_10F27:
+call	sub_10F2C
+jmp	short loc_10F01
 
 
 
-sub_F05C proc near
+sub_10F2C proc near
 cmp	byte ptr ds:0CEEAh, 0
-jnz	short locret_F08D
+jnz	short locret_10F5D
 push	bx
 push	es
 mov	ah, 34h
@@ -34475,7 +34474,7 @@ mov	al, es:[bx]
 pop	es
 pop	bx
 or	al, al
-jnz	short locret_F08D
+jnz	short locret_10F5D
 inc	byte ptr ds:0CEEAh
 in	al, 61h		; PC/XT	PPI port B bits:
 			; 0: Tmr 2 gate	ÍËÍ OR	03H=spkr ON
@@ -34510,16 +34509,16 @@ push	ds
 pop	ss
 assume ss:nothing
 mov	sp, 3CBCh
-jmp	loc_3A
+jmp	loc_1F0A
 
-locret_F08D:
+locret_10F5D:
 retn
-sub_F05C endp
+sub_10F2C endp
 
 
 
 
-sub_F08E proc near
+sub_10F5E proc near
 push	es
 push	ds
 pop	es
@@ -34530,82 +34529,82 @@ mov	cx, 67h	; 'g'
 rep stosb
 pop	es
 retn
-sub_F08E endp
+sub_10F5E endp
 
 
 
 
-sub_F0A0 proc near
+sub_10F70 proc near
 push	di
 push	es
 inc	byte ptr ds:0CE71h
 push	ds
 pop	es
 mov	di, 4C60h
-call	sub_F0B9
+call	sub_10F89
 dec	byte ptr ds:0CE71h
 mov	si, di
 pop	es
 pop	di
-jmp	sub_F403
-sub_F0A0 endp
+jmp	sub_112D3
+sub_10F70 endp
 
 
 
 
-sub_F0B9 proc near
+sub_10F89 proc near
 mov	ds:0CE78h, si
 shl	si, 1
 mov	si, [si+31FFh]
 lodsw
 mov	dx, si
 or	ax, ax
-jz	short sub_F0D6
+jz	short sub_10FA6
 mov	cx, ax
 push	dx
-call	sub_F11C
+call	sub_10FEC
 pop	dx
-call	sub_F0D6
-jmp	short sub_F0FF
-sub_F0B9 endp
+call	sub_10FA6
+jmp	short sub_10FCF
+sub_10F89 endp
 
 
 
 
-sub_F0D6 proc near
+sub_10FA6 proc near
 
 ; FUNCTION CHUNK AT F3D3 SIZE 00000030 BYTES
 
 mov	ax, ds:0CE78h
 cmp	al, ds:0CE70h
-jnb	short loc_F0E4
-call	sub_EBE3
-jb	short loc_F0F3
+jnb	short loc_10FB4
+call	sub_10AB3
+jb	short loc_10FC3
 
-loc_F0E4:
-call	sub_F244
+loc_10FB4:
+call	sub_11114
 mov	ax, ds:0CE78h
 cmp	al, ds:0CE70h
-jnb	short loc_F0F3
-call	sub_EAB7
+jnb	short loc_10FC3
+call	sub_10987
 
-loc_F0F3:
-jmp	loc_F3D3
-sub_F0D6 endp
-
-
+loc_10FC3:
+jmp	loc_112A3
+sub_10FA6 endp
 
 
-sub_F0F6 proc near
+
+
+sub_10FC6 proc near
 les	si, ds:39B7h
 mov	[di], si
 mov	word ptr [di+2], es
-sub_F0F6 endp
+sub_10FC6 endp
 
 
 
 
-sub_F0FF proc near
+sub_10FCF proc near
 mov	ax, cx
 add	ax, 0Fh
 rcr	ax, 1
@@ -34617,117 +34616,117 @@ push	ax
 mov	ax, ds:39B9h
 cmp	ax, ds:0CE68h
 pop	ax
-ja	short loc_F131
+ja	short loc_11001
 retn
-sub_F0FF endp
+sub_10FCF endp
 
 
 
 
-sub_F11C proc near
+sub_10FEC proc near
 les	di, ds:39B7h
 mov	ax, es
 add	ax, cx
 cmp	ax, ds:0CE68h
-jnb	short loc_F12B
+jnb	short loc_10FFB
 retn
 
-loc_F12B:
-call	sub_F13F
-jmp	short sub_F11C
-sub_F11C endp
+loc_10FFB:
+call	sub_1100F
+jmp	short sub_10FEC
+sub_10FEC endp
 
-; START	OF FUNCTION CHUNK FOR sub_F13F
+; START	OF FUNCTION CHUNK FOR sub_1100F
 
-loc_F130:
+loc_11000:
 pop	cx
-; END OF FUNCTION CHUNK	FOR sub_F13F
-; START	OF FUNCTION CHUNK FOR sub_E76A
+; END OF FUNCTION CHUNK	FOR sub_1100F
+; START	OF FUNCTION CHUNK FOR sub_1063A
 
-loc_F131:
+loc_11001:
 mov	ax, seg	seg001
 mov	ds, ax
 assume ds:seg001
 mov	word ptr ds:3CBCh, 368Dh
-jmp	loc_3A
-; END OF FUNCTION CHUNK	FOR sub_E76A
+jmp	loc_1F0A
+; END OF FUNCTION CHUNK	FOR sub_1063A
 
 
 
-sub_F13F proc near
+sub_1100F proc near
 
 ; FUNCTION CHUNK AT F130 SIZE 00000001 BYTES
 
 push	cx
-mov	bp, word ptr seg_F4B0+2
+mov	bp, word ptr seg_11380+2
 mov	si, 0D844h
 mov	di, 0DA8Ch
 mov	cx, 91h	; '‘'
 xor	dx, dx
 mov	bx, dx
 
-loc_F151:
+loc_11021:
 add	di, 2
 add	si, 4
 mov	ax, [si+2]
 or	ax, ax
-jz	short loc_F16A
+jz	short loc_1103A
 mov	ax, bp
 sub	ax, [di]
 cmp	ax, dx
-jb	short loc_F16A
+jb	short loc_1103A
 mov	dx, ax
 mov	bx, si
 
-loc_F16A:
-loop	loc_F151
+loc_1103A:
+loop	loc_11021
 or	bx, bx
-jz	short loc_F130
+jz	short loc_11000
 mov	ax, bx
 sub	ax, 0D844h
 shr	ax, 1
 shr	ax, 1
-cmp	ax, word ptr seg_F4B0+2784h
-jnz	short loc_F185
-mov	word ptr seg_F4B0+2784h, 0FFFFh
+cmp	ax, word ptr seg_11380+2784h
+jnz	short loc_11055
+mov	word ptr seg_11380+2784h, 0FFFFh
 
-loc_F185:
+loc_11055:
 xor	dx, dx
 xchg	dx, [bx+2]
 mov	si, 0D84Ah
 mov	cx, 91h	; '‘'
 mov	bx, 8000h
 
-loc_F193:
+loc_11063:
 lodsw
 add	si, 2
 sub	ax, dx
-jb	short loc_F1A1
+jb	short loc_11071
 cmp	ax, bx
-jnb	short loc_F1A1
+jnb	short loc_11071
 mov	bx, ax
 
-loc_F1A1:
-loop	loc_F193
+loc_11071:
+loop	loc_11063
 or	bx, bx
-js	short loc_F1F5
+js	short loc_110C5
 mov	si, 0D846h
 mov	cx, 91h	; '‘'
 
-loc_F1AD:
+loc_1107D:
 add	si, 4
 cmp	[si], dx
-jb	short loc_F1B6
+jb	short loc_11086
 sub	[si], bx
 
-loc_F1B6:
-loop	loc_F1AD
+loc_11086:
+loop	loc_1107D
 mov	si, 0DBB2h
 cmp	[si], dx
-jb	short loc_F1C1
+jb	short loc_11091
 sub	[si], bx
 
-loc_F1C1:
+loc_11091:
 mov	es, dx
 add	dx, bx
 mov	ds, dx
@@ -34737,14 +34736,14 @@ mov	di, si
 mov	ax, ss:39B9h
 sub	ax, dx
 cmp	ax, 1000h
-jbe	short loc_F1E3
+jbe	short loc_110B3
 mov	cx, 8000h
 rep movsw
 mov	dx, es
 add	dx, 1000h
-jmp	short loc_F1C1
+jmp	short loc_11091
 
-loc_F1E3:
+loc_110B3:
 mov	cx, ax
 shl	cx, 1
 shl	cx, 1
@@ -34756,32 +34755,32 @@ sub	ds:39B9h, bx
 pop	cx
 retn
 
-loc_F1F5:
+loc_110C5:
 mov	ds:39B9h, dx
 pop	cx
 retn
-sub_F13F endp
+sub_1100F endp
 
 
 
 
-sub_F1FB proc near
+sub_110CB proc near
 push	dx
-call	sub_F2A7
+call	sub_11177
 pop	si
-jnb	short locret_F228
+jnb	short locret_110F8
 mov	dx, si
 
-loc_F204:
+loc_110D4:
 push	dx
-call	sub_F2FC
+call	sub_111CC
 mov	ax, 3D00h
 int	21h		; DOS -	2+ - OPEN DISK FILE WITH HANDLE
 			; DS:DX	-> ASCIZ filename
 			; AL = access mode
 			; 0 - read
 pop	dx
-jb	short locret_F228
+jb	short locret_110F8
 mov	bx, ax
 xor	cx, cx
 mov	dx, cx
@@ -34798,19 +34797,19 @@ int	21h		; DOS -	2+ - MOVE FILE READ/WRITE POINTER (LSEEK)
 pop	bp
 pop	cx
 
-locret_F228:
+locret_110F8:
 retn
-sub_F1FB endp
+sub_110CB endp
 
 
 
 
-sub_F229 proc near
-call	sub_F1FB
-jb	short loc_F22F
+sub_110F9 proc near
+call	sub_110CB
+jb	short loc_110FF
 retn
 
-loc_F22F:
+loc_110FF:
 mov	si, dx
 mov	di, 36C4h
 mov	cx, 0Ch
@@ -34818,41 +34817,41 @@ push	ds
 pop	es
 rep movsb
 mov	word ptr ds:3CBCh, 36B4h
-jmp	loc_3A
-sub_F229 endp
+jmp	loc_1F0A
+sub_110F9 endp
 
 
 
 
-sub_F244 proc near
+sub_11114 proc near
 push	dx
-call	sub_F229
+call	sub_110F9
 pop	dx
 cmp	bx, ds:0DBBAh
-jnz	short sub_F260
-call	sub_F2EA
-jb	short sub_F244
+jnz	short sub_11130
+call	sub_111BA
+jb	short sub_11114
 retn
-sub_F244 endp
+sub_11114 endp
 
 
 
 
-sub_F255 proc near
+sub_11125 proc near
 push	dx
 push	di
 push	es
-call	loc_F204
-jb	short loc_F22F
+call	loc_110D4
+jb	short loc_110FF
 pop	es
 pop	di
 pop	dx
-sub_F255 endp
+sub_11125 endp
 
 
 
 
-sub_F260 proc near
+sub_11130 proc near
 push	dx
 push	di
 push	es
@@ -34876,11 +34875,11 @@ pop	es
 pop	di
 pop	dx
 retn
-sub_F260 endp ;	sp =  2
+sub_11130 endp ; sp =  2
 
-; START	OF FUNCTION CHUNK FOR sub_B389
+; START	OF FUNCTION CHUNK FOR sub_D259
 
-loc_F27C:
+loc_1114C:
 push	cx
 mov	ah, 3Ch	; '<'
 xor	cx, cx
@@ -34888,7 +34887,7 @@ int	21h		; DOS -	2+ - CREATE A FILE WITH	HANDLE (CREAT)
 			; CX = attributes for file
 			; DS:DX	-> ASCIZ filename (may include drive and path)
 pop	cx
-jb	short locret_F29A
+jb	short locret_1116A
 mov	bx, ax
 push	ds
 push	es
@@ -34905,42 +34904,42 @@ int	21h		; DOS -	2+ - CLOSE A FILE WITH HANDLE
 			; BX = file handle
 popf
 
-locret_F29A:
+locret_1116A:
 retn
-; END OF FUNCTION CHUNK	FOR sub_B389
+; END OF FUNCTION CHUNK	FOR sub_D259
 db 52h,	0A2h, 77h, 0CEh, 8Ah, 0D0h, 0B4h
 db 0Eh,	0CDh, 21h, 5Ah,	0C3h
 
 
 
-sub_F2A7 proc near
+sub_11177 proc near
 push	di
 push	es
 cmp	word ptr ds:0DBBAh, 1
-jb	short loc_F2D3
+jb	short loc_111A3
 mov	si, dx
-call	sub_F314
-jb	short loc_F2D3
-call	sub_F3A7
-jb	short loc_F2D3
+call	sub_111E4
+jb	short loc_111A3
+call	sub_11277
+jb	short loc_111A3
 xor	cx, cx
 mov	cl, es:[di+5]
 mov	bp, cx
 mov	cx, es:[di+3]
 mov	ax, es:[di+6]
 mov	dx, es:[di+8]
-call	sub_F2D6
+call	sub_111A6
 
-loc_F2D3:
+loc_111A3:
 pop	es
 pop	di
 retn
-sub_F2A7 endp
+sub_11177 endp
 
 
 
 
-sub_F2D6 proc near
+sub_111A6 proc near
 push	cx
 mov	bx, ss:0DBBAh
 mov	cx, dx
@@ -34950,13 +34949,13 @@ int	21h		; DOS -	2+ - MOVE FILE READ/WRITE POINTER (LSEEK)
 			; AL = method: offset from beginning of	file
 pop	cx
 retn
-sub_F2D6 endp
+sub_111A6 endp
 
-call	sub_F2D6
+call	sub_111A6
 
 
 
-sub_F2EA proc near
+sub_111BA proc near
 push	ds
 push	es
 pop	ds
@@ -34969,50 +34968,50 @@ int	21h		; DOS -	2+ - READ FROM FILE WITH HANDLE
 cmp	ax, cx
 pop	ds
 retn
-sub_F2EA endp
+sub_111BA endp
 
 
 
 
-sub_F2FC proc near
+sub_111CC proc near
 push	si
 push	di
 mov	si, dx
 mov	di, ds:38A6h
 
-loc_F304:
+loc_111D4:
 mov	al, [si]
 inc	si
 mov	[di], al
 inc	di
 or	al, al
-jnz	short loc_F304
+jnz	short loc_111D4
 pop	di
 pop	si
 mov	dx, 3826h
 retn
-sub_F2FC endp
+sub_111CC endp
 
 
 
 
-sub_F314 proc near
+sub_111E4 proc near
 push	ss
 pop	es
 cmp	word ptr [si+2], 505Ch
-jz	short loc_F36C
+jz	short loc_1123C
 push	si
 mov	cx, 10h
 mov	dx, cx
 
-loc_F323:
+loc_111F3:
 lodsb
 or	al, al
-loopne	loc_F323
-jnz	short loc_F32B
+loopne	loc_111F3
+jnz	short loc_111FB
 inc	cx
 
-loc_F32B:
+loc_111FB:
 sub	cx, 10h
 neg	cx
 pop	si
@@ -35027,11 +35026,11 @@ push	si
 repe cmpsb
 pop	si
 pop	cx
-jz	short loc_F3A5
+jz	short loc_11275
 mov	bx, 31FFh
 mov	bp, 0F7h ; '÷'
 
-loc_F34F:
+loc_1121F:
 mov	di, es:[bx]
 mov	ax, bx
 sub	ax, 31FFh
@@ -35043,13 +35042,13 @@ push	si
 repe cmpsb
 pop	si
 pop	cx
-jz	short loc_F3A5
+jz	short loc_11275
 dec	bp
-jnz	short loc_F34F
+jnz	short loc_1121F
 stc
 retn
 
-loc_F36C:
+loc_1123C:
 add	si, 4
 lodsb
 sub	al, 40h	; '@'
@@ -35057,75 +35056,75 @@ mov	dl, al
 xor	bx, bx
 mov	cx, 3
 
-loc_F379:
+loc_11249:
 lodsb
 cmp	al, 41h	; 'A'
-jb	short loc_F380
+jb	short loc_11250
 sub	al, 7
 
-loc_F380:
+loc_11250:
 and	al, 0Fh
 shl	bx, 1
 shl	bx, 1
 shl	bx, 1
 shl	bx, 1
 or	bl, al
-loop	loc_F379
+loop	loc_11249
 lodsb
 cmp	al, 4Fh	; 'O'
 cmc
 rcl	dl, 1
 lodsb
 sub	al, 41h	; 'A'
-jb	short loc_F3A3
+jb	short loc_11273
 shl	al, 1
 shl	al, 1
 shl	al, 1
 shl	al, 1
 or	bh, al
 
-loc_F3A3:
+loc_11273:
 mov	ax, bx
 
-loc_F3A5:
+loc_11275:
 clc
 retn
-sub_F314 endp
+sub_111E4 endp
 
 
 
 
-sub_F3A7 proc near
+sub_11277 proc near
 les	di, ss:0DBBCh
 sub	di, 5
 
-loc_F3AF:
+loc_1127F:
 add	di, 5
 cmp	dl, es:[di+4]
-jnz	short loc_F3BC
+jnz	short loc_1128C
 cmp	ax, es:[di+2]
 
-loc_F3BC:
-ja	short loc_F3AF
+loc_1128C:
+ja	short loc_1127F
 mov	di, es:[di]
 sub	di, 0Ah
 
-loc_F3C4:
+loc_11294:
 add	di, 0Ah
 cmp	dl, es:[di+2]
-jnz	short loc_F3D0
+jnz	short loc_112A0
 cmp	ax, es:[di]
 
-loc_F3D0:
-ja	short loc_F3C4
+loc_112A0:
+ja	short loc_11294
 retn
-sub_F3A7 endp
+sub_11277 endp
 
-; START	OF FUNCTION CHUNK FOR sub_F0D6
+; START	OF FUNCTION CHUNK FOR sub_10FA6
 
-loc_F3D3:
+loc_112A3:
 cmp	byte ptr ds:0CE71h, 0
-jnz	short locret_F402
+jnz	short locret_112D2
 push	cx
 push	di
 push	ds
@@ -35137,40 +35136,40 @@ mov	cx, 6
 mov	si, di
 xor	ax, ax
 
-loc_F3EA:
+loc_112BA:
 lodsb
 add	ah, al
-loop	loc_F3EA
+loop	loc_112BA
 cmp	ah, 0ABh ; '«'
-jnz	short loc_F3FE
+jnz	short loc_112CE
 mov	si, di
 lodsw
 mov	di, ax
 lodsb
 or	al, al
-jz	short loc_F40D
+jz	short loc_112DD
 
-loc_F3FE:
+loc_112CE:
 stc
 pop	ds
 pop	di
 pop	cx
 
-locret_F402:
+locret_112D2:
 retn
-; END OF FUNCTION CHUNK	FOR sub_F0D6
+; END OF FUNCTION CHUNK	FOR sub_10FA6
 
 
 
-sub_F403 proc near
+sub_112D3 proc near
 push	cx
 push	di
 push	ds
 add	si, 6
 xor	bp, bp
-jmp	short loc_F435
+jmp	short loc_11305
 
-loc_F40D:
+loc_112DD:
 lodsw
 mov	cx, ax
 sub	si, 5
@@ -35183,10 +35182,10 @@ dec	di
 sub	cx, 6
 std
 shr	cx, 1
-jnb	short loc_F427
+jnb	short loc_112F7
 movsb
 
-loc_F427:
+loc_112F7:
 dec	si
 dec	di
 rep movsw
@@ -35196,55 +35195,55 @@ add	si, 2
 mov	di, bp
 xor	bp, bp
 
-loc_F435:
+loc_11305:
 shr	bp, 1
-jz	short loc_F43E
-jnb	short loc_F446
+jz	short loc_1130E
+jnb	short loc_11316
 
-loc_F43B:
+loc_1130B:
 movsb
-jmp	short loc_F435
+jmp	short loc_11305
 
-loc_F43E:
+loc_1130E:
 lodsw
 mov	bp, ax
 stc
 rcr	bp, 1
-jb	short loc_F43B
+jb	short loc_1130B
 
-loc_F446:
+loc_11316:
 xor	cx, cx
 shr	bp, 1
-jnz	short loc_F452
+jnz	short loc_11322
 lodsw
 mov	bp, ax
 stc
 rcr	bp, 1
 
-loc_F452:
-jb	short loc_F482
+loc_11322:
+jb	short loc_11352
 shr	bp, 1
-jnz	short loc_F45E
+jnz	short loc_1132E
 lodsw
 mov	bp, ax
 stc
 rcr	bp, 1
 
-loc_F45E:
+loc_1132E:
 rcl	cx, 1
 shr	bp, 1
-jnz	short loc_F46A
+jnz	short loc_1133A
 lodsw
 mov	bp, ax
 stc
 rcr	bp, 1
 
-loc_F46A:
+loc_1133A:
 rcl	cx, 1
 lodsb
 mov	ah, 0FFh
 
-loc_F46F:
+loc_1133F:
 add	ax, di
 xchg	ax, si
 mov	bx, ds
@@ -35255,9 +35254,9 @@ inc	cx
 rep movsb
 mov	ds, bx
 mov	si, ax
-jmp	short loc_F435
+jmp	short loc_11305
 
-loc_F482:
+loc_11352:
 lodsw
 mov	cl, al
 shr	ax, 1
@@ -35265,13 +35264,13 @@ shr	ax, 1
 shr	ax, 1
 or	ah, 0E0h
 and	cl, 7
-jnz	short loc_F46F
+jnz	short loc_1133F
 mov	bx, ax
 lodsb
 mov	cl, al
 mov	ax, bx
 or	cl, cl
-jnz	short loc_F46F
+jnz	short loc_1133F
 stc
 mov	cx, di
 pop	ds
@@ -35279,7 +35278,7 @@ pop	di
 add	sp, 2
 sub	cx, di
 retn
-sub_F403 endp
+sub_112D3 endp
 
 align 8
 seg000 ends
@@ -35289,1563 +35288,1151 @@ seg000 ends
 seg001 segment byte stack 'STACK'
 assume cs:seg001
 assume es:nothing, ss:nothing, ds:nothing
-seg_F4B0 db 2 dup(seg seg000), 2, seg seg000, 0Ah
-db 20h,	80h, 1,	20h, 2 dup(seg seg000),	0Ah
-db 1Bh dup(seg seg000),	3, 80h dup(seg seg000)
-db 86h,	1, 2 dup(seg seg000), 58h, 1Bh,	10h dup(seg seg000)
-db 80h,	0Bh dup(seg seg000), 2 dup(0FFh)
-db 4 dup(seg seg000), 2	dup(0FFh), 4 dup(seg seg000)
-db 2 dup(0FFh),	4 dup(seg seg000), 2 dup(0FFh)
-db 4 dup(seg seg000), 2	dup(0FFh), 17h dup(seg seg000)
-db 0FFh, 1, 3 dup(seg seg000), 2, 1, 15h
-db 19h,	0FCh, 0FFh, 2 dup(seg seg000), 20h
-db seg seg000, 10h, 0FFh, 10h dup(seg seg000)
-db 1, 2, 98h, 3Ah, 0C2h, 0FFh, 2 dup(seg seg000)
-db 30h,	43h, seg seg000, 0FFh, 0Ah dup(seg seg000)
-db 3 dup(1), 3 dup(seg seg000),	1, 3, 0FEh
-db 2Ah,	0CAh, 0FFh, 2 dup(seg seg000), 28h
-db 29h,	80h, 0FFh, 6 dup(seg seg000), 78h
-db seg seg000, 2 dup(2), 4 dup(3), 2 dup(seg seg000)
-db 1, 4, 1Dh, 3Eh, 0D0h, 0FFh, 2 dup(seg seg000)
-db 2Bh,	1Eh, 80h, 0FFh,	6 dup(seg seg000)
-db 64h,	seg seg000, 2, 5 dup(3), 2 dup(seg seg000)
-db 1, 5, 0AEh, 27h, 0BDh, 0FFh,	2 dup(seg seg000)
-db 29h,	35h, 80h, 0FFh,	6 dup(seg seg000)
-db 7Dh,	seg seg000, 1, 2, seg seg000, 3	dup(1)
-db 2 dup(seg seg000), 1, 6, 37h, 1Bh, 0E0h
-db 0FFh, 2 dup(seg seg000), 2Dh, 24h, 80h
-db 0FFh, 6 dup(seg seg000), 0C8h, seg seg000
-db 2 dup(2), seg seg000, 3, 2 dup(1), 2	dup(seg	seg000)
-db 1, 7, 0D0h, 26h, 0D5h, 0FFh,	2 dup(seg seg000)
-db 2Ch,	21h, 80h, 0FFh,	6 dup(seg seg000)
-db 0B4h, seg seg000, 2,	3 dup(3), 2, 3 dup(seg seg000)
-db 1, 8, 0Ch, 33h, 0D9h, 0FFh, 2 dup(seg seg000)
-db 2Eh,	1Bh, 80h, 0FFh,	6 dup(seg seg000)
-db 2Dh,	seg seg000, 2 dup(2), 3	dup(3),	3 dup(seg seg000)
-db 1, 9, 89h, 16h, 0CFh, 0FFh, 2 dup(seg seg000)
-db 2Ah,	27h, 80h, 0FFh,	6 dup(seg seg000)
-db 8Ch,	seg seg000, 2 dup(2), seg seg000
-db 2 dup(2), 3 dup(seg seg000),	1, 0Ah,	19h
-db 3Ch,	0D8h, 0FFh, 2 dup(seg seg000), 21h
-db seg seg000, 80h, 50h, 10h dup(seg seg000)
-db 2, 3, 48h, 31h, 0EBh, 0FFh, 2 dup(seg seg000)
-db 2, 8, 80h, 4, 6 dup(seg seg000), 78h
-db 9 dup(seg seg000), 2, 4, 4Eh, 25h, 0FCh
-db 0FFh, 2 dup(seg seg000), 1, 3, 40h, 7 dup(seg seg000)
-db 3Ch,	9 dup(seg seg000), 2, 5, 48h, 26h
-db 0Ah,	4 dup(seg seg000), 1, 40h, 7 dup(seg seg000)
-db 54h,	9 dup(seg seg000), 2, 6, 1Eh, 21h
-db 0EDh, 0FFh, 2 dup(seg seg000), 3, 2,	40h
-db 7 dup(seg seg000), 2Dh, 9 dup(seg seg000)
-db 2, 7, 30h, 11h, 6, 5	dup(seg	seg000)
-db 80h,	3Ch, 6 dup(seg seg000),	8Ch, seg seg000
-db 2 dup(1), 5 dup(seg seg000),	0Ah, 2 dup(3)
-db 0C8h, 32h, 8, 3 dup(seg seg000), 8, 5
-db 0E0h, 2, 6 dup(seg seg000), 63h, seg	seg000
-db 1, 6	dup(seg	seg000), 14h, 3, 4, 9Ah
-db 3Dh,	16h, 3 dup(seg seg000),	7, seg seg000
-db 80h,	11h, 6 dup(seg seg000),	0A0h, seg seg000
-db 1, 7	dup(seg	seg000), 3, 5, 2Fh, 4Dh
-db 0FCh, 0FFh, 2 dup(seg seg000), 4, 9,	80h
-db 4, 6	dup(seg	seg000), 0B4h, 9 dup(seg seg000)
-db 3, 6, 54h, 3Dh, 0EFh, 0FFh, 2 dup(seg seg000)
-db 3, seg seg000, 80h, 0Ch, 6 dup(seg seg000)
-db 0A0h, seg seg000, 2,	7 dup(seg seg000)
-db 3, 7, 78h, 46h, 8, 3	dup(seg	seg000)
-db 6, seg seg000, 80h, 10h, 6 dup(seg seg000)
-db 0D2h, seg seg000, 1,	2, 3, 5	dup(seg	seg000)
-db 3, 0Ah, 78h,	50h, 0Fh, 3 dup(seg seg000)
-db 21h,	seg seg000, 80h, 38h, 10h dup(seg seg000)
-db 4, 3, 0C7h, 31h, 30h, 3 dup(seg seg000)
-db 5, 7, 80h, 14h, 6 dup(seg seg000), 0C8h
-db seg seg000, 1, 7 dup(seg seg000), 2 dup(4)
-db 8Dh,	2Ch, 18h, 3 dup(seg seg000), 2 dup(4)
-db 80h,	14h, 6 dup(seg seg000),	0AAh, 9	dup(seg	seg000)
-db 4, 5, 0B1h, 31h, 23h, 3 dup(seg seg000)
-db 7, 6, 80h, 14h, 6 dup(seg seg000), 0F0h
-db 9 dup(seg seg000), 4, 7, 0A8h, 16h, 1Bh
-db 3 dup(seg seg000), 3, seg seg000, 80h
-db 16h,	6 dup(seg seg000), 0C8h, seg seg000
-db 1, 3, seg seg000, 1,	4 dup(seg seg000)
-db 4, 6, 0D1h, 0Fh, 46h, 3 dup(seg seg000)
-db 9, 0Ah, 0A0h, 48h, 6	dup(seg	seg000)
-db 0F0h, seg seg000, 1,	6 dup(seg seg000)
-db 0C8h, 5, 3, 0F7h, 0DEh, 17h,	3 dup(seg seg000)
-db 5, seg seg000, 80h, 44h, 6 dup(seg seg000)
-db 0B4h, seg seg000, 2,	2 dup(1), 5 dup(seg seg000)
-db 5, 4, 52h, 0F7h, 1Eh, 3 dup(seg seg000)
-db 2, 0Bh, 80h,	48h, 6 dup(seg seg000),	0A0h
-db seg seg000, 1, 7 dup(seg seg000), 2 dup(5)
-db 0CAh, 0E6h, 0Ah, 3 dup(seg seg000), 5
-db 0Ch,	80h, 48h, 6 dup(seg seg000), 64h
-db 2 dup(seg seg000), 2	dup(1),	5 dup(seg seg000)
-db 5, 6, 9Eh, 2, 0Dh, 3	dup(seg	seg000)
-db 7, seg seg000, 80h, 28h, 6 dup(seg seg000)
-db 0FAh, seg seg000, 2 dup(1), 5, 5 dup(seg seg000)
-db 5, 0Ah, 75h,	10h, 12h, 3 dup(seg seg000)
-db 21h,	seg seg000, 80h, 38h, 10h dup(seg seg000)
-db 6, 3, 0F3h, 7, 0D8h,	0FFh, 2	dup(seg	seg000)
-db 28h,	2Ch, 80h, 0FFh,	6 dup(seg seg000)
-db 96h,	seg seg000, 2, 3, seg seg000, 3
-db 4 dup(seg seg000), 6, 4, 2 dup(0F0h)
-db 0DDh, 0FFh, 2 dup(seg seg000), 29h, 2Fh
-db 80h,	0FFh, 6	dup(seg	seg000), 20h, seg seg000
-db 1, seg seg000, 2 dup(3), 4 dup(seg seg000)
-db 6, 5, 0FBh, 6, 0EBh,	0FFh, 2	dup(seg	seg000)
-db 1, seg seg000, 80h, 50h, 6 dup(seg seg000)
-db 82h,	seg seg000, 1, seg seg000, 1, 5	dup(seg	seg000)
-db 2 dup(6), 27h, 0E2h,	0F0h, 0FFh, 3 dup(seg seg000)
-db 0Dh,	80h, 50h, 6 dup(seg seg000), 78h
-db 3 dup(seg seg000), 1, 5 dup(seg seg000)
-db 6, 7, 29h, 0F9h, 0CAh, 0FFh,	2 dup(seg seg000)
-db 2Ah,	32h, 80h, 0FFh,	6 dup(seg seg000)
-db 0B4h, seg seg000, 5 dup(2), 3 dup(seg seg000)
-db 6, 8, 7Ch, 0F6h, 0EBh, 0FFh,	2 dup(seg seg000)
-db 6, seg seg000, 80h, 3Ch, 6 dup(seg seg000)
-db 0B4h, seg seg000, 2 dup(1), seg seg000
-db 2, 1, 3 dup(seg seg000), 6, 9, 46h, 18h
-db 0C4h, 0FFh, 2 dup(seg seg000), 2Bh, 34h
-db 80h,	0FFh, 6	dup(seg	seg000), 0D2h, seg seg000
-db 2 dup(2), 3 dup(1), 3 dup(seg seg000)
-db 6, 0Ah, 2Fh,	0F1h, 0F5h, 0FFh, 2 dup(seg seg000)
-db 21h,	seg seg000, 80h, 47h, 10h dup(seg seg000)
-db 6, 0Bh, 0CCh, 0Ch, 0B7h, 0FFh, 2 dup(seg seg000)
-db 2Ch,	36h, 80h, 0FFh,	6 dup(seg seg000)
-db 78h,	3 dup(seg seg000), 3 dup(1), 3 dup(seg seg000)
-db 7, 3, seg seg000, 0E0h, 0C1h, 0FFh, 2 dup(seg seg000)
-db 2Dh,	37h, 80h, 0FFh,	6 dup(seg seg000)
-db 0FAh, 3 dup(seg seg000), 2 dup(2), 4	dup(seg	seg000)
-db 7, 4, 0E3h, 0D8h, 0D0h, 0FFh, 2 dup(seg seg000)
-db 2Eh,	39h, 80h, 0FFh,	6 dup(seg seg000)
-db 0B4h, 3 dup(seg seg000), 2 dup(1), 4	dup(seg	seg000)
-db 7, 5, 4Fh, 0ADh, 0C3h, 0FFh,	2 dup(seg seg000)
-db 2Fh,	3Bh, 80h, 0FFh,	6 dup(seg seg000)
-db 78h,	3 dup(seg seg000), 2 dup(1), 4 dup(seg seg000)
-db 7, 6, 6Ch, 2	dup(0C5h), 0FFh, 2 dup(seg seg000)
-db 28h,	3Ah, 80h, 0FFh,	6 dup(seg seg000)
-db 0C8h, 3 dup(seg seg000), 2 dup(1), 4	dup(seg	seg000)
-db 8, 3, 61h, 0B8h, 0DCh, 0FFh,	2 dup(seg seg000)
-db 7, 11h, 0A0h, 2Ch, 6	dup(seg	seg000)
-db 96h,	seg seg000, 2 dup(1), 5	dup(seg	seg000)
-db 50h,	8, 4, 7Fh, 0C4h, 0E8h, 0FFh, 2 dup(seg seg000)
-db 4, 0Fh, 80h,	28h, 6 dup(seg seg000),	6Eh
-db 3 dup(seg seg000), 1, 5 dup(seg seg000)
-db 8, 5, 74h, 96h, 0DEh, 0FFh, 2 dup(seg seg000)
-db 5, 10h, 80h,	2Ch, 6 dup(seg seg000),	3Ch
-db 9 dup(seg seg000), 8, 6, 0C6h, 0A7h,	0E2h
-db 0FFh, 2 dup(seg seg000), 6, 12h, 80h
-db 2Ch,	6 dup(seg seg000), 0B4h, seg seg000
-db 1, seg seg000, 1, 5 dup(seg seg000),	8
-db 7, 70h, 0B1h, 0EBh, 0FFh, 2 dup(seg seg000)
-db 1, 0Eh, 80h,	2Ch, 6 dup(seg seg000),	96h
-db 3 dup(seg seg000), 1, 5 dup(seg seg000)
-db 2 dup(8), 0F1h, 0AAh, 0D5h, 0FFh, 4 dup(seg seg000)
-db 80h,	2Ch, 6 dup(seg seg000),	0A0h, 3	dup(seg	seg000)
-db 1, 5	dup(seg	seg000), 9, 3, 0E2h, 6Ah
-db 0F1h, 0FFh, 2 dup(seg seg000), 0Bh, 13h
-db 0A0h, 5Ah, 6	dup(seg	seg000), 0AAh, 3 dup(seg seg000)
-db 1, 4	dup(seg	seg000), 28h, 9, 4, 32h
-db 85h,	0F6h, 0FFh, 2 dup(seg seg000), 0Ah
-db 14h,	0A0h, 5Ah, 6 dup(seg seg000), 0D2h
-db 8 dup(seg seg000), 0Ah, 9, 5, seg seg000
-db 70h,	0E1h, 0FFh, 2 dup(seg seg000), 29h
-db 42h,	80h, 0FFh, 6 dup(seg seg000), 0C3h
-db seg seg000, 2 dup(1), seg seg000, 2 dup(1)
-db 3 dup(seg seg000), 9, 6, 18h, 5Ch, 0DAh
-db 0FFh, 2 dup(seg seg000), 2Ah, 3Fh, 80h
-db 0FFh, 6 dup(seg seg000), 0F0h, seg seg000
-db 5 dup(2), 3 dup(seg seg000),	9, 7, 0E3h
-db 68h,	0D0h, 0FFh, 2 dup(seg seg000), 2Bh
-db 3Eh,	80h, 0FFh, 6 dup(seg seg000), 0C8h
-db seg seg000, 2 dup(1), seg seg000, 3 dup(1)
-db 2 dup(seg seg000), 9, 8, 14h, 67h, 0C3h
-db 0FFh, 2 dup(seg seg000), 2Ch, 3Dh, 80h
-db 0FFh, 6 dup(seg seg000), 0D2h, seg seg000
-db 2, 5	dup(1),	2 dup(seg seg000), 2 dup(9)
-db 0BEh, 7Ch, 0C5h, 0FFh, 2 dup(seg seg000)
-db 2Dh,	3Ch, 80h, 0FFh,	6 dup(seg seg000)
-db 32h,	seg seg000, 1, 2 dup(seg seg000)
-db 1, 4	dup(seg	seg000), 9, 0Ah, 0F1h, 82h
-db 0DDh, 0FFh, 2 dup(seg seg000), 21h, seg seg000
-db 80h,	5Ah, 10h dup(seg seg000), 0Ah, 3
-db 0B5h, 75h, 5, 3 dup(seg seg000), 3, seg seg000
-db 80h,	5Ah, 6 dup(seg seg000),	0E6h, 9	dup(seg	seg000)
-db 0Ah,	4, 95h,	94h, 2,	3 dup(seg seg000)
-db 0Dh,	seg seg000, 0A0h, 5Ah, 6 dup(seg seg000)
-db 0C8h, 8 dup(seg seg000), 0A0h, 0Bh, 3
-db 4Ch,	91h, 18h, 3 dup(seg seg000), 8,	17h
-db 0A0h, 58h, 6	dup(seg	seg000), 0AAh, 3 dup(seg seg000)
-db 1, 4	dup(seg	seg000), 64h, 0Bh, 4, 0F3h
-db 0BCh, 2Fh, 3	dup(seg	seg000), 0Ah, 19h
-db 0A0h, 58h, 6	dup(seg	seg000), 0C8h, 8 dup(seg seg000)
-db 0C8h, 0Bh, 5, 0DFh, 0C7h, 16h, 3 dup(seg seg000)
-db 10h,	seg seg000, 0A0h, 55h, 6 dup(seg seg000)
-db 8Ch,	8 dup(seg seg000), 6Eh,	0Bh, 6,	0B0h
-db 0BBh, 1Fh, 3	dup(seg	seg000), 0Bh, 18h
-db 0A0h, 58h, 6	dup(seg	seg000), 0AAh, 8 dup(seg seg000)
-db 69h,	0Bh, 7,	0DEh, 0CEh, 0F9h, 0FFh,	2 dup(seg seg000)
-db 3, seg seg000, 0A0h,	28h, 6 dup(seg seg000)
-db 8Ch,	8 dup(seg seg000), 78h,	0Bh, 0Ah
-db 0AEh, 0B2h, 0F5h, 0FFh, 2 dup(seg seg000)
-db 21h,	seg seg000, 80h, 58h, 10h dup(seg seg000)
-db 0Ch,	3, 0B6h, 5Dh, 24h, 3 dup(seg seg000)
-db 0Eh,	15h, 0A0h, 5Ah,	6 dup(seg seg000)
-db 0AAh, 3 dup(seg seg000), 1, 4 dup(seg seg000)
-db 64h,	0Ch, 4,	93h, 71h, 31h, 3 dup(seg seg000)
-db 0Fh,	16h, 0A0h, 58h,	6 dup(seg seg000)
-db 0F0h, 8 dup(seg seg000), 0C8h, 0Ch, 5
-db 0F5h, 41h, 27h, 3 dup(seg seg000), 3
-db seg seg000, 80h, 0FFh, 6 dup(seg seg000)
-db 8Ch,	seg seg000, 2 dup(1), 3, 5 dup(seg seg000)
-db 0Ch,	6, seg seg000, 0C0h, 47h, 3 dup(seg seg000)
-db 0Ch,	1Ah, 0A0h, 0FFh, 6 dup(seg seg000)
-db 0F0h, 3 dup(seg seg000), 2, 1, 3 dup(seg seg000)
-db 96h,	2 dup(0FFh), 1,	seg seg000, 1, 80h
-db 0Eh dup(seg seg000),	40h, 2 dup(seg seg000)
-db 1Ch,	2 dup(0Ah), 2 dup(seg seg000), 0BEh
-db 2, seg seg000, 1, 80h, 11h dup(seg seg000)
-db 1Ah,	14h, 3Ch, 2 dup(seg seg000), 0D0h
-db 3, seg seg000, 1, 80h, 11h dup(seg seg000)
-db 10h,	0Eh, 3 dup(seg seg000),	28h, 4,	seg seg000
-db 1, 80h, 11h dup(seg seg000),	28h, 0Ch
-db 0Ah,	16h, seg seg000, 0F3h, 5, seg seg000
-db 1, 80h, 11h dup(seg seg000),	1Eh, 0Eh
-db 0Ah,	1Ah, seg seg000, 0AEh, 6, seg seg000
-db 1, 80h, 11h dup(seg seg000),	1Ah, 14h
-db 0Ah,	1Eh, seg seg000, 96h, 7, seg seg000
-db 1, 80h, 11h dup(seg seg000),	16h, seg seg000
-db 0Ah,	14h, seg seg000, 0C9h, 8, seg seg000
-db 1, 80h, 11h dup(seg seg000),	1Fh, 0Bh
-db 16h,	18h, seg seg000, 88h, 9, seg seg000
-db 1, 80h, 11h dup(seg seg000),	19h, 4,	0Bh
-db 1Ah,	seg seg000, 0EBh, 0Ah, seg seg000
-db 1, 80h, 11h dup(seg seg000),	17h, 0Ch
-db 2 dup(11h), seg seg000, 0FCh, 0Bh, seg seg000
-db 1, 80h, 11h dup(seg seg000),	13h, 0Ch
-db 1Fh,	8, seg seg000, 0F1h, 0Ch, seg seg000
-db 1, 80h, 11h dup(seg seg000),	0Ch, 5,	1
-db 1Dh,	seg seg000, 86h, 0Dh, seg seg000
-db 1, 80h, 0Eh dup(seg seg000),	40h, 2 dup(seg seg000)
-db 17h,	16h, 0Bh, 16h, seg seg000, 0D5h
-db 0Eh,	seg seg000, 1, 80h, 0Eh	dup(seg	seg000)
-db 40h,	2 dup(seg seg000), 15h,	0Ch, 1Dh
-db 16h,	seg seg000, 60h, 0Fh, seg seg000
-db 1, 80h, 0Eh dup(seg seg000),	40h, 2 dup(seg seg000)
-db 14h,	1Ch, 0Bh, 3, seg seg000, 0EBh, 10h
-db seg seg000, 1, 80h, 11h dup(seg seg000)
-db 1Fh,	0Bh, 1Ch, 6, seg seg000, 7Bh, 11h
-db seg seg000, 1, 80h, 11h dup(seg seg000)
-db 27h,	9, 1Fh,	2 dup(seg seg000), 6Bh,	12h
-db seg seg000, 1, 80h, 11h dup(seg seg000)
-db 11h,	13h, 0Ah, 12h, seg seg000, 0D6h
-db 13h,	seg seg000, 1, 80h, 0Eh	dup(seg	seg000)
-db 40h,	2 dup(seg seg000), 17h,	0Ch, 1Dh
-db 3, seg seg000, 0EDh,	14h, seg seg000
-db 1, 80h, 0Eh dup(seg seg000),	40h, 2 dup(seg seg000)
-db 16h,	0Dh, 1,	16h, seg seg000, 42h, 15h
-db seg seg000, 1, 80h, 11h dup(seg seg000)
-db 6, 0Ah, 0Bh,	19h, seg seg000, 0ACh, 16h
-db seg seg000, 1, 80h, 11h dup(seg seg000)
-db 0Fh,	1, 16h,	6, seg seg000, 0ECh, 17h
-db seg seg000, 1, 80h, 11h dup(seg seg000)
-db 15h,	1, 13h,	1Eh, seg seg000, 4Ch, 18h
-db seg seg000, 1, 80h, 11h dup(seg seg000)
-db 2 dup(8), 0Ah, 13h, seg seg000, 9Bh,	19h
-db seg seg000, 1, 80h, 11h dup(seg seg000)
-db 10h,	15h, 6,	1Fh, seg seg000, 0DEh, 1Ah
-db seg seg000, 1, 80h, 11h dup(seg seg000)
-db 1Fh,	0Dh, 4,	0Dh, seg seg000, 94h, 1Bh
-db 1Ch,	9, 8Ch,	0Ch dup(seg seg000), 90h
-db 4 dup(seg seg000), 50h, 1Eh,	50h, 6,	38h
-db 0B4h, 1Ch, 1Dh, 0Ah,	8Ch, 0Ch dup(seg seg000)
-db 90h,	4 dup(seg seg000), 50h,	1Eh, 50h
-db 17h,	38h, 0B4h, 1Dh,	seg seg000, 0Bh
-db 8Ch,	0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 50h,	1Eh, 50h, 0Bh, 38h, 0B4h, 1Eh, 1Fh
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
+seg_11380 db 2 dup(0), 2, 0, 0Ah, 20h, 80h, 1, 20h
+db 2 dup(0), 0Ah, 1Bh dup(0), 3, 80h dup(0)
+db 86h,	1, 2 dup(0), 58h, 1Bh, 10h dup(0)
+db 80h,	0Bh dup(0), 2 dup(0FFh), 4 dup(0)
+db 2 dup(0FFh),	4 dup(0), 2 dup(0FFh), 4 dup(0)
+db 2 dup(0FFh),	4 dup(0), 2 dup(0FFh), 17h dup(0)
+db 0FFh, 1, 3 dup(0), 2, 1, 15h, 19h, 0FCh
+db 0FFh, 2 dup(0), 20h,	0, 10h,	0FFh, 10h dup(0)
+db 1, 2, 98h, 3Ah, 0C2h, 0FFh, 2 dup(0)
+db 30h,	43h, 0,	0FFh, 0Ah dup(0), 3 dup(1)
+db 3 dup(0), 1,	3, 0FEh, 2Ah, 0CAh, 0FFh
+db 2 dup(0), 28h, 29h, 80h, 0FFh, 6 dup(0)
+db 78h,	0, 2 dup(2), 4 dup(3), 2 dup(0)
+db 1, 4, 1Dh, 3Eh, 0D0h, 0FFh, 2 dup(0)
+db 2Bh,	1Eh, 80h, 0FFh,	6 dup(0), 64h, 0
+db 2, 5	dup(3),	2 dup(0), 1, 5,	0AEh, 27h
+db 0BDh, 0FFh, 2 dup(0), 29h, 35h, 80h,	0FFh
+db 6 dup(0), 7Dh, 0, 1,	2, 0, 3	dup(1),	2 dup(0)
+db 1, 6, 37h, 1Bh, 0E0h, 0FFh, 2 dup(0)
+db 2Dh,	24h, 80h, 0FFh,	6 dup(0), 0C8h,	0
+db 2 dup(2), 0,	3, 2 dup(1), 2 dup(0), 1
+db 7, 0D0h, 26h, 0D5h, 0FFh, 2 dup(0), 2Ch
+db 21h,	80h, 0FFh, 6 dup(0), 0B4h, 0, 2
+db 3 dup(3), 2,	3 dup(0), 1, 8,	0Ch, 33h
+db 0D9h, 0FFh, 2 dup(0), 2Eh, 1Bh, 80h,	0FFh
+db 6 dup(0), 2Dh, 0, 2 dup(2), 3 dup(3)
+db 3 dup(0), 1,	9, 89h,	16h, 0CFh, 0FFh
+db 2 dup(0), 2Ah, 27h, 80h, 0FFh, 6 dup(0)
+db 8Ch,	0, 2 dup(2), 0,	2 dup(2), 3 dup(0)
+db 1, 0Ah, 19h,	3Ch, 0D8h, 0FFh, 2 dup(0)
+db 21h,	0, 80h,	50h, 10h dup(0), 2, 3, 48h
+db 31h,	0EBh, 0FFh, 2 dup(0), 2, 8, 80h
+db 4, 6	dup(0),	78h, 9 dup(0), 2, 4, 4Eh
+db 25h,	0FCh, 0FFh, 2 dup(0), 1, 3, 40h
+db 7 dup(0), 3Ch, 9 dup(0), 2, 5, 48h, 26h
+db 0Ah,	4 dup(0), 1, 40h, 7 dup(0), 54h
+db 9 dup(0), 2,	6, 1Eh,	21h, 0EDh, 0FFh
+db 2 dup(0), 3,	2, 40h,	7 dup(0), 2Dh, 9 dup(0)
+db 2, 7, 30h, 11h, 6, 5	dup(0),	80h, 3Ch
+db 6 dup(0), 8Ch, 0, 2 dup(1), 5 dup(0)
+db 0Ah,	2 dup(3), 0C8h,	32h, 8,	3 dup(0)
+db 8, 5, 0E0h, 2, 6 dup(0), 63h, 0, 1, 6 dup(0)
+db 14h,	3, 4, 9Ah, 3Dh,	16h, 3 dup(0), 7
+db 0, 80h, 11h,	6 dup(0), 0A0h,	0, 1, 7	dup(0)
+db 3, 5, 2Fh, 4Dh, 0FCh, 0FFh, 2 dup(0)
+db 4, 9, 80h, 4, 6 dup(0), 0B4h, 9 dup(0)
+db 3, 6, 54h, 3Dh, 0EFh, 0FFh, 2 dup(0)
+db 3, 0, 80h, 0Ch, 6 dup(0), 0A0h, 0, 2
+db 7 dup(0), 3,	7, 78h,	46h, 8,	3 dup(0)
+db 6, 0, 80h, 10h, 6 dup(0), 0D2h, 0, 1
+db 2, 3, 5 dup(0), 3, 0Ah, 78h,	50h, 0Fh
+db 3 dup(0), 21h, 0, 80h, 38h, 10h dup(0)
+db 4, 3, 0C7h, 31h, 30h, 3 dup(0), 5, 7
+db 80h,	14h, 6 dup(0), 0C8h, 0,	1, 7 dup(0)
+db 2 dup(4), 8Dh, 2Ch, 18h, 3 dup(0), 2	dup(4)
+db 80h,	14h, 6 dup(0), 0AAh, 9 dup(0), 4
+db 5, 0B1h, 31h, 23h, 3	dup(0),	7, 6, 80h
+db 14h,	6 dup(0), 0F0h,	9 dup(0), 4, 7,	0A8h
+db 16h,	1Bh, 3 dup(0), 3, 0, 80h, 16h, 6 dup(0)
+db 0C8h, 0, 1, 3, 0, 1,	4 dup(0), 4, 6,	0D1h
+db 0Fh,	46h, 3 dup(0), 9, 0Ah, 0A0h, 48h
+db 6 dup(0), 0F0h, 0, 1, 6 dup(0), 0C8h
+db 5, 3, 0F7h, 0DEh, 17h, 3 dup(0), 5, 0
+db 80h,	44h, 6 dup(0), 0B4h, 0,	2, 2 dup(1)
+db 5 dup(0), 5,	4, 52h,	0F7h, 1Eh, 3 dup(0)
+db 2, 0Bh, 80h,	48h, 6 dup(0), 0A0h, 0,	1
+db 7 dup(0), 2 dup(5), 0CAh, 0E6h, 0Ah,	3 dup(0)
+db 5, 0Ch, 80h,	48h, 6 dup(0), 64h, 2 dup(0)
+db 2 dup(1), 5 dup(0), 5, 6, 9Eh, 2, 0Dh
+db 3 dup(0), 7,	0, 80h,	28h, 6 dup(0), 0FAh
+db 0, 2	dup(1),	5, 5 dup(0), 5,	0Ah, 75h
+db 10h,	12h, 3 dup(0), 21h, 0, 80h, 38h
+db 10h dup(0), 6, 3, 0F3h, 7, 0D8h, 0FFh
+db 2 dup(0), 28h, 2Ch, 80h, 0FFh, 6 dup(0)
+db 96h,	0, 2, 3, 0, 3, 4 dup(0), 6, 4, 2 dup(0F0h)
+db 0DDh, 0FFh, 2 dup(0), 29h, 2Fh, 80h,	0FFh
+db 6 dup(0), 20h, 0, 1,	0, 2 dup(3), 4 dup(0)
+db 6, 5, 0FBh, 6, 0EBh,	0FFh, 2	dup(0),	1
+db 0, 80h, 50h,	6 dup(0), 82h, 0, 1, 0,	1
+db 5 dup(0), 2 dup(6), 27h, 0E2h, 0F0h,	0FFh
+db 3 dup(0), 0Dh, 80h, 50h, 6 dup(0), 78h
+db 3 dup(0), 1,	5 dup(0), 6, 7,	29h, 0F9h
+db 0CAh, 0FFh, 2 dup(0), 2Ah, 32h, 80h,	0FFh
+db 6 dup(0), 0B4h, 0, 5	dup(2),	3 dup(0)
+db 6, 8, 7Ch, 0F6h, 0EBh, 0FFh,	2 dup(0)
+db 6, 0, 80h, 3Ch, 6 dup(0), 0B4h, 0, 2	dup(1)
+db 0, 2, 1, 3 dup(0), 6, 9, 46h, 18h, 0C4h
+db 0FFh, 2 dup(0), 2Bh,	34h, 80h, 0FFh,	6 dup(0)
+db 0D2h, 0, 2 dup(2), 3	dup(1),	3 dup(0)
+db 6, 0Ah, 2Fh,	0F1h, 0F5h, 0FFh, 2 dup(0)
+db 21h,	0, 80h,	47h, 10h dup(0), 6, 0Bh
+db 0CCh, 0Ch, 0B7h, 0FFh, 2 dup(0), 2Ch
+db 36h,	80h, 0FFh, 6 dup(0), 78h, 3 dup(0)
+db 3 dup(1), 3 dup(0), 7, 3, 0,	0E0h, 0C1h
+db 0FFh, 2 dup(0), 2Dh,	37h, 80h, 0FFh,	6 dup(0)
+db 0FAh, 3 dup(0), 2 dup(2), 4 dup(0), 7
+db 4, 0E3h, 0D8h, 0D0h,	0FFh, 2	dup(0),	2Eh
+db 39h,	80h, 0FFh, 6 dup(0), 0B4h, 3 dup(0)
+db 2 dup(1), 4 dup(0), 7, 5, 4Fh, 0ADh,	0C3h
+db 0FFh, 2 dup(0), 2Fh,	3Bh, 80h, 0FFh,	6 dup(0)
+db 78h,	3 dup(0), 2 dup(1), 4 dup(0), 7
+db 6, 6Ch, 2 dup(0C5h),	0FFh, 2	dup(0),	28h
+db 3Ah,	80h, 0FFh, 6 dup(0), 0C8h, 3 dup(0)
+db 2 dup(1), 4 dup(0), 8, 3, 61h, 0B8h,	0DCh
+db 0FFh, 2 dup(0), 7, 11h, 0A0h, 2Ch, 6	dup(0)
+db 96h,	0, 2 dup(1), 5 dup(0), 50h, 8, 4
+db 7Fh,	0C4h, 0E8h, 0FFh, 2 dup(0), 4, 0Fh
+db 80h,	28h, 6 dup(0), 6Eh, 3 dup(0), 1
+db 5 dup(0), 8,	5, 74h,	96h, 0DEh, 0FFh
+db 2 dup(0), 5,	10h, 80h, 2Ch, 6 dup(0)
+db 3Ch,	9 dup(0), 8, 6,	0C6h, 0A7h, 0E2h
+db 0FFh, 2 dup(0), 6, 12h, 80h,	2Ch, 6 dup(0)
+db 0B4h, 0, 1, 0, 1, 5 dup(0), 8, 7, 70h
+db 0B1h, 0EBh, 0FFh, 2 dup(0), 1, 0Eh, 80h
+db 2Ch,	6 dup(0), 96h, 3 dup(0), 1, 5 dup(0)
+db 2 dup(8), 0F1h, 0AAh, 0D5h, 0FFh, 4 dup(0)
+db 80h,	2Ch, 6 dup(0), 0A0h, 3 dup(0), 1
+db 5 dup(0), 9,	3, 0E2h, 6Ah, 0F1h, 0FFh
+db 2 dup(0), 0Bh, 13h, 0A0h, 5Ah, 6 dup(0)
+db 0AAh, 3 dup(0), 1, 4	dup(0),	28h, 9,	4
+db 32h,	85h, 0F6h, 0FFh, 2 dup(0), 0Ah,	14h
+db 0A0h, 5Ah, 6	dup(0),	0D2h, 8	dup(0),	0Ah
+db 9, 5, 0, 70h, 0E1h, 0FFh, 2 dup(0), 29h
+db 42h,	80h, 0FFh, 6 dup(0), 0C3h, 0, 2	dup(1)
+db 0, 2	dup(1),	3 dup(0), 9, 6,	18h, 5Ch
+db 0DAh, 0FFh, 2 dup(0), 2Ah, 3Fh, 80h,	0FFh
+db 6 dup(0), 0F0h, 0, 5	dup(2),	3 dup(0)
+db 9, 7, 0E3h, 68h, 0D0h, 0FFh,	2 dup(0)
+db 2Bh,	3Eh, 80h, 0FFh,	6 dup(0), 0C8h,	0
+db 2 dup(1), 0,	3 dup(1), 2 dup(0), 9, 8
+db 14h,	67h, 0C3h, 0FFh, 2 dup(0), 2Ch,	3Dh
+db 80h,	0FFh, 6	dup(0),	0D2h, 0, 2, 5 dup(1)
+db 2 dup(0), 2 dup(9), 0BEh, 7Ch, 0C5h,	0FFh
+db 2 dup(0), 2Dh, 3Ch, 80h, 0FFh, 6 dup(0)
+db 32h,	0, 1, 2	dup(0),	1, 4 dup(0), 9,	0Ah
+db 0F1h, 82h, 0DDh, 0FFh, 2 dup(0), 21h
+db 0, 80h, 5Ah,	10h dup(0), 0Ah, 3, 0B5h
+db 75h,	5, 3 dup(0), 3,	0, 80h,	5Ah, 6 dup(0)
+db 0E6h, 9 dup(0), 0Ah,	4, 95h,	94h, 2,	3 dup(0)
+db 0Dh,	0, 0A0h, 5Ah, 6	dup(0),	0C8h, 8	dup(0)
+db 0A0h, 0Bh, 3, 4Ch, 91h, 18h,	3 dup(0)
+db 8, 17h, 0A0h, 58h, 6	dup(0),	0AAh, 3	dup(0)
+db 1, 4	dup(0),	64h, 0Bh, 4, 0F3h, 0BCh
+db 2Fh,	3 dup(0), 0Ah, 19h, 0A0h, 58h, 6 dup(0)
+db 0C8h, 8 dup(0), 0C8h, 0Bh, 5, 0DFh, 0C7h
+db 16h,	3 dup(0), 10h, 0, 0A0h,	55h, 6 dup(0)
+db 8Ch,	8 dup(0), 6Eh, 0Bh, 6, 0B0h, 0BBh
+db 1Fh,	3 dup(0), 0Bh, 18h, 0A0h, 58h, 6 dup(0)
+db 0AAh, 8 dup(0), 69h,	0Bh, 7,	0DEh, 0CEh
+db 0F9h, 0FFh, 2 dup(0), 3, 0, 0A0h, 28h
+db 6 dup(0), 8Ch, 8 dup(0), 78h, 0Bh, 0Ah
+db 0AEh, 0B2h, 0F5h, 0FFh, 2 dup(0), 21h
+db 0, 80h, 58h,	10h dup(0), 0Ch, 3, 0B6h
+db 5Dh,	24h, 3 dup(0), 0Eh, 15h, 0A0h, 5Ah
+db 6 dup(0), 0AAh, 3 dup(0), 1,	4 dup(0)
+db 64h,	0Ch, 4,	93h, 71h, 31h, 3 dup(0)
+db 0Fh,	16h, 0A0h, 58h,	6 dup(0), 0F0h,	8 dup(0)
+db 0C8h, 0Ch, 5, 0F5h, 41h, 27h, 3 dup(0)
+db 3, 0, 80h, 0FFh, 6 dup(0), 8Ch, 0, 2	dup(1)
+db 3, 5	dup(0),	0Ch, 6,	0, 0C0h, 47h, 3	dup(0)
+db 0Ch,	1Ah, 0A0h, 0FFh, 6 dup(0), 0F0h
+db 3 dup(0), 2,	1, 3 dup(0), 96h, 2 dup(0FFh)
+db 1, 0, 1, 80h, 0Eh dup(0), 40h, 2 dup(0)
+db 1Ch,	2 dup(0Ah), 2 dup(0), 0BEh, 2, 0
+db 1, 80h, 11h dup(0), 1Ah, 14h, 3Ch, 2	dup(0)
+db 0D0h, 3, 0, 1, 80h, 11h dup(0), 10h,	0Eh
+db 3 dup(0), 28h, 4, 0,	1, 80h,	11h dup(0)
+db 28h,	0Ch, 0Ah, 16h, 0, 0F3h,	5, 0, 1
+db 80h,	11h dup(0), 1Eh, 0Eh, 0Ah, 1Ah,	0
+db 0AEh, 6, 0, 1, 80h, 11h dup(0), 1Ah,	14h
+db 0Ah,	1Eh, 0,	96h, 7,	0, 1, 80h, 11h dup(0)
+db 16h,	0, 0Ah,	14h, 0,	0C9h, 8, 0, 1, 80h
+db 11h dup(0), 1Fh, 0Bh, 16h, 18h, 0, 88h
+db 9, 0, 1, 80h, 11h dup(0), 19h, 4, 0Bh
+db 1Ah,	0, 0EBh, 0Ah, 0, 1, 80h, 11h dup(0)
+db 17h,	0Ch, 2 dup(11h), 0, 0FCh, 0Bh, 0
+db 1, 80h, 11h dup(0), 13h, 0Ch, 1Fh, 8
+db 0, 0F1h, 0Ch, 0, 1, 80h, 11h	dup(0),	0Ch
+db 5, 1, 1Dh, 0, 86h, 0Dh, 0, 1, 80h, 0Eh dup(0)
+db 40h,	2 dup(0), 17h, 16h, 0Bh, 16h, 0
+db 0D5h, 0Eh, 0, 1, 80h, 0Eh dup(0), 40h
+db 2 dup(0), 15h, 0Ch, 1Dh, 16h, 0, 60h
+db 0Fh,	0, 1, 80h, 0Eh dup(0), 40h, 2 dup(0)
+db 14h,	1Ch, 0Bh, 3, 0,	0EBh, 10h, 0, 1
+db 80h,	11h dup(0), 1Fh, 0Bh, 1Ch, 6, 0
+db 7Bh,	11h, 0,	1, 80h,	11h dup(0), 27h
+db 9, 1Fh, 2 dup(0), 6Bh, 12h, 0, 1, 80h
+db 11h dup(0), 11h, 13h, 0Ah, 12h, 0, 0D6h
+db 13h,	0, 1, 80h, 0Eh dup(0), 40h, 2 dup(0)
+db 17h,	0Ch, 1Dh, 3, 0,	0EDh, 14h, 0, 1
+db 80h,	0Eh dup(0), 40h, 2 dup(0), 16h,	0Dh
+db 1, 16h, 0, 42h, 15h,	0, 1, 80h, 11h dup(0)
+db 6, 0Ah, 0Bh,	19h, 0,	0ACh, 16h, 0, 1
+db 80h,	11h dup(0), 0Fh, 1, 16h, 6, 0, 0ECh
+db 17h,	0, 1, 80h, 11h dup(0), 15h, 1, 13h
+db 1Eh,	0, 4Ch,	18h, 0,	1, 80h,	11h dup(0)
+db 2 dup(8), 0Ah, 13h, 0, 9Bh, 19h, 0, 1
+db 80h,	11h dup(0), 10h, 15h, 6, 1Fh, 0
+db 0DEh, 1Ah, 0, 1, 80h, 11h dup(0), 1Fh
+db 0Dh,	4, 0Dh,	0, 94h,	1Bh, 1Ch, 9, 8Ch
+db 0Ch dup(0), 90h, 4 dup(0), 50h, 1Eh,	50h
+db 6, 38h, 0B4h, 1Ch, 1Dh, 0Ah,	8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 50h, 1Eh, 50h, 17h, 38h
+db 0B4h, 1Dh, 0, 0Bh, 8Ch, 0Ch dup(0), 90h
+db 4 dup(0), 50h, 1Eh, 50h, 0Bh, 38h, 0B4h
+db 1Eh,	1Fh, 9,	8Ch, 0Ch dup(0), 90h, 4	dup(0)
 db 46h,	1Eh, 50h, 5, 3Ch, 0B4h,	1Fh, 20h
-db 0Ah,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 46h,	1Eh, 50h, 2, 38h, 0B4h,	20h, seg seg000
-db 0Bh,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 46h,	1Eh, 50h, 1Eh, 3Ch, 0B4h, 21h, 22h
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 50h,	1Eh, 50h, 18h, 38h, 0B4h, 22h, 23h
-db 0Ah,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 3Ch,	1Eh, 50h, 1Ch, 38h, 0B4h, 23h, seg seg000
-db 0Bh,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 50h,	1Eh, 50h, 0Fh, 30h, 0B4h, 24h, 25h
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 28h,	1Eh, 50h, seg seg000, 18h, 0B6h
-db 25h,	26h, 0Ah, 8Ch, 0Ch dup(seg seg000)
-db 90h,	4 dup(seg seg000), 28h,	1Eh, 50h
-db 2, 10h, 0B6h, 26h, seg seg000, 0Bh, 8Ch
-db 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 28h,	1Eh, 50h, 0Fh, 10h, 0B6h, 27h, 28h
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 3Ch,	1Eh, 50h, 1Eh, 18h, 0B9h, 28h, seg seg000
-db 0Ah,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 32h,	1Eh, 50h, 1Dh, 18h, 0BEh, 29h, 2Ah
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
+db 0Ah,	8Ch, 0Ch dup(0), 90h, 4	dup(0),	46h
+db 1Eh,	50h, 2,	38h, 0B4h, 20h,	0, 0Bh,	8Ch
+db 0Ch dup(0), 90h, 4 dup(0), 46h, 1Eh,	50h
+db 1Eh,	3Ch, 0B4h, 21h,	22h, 9,	8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 50h, 1Eh, 50h, 18h, 38h
+db 0B4h, 22h, 23h, 0Ah,	8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 3Ch, 1Eh, 50h, 1Ch, 38h
+db 0B4h, 23h, 0, 0Bh, 8Ch, 0Ch dup(0), 90h
+db 4 dup(0), 50h, 1Eh, 50h, 0Fh, 30h, 0B4h
+db 24h,	25h, 9,	8Ch, 0Ch dup(0), 90h, 4	dup(0)
+db 28h,	1Eh, 50h, 0, 18h, 0B6h,	25h, 26h
+db 0Ah,	8Ch, 0Ch dup(0), 90h, 4	dup(0),	28h
+db 1Eh,	50h, 2,	10h, 0B6h, 26h,	0, 0Bh,	8Ch
+db 0Ch dup(0), 90h, 4 dup(0), 28h, 1Eh,	50h
+db 0Fh,	10h, 0B6h, 27h,	28h, 9,	8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 3Ch, 1Eh, 50h, 1Eh, 18h
+db 0B9h, 28h, 0, 0Ah, 8Ch, 0Ch dup(0), 90h
+db 4 dup(0), 32h, 1Eh, 50h, 1Dh, 18h, 0BEh
+db 29h,	2Ah, 9,	8Ch, 0Ch dup(0), 90h, 4	dup(0)
 db 46h,	1Eh, 50h, 0Ah, 3Ch, 0BEh, 2Ah, 2Bh
-db 0Ah,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 46h,	1Eh, 50h, 3, 38h, 0BEh,	2Bh, seg seg000
-db 0Bh,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 46h,	1Eh, 50h, 1Bh, 3Ch, 0BEh, 2Ch, 2Dh
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 50h,	1Eh, 50h, 1Bh, 10h, 0B9h, 2Dh, 2Eh
-db 0Ah,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 50h,	1Eh, 50h, 13h, 10h, 0B9h, 2Eh, seg seg000
-db 0Bh,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 50h,	1Eh, 50h, 18h, 10h, 0B9h, 2Fh, 30h
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
+db 0Ah,	8Ch, 0Ch dup(0), 90h, 4	dup(0),	46h
+db 1Eh,	50h, 3,	38h, 0BEh, 2Bh,	0, 0Bh,	8Ch
+db 0Ch dup(0), 90h, 4 dup(0), 46h, 1Eh,	50h
+db 1Bh,	3Ch, 0BEh, 2Ch,	2Dh, 9,	8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 50h, 1Eh, 50h, 1Bh, 10h
+db 0B9h, 2Dh, 2Eh, 0Ah,	8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 50h, 1Eh, 50h, 13h, 10h
+db 0B9h, 2Eh, 0, 0Bh, 8Ch, 0Ch dup(0), 90h
+db 4 dup(0), 50h, 1Eh, 50h, 18h, 10h, 0B9h
+db 2Fh,	30h, 9,	8Ch, 0Ch dup(0), 90h, 4	dup(0)
 db 0Ah,	1Eh, 46h, 12h, 30h, 0BCh, 30h, 31h
-db 0Ah,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 11h,	1Eh, 45h, 0Fh, 10h, 0BCh, 31h, seg seg000
-db 0Bh,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 14h,	1Eh, 41h, 1Fh, 10h, 0BCh, 32h, 33h
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 19h,	1Eh, 30h, 7, 18h, 0BCh,	33h, seg seg000
-db 0Ah,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 19h,	1Eh, 3Ah, 16h, 18h, 0BCh, 34h, seg seg000
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 46h,	1Eh, 50h, 4, 38h, 0B9h,	35h, seg seg000
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 5Ah,	1Eh, 5Ah, 9, 1Ch, 0B4h,	36h, seg seg000
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 28h,	1Eh, 50h, 0Dh, 18h, 0B4h, 37h, 38h
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 0Ch,	1Eh, 22h, 2, 30h, 0B4h,	38h, seg seg000
-db 0Ah,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 0Ch,	1Eh, 22h, 17h, 30h, 0B4h, 39h, seg seg000
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 0Ah,	1Eh, 22h, seg seg000, 30h, 0B4h
-db 3Ah,	seg seg000, 9, 8Ch, 0Ch	dup(seg	seg000)
-db 90h,	4 dup(seg seg000), 0Ah,	1Eh, 10h
-db 1Fh,	30h, 0B4h, 3Bh,	seg seg000, 9, 8Ch
-db 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 0Ah,	1Eh, 0Ah, 10h, 30h, 0B4h, 3Ch, seg seg000
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 50h,	1Eh, 50h, 0Fh, 10h, 0B4h, 3Dh, seg seg000
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 63h,	1Eh, 50h, 15h, 3Ch, 0B4h, 3Eh, seg seg000
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 3Ch,	1Eh, 50h, 16h, 18h, 0B4h, 3Fh, 40h
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
+db 0Ah,	8Ch, 0Ch dup(0), 90h, 4	dup(0),	11h
+db 1Eh,	45h, 0Fh, 10h, 0BCh, 31h, 0, 0Bh
+db 8Ch,	0Ch dup(0), 90h, 4 dup(0), 14h,	1Eh
+db 41h,	1Fh, 10h, 0BCh,	32h, 33h, 9, 8Ch
+db 0Ch dup(0), 90h, 4 dup(0), 19h, 1Eh,	30h
+db 7, 18h, 0BCh, 33h, 0, 0Ah, 8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 19h, 1Eh, 3Ah, 16h, 18h
+db 0BCh, 34h, 0, 9, 8Ch, 0Ch dup(0), 90h
+db 4 dup(0), 46h, 1Eh, 50h, 4, 38h, 0B9h
+db 35h,	0, 9, 8Ch, 0Ch dup(0), 90h, 4 dup(0)
+db 5Ah,	1Eh, 5Ah, 9, 1Ch, 0B4h,	36h, 0,	9
+db 8Ch,	0Ch dup(0), 90h, 4 dup(0), 28h,	1Eh
+db 50h,	0Dh, 18h, 0B4h,	37h, 38h, 9, 8Ch
+db 0Ch dup(0), 90h, 4 dup(0), 0Ch, 1Eh,	22h
+db 2, 30h, 0B4h, 38h, 0, 0Ah, 8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 0Ch, 1Eh, 22h, 17h, 30h
+db 0B4h, 39h, 0, 9, 8Ch, 0Ch dup(0), 90h
+db 4 dup(0), 0Ah, 1Eh, 22h, 0, 30h, 0B4h
+db 3Ah,	0, 9, 8Ch, 0Ch dup(0), 90h, 4 dup(0)
+db 0Ah,	1Eh, 10h, 1Fh, 30h, 0B4h, 3Bh, 0
+db 9, 8Ch, 0Ch dup(0), 90h, 4 dup(0), 0Ah
+db 1Eh,	0Ah, 10h, 30h, 0B4h, 3Ch, 0, 9,	8Ch
+db 0Ch dup(0), 90h, 4 dup(0), 50h, 1Eh,	50h
+db 0Fh,	10h, 0B4h, 3Dh,	0, 9, 8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 63h, 1Eh, 50h, 15h, 3Ch
+db 0B4h, 3Eh, 0, 9, 8Ch, 0Ch dup(0), 90h
+db 4 dup(0), 3Ch, 1Eh, 50h, 16h, 18h, 0B4h
+db 3Fh,	40h, 9,	8Ch, 0Ch dup(0), 90h, 4	dup(0)
 db 46h,	1Eh, 50h, 10h, 38h, 0B4h, 40h, 41h
-db 0Ah,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 46h,	1Eh, 50h, 1Eh, 8, 0B4h,	41h, seg seg000
-db 0Bh,	8Ch, 0Ch dup(seg seg000), 90h, 4 dup(seg seg000)
-db 46h,	1Eh, 50h, 16h, 30h, 0B4h, 42h, seg seg000
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 32h,	1Eh, 50h, 14h, 18h, 0B4h, 43h, seg seg000
-db 9, 8Ch, 0Ch dup(seg seg000),	90h, 4 dup(seg seg000)
-db 8, 1Eh, 5Fh,	14h, 38h, 0Ah, 1Dh dup(seg seg000)
-db 0Ah,	20h, 80h, 1, 0F2h, 92h,	9 dup(seg seg000)
-db 2, 4, 20h, 80h, 1, 0F7h, 92h, 8 dup(seg seg000)
-db 1, 2, 8, 20h, 80h, 0FFh, 0FCh, 92h, 8 dup(seg seg000)
-db 2 dup(2), 4,	20h, 80h, 0FFh,	1, 93h,	8 dup(seg seg000)
-db 3, 2	dup(2),	seg seg000, 80h, 0Dh, 6
-db 93h,	8 dup(seg seg000), 4, seg seg000
-db 2, 4, 80h, 2Eh, 0Bh,	93h, 8 dup(seg seg000)
-db 5, seg seg000, 2, 10h, 80h, 3Fh, 10h
-db 93h,	8 dup(seg seg000), 6, seg seg000
-db 3, 5, 80h, 1Bh, 15h,	93h, 8 dup(seg seg000)
-db 7, 2, 3, 7, 80h, 11h, 1Ah, 93h, 8 dup(seg seg000)
-db 8, seg seg000, 2, 30h, 80h, 2, 1Fh, 93h
-db 8 dup(seg seg000), 9, 80h, 2, 30h, 80h
-db 2, 24h, 93h,	8 dup(seg seg000), 0Ah,	80h
-db 2, 30h, 80h,	2, 29h,	93h, 8 dup(seg seg000)
-db 0Bh,	80h, 2,	30h, 80h, seg seg000, 2Eh
-db 93h,	8 dup(seg seg000), 0Ch,	seg seg000
-db 2, 30h, 80h,	seg seg000, 6Fh, 93h, 8	dup(seg	seg000)
-db 0Dh,	seg seg000, 2, 30h, 80h, seg seg000
-db 73h,	93h, 8 dup(seg seg000),	0Eh, seg seg000
-db 2 dup(2), 80h, seg seg000, 7Eh, 93h,	8 dup(seg seg000)
-db 0Fh,	80h, 1,	3 dup(seg seg000), 1, 2
-db seg seg000, 2 dup(2), 9Eh, 0CBh, 0Ah
-db 0A8h, 0FDh, 3 dup(seg seg000), 3, 1,	2 dup(seg seg000)
-db 1, 2, seg seg000, 2,	1, 9Eh,	0CBh, 0Ah
-db 0A8h, 0E4h, 3 dup(seg seg000), 5, 3,	2 dup(seg seg000)
-db 2 dup(1), 2 dup(seg seg000),	1, 0B2h
-db 0E3h, 0Ah, 28h, 0E4h, 3 dup(seg seg000)
-db 6, 2, 3 dup(seg seg000), 2, 3, 2 dup(2)
-db 28h,	0D0h, 8Fh, 0B2h, 0FDh, 3 dup(seg seg000)
-db 9, 3, 2 dup(seg seg000), 2, 1, 2 dup(seg seg000)
-db 1, 0B2h, 0D0h, 0Ah, 28h, 0EEh, 3 dup(seg seg000)
-db 0Bh,	6, 2 dup(seg seg000), 2	dup(1),	2
-db 1, seg seg000, 0BCh,	0DAh, 8Ah, 0A8h
-db 64h,	3 dup(seg seg000), 0FFh, 0D8h, 10h
-db 3, 0Dh, 0Fh,	32h, 64h, 80h, 28h, 14h
-db 28h,	23h, 32h, 46h, 80h, 2 dup(0FFh)
-db seg seg000, 1, 6 dup(0FFh), 4 dup(seg seg000)
-db 2 dup(0FFh),	14h, seg seg000, 1, 0Ah	dup(seg	seg000)
-db 3, seg seg000, 3, seg seg000, 3, 4 dup(seg seg000)
-db 2, seg seg000, 1, seg seg000, 0FFh, 40h dup(seg seg000)
-db 7, 12h, 2 dup(seg seg000), 0AAh, seg	seg000
-db 0AAh, seg seg000, 4Bh, seg seg000, 0Fh
-db 0Bh dup(seg seg000),	1, 58h,	3Ch, 1Eh
-db 0Ah dup(seg seg000),	31h, 3 dup(seg seg000)
-db 4Ch,	seg seg000, 1, 3 dup(seg seg000)
-db 86h,	seg seg000, 2 dup(0FFh), 1, seg	seg000
-db 1, seg seg000, 2, seg seg000, 3, seg	seg000
-db 4, seg seg000, 5, seg seg000, 6, seg	seg000
-db 7, seg seg000, 8, seg seg000, 9, seg	seg000
-db 0Ah,	seg seg000, 8, 1, 0Ch, seg seg000
-db 0Dh,	seg seg000, 0Eh, seg seg000, 0Fh
-db 3 dup(seg seg000), 0B6h, seg	seg000,	0Ch
-db seg seg000, 3, seg seg000, 0Ah, 1, 41h
-db seg seg000, 4, seg seg000, 0EEh, seg	seg000
-db 41h,	seg seg000, 5, seg seg000, 0C1h
-db seg seg000, 41h, seg	seg000,	2 dup(0FFh)
-db 4Ch,	2, seg seg000, 0FDh, seg seg000
-db 3Ah,	7, seg seg000, 1, 8Ch, 0CFh, 3 dup(seg seg000)
-db 0Bh,	62h, 0Ah, seg seg000, 7, seg seg000
-db 4Bh,	3 dup(seg seg000), 0Ah,	15h, 0Bh
-db 3 dup(seg seg000), 5Dh, 4, 8Bh, 2, 88h
-db 26h,	seg seg000, 87h, 0Ch, seg seg000
-db 63h,	2 dup(seg seg000), 0Ah,	seg seg000
-db 61h,	9, 5, 4, seg seg000, 64h, seg seg000
-db 83h,	6, 7, 5Eh, 8, 2, 2 dup(seg seg000)
-db 1, 2, 0FEh, 0FDh, 0FCh, 72h,	2 dup(seg seg000)
-db 1, seg seg000, 1, 2,	0FEh, 0FDh, 0FCh
-db 73h,	2 dup(seg seg000), 1, seg seg000
-db 1, 2, 0FEh, 0FDh, 0FCh, 74h,	2 dup(seg seg000)
-db 1, seg seg000, 1, 2,	0FEh, 0FDh, 0FCh
-db 75h,	2 dup(seg seg000), 1, seg seg000
-db 1, 2, 0FEh, 0FDh, 0FCh, 76h,	2 dup(seg seg000)
-db 1, seg seg000, 1, 2,	0FEh, 0FDh, 0FCh
-db 77h,	3, seg seg000, 1, seg seg000, 72h
-db 2 dup(seg seg000), 2, seg seg000, 1,	3
-db 0FEh, 0FDh, 0FCh, 78h, 2 dup(seg seg000)
-db 3, seg seg000, 7Bh, 2, seg seg000, 1
-db seg seg000, 1, 2, 0FEh, 0FDh, 0FCh, 7Ah
-db 3, seg seg000, 1, seg seg000, 72h, 2	dup(seg	seg000)
-db 2, seg seg000, 1, 3,	0FEh, 0FDh, 0FCh
-db 79h,	4, seg seg000, 3, seg seg000, 7Bh
-db 2, seg seg000, 1, seg seg000, 7Dh, 2	dup(seg	seg000)
-db 2, seg seg000, 1, 3,	0FEh, 0FDh, 0FCh
-db 7Ch,	4, seg seg000, 3, seg seg000, 7Bh
-db 2, seg seg000, 1, seg seg000, 7Dh, 2	dup(seg	seg000)
-db 2, seg seg000, 1, 3,	0FEh, 0FDh, 0FCh
-db 74h,	4, seg seg000, 3, seg seg000, 7Bh
-db 2, seg seg000, 1, seg seg000, 7Dh, 2	dup(seg	seg000)
-db 2, seg seg000, 1, 2,	0FEh, 0FDh, 0FCh
-db 75h,	4, 3, 1, seg seg000, 72h, 3 dup(seg seg000)
-db 2, 7Dh, 2 dup(seg seg000), 2, seg seg000
-db 1, 2, 0FEh, 0FDh, 0FCh, 76h,	3, seg seg000
-db 1, seg seg000, 73h, 4, seg seg000, 2
-db seg seg000, 7Dh, 2 dup(seg seg000), 3
-db seg seg000, 1, 2, 0FEh, 0FDh, 0FCh, 77h
-db 3, 4, 1, seg	seg000,	72h, 2 dup(seg seg000)
-db 2, seg seg000, 7Dh, 3 dup(seg seg000)
-db 2, 1, 3, 0FEh, 0FDh,	0FCh, 78h, 4, seg seg000
-db 3, seg seg000, 7Bh, 2, seg seg000, 1
-db seg seg000, 7Dh, 2 dup(seg seg000), 2
-db seg seg000, 1, 2, 0FEh, 0FDh, 0FCh, 7Ah
-db 3, 4, 1, seg	seg000,	72h, 2 dup(seg seg000)
-db 2, seg seg000, 7Dh, 3 dup(seg seg000)
-db 2, 1, 3, 0FEh, 0FDh,	0FCh, 7Ch, 5, seg seg000
-db 3, seg seg000, 7Bh, 2, seg seg000, 1
-db seg seg000, 7Dh, seg	seg000,	5, 2 dup(seg seg000)
-db 0DEh, 2 dup(seg seg000), 2, 4, 1, 0FFh
-db 0FEh, 0FDh, 0FCh, 1,	2, 0FEh, 0FDh, 0FCh
-db 0A7h, seg seg000, 3,	1, seg seg000, 0A6h
-db 3 dup(seg seg000), 3	dup(2),	0FEh, 0FDh
-db 0FCh, 0A7h, 2 dup(seg seg000), 1, 3,	0A6h
-db seg seg000, 2, 2 dup(seg seg000), 3,	2
-db 0FEh, 0FDh, 0FCh, 0A7h, seg seg000, 3
-db 1, seg seg000, 0A6h,	3 dup(seg seg000)
-db 2, 4, 2, 0FEh, 0FDh,	0FCh, 0A7h, 2 dup(seg seg000)
-db 1, 3, 0A6h, seg seg000, 2, 2	dup(seg	seg000)
-db 5, 2, 0FEh, 0FDh, 0FCh, 0A8h, 2 dup(seg seg000)
-db 1, seg seg000, 61h, 12h, 6Bh, 12h, 75h
-db 12h,	7Fh, 12h, 89h, 12h, 93h, 12h, 0A2h
-db 12h,	0B1h, 12h, 0C0h, 12h, 0D4h, 12h
-db 0E8h, 12h, 0FCh, 12h, 10h, 13h, 24h,	13h
-db 38h,	13h, 4Ch, 13h, 60h, 13h, 6Bh, 12h
+db 0Ah,	8Ch, 0Ch dup(0), 90h, 4	dup(0),	46h
+db 1Eh,	50h, 1Eh, 8, 0B4h, 41h,	0, 0Bh,	8Ch
+db 0Ch dup(0), 90h, 4 dup(0), 46h, 1Eh,	50h
+db 16h,	30h, 0B4h, 42h,	0, 9, 8Ch, 0Ch dup(0)
+db 90h,	4 dup(0), 32h, 1Eh, 50h, 14h, 18h
+db 0B4h, 43h, 0, 9, 8Ch, 0Ch dup(0), 90h
+db 4 dup(0), 8,	1Eh, 5Fh, 14h, 38h, 0Ah
+db 1Dh dup(0), 0Ah, 20h, 80h, 1, 0F2h, 92h
+db 9 dup(0), 2,	4, 20h,	80h, 1,	0F7h, 92h
+db 8 dup(0), 1,	2, 8, 20h, 80h,	0FFh, 0FCh
+db 92h,	8 dup(0), 2 dup(2), 4, 20h, 80h
+db 0FFh, 1, 93h, 8 dup(0), 3, 2	dup(2),	0
+db 80h,	0Dh, 6,	93h, 8 dup(0), 4, 0, 2,	4
+db 80h,	2Eh, 0Bh, 93h, 8 dup(0), 5, 0, 2
+db 10h,	80h, 3Fh, 10h, 93h, 8 dup(0), 6
+db 0, 3, 5, 80h, 1Bh, 15h, 93h,	8 dup(0)
+db 7, 2, 3, 7, 80h, 11h, 1Ah, 93h, 8 dup(0)
+db 8, 0, 2, 30h, 80h, 2, 1Fh, 93h, 8 dup(0)
+db 9, 80h, 2, 30h, 80h,	2, 24h,	93h, 8 dup(0)
+db 0Ah,	80h, 2,	30h, 80h, 2, 29h, 93h, 8 dup(0)
+db 0Bh,	80h, 2,	30h, 80h, 0, 2Eh, 93h, 8 dup(0)
+db 0Ch,	0, 2, 30h, 80h,	0, 6Fh,	93h, 8 dup(0)
+db 0Dh,	0, 2, 30h, 80h,	0, 73h,	93h, 8 dup(0)
+db 0Eh,	0, 2 dup(2), 80h, 0, 7Eh, 93h, 8 dup(0)
+db 0Fh,	80h, 1,	3 dup(0), 1, 2,	0, 2 dup(2)
+db 9Eh,	0CBh, 0Ah, 0A8h, 0FDh, 3 dup(0)
+db 3, 1, 2 dup(0), 1, 2, 0, 2, 1, 9Eh, 0CBh
+db 0Ah,	0A8h, 0E4h, 3 dup(0), 5, 3, 2 dup(0)
+db 2 dup(1), 2 dup(0), 1, 0B2h,	0E3h, 0Ah
+db 28h,	0E4h, 3	dup(0),	6, 2, 3	dup(0),	2
+db 3, 2	dup(2),	28h, 0D0h, 8Fh,	0B2h, 0FDh
+db 3 dup(0), 9,	3, 2 dup(0), 2,	1, 2 dup(0)
+db 1, 0B2h, 0D0h, 0Ah, 28h, 0EEh, 3 dup(0)
+db 0Bh,	6, 2 dup(0), 2 dup(1), 2, 1, 0,	0BCh
+db 0DAh, 8Ah, 0A8h, 64h, 3 dup(0), 0FFh
+db 0D8h, 10h, 3, 0Dh, 0Fh, 32h,	64h, 80h
+db 28h,	14h, 28h, 23h, 32h, 46h, 80h, 2	dup(0FFh)
+db 0, 1, 6 dup(0FFh), 4	dup(0),	2 dup(0FFh)
+db 14h,	0, 1, 0Ah dup(0), 3, 0,	3, 0, 3
+db 4 dup(0), 2,	0, 1, 0, 0FFh, 40h dup(0)
+db 7, 12h, 2 dup(0), 0AAh, 0, 0AAh, 0, 4Bh
+db 0, 0Fh, 0Bh dup(0), 1, 58h, 3Ch, 1Eh
+db 0Ah dup(0), 31h, 3 dup(0), 4Ch, 0, 1
+db 3 dup(0), 86h, 0, 2 dup(0FFh), 1, 0,	1
+db 0, 2, 0, 3, 0, 4, 0,	5, 0, 6, 0, 7, 0
+db 8, 0, 9, 0, 0Ah, 0, 8, 1, 0Ch, 0, 0Dh
+db 0, 0Eh, 0, 0Fh, 3 dup(0), 0B6h, 0, 0Ch
+db 0, 3, 0, 0Ah, 1, 41h, 0, 4, 0, 0EEh,	0
+db 41h,	0, 5, 0, 0C1h, 0, 41h, 0, 2 dup(0FFh)
+db 4Ch,	2, 0, 0FDh, 0, 3Ah, 7, 0, 1, 8Ch
+db 0CFh, 3 dup(0), 0Bh,	62h, 0Ah, 0, 7,	0
+db 4Bh,	3 dup(0), 0Ah, 15h, 0Bh, 3 dup(0)
+db 5Dh,	4, 8Bh,	2, 88h,	26h, 0,	87h, 0Ch
+db 0, 63h, 2 dup(0), 0Ah, 0, 61h, 9, 5,	4
+db 0, 64h, 0, 83h, 6, 7, 5Eh, 8, 2, 2 dup(0)
+db 1, 2, 0FEh, 0FDh, 0FCh, 72h,	2 dup(0)
+db 1, 0, 1, 2, 0FEh, 0FDh, 0FCh, 73h, 2	dup(0)
+db 1, 0, 1, 2, 0FEh, 0FDh, 0FCh, 74h, 2	dup(0)
+db 1, 0, 1, 2, 0FEh, 0FDh, 0FCh, 75h, 2	dup(0)
+db 1, 0, 1, 2, 0FEh, 0FDh, 0FCh, 76h, 2	dup(0)
+db 1, 0, 1, 2, 0FEh, 0FDh, 0FCh, 77h, 3
+db 0, 1, 0, 72h, 2 dup(0), 2, 0, 1, 3, 0FEh
+db 0FDh, 0FCh, 78h, 2 dup(0), 3, 0, 7Bh
+db 2, 0, 1, 0, 1, 2, 0FEh, 0FDh, 0FCh, 7Ah
+db 3, 0, 1, 0, 72h, 2 dup(0), 2, 0, 1, 3
+db 0FEh, 0FDh, 0FCh, 79h, 4, 0,	3, 0, 7Bh
+db 2, 0, 1, 0, 7Dh, 2 dup(0), 2, 0, 1, 3
+db 0FEh, 0FDh, 0FCh, 7Ch, 4, 0,	3, 0, 7Bh
+db 2, 0, 1, 0, 7Dh, 2 dup(0), 2, 0, 1, 3
+db 0FEh, 0FDh, 0FCh, 74h, 4, 0,	3, 0, 7Bh
+db 2, 0, 1, 0, 7Dh, 2 dup(0), 2, 0, 1, 2
+db 0FEh, 0FDh, 0FCh, 75h, 4, 3,	1, 0, 72h
+db 3 dup(0), 2,	7Dh, 2 dup(0), 2, 0, 1,	2
+db 0FEh, 0FDh, 0FCh, 76h, 3, 0,	1, 0, 73h
+db 4, 0, 2, 0, 7Dh, 2 dup(0), 3, 0, 1, 2
+db 0FEh, 0FDh, 0FCh, 77h, 3, 4,	1, 0, 72h
+db 2 dup(0), 2,	0, 7Dh,	3 dup(0), 2, 1,	3
+db 0FEh, 0FDh, 0FCh, 78h, 4, 0,	3, 0, 7Bh
+db 2, 0, 1, 0, 7Dh, 2 dup(0), 2, 0, 1, 2
+db 0FEh, 0FDh, 0FCh, 7Ah, 3, 4,	1, 0, 72h
+db 2 dup(0), 2,	0, 7Dh,	3 dup(0), 2, 1,	3
+db 0FEh, 0FDh, 0FCh, 7Ch, 5, 0,	3, 0, 7Bh
+db 2, 0, 1, 0, 7Dh, 0, 5, 2 dup(0), 0DEh
+db 2 dup(0), 2,	4, 1, 0FFh, 0FEh, 0FDh,	0FCh
+db 1, 2, 0FEh, 0FDh, 0FCh, 0A7h, 0, 3, 1
+db 0, 0A6h, 3 dup(0), 3	dup(2),	0FEh, 0FDh
+db 0FCh, 0A7h, 2 dup(0), 1, 3, 0A6h, 0,	2
+db 2 dup(0), 3,	2, 0FEh, 0FDh, 0FCh, 0A7h
+db 0, 3, 1, 0, 0A6h, 3 dup(0), 2, 4, 2,	0FEh
+db 0FDh, 0FCh, 0A7h, 2 dup(0), 1, 3, 0A6h
+db 0, 2, 2 dup(0), 5, 2, 0FEh, 0FDh, 0FCh
+db 0A8h, 2 dup(0), 1, 0, 61h, 12h, 6Bh,	12h
 db 75h,	12h, 7Fh, 12h, 89h, 12h, 93h, 12h
 db 0A2h, 12h, 0B1h, 12h, 0C0h, 12h, 0D4h
 db 12h,	0E8h, 12h, 0FCh, 12h, 10h, 13h,	24h
-db 13h,	38h, 13h, 4Ch, 13h, 25h, 12h, 79h
-db 13h,	79h, 13h, 79h, 13h, 79h, 13h, 79h
-db 13h,	79h, 13h, 79h, 13h, 7Eh, 13h, 8Dh
-db 13h,	9Ch, 13h, 0ABh,	13h, 7Eh, 13h, 8Dh
-db 13h,	9Ch, 13h, 0ABh,	13h, 0BAh, 13h,	1Dh
-db 41h,	55h, 31h, 1Dh, 21h, 39h, 11h, 39h
-db 41h,	1Dh, 31h, 1, 31h, 1Dh, 1, 1Dh, 11h
-db 39h,	31h, 1,	41h, 0A0h, 3 dup(seg seg000)
-db 40h,	1, 74h,	seg seg000, 0A4h, seg seg000
-db 4, seg seg000, 3Ch, 1, 70h, seg seg000
-db 0FFh, 0Ah, 9, 8, 4, 6, 2 dup(5), 9, 2
-db seg seg000, 0FFh, 1,	2 dup(seg seg000)
-db 1, 0FFh, 3 dup(seg seg000), 0F4h, 0FFh
-db 2, 10h, 4 dup(seg seg000), 0Ch, seg seg000
-db 0FEh, 0EFh, 2 dup(seg seg000), 0E0h,	2Eh
-db 4 dup(seg seg000), 40h, 1, 98h, seg seg000
-db 8, 3	dup(seg	seg000), 38h, 1, 94h, 3	dup(seg	seg000)
-db 4, seg seg000, 4, seg seg000, 3Ch, 1
-db 94h,	seg seg000, 0CCh, seg seg000, 4
-db seg seg000, 3Ch, 1, 3Ch, seg	seg000,	0C8h
-db 3 dup(seg seg000), 40h, 1, 40h, seg seg000
-db 0Ch,	0E4h, 51h, seg seg000, 2Dh, seg	seg000
-db 0F1h, seg seg000, 86h, seg seg000, 4Dh
-db seg seg000, 21h, seg	seg000,	0F5h, seg seg000
-db 29h,	seg seg000, 4Dh, seg seg000, 21h
-db seg seg000, 0F5h, seg seg000, 8Ah, 5	dup(seg	seg000)
-db 13h,	seg seg000, 1, seg seg000, 0Ah,	seg seg000
-db 2Bh,	seg seg000, 2, seg seg000, 4Fh,	seg seg000
-db 2Dh,	seg seg000, 2 dup(0FFh), 12h, seg seg000
-db 9Ch,	seg seg000, 64h, seg seg000, 13h
-db seg seg000, 54h, seg	seg000,	5Ch, seg seg000
-db 13h,	40h, 0DDh, seg seg000, 5Ch, seg	seg000
-db 2 dup(0FFh),	2, 5 dup(seg seg000), 3
-db 3 dup(seg seg000), 5Fh, seg seg000, 4
-db 3 dup(seg seg000), 7Bh, seg seg000, 2 dup(0FFh)
-db 6 dup(seg seg000), 2	dup(0FFh), 1, 5	dup(seg	seg000)
-db 2 dup(0FFh),	2, 5 dup(seg seg000), 3
-db 3 dup(seg seg000), 19h, seg seg000, 4
-db 3 dup(seg seg000), 32h, seg seg000, 5
-db 3 dup(seg seg000), 4Ah, seg seg000, 6
-db seg seg000, 86h, seg	seg000,	5Ch, 5 dup(seg seg000)
-db 66h,	seg seg000, 2 dup(0FFh), 6 dup(seg seg000)
-db 1, seg seg000, 34h, seg seg000, 19h,	seg seg000
-db 2, seg seg000, 6Ch, seg seg000, 33h,	seg seg000
-db 2 dup(0FFh),	4, 40h,	4 dup(seg seg000)
-db 4, seg seg000, 0ECh,	3 dup(seg seg000)
-db 3, seg seg000, 53h, 3 dup(seg seg000)
-db 2 dup(0FFh),	4, 40h,	4 dup(seg seg000)
-db 4, seg seg000, 0ECh,	3 dup(seg seg000)
-db 2 dup(0FFh),	5, seg seg000, 0C6h, 0FFh
-db 0Ch,	seg seg000, 6, seg seg000, 0C6h
-db 0FFh, 0Ch, seg seg000, 5, seg seg000
-db 0FBh, 0FFh, 11h, seg	seg000,	6, seg seg000
-db 0FBh, 0FFh, 11h, seg	seg000,	7, seg seg000
-db 0CCh, seg seg000, 0Eh, seg seg000, 8
-db seg seg000, 0CCh, seg seg000, 0Eh, seg seg000
-db 2 dup(0FFh),	4 dup(seg seg000), 40h,	1
-db 51h,	3 dup(seg seg000), 51h,	seg seg000
-db 40h,	1, 86h,	seg seg000, 7Dh, seg seg000
-db 65h,	seg seg000, 64h, seg seg000, 65h
-db seg seg000, 0EFh, seg seg000, 7Ah, seg seg000
-db 0Fh,	1, 7Dh,	seg seg000, 4, 0FAh, 6,	0FCh
-db 0FAh, 2 dup(0FCh), 0FAh, 7Eh, seg seg000
-db 4Ch,	seg seg000, 40h, 1, 98h, seg seg000
-db 2Eh,	seg seg000, 81h, seg seg000, 4Dh
-db seg seg000, 2Fh, seg	seg000,	81h, seg seg000
-db 4Dh,	seg seg000, 2Eh, seg seg000, 80h
-db seg seg000, 4Dh, seg	seg000,	2Fh, seg seg000
-db 80h,	seg seg000, 4Dh, seg seg000, 2Eh
-db seg seg000, 7Fh, seg	seg000,	4Dh, seg seg000
-db 2Fh,	seg seg000, 7Fh, seg seg000, 4Dh
-db seg seg000, 2Eh, seg	seg000,	7Eh, seg seg000
-db 4Dh,	seg seg000, 2Fh, seg seg000, 7Eh
-db seg seg000, 4Dh, seg	seg000,	2Eh, seg seg000
-db 7Eh,	seg seg000, 4Dh, seg seg000, 2Fh
-db seg seg000, 7Fh, seg	seg000,	4Dh, seg seg000
-db 2Eh,	seg seg000, 7Fh, seg seg000, 4Dh
-db seg seg000, 2Fh, seg	seg000,	80h, seg seg000
-db 4Dh,	seg seg000, 2Eh, seg seg000, 80h
-db seg seg000, 4Dh, seg	seg000,	30h, seg seg000
-db 80h,	seg seg000, 4Dh, seg seg000, 30h
-db seg seg000, 81h, seg	seg000,	4Dh, seg seg000
-db 31h,	seg seg000, 81h, seg seg000, 4Dh
-db seg seg000, 30h, seg	seg000,	82h, seg seg000
-db 4Eh,	seg seg000, 30h, seg seg000, 83h
-db seg seg000, 4Eh, seg	seg000,	32h, seg seg000
-db 84h,	seg seg000, 4Dh, seg seg000, 32h
-db seg seg000, 85h, seg	seg000,	4Dh, seg seg000
-db 33h,	seg seg000, 87h, seg seg000, 4Dh
-db seg seg000, 34h, seg	seg000,	8Ah, seg seg000
-db 4Eh,	seg seg000, 35h, seg seg000, 8Ch
-db seg seg000, 4Eh, seg	seg000,	36h, seg seg000
-db 8Fh,	seg seg000, 4Eh, seg seg000, 37h
-db seg seg000, 96h, seg	seg000,	50h, seg seg000
-db 38h,	seg seg000, 9Ah, seg seg000, 51h
-db seg seg000, 39h, seg	seg000,	0ACh, seg seg000
-db 54h,	seg seg000, 3Ah, seg seg000, 0C5h
-db seg seg000, 5Bh, seg	seg000,	3Bh, seg seg000
-db 0FCh, seg seg000, 6Ah, seg seg000, 3Ch
-db seg seg000, 33h, 1, 7Dh, seg	seg000,	2 dup(0FFh)
-db 8 dup(seg seg000), 0F8h, 10h, seg seg000
-db 0Dh,	16h, 0Dh, 0EAh,	0Dh, 16h, seg seg000
-db 0EAh, seg seg000, 16h, 0F2h,	0EAh, 0F2h
-db seg seg000, 0F2h, 0FAh, 0F8h, seg seg000
-db 0F8h, 0F4h, 0F8h, 6,	0F8h, 0EEh, 0F8h
-db 0F7h, 0F6h, 3, 0F6h,	0F1h, 0F6h, 2 dup(2)
-db 2 dup(seg seg000), 2	dup(2),	1, seg seg000
-db 2, 1, 0Ah dup(seg seg000), 1Ah, 3 dup(seg seg000)
-db 1, 3	dup(seg	seg000), 2, 3 dup(seg seg000)
-db 4Fh,	3 dup(seg seg000), 0A2h, 16h, 0A6h
-db 16h,	0A2h, 16h, 0A2h, 16h, 0AAh, 16h
-db 0AAh, 16h, 0AAh, 16h, 0AAh, 16h, 0AEh
-db 16h,	0AEh, 16h, 0AEh, 16h, 0AEh, 16h
-db 0B2h, 16h, 0B2h, 16h, 0B2h, 16h, 0B2h
-db 16h,	13h, 2 dup(seg seg000),	14h, 2 dup(seg seg000)
-db 15h,	2 dup(seg seg000), 16h,	3 dup(seg seg000)
-db 17h,	2 dup(seg seg000), 18h,	2 dup(seg seg000)
-db 19h,	2 dup(seg seg000), 1Ah,	7 dup(seg seg000)
-db 2Bh,	2 dup(seg seg000), 2Ch,	2 dup(seg seg000)
-db 2Dh,	2 dup(seg seg000), 2Eh,	2 dup(seg seg000)
-db 2Fh,	2 dup(seg seg000), 30h,	2 dup(seg seg000)
-db 31h,	2 dup(seg seg000), 32h,	2 dup(seg seg000)
-db 33h,	2 dup(seg seg000), 34h,	2 dup(seg seg000)
-db 35h,	2 dup(seg seg000), 36h,	3 dup(seg seg000)
-db 31h,	2 dup(seg seg000), 31h,	2 dup(seg seg000)
-db 30h,	2 dup(seg seg000), 31h,	2 dup(seg seg000)
-db 31h,	2 dup(seg seg000), 31h,	2 dup(seg seg000)
-db 30h,	2 dup(seg seg000), 30h,	3 dup(seg seg000)
-db 1Bh,	2 dup(seg seg000), 1Bh,	seg seg000
-db 0FFh, 1Bh, seg seg000, 1, seg seg000
-db 27h,	2 dup(seg seg000), 27h,	2 dup(0FFh)
-db 27h,	2 dup(1), seg seg000, 1Fh, 2 dup(seg seg000)
-db 1Fh,	2 dup(0FFh), 1Fh, 2 dup(1), seg	seg000
-db 23h,	2 dup(seg seg000), 23h,	seg seg000
-db 0FFh, 23h, seg seg000, 1, seg seg000
-db 47h,	2 dup(seg seg000), 48h,	2 dup(seg seg000)
-db 49h,	2 dup(seg seg000), 4Ah,	3 dup(seg seg000)
-db 4Bh,	2 dup(seg seg000), 4Ch,	2 dup(seg seg000)
-db 4Dh,	2 dup(seg seg000), 4Eh,	3 dup(seg seg000)
-db 50h,	2 dup(seg seg000), 50h,	seg seg000
-db 0FFh, 50h, seg seg000, 1, seg seg000
-db 5Ch,	2 dup(seg seg000), 5Ch,	2 dup(0FFh)
-db 5Ch,	2 dup(1), seg seg000, 54h, 2 dup(seg seg000)
-db 54h,	2 dup(0FFh), 54h, 2 dup(1), seg	seg000
-db 58h,	2 dup(seg seg000), 58h,	seg seg000
-db 0FFh, 58h, seg seg000, 1, seg seg000
-db 0D6h, 16h, 0E3h, 16h, 0F0h, 16h, 0D6h
-db 16h,	0F4h, 16h, 19h,	17h, 32h, 17h, 19h
-db 17h,	5Ah, 17h, 67h, 17h, 67h, 17h, 67h
-db 17h,	0B2h, 16h, 74h,	17h, 0B2h, 16h,	0B2h
-db 16h,	64h, 2 dup(seg seg000),	65h, 2 dup(seg seg000)
-db 66h,	2 dup(seg seg000), 67h,	3 dup(seg seg000)
-db 69h,	2 dup(seg seg000), 68h,	2 dup(seg seg000)
-db 69h,	2 dup(seg seg000), 6Ah,	2 dup(seg seg000)
-db 69h,	2 dup(seg seg000), 68h,	2 dup(seg seg000)
-db 69h,	2 dup(seg seg000), 6Ah,	2 dup(seg seg000)
-db 69h,	seg seg000, 1, 68h, seg	seg000,	1
-db 69h,	2 dup(seg seg000), 6Ah,	2 dup(seg seg000)
-db 69h,	2 dup(seg seg000), 68h,	2 dup(0FFh)
-db 69h,	2 dup(seg seg000), 6Ah,	2 dup(seg seg000)
-db 69h,	2 dup(seg seg000), 68h,	1, seg seg000
-db 69h,	2 dup(seg seg000), 6Ah,	seg seg000
-db 0FFh, seg seg000, 6Ch, 2 dup(seg seg000)
-db 6Dh,	2 dup(seg seg000), 6Eh,	2 dup(seg seg000)
-db 6Fh,	3 dup(seg seg000), 63h,	3 dup(seg seg000)
-db 68h,	3 dup(seg seg000), 6Bh,	3 dup(seg seg000)
-db 60h,	3 dup(seg seg000), 3, 2	dup(seg	seg000)
-db 4, 2	dup(seg	seg000), 5, 2 dup(seg seg000)
-db 6, 3	dup(seg	seg000), 1Bh, 2	dup(seg	seg000)
-db 1Ch,	2 dup(seg seg000), 1Dh,	2 dup(seg seg000)
-db 1Eh,	3 dup(seg seg000), 37h,	2 dup(seg seg000)
-db 38h,	2 dup(seg seg000), 39h,	2 dup(seg seg000)
-db 3Ah,	3 dup(seg seg000), 7, 2	dup(seg	seg000)
-db 8, 2	dup(seg	seg000), 9, 2 dup(seg seg000)
-db 0Ah,	3 dup(seg seg000), 1Fh,	2 dup(seg seg000)
-db 20h,	2 dup(seg seg000), 21h,	2 dup(seg seg000)
-db 22h,	3 dup(seg seg000), 3Bh,	2 dup(seg seg000)
-db 3Ch,	2 dup(seg seg000), 3Dh,	2 dup(seg seg000)
-db 3Eh,	3 dup(seg seg000), 0Bh,	2 dup(seg seg000)
-db 0Ch,	2 dup(seg seg000), 0Dh,	2 dup(seg seg000)
-db 0Eh,	3 dup(seg seg000), 23h,	2 dup(seg seg000)
-db 24h,	2 dup(seg seg000), 25h,	2 dup(seg seg000)
-db 26h,	3 dup(seg seg000), 3Fh,	2 dup(seg seg000)
-db 40h,	2 dup(seg seg000), 41h,	2 dup(seg seg000)
-db 42h,	3 dup(seg seg000), 0Fh,	2 dup(seg seg000)
-db 10h,	2 dup(seg seg000), 11h,	2 dup(seg seg000)
-db 12h,	3 dup(seg seg000), 27h,	2 dup(seg seg000)
-db 28h,	2 dup(seg seg000), 29h,	2 dup(seg seg000)
-db 2Ah,	3 dup(seg seg000), 43h,	2 dup(seg seg000)
-db 44h,	2 dup(seg seg000), 45h,	2 dup(seg seg000)
-db 46h,	3 dup(seg seg000), 23h,	18h, 4Ah
-db 18h,	71h, 18h, 98h, 18h, 30h, 18h, 57h
-db 18h,	7Eh, 18h, 0A5h,	18h, 3Dh, 18h, 64h
-db 18h,	8Bh, 18h, 0B2h,	18h, 30h, 18h, 57h
-db 18h,	7Eh, 18h, 0A5h,	18h, 8 dup(seg seg000)
-db 0FBh, 0F0h, 5, seg seg000, 5, seg seg000
-db 0E8h, seg seg000, 48h, seg seg000, 0F5h
-db 0FBh, 8 dup(seg seg000), 0F5h, 0E4h,	85h
-db 2 dup(seg seg000), 86h, 2 dup(seg seg000)
-db 87h,	2 dup(seg seg000), 88h,	2 dup(seg seg000)
-db 89h,	2 dup(seg seg000), 8Ah,	2 dup(seg seg000)
-db 8Bh,	2 dup(seg seg000), 8Ch,	3 dup(seg seg000)
-db 85h,	2 dup(seg seg000), 85h,	2 dup(seg seg000)
-db 86h,	2 dup(seg seg000), 86h,	2 dup(seg seg000)
-db 87h,	2 dup(seg seg000), 87h,	2 dup(seg seg000)
-db 88h,	2 dup(seg seg000), 88h,	3 dup(seg seg000)
+db 13h,	38h, 13h, 4Ch, 13h, 60h, 13h, 6Bh
+db 12h,	75h, 12h, 7Fh, 12h, 89h, 12h, 93h
+db 12h,	0A2h, 12h, 0B1h, 12h, 0C0h, 12h
+db 0D4h, 12h, 0E8h, 12h, 0FCh, 12h, 10h
+db 13h,	24h, 13h, 38h, 13h, 4Ch, 13h, 25h
+db 12h,	79h, 13h, 79h, 13h, 79h, 13h, 79h
+db 13h,	79h, 13h, 79h, 13h, 79h, 13h, 7Eh
+db 13h,	8Dh, 13h, 9Ch, 13h, 0ABh, 13h, 7Eh
+db 13h,	8Dh, 13h, 9Ch, 13h, 0ABh, 13h, 0BAh
+db 13h,	1Dh, 41h, 55h, 31h, 1Dh, 21h, 39h
+db 11h,	39h, 41h, 1Dh, 31h, 1, 31h, 1Dh
+db 1, 1Dh, 11h,	39h, 31h, 1, 41h, 0A0h,	3 dup(0)
+db 40h,	1, 74h,	0, 0A4h, 0, 4, 0, 3Ch, 1
+db 70h,	0, 0FFh, 0Ah, 9, 8, 4, 6, 2 dup(5)
+db 9, 2, 0, 0FFh, 1, 2 dup(0), 1, 0FFh,	3 dup(0)
+db 0F4h, 0FFh, 2, 10h, 4 dup(0), 0Ch, 0
+db 0FEh, 0EFh, 2 dup(0), 0E0h, 2Eh, 4 dup(0)
+db 40h,	1, 98h,	0, 8, 3	dup(0),	38h, 1,	94h
+db 3 dup(0), 4,	0, 4, 0, 3Ch, 1, 94h, 0
+db 0CCh, 0, 4, 0, 3Ch, 1, 3Ch, 0, 0C8h,	3 dup(0)
+db 40h,	1, 40h,	0, 0Ch,	0E4h, 51h, 0, 2Dh
+db 0, 0F1h, 0, 86h, 0, 4Dh, 0, 21h, 0, 0F5h
+db 0, 29h, 0, 4Dh, 0, 21h, 0, 0F5h, 0, 8Ah
+db 5 dup(0), 13h, 0, 1,	0, 0Ah,	0, 2Bh,	0
+db 2, 0, 4Fh, 0, 2Dh, 0, 2 dup(0FFh), 12h
+db 0, 9Ch, 0, 64h, 0, 13h, 0, 54h, 0, 5Ch
+db 0, 13h, 40h,	0DDh, 0, 5Ch, 0, 2 dup(0FFh)
+db 2, 5	dup(0),	3, 3 dup(0), 5Fh, 0, 4,	3 dup(0)
+db 7Bh,	0, 2 dup(0FFh),	6 dup(0), 2 dup(0FFh)
+db 1, 5	dup(0),	2 dup(0FFh), 2,	5 dup(0)
+db 3, 3	dup(0),	19h, 0,	4, 3 dup(0), 32h
+db 0, 5, 3 dup(0), 4Ah,	0, 6, 0, 86h, 0
+db 5Ch,	5 dup(0), 66h, 0, 2 dup(0FFh), 6 dup(0)
+db 1, 0, 34h, 0, 19h, 0, 2, 0, 6Ch, 0, 33h
+db 0, 2	dup(0FFh), 4, 40h, 4 dup(0), 4,	0
+db 0ECh, 3 dup(0), 3, 0, 53h, 3	dup(0),	2 dup(0FFh)
+db 4, 40h, 4 dup(0), 4,	0, 0ECh, 3 dup(0)
+db 2 dup(0FFh),	5, 0, 0C6h, 0FFh, 0Ch, 0
+db 6, 0, 0C6h, 0FFh, 0Ch, 0, 5,	0, 0FBh
+db 0FFh, 11h, 0, 6, 0, 0FBh, 0FFh, 11h,	0
+db 7, 0, 0CCh, 0, 0Eh, 0, 8, 0,	0CCh, 0
+db 0Eh,	0, 2 dup(0FFh),	4 dup(0), 40h, 1
+db 51h,	3 dup(0), 51h, 0, 40h, 1, 86h, 0
+db 7Dh,	0, 65h,	0, 64h,	0, 65h,	0, 0EFh
+db 0, 7Ah, 0, 0Fh, 1, 7Dh, 0, 4, 0FAh, 6
+db 0FCh, 0FAh, 2 dup(0FCh), 0FAh, 7Eh, 0
+db 4Ch,	0, 40h,	1, 98h,	0, 2Eh,	0, 81h,	0
+db 4Dh,	0, 2Fh,	0, 81h,	0, 4Dh,	0, 2Eh,	0
+db 80h,	0, 4Dh,	0, 2Fh,	0, 80h,	0, 4Dh,	0
+db 2Eh,	0, 7Fh,	0, 4Dh,	0, 2Fh,	0, 7Fh,	0
+db 4Dh,	0, 2Eh,	0, 7Eh,	0, 4Dh,	0, 2Fh,	0
+db 7Eh,	0, 4Dh,	0, 2Eh,	0, 7Eh,	0, 4Dh,	0
+db 2Fh,	0, 7Fh,	0, 4Dh,	0, 2Eh,	0, 7Fh,	0
+db 4Dh,	0, 2Fh,	0, 80h,	0, 4Dh,	0, 2Eh,	0
+db 80h,	0, 4Dh,	0, 30h,	0, 80h,	0, 4Dh,	0
+db 30h,	0, 81h,	0, 4Dh,	0, 31h,	0, 81h,	0
+db 4Dh,	0, 30h,	0, 82h,	0, 4Eh,	0, 30h,	0
+db 83h,	0, 4Eh,	0, 32h,	0, 84h,	0, 4Dh,	0
+db 32h,	0, 85h,	0, 4Dh,	0, 33h,	0, 87h,	0
+db 4Dh,	0, 34h,	0, 8Ah,	0, 4Eh,	0, 35h,	0
+db 8Ch,	0, 4Eh,	0, 36h,	0, 8Fh,	0, 4Eh,	0
+db 37h,	0, 96h,	0, 50h,	0, 38h,	0, 9Ah,	0
+db 51h,	0, 39h,	0, 0ACh, 0, 54h, 0, 3Ah
+db 0, 0C5h, 0, 5Bh, 0, 3Bh, 0, 0FCh, 0,	6Ah
+db 0, 3Ch, 0, 33h, 1, 7Dh, 0, 2	dup(0FFh)
+db 8 dup(0), 0F8h, 10h,	0, 0Dh,	16h, 0Dh
+db 0EAh, 0Dh, 16h, 0, 0EAh, 0, 16h, 0F2h
+db 0EAh, 0F2h, 0, 0F2h,	0FAh, 0F8h, 0, 0F8h
+db 0F4h, 0F8h, 6, 0F8h,	0EEh, 0F8h, 0F7h
+db 0F6h, 3, 0F6h, 0F1h,	0F6h, 2	dup(2),	2 dup(0)
+db 2 dup(2), 1,	0, 2, 1, 0Ah dup(0), 1Ah
+db 3 dup(0), 1,	3 dup(0), 2, 3 dup(0), 4Fh
+db 3 dup(0), 0A2h, 16h,	0A6h, 16h, 0A2h
+db 16h,	0A2h, 16h, 0AAh, 16h, 0AAh, 16h
+db 0AAh, 16h, 0AAh, 16h, 0AEh, 16h, 0AEh
+db 16h,	0AEh, 16h, 0AEh, 16h, 0B2h, 16h
+db 0B2h, 16h, 0B2h, 16h, 0B2h, 16h, 13h
+db 2 dup(0), 14h, 2 dup(0), 15h, 2 dup(0)
+db 16h,	3 dup(0), 17h, 2 dup(0), 18h, 2	dup(0)
+db 19h,	2 dup(0), 1Ah, 7 dup(0), 2Bh, 2	dup(0)
+db 2Ch,	2 dup(0), 2Dh, 2 dup(0), 2Eh, 2	dup(0)
+db 2Fh,	2 dup(0), 30h, 2 dup(0), 31h, 2	dup(0)
+db 32h,	2 dup(0), 33h, 2 dup(0), 34h, 2	dup(0)
+db 35h,	2 dup(0), 36h, 3 dup(0), 31h, 2	dup(0)
+db 31h,	2 dup(0), 30h, 2 dup(0), 31h, 2	dup(0)
+db 31h,	2 dup(0), 31h, 2 dup(0), 30h, 2	dup(0)
+db 30h,	3 dup(0), 1Bh, 2 dup(0), 1Bh, 0
+db 0FFh, 1Bh, 0, 1, 0, 27h, 2 dup(0), 27h
+db 2 dup(0FFh),	27h, 2 dup(1), 0, 1Fh, 2 dup(0)
+db 1Fh,	2 dup(0FFh), 1Fh, 2 dup(1), 0, 23h
+db 2 dup(0), 23h, 0, 0FFh, 23h,	0, 1, 0
+db 47h,	2 dup(0), 48h, 2 dup(0), 49h, 2	dup(0)
+db 4Ah,	3 dup(0), 4Bh, 2 dup(0), 4Ch, 2	dup(0)
+db 4Dh,	2 dup(0), 4Eh, 3 dup(0), 50h, 2	dup(0)
+db 50h,	0, 0FFh, 50h, 0, 1, 0, 5Ch, 2 dup(0)
+db 5Ch,	2 dup(0FFh), 5Ch, 2 dup(1), 0, 54h
+db 2 dup(0), 54h, 2 dup(0FFh), 54h, 2 dup(1)
+db 0, 58h, 2 dup(0), 58h, 0, 0FFh, 58h,	0
+db 1, 0, 0D6h, 16h, 0E3h, 16h, 0F0h, 16h
+db 0D6h, 16h, 0F4h, 16h, 19h, 17h, 32h,	17h
+db 19h,	17h, 5Ah, 17h, 67h, 17h, 67h, 17h
+db 67h,	17h, 0B2h, 16h,	74h, 17h, 0B2h,	16h
+db 0B2h, 16h, 64h, 2 dup(0), 65h, 2 dup(0)
+db 66h,	2 dup(0), 67h, 3 dup(0), 69h, 2	dup(0)
+db 68h,	2 dup(0), 69h, 2 dup(0), 6Ah, 2	dup(0)
+db 69h,	2 dup(0), 68h, 2 dup(0), 69h, 2	dup(0)
+db 6Ah,	2 dup(0), 69h, 0, 1, 68h, 0, 1,	69h
+db 2 dup(0), 6Ah, 2 dup(0), 69h, 2 dup(0)
+db 68h,	2 dup(0FFh), 69h, 2 dup(0), 6Ah
+db 2 dup(0), 69h, 2 dup(0), 68h, 1, 0, 69h
+db 2 dup(0), 6Ah, 0, 0FFh, 0, 6Ch, 2 dup(0)
+db 6Dh,	2 dup(0), 6Eh, 2 dup(0), 6Fh, 3	dup(0)
+db 63h,	3 dup(0), 68h, 3 dup(0), 6Bh, 3	dup(0)
+db 60h,	3 dup(0), 3, 2 dup(0), 4, 2 dup(0)
+db 5, 2	dup(0),	6, 3 dup(0), 1Bh, 2 dup(0)
+db 1Ch,	2 dup(0), 1Dh, 2 dup(0), 1Eh, 3	dup(0)
+db 37h,	2 dup(0), 38h, 2 dup(0), 39h, 2	dup(0)
+db 3Ah,	3 dup(0), 7, 2 dup(0), 8, 2 dup(0)
+db 9, 2	dup(0),	0Ah, 3 dup(0), 1Fh, 2 dup(0)
+db 20h,	2 dup(0), 21h, 2 dup(0), 22h, 3	dup(0)
+db 3Bh,	2 dup(0), 3Ch, 2 dup(0), 3Dh, 2	dup(0)
+db 3Eh,	3 dup(0), 0Bh, 2 dup(0), 0Ch, 2	dup(0)
+db 0Dh,	2 dup(0), 0Eh, 3 dup(0), 23h, 2	dup(0)
+db 24h,	2 dup(0), 25h, 2 dup(0), 26h, 3	dup(0)
+db 3Fh,	2 dup(0), 40h, 2 dup(0), 41h, 2	dup(0)
+db 42h,	3 dup(0), 0Fh, 2 dup(0), 10h, 2	dup(0)
+db 11h,	2 dup(0), 12h, 3 dup(0), 27h, 2	dup(0)
+db 28h,	2 dup(0), 29h, 2 dup(0), 2Ah, 3	dup(0)
+db 43h,	2 dup(0), 44h, 2 dup(0), 45h, 2	dup(0)
+db 46h,	3 dup(0), 23h, 18h, 4Ah, 18h, 71h
+db 18h,	98h, 18h, 30h, 18h, 57h, 18h, 7Eh
+db 18h,	0A5h, 18h, 3Dh,	18h, 64h, 18h, 8Bh
+db 18h,	0B2h, 18h, 30h,	18h, 57h, 18h, 7Eh
+db 18h,	0A5h, 18h, 8 dup(0), 0FBh, 0F0h
+db 5, 0, 5, 0, 0E8h, 0,	48h, 0,	0F5h, 0FBh
+db 8 dup(0), 0F5h, 0E4h, 85h, 2	dup(0),	86h
+db 2 dup(0), 87h, 2 dup(0), 88h, 2 dup(0)
+db 89h,	2 dup(0), 8Ah, 2 dup(0), 8Bh, 2	dup(0)
+db 8Ch,	3 dup(0), 85h, 2 dup(0), 85h, 2	dup(0)
+db 86h,	2 dup(0), 86h, 2 dup(0), 87h, 2	dup(0)
+db 87h,	2 dup(0), 88h, 2 dup(0), 88h, 3	dup(0)
 db 63h,	68h, 71h, 72h, 73h, 74h, 77h, 28h
-db seg seg000, 1Eh, seg	seg000,	0Bh, 1,	47h
-db seg seg000, 0F5h, 0FBh, 28h,	seg seg000
-db 1Eh,	seg seg000, 0Bh, 1, 47h, seg seg000
-db 19h,	1Eh, 0Ah, seg seg000, 0Ah, seg seg000
-db 0BEh, seg seg000, 40h, seg seg000, 0F5h
-db 0FBh, 2 dup(seg seg000), 50h, seg seg000
-db 3Ch,	seg seg000, 0F0h, seg seg000, 4Ah
-db seg seg000, 0F5h, 0FBh, 2 dup(seg seg000)
-db 19h,	3 dup(seg seg000), 18h,	6 dup(seg seg000)
-db 11h,	10h, 12h, 2 dup(13h), 3Ch, 72h,	7Fh
-db 76h,	84h, 5,	4, 5, 2	dup(4),	64h, 19h
-db 0FCh, 0FFh, 64h, 19h, 0FCh, 0FFh, 9Fh
-db 8, 37h, seg seg000, 0Dh, seg	seg000,	5Bh
-db seg seg000, 38h, 33h, 0A0h, 8, 37h, seg seg000
-db 0Dh,	seg seg000, 5Bh, seg seg000, 38h
-db 33h,	0A1h, 8, 37h, seg seg000, 0Dh, seg seg000
-db 5Bh,	seg seg000, 38h, 33h, 0A2h, 8, 37h
-db seg seg000, 0Dh, seg	seg000,	5Bh, seg seg000
-db 38h,	33h, 0A3h, 8, 37h, seg seg000, 0Dh
-db seg seg000, 5Bh, seg	seg000,	38h, 33h
-db 0C6h, 8, 39h, seg seg000, 56h, seg seg000
-db 71h,	seg seg000, 28h, 2Dh, 0C7h, 8, 39h
-db seg seg000, 56h, seg	seg000,	71h, seg seg000
-db 28h,	2Dh, 0C8h, 8, 39h, seg seg000, 56h
-db seg seg000, 71h, seg	seg000,	28h, 2Dh
-db 0C9h, 8, 39h, seg seg000, 56h, seg seg000
-db 71h,	seg seg000, 28h, 2Dh, 0CAh, 8, 39h
-db seg seg000, 56h, seg	seg000,	71h, seg seg000
-db 28h,	2Dh, 0CBh, 8, 39h, seg seg000, 56h
-db seg seg000, 71h, seg	seg000,	28h, 2Dh
-db 0E8h, 8, 30h, seg seg000, 71h, seg seg000
-db 59h,	seg seg000, 2Ch, 46h, 0EAh, 8, 31h
-db seg seg000, 71h, seg	seg000,	56h, seg seg000
-db 2Ch,	46h, 0EBh, 8, 32h, seg seg000, 71h
-db seg seg000, 56h, seg	seg000,	2Ch, 46h
-db 0F0h, 8, 37h, seg seg000, 71h, seg seg000
-db 59h,	seg seg000, 2Ch, 46h, 0F1h, 8, 33h
-db seg seg000, 71h, seg	seg000,	59h, seg seg000
-db 2Ch,	46h, 0F2h, 8, 34h, seg seg000, 71h
-db seg seg000, 59h, seg	seg000,	2Ch, 46h
-db 0F3h, 8, 35h, seg seg000, 71h, seg seg000
-db 59h,	seg seg000, 2Ch, 46h, 0F4h, 8, 36h
-db seg seg000, 71h, seg	seg000,	59h, seg seg000
-db 2Ch,	46h, 0F5h, 8, 33h, seg seg000, 71h
-db seg seg000, 59h, seg	seg000,	2Ch, 46h
-db 0F6h, 8, 34h, seg seg000, 71h, seg seg000
-db 59h,	seg seg000, 2Ch, 46h, 0F7h, 8, 34h
-db seg seg000, 71h, seg	seg000,	59h, seg seg000
-db 2Ch,	46h, 0F8h, 8, 35h, seg seg000, 71h
-db seg seg000, 59h, seg	seg000,	2Ch, 46h
-db 0F9h, 8, 36h, seg seg000, 71h, seg seg000
-db 59h,	seg seg000, 2Ch, 46h, 0FAh, 8, 36h
-db seg seg000, 71h, seg	seg000,	59h, seg seg000
-db 2Ch,	46h, 0FBh, 8, 35h, seg seg000, 71h
-db seg seg000, 59h, seg	seg000,	2Ch, 46h
-db 0FCh, 8, 36h, seg seg000, 71h, seg seg000
-db 59h,	seg seg000, 2Ch, 46h, 2	dup(9),	38h
-db seg seg000, 97h, seg	seg000,	77h, seg seg000
-db 37h,	seg seg000, 2 dup(0FFh), 3, 5Ch
-db 76h,	5Ch, 0E4h, 5Ch,	9Fh, 59h, 66h, 0Fh
-db 0C1h, 59h, 66h, 0Fh,	3, 5Ch,	0ECh, 81h
+db 0, 1Eh, 0, 0Bh, 1, 47h, 0, 0F5h, 0FBh
+db 28h,	0, 1Eh,	0, 0Bh,	1, 47h,	0, 19h,	1Eh
+db 0Ah,	0, 0Ah,	0, 0BEh, 0, 40h, 0, 0F5h
+db 0FBh, 2 dup(0), 50h,	0, 3Ch,	0, 0F0h
+db 0, 4Ah, 0, 0F5h, 0FBh, 2 dup(0), 19h
+db 3 dup(0), 18h, 6 dup(0), 11h, 10h, 12h
+db 2 dup(13h), 3Ch, 72h, 7Fh, 76h, 84h,	5
+db 4, 5, 2 dup(4), 64h,	19h, 0FCh, 0FFh
+db 64h,	19h, 0FCh, 0FFh, 9Fh, 8, 37h, 0
+db 0Dh,	0, 5Bh,	0, 38h,	33h, 0A0h, 8, 37h
+db 0, 0Dh, 0, 5Bh, 0, 38h, 33h,	0A1h, 8
+db 37h,	0, 0Dh,	0, 5Bh,	0, 38h,	33h, 0A2h
+db 8, 37h, 0, 0Dh, 0, 5Bh, 0, 38h, 33h,	0A3h
+db 8, 37h, 0, 0Dh, 0, 5Bh, 0, 38h, 33h,	0C6h
+db 8, 39h, 0, 56h, 0, 71h, 0, 28h, 2Dh,	0C7h
+db 8, 39h, 0, 56h, 0, 71h, 0, 28h, 2Dh,	0C8h
+db 8, 39h, 0, 56h, 0, 71h, 0, 28h, 2Dh,	0C9h
+db 8, 39h, 0, 56h, 0, 71h, 0, 28h, 2Dh,	0CAh
+db 8, 39h, 0, 56h, 0, 71h, 0, 28h, 2Dh,	0CBh
+db 8, 39h, 0, 56h, 0, 71h, 0, 28h, 2Dh,	0E8h
+db 8, 30h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0EAh
+db 8, 31h, 0, 71h, 0, 56h, 0, 2Ch, 46h,	0EBh
+db 8, 32h, 0, 71h, 0, 56h, 0, 2Ch, 46h,	0F0h
+db 8, 37h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0F1h
+db 8, 33h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0F2h
+db 8, 34h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0F3h
+db 8, 35h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0F4h
+db 8, 36h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0F5h
+db 8, 33h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0F6h
+db 8, 34h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0F7h
+db 8, 34h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0F8h
+db 8, 35h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0F9h
+db 8, 36h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0FAh
+db 8, 36h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0FBh
+db 8, 35h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	0FCh
+db 8, 36h, 0, 71h, 0, 59h, 0, 2Ch, 46h,	2 dup(9)
+db 38h,	0, 97h,	0, 77h,	0, 37h,	0, 2 dup(0FFh)
+db 3, 5Ch, 76h,	5Ch, 0E4h, 5Ch,	9Fh, 59h
+db 66h,	0Fh, 0C1h, 59h,	66h, 0Fh, 3, 5Ch
+db 0ECh, 81h, 66h, 0Fh,	66h, 0Fh, 66h, 0Fh
+db 66h,	0Fh, 66h, 0Fh, 66h, 0Fh, 0E2h, 0D2h
 db 66h,	0Fh, 66h, 0Fh, 66h, 0Fh, 66h, 0Fh
-db 66h,	0Fh, 66h, 0Fh, 0E2h, 0D2h, 66h,	0Fh
-db 66h,	0Fh, 66h, 0Fh, 66h, 0Fh, 66h, 0Fh
-db 86h,	45h, 0Eh, 45h, 66h, 0Fh, 66h, 0Fh
-db 66h,	0Fh, 86h, 45h, 86h, 45h, 66h, 0Fh
-db 76h,	0A5h, 66h, 0Fh,	0AAh, 0A5h, 66h
-db 0Fh,	0DFh, 0A5h, 66h, 0Fh, 18h, seg seg000
-db 16h,	seg seg000, 0A1h, seg seg000, 44h
-db seg seg000, 0C4h, 3 dup(seg seg000),	2 dup(0FFh)
-db 0C6h, 0B8h, 2 dup(seg seg000), 98h, 3 dup(seg seg000)
-db 98h,	5 dup(seg seg000), 66h,	0Fh, 0E4h
-db seg seg000, 98h, seg	seg000,	2Ch, 1,	0C6h
-db 3 dup(seg seg000), 3, seg seg000, 66h
-db 0Fh,	18h, seg seg000, 9Bh, seg seg000
-db 45h,	seg seg000, 0B0h, seg seg000, 80h
-db seg seg000, 2 dup(0FFh), 0D6h, 0AEh,	5Ch
-db seg seg000, 98h, seg	seg000,	0E5h, seg seg000
-db 9Fh,	3 dup(seg seg000), 0Eh,	seg seg000
-db 66h,	0Fh, 2,	seg seg000, 9Ah, seg seg000
-db 2, seg seg000, 9Ah, 3 dup(seg seg000)
-db 0Ch,	seg seg000, 66h, 0Fh, 3Dh, 1, 9Ah
-db seg seg000, 3Dh, 1, 9Ah, 3 dup(seg seg000)
-db 0Ch,	seg seg000, 66h, 0Fh, 5Ch, seg seg000
-db 9Fh,	seg seg000, 0E4h, seg seg000, 0A7h
-db seg seg000, 80h, seg	seg000,	1Bh, seg seg000
-db 43h,	0D4h, 5Ch, seg seg000, 0A7h, seg seg000
-db 0E4h, seg seg000, 0AFh, seg seg000, 80h
-db seg seg000, 1Bh, seg	seg000,	3Eh, 0D4h
-db 5Ch,	seg seg000, 0AFh, seg seg000, 0E4h
-db seg seg000, 0B7h, seg seg000, 80h, seg seg000
-db 1Bh,	seg seg000, 39h, 0D4h, 5Ch, seg	seg000
-db 0B7h, seg seg000, 0E4h, seg seg000, 0BFh
-db seg seg000, 80h, seg	seg000,	1Bh, seg seg000
-db 34h,	0D4h, 5Ch, seg seg000, 0BFh, seg seg000
-db 0E4h, seg seg000, 0C7h, seg seg000, 80h
-db seg seg000, 1Bh, seg	seg000,	2Fh, 0D4h
-db 0FFh, seg seg000, 0A2h, seg seg000, 27h
-db 1, 0C0h, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0Dh, 1, 0A2h, seg seg000, 17h
-db 1, 0ACh, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 1Ch, 1, 0ACh, seg seg000, 26h
-db 1, 0B6h, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0Dh, 1, 0B5h, seg seg000, 17h
-db 1, 0BFh, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0FFh, seg seg000, 0ACh, seg seg000
-db 9, 1, 0B6h, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0Ah dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0Ah dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0Ah dup(seg seg000), 2 dup(0FFh)
-db 5Bh,	94h, 4 dup(seg seg000),	40h, 1,	98h
-db 3 dup(seg seg000), 2	dup(0FFh), 1Dh,	94h
-db 23h,	seg seg000, 0B6h, seg seg000, 38h
-db seg seg000, 0C4h, seg seg000, 80h, seg seg000
-db 40h,	seg seg000, 15h, 92h, 3Ah, seg seg000
-db 0B6h, seg seg000, 4Fh, seg seg000, 0C4h
-db seg seg000, 80h, seg	seg000,	40h, seg seg000
-db 15h,	92h, 2 dup(seg seg000),	4, seg seg000
-db 28h,	seg seg000, 2Eh, 3 dup(seg seg000)
-db 2 dup(0FFh),	0EEh, 0B1h, 2 dup(seg seg000)
-db 2 dup(0FFh),	6 dup(seg seg000), 3, seg seg000
-db 80h,	seg seg000, 2 dup(0FFh), 40h, seg seg000
-db 0Dh,	3 dup(seg seg000), 6, 3	dup(seg	seg000)
-db 3, 3	dup(seg	seg000), 2 dup(0FFh), 2	dup(seg	seg000)
-db 2 dup(0FFh),	2 dup(seg seg000), 9, 3	dup(seg	seg000)
-db 3, 3	dup(seg	seg000), 2 dup(0FFh), 0C0h
-db seg seg000, 0Dh, 3 dup(seg seg000), 6
-db 3 dup(seg seg000), 3, 3 dup(seg seg000)
-db 3 dup(0FFh),	seg seg000, 0A2h, seg seg000
-db 27h,	1, 0C0h, 3 dup(seg seg000), 21h
-db seg seg000, 66h, 0Fh, 0Dh, 1, 0A2h, seg seg000
-db 17h,	1, 0ACh, seg seg000, 80h, seg seg000
-db 1Dh,	seg seg000, 15h, 3Fh, 1Ch, 1, 0ACh
-db seg seg000, 26h, 1, 0B6h, seg seg000
-db 80h,	seg seg000, 1Eh, seg seg000, 1Ah
-db 3Fh,	0Dh, 1,	0B5h, seg seg000, 17h, 1
-db 0BFh, seg seg000, 80h, seg seg000, 1Fh
-db seg seg000, 1Fh, 3Fh, 0FFh, seg seg000
-db 0ACh, seg seg000, 9,	1, 0B6h, seg seg000
-db 80h,	seg seg000, 20h, seg seg000, 24h
-db 3Fh,	0Dh, 1,	0ADh, seg seg000, 18h, 1
-db 0B5h, seg seg000, 80h, seg seg000, 24h
-db seg seg000, 0EEh, 18h, 0Ah, 1, 0ABh,	seg seg000
-db 1Dh,	1, 0B8h, seg seg000, 80h, seg seg000
-db 29h,	seg seg000, 5, 5Bh, 0Bh, 1, 0A2h
-db seg seg000, 1Ch, 1, 0ABh, seg seg000
-db 80h,	40h, 25h, seg seg000, 29h, 88h,	1Dh
-db 1, 0ABh, seg	seg000,	29h, 1,	0B8h, seg seg000
-db 80h,	40h, 26h, seg seg000, 24h, 88h,	0Bh
-db 1, 0B8h, seg	seg000,	1Ch, 1,	0C1h, seg seg000
-db 80h,	40h, 27h, seg seg000, 2Eh, 88h,	0FEh
-db seg seg000, 0ABh, seg seg000, 0Ah, 1
-db 0B8h, seg seg000, 80h, 40h, 28h, seg	seg000
-db 1Fh,	88h, 0Ah, 1, 0ABh, seg seg000, 1Ch
-db 1, 0B7h, 3 dup(seg seg000), 35h, seg	seg000
-db 66h,	0Fh, 6,	1, 0A8h, seg seg000, 7,	1
-db 0A9h, 2 dup(seg seg000), 2, 2 dup(0FFh)
-db 66h,	0Fh, 2,	1, 0ACh, seg seg000, 0Ah
-db 1, 0B6h, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0Eh, 1, 0AAh, seg seg000, 17h
-db 1, 0B6h, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 1Bh, 1, 0ACh, seg seg000, 23h
-db 1, 0B6h, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0Ah, 1, 0BAh, seg seg000, 23h
-db 1, 0BFh, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0Ah dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 6,	1, 0A8h, seg seg000, 7,	1
-db 0A9h, 2 dup(seg seg000), 2, 2 dup(0FFh)
-db 66h,	0Fh, 2,	1, 0ACh, seg seg000, 0Ah
-db 1, 0B6h, seg	seg000,	80h, 40h, 2Ah, seg seg000
-db 0D0h, 4Ah, 0Eh, 1, 0AAh, seg	seg000,	17h
-db 1, 0B6h, seg	seg000,	80h, seg seg000
-db 2Bh,	seg seg000, 9, 4Fh, 1Bh, 1, 0ACh
-db seg seg000, 23h, 1, 0B6h, seg seg000
-db 80h,	40h, 2Ch, seg seg000, 0D7h, 4Ah
-db 0Ah dup(seg seg000),	2 dup(0FFh), 66h
-db 0Fh,	0Ah dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0Ah, 1, 0ABh, seg seg000, 1Dh
-db 1, 0B8h, seg	seg000,	80h, seg seg000
-db 29h,	seg seg000, 81h, 0BCh, 26h, seg	seg000
-db 9Fh,	seg seg000, 36h, seg seg000, 0ACh
-db seg seg000, 80h, 40h, 31h, seg seg000
-db 2 dup(0B9h),	36h, seg seg000, 0A8h, seg seg000
-db 48h,	seg seg000, 0B9h, seg seg000, 80h
-db 40h,	32h, seg seg000, 0CCh, 0B9h, 26h
-db seg seg000, 0B7h, seg seg000, 36h, seg seg000
-db 0C7h, seg seg000, 80h, 40h, 33h, seg	seg000
-db 0C0h, 0B9h, 14h, seg	seg000,	0A8h, seg seg000
-db 25h,	seg seg000, 0B9h, seg seg000, 80h
-db 40h,	34h, seg seg000, 0D3h, 0B9h, 24h
-db seg seg000, 0ACh, seg seg000, 39h, seg seg000
-db 0B6h, seg seg000, 80h, seg seg000, 35h
-db seg seg000, 9Eh, 0BAh, 0Ah dup(seg seg000)
-db 2 dup(0FFh),	66h, 0Fh, 15h, seg seg000
-db 0A1h, seg seg000, 2Ah, seg seg000, 0BAh
-db seg seg000, 80h, seg	seg000,	2 dup(0FFh)
-db 0C7h, 0AFh, 2Bh, seg	seg000,	0A1h, seg seg000
-db 3Fh,	seg seg000, 0BAh, seg seg000, 80h
-db seg seg000, 2 dup(0FFh), 0B5h, 0AFh,	2 dup(seg seg000)
-db 9Ah,	seg seg000, 5Ch, seg seg000, 0C8h
-db seg seg000, 80h, seg	seg000,	2 dup(0FFh)
-db 8Bh,	0B1h, 0E4h, seg	seg000,	9Ah, seg seg000
-db 40h,	1, 0C8h, 3 dup(seg seg000), 2 dup(0FFh)
-db 66h,	0Fh, 0FFh, seg seg000, 0A2h, seg seg000
-db 27h,	1, 0C0h, seg seg000, 80h, seg seg000
-db 21h,	seg seg000, 8Bh, 0B1h, 96h, seg	seg000
-db 89h,	seg seg000, 0AAh, seg seg000, 0A0h
-db seg seg000, 96h, seg	seg000,	89h, seg seg000
-db 0AAh, seg seg000, 93h, seg seg000, 6
-db seg seg000, 0BBh, seg seg000, 19h, seg seg000
-db 0BAh, seg seg000, 6,	seg seg000, 0BAh
-db seg seg000, 1Ah, seg	seg000,	0BCh, seg seg000
-db 6, seg seg000, 0B9h,	5 dup(seg seg000)
-db 7, seg seg000, 0B7h,	5 dup(seg seg000)
-db 9, seg seg000, 0B6h,	5 dup(seg seg000)
-db 0Ah,	seg seg000, 0B5h, 5 dup(seg seg000)
-db 0Dh,	seg seg000, 0B5h, 5 dup(seg seg000)
-db 10h,	seg seg000, 0B5h, 5 dup(seg seg000)
-db 12h,	seg seg000, 0B6h, 5 dup(seg seg000)
-db 14h,	seg seg000, 0B7h, 5 dup(seg seg000)
-db 14h,	seg seg000, 0B9h, 5 dup(seg seg000)
-db 14h,	seg seg000, 0BAh, seg seg000, 8
-db seg seg000, 0BCh, seg seg000, 14h, seg seg000
-db 0BBh, seg seg000, 9,	seg seg000, 0BAh
-db 5 dup(seg seg000), 0Ch, seg seg000, 0B7h
-db 5 dup(seg seg000), 11h, seg seg000, 0B6h
-db 5 dup(seg seg000), 17h, seg seg000, 0B7h
-db seg seg000, 6, seg seg000, 0B5h, seg	seg000
-db 1Eh,	seg seg000, 0BEh, seg seg000, 6
-db seg seg000, 0B5h, seg seg000, 1Eh, seg seg000
-db 0C6h, seg seg000, 0FFh, 6Bh dup(seg seg000)
-db 0FFh, 3 dup(seg seg000), 0FCh, seg seg000
-db 90h,	seg seg000, 72h, 94h, 91h, seg seg000
-db 0E2h, 2 dup(95h), seg seg000, 0D5h, 9Eh
-db 94h,	seg seg000, 0E2h, 0D2h,	2 dup(seg seg000)
-db 0FCh, seg seg000, 0ADh, seg seg000, 0E2h
-db 0D2h, 95h, seg seg000, 0D5h,	9Eh, 2 dup(seg seg000)
-db 0F8h, seg seg000, 58h, seg seg000, 7Ah
-db 49h,	0AEh, seg seg000, 0E2h,	0D2h, 95h
-db seg seg000, 0D5h, 9Eh, 2 dup(seg seg000)
-db 0FCh, seg seg000, 0A2h, seg seg000, 7
-db 17h,	95h, seg seg000, 0D5h, 9Eh, 2 dup(seg seg000)
-db 0FCh, seg seg000, 0A2h, seg seg000, 7
-db 17h,	2 dup(seg seg000), 0FCh, 2Fh dup(seg seg000)
-db 0FBh, seg seg000, 0D9h, seg seg000, 93h
-db 29h,	95h, seg seg000, 0D5h, 9Eh, 2 dup(seg seg000)
-db 0FBh, seg seg000, 0F1h, seg seg000, 53h
-db 24h,	0EFh, seg seg000, 1Ah, 24h, 0F0h
-db seg seg000, 32h, 24h, 95h, seg seg000
-db 0D5h, 9Eh, 2	dup(seg	seg000), 0F8h, seg seg000
-db 0A1h, seg seg000, 0E2h, 0D2h, 2 dup(seg seg000)
-db 0F8h, seg seg000, 0Eh, 1, 0AFh, 0AEh
-db 0Bh,	1, 6Eh,	0ACh, 0Ah, 1, 7Eh, 0ACh
-db 0BBh, seg seg000, 3Eh, 0Eh, 0A1h, seg seg000
-db 0E2h, 0D2h, 2 dup(seg seg000), 0FFh,	seg seg000
-db 0E3h, seg seg000, 58h, 0AFh,	0E5h, seg seg000
-db 60h,	0AFh, 0E6h, seg	seg000,	68h, 0AFh
-db 0E7h, seg seg000, 70h, 0AFh,	0E4h, seg seg000
-db 8Bh,	0B1h, 2	dup(seg	seg000), 0FFh, seg seg000
-db 0B7h, seg seg000, 81h, 0BCh,	0B1h, seg seg000
-db 6Bh,	0B9h, 0B4h, seg	seg000,	9Eh, 0B2h
-db 0B3h, seg seg000, 8Ch, 0B2h,	0BBh, seg seg000
-db 3Eh,	0Eh, 2 dup(seg seg000),	0FFh, seg seg000
-db 0B6h, 80h, 66h, 0Fh,	2 dup(seg seg000)
-db 0F6h, seg seg000, 0Dh, 1, 97h, 0ACh,	0Ch
-db 1, 90h, 0ACh, 0A3h, seg seg000, 0DFh
-db 0D2h, 2 dup(seg seg000), 0FEh, seg seg000
+db 66h,	0Fh, 86h, 45h, 0Eh, 45h, 66h, 0Fh
+db 66h,	0Fh, 66h, 0Fh, 86h, 45h, 86h, 45h
+db 66h,	0Fh, 76h, 0A5h,	66h, 0Fh, 0AAh,	0A5h
+db 66h,	0Fh, 0DFh, 0A5h, 66h, 0Fh, 18h,	0
+db 16h,	0, 0A1h, 0, 44h, 0, 0C4h, 3 dup(0)
+db 2 dup(0FFh),	0C6h, 0B8h, 2 dup(0), 98h
+db 3 dup(0), 98h, 5 dup(0), 66h, 0Fh, 0E4h
+db 0, 98h, 0, 2Ch, 1, 0C6h, 3 dup(0), 3
+db 0, 66h, 0Fh,	18h, 0,	9Bh, 0,	45h, 0,	0B0h
+db 0, 80h, 0, 2	dup(0FFh), 0D6h, 0AEh, 5Ch
+db 0, 98h, 0, 0E5h, 0, 9Fh, 3 dup(0), 0Eh
+db 0, 66h, 0Fh,	2, 0, 9Ah, 0, 2, 0, 9Ah
+db 3 dup(0), 0Ch, 0, 66h, 0Fh, 3Dh, 1, 9Ah
+db 0, 3Dh, 1, 9Ah, 3 dup(0), 0Ch, 0, 66h
+db 0Fh,	5Ch, 0,	9Fh, 0,	0E4h, 0, 0A7h, 0
+db 80h,	0, 1Bh,	0, 43h,	0D4h, 5Ch, 0, 0A7h
+db 0, 0E4h, 0, 0AFh, 0,	80h, 0,	1Bh, 0,	3Eh
+db 0D4h, 5Ch, 0, 0AFh, 0, 0E4h,	0, 0B7h
+db 0, 80h, 0, 1Bh, 0, 39h, 0D4h, 5Ch, 0
+db 0B7h, 0, 0E4h, 0, 0BFh, 0, 80h, 0, 1Bh
+db 0, 34h, 0D4h, 5Ch, 0, 0BFh, 0, 0E4h,	0
+db 0C7h, 0, 80h, 0, 1Bh, 0, 2Fh, 0D4h, 0FFh
+db 0, 0A2h, 0, 27h, 1, 0C0h, 3 dup(0), 2 dup(0FFh)
+db 66h,	0Fh, 0Dh, 1, 0A2h, 0, 17h, 1, 0ACh
+db 3 dup(0), 2 dup(0FFh), 66h, 0Fh, 1Ch
+db 1, 0ACh, 0, 26h, 1, 0B6h, 3 dup(0), 2 dup(0FFh)
+db 66h,	0Fh, 0Dh, 1, 0B5h, 0, 17h, 1, 0BFh
+db 3 dup(0), 2 dup(0FFh), 66h, 0Fh, 0FFh
+db 0, 0ACh, 0, 9, 1, 0B6h, 3 dup(0), 2 dup(0FFh)
+db 66h,	0Fh, 0Ah dup(0), 2 dup(0FFh), 66h
+db 0Fh,	0Ah dup(0), 2 dup(0FFh), 66h, 0Fh
+db 0Ah dup(0), 2 dup(0FFh), 5Bh, 94h, 4	dup(0)
+db 40h,	1, 98h,	3 dup(0), 2 dup(0FFh), 1Dh
+db 94h,	23h, 0,	0B6h, 0, 38h, 0, 0C4h, 0
+db 80h,	0, 40h,	0, 15h,	92h, 3Ah, 0, 0B6h
+db 0, 4Fh, 0, 0C4h, 0, 80h, 0, 40h, 0, 15h
+db 92h,	2 dup(0), 4, 0,	28h, 0,	2Eh, 3 dup(0)
+db 2 dup(0FFh),	0EEh, 0B1h, 2 dup(0), 2	dup(0FFh)
+db 6 dup(0), 3,	0, 80h,	0, 2 dup(0FFh),	40h
+db 0, 0Dh, 3 dup(0), 6,	3 dup(0), 3, 3 dup(0)
+db 2 dup(0FFh),	2 dup(0), 2 dup(0FFh), 2 dup(0)
+db 9, 3	dup(0),	3, 3 dup(0), 2 dup(0FFh)
+db 0C0h, 0, 0Dh, 3 dup(0), 6, 3	dup(0),	3
+db 3 dup(0), 3 dup(0FFh), 0, 0A2h, 0, 27h
+db 1, 0C0h, 3 dup(0), 21h, 0, 66h, 0Fh,	0Dh
+db 1, 0A2h, 0, 17h, 1, 0ACh, 0,	80h, 0,	1Dh
+db 0, 15h, 3Fh,	1Ch, 1,	0ACh, 0, 26h, 1
+db 0B6h, 0, 80h, 0, 1Eh, 0, 1Ah, 3Fh, 0Dh
+db 1, 0B5h, 0, 17h, 1, 0BFh, 0,	80h, 0,	1Fh
+db 0, 1Fh, 3Fh,	0FFh, 0, 0ACh, 0, 9, 1,	0B6h
+db 0, 80h, 0, 20h, 0, 24h, 3Fh,	0Dh, 1,	0ADh
+db 0, 18h, 1, 0B5h, 0, 80h, 0, 24h, 0, 0EEh
+db 18h,	0Ah, 1,	0ABh, 0, 1Dh, 1, 0B8h, 0
+db 80h,	0, 29h,	0, 5, 5Bh, 0Bh,	1, 0A2h
+db 0, 1Ch, 1, 0ABh, 0, 80h, 40h, 25h, 0
+db 29h,	88h, 1Dh, 1, 0ABh, 0, 29h, 1, 0B8h
+db 0, 80h, 40h,	26h, 0,	24h, 88h, 0Bh, 1
+db 0B8h, 0, 1Ch, 1, 0C1h, 0, 80h, 40h, 27h
+db 0, 2Eh, 88h,	0FEh, 0, 0ABh, 0, 0Ah, 1
+db 0B8h, 0, 80h, 40h, 28h, 0, 1Fh, 88h,	0Ah
+db 1, 0ABh, 0, 1Ch, 1, 0B7h, 3 dup(0), 35h
+db 0, 66h, 0Fh,	6, 1, 0A8h, 0, 7, 1, 0A9h
+db 2 dup(0), 2,	2 dup(0FFh), 66h, 0Fh, 2
+db 1, 0ACh, 0, 0Ah, 1, 0B6h, 3 dup(0), 2 dup(0FFh)
+db 66h,	0Fh, 0Eh, 1, 0AAh, 0, 17h, 1, 0B6h
+db 3 dup(0), 2 dup(0FFh), 66h, 0Fh, 1Bh
+db 1, 0ACh, 0, 23h, 1, 0B6h, 3 dup(0), 2 dup(0FFh)
+db 66h,	0Fh, 0Ah, 1, 0BAh, 0, 23h, 1, 0BFh
+db 3 dup(0), 2 dup(0FFh), 66h, 0Fh, 0Ah	dup(0)
+db 2 dup(0FFh),	66h, 0Fh, 6, 1,	0A8h, 0
+db 7, 1, 0A9h, 2 dup(0), 2, 2 dup(0FFh)
+db 66h,	0Fh, 2,	1, 0ACh, 0, 0Ah, 1, 0B6h
+db 0, 80h, 40h,	2Ah, 0,	0D0h, 4Ah, 0Eh,	1
+db 0AAh, 0, 17h, 1, 0B6h, 0, 80h, 0, 2Bh
+db 0, 9, 4Fh, 1Bh, 1, 0ACh, 0, 23h, 1, 0B6h
+db 0, 80h, 40h,	2Ch, 0,	0D7h, 4Ah, 0Ah dup(0)
+db 2 dup(0FFh),	66h, 0Fh, 0Ah dup(0), 2	dup(0FFh)
+db 66h,	0Fh, 0Ah, 1, 0ABh, 0, 1Dh, 1, 0B8h
+db 0, 80h, 0, 29h, 0, 81h, 0BCh, 26h, 0
+db 9Fh,	0, 36h,	0, 0ACh, 0, 80h, 40h, 31h
+db 0, 2	dup(0B9h), 36h,	0, 0A8h, 0, 48h
+db 0, 0B9h, 0, 80h, 40h, 32h, 0, 0CCh, 0B9h
+db 26h,	0, 0B7h, 0, 36h, 0, 0C7h, 0, 80h
+db 40h,	33h, 0,	0C0h, 0B9h, 14h, 0, 0A8h
+db 0, 25h, 0, 0B9h, 0, 80h, 40h, 34h, 0
+db 0D3h, 0B9h, 24h, 0, 0ACh, 0,	39h, 0,	0B6h
+db 0, 80h, 0, 35h, 0, 9Eh, 0BAh, 0Ah dup(0)
+db 2 dup(0FFh),	66h, 0Fh, 15h, 0, 0A1h,	0
+db 2Ah,	0, 0BAh, 0, 80h, 0, 2 dup(0FFh)
+db 0C7h, 0AFh, 2Bh, 0, 0A1h, 0,	3Fh, 0,	0BAh
+db 0, 80h, 0, 2	dup(0FFh), 0B5h, 0AFh, 2 dup(0)
+db 9Ah,	0, 5Ch,	0, 0C8h, 0, 80h, 0, 2 dup(0FFh)
+db 8Bh,	0B1h, 0E4h, 0, 9Ah, 0, 40h, 1, 0C8h
+db 3 dup(0), 2 dup(0FFh), 66h, 0Fh, 0FFh
+db 0, 0A2h, 0, 27h, 1, 0C0h, 0,	80h, 0,	21h
+db 0, 8Bh, 0B1h, 96h, 0, 89h, 0, 0AAh, 0
+db 0A0h, 0, 96h, 0, 89h, 0, 0AAh, 0, 93h
+db 0, 6, 0, 0BBh, 0, 19h, 0, 0BAh, 0, 6
+db 0, 0BAh, 0, 1Ah, 0, 0BCh, 0,	6, 0, 0B9h
+db 5 dup(0), 7,	0, 0B7h, 5 dup(0), 9, 0
+db 0B6h, 5 dup(0), 0Ah,	0, 0B5h, 5 dup(0)
+db 0Dh,	0, 0B5h, 5 dup(0), 10h,	0, 0B5h
+db 5 dup(0), 12h, 0, 0B6h, 5 dup(0), 14h
+db 0, 0B7h, 5 dup(0), 14h, 0, 0B9h, 5 dup(0)
+db 14h,	0, 0BAh, 0, 8, 0, 0BCh,	0, 14h,	0
+db 0BBh, 0, 9, 0, 0BAh,	5 dup(0), 0Ch, 0
+db 0B7h, 5 dup(0), 11h,	0, 0B6h, 5 dup(0)
+db 17h,	0, 0B7h, 0, 6, 0, 0B5h,	0, 1Eh,	0
+db 0BEh, 0, 6, 0, 0B5h,	0, 1Eh,	0, 0C6h
+db 0, 0FFh, 6Bh	dup(0),	0FFh, 3	dup(0),	0FCh
+db 0, 90h, 0, 72h, 94h,	91h, 0,	0E2h, 2	dup(95h)
+db 0, 0D5h, 9Eh, 94h, 0, 0E2h, 0D2h, 2 dup(0)
+db 0FCh, 0, 0ADh, 0, 0E2h, 0D2h, 95h, 0
+db 0D5h, 9Eh, 2	dup(0),	0F8h, 0, 58h, 0
+db 7Ah,	49h, 0AEh, 0, 0E2h, 0D2h, 95h, 0
+db 0D5h, 9Eh, 2	dup(0),	0FCh, 0, 0A2h, 0
+db 7, 17h, 95h,	0, 0D5h, 9Eh, 2	dup(0),	0FCh
+db 0, 0A2h, 0, 7, 17h, 2 dup(0), 0FCh, 2Fh dup(0)
+db 0FBh, 0, 0D9h, 0, 93h, 29h, 95h, 0, 0D5h
+db 9Eh,	2 dup(0), 0FBh,	0, 0F1h, 0, 53h
+db 24h,	0EFh, 0, 1Ah, 24h, 0F0h, 0, 32h
+db 24h,	95h, 0,	0D5h, 9Eh, 2 dup(0), 0F8h
+db 0, 0A1h, 0, 0E2h, 0D2h, 2 dup(0), 0F8h
+db 0, 0Eh, 1, 0AFh, 0AEh, 0Bh, 1, 6Eh, 0ACh
+db 0Ah,	1, 7Eh,	0ACh, 0BBh, 0, 3Eh, 0Eh
+db 0A1h, 0, 0E2h, 0D2h,	2 dup(0), 0FFh,	0
+db 0E3h, 0, 58h, 0AFh, 0E5h, 0,	60h, 0AFh
+db 0E6h, 0, 68h, 0AFh, 0E7h, 0,	70h, 0AFh
+db 0E4h, 0, 8Bh, 0B1h, 2 dup(0), 0FFh, 0
+db 0B7h, 0, 81h, 0BCh, 0B1h, 0,	6Bh, 0B9h
+db 0B4h, 0, 9Eh, 0B2h, 0B3h, 0,	8Ch, 0B2h
+db 0BBh, 0, 3Eh, 0Eh, 2	dup(0),	0FFh, 0
+db 0B6h, 80h, 66h, 0Fh,	2 dup(0), 0F6h,	0
+db 0Dh,	1, 97h,	0ACh, 0Ch, 1, 90h, 0ACh
+db 0A3h, 0, 0DFh, 0D2h,	2 dup(0), 0FEh,	0
 db 0Fh,	1, 5Ah,	0B3h, 10h, 1, 5Ah, 0B3h
-db 0A3h, seg seg000, 0E2h, 0D2h, 2 dup(seg seg000)
-db 0FEh, seg seg000, 0Fh, 1, 0B0h, 0B3h
-db 10h,	1, 0B0h, 0B3h, 11h, 1, 0B0h, 0B3h
-db 12h,	1, 0B0h, 0B3h, 0A3h, seg seg000
-db 0E2h, 0D2h, 2 dup(seg seg000), 0FFh,	seg seg000
-db 0BAh, seg seg000, 47h, 0Eh, 0B4h, seg seg000
-db 9Eh,	0B2h, 0BBh, seg	seg000,	3Eh, 0Eh
-db 95h,	seg seg000, 0D5h, 9Eh, 2 dup(seg seg000)
-db 0F6h, seg seg000, 0B8h, seg seg000, 3Ah
-db seg seg000, 0B9h, seg seg000, 0E2h, 0D2h
-db 2 dup(seg seg000), 0FFh, seg	seg000,	0BAh
-db seg seg000, 47h, 0Eh, 0B4h, seg seg000
-db 9Eh,	0B2h, 0B3h, seg	seg000,	8Ch, 0B2h
-db 0BBh, seg seg000, 3Eh, 0Eh, 9Dh, seg	seg000
-db 0B9h, 0Eh, 2	dup(seg	seg000), 0FCh, seg seg000
-db 59h,	seg seg000, 0DBh, 50h, 0A3h, seg seg000
-db 0E2h, 0D2h, 2 dup(seg seg000), 0FCh,	seg seg000
-db 5Ah,	seg seg000, 0EAh, 50h, 0A3h, seg seg000
-db 0E2h, 0D2h, 2 dup(seg seg000), 0FFh,	seg seg000
-db 63h,	seg seg000, 6Bh, 18h, 62h, seg seg000
-db 0CCh, 86h, 64h, seg seg000, 0F1h, 53h
-db 0A7h, seg seg000, 0D9h, 42h,	67h, seg seg000
-db 1Eh,	5Bh, 2 dup(seg seg000),	0FCh, seg seg000
-db 4Dh,	seg seg000, 0EDh, 7Bh, 4Fh, seg	seg000
-db 0B3h, 69h, 4Eh, seg seg000, 0BBh, 7Ch
-db 50h,	seg seg000, 64h, 80h, 52h, seg seg000
-db 63h,	87h, 2 dup(seg seg000),	0FCh, seg seg000
-db 51h,	seg seg000, 0FAh, 86h, 52h, seg	seg000
-db 70h,	87h, 2 dup(seg seg000),	0F8h, seg seg000
-db 0A3h, seg seg000, 0E2h, 0D2h, 2 dup(seg seg000)
-db 0F8h, seg seg000, 5Bh, seg seg000, 0C7h
-db 80h,	5Ch, seg seg000, 0D9h, 80h, 0A1h
-db seg seg000, 14h, 82h, 0A3h, seg seg000
-db 0E2h, 0D2h, 2 dup(seg seg000), 0FCh,	seg seg000
-db 58h,	seg seg000, 64h, 80h, 51h, seg seg000
-db 0FAh, 86h, 0A3h, seg	seg000,	0E2h, 0D2h
-db 2 dup(seg seg000), 0F8h, seg	seg000,	75h
-db seg seg000, 71h, 6Ah, 76h, seg seg000
-db 83h,	6Ah, 77h, 40h, 87h, 6Ah, 0A3h, seg seg000
-db 0E2h, 0D2h, 2 dup(seg seg000), 0F8h,	seg seg000
-db 5Dh,	seg seg000, 6Dh, 77h, 76h, seg seg000
-db 83h,	6Ah, 77h, seg seg000, 87h, 6Ah,	0A3h
-db seg seg000, 0E2h, 0D2h, 2 dup(seg seg000)
-db 0F8h, seg seg000, 5Dh, seg seg000, 34h
-db 77h,	5Fh, 40h, 45h, 6Ah, 75h, seg seg000
-db 71h,	6Ah, 77h, seg seg000, 87h, 6Ah,	0A3h
-db seg seg000, 0E2h, 0D2h, 2 dup(seg seg000)
-db 0F8h, seg seg000, 60h, seg seg000, 2Fh
-db 6Ah,	0A3h, seg seg000, 0E2h,	0D2h, 2	dup(seg	seg000)
-db 0F8h, seg seg000, 5Dh, seg seg000, 5Ch
-db 77h,	61h, seg seg000, 2Bh, 6Ah, 75h,	seg seg000
-db 71h,	6Ah, 76h, seg seg000, 83h, 6Ah,	0A3h
-db seg seg000, 0E2h, 0D2h, 2 dup(seg seg000)
-db 0Eh,	1Fh, 66h, 0Fh, 18h dup(seg seg000)
-db 0BEh, 21h, 0A7h, seg	seg000,	0E9h, 42h
-db 0A5h, seg seg000, 48h, 0Fh, 0A6h, seg seg000
-db 67h,	0Fh, 0D7h, seg seg000, 3Ah, 28h
-db 0D8h, seg seg000, 3Eh, 28h, 99h, seg	seg000
-db 0A6h, 0Eh, 9Eh, seg seg000, 0F0h, 0A3h
-db 58h,	seg seg000, 7Ah, 49h, 0A9h, seg	seg000
-db 0FBh, 4Fh, 0ACh, seg	seg000,	0A5h, 50h
-db 0AAh, seg seg000, 0C4h, 50h,	0ABh, seg seg000
-db 9, 4Fh, 98h,	seg seg000, 6Bh, 18h, 95h
-db seg seg000, 0EEh, 18h, 0A8h,	seg seg000
-db 0D1h, 42h, 9Ah, seg seg000, 17h, 73h
-db 9Bh,	seg seg000, 0C5h, 0Fh, 0AEh, 1Fh
-db 2 dup(seg seg000), 50h, seg seg000, 0Eh
-db seg seg000, 0C0h, seg seg000, 48h, seg seg000
-db 50h,	seg seg000, 10h, seg seg000, 0C8h
-db seg seg000, 56h, seg	seg000,	50h, seg seg000
-db 8, seg seg000, 0D0h,	seg seg000, 61h
-db 5 dup(seg seg000), 40h, 1, 47h, 5 dup(seg seg000)
-db 99h,	seg seg000, 3Fh, seg seg000, 10h
-db 3 dup(seg seg000), 20h, 1, 42h, seg seg000
-db 14h,	seg seg000, 3, seg seg000, 51h,	seg seg000
-db 40h,	seg seg000, 0FDh, 0F2h,	0FFh, 0Ch
-db 5, 0Ah, 0FFh, 9, 0Bh, 4 dup(seg seg000)
-db 40h,	1, 98h,	seg seg000, 0Ah, seg seg000
-db 8Bh,	12h, 9Ch, 10h, 9Dh, 0Ch, 2 dup(seg seg000)
-db 99h,	seg seg000, 40h, 1, 2Fh, seg seg000
-db 1, 66h, 0Fh,	2 dup(8), 9 dup(9), 2 dup(0Ah)
-db 3 dup(0Bh), 2 dup(seg seg000), 4Eh, seg seg000
-db 21h,	seg seg000, 2 dup(0FFh), 1, seg	seg000
-db 1Ah,	seg seg000, 4, seg seg000, 2 dup(0FFh)
+db 0A3h, 0, 0E2h, 0D2h,	2 dup(0), 0FEh,	0
+db 0Fh,	1, 0B0h, 0B3h, 10h, 1, 0B0h, 0B3h
+db 11h,	1, 0B0h, 0B3h, 12h, 1, 0B0h, 0B3h
+db 0A3h, 0, 0E2h, 0D2h,	2 dup(0), 0FFh,	0
+db 0BAh, 0, 47h, 0Eh, 0B4h, 0, 9Eh, 0B2h
+db 0BBh, 0, 3Eh, 0Eh, 95h, 0, 0D5h, 9Eh
+db 2 dup(0), 0F6h, 0, 0B8h, 0, 3Ah, 0, 0B9h
+db 0, 0E2h, 0D2h, 2 dup(0), 0FFh, 0, 0BAh
+db 0, 47h, 0Eh,	0B4h, 0, 9Eh, 0B2h, 0B3h
+db 0, 8Ch, 0B2h, 0BBh, 0, 3Eh, 0Eh, 9Dh
+db 0, 0B9h, 0Eh, 2 dup(0), 0FCh, 0, 59h
+db 0, 0DBh, 50h, 0A3h, 0, 0E2h,	0D2h, 2	dup(0)
+db 0FCh, 0, 5Ah, 0, 0EAh, 50h, 0A3h, 0,	0E2h
+db 0D2h, 2 dup(0), 0FFh, 0, 63h, 0, 6Bh
+db 18h,	62h, 0,	0CCh, 86h, 64h,	0, 0F1h
+db 53h,	0A7h, 0, 0D9h, 42h, 67h, 0, 1Eh
+db 5Bh,	2 dup(0), 0FCh,	0, 4Dh,	0, 0EDh
+db 7Bh,	4Fh, 0,	0B3h, 69h, 4Eh,	0, 0BBh
+db 7Ch,	50h, 0,	64h, 80h, 52h, 0, 63h, 87h
+db 2 dup(0), 0FCh, 0, 51h, 0, 0FAh, 86h
+db 52h,	0, 70h,	87h, 2 dup(0), 0F8h, 0,	0A3h
+db 0, 0E2h, 0D2h, 2 dup(0), 0F8h, 0, 5Bh
+db 0, 0C7h, 80h, 5Ch, 0, 0D9h, 80h, 0A1h
+db 0, 14h, 82h,	0A3h, 0, 0E2h, 0D2h, 2 dup(0)
+db 0FCh, 0, 58h, 0, 64h, 80h, 51h, 0, 0FAh
+db 86h,	0A3h, 0, 0E2h, 0D2h, 2 dup(0), 0F8h
+db 0, 75h, 0, 71h, 6Ah,	76h, 0,	83h, 6Ah
+db 77h,	40h, 87h, 6Ah, 0A3h, 0,	0E2h, 0D2h
+db 2 dup(0), 0F8h, 0, 5Dh, 0, 6Dh, 77h,	76h
+db 0, 83h, 6Ah,	77h, 0,	87h, 6Ah, 0A3h,	0
+db 0E2h, 0D2h, 2 dup(0), 0F8h, 0, 5Dh, 0
+db 34h,	77h, 5Fh, 40h, 45h, 6Ah, 75h, 0
+db 71h,	6Ah, 77h, 0, 87h, 6Ah, 0A3h, 0,	0E2h
+db 0D2h, 2 dup(0), 0F8h, 0, 60h, 0, 2Fh
+db 6Ah,	0A3h, 0, 0E2h, 0D2h, 2 dup(0), 0F8h
+db 0, 5Dh, 0, 5Ch, 77h,	61h, 0,	2Bh, 6Ah
+db 75h,	0, 71h,	6Ah, 76h, 0, 83h, 6Ah, 0A3h
+db 0, 0E2h, 0D2h, 2 dup(0), 0Eh, 1Fh, 66h
+db 0Fh,	18h dup(0), 0BEh, 21h, 0A7h, 0,	0E9h
+db 42h,	0A5h, 0, 48h, 0Fh, 0A6h, 0, 67h
+db 0Fh,	0D7h, 0, 3Ah, 28h, 0D8h, 0, 3Eh
+db 28h,	99h, 0,	0A6h, 0Eh, 9Eh,	0, 0F0h
+db 0A3h, 58h, 0, 7Ah, 49h, 0A9h, 0, 0FBh
+db 4Fh,	0ACh, 0, 0A5h, 50h, 0AAh, 0, 0C4h
+db 50h,	0ABh, 0, 9, 4Fh, 98h, 0, 6Bh, 18h
+db 95h,	0, 0EEh, 18h, 0A8h, 0, 0D1h, 42h
+db 9Ah,	0, 17h,	73h, 9Bh, 0, 0C5h, 0Fh,	0AEh
+db 1Fh,	2 dup(0), 50h, 0, 0Eh, 0, 0C0h,	0
+db 48h,	0, 50h,	0, 10h,	0, 0C8h, 0, 56h
+db 0, 50h, 0, 8, 0, 0D0h, 0, 61h, 5 dup(0)
+db 40h,	1, 47h,	5 dup(0), 99h, 0, 3Fh, 0
+db 10h,	3 dup(0), 20h, 1, 42h, 0, 14h, 0
+db 3, 0, 51h, 0, 40h, 0, 0FDh, 0F2h, 0FFh
+db 0Ch,	5, 0Ah,	0FFh, 9, 0Bh, 4	dup(0),	40h
+db 1, 98h, 0, 0Ah, 0, 8Bh, 12h,	9Ch, 10h
+db 9Dh,	0Ch, 2 dup(0), 99h, 0, 40h, 1, 2Fh
+db 0, 1, 66h, 0Fh, 2 dup(8), 9 dup(9), 2 dup(0Ah)
+db 3 dup(0Bh), 2 dup(0), 4Eh, 0, 21h, 0
+db 2 dup(0FFh),	1, 0, 1Ah, 0, 4, 0, 2 dup(0FFh)
 db 63h,	79h, 72h, 6Fh, 46h, 42h, 2 dup(0FFh)
 db 60h,	5Ah, 74h, 60h, 64h, 68h, 7Eh, 68h
 db 6Ah,	70h, 7Ch, 60h, 2 dup(50h), 72h,	74h
-db 5Ah,	48h, seg seg000, 3Dh, seg seg000
-db 54h,	seg seg000, 1Dh, seg seg000, 38h
-db seg seg000, 1Ah, seg	seg000,	2Fh, seg seg000
-db 8, seg seg000, 9Ah, 1, 0C8h,	7, 69h,	6Dh
-db 65h,	72h, 74h, 6Fh, 6Ch, 75h, 62h, 72h
-db 65h,	68h, 60h, 4Ch, 80h, seg	seg000,	10h
-db seg seg000, 2, 4, 2 dup(55h), 1, 7, seg seg000
-db 0A8h, seg seg000, 17h, seg seg000, 2	dup(0FFh)
-db 0A8h, seg seg000, 17h, seg seg000, 2Ah
-db 1, 61h, seg seg000, 0B0h, seg seg000
-db 20h,	seg seg000, 20h, 1, 58h, seg seg000
-db 60h,	4Ch, 49h, 4Dh, 31h, 2Eh, 48h, 53h
-db 51h,	107h dup(seg seg000), 40h, 1, 98h
-db seg seg000, 2 dup(53h), 0Eh,	seg seg000
-db 6, seg seg000, 5, seg seg000, 0Eh, seg seg000
-db 6, seg seg000, 11h, seg seg000, 0Eh,	seg seg000
-db 6, seg seg000, 1Dh, seg seg000, 2 dup(0FFh)
-db 56h,	84h, 57h, 84h, 59h, 2 dup(84h),	8
-db 39h,	19h, 5Ch, 84h, 99h, 21h, 3Ah, 2Ah
-db 5Dh,	84h, 79h, 3Ah, 61h, 84h, 0AEh, 8
-db 2 dup(seg seg000), 60h, seg seg000, 0Fh
-db seg seg000, 0EAh, seg seg000, 86h, seg seg000
-db 60h,	seg seg000, 19h, seg seg000, 0E0h
-db seg seg000, 86h, 3 dup(seg seg000), 99h
-db seg seg000, 40h, 1, 0C8h, seg seg000
-db 0FEh, seg seg000, 0A2h, seg seg000, 28h
-db 1, 0C1h, seg	seg000,	0D8h, 0FFh, 7Fh
-db seg seg000, 39h, seg	seg000,	0A0h, seg seg000
-db 31h,	seg seg000, 0C1h, seg seg000, 39h
-db seg seg000, 78h, seg	seg000,	59h, seg seg000
-db 0C8h, seg seg000, 59h, seg seg000, 7Fh
-db seg seg000, 79h, seg	seg000,	0A0h, seg seg000
-db 81h,	seg seg000, 0C1h, seg seg000, 79h
-db seg seg000, 0C2h, seg seg000, 10h, seg seg000
-db 6, seg seg000, 0FDh,	0F0h, 0C3h, seg	seg000
-db 0D8h, seg seg000, 6,	seg seg000, 0FDh
-db 0F0h, 2 dup(0FFh), 0C4h, seg	seg000,	14h
-db seg seg000, 45h, seg	seg000,	3Fh, 0F0h
-db 0C5h, seg seg000, 30h, seg seg000, 45h
-db seg seg000, 25h, 0F0h, 0C6h,	seg seg000
-db 8, seg seg000, 50h, seg seg000, 0FBh
-db 0F0h, 0C7h, seg seg000, 0F0h, seg seg000
-db 3Ch,	seg seg000, 3Fh, 0F0h, 0C8h, seg seg000
-db 10h,	1, 3Ch,	seg seg000, 25h, 0F0h, 0C9h
-db seg seg000, 0ECh, seg seg000, 47h, seg seg000
-db 0FBh, 0F0h, 0CAh, seg seg000, 0F0h, seg seg000
-db 83h,	seg seg000, 3Fh, 0F0h, 0CBh, seg seg000
-db 10h,	1, 83h,	seg seg000, 25h, 0F0h, 0CCh
-db seg seg000, 0ECh, seg seg000, 8Eh, seg seg000
-db 0FBh, 0F0h, 0AFh, seg seg000, 23h, seg seg000
-db 7Dh,	seg seg000, 25h, 0F0h, 0B0h, seg seg000
-db 23h,	seg seg000, 8Bh, seg seg000, 3Fh
-db 0F0h, 2 dup(0FFh), 1Ah, seg seg000, 3Eh
-db seg seg000, 36h, seg	seg000,	3Eh, seg seg000
-db 0FCh, seg seg000, 36h, seg seg000, 18h
-db 1, 36h, seg seg000, 0FCh, seg seg000
-db 7Dh,	seg seg000, 18h, 1, 7Dh, seg seg000
-db 3, seg seg000, 0Bh, seg seg000, 7Ch,	seg seg000
-db 4, seg seg000, 0Bh, seg seg000, 88h,	seg seg000
-db 2 dup(0FFh),	0ECh, 0CFh, 6Ch, 0D4h, 96h
-db 0D0h, 74h, 68h, 73h,	74h, 6Eh, 64h, 72h
-db 64h,	7Dh, 20h, 65h, 72h, 7Dh, 20h, 7Dh
-db 20h,	2Eh, 20h, 2Eh, 20h, 2Eh, 20h, 2Eh
-db 20h,	74h, 68h, 73h, 74h, 6Eh, 64h, 72h
-db 64h,	14h, 20h, 14h, 20h, 14h, 20h, 14h
+db 5Ah,	48h, 0,	3Dh, 0,	54h, 0,	1Dh, 0,	38h
+db 0, 1Ah, 0, 2Fh, 0, 8, 0, 9Ah, 1, 0C8h
+db 7, 69h, 6Dh,	65h, 72h, 74h, 6Fh, 6Ch
+db 75h,	62h, 72h, 65h, 68h, 60h, 4Ch, 80h
+db 0, 10h, 0, 2, 4, 2 dup(55h),	1, 7, 0
+db 0A8h, 0, 17h, 0, 2 dup(0FFh), 0A8h, 0
+db 17h,	0, 2Ah,	1, 61h,	0, 0B0h, 0, 20h
+db 0, 20h, 1, 58h, 0, 60h, 4Ch,	49h, 4Dh
+db 31h,	2Eh, 48h, 53h, 51h, 107h dup(0)
+db 40h,	1, 98h,	0, 2 dup(53h), 0Eh, 0, 6
+db 0, 5, 0, 0Eh, 0, 6, 0, 11h, 0, 0Eh, 0
+db 6, 0, 1Dh, 0, 2 dup(0FFh), 56h, 84h,	57h
+db 84h,	59h, 2 dup(84h), 8, 39h, 19h, 5Ch
+db 84h,	99h, 21h, 3Ah, 2Ah, 5Dh, 84h, 79h
+db 3Ah,	61h, 84h, 0AEh,	8, 2 dup(0), 60h
+db 0, 0Fh, 0, 0EAh, 0, 86h, 0, 60h, 0, 19h
+db 0, 0E0h, 0, 86h, 3 dup(0), 99h, 0, 40h
+db 1, 0C8h, 0, 0FEh, 0,	0A2h, 0, 28h, 1
+db 0C1h, 0, 0D8h, 0FFh,	7Fh, 0,	39h, 0,	0A0h
+db 0, 31h, 0, 0C1h, 0, 39h, 0, 78h, 0, 59h
+db 0, 0C8h, 0, 59h, 0, 7Fh, 0, 79h, 0, 0A0h
+db 0, 81h, 0, 0C1h, 0, 79h, 0, 0C2h, 0,	10h
+db 0, 6, 0, 0FDh, 0F0h,	0C3h, 0, 0D8h, 0
+db 6, 0, 0FDh, 0F0h, 2 dup(0FFh), 0C4h,	0
+db 14h,	0, 45h,	0, 3Fh,	0F0h, 0C5h, 0, 30h
+db 0, 45h, 0, 25h, 0F0h, 0C6h, 0, 8, 0,	50h
+db 0, 0FBh, 0F0h, 0C7h,	0, 0F0h, 0, 3Ch
+db 0, 3Fh, 0F0h, 0C8h, 0, 10h, 1, 3Ch, 0
+db 25h,	0F0h, 0C9h, 0, 0ECh, 0,	47h, 0,	0FBh
+db 0F0h, 0CAh, 0, 0F0h,	0, 83h,	0, 3Fh,	0F0h
+db 0CBh, 0, 10h, 1, 83h, 0, 25h, 0F0h, 0CCh
+db 0, 0ECh, 0, 8Eh, 0, 0FBh, 0F0h, 0AFh
+db 0, 23h, 0, 7Dh, 0, 25h, 0F0h, 0B0h, 0
+db 23h,	0, 8Bh,	0, 3Fh,	0F0h, 2	dup(0FFh)
+db 1Ah,	0, 3Eh,	0, 36h,	0, 3Eh,	0, 0FCh
+db 0, 36h, 0, 18h, 1, 36h, 0, 0FCh, 0, 7Dh
+db 0, 18h, 1, 7Dh, 0, 3, 0, 0Bh, 0, 7Ch
+db 0, 4, 0, 0Bh, 0, 88h, 0, 2 dup(0FFh)
+db 0ECh, 0CFh, 6Ch, 0D4h, 96h, 0D0h, 74h
+db 68h,	73h, 74h, 6Eh, 64h, 72h, 64h, 7Dh
+db 20h,	65h, 72h, 7Dh, 20h, 7Dh, 20h, 2Eh
+db 20h,	2Eh, 20h, 2Eh, 20h, 2Eh, 20h, 74h
+db 68h,	73h, 74h, 6Eh, 64h, 72h, 64h, 14h
 db 20h,	14h, 20h, 14h, 20h, 14h, 20h, 14h
 db 20h,	14h, 20h, 14h, 20h, 14h, 20h, 14h
 db 20h,	14h, 20h, 14h, 20h, 14h, 20h, 14h
 db 20h,	14h, 20h, 14h, 20h, 14h, 20h, 14h
-db 20h,	1Fh, 0BCh, 64h,	0BCh, 17h, 0D9h
+db 20h,	14h, 20h, 14h, 20h, 14h, 20h, 1Fh
+db 0BCh, 64h, 0BCh, 17h, 0D9h, 17h, 0D9h
+db 17h,	0D9h, 17h, 0D9h, 17h, 0D9h, 72h
+db 25h,	0E7h, 1Ah, 17h,	0D9h, 17h, 0D9h
 db 17h,	0D9h, 17h, 0D9h, 17h, 0D9h, 17h
-db 0D9h, 72h, 25h, 0E7h, 1Ah, 17h, 0D9h
-db 17h,	0D9h, 17h, 0D9h, 17h, 0D9h, 17h
-db 0D9h, 17h, 0D9h, 2 dup(0FFh), 84h, 25h
-db 4 dup(seg seg000), 0FFh, 3Fh, 0FFh, 1Fh
-db 0FFh, 0Fh, 0FFh, 7, 0FFh, 3,	0FFh, 1
-db 0FFh, seg seg000, 7Fh, seg seg000, 3Fh
-db seg seg000, 3Fh, seg	seg000,	0FFh, 1
-db 0FFh, 10h, 0FFh, 30h, 7Fh, 0F8h, 7Fh
-db 0F8h, 7Fh, 0FCh, 3 dup(seg seg000), 40h
-db seg seg000, 60h, seg	seg000,	70h, seg seg000
-db 78h,	seg seg000, 7Ch, seg seg000, 7Eh
-db seg seg000, 7Fh, 80h, 7Fh, seg seg000
-db 7Ch,	seg seg000, 6Ch, seg seg000, 46h
-db seg seg000, 6, seg seg000, 3, seg seg000
-db 3, 2	dup(seg	seg000), 1, 3 dup(seg seg000)
-db 0FFh, 0CFh, 0FFh, 83h, 0FFh,	81h, 7Fh
-db 0E0h, 3Fh, 0F0h, 7, 0C0h, 3,	0C0h, 3
-db 80h,	1, seg seg000, 1, 2 dup(seg seg000)
-db 80h,	seg seg000, 0C0h, seg seg000, 0E0h
-db seg seg000, 0F0h, seg seg000, 0FCh, seg seg000
-db 0FFh, 3 dup(seg seg000), 30h, seg seg000
-db 1Ch,	seg seg000, 6, 80h, 3, seg seg000
-db 0Dh,	0F8h, 16h, 0D8h, 19h, 3Ch, 6Ch,	0ACh
-db 30h,	0BCh, 3, 0DEh, 1Fh, 0FEh, 0Fh, 0BEh
-db 3, 7Eh, seg seg000, 7Eh, seg	seg000,	4
-db 3 dup(seg seg000), 0FFh, 0FBh, 0FFh,	0F1h
-db 0FFh, 0E0h, 7Fh, 0C0h, 3Fh, 80h, 1Fh
-db seg seg000, 1Fh, seg	seg000,	0FFh, 0E0h
-db 0FFh, 0E0h, 0Eh dup(0FFh), 3	dup(seg	seg000)
-db 4, seg seg000, 0Eh, seg seg000, 1Fh,	80h
-db 3Fh,	0C0h, 7Fh, seg seg000, 0Eh, seg	seg000
-db 0Eh,	10h dup(seg seg000), 4,	seg seg000
-db 2, seg seg000, 0FFh,	0CFh, 0FFh, 0C7h
-db 0FFh, 0C3h, 0FFh, 1,	0FFh, seg seg000
-db 7Fh,	seg seg000, 0FFh, seg seg000, 0FFh
-db 1, 0FFh, 0C3h, 0FFh,	0C7h, 0FFh, 0CFh
-db 0Ah dup(0FFh), 3 dup(seg seg000), 10h
-db seg seg000, 18h, seg	seg000,	1Ch, seg seg000
-db 7Eh,	seg seg000, 7Fh, seg seg000, 7Eh
-db seg seg000, 1Ch, seg	seg000,	18h, seg seg000
-db 10h,	0Ch dup(seg seg000), 4,	3 dup(seg seg000)
-db 0FFh, 0E0h, 0FFh, 0E0h, 1Fh,	seg seg000
-db 1Fh,	seg seg000, 3Fh, 80h, 7Fh, 0C0h
+db 0D9h, 2 dup(0FFh), 84h, 25h,	4 dup(0)
+db 0FFh, 3Fh, 0FFh, 1Fh, 0FFh, 0Fh, 0FFh
+db 7, 0FFh, 3, 0FFh, 1,	0FFh, 0, 7Fh, 0
+db 3Fh,	0, 3Fh,	0, 0FFh, 1, 0FFh, 10h, 0FFh
+db 30h,	7Fh, 0F8h, 7Fh,	0F8h, 7Fh, 0FCh
+db 3 dup(0), 40h, 0, 60h, 0, 70h, 0, 78h
+db 0, 7Ch, 0, 7Eh, 0, 7Fh, 80h,	7Fh, 0,	7Ch
+db 0, 6Ch, 0, 46h, 0, 6, 0, 3, 0, 3, 2 dup(0)
+db 1, 3	dup(0),	0FFh, 0CFh, 0FFh, 83h, 0FFh
+db 81h,	7Fh, 0E0h, 3Fh,	0F0h, 7, 0C0h, 3
+db 0C0h, 3, 80h, 1, 0, 1, 2 dup(0), 80h
+db 0, 0C0h, 0, 0E0h, 0,	0F0h, 0, 0FCh, 0
+db 0FFh, 3 dup(0), 30h,	0, 1Ch,	0, 6, 80h
+db 3, 0, 0Dh, 0F8h, 16h, 0D8h, 19h, 3Ch
+db 6Ch,	0ACh, 30h, 0BCh, 3, 0DEh, 1Fh, 0FEh
+db 0Fh,	0BEh, 3, 7Eh, 0, 7Eh, 0, 4, 3 dup(0)
+db 0FFh, 0FBh, 0FFh, 0F1h, 0FFh, 0E0h, 7Fh
+db 0C0h, 3Fh, 80h, 1Fh,	0, 1Fh,	0, 0FFh
+db 0E0h, 0FFh, 0E0h, 0Eh dup(0FFh), 3 dup(0)
+db 4, 0, 0Eh, 0, 1Fh, 80h, 3Fh,	0C0h, 7Fh
+db 0, 0Eh, 0, 0Eh, 10h dup(0), 4, 0, 2,	0
+db 0FFh, 0CFh, 0FFh, 0C7h, 0FFh, 0C3h, 0FFh
+db 1, 0FFh, 0, 7Fh, 0, 0FFh, 0,	0FFh, 1
+db 0FFh, 0C3h, 0FFh, 0C7h, 0FFh, 0CFh, 0Ah dup(0FFh)
+db 3 dup(0), 10h, 0, 18h, 0, 1Ch, 0, 7Eh
+db 0, 7Fh, 0, 7Eh, 0, 1Ch, 0, 18h, 0, 10h
+db 0Ch dup(0), 4, 3 dup(0), 0FFh, 0E0h,	0FFh
+db 0E0h, 1Fh, 0, 1Fh, 0, 3Fh, 80h, 7Fh,	0C0h
 db 0FFh, 0E0h, 0FFh, 0F1h, 0FFh, 0FBh, 0Eh dup(0FFh)
-db 3 dup(seg seg000), 0Eh, seg seg000, 0Eh
-db 0C0h, 7Fh, 80h, 3Fh,	seg seg000, 1Fh
-db seg seg000, 0Eh, seg	seg000,	4, 10h dup(seg seg000)
-db 5, seg seg000, 2, seg seg000, 0FFh, 0F9h
-db 0FFh, 0F1h, 0FFh, 0E1h, 7Fh,	0C0h, 7Fh
-db 80h,	7Fh, seg seg000, 7Fh, 80h, 7Fh,	0C0h
-db 0FFh, 0E1h, 0FFh, 0F1h, 0FFh, 0F9h, 0Ah dup(0FFh)
-db 3 dup(seg seg000), 4, seg seg000, 0Ch
-db seg seg000, 1Ch, seg	seg000,	3Fh, seg seg000
-db 7Fh,	seg seg000, 3Fh, seg seg000, 1Ch
-db seg seg000, 0Ch, seg	seg000,	4, 0Eh dup(seg seg000)
-db 4 dup(0FFh),	4 dup(seg seg000), 2 dup(0FFh)
-db 2 dup(seg seg000), 1, seg seg000, 2 dup(0FFh)
-db 8 dup(seg seg000), 2	dup(0FFh), 0Ah dup(seg seg000)
-db 1, 0Bh dup(seg seg000), 2 dup(0FFh),	1
-db 5 dup(seg seg000), 1, 3 dup(seg seg000)
-db 1, seg seg000, 1, seg seg000, 1, 5 dup(seg seg000)
-db 2, 9	dup(seg	seg000), 40h, 1, 0C8h, seg seg000
-db 2 dup(0FFh),	seg seg000, 1, 20h, 1, 40h
-db 1, 60h, 1, 80h, 1, 0C0h, 1, seg seg000
-db 2, 80h, 2, 2	dup(0FFh), 27h,	0C8h, 1
-db 5, 0FFh, 4, 3, seg seg000, 4, 0FFh, 3
-db seg seg000, 6, 0FFh,	5, 4, 3, 2, 1, seg seg000
-db 8Ch,	seg seg000, 42h, seg seg000, 78h
-db seg seg000, 39h, seg	seg000,	6Ah, seg seg000
-db 32h,	seg seg000, 50h, seg seg000, 26h
-db seg seg000, 35h, seg	seg000,	19h, seg seg000
-db 28h,	seg seg000, 13h, seg seg000, 14h
-db seg seg000, 9, seg seg000, 4Ch, seg seg000
-db 2Fh,	seg seg000, 4Bh, seg seg000, 49h
-db 5 dup(seg seg000), 53h, seg seg000, 25h
-db seg seg000, 4Ch, seg	seg000,	3Eh, seg seg000
-db 53h,	seg seg000, 3Eh, seg seg000, 4Dh
-db seg seg000, 4Eh, seg	seg000,	58h, seg seg000
-db 3Fh,	seg seg000, 47h, seg seg000, 41h
-db seg seg000, 56h, seg	seg000,	1Bh, seg seg000
-db 69h,	seg seg000, 5Bh, 5 dup(seg seg000)
-db 4Ah,	seg seg000, 29h, 5 dup(seg seg000)
-db 5Eh,	seg seg000, 57h, 9 dup(seg seg000)
-db 42h,	seg seg000, 37h, seg seg000, 63h
-db seg seg000, 56h, seg	seg000,	2Fh, seg seg000
-db 54h,	seg seg000, 69h, seg seg000, 72h
-db seg seg000, 3Fh, seg	seg000,	59h, seg seg000
-db 8Ch,	seg seg000, 88h, seg seg000, 44h
-db seg seg000, 0Dh, seg	seg000,	65h, seg seg000
-db 45h,	seg seg000, 28h, seg seg000, 50h
-db seg seg000, 68h, seg	seg000,	70h, seg seg000
-db 38h,	seg seg000, 47h, seg seg000, 72h
-db seg seg000, 76h, seg	seg000,	26h, seg seg000
-db 52h,	seg seg000, 6Dh, seg seg000, 98h
-db seg seg000, 48h, seg	seg000,	4Bh, seg seg000
-db 72h,	seg seg000, 65h, seg seg000, 30h
-db seg seg000, 48h, seg	seg000,	65h, seg seg000
-db 6Ah,	seg seg000, 44h, seg seg000, 9,	seg seg000
-db 71h,	seg seg000, 24h, seg seg000, 52h
-db seg seg000, 5Bh, seg	seg000,	7Eh, seg seg000
-db 86h,	seg seg000, 42h, seg seg000, 3Dh
-db seg seg000, 78h, seg	seg000,	66h, seg seg000
-db 38h,	seg seg000, 0Dh, seg seg000, 54h
-db seg seg000, 2Bh, seg	seg000,	2Ch, seg seg000
-db 33h,	seg seg000, 56h, seg seg000, 53h
-db seg seg000, 44h, seg	seg000,	61h, seg seg000
-db 77h,	seg seg000, 8Fh, seg seg000, 5Bh
-db seg seg000, 3Bh, seg	seg000,	89h, seg seg000
-db 60h,	seg seg000, 48h, seg seg000, 36h
-db seg seg000, 64h, seg	seg000,	59h, seg seg000
-db 7, seg seg000, 2 dup(0FFh), 28h, seg	seg000
-db 1, seg seg000, 0FAh,	seg seg000, 90h
-db seg seg000, 0FFh, seg seg000, 0Ch, seg seg000
-db 22h,	seg seg000, 37h, 0A6h, 0E6h, seg seg000
-db 32h,	seg seg000, 22h, seg seg000, 50h
-db 0A6h, 0B4h, seg seg000, 58h,	seg seg000
-db 22h,	seg seg000, 17h, 0D9h, 64h, seg	seg000
-db 11h,	seg seg000, 67h, seg seg000, 37h
-db 0A6h, 78h, seg seg000, 37h, seg seg000
-db 67h,	seg seg000, 50h, 0A6h, 8Ch, seg	seg000
-db 5Dh,	seg seg000, 67h, seg seg000, 17h
-db 0D9h, seg seg000, 1Fh, seg seg000, 7Ah
-db seg seg000, 5Ah, seg	seg000,	84h, seg seg000
-db 86h,	seg seg000, 27h, seg seg000, 0C8h
-db seg seg000, 82h, 2 dup(seg seg000), 3
-db 1, 2, 4, 5, 6, 3 dup(7), 8, 9, 0Ah, seg seg000
-db 2, 3, 1, 4, 5, 6, 7,	0Ah, 0Bh, 0Ch, 2 dup(seg seg000)
-db 0BEh, seg seg000, 2Ch, seg seg000, 0BEh
-db seg seg000, 33h, seg	seg000,	0BEh, seg seg000
-db 3Ah,	seg seg000, 0BEh, seg seg000, 41h
-db seg seg000, 0BEh, seg seg000, 48h, seg seg000
-db 0BEh, seg seg000, 4Fh, seg seg000, 0BEh
-db seg seg000, 56h, seg	seg000,	0BEh, seg seg000
-db 72h,	seg seg000, 0BEh, seg seg000, 79h
-db seg seg000, 0BEh, seg seg000, 80h, seg seg000
-db 2 dup(0FFh),	2 dup(seg seg000), 56h,	0E9h
-db 1, seg seg000, 5Ah, 0E9h, 2,	seg seg000
-db 5Eh,	0E9h, 3, seg seg000, 62h, 0E9h,	4
-db seg seg000, 66h, 0E9h, 5, seg seg000
-db 6Ah,	0E9h, 8, seg seg000, 0DDh, 0EFh
-db 9, seg seg000, 4Eh, 0F0h, 1Bh, seg seg000
-db 6Eh,	0E9h, 23h, seg seg000, 72h, 0E9h
-db 24h,	seg seg000, 76h, 0E9h, 2 dup(0FFh)
-db 1, seg seg000, 10h, seg seg000, 5Ch,	seg seg000
-db 9Fh,	seg seg000, 0E4h, seg seg000, 0C8h
-db seg seg000, 0FEh, 0F1h, 2 dup(seg seg000)
-db 54h,	41h, 42h, 4Ch, 41h, 54h, 2Eh, 42h
-db 49h,	4Eh, 3 dup(seg seg000),	44h, 4Eh
-db 43h,	48h, 41h, 52h, 2Eh, 42h, 49h, 4Eh
-db 3 dup(seg seg000), 44h, 4Eh,	43h, 48h
-db 41h,	52h, 32h, 2Eh, 42h, 49h, 4Eh, 3	dup(seg	seg000)
-db 44h,	49h, 41h, 4Ch, 4Fh, 47h, 55h, 45h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 56h,	45h, 52h, 2Eh, 42h, 49h, 4Eh, 3	dup(seg	seg000)
+db 3 dup(0), 0Eh, 0, 0Eh, 0C0h,	7Fh, 80h
+db 3Fh,	0, 1Fh,	0, 0Eh,	0, 4, 10h dup(0)
+db 5, 0, 2, 0, 0FFh, 0F9h, 0FFh, 0F1h, 0FFh
+db 0E1h, 7Fh, 0C0h, 7Fh, 80h, 7Fh, 0, 7Fh
+db 80h,	7Fh, 0C0h, 0FFh, 0E1h, 0FFh, 0F1h
+db 0FFh, 0F9h, 0Ah dup(0FFh), 3	dup(0),	4
+db 0, 0Ch, 0, 1Ch, 0, 3Fh, 0, 7Fh, 0, 3Fh
+db 0, 1Ch, 0, 0Ch, 0, 4, 0Eh dup(0), 4 dup(0FFh)
+db 4 dup(0), 2 dup(0FFh), 2 dup(0), 1, 0
+db 2 dup(0FFh),	8 dup(0), 2 dup(0FFh), 0Ah dup(0)
+db 1, 0Bh dup(0), 2 dup(0FFh), 1, 5 dup(0)
+db 1, 3	dup(0),	1, 0, 1, 0, 1, 5 dup(0)
+db 2, 9	dup(0),	40h, 1,	0C8h, 0, 2 dup(0FFh)
+db 0, 1, 20h, 1, 40h, 1, 60h, 1, 80h, 1
+db 0C0h, 1, 0, 2, 80h, 2, 2 dup(0FFh), 27h
+db 0C8h, 1, 5, 0FFh, 4,	3, 0, 4, 0FFh, 3
+db 0, 6, 0FFh, 5, 4, 3,	2, 1, 0, 8Ch, 0
+db 42h,	0, 78h,	0, 39h,	0, 6Ah,	0, 32h,	0
+db 50h,	0, 26h,	0, 35h,	0, 19h,	0, 28h,	0
+db 13h,	0, 14h,	0, 9, 0, 4Ch, 0, 2Fh, 0
+db 4Bh,	0, 49h,	5 dup(0), 53h, 0, 25h, 0
+db 4Ch,	0, 3Eh,	0, 53h,	0, 3Eh,	0, 4Dh,	0
+db 4Eh,	0, 58h,	0, 3Fh,	0, 47h,	0, 41h,	0
+db 56h,	0, 1Bh,	0, 69h,	0, 5Bh,	5 dup(0)
+db 4Ah,	0, 29h,	5 dup(0), 5Eh, 0, 57h, 9 dup(0)
+db 42h,	0, 37h,	0, 63h,	0, 56h,	0, 2Fh,	0
+db 54h,	0, 69h,	0, 72h,	0, 3Fh,	0, 59h,	0
+db 8Ch,	0, 88h,	0, 44h,	0, 0Dh,	0, 65h,	0
+db 45h,	0, 28h,	0, 50h,	0, 68h,	0, 70h,	0
+db 38h,	0, 47h,	0, 72h,	0, 76h,	0, 26h,	0
+db 52h,	0, 6Dh,	0, 98h,	0, 48h,	0, 4Bh,	0
+db 72h,	0, 65h,	0, 30h,	0, 48h,	0, 65h,	0
+db 6Ah,	0, 44h,	0, 9, 0, 71h, 0, 24h, 0
+db 52h,	0, 5Bh,	0, 7Eh,	0, 86h,	0, 42h,	0
+db 3Dh,	0, 78h,	0, 66h,	0, 38h,	0, 0Dh,	0
+db 54h,	0, 2Bh,	0, 2Ch,	0, 33h,	0, 56h,	0
+db 53h,	0, 44h,	0, 61h,	0, 77h,	0, 8Fh,	0
+db 5Bh,	0, 3Bh,	0, 89h,	0, 60h,	0, 48h,	0
+db 36h,	0, 64h,	0, 59h,	0, 7, 0, 2 dup(0FFh)
+db 28h,	0, 1, 0, 0FAh, 0, 90h, 0, 0FFh,	0
+db 0Ch,	0, 22h,	0, 37h,	0A6h, 0E6h, 0, 32h
+db 0, 22h, 0, 50h, 0A6h, 0B4h, 0, 58h, 0
+db 22h,	0, 17h,	0D9h, 64h, 0, 11h, 0, 67h
+db 0, 37h, 0A6h, 78h, 0, 37h, 0, 67h, 0
+db 50h,	0A6h, 8Ch, 0, 5Dh, 0, 67h, 0, 17h
+db 0D9h, 0, 1Fh, 0, 7Ah, 0, 5Ah, 0, 84h
+db 0, 86h, 0, 27h, 0, 0C8h, 0, 82h, 2 dup(0)
+db 3, 1, 2, 4, 5, 6, 3 dup(7), 8, 9, 0Ah
+db 0, 2, 3, 1, 4, 5, 6,	7, 0Ah,	0Bh, 0Ch
+db 2 dup(0), 0BEh, 0, 2Ch, 0, 0BEh, 0, 33h
+db 0, 0BEh, 0, 3Ah, 0, 0BEh, 0,	41h, 0,	0BEh
+db 0, 48h, 0, 0BEh, 0, 4Fh, 0, 0BEh, 0,	56h
+db 0, 0BEh, 0, 72h, 0, 0BEh, 0,	79h, 0,	0BEh
+db 0, 80h, 0, 2	dup(0FFh), 2 dup(0), 56h
+db 0E9h, 1, 0, 5Ah, 0E9h, 2, 0,	5Eh, 0E9h
+db 3, 0, 62h, 0E9h, 4, 0, 66h, 0E9h, 5,	0
+db 6Ah,	0E9h, 8, 0, 0DDh, 0EFh,	9, 0, 4Eh
+db 0F0h, 1Bh, 0, 6Eh, 0E9h, 23h, 0, 72h
+db 0E9h, 24h, 0, 76h, 0E9h, 2 dup(0FFh)
+db 1, 0, 10h, 0, 5Ch, 0, 9Fh, 0, 0E4h, 0
+db 0C8h, 0, 0FEh, 0F1h,	2 dup(0), 54h, 41h
+db 42h,	4Ch, 41h, 54h, 2Eh, 42h, 49h, 4Eh
+db 3 dup(0), 44h, 4Eh, 43h, 48h, 41h, 52h
+db 2Eh,	42h, 49h, 4Eh, 3 dup(0), 44h, 4Eh
+db 43h,	48h, 41h, 52h, 32h, 2Eh, 42h, 49h
+db 4Eh,	3 dup(0), 44h, 49h, 41h, 4Ch, 4Fh
+db 47h,	55h, 45h, 2Eh, 48h, 53h, 51h, 3	dup(0)
+db 56h,	45h, 52h, 2Eh, 42h, 49h, 4Eh, 3	dup(0)
 db 53h,	49h, 45h, 54h, 2Eh, 53h, 41h, 4Ch
-db 3 dup(seg seg000), 50h, 41h,	4Ch, 41h
-db 43h,	45h, 2Eh, 53h, 41h, 4Ch, 3 dup(seg seg000)
-db 56h,	49h, 4Ch, 47h, 2Eh, 53h, 41h, 4Ch
-db 3 dup(seg seg000), 48h, 41h,	52h, 4Bh
-db 2Eh,	53h, 41h, 4Ch, 3 dup(seg seg000)
-db 47h,	4Ch, 4Fh, 42h, 44h, 41h, 54h, 41h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
+db 3 dup(0), 50h, 41h, 4Ch, 41h, 43h, 45h
+db 2Eh,	53h, 41h, 4Ch, 3 dup(0), 56h, 49h
+db 4Ch,	47h, 2Eh, 53h, 41h, 4Ch, 3 dup(0)
+db 48h,	41h, 52h, 4Bh, 2Eh, 53h, 41h, 4Ch
+db 3 dup(0), 47h, 4Ch, 4Fh, 42h, 44h, 41h
+db 54h,	41h, 2Eh, 48h, 53h, 51h, 3 dup(0)
 db 50h,	48h, 52h, 41h, 53h, 45h, 2 dup(31h)
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 32h, 31h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 33h, 31h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 34h, 31h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
+db 2Eh,	48h, 53h, 51h, 3 dup(0), 50h, 48h
+db 52h,	41h, 53h, 45h, 32h, 31h, 2Eh, 48h
+db 53h,	51h, 3 dup(0), 50h, 48h, 52h, 41h
+db 53h,	45h, 33h, 31h, 2Eh, 48h, 53h, 51h
+db 3 dup(0), 50h, 48h, 52h, 41h, 53h, 45h
+db 34h,	31h, 2Eh, 48h, 53h, 51h, 3 dup(0)
 db 50h,	48h, 52h, 41h, 53h, 45h, 35h, 31h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 36h, 31h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 37h, 31h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 31h, 32h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
+db 2Eh,	48h, 53h, 51h, 3 dup(0), 50h, 48h
+db 52h,	41h, 53h, 45h, 36h, 31h, 2Eh, 48h
+db 53h,	51h, 3 dup(0), 50h, 48h, 52h, 41h
+db 53h,	45h, 37h, 31h, 2Eh, 48h, 53h, 51h
+db 3 dup(0), 50h, 48h, 52h, 41h, 53h, 45h
+db 31h,	32h, 2Eh, 48h, 53h, 51h, 3 dup(0)
 db 50h,	48h, 52h, 41h, 53h, 45h, 2 dup(32h)
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 33h, 32h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 34h, 32h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 35h, 32h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
+db 2Eh,	48h, 53h, 51h, 3 dup(0), 50h, 48h
+db 52h,	41h, 53h, 45h, 33h, 32h, 2Eh, 48h
+db 53h,	51h, 3 dup(0), 50h, 48h, 52h, 41h
+db 53h,	45h, 34h, 32h, 2Eh, 48h, 53h, 51h
+db 3 dup(0), 50h, 48h, 52h, 41h, 53h, 45h
+db 35h,	32h, 2Eh, 48h, 53h, 51h, 3 dup(0)
 db 50h,	48h, 52h, 41h, 53h, 45h, 36h, 32h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 50h,	48h, 52h, 41h, 53h, 45h, 37h, 32h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 43h,	4Fh, 2 dup(4Dh), 41h, 4Eh, 44h,	31h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 43h,	4Fh, 2 dup(4Dh), 41h, 4Eh, 44h,	32h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
+db 2Eh,	48h, 53h, 51h, 3 dup(0), 50h, 48h
+db 52h,	41h, 53h, 45h, 37h, 32h, 2Eh, 48h
+db 53h,	51h, 3 dup(0), 43h, 4Fh, 2 dup(4Dh)
+db 41h,	4Eh, 44h, 31h, 2Eh, 48h, 53h, 51h
+db 3 dup(0), 43h, 4Fh, 2 dup(4Dh), 41h,	4Eh
+db 44h,	32h, 2Eh, 48h, 53h, 51h, 3 dup(0)
 db 43h,	4Fh, 2 dup(4Dh), 41h, 4Eh, 44h,	33h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 43h,	4Fh, 2 dup(4Dh), 41h, 4Eh, 44h,	34h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 43h,	4Fh, 2 dup(4Dh), 41h, 4Eh, 44h,	35h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
-db 43h,	4Fh, 2 dup(4Dh), 41h, 4Eh, 44h,	36h
-db 2Eh,	48h, 53h, 51h, 3 dup(seg seg000)
+db 2Eh,	48h, 53h, 51h, 3 dup(0), 43h, 4Fh
+db 2 dup(4Dh), 41h, 4Eh, 44h, 34h, 2Eh,	48h
+db 53h,	51h, 3 dup(0), 43h, 4Fh, 2 dup(4Dh)
+db 41h,	4Eh, 44h, 35h, 2Eh, 48h, 53h, 51h
+db 3 dup(0), 43h, 4Fh, 2 dup(4Dh), 41h,	4Eh
+db 44h,	36h, 2Eh, 48h, 53h, 51h, 3 dup(0)
 db 43h,	4Fh, 2 dup(4Dh), 41h, 4Eh, 44h,	37h
-db 2Eh,	48h, 53h, 51h, seg seg000, 1, seg seg000
-db 44h,	4Eh, 56h, 47h, 41h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 1, seg seg000, 44h,	4Eh
-db 33h,	38h, 36h, 2Eh, 48h, 53h, 51h, seg seg000
-db 1, seg seg000, 44h, 4Eh, 50h, 43h, 53h
-db 2Eh,	48h, 53h, 51h, seg seg000, 1, seg seg000
-db 44h,	4Eh, 41h, 44h, 4Ch, 2Eh, 48h, 53h
-db 51h,	seg seg000, 1, seg seg000, 44h,	4Eh
-db 41h,	44h, 50h, 2Eh, 48h, 53h, 51h, seg seg000
-db 1, seg seg000, 44h, 4Eh, 41h, 44h, 47h
-db 2Eh,	48h, 53h, 51h, seg seg000, 1, seg seg000
+db 2Eh,	48h, 53h, 51h, 0, 1, 0,	44h, 4Eh
+db 56h,	47h, 41h, 2Eh, 48h, 53h, 51h, 0
+db 1, 0, 44h, 4Eh, 33h,	38h, 36h, 2Eh, 48h
+db 53h,	51h, 0,	1, 0, 44h, 4Eh,	50h, 43h
+db 53h,	2Eh, 48h, 53h, 51h, 0, 1, 0, 44h
+db 4Eh,	41h, 44h, 4Ch, 2Eh, 48h, 53h, 51h
+db 0, 1, 0, 44h, 4Eh, 41h, 44h,	50h, 2Eh
+db 48h,	53h, 51h, 0, 1,	0, 44h,	4Eh, 41h
+db 44h,	47h, 2Eh, 48h, 53h, 51h, 0, 1, 0
 db 44h,	4Eh, 4Dh, 49h, 44h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 1, seg seg000, 44h,	4Eh
-db 50h,	43h, 53h, 32h, 2Eh, 48h, 53h, 51h
-db seg seg000, 1, seg seg000, 44h, 4Eh,	53h
-db 44h,	42h, 2Eh, 48h, 53h, 51h, seg seg000
-db 1, seg seg000, 44h, 4Eh, 53h, 42h, 50h
-db 2Eh,	48h, 53h, 51h, seg seg000, 1, seg seg000
-db 43h,	4Fh, 4Eh, 44h, 49h, 54h, 2Eh, 48h
-db 53h,	51h, seg seg000, 1, seg	seg000,	4Dh
-db 41h,	50h, 2Eh, 48h, 53h, 51h, seg seg000
-db 0Dh,	5, 49h,	43h, 4Fh, 4Eh, 45h, 53h
-db 2Eh,	48h, 53h, 51h, seg seg000, 3Dh,	4
-db 46h,	52h, 45h, 53h, 4Bh, 2Eh, 48h, 53h
-db 51h,	seg seg000, 9Dh, 4, 4Ch, 45h, 54h
-db 4Fh,	2Eh, 48h, 53h, 51h, seg	seg000,	99h
-db 6, 4Ah, 45h,	2 dup(53h), 2Eh, 48h, 53h
-db 51h,	seg seg000, 96h, 5, 48h, 41h, 57h
-db 41h,	2Eh, 48h, 53h, 51h, seg	seg000,	5Dh
+db 51h,	0, 1, 0, 44h, 4Eh, 50h,	43h, 53h
+db 32h,	2Eh, 48h, 53h, 51h, 0, 1, 0, 44h
+db 4Eh,	53h, 44h, 42h, 2Eh, 48h, 53h, 51h
+db 0, 1, 0, 44h, 4Eh, 53h, 42h,	50h, 2Eh
+db 48h,	53h, 51h, 0, 1,	0, 43h,	4Fh, 4Eh
+db 44h,	49h, 54h, 2Eh, 48h, 53h, 51h, 0
+db 1, 0, 4Dh, 41h, 50h,	2Eh, 48h, 53h, 51h
+db 0, 0Dh, 5, 49h, 43h,	4Fh, 4Eh, 45h, 53h
+db 2Eh,	48h, 53h, 51h, 0, 3Dh, 4, 46h, 52h
+db 45h,	53h, 4Bh, 2Eh, 48h, 53h, 51h, 0
+db 9Dh,	4, 4Ch,	45h, 54h, 4Fh, 2Eh, 48h
+db 53h,	51h, 0,	99h, 6,	4Ah, 45h, 2 dup(53h)
+db 2Eh,	48h, 53h, 51h, 0, 96h, 5, 48h, 41h
+db 57h,	41h, 2Eh, 48h, 53h, 51h, 0, 5Dh
 db 7, 49h, 44h,	41h, 48h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0C3h, 6, 47h, 55h, 52h
-db 4Eh,	2Eh, 48h, 53h, 51h, seg	seg000,	0C6h
-db 6, 53h, 54h,	49h, 4Ch, 2Eh, 48h, 53h
-db 51h,	seg seg000, 69h, 9, 4Bh, 59h, 4Eh
-db 45h,	2Eh, 48h, 53h, 51h, seg	seg000,	71h
-db 5, 43h, 48h,	41h, 4Eh, 2Eh, 48h, 53h
-db 51h,	seg seg000, 51h, 7, 48h, 41h, 52h
-db 41h,	2Eh, 48h, 53h, 51h, seg	seg000,	0A8h
-db 5, 42h, 41h,	52h, 4Fh, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0DBh, 8, 46h, 45h, 59h
-db 44h,	2Eh, 48h, 53h, 51h, seg	seg000,	9Ch
-db 9, 45h, 4Dh,	50h, 52h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 82h, 6, 48h, 41h, 52h
-db 4Bh,	2Eh, 48h, 53h, 51h, seg	seg000,	0C9h
-db 5, 53h, 4Dh,	55h, 47h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0F1h, 0Dh, 46h, 52h
-db 4Dh,	31h, 2Eh, 48h, 53h, 51h, seg seg000
-db 0B0h, 0Ch, 46h, 52h,	4Dh, 32h, 2Eh, 48h
-db 53h,	51h, seg seg000, 3, 0Ah, 46h, 52h
-db 4Dh,	33h, 2Eh, 48h, 53h, 51h, seg seg000
+db 51h,	0, 0C3h, 6, 47h, 55h, 52h, 4Eh,	2Eh
+db 48h,	53h, 51h, 0, 0C6h, 6, 53h, 54h,	49h
+db 4Ch,	2Eh, 48h, 53h, 51h, 0, 69h, 9, 4Bh
+db 59h,	4Eh, 45h, 2Eh, 48h, 53h, 51h, 0
+db 71h,	5, 43h,	48h, 41h, 4Eh, 2Eh, 48h
+db 53h,	51h, 0,	51h, 7,	48h, 41h, 52h, 41h
+db 2Eh,	48h, 53h, 51h, 0, 0A8h,	5, 42h,	41h
+db 52h,	4Fh, 2Eh, 48h, 53h, 51h, 0, 0DBh
+db 8, 46h, 45h,	59h, 44h, 2Eh, 48h, 53h
+db 51h,	0, 9Ch,	9, 45h,	4Dh, 50h, 52h, 2Eh
+db 48h,	53h, 51h, 0, 82h, 6, 48h, 41h, 52h
+db 4Bh,	2Eh, 48h, 53h, 51h, 0, 0C9h, 5,	53h
+db 4Dh,	55h, 47h, 2Eh, 48h, 53h, 51h, 0
+db 0F1h, 0Dh, 46h, 52h,	4Dh, 31h, 2Eh, 48h
+db 53h,	51h, 0,	0B0h, 0Ch, 46h,	52h, 4Dh
+db 32h,	2Eh, 48h, 53h, 51h, 0, 3, 0Ah, 46h
+db 52h,	4Dh, 33h, 2Eh, 48h, 53h, 51h, 0
 db 0D4h, 1, 47h, 45h, 4Eh, 45h,	52h, 49h
-db 43h,	2Eh, 48h, 53h, 51h, seg	seg000,	9Dh
-db 3, 50h, 52h,	4Fh, 55h, 47h, 45h, 2Eh
-db 48h,	53h, 51h, seg seg000, 35h, 4, 43h
-db 4Fh,	2 dup(4Dh), 2Eh, 48h, 53h, 51h,	seg seg000
-db 86h,	2, 45h,	51h, 55h, 49h, 2Eh, 48h
-db 53h,	51h, seg seg000, 70h, 4, 42h, 41h
-db 4Ch,	43h, 4Fh, 4Eh, 2Eh, 48h, 53h, 51h
-db seg seg000, 1Eh, 4, 43h, 4Fh, 2 dup(52h)
-db 2Eh,	48h, 53h, 51h, seg seg000, 66h,	7
-db 50h,	4Fh, 52h, 2Eh, 48h, 53h, 51h, seg seg000
-db 7, 0Ah, 53h,	49h, 45h, 54h, 31h, 2Eh
-db 48h,	53h, 51h, seg seg000, 0Fh, 7, 58h
-db 50h,	4Ch, 41h, 49h, 4Eh, 39h, 2Eh, 48h
-db 53h,	51h, seg seg000, 4, 0Ah, 6Ch, 69h
-db 62h,	72h, 65h, seg seg000, 0A7h, 5, 42h
-db 55h,	4Eh, 4Bh, 2Eh, 48h, 53h, 51h, seg seg000
-db 0D2h, 5, 46h, 49h, 4Eh, 41h,	4Ch, 2Eh
-db 48h,	53h, 51h, seg seg000, 74h, 6, 53h
-db 45h,	2 dup(52h), 45h, 2Eh, 48h, 53h,	51h
-db seg seg000, 0D6h, 5,	42h, 4Fh, 54h, 41h
-db 2Eh,	48h, 53h, 51h, seg seg000, 0E3h
-db seg seg000, 50h, 41h, 4Ch, 50h, 4Ch,	41h
-db 4Eh,	2Eh, 48h, 53h, 51h, seg	seg000,	51h
-db 2, 53h, 55h,	4Eh, 2Eh, 48h, 53h, 51h
-db seg seg000, 75h, 9, 56h, 49h, 53h, 2Eh
-db 48h,	53h, 51h, seg seg000, 0C8h, 1, 4Fh
-db 52h,	4Eh, 59h, 50h, 41h, 4Eh, 2Eh, 48h
-db 53h,	51h, seg seg000, 0AAh, 5, 4Fh, 4Eh
-db 4Dh,	41h, 50h, 2Eh, 48h, 53h, 51h, seg seg000
-db 0C2h, 5, 50h, 45h, 52h, 53h,	2Eh, 48h
-db 53h,	51h, seg seg000, 24h, 1, 43h, 48h
-db 41h,	4Eh, 4Bh, 49h, 2 dup(53h), 2Eh,	48h
-db 53h,	51h, seg seg000, 9, 3, 53h, 4Bh
-db 59h,	2Eh, 48h, 53h, 51h, seg	seg000,	22h
-db 4, 53h, 4Bh,	59h, 44h, 4Eh, 2Eh, 48h
-db 53h,	51h, seg seg000, 64h, 4, 4Fh, 52h
+db 43h,	2Eh, 48h, 53h, 51h, 0, 9Dh, 3, 50h
+db 52h,	4Fh, 55h, 47h, 45h, 2Eh, 48h, 53h
+db 51h,	0, 35h,	4, 43h,	4Fh, 2 dup(4Dh)
+db 2Eh,	48h, 53h, 51h, 0, 86h, 2, 45h, 51h
+db 55h,	49h, 2Eh, 48h, 53h, 51h, 0, 70h
+db 4, 42h, 41h,	4Ch, 43h, 4Fh, 4Eh, 2Eh
+db 48h,	53h, 51h, 0, 1Eh, 4, 43h, 4Fh, 2 dup(52h)
+db 2Eh,	48h, 53h, 51h, 0, 66h, 7, 50h, 4Fh
+db 52h,	2Eh, 48h, 53h, 51h, 0, 7, 0Ah, 53h
+db 49h,	45h, 54h, 31h, 2Eh, 48h, 53h, 51h
+db 0, 0Fh, 7, 58h, 50h,	4Ch, 41h, 49h, 4Eh
+db 39h,	2Eh, 48h, 53h, 51h, 0, 4, 0Ah, 6Ch
+db 69h,	62h, 72h, 65h, 0, 0A7h,	5, 42h,	55h
+db 4Eh,	4Bh, 2Eh, 48h, 53h, 51h, 0, 0D2h
+db 5, 46h, 49h,	4Eh, 41h, 4Ch, 2Eh, 48h
+db 53h,	51h, 0,	74h, 6,	53h, 45h, 2 dup(52h)
+db 45h,	2Eh, 48h, 53h, 51h, 0, 0D6h, 5,	42h
+db 4Fh,	54h, 41h, 2Eh, 48h, 53h, 51h, 0
+db 0E3h, 0, 50h, 41h, 4Ch, 50h,	4Ch, 41h
+db 4Eh,	2Eh, 48h, 53h, 51h, 0, 51h, 2, 53h
+db 55h,	4Eh, 2Eh, 48h, 53h, 51h, 0, 75h
+db 9, 56h, 49h,	53h, 2Eh, 48h, 53h, 51h
+db 0, 0C8h, 1, 4Fh, 52h, 4Eh, 59h, 50h,	41h
+db 4Eh,	2Eh, 48h, 53h, 51h, 0, 0AAh, 5,	4Fh
+db 4Eh,	4Dh, 41h, 50h, 2Eh, 48h, 53h, 51h
+db 0, 0C2h, 5, 50h, 45h, 52h, 53h, 2Eh,	48h
+db 53h,	51h, 0,	24h, 1,	43h, 48h, 41h, 4Eh
+db 4Bh,	49h, 2 dup(53h), 2Eh, 48h, 53h,	51h
+db 0, 9, 3, 53h, 4Bh, 59h, 2Eh,	48h, 53h
+db 51h,	0, 22h,	4, 53h,	4Bh, 59h, 44h, 4Eh
+db 2Eh,	48h, 53h, 51h, 0, 64h, 4, 4Fh, 52h
 db 4Eh,	59h, 54h, 4Bh, 2Eh, 48h, 53h, 51h
-db seg seg000, 7Bh, 2, 41h, 2 dup(54h),	41h
-db 43h,	4Bh, 2Eh, 48h, 53h, 51h, seg seg000
-db 14h,	0Eh, 53h, 54h, 41h, 52h, 53h, 2Eh
-db 48h,	53h, 51h, seg seg000, 0B7h, 2, 49h
-db 4Eh,	54h, 44h, 53h, 2Eh, 48h, 53h, 51h
-db seg seg000, 55h, 7, 53h, 55h, 4Eh, 52h
-db 53h,	2Eh, 48h, 53h, 51h, seg	seg000,	0A2h
-db 4, 50h, 41h,	55h, 4Ch, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0BDh, 0Bh, 42h, 41h
-db 43h,	4Bh, 2Eh, 48h, 53h, 51h, seg seg000
-db 0AFh, 2, 4Dh, 4Fh, 49h, 53h,	2Eh, 48h
-db 53h,	51h, seg seg000, 19h, 0Ah, 42h,	2 dup(4Fh)
-db 4Bh,	2Eh, 48h, 53h, 51h, seg	seg000,	0F5h
-db seg seg000, 4Fh, 52h, 4Eh, 59h, 2Eh,	48h
-db 53h,	51h, seg seg000, 3Ch, 1, 4Fh, 52h
+db 0, 7Bh, 2, 41h, 2 dup(54h), 41h, 43h
+db 4Bh,	2Eh, 48h, 53h, 51h, 0, 14h, 0Eh
+db 53h,	54h, 41h, 52h, 53h, 2Eh, 48h, 53h
+db 51h,	0, 0B7h, 2, 49h, 4Eh, 54h, 44h,	53h
+db 2Eh,	48h, 53h, 51h, 0, 55h, 7, 53h, 55h
+db 4Eh,	52h, 53h, 2Eh, 48h, 53h, 51h, 0
+db 0A2h, 4, 50h, 41h, 55h, 4Ch,	2Eh, 48h
+db 53h,	51h, 0,	0BDh, 0Bh, 42h,	41h, 43h
+db 4Bh,	2Eh, 48h, 53h, 51h, 0, 0AFh, 2,	4Dh
+db 4Fh,	49h, 53h, 2Eh, 48h, 53h, 51h, 0
+db 19h,	0Ah, 42h, 2 dup(4Fh), 4Bh, 2Eh,	48h
+db 53h,	51h, 0,	0F5h, 0, 4Fh, 52h, 4Eh,	59h
+db 2Eh,	48h, 53h, 51h, 0, 3Ch, 1, 4Fh, 52h
 db 4Eh,	59h, 43h, 41h, 42h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0D4h, 1, 6Ch, 69h, 62h
-db 72h,	65h, 2Eh, 48h, 53h, 51h, seg seg000
-db 2Ah,	3, 6Ch,	69h, 62h, 72h, 65h, 2Eh
-db 48h,	53h, 51h, 2 dup(seg seg000), 6,	6Ch
-db 69h,	62h, 72h, 65h, 2Eh, 48h, 53h, 51h
-db seg seg000, 0DDh, 6,	6Ch, 69h, 62h, 72h
-db 65h,	seg seg000, 5Bh, 1, 56h, 45h, 52h
-db 2Eh,	48h, 53h, 51h, seg seg000, 64h,	0Ch
-db 4Dh,	41h, 50h, 32h, 2Eh, 48h, 53h, 51h
-db seg seg000, 0Eh, 5, 4Dh, 49h, 2 dup(52h)
-db 4Fh,	52h, 2Eh, 48h, 53h, 51h, seg seg000
-db 1Ch,	6, 44h,	53h, 30h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 38h, 5, 44h, 53h, 31h
-db 2Eh,	48h, 53h, 51h, seg seg000, 74h,	5
-db 44h,	53h, 32h, 2Eh, 48h, 53h, 51h, seg seg000
-db 3Ah,	6, 44h,	53h, 33h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 34h, 6, 44h, 53h, 34h
-db 2Eh,	48h, 53h, 51h, seg seg000, 2Ah,	3
-db 6Ch,	69h, 62h, 72h, 65h, seg	seg000,	55h
-db 5, 44h, 4Eh,	32h, 30h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0CDh, 6, 44h, 4Eh, 32h
-db 31h,	2Eh, 48h, 53h, 51h, seg	seg000,	0E4h
-db 7, 44h, 4Eh,	2 dup(32h), 2Eh, 48h, 53h
-db 51h,	seg seg000, 0EAh, 7, 44h, 4Eh, 32h
-db 33h,	2Eh, 48h, 53h, 51h, seg	seg000,	0B8h
+db 51h,	0, 0D4h, 1, 6Ch, 69h, 62h, 72h,	65h
+db 2Eh,	48h, 53h, 51h, 0, 2Ah, 3, 6Ch, 69h
+db 62h,	72h, 65h, 2Eh, 48h, 53h, 51h, 2	dup(0)
+db 6, 6Ch, 69h,	62h, 72h, 65h, 2Eh, 48h
+db 53h,	51h, 0,	0DDh, 6, 6Ch, 69h, 62h,	72h
+db 65h,	0, 5Bh,	1, 56h,	45h, 52h, 2Eh, 48h
+db 53h,	51h, 0,	64h, 0Ch, 4Dh, 41h, 50h
+db 32h,	2Eh, 48h, 53h, 51h, 0, 0Eh, 5, 4Dh
+db 49h,	2 dup(52h), 4Fh, 52h, 2Eh, 48h,	53h
+db 51h,	0, 1Ch,	6, 44h,	53h, 30h, 2Eh, 48h
+db 53h,	51h, 0,	38h, 5,	44h, 53h, 31h, 2Eh
+db 48h,	53h, 51h, 0, 74h, 5, 44h, 53h, 32h
+db 2Eh,	48h, 53h, 51h, 0, 3Ah, 6, 44h, 53h
+db 33h,	2Eh, 48h, 53h, 51h, 0, 34h, 6, 44h
+db 53h,	34h, 2Eh, 48h, 53h, 51h, 0, 2Ah
+db 3, 6Ch, 69h,	62h, 72h, 65h, 0, 55h, 5
+db 44h,	4Eh, 32h, 30h, 2Eh, 48h, 53h, 51h
+db 0, 0CDh, 6, 44h, 4Eh, 32h, 31h, 2Eh,	48h
+db 53h,	51h, 0,	0E4h, 7, 44h, 4Eh, 2 dup(32h)
+db 2Eh,	48h, 53h, 51h, 0, 0EAh,	7, 44h,	4Eh
+db 32h,	33h, 2Eh, 48h, 53h, 51h, 0, 0B8h
 db 8, 44h, 4Eh,	32h, 34h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 8Eh, 6, 44h, 4Eh, 32h
-db 35h,	2Eh, 48h, 53h, 51h, seg	seg000,	9
-db 5, 44h, 4Eh,	32h, 36h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 31h, 6, 44h, 4Eh, 32h
-db 37h,	2Eh, 48h, 53h, 51h, seg	seg000,	0DDh
-db 8, 44h, 4Eh,	32h, 38h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 46h, 6, 44h, 4Eh, 32h
-db 39h,	2Eh, 48h, 53h, 51h, seg	seg000,	0FFh
-db 6, 44h, 4Eh,	33h, 30h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 2Ah, 7, 44h, 4Eh, 33h
-db 31h,	2Eh, 48h, 53h, 51h, seg	seg000,	91h
-db 6, 44h, 4Eh,	33h, 32h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 97h, 6, 44h, 4Eh, 2	dup(33h)
-db 2Eh,	48h, 53h, 51h, seg seg000, 0B7h
-db 6, 44h, 4Eh,	33h, 34h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0CDh, 4, 44h, 4Eh, 33h
-db 35h,	2Eh, 48h, 53h, 51h, seg	seg000,	0EFh
-db 5, 44h, 4Eh,	33h, 36h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 6, 5, 44h, 4Eh, 33h
-db 37h,	2Eh, 48h, 53h, 51h, seg	seg000,	51h
-db 6, 44h, 4Eh,	33h, 38h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 3Eh, 4, 4Dh, 49h, 58h
-db 52h,	2Eh, 48h, 53h, 51h, seg	seg000,	8Eh
-db 6, 49h, 4Eh,	54h, 30h, 32h, 2Eh, 48h
-db 53h,	51h, seg seg000, 7Ch, 6, 49h, 4Eh
-db 54h,	30h, 34h, 2Eh, 48h, 53h, 51h, seg seg000
-db 38h,	7, 49h,	4Eh, 54h, 30h, 35h, 2Eh
-db 48h,	53h, 51h, seg seg000, 0E1h, 6, 49h
-db 4Eh,	54h, 30h, 36h, 2Eh, 48h, 53h, 51h
-db seg seg000, 3Ah, 7, 49h, 4Eh, 54h, 30h
-db 37h,	2Eh, 48h, 53h, 51h, seg	seg000,	0DEh
-db 6, 49h, 4Eh,	54h, 30h, 38h, 2Eh, 48h
-db 53h,	51h, seg seg000, 6Ah, 6, 49h, 4Eh
-db 54h,	30h, 39h, 2Eh, 48h, 53h, 51h, seg seg000
-db 0B8h, 8, 49h, 4Eh, 54h, 31h,	30h, 2Eh
-db 48h,	53h, 51h, seg seg000, 7Ch, 8, 49h
-db 4Eh,	54h, 2 dup(31h), 2Eh, 48h, 53h,	51h
-db seg seg000, 0CAh, 5,	49h, 4Eh, 54h, 31h
-db 33h,	2Eh, 48h, 53h, 51h, seg	seg000,	0CCh
-db 2, 49h, 4Eh,	54h, 31h, 34h, 2Eh, 48h
-db 53h,	51h, seg seg000, 38h, 4, 49h, 4Eh
-db 54h,	31h, 35h, 2Eh, 48h, 53h, 51h, seg seg000
-db 42h,	6, 50h,	41h, 4Ch, 41h, 49h, 53h
-db 2Eh,	48h, 53h, 51h, seg seg000, 5Fh,	9
-db 4Dh,	4Eh, 54h, 31h, 2Eh, 4Ch, 4Fh, 50h
-db seg seg000, 60h, 9, 4Dh, 4Eh, 54h, 32h
-db 2Eh,	4Ch, 4Fh, 50h, seg seg000, 48h,	0Eh
-db 4Dh,	4Eh, 54h, 33h, 2Eh, 4Ch, 4Fh, 50h
-db seg seg000, 39h, 0Eh, 4Dh, 4Eh, 54h,	34h
-db 2Eh,	4Ch, 4Fh, 50h, seg seg000, 0B6h
-db 8, 53h, 49h,	45h, 54h, 2Eh, 4Ch, 4Fh
-db 50h,	seg seg000, 8Eh, 8, 50h, 41h, 4Ch
-db 41h,	43h, 45h, 2Eh, 4Ch, 4Fh, 50h, seg seg000
-db 0D2h, 4, 49h, 52h, 55h, 4Ch,	31h, 2Eh
-db 48h,	53h, 51h, seg seg000, 35h, 5, 49h
-db 52h,	55h, 4Ch, 32h, 2Eh, 48h, 53h, 51h
-db seg seg000, 0A8h, 5,	49h, 52h, 55h, 4Ch
-db 33h,	2Eh, 48h, 53h, 51h, seg	seg000,	0D2h
-db 4, 49h, 52h,	55h, 4Ch, 34h, 2Eh, 48h
-db 53h,	51h, seg seg000, 4Dh, 5, 49h, 52h
-db 55h,	4Ch, 35h, 2Eh, 48h, 53h, 51h, seg seg000
-db 62h,	5, 49h,	52h, 55h, 4Ch, 36h, 2Eh
-db 48h,	53h, 51h, seg seg000, 0D0h, 4, 49h
-db 52h,	55h, 4Ch, 37h, 2Eh, 48h, 53h, 51h
-db seg seg000, 0D0h, 4,	49h, 52h, 55h, 4Ch
-db 38h,	2Eh, 48h, 53h, 51h, seg	seg000,	0D0h
-db 4, 49h, 52h,	55h, 4Ch, 39h, 2Eh, 48h
-db 53h,	51h, seg seg000, 0F3h, 6, 44h, 50h
-db 31h,	2Eh, 48h, 53h, 51h, seg	seg000,	9Ch
-db 7, 44h, 50h,	30h, 2Eh, 48h, 53h, 51h
-db seg seg000, 5Ch, 6, 44h, 50h, 32h, 2Eh
-db 48h,	53h, 51h, seg seg000, 0E7h, 3, 44h
-db 50h,	33h, 2Eh, 48h, 53h, 51h, seg seg000
-db 3Fh,	7, 44h,	46h, 31h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 47h, 7, 44h, 46h, 32h
-db 2Eh,	48h, 53h, 51h, seg seg000, 8Dh,	7
-db 44h,	46h, 33h, 2Eh, 48h, 53h, 51h, seg seg000
-db 0D9h, 5, 44h, 46h, 34h, 2Eh,	48h, 53h
-db 51h,	seg seg000, 1Dh, 7, 56h, 49h, 4Ch
-db 31h,	2Eh, 48h, 53h, 51h, seg	seg000,	0C0h
+db 51h,	0, 8Eh,	6, 44h,	4Eh, 32h, 35h, 2Eh
+db 48h,	53h, 51h, 0, 9,	5, 44h,	4Eh, 32h
+db 36h,	2Eh, 48h, 53h, 51h, 0, 31h, 6, 44h
+db 4Eh,	32h, 37h, 2Eh, 48h, 53h, 51h, 0
+db 0DDh, 8, 44h, 4Eh, 32h, 38h,	2Eh, 48h
+db 53h,	51h, 0,	46h, 6,	44h, 4Eh, 32h, 39h
+db 2Eh,	48h, 53h, 51h, 0, 0FFh,	6, 44h,	4Eh
+db 33h,	30h, 2Eh, 48h, 53h, 51h, 0, 2Ah
+db 7, 44h, 4Eh,	33h, 31h, 2Eh, 48h, 53h
+db 51h,	0, 91h,	6, 44h,	4Eh, 33h, 32h, 2Eh
+db 48h,	53h, 51h, 0, 97h, 6, 44h, 4Eh, 2 dup(33h)
+db 2Eh,	48h, 53h, 51h, 0, 0B7h,	6, 44h,	4Eh
+db 33h,	34h, 2Eh, 48h, 53h, 51h, 0, 0CDh
+db 4, 44h, 4Eh,	33h, 35h, 2Eh, 48h, 53h
+db 51h,	0, 0EFh, 5, 44h, 4Eh, 33h, 36h,	2Eh
+db 48h,	53h, 51h, 0, 6,	5, 44h,	4Eh, 33h
+db 37h,	2Eh, 48h, 53h, 51h, 0, 51h, 6, 44h
+db 4Eh,	33h, 38h, 2Eh, 48h, 53h, 51h, 0
+db 3Eh,	4, 4Dh,	49h, 58h, 52h, 2Eh, 48h
+db 53h,	51h, 0,	8Eh, 6,	49h, 4Eh, 54h, 30h
+db 32h,	2Eh, 48h, 53h, 51h, 0, 7Ch, 6, 49h
+db 4Eh,	54h, 30h, 34h, 2Eh, 48h, 53h, 51h
+db 0, 38h, 7, 49h, 4Eh,	54h, 30h, 35h, 2Eh
+db 48h,	53h, 51h, 0, 0E1h, 6, 49h, 4Eh,	54h
+db 30h,	36h, 2Eh, 48h, 53h, 51h, 0, 3Ah
+db 7, 49h, 4Eh,	54h, 30h, 37h, 2Eh, 48h
+db 53h,	51h, 0,	0DEh, 6, 49h, 4Eh, 54h,	30h
+db 38h,	2Eh, 48h, 53h, 51h, 0, 6Ah, 6, 49h
+db 4Eh,	54h, 30h, 39h, 2Eh, 48h, 53h, 51h
+db 0, 0B8h, 8, 49h, 4Eh, 54h, 31h, 30h,	2Eh
+db 48h,	53h, 51h, 0, 7Ch, 8, 49h, 4Eh, 54h
+db 2 dup(31h), 2Eh, 48h, 53h, 51h, 0, 0CAh
+db 5, 49h, 4Eh,	54h, 31h, 33h, 2Eh, 48h
+db 53h,	51h, 0,	0CCh, 2, 49h, 4Eh, 54h,	31h
+db 34h,	2Eh, 48h, 53h, 51h, 0, 38h, 4, 49h
+db 4Eh,	54h, 31h, 35h, 2Eh, 48h, 53h, 51h
+db 0, 42h, 6, 50h, 41h,	4Ch, 41h, 49h, 53h
+db 2Eh,	48h, 53h, 51h, 0, 5Fh, 9, 4Dh, 4Eh
+db 54h,	31h, 2Eh, 4Ch, 4Fh, 50h, 0, 60h
+db 9, 4Dh, 4Eh,	54h, 32h, 2Eh, 4Ch, 4Fh
+db 50h,	0, 48h,	0Eh, 4Dh, 4Eh, 54h, 33h
+db 2Eh,	4Ch, 4Fh, 50h, 0, 39h, 0Eh, 4Dh
+db 4Eh,	54h, 34h, 2Eh, 4Ch, 4Fh, 50h, 0
+db 0B6h, 8, 53h, 49h, 45h, 54h,	2Eh, 4Ch
+db 4Fh,	50h, 0,	8Eh, 8,	50h, 41h, 4Ch, 41h
+db 43h,	45h, 2Eh, 4Ch, 4Fh, 50h, 0, 0D2h
+db 4, 49h, 52h,	55h, 4Ch, 31h, 2Eh, 48h
+db 53h,	51h, 0,	35h, 5,	49h, 52h, 55h, 4Ch
+db 32h,	2Eh, 48h, 53h, 51h, 0, 0A8h, 5,	49h
+db 52h,	55h, 4Ch, 33h, 2Eh, 48h, 53h, 51h
+db 0, 0D2h, 4, 49h, 52h, 55h, 4Ch, 34h,	2Eh
+db 48h,	53h, 51h, 0, 4Dh, 5, 49h, 52h, 55h
+db 4Ch,	35h, 2Eh, 48h, 53h, 51h, 0, 62h
+db 5, 49h, 52h,	55h, 4Ch, 36h, 2Eh, 48h
+db 53h,	51h, 0,	0D0h, 4, 49h, 52h, 55h,	4Ch
+db 37h,	2Eh, 48h, 53h, 51h, 0, 0D0h, 4,	49h
+db 52h,	55h, 4Ch, 38h, 2Eh, 48h, 53h, 51h
+db 0, 0D0h, 4, 49h, 52h, 55h, 4Ch, 39h,	2Eh
+db 48h,	53h, 51h, 0, 0F3h, 6, 44h, 50h,	31h
+db 2Eh,	48h, 53h, 51h, 0, 9Ch, 7, 44h, 50h
+db 30h,	2Eh, 48h, 53h, 51h, 0, 5Ch, 6, 44h
+db 50h,	32h, 2Eh, 48h, 53h, 51h, 0, 0E7h
+db 3, 44h, 50h,	33h, 2Eh, 48h, 53h, 51h
+db 0, 3Fh, 7, 44h, 46h,	31h, 2Eh, 48h, 53h
+db 51h,	0, 47h,	7, 44h,	46h, 32h, 2Eh, 48h
+db 53h,	51h, 0,	8Dh, 7,	44h, 46h, 33h, 2Eh
+db 48h,	53h, 51h, 0, 0D9h, 5, 44h, 46h,	34h
+db 2Eh,	48h, 53h, 51h, 0, 1Dh, 7, 56h, 49h
+db 4Ch,	31h, 2Eh, 48h, 53h, 51h, 0, 0C0h
 db 6, 56h, 49h,	4Ch, 32h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 4Fh, 5, 56h, 49h, 4Ch
-db 33h,	2Eh, 48h, 53h, 51h, seg	seg000,	12h
-db 6, 56h, 49h,	4Ch, 34h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0F2h, 6, 56h, 49h, 4Ch
-db 35h,	2Eh, 48h, 53h, 51h, seg	seg000,	8Ah
-db 5, 56h, 49h,	4Ch, 36h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 7, 8, 44h, 56h, 31h
-db 2Eh,	48h, 53h, 51h, seg seg000, 94h,	7
-db 44h,	56h, 32h, 2Eh, 48h, 53h, 51h, seg seg000
-db 2 dup(6), 44h, 56h, 33h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0C2h, 8, 44h, 56h, 34h
-db 2Eh,	48h, 53h, 51h, seg seg000, 0A0h
-db 7, 44h, 48h,	30h, 2Eh, 48h, 53h, 51h
-db seg seg000, 7Ch, 6, 44h, 48h, 31h, 2Eh
-db 48h,	53h, 51h, seg seg000, 1Eh, 8, 44h
-db 48h,	32h, 2Eh, 48h, 53h, 51h, seg seg000
-db 0E8h, 8, 44h, 48h, 33h, 2Eh,	48h, 53h
-db 51h,	seg seg000, 0E5h, 8, 56h, 47h, 30h
-db 31h,	2Eh, 48h, 53h, 51h, seg	seg000,	31h
+db 51h,	0, 4Fh,	5, 56h,	49h, 4Ch, 33h, 2Eh
+db 48h,	53h, 51h, 0, 12h, 6, 56h, 49h, 4Ch
+db 34h,	2Eh, 48h, 53h, 51h, 0, 0F2h, 6,	56h
+db 49h,	4Ch, 35h, 2Eh, 48h, 53h, 51h, 0
+db 8Ah,	5, 56h,	49h, 4Ch, 36h, 2Eh, 48h
+db 53h,	51h, 0,	7, 8, 44h, 56h,	31h, 2Eh
+db 48h,	53h, 51h, 0, 94h, 7, 44h, 56h, 32h
+db 2Eh,	48h, 53h, 51h, 0, 2 dup(6), 44h
+db 56h,	33h, 2Eh, 48h, 53h, 51h, 0, 0C2h
+db 8, 44h, 56h,	34h, 2Eh, 48h, 53h, 51h
+db 0, 0A0h, 7, 44h, 48h, 30h, 2Eh, 48h,	53h
+db 51h,	0, 7Ch,	6, 44h,	48h, 31h, 2Eh, 48h
+db 53h,	51h, 0,	1Eh, 8,	44h, 48h, 32h, 2Eh
+db 48h,	53h, 51h, 0, 0E8h, 8, 44h, 48h,	33h
+db 2Eh,	48h, 53h, 51h, 0, 0E5h,	8, 56h,	47h
+db 30h,	31h, 2Eh, 48h, 53h, 51h, 0, 31h
 db 8, 56h, 47h,	30h, 32h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 78h, 8, 56h, 47h, 30h
-db 33h,	2Eh, 48h, 53h, 51h, seg	seg000,	6Fh
-db 9, 56h, 47h,	30h, 34h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 86h, 9, 56h, 47h, 30h
-db 35h,	2Eh, 48h, 53h, 51h, seg	seg000,	0AEh
-db 7, 56h, 47h,	30h, 36h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 0Fh, 8, 56h, 47h, 30h
-db 37h,	2Eh, 48h, 53h, 51h, seg	seg000,	0F7h
-db 8, 56h, 47h,	30h, 38h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 10h, 8, 56h, 47h, 30h
-db 39h,	2Eh, 48h, 53h, 51h, seg	seg000,	4Eh
-db 8, 56h, 47h,	31h, 30h, 2Eh, 48h, 53h
-db 51h,	seg seg000, 98h, 2Bh, 0A5h, 2Bh
+db 51h,	0, 78h,	8, 56h,	47h, 30h, 33h, 2Eh
+db 48h,	53h, 51h, 0, 6Fh, 9, 56h, 47h, 30h
+db 34h,	2Eh, 48h, 53h, 51h, 0, 86h, 9, 56h
+db 47h,	30h, 35h, 2Eh, 48h, 53h, 51h, 0
+db 0AEh, 7, 56h, 47h, 30h, 36h,	2Eh, 48h
+db 53h,	51h, 0,	0Fh, 8,	56h, 47h, 30h, 37h
+db 2Eh,	48h, 53h, 51h, 0, 0F7h,	8, 56h,	47h
+db 30h,	38h, 2Eh, 48h, 53h, 51h, 0, 10h
+db 8, 56h, 47h,	30h, 39h, 2Eh, 48h, 53h
+db 51h,	0, 4Eh,	8, 56h,	47h, 31h, 30h, 2Eh
+db 48h,	53h, 51h, 0, 98h, 2Bh, 0A5h, 2Bh
 db 0B1h, 2Bh, 0BCh, 2Bh, 0C7h, 2Bh, 0D2h
 db 2Bh,	0DDh, 2Bh, 0E8h, 2Bh, 0F3h, 2Bh
 db 0FEh, 2Bh, 9, 2Ch, 14h, 2Ch,	1Fh, 2Ch
@@ -36910,169 +36497,154 @@ db 34h,	0C2h, 34h, 0CDh, 34h, 0D9h, 34h
 db 0E7h, 34h, 0F4h, 34h, 0FFh, 34h, 0Ah
 db 35h,	15h, 35h, 20h, 35h, 2Bh, 35h, 36h
 db 35h,	41h, 35h, 4Ch, 35h, 57h, 35h, 62h
-db 35h,	3 dup(seg seg000), 21h,	12h, 44h
-db 46h,	4Ch, 32h, 2Eh, 48h, 4Eh, 4Dh, 9	dup(seg	seg000)
-db 9Dh,	10h, 4Dh, 4Eh, 54h, 31h, 2Eh, 48h
-db 4Eh,	4Dh, 9 dup(seg seg000),	9Dh, 10h
-db 4Dh,	4Eh, 54h, 32h, 2Eh, 48h, 4Eh, 4Dh
-db 9 dup(seg seg000), 9Dh, 10h,	4Dh, 4Eh
-db 54h,	33h, 2Eh, 48h, 4Eh, 4Dh, 9 dup(seg seg000)
-db 9Dh,	10h, 4Dh, 4Eh, 54h, 34h, 2Eh, 48h
-db 4Eh,	4Dh, 9 dup(seg seg000),	9Ch, 10h
-db 53h,	49h, 45h, 54h, 2Eh, 48h, 4Eh, 4Dh
-db 9 dup(seg seg000), 9Ch, 10h,	50h, 41h
-db 4Ch,	41h, 43h, 45h, 2Eh, 48h, 4Eh, 4Dh
-db 2 dup(seg seg000), 10h, 46h,	4Fh, 52h
-db 54h,	2Eh, 48h, 4Eh, 4Dh, seg	seg000,	90h
-db 10h,	4Dh, 54h, 47h, 31h, 2Eh, 48h, 4Eh
-db 4Dh,	seg seg000, 90h, 10h, 4Dh, 54h,	47h
-db 32h,	2Eh, 48h, 4Eh, 4Dh, seg	seg000,	90h
-db 10h,	4Dh, 54h, 47h, 33h, 2Eh, 48h, 4Eh
-db 4Dh,	seg seg000, 10h, 19h, 50h, 4Ch,	41h
-db 4Eh,	54h, 2Eh, 48h, 4Eh, 4Dh, seg seg000
-db 40h,	7, 43h,	52h, 45h, 44h, 49h, 54h
-db 53h,	2Eh, 48h, 4Eh, 4Dh, 2 dup(seg seg000)
-db 10h,	56h, 49h, 52h, 47h, 49h, 4Eh, 2Eh
-db 48h,	4Eh, 4Dh, 2 dup(seg seg000), 11h
-db 43h,	52h, 59h, 4Fh, 2Eh, 48h, 4Eh, 4Dh
-db 2 dup(seg seg000), 4, 43h, 52h, 59h,	4Fh
-db 32h,	2Eh, 48h, 4Eh, 4Dh, 2 dup(seg seg000)
-db 16h,	50h, 52h, 45h, 53h, 45h, 4Eh, 54h
-db 2Eh,	48h, 4Eh, 4Dh, seg seg000, 80h,	10h
-db 49h,	52h, 55h, 4Ch, 41h, 4Eh, 2Eh, 48h
-db 4Eh,	4Dh, seg seg000, 80h, 10h, 53h,	45h
-db 51h,	41h, 2Eh, 48h, 4Eh, 4Dh, seg seg000
-db 80h,	10h, 53h, 45h, 51h, 4Ch, 2Eh, 48h
-db 4Eh,	4Dh, seg seg000, 80h, 10h, 53h,	45h
-db 51h,	4Dh, 2Eh, 48h, 4Eh, 4Dh, seg seg000
-db 80h,	10h, 53h, 45h, 51h, 50h, 2Eh, 48h
-db 4Eh,	4Dh, seg seg000, 80h, 10h, 53h,	45h
-db 51h,	47h, 2Eh, 48h, 4Eh, 4Dh, seg seg000
-db 80h,	10h, 53h, 45h, 51h, 4Ah, 2Eh, 48h
-db 4Eh,	4Dh, seg seg000, 80h, 10h, 53h,	45h
-db 51h,	4Bh, 2Eh, 48h, 4Eh, 4Dh, seg seg000
-db 80h,	10h, 53h, 45h, 51h, 49h, 2Eh, 48h
-db 4Eh,	4Dh, seg seg000, 80h, 10h, 53h,	45h
-db 51h,	44h, 2Eh, 48h, 4Eh, 4Dh, seg seg000
-db 80h,	10h, 53h, 45h, 51h, 4Eh, 2Eh, 48h
-db 4Eh,	4Dh, seg seg000, 80h, 10h, 53h,	45h
-db 51h,	52h, 2Eh, 48h, 4Eh, 4Dh, 2 dup(seg seg000)
-db 42h,	44h, 45h, 41h, 44h, 2Eh, 48h, 4Eh
-db 4Dh,	2 dup(seg seg000), 0Ah,	44h, 45h
-db 41h,	44h, 32h, 2Eh, 48h, 4Eh, 4Dh, 2	dup(seg	seg000)
-db 0Ah,	44h, 45h, 41h, 44h, 33h, 2Eh, 48h
-db 4Eh,	4Dh, 2 dup(seg seg000),	19h, 56h
-db 45h,	52h, 2Eh, 48h, 4Eh, 4Dh, 2 dup(seg seg000)
-db 0Ah,	54h, 49h, 54h, 4Ch, 45h, 2Eh, 48h
-db 4Eh,	4Dh, 3 dup(seg seg000),	77h, seg seg000
-db 89h,	seg seg000, 8Ah, seg seg000, 0ADh
-db seg seg000, 0BAh, seg seg000, 0EEh, seg seg000
-db 0F8h, seg seg000, 0Dh, 1, 0Eh, 1, 31h
-db 1, 3Ah, 1, 52h, 1, 5Ch, 1, 66h, 1, 68h
-db 1, 84h, 1, 85h, 1, 9Fh, 1, 0A9h, 1, 0CCh
-db 1, 0D6h, 1, 6, 2, 10h, 2, 3Bh, 2, 40h
-db 2, 5Ch, 2, 5Dh, 2, 93h, 2, 94h, 2, 0ADh
-db 2, 0B5h, 2, 0E8h, 2,	0EAh, 2, 0F5h, 2
-db 0F9h, 2, 32h, 3, 3Bh, 3, 62h, 3, 6Bh
-db 3, 0B1h, 3, 0B6h, 3,	0E8h, 3, 0F4h, 3
-db 12h,	4, 14h,	4, 33h,	4, 3Dh,	4, 5Fh,	4
-db 60h,	4, 76h,	4, 7Bh,	4, 91h,	4, 94h,	4
-db 0BEh, 4, 0CAh, 4, 0EBh, 4, 0F2h, 4, 2 dup(5)
+db 35h,	3 dup(0), 21h, 12h, 44h, 46h, 4Ch
+db 32h,	2Eh, 48h, 4Eh, 4Dh, 9 dup(0), 9Dh
+db 10h,	4Dh, 4Eh, 54h, 31h, 2Eh, 48h, 4Eh
+db 4Dh,	9 dup(0), 9Dh, 10h, 4Dh, 4Eh, 54h
+db 32h,	2Eh, 48h, 4Eh, 4Dh, 9 dup(0), 9Dh
+db 10h,	4Dh, 4Eh, 54h, 33h, 2Eh, 48h, 4Eh
+db 4Dh,	9 dup(0), 9Dh, 10h, 4Dh, 4Eh, 54h
+db 34h,	2Eh, 48h, 4Eh, 4Dh, 9 dup(0), 9Ch
+db 10h,	53h, 49h, 45h, 54h, 2Eh, 48h, 4Eh
+db 4Dh,	9 dup(0), 9Ch, 10h, 50h, 41h, 4Ch
+db 41h,	43h, 45h, 2Eh, 48h, 4Eh, 4Dh, 2	dup(0)
+db 10h,	46h, 4Fh, 52h, 54h, 2Eh, 48h, 4Eh
+db 4Dh,	0, 90h,	10h, 4Dh, 54h, 47h, 31h
+db 2Eh,	48h, 4Eh, 4Dh, 0, 90h, 10h, 4Dh
+db 54h,	47h, 32h, 2Eh, 48h, 4Eh, 4Dh, 0
+db 90h,	10h, 4Dh, 54h, 47h, 33h, 2Eh, 48h
+db 4Eh,	4Dh, 0,	10h, 19h, 50h, 4Ch, 41h
+db 4Eh,	54h, 2Eh, 48h, 4Eh, 4Dh, 0, 40h
+db 7, 43h, 52h,	45h, 44h, 49h, 54h, 53h
+db 2Eh,	48h, 4Eh, 4Dh, 2 dup(0), 10h, 56h
+db 49h,	52h, 47h, 49h, 4Eh, 2Eh, 48h, 4Eh
+db 4Dh,	2 dup(0), 11h, 43h, 52h, 59h, 4Fh
+db 2Eh,	48h, 4Eh, 4Dh, 2 dup(0), 4, 43h
+db 52h,	59h, 4Fh, 32h, 2Eh, 48h, 4Eh, 4Dh
+db 2 dup(0), 16h, 50h, 52h, 45h, 53h, 45h
+db 4Eh,	54h, 2Eh, 48h, 4Eh, 4Dh, 0, 80h
+db 10h,	49h, 52h, 55h, 4Ch, 41h, 4Eh, 2Eh
+db 48h,	4Eh, 4Dh, 0, 80h, 10h, 53h, 45h
+db 51h,	41h, 2Eh, 48h, 4Eh, 4Dh, 0, 80h
+db 10h,	53h, 45h, 51h, 4Ch, 2Eh, 48h, 4Eh
+db 4Dh,	0, 80h,	10h, 53h, 45h, 51h, 4Dh
+db 2Eh,	48h, 4Eh, 4Dh, 0, 80h, 10h, 53h
+db 45h,	51h, 50h, 2Eh, 48h, 4Eh, 4Dh, 0
+db 80h,	10h, 53h, 45h, 51h, 47h, 2Eh, 48h
+db 4Eh,	4Dh, 0,	80h, 10h, 53h, 45h, 51h
+db 4Ah,	2Eh, 48h, 4Eh, 4Dh, 0, 80h, 10h
+db 53h,	45h, 51h, 4Bh, 2Eh, 48h, 4Eh, 4Dh
+db 0, 80h, 10h,	53h, 45h, 51h, 49h, 2Eh
+db 48h,	4Eh, 4Dh, 0, 80h, 10h, 53h, 45h
+db 51h,	44h, 2Eh, 48h, 4Eh, 4Dh, 0, 80h
+db 10h,	53h, 45h, 51h, 4Eh, 2Eh, 48h, 4Eh
+db 4Dh,	0, 80h,	10h, 53h, 45h, 51h, 52h
+db 2Eh,	48h, 4Eh, 4Dh, 2 dup(0), 42h, 44h
+db 45h,	41h, 44h, 2Eh, 48h, 4Eh, 4Dh, 2	dup(0)
+db 0Ah,	44h, 45h, 41h, 44h, 32h, 2Eh, 48h
+db 4Eh,	4Dh, 2 dup(0), 0Ah, 44h, 45h, 41h
+db 44h,	33h, 2Eh, 48h, 4Eh, 4Dh, 2 dup(0)
+db 19h,	56h, 45h, 52h, 2Eh, 48h, 4Eh, 4Dh
+db 2 dup(0), 0Ah, 54h, 49h, 54h, 4Ch, 45h
+db 2Eh,	48h, 4Eh, 4Dh, 3 dup(0), 77h, 0
+db 89h,	0, 8Ah,	0, 0ADh, 0, 0BAh, 0, 0EEh
+db 0, 0F8h, 0, 0Dh, 1, 0Eh, 1, 31h, 1, 3Ah
+db 1, 52h, 1, 5Ch, 1, 66h, 1, 68h, 1, 84h
+db 1, 85h, 1, 9Fh, 1, 0A9h, 1, 0CCh, 1,	0D6h
+db 1, 6, 2, 10h, 2, 3Bh, 2, 40h, 2, 5Ch
+db 2, 5Dh, 2, 93h, 2, 94h, 2, 0ADh, 2, 0B5h
+db 2, 0E8h, 2, 0EAh, 2,	0F5h, 2, 0F9h, 2
+db 32h,	3, 3Bh,	3, 62h,	3, 6Bh,	3, 0B1h
+db 3, 0B6h, 3, 0E8h, 3,	0F4h, 3, 12h, 4
+db 14h,	4, 33h,	4, 3Dh,	4, 5Fh,	4, 60h,	4
+db 76h,	4, 7Bh,	4, 91h,	4, 94h,	4, 0BEh
+db 4, 0CAh, 4, 0EBh, 4,	0F2h, 4, 2 dup(5)
 db 0Eh,	5, 23h,	5, 2 dup(0FFh),	0FCh, 0CEh
 db 4Eh,	6Fh, 74h, 20h, 65h, 6Eh, 6Fh, 75h
 db 67h,	68h, 20h, 73h, 74h, 61h, 6Eh, 64h
 db 61h,	72h, 64h, 20h, 6Dh, 65h, 6Dh, 6Fh
 db 72h,	79h, 20h, 66h, 6Fh, 72h, 20h, 73h
-db 6Fh,	75h, 6Eh, 64h, 73h, 2 dup(seg seg000)
+db 6Fh,	75h, 6Eh, 64h, 73h, 2 dup(0), 4Eh
+db 6Fh,	74h, 20h, 65h, 6Eh, 6Fh, 75h, 67h
+db 68h,	20h, 73h, 74h, 61h, 6Eh, 64h, 61h
+db 72h,	64h, 20h, 6Dh, 65h, 6Dh, 6Fh, 72h
+db 79h,	20h, 66h, 6Fh, 72h, 20h, 6Dh, 75h
+db 73h,	69h, 63h, 2Eh, 20h, 54h, 72h, 79h
+db 20h,	77h, 69h, 74h, 68h, 20h, 45h, 4Dh
+db 53h,	20h, 65h, 78h, 74h, 72h, 61h, 20h
+db 6Dh,	65h, 6Dh, 6Fh, 72h, 79h, 2Eh, 2	dup(0)
 db 4Eh,	6Fh, 74h, 20h, 65h, 6Eh, 6Fh, 75h
 db 67h,	68h, 20h, 73h, 74h, 61h, 6Eh, 64h
 db 61h,	72h, 64h, 20h, 6Dh, 65h, 6Dh, 6Fh
-db 72h,	79h, 20h, 66h, 6Fh, 72h, 20h, 6Dh
-db 75h,	73h, 69h, 63h, 2Eh, 20h, 54h, 72h
-db 79h,	20h, 77h, 69h, 74h, 68h, 20h, 45h
-db 4Dh,	53h, 20h, 65h, 78h, 74h, 72h, 61h
-db 20h,	6Dh, 65h, 6Dh, 6Fh, 72h, 79h, 2Eh
-db 2 dup(seg seg000), 4Eh, 6Fh,	74h, 20h
-db 65h,	6Eh, 6Fh, 75h, 67h, 68h, 20h, 73h
-db 74h,	61h, 6Eh, 64h, 61h, 72h, 64h, 20h
-db 6Dh,	65h, 6Dh, 6Fh, 72h, 79h, 20h, 74h
-db 6Fh,	20h, 72h, 75h, 6Eh, 20h, 44h, 75h
-db 6Eh,	65h, seg seg000, 46h, 69h, 6Ch,	65h
-db 20h,	6Eh, 6Fh, 74h, 20h, 66h, 6Fh, 75h
-db 6Eh,	64h, 3Ah, 0Dh dup(20h),	3 dup(seg seg000)
-db 53h,	45h, 4Bh, 45h, 4Eh, 43h, 45h, 2Eh
-db 48h,	53h, 51h, 3 dup(seg seg000), 57h
+db 72h,	79h, 20h, 74h, 6Fh, 20h, 72h, 75h
+db 6Eh,	20h, 44h, 75h, 6Eh, 65h, 0, 46h
+db 69h,	6Ch, 65h, 20h, 6Eh, 6Fh, 74h, 20h
+db 66h,	6Fh, 75h, 6Eh, 64h, 3Ah, 0Dh dup(20h)
+db 3 dup(0), 53h, 45h, 4Bh, 45h, 4Eh, 43h
+db 45h,	2Eh, 48h, 53h, 51h, 3 dup(0), 57h
 db 41h,	54h, 45h, 52h, 2Eh, 48h, 53h, 51h
-db 3 dup(seg seg000), 57h, 4Fh,	52h, 4Dh
-db 53h,	55h, 49h, 54h, 2Eh, 48h, 53h, 51h
-db 3 dup(seg seg000), 57h, 4Fh,	52h, 4Dh
-db 49h,	4Eh, 54h, 52h, 2Eh, 48h, 53h, 51h
-db 3 dup(seg seg000), 57h, 41h,	52h, 53h
-db 4Fh,	4Eh, 47h, 2Eh, 48h, 53h, 51h, 3	dup(seg	seg000)
-db 4Dh,	4Fh, 52h, 4Eh, 49h, 4Eh, 47h, 2Eh
-db 48h,	53h, 51h, 3 dup(seg seg000), 53h
-db 49h,	45h, 54h, 43h, 48h, 4Dh, 2Eh, 48h
-db 53h,	51h, 3 dup(seg seg000),	42h, 41h
-db 47h,	44h, 41h, 44h, 2Eh, 48h, 53h, 51h
-db 3 dup(seg seg000), 41h, 2 dup(52h), 41h
-db 4Bh,	49h, 53h, 2Eh, 48h, 53h, 51h, 3	dup(seg	seg000)
-db 43h,	52h, 59h, 4Fh, 4Dh, 55h, 53h, 2Eh
-db 48h,	53h, 51h, seg seg000, 2	dup(82h)
-db 1, 82h, 84h,	4, 2 dup(85h), 87h, 88h
-db 86h,	89h, 2 dup(83h), 0FFh, 2 dup(seg seg000)
-db 53h,	4Eh, 31h, 2Eh, 48h, 53h, 51h, 3	dup(seg	seg000)
-db 53h,	4Eh, 32h, 2Eh, 48h, 53h, 51h, 3	dup(seg	seg000)
-db 53h,	4Eh, 33h, 2Eh, 48h, 53h, 51h, 3	dup(seg	seg000)
-db 53h,	4Eh, 34h, 2Eh, 48h, 53h, 51h, 3	dup(seg	seg000)
-db 53h,	4Eh, 35h, 2Eh, 56h, 4Fh, 43h, 3	dup(seg	seg000)
-db 53h,	4Eh, 36h, 2Eh, 48h, 53h, 51h, 3	dup(seg	seg000)
-db 53h,	4Eh, 37h, 2Eh, 56h, 4Fh, 43h, 3	dup(seg	seg000)
-db 53h,	4Eh, 38h, 2Eh, 56h, 4Fh, 43h, 3	dup(seg	seg000)
-db 53h,	4Eh, 39h, 2Eh, 56h, 4Fh, 43h, 3	dup(seg	seg000)
-db 53h,	4Eh, 41h, 2Eh, 48h, 53h, 51h, 3	dup(seg	seg000)
+db 3 dup(0), 57h, 4Fh, 52h, 4Dh, 53h, 55h
+db 49h,	54h, 2Eh, 48h, 53h, 51h, 3 dup(0)
+db 57h,	4Fh, 52h, 4Dh, 49h, 4Eh, 54h, 52h
+db 2Eh,	48h, 53h, 51h, 3 dup(0), 57h, 41h
+db 52h,	53h, 4Fh, 4Eh, 47h, 2Eh, 48h, 53h
+db 51h,	3 dup(0), 4Dh, 4Fh, 52h, 4Eh, 49h
+db 4Eh,	47h, 2Eh, 48h, 53h, 51h, 3 dup(0)
+db 53h,	49h, 45h, 54h, 43h, 48h, 4Dh, 2Eh
+db 48h,	53h, 51h, 3 dup(0), 42h, 41h, 47h
+db 44h,	41h, 44h, 2Eh, 48h, 53h, 51h, 3	dup(0)
+db 41h,	2 dup(52h), 41h, 4Bh, 49h, 53h,	2Eh
+db 48h,	53h, 51h, 3 dup(0), 43h, 52h, 59h
+db 4Fh,	4Dh, 55h, 53h, 2Eh, 48h, 53h, 51h
+db 0, 2	dup(82h), 1, 82h, 84h, 4, 2 dup(85h)
+db 87h,	88h, 86h, 89h, 2 dup(83h), 0FFh
+db 2 dup(0), 53h, 4Eh, 31h, 2Eh, 48h, 53h
+db 51h,	3 dup(0), 53h, 4Eh, 32h, 2Eh, 48h
+db 53h,	51h, 3 dup(0), 53h, 4Eh, 33h, 2Eh
+db 48h,	53h, 51h, 3 dup(0), 53h, 4Eh, 34h
+db 2Eh,	48h, 53h, 51h, 3 dup(0), 53h, 4Eh
+db 35h,	2Eh, 56h, 4Fh, 43h, 3 dup(0), 53h
+db 4Eh,	36h, 2Eh, 48h, 53h, 51h, 3 dup(0)
+db 53h,	4Eh, 37h, 2Eh, 56h, 4Fh, 43h, 3	dup(0)
+db 53h,	4Eh, 38h, 2Eh, 56h, 4Fh, 43h, 3	dup(0)
+db 53h,	4Eh, 39h, 2Eh, 56h, 4Fh, 43h, 3	dup(0)
+db 53h,	4Eh, 41h, 2Eh, 48h, 53h, 51h, 3	dup(0)
 db 46h,	52h, 45h, 51h, 2Eh, 48h, 53h, 51h
-db seg seg000, 50h, 46h, 5Ch, 50h, 46h,	2 dup(30h)
-db 31h,	49h, 20h, 2Eh, 56h, 4Fh, 43h, seg seg000
+db 0, 50h, 46h,	5Ch, 50h, 46h, 2 dup(30h)
+db 31h,	49h, 20h, 2Eh, 56h, 4Fh, 43h, 0
 db 64h,	75h, 6Eh, 65h, 2Eh, 64h, 61h, 74h
-db seg seg000, 64h, 6Eh, 6Dh, 61h, 6Ah,	31h
-db 2 dup(seg seg000), 9, 6, 8, 1, 4, 3,	7
-db 5, 2, 0FFh, 9, 6, 8,	1, 4, 3, 7, 5, 2
-db 0FFh, 0FAh, 37h, 1, 9 dup(seg seg000)
-db 28h,	9 dup(seg seg000), 11h,	38h, 80h dup(seg seg000)
-db 26h,	38h, 64h, 75h, 6Eh, 65h, 33h, 37h
-db 73h,	30h, 2Eh, 73h, 61h, 76h, 2 dup(seg seg000)
-db 1, 2	dup(seg	seg000), 3, 1, 2 dup(seg seg000)
-db 6, 1, 2 dup(seg seg000), 9, 1, 2 dup(seg seg000)
-db 0Ch,	1, 2 dup(seg seg000), 0Fh, 1, 2	dup(seg	seg000)
-db 12h,	1, 2 dup(seg seg000), 15h, 1, 2	dup(seg	seg000)
-db 18h,	1, 2 dup(seg seg000), 1Bh, 1, 2	dup(seg	seg000)
-db 1Eh,	1, 2 dup(seg seg000), 21h, 1, 2	dup(seg	seg000)
-db 24h,	1, 2 dup(seg seg000), 27h, 1, 2	dup(seg	seg000)
-db 2Ah,	1, 2 dup(seg seg000), 2Dh, 1, 2	dup(seg	seg000)
-db 30h,	1, 2 dup(seg seg000), 33h, 1, 2	dup(seg	seg000)
-db 36h,	1, 2 dup(seg seg000), 39h, 1, 2	dup(seg	seg000)
-db 3Ch,	1, 2 dup(seg seg000), 3Fh, 1, 2	dup(seg	seg000)
-db 42h,	1, 2 dup(seg seg000), 45h, 1, 2	dup(seg	seg000)
-db 48h,	1, 2 dup(seg seg000), 4Bh, 1, 2	dup(seg	seg000)
-db 4Eh,	1, 2 dup(seg seg000), 51h, 1, 2	dup(seg	seg000)
-db 54h,	1, 2 dup(seg seg000), 57h, 1, 2	dup(seg	seg000)
-db 5Ah,	1, 2 dup(seg seg000), 5Dh, 1, 2	dup(seg	seg000)
-db 60h,	1, 2 dup(seg seg000), 63h, 1, 2	dup(seg	seg000)
-db 66h,	1, 2 dup(seg seg000), 69h, 1, 2	dup(seg	seg000)
-db 6Ch,	1, 2 dup(seg seg000), 6Fh, 1, 2	dup(seg	seg000)
-db 72h,	1, 2 dup(seg seg000), 75h, 1, 2	dup(seg	seg000)
-db 78h,	1, 2 dup(seg seg000), 7Bh, 1, 2	dup(seg	seg000)
-db 7Eh,	1, 2 dup(seg seg000), 81h, 1, 2	dup(seg	seg000)
-db 84h,	1, 2 dup(seg seg000), 87h, 1, 3	dup(seg	seg000)
-db 1, 2	dup(seg	seg000), 3, 1, 2 dup(seg seg000)
-db 6, 1, 2 dup(seg seg000), 9, 1, 2 dup(seg seg000)
-db 0Ch,	1, 2 dup(seg seg000), 0Fh, 1, 2	dup(seg	seg000)
-db 12h,	1, 3 dup(seg seg000), 1, 2 dup(seg seg000)
-db 3, 1, 2 dup(seg seg000), 6, 1, 2 dup(seg seg000)
-db 9, 1, 2 dup(seg seg000), 0Ch, 1, 2 dup(seg seg000)
-db 0Fh,	1, 2 dup(seg seg000), 12h, 1, 2	dup(seg	seg000)
-db 15h,	1, 12h dup(seg seg000),	4Bh, 0Fh
-db 301h	dup(seg	seg000)
+db 0, 64h, 6Eh,	6Dh, 61h, 6Ah, 31h, 2 dup(0)
+db 9, 6, 8, 1, 4, 3, 7,	5, 2, 0FFh, 9, 6
+db 8, 1, 4, 3, 7, 5, 2,	0FFh, 0FAh, 37h
+db 1, 9	dup(0),	28h, 9 dup(0), 11h, 38h
+db 80h dup(0), 26h, 38h, 64h, 75h, 6Eh,	65h
+db 33h,	37h, 73h, 30h, 2Eh, 73h, 61h, 76h
+db 2 dup(0), 1,	2 dup(0), 3, 1,	2 dup(0)
+db 6, 1, 2 dup(0), 9, 1, 2 dup(0), 0Ch,	1
+db 2 dup(0), 0Fh, 1, 2 dup(0), 12h, 1, 2 dup(0)
+db 15h,	1, 2 dup(0), 18h, 1, 2 dup(0), 1Bh
+db 1, 2	dup(0),	1Eh, 1,	2 dup(0), 21h, 1
+db 2 dup(0), 24h, 1, 2 dup(0), 27h, 1, 2 dup(0)
+db 2Ah,	1, 2 dup(0), 2Dh, 1, 2 dup(0), 30h
+db 1, 2	dup(0),	33h, 1,	2 dup(0), 36h, 1
+db 2 dup(0), 39h, 1, 2 dup(0), 3Ch, 1, 2 dup(0)
+db 3Fh,	1, 2 dup(0), 42h, 1, 2 dup(0), 45h
+db 1, 2	dup(0),	48h, 1,	2 dup(0), 4Bh, 1
+db 2 dup(0), 4Eh, 1, 2 dup(0), 51h, 1, 2 dup(0)
+db 54h,	1, 2 dup(0), 57h, 1, 2 dup(0), 5Ah
+db 1, 2	dup(0),	5Dh, 1,	2 dup(0), 60h, 1
+db 2 dup(0), 63h, 1, 2 dup(0), 66h, 1, 2 dup(0)
+db 69h,	1, 2 dup(0), 6Ch, 1, 2 dup(0), 6Fh
+db 1, 2	dup(0),	72h, 1,	2 dup(0), 75h, 1
+db 2 dup(0), 78h, 1, 2 dup(0), 7Bh, 1, 2 dup(0)
+db 7Eh,	1, 2 dup(0), 81h, 1, 2 dup(0), 84h
+db 1, 2	dup(0),	87h, 1,	3 dup(0), 1, 2 dup(0)
+db 3, 1, 2 dup(0), 6, 1, 2 dup(0), 9, 1
+db 2 dup(0), 0Ch, 1, 2 dup(0), 0Fh, 1, 2 dup(0)
+db 12h,	1, 3 dup(0), 1,	2 dup(0), 3, 1,	2 dup(0)
+db 6, 1, 2 dup(0), 9, 1, 2 dup(0), 0Ch,	1
+db 2 dup(0), 0Fh, 1, 2 dup(0), 12h, 1, 2 dup(0)
+db 15h,	1, 12h dup(0), 38h, 11h, 301h dup(0)
 seg001 ends
 
 
