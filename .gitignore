@@ -2,11 +2,25 @@
 build/
 # Binary files
 *.HNM
+*.BIN
+*.DAT
+*.HSQ
+*.M32
+*.HNM
+*.SAV
+*.SAL
+*.AGD
+*.prp
+*.gbf
 *.OVL
 *.OBJ
 *.MAP
 # Error logs
 *.err
+stderr.txt
+stdout.txt
+# vim
+*.swp
 # game data
 bin/
 
