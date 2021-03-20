@@ -14,7 +14,7 @@
 ; Base Address:	1EDh Range: 1ED0h-1503Ch Loaded	length:	1316Ch
 ; Entry	Point :	1ED:0
 
-.286
+.8086
 .model large
 
 
