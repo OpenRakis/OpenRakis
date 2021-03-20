@@ -9,22 +9,22 @@
 ;
 ; Input	MD5   :	49B45183BFA7EBFAF8C3F19F3E37A6CD
 
-; File Name   :	C:\temp\RE\dune_d7\LOGO.EXE
+; File Name   :	C:\Users\noalm\source\repos\OpenRakis\bin\floppy\LOGO.EXE
 ; Format      :	MS-DOS executable (EXE)
 ; Base Address:	1EDh Range: 1ED0h-132E1h Loaded	length:	130Eh
 ; Entry	Point :	1ED:0
 
 
-;asciiz macro page,string,zero
-;irpc c,<string>
-;db '&c', page
-;endm
-;ifnb <zero>
-;dw zero
-;endif
-;endm
+asciiz macro page,string,zero
+irpc c,<string>
+db '&c', page
+endm
+ifnb <zero>
+dw zero
+endif
+endm
 
-.286
+.8086
 .model large
 
 
@@ -43,20 +43,20 @@ assume ds:dseg
 mov	ax, es:2
 mov	word_30E0, ax
 mov	bx, 8
-call	sub_2FC4	; Call Procedure
+call	sub_2FC4
 mov	ax, 0Ch
 mov	si, 8Eh	; '�'
-cmp	byte ptr [si], 0 ; Compare Two Operands
-jz	short loc_1EF3	; Jump if Zero (ZF=1)
-call	sub_2FFD	; Call Procedure
+cmp	byte ptr [si], 0
+jz	short loc_1EF3
+call	sub_2FFD
 mov	ax, word_311E
 
 loc_1EF3:
 mov	word_30E2, ax
 mov	dx, 5Ah	; 'Z'
-call	sub_2F2F	; Call Procedure
-cmp	byte ptr [di], 2Eh ; '.' ; Compare Two Operands
-jz	short loc_1F0E	; Jump if Zero (ZF=1)
+call	sub_2F2F
+cmp	byte ptr [di], 2Eh ; '.'
+jz	short loc_1F0E
 mov	word ptr [di], 482Eh
 mov	word ptr [di+2], 4D4Eh
 mov	byte ptr [di+4], 0
@@ -68,7 +68,6 @@ sub     cx, 2
 pop     si
 or      ax,ax
 retn
-
 loc_1F0E:
 mov	ax, 3D00h
 int	21h		; DOS -	2+ - OPEN DISK FILE WITH HANDLE
@@ -76,16 +75,16 @@ int	21h		; DOS -	2+ - OPEN DISK FILE WITH HANDLE
 			; AL = access mode
 			; 0 - read
 mov	dx, 2Eh	; '.'
-jb	short loc_1F31	; Jump if Below	(CF=1)
+jb	short loc_1F31
 push	ax
-call	sub_2840	; Call Procedure
-call	sub_2EE9	; Call Procedure
+call	sub_2840
+call	sub_2EE9
 pop	bx
 mov	ax, word_30E2
-call	sub_2CAE	; Call Procedure
-call	sub_2921	; Call Procedure
-xor	dx, dx		; Logical Exclusive OR
-xor	al, al		; Logical Exclusive OR
+call	sub_2CAE
+call	sub_2921
+xor	dx, dx
+xor	al, al
 mov	ah, 4Ch
 int	21h		; DOS -	2+ - QUIT WITH EXIT CODE (EXIT)
 			; AL = exit code
@@ -94,7 +93,7 @@ loc_1F31:
 mov	ah, 9
 int	21h		; DOS -	PRINT STRING
 			; DS:DX	-> string terminated by	"$"
-xor	al, al		; Logical Exclusive OR
+xor	al, al
 mov	ah, 4Ch
 int	21h		; DOS -	2+ - QUIT WITH EXIT CODE (EXIT)
 start endp		; AL = exit code
@@ -111,33 +110,33 @@ sub_2840 proc near
 mov	ax, 13h
 int	10h		; - VIDEO - SET	VIDEO MODE
 			; AL = mode
-pushf			; Push Flags Register onto the Stack
-sti			; Set Interrupt	Flag
+pushf
+sti
 mov	ax, 40h	; '@'
 mov	es, ax
 assume es:nothing
 mov	dx, es:63h
-add	dl, 6		; Add
+add	dl, 6
 mov	cs:word_1F3C, dx
 mov	bp, 6Ch	; 'l'
 in	al, dx
-and	al, 8		; Logical AND
-call	sub_2885	; Call Procedure
-jnb	short loc_2883	; Jump if Not Below (CF=0)
-call	sub_2885	; Call Procedure
-jnb	short loc_2883	; Jump if Not Below (CF=0)
+and	al, 8
+call	sub_2885
+jnb	short loc_2883
+call	sub_2885
+jnb	short loc_2883
 mov	di, si
 mov	cs:byte_1F3F, ah
-call	sub_2885	; Call Procedure
-jnb	short loc_2883	; Jump if Not Below (CF=0)
-cmp	si, di		; Compare Two Operands
-not	cs:byte_1F3E	; One's Complement Negation
-jnb	short loc_2883	; Jump if Not Below (CF=0)
+call	sub_2885
+jnb	short loc_2883
+cmp	si, di
+not	cs:byte_1F3E
+jnb	short loc_2883
 mov	cs:byte_1F3F, ah
 
-loc_2883:		; Pop Stack into Flags Register
+loc_2883:
 popf
-retn			; Return Near from Procedure
+retn
 sub_2840 endp
 
 
@@ -145,102 +144,94 @@ sub_2840 endp
 
 sub_2885 proc near
 mov	ah, al
-xor	si, si		; Logical Exclusive OR
+xor	si, si
 mov	bx, es:[bp+0]
 
-loc_288D:		; Increment by 1
+loc_288D:
 inc	si
-jnz	short loc_2891	; Jump if Not Zero (ZF=0)
-dec	si		; Decrement by 1
+jnz	short loc_2891
+dec	si
 
 loc_2891:
 in	al, dx
-and	al, 8		; Logical AND
-cmp	al, ah		; Compare Two Operands
-jnz	short loc_28A6	; Jump if Not Zero (ZF=0)
+and	al, 8
+cmp	al, ah
+jnz	short loc_28A6
 push	ax
 mov	ax, es:[bp+0]
-sub	ax, bx		; Integer Subtraction
-cmp	ax, 64h	; 'd'   ; Compare Two Operands
+sub	ax, bx
+cmp	ax, 64h	; 'd'
 pop	ax
-jb	short loc_288D	; Jump if Below	(CF=1)
-retn			; Return Near from Procedure
+jb	short loc_288D
+retn
 
-loc_28A6:		; Set Carry Flag
+loc_28A6:
 stc
-retn			; Return Near from Procedure
+retn
 sub_2885 endp
 
 
-
-
-sub_28A8 proc near
+loc_28A8:
 push	si
 push	ds
 push	es
 pop	ds
 assume ds:nothing
 mov	si, dx
-pushf			; Push Flags Register onto the Stack
-cmp	cs:byte_1F3E, 0	; Compare Two Operands
-jz	short loc_28C6	; Jump if Zero (ZF=1)
+pushf
+cmp	cs:byte_1F3E, 0
+jz	short loc_28C6
 mov	dx, cs:word_1F3C
 
 loc_28BC:
 in	al, dx
-and	al, 8		; Logical AND
-cmp	al, cs:byte_1F3F ; Compare Two Operands
-jnz	short loc_28BC	; Jump if Not Zero (ZF=0)
+and	al, 8
+cmp	al, cs:byte_1F3F
+jnz	short loc_28BC
 
-loc_28C6:		; Clear	Interrupt Flag
+loc_28C6:
 cli
 mov	dx, 3C8h
 mov	al, bl
 out	dx, al
-jmp	short $+2	; Jump
-jmp	short $+2	; Jump
-jmp	short $+2	; Jump
-jmp	short $+2	; Jump
-inc	dx		; Increment by 1
+jmp	short $+2
+jmp	short $+2
+jmp	short $+2
+jmp	short $+2
+inc	dx
 mov	ax, cx
-add	cx, cx		; Add
-add	cx, ax		; Add
-cmp	cs:byte_1F3B, 0	; Compare Two Operands
-jz	short loc_28EA	; Jump if Zero (ZF=1)
-rep outsb		; Output Byte(s) to Port
-popf			; Pop Stack into Flags Register
+add	cx, cx
+add	cx, ax
+cmp	cs:byte_1F3B, 0
+jz	short loc_28EA
+db 0F3h, 6Eh, 9Dh, 1Fh,	5Eh, 0C3h
+
+loc_28EA:
+lodsb
+out	dx, al
+loop	loc_28EA
+popf
 pop	ds
 assume ds:dseg
 pop	si
-retn			; Return Near from Procedure
-
-loc_28EA:		; Load String
-lodsb
-out	dx, al
-loop	loc_28EA	; Loop while CX	!= 0
-popf			; Pop Stack into Flags Register
-pop	ds
-pop	si
-retn			; Return Near from Procedure
-sub_28A8 endp
-
+retn
 
 
 
 sub_28F2 proc near
-cmp	bx, 0C8h ; '�'  ; Compare Two Operands
-jb	short loc_28FB	; Jump if Below	(CF=1)
+cmp	bx, 0C8h ; '�'
+jb	short loc_28FB
 mov	bx, 0C7h ; '�'
 
-loc_28FB:		; Exchange Register/Memory with	Register
+loc_28FB:
 xchg	bh, bl
 mov	di, bx
-shr	di, 1		; Shift	Logical	Right
-shr	di, 1		; Shift	Logical	Right
-add	di, bx		; Add
-xchg	bh, bl		; Exchange Register/Memory with	Register
-add	di, dx		; Add
-retn			; Return Near from Procedure
+shr	di, 1
+shr	di, 1
+add	di, bx
+xchg	bh, bl
+add	di, dx
+retn
 sub_28F2 endp
 
 
@@ -254,16 +245,16 @@ push	es
 mov	ax, 0A000h
 mov	es, ax
 assume es:nothing
-xor	di, di		; Logical Exclusive OR
+xor	di, di
 mov	cx, 7D00h
-xor	ax, ax		; Logical Exclusive OR
-rep stosw		; Store	String
+xor	ax, ax
+rep stosw
 pop	es
 assume es:nothing
 pop	di
 pop	cx
 pop	ax
-retn			; Return Near from Procedure
+retn
 sub_290A endp
 
 
@@ -276,96 +267,96 @@ mov	ds, ax
 assume ds:nothing
 mov	es, ax
 assume es:nothing
-xor	si, si		; Logical Exclusive OR
-xor	di, di		; Logical Exclusive OR
+xor	si, si
+xor	di, di
 mov	cx, 0FA00h
 
-loc_2930:		; Load String
+loc_2930:
 lodsb
-cmp	al, 0A0h ; '�'  ; Compare Two Operands
-jnb	short loc_2937	; Jump if Not Below (CF=0)
-xor	al, al		; Logical Exclusive OR
+cmp	al, 0A0h ; '�'
+jnb	short loc_2937
+xor	al, al
 
-loc_2937:		; Store	String
+loc_2937:
 stosb
-loop	loc_2930	; Loop while CX	!= 0
+loop	loc_2930
 pop	ds
 assume ds:dseg
-retn			; Return Near from Procedure
+retn
 sub_2921 endp
 
 ; START	OF FUNCTION CHUNK FOR sub_2A6A
 
 loc_293C:
 mov	bp, dx
-sub	di, bp		; Integer Subtraction
+sub	di, bp
 ; END OF FUNCTION CHUNK	FOR sub_2A6A
 db 81h
 byte_2941 db 0C7h
 db 40h,	1
 ; START	OF FUNCTION CHUNK FOR sub_2A6A
 
-loc_2944:		; Load String
+loc_2944:
 lodsb
-or	al, al		; Logical Inclusive OR
-js	short loc_2979	; Jump if Sign (SF=1)
+or	al, al
+js	short loc_2979
 mov	cx, ax
-xor	ch, ch		; Logical Exclusive OR
-inc	cx		; Increment by 1
-sub	bp, cx		; Integer Subtraction
+xor	ch, ch
+inc	cx
+sub	bp, cx
 
-loc_2950:		; Load String
+loc_2950:
 lodsb
-or	al, al		; Logical Inclusive OR
-jz	short loc_296D	; Jump if Zero (ZF=1)
-stosb			; Store	String
-loop	loc_2950	; Loop while CX	!= 0
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_2944	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_293C	; Jump if Not Zero (ZF=0)
+or	al, al
+jz	short loc_296D
+stosb
+loop	loc_2950
+or	bp, bp
+ja	short loc_2944
+dec	bx
+jnz	short loc_293C
 
-loc_295F:		; Clear	Direction Flag
+loc_295F:
 cld
 mov	cs:byte_2941, 0C7h ; '�'
 mov	cs:byte_29FF, 0C7h ; '�'
-retf			; Return Far from Procedure
+retf
 
-loc_296D:		; Increment by 1
+loc_296D:
 inc	di
-loop	loc_2950	; Loop while CX	!= 0
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_2944	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_293C	; Jump if Not Zero (ZF=0)
-jmp	short loc_295F	; Jump
+loop	loc_2950
+or	bp, bp
+ja	short loc_2944
+dec	bx
+jnz	short loc_293C
+jmp	short loc_295F
 
 loc_2979:
 mov	cx, 101h
-xor	ah, ah		; Logical Exclusive OR
-sub	cx, ax		; Integer Subtraction
-sub	bp, cx		; Integer Subtraction
-lodsb			; Load String
-or	al, al		; Logical Inclusive OR
-jz	short loc_2992	; Jump if Zero (ZF=1)
-rep stosb		; Store	String
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_2944	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_293C	; Jump if Not Zero (ZF=0)
-jmp	short loc_295F	; Jump
+xor	ah, ah
+sub	cx, ax
+sub	bp, cx
+lodsb
+or	al, al
+jz	short loc_2992
+rep stosb
+or	bp, bp
+ja	short loc_2944
+dec	bx
+jnz	short loc_293C
+jmp	short loc_295F
 
-loc_2992:		; Add
+loc_2992:
 add	di, cx
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_2944	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_293C	; Jump if Not Zero (ZF=0)
-jmp	short loc_295F	; Jump
+or	bp, bp
+ja	short loc_2944
+dec	bx
+jnz	short loc_293C
+jmp	short loc_295F
 
 loc_299D:
 mov	bp, dx
-add	di, bp		; Add
+add	di, bp
 ; END OF FUNCTION CHUNK	FOR sub_2A6A
 db 81h
 byte_29A2 db 0C7h
@@ -374,98 +365,98 @@ db 40h,	1
 
 loc_29A5:
 mov	al, [si]
-inc	si		; Increment by 1
-or	al, al		; Logical Inclusive OR
-jz	short loc_29D2	; Jump if Zero (ZF=1)
+inc	si
+or	al, al
+jz	short loc_29D2
 mov	cx, ax
-xor	ch, ch		; Logical Exclusive OR
-inc	cx		; Increment by 1
-sub	bp, cx		; Integer Subtraction
+xor	ch, ch
+inc	cx
+sub	bp, cx
 
 loc_29B3:
 mov	al, [si]
-inc	si		; Increment by 1
-or	al, al		; Logical Inclusive OR
-jz	short loc_29C6	; Jump if Zero (ZF=1)
-stosb			; Store	String
-loop	loc_29B3	; Loop while CX	!= 0
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_29A5	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_299D	; Jump if Not Zero (ZF=0)
-jmp	short loc_295F	; Jump
+inc	si
+or	al, al
+jz	short loc_29C6
+stosb
+loop	loc_29B3
+or	bp, bp
+ja	short loc_29A5
+dec	bx
+jnz	short loc_299D
+jmp	short loc_295F
 
-loc_29C6:		; Decrement by 1
+loc_29C6:
 dec	di
-loop	loc_29B3	; Loop while CX	!= 0
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_29A5	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_299D	; Jump if Not Zero (ZF=0)
-jmp	short loc_295F	; Jump
+loop	loc_29B3
+or	bp, bp
+ja	short loc_29A5
+dec	bx
+jnz	short loc_299D
+jmp	short loc_295F
 
 loc_29D2:
 mov	cx, 101h
-xor	ah, ah		; Logical Exclusive OR
-sub	cx, ax		; Integer Subtraction
-sub	bp, cx		; Integer Subtraction
+xor	ah, ah
+sub	cx, ax
+sub	bp, cx
 mov	al, [si]
-inc	si		; Increment by 1
-or	al, al		; Logical Inclusive OR
-jz	short loc_29EE	; Jump if Zero (ZF=1)
-rep stosb		; Store	String
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_29A5	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_299D	; Jump if Not Zero (ZF=0)
-jmp	loc_295F	; Jump
+inc	si
+or	al, al
+jz	short loc_29EE
+rep stosb
+or	bp, bp
+ja	short loc_29A5
+dec	bx
+jnz	short loc_299D
+jmp	loc_295F
 
-loc_29EE:		; Integer Subtraction
+loc_29EE:
 sub	di, cx
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_29A5	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_299D	; Jump if Not Zero (ZF=0)
-jmp	loc_295F	; Jump
+or	bp, bp
+ja	short loc_29A5
+dec	bx
+jnz	short loc_299D
+jmp	loc_295F
 
 loc_29FA:
 mov	bp, dx
-sub	di, bp		; Integer Subtraction
+sub	di, bp
 ; END OF FUNCTION CHUNK	FOR sub_2A6A
 db 81h
 byte_29FF db 0C7h
 db 40h,	1
 ; START	OF FUNCTION CHUNK FOR sub_2A6A
 
-loc_2A02:		; Load String
+loc_2A02:
 lodsb
-or	al, al		; Logical Inclusive OR
-js	short loc_2A18	; Jump if Sign (SF=1)
+or	al, al
+js	short loc_2A18
 mov	cx, ax
-xor	ch, ch		; Logical Exclusive OR
-inc	cx		; Increment by 1
-sub	bp, cx		; Integer Subtraction
-rep movsb		; Move Byte(s) from String to String
-ja	short loc_2A02	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_29FA	; Jump if Not Zero (ZF=0)
-jmp	loc_295F	; Jump
+xor	ch, ch
+inc	cx
+sub	bp, cx
+rep movsb
+ja	short loc_2A02
+dec	bx
+jnz	short loc_29FA
+jmp	loc_295F
 
 loc_2A18:
 mov	cx, 101h
-xor	ah, ah		; Logical Exclusive OR
-sub	cx, ax		; Integer Subtraction
-sub	bp, cx		; Integer Subtraction
-lodsb			; Load String
-rep stosb		; Store	String
-ja	short loc_2A02	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_29FA	; Jump if Not Zero (ZF=0)
-jmp	loc_295F	; Jump
+xor	ah, ah
+sub	cx, ax
+sub	bp, cx
+lodsb
+rep stosb
+ja	short loc_2A02
+dec	bx
+jnz	short loc_29FA
+jmp	loc_295F
 
 loc_2A2C:
 mov	bp, dx
-add	di, bp		; Add
+add	di, bp
 ; END OF FUNCTION CHUNK	FOR sub_2A6A
 db 81h
 byte_2A31 db 0C7h
@@ -474,38 +465,38 @@ db 40h,	1
 
 loc_2A34:
 mov	al, [si]
-inc	si		; Increment by 1
-or	al, al		; Logical Inclusive OR
-jz	short loc_2A52	; Jump if Zero (ZF=1)
+inc	si
+or	al, al
+jz	short loc_2A52
 mov	cx, ax
-xor	ch, ch		; Logical Exclusive OR
-inc	cx		; Increment by 1
-sub	bp, cx		; Integer Subtraction
+xor	ch, ch
+inc	cx
+sub	bp, cx
 
 loc_2A42:
 mov	al, [si]
-inc	si		; Increment by 1
-stosb			; Store	String
-loop	loc_2A42	; Loop while CX	!= 0
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_2A34	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_2A2C	; Jump if Not Zero (ZF=0)
-jmp	loc_295F	; Jump
+inc	si
+stosb
+loop	loc_2A42
+or	bp, bp
+ja	short loc_2A34
+dec	bx
+jnz	short loc_2A2C
+jmp	loc_295F
 
 loc_2A52:
 mov	cx, 101h
-xor	ah, ah		; Logical Exclusive OR
-sub	cx, ax		; Integer Subtraction
-sub	bp, cx		; Integer Subtraction
+xor	ah, ah
+sub	cx, ax
+sub	bp, cx
 mov	al, [si]
-inc	si		; Increment by 1
-rep stosb		; Store	String
-or	bp, bp		; Logical Inclusive OR
-ja	short loc_2A34	; Jump if Above	(CF=0 &	ZF=0)
-dec	bx		; Decrement by 1
-jnz	short loc_2A2C	; Jump if Not Zero (ZF=0)
-jmp	loc_295F	; Jump
+inc	si
+rep stosb
+or	bp, bp
+ja	short loc_2A34
+dec	bx
+jnz	short loc_2A2C
+jmp	loc_295F
 ; END OF FUNCTION CHUNK	FOR sub_2A6A
 
 
@@ -518,43 +509,43 @@ sub_2A6A proc far
 ; FUNCTION CHUNK AT 0B32 SIZE 0000002E BYTES
 ; FUNCTION CHUNK AT 0B64 SIZE 00000036 BYTES
 
-cmp	ch, 0FEh ; '�'  ; Compare Two Operands
-jnb	short loc_2A70	; Jump if Not Below (CF=0)
-retf			; Return Far from Procedure
+cmp	ch, 0FEh ; '�'
+jnb	short loc_2A70
+retf
 
-loc_2A70:		; Logical Inclusive OR
+loc_2A70:
 or	di, di
-js	short loc_2ACA	; Jump if Sign (SF=1)
+js	short loc_2ACA
 mov	bp, di
-and	bp, 1FFh	; Logical AND
+and	bp, 1FFh
 mov	ax, di
-call	sub_28F2	; Call Procedure
+call	sub_28F2
 mov	bx, cx
-xor	bh, bh		; Logical Exclusive OR
-cmp	ch, 0FFh	; Compare Two Operands
-jz	short loc_2AA9	; Jump if Zero (ZF=1)
-shr	bp, 1		; Shift	Logical	Right
+xor	bh, bh
+cmp	ch, 0FFh
+jz	short loc_2AA9
+shr	bp, 1
 mov	ax, di
-jb	short loc_2A9B	; Jump if Below	(CF=1)
+jb	short loc_2A9B
 
 loc_2A8E:
 mov	cx, bp
 mov	di, ax
-rep movsw		; Move Byte(s) from String to String
-add	ax, 140h	; Add
-dec	bx		; Decrement by 1
-jnz	short loc_2A8E	; Jump if Not Zero (ZF=0)
-retf			; Return Far from Procedure
+rep movsw
+add	ax, 140h
+dec	bx
+jnz	short loc_2A8E
+retf
 
 loc_2A9B:
 mov	cx, bp
 mov	di, ax
-rep movsw		; Move Byte(s) from String to String
-movsb			; Move Byte(s) from String to String
-add	ax, 140h	; Add
-dec	bx		; Decrement by 1
-jnz	short loc_2A9B	; Jump if Not Zero (ZF=0)
-retf			; Return Far from Procedure
+rep movsw
+movsb
+add	ax, 140h
+dec	bx
+jnz	short loc_2A9B
+retf
 
 loc_2AA9:
 mov	dx, di
@@ -563,82 +554,82 @@ loc_2AAB:
 mov	cx, bp
 mov	di, dx
 
-loc_2AAF:		; Load String
+loc_2AAF:
 lodsb
-or	al, al		; Logical Inclusive OR
-jz	short loc_2ABF	; Jump if Zero (ZF=1)
-stosb			; Store	String
-loop	loc_2AAF	; Loop while CX	!= 0
-add	dx, 140h	; Add
-dec	bx		; Decrement by 1
-jnz	short loc_2AAB	; Jump if Not Zero (ZF=0)
-retf			; Return Far from Procedure
+or	al, al
+jz	short loc_2ABF
+stosb
+loop	loc_2AAF
+add	dx, 140h
+dec	bx
+jnz	short loc_2AAB
+retf
 
-loc_2ABF:		; Increment by 1
+loc_2ABF:
 inc	di
-loop	loc_2AAF	; Loop while CX	!= 0
-add	dx, 140h	; Add
-dec	bx		; Decrement by 1
-jnz	short loc_2AAB	; Jump if Not Zero (ZF=0)
-retf			; Return Far from Procedure
+loop	loc_2AAF
+add	dx, 140h
+dec	bx
+jnz	short loc_2AAB
+retf
 
 loc_2ACA:
 mov	bp, di
-and	bp, 1FFh	; Logical AND
+and	bp, 1FFh
 mov	ax, di
-call	sub_28F2	; Call Procedure
+call	sub_28F2
 mov	bx, cx
-xor	bh, bh		; Logical Exclusive OR
-test	ax, 4000h	; Logical Compare
-jnz	short loc_2B0E	; Jump if Not Zero (ZF=0)
-test	ax, 2000h	; Logical Compare
-jz	short loc_2B01	; Jump if Zero (ZF=1)
+xor	bh, bh
+test	ax, 4000h
+jnz	short loc_2B0E
+test	ax, 2000h
+jz	short loc_2B01
 mov	cs:byte_2941, 0EFh ; '�'
 mov	cs:byte_29FF, 0EFh ; '�'
 mov	ah, bl
-dec	ah		; Decrement by 1
+dec	ah
 mov	dh, ah
-xor	dl, dl		; Logical Exclusive OR
+xor	dl, dl
 mov	al, dl
-shr	dx, 1		; Shift	Logical	Right
-shr	dx, 1		; Shift	Logical	Right
-add	di, ax		; Add
-add	di, dx		; Add
+shr	dx, 1
+shr	dx, 1
+add	di, ax
+add	di, dx
 
 loc_2B01:
 mov	dx, bp
-cmp	ch, 0FFh	; Compare Two Operands
-jz	short loc_2B0B	; Jump if Zero (ZF=1)
-jmp	loc_2A02	; Jump
+cmp	ch, 0FFh
+jz	short loc_2B0B
+jmp	loc_2A02
 
-loc_2B0B:		; Jump
+loc_2B0B:
 jmp	loc_2944
 
-loc_2B0E:		; Logical Compare
+loc_2B0E:
 test	ax, 2000h
-jz	short loc_2B31	; Jump if Zero (ZF=1)
+jz	short loc_2B31
 mov	cs:byte_29A2, 0EFh ; '�'
 mov	cs:byte_2A31, 0EFh ; '�'
 mov	ah, bl
-dec	ah		; Decrement by 1
+dec	ah
 mov	dh, ah
-xor	dl, dl		; Logical Exclusive OR
+xor	dl, dl
 mov	al, dl
-shr	dx, 1		; Shift	Logical	Right
-shr	dx, 1		; Shift	Logical	Right
-add	di, ax		; Add
-add	di, dx		; Add
+shr	dx, 1
+shr	dx, 1
+add	di, ax
+add	di, dx
 
-loc_2B31:		; Add
+loc_2B31:
 add	di, bp
-dec	di		; Decrement by 1
-std			; Set Direction	Flag
+dec	di
+std
 mov	dx, bp
-cmp	ch, 0FFh	; Compare Two Operands
-jz	short loc_2B3F	; Jump if Zero (ZF=1)
-jmp	loc_2A34	; Jump
+cmp	ch, 0FFh
+jz	short loc_2B3F
+jmp	loc_2A34
 
-loc_2B3F:		; Jump
+loc_2B3F:
 jmp	loc_29A5
 sub_2A6A endp
 
@@ -651,36 +642,36 @@ mov	ax, 0A000h
 mov	es, ax
 mov	ds, ax
 assume ds:nothing
-xor	si, si		; Logical Exclusive OR
+xor	si, si
 mov	di, 140h
 mov	dx, 64h	; 'd'
 
 loc_2B52:
 mov	cx, 50h	; 'P'
 
-loc_2B55:		; Load String
+loc_2B55:
 lodsw
-xchg	al, ah		; Exchange Register/Memory with	Register
-sub	di, 2		; Integer Subtraction
+xchg	al, ah
+sub	di, 2
 mov	[di], ax
-loop	loc_2B55	; Loop while CX	!= 0
-add	si, 0A0h ; '�'  ; Add
-add	di, 1E0h	; Add
-dec	dx		; Decrement by 1
-jnz	short loc_2B52	; Jump if Not Zero (ZF=0)
-xor	si, si		; Logical Exclusive OR
+loop	loc_2B55
+add	si, 0A0h ; '�'
+add	di, 1E0h
+dec	dx
+jnz	short loc_2B52
+xor	si, si
 mov	di, 0F8C0h
 mov	dx, 64h	; 'd'
 
 loc_2B72:
 mov	cx, 0A0h ; '�'
-rep movsw		; Move Byte(s) from String to String
-sub	di, 280h	; Integer Subtraction
-dec	dx		; Decrement by 1
-jnz	short loc_2B72	; Jump if Not Zero (ZF=0)
+rep movsw
+sub	di, 280h
+dec	dx
+jnz	short loc_2B72
 pop	ds
 assume ds:dseg
-retn			; Return Near from Procedure
+retn
 sub_2B42 endp
 
 word_2B80 dw 0
@@ -699,12 +690,12 @@ db 6 dup(0)
 
 
 sub_2BC4 proc near
-call	sub_2B42	; Call Procedure
+call	sub_2B42
 mov	si, 0CBCh
 mov	ax, cs:[si]
 mov	cs:word_2B86, ax
 mov	cs:word_2B8A, si
-xor	ax, ax		; Logical Exclusive OR
+xor	ax, ax
 mov	cs:word_2B80, ax
 mov	cs:word_2B82, ax
 mov	cs:word_2B84, ax
@@ -712,11 +703,11 @@ mov	cx, 0FBh ; '�'
 
 loc_2BE7:
 push	cx
-call	sub_2BF2	; Call Procedure
+call	sub_2BF2
 pop	cx
-call	sub_2F55	; Call Procedure
-loope	loc_2BE7	; Loop while rCX != 0 and ZF=1
-retn			; Return Near from Procedure
+call	sub_2F55
+loope	loc_2BE7
+retn
 sub_2BC4 endp
 
 
@@ -731,33 +722,33 @@ pop	ds
 assume ds:seg000
 pop	es
 assume es:nothing
-cmp	cs:word_2B86, 0	; Compare Two Operands
-js	short loc_2C2C	; Jump if Sign (SF=1)
+cmp	cs:word_2B86, 0
+js	short loc_2C2C
 mov	di, 160h
 mov	si, di
 mov	cx, 0F0h ; '�'
 mov	dx, cs:word_2B88
 mov	ax, dx
-shl	ax, 1		; Shift	Logical	Left
-add	ax, dx		; Add
-add	si, ax		; Add
-sub	cx, ax		; Integer Subtraction
-rep movsb		; Move Byte(s) from String to String
+shl	ax, 1
+add	ax, dx
+add	si, ax
+sub	cx, ax
+rep movsb
 mov	cx, dx
 
-loc_2C1B:		; Call Procedure
+loc_2C1B:
 call	sub_2C2F
-loop	loc_2C1B	; Loop while CX	!= 0
+loop	loc_2C1B
 mov	dx, 160h
 mov	bx, 50h	; 'P'
 mov	cx, 50h	; 'P'
-call	sub_28A8	; Call Procedure
+call	loc_28A8
 
 loc_2C2C:
 pop	es
 pop	ds
 assume ds:dseg
-retn			; Return Near from Procedure
+retn
 sub_2BF2 endp
 
 
@@ -765,60 +756,60 @@ sub_2BF2 endp
 
 sub_2C2F proc near
 mov	si, cs:word_2B8A
-dec	cs:word_2B86	; Decrement by 1
-jnz	short loc_2C49	; Jump if Not Zero (ZF=0)
-add	si, 8		; Add
+dec	cs:word_2B86
+jnz	short loc_2C49
+add	si, 8
 mov	cs:word_2B8A, si
 mov	ax, [si]
 mov	cs:word_2B86, ax
 
 loc_2C49:
 mov	ax, [si+2]
-add	ax, cs:word_2B80 ; Add
+add	ax, cs:word_2B80
 mov	cs:word_2B80, ax
-shl	al, 1		; Shift	Logical	Left
-adc	ah, 0		; Add with Carry
+shl	al, 1
+adc	ah, 0
 mov	al, ah
-and	al, 3Fh		; Logical AND
-stosb			; Store	String
+and	al, 3Fh
+stosb
 mov	ax, [si+4]
-add	ax, cs:word_2B82 ; Add
+add	ax, cs:word_2B82
 mov	cs:word_2B82, ax
-shl	al, 1		; Shift	Logical	Left
-adc	ah, 0		; Add with Carry
+shl	al, 1
+adc	ah, 0
 mov	al, ah
-and	al, 3Fh		; Logical AND
-stosb			; Store	String
+and	al, 3Fh
+stosb
 mov	ax, [si+6]
-add	ax, cs:word_2B84 ; Add
+add	ax, cs:word_2B84
 mov	cs:word_2B84, ax
-shl	al, 1		; Shift	Logical	Left
-adc	ah, 0		; Add with Carry
+shl	al, 1
+adc	ah, 0
 mov	al, ah
-and	al, 3Fh		; Logical AND
-stosb			; Store	String
-retn			; Return Near from Procedure
+and	al, 3Fh
+stosb
+retn
 sub_2C2F endp
 
 
 
 
 sub_2C8C proc near
-les	di, off_30DC	; Load Full Pointer to ES:xx
+les	di, off_30DC
 mov	word ptr dword_30E6, di
 mov	word ptr dword_30E6+2, es
 mov	cx, es
 mov	ax, word_30E0
-sub	ax, cx		; Integer Subtraction
-cmp	ax, 3A02h	; Compare Two Operands
-jb	short locret_2CAD ; Jump if Below (CF=1)
-call	sub_2F6A	; Call Procedure
-add	di, cx		; Add
-xor	ax, ax		; Logical Exclusive OR
-stosw			; Store	String
-clc			; Clear	Carry Flag
+sub	ax, cx
+cmp	ax, 3A02h
+jb	short locret_2CAD
+call	sub_2F6A
+add	di, cx
+xor	ax, ax
+stosw
+clc
 
-locret_2CAD:		; Return Near from Procedure
+locret_2CAD:
 retn
 sub_2C8C endp
 
@@ -827,75 +818,75 @@ sub_2C8C endp
 
 sub_2CAE proc near
 mov	word_30E4, ax
-call	sub_2C8C	; Call Procedure
-jb	short locret_2D15 ; Jump if Below (CF=1)
+call	sub_2C8C
+jb	short locret_2D15
 
-loc_2CB6:		; Call Procedure
+loc_2CB6:
 call	sub_290A
 mov	ax, word_30E4
 mov	word_30E2, ax
-les	di, off_30DC	; Load Full Pointer to ES:xx
+les	di, off_30DC
 mov	word ptr dword_30E6, di
 mov	word ptr dword_30E6+2, es
-call	sub_2D7D	; Call Procedure
-jz	short locret_2D15 ; Jump if Zero (ZF=1)
-call	sub_2E74	; Call Procedure
-call	sub_2D1C	; Call Procedure
-stc			; Set Carry Flag
-jz	short locret_2D15 ; Jump if Zero (ZF=1)
-call	sub_2D19	; Call Procedure
-call	sub_2BC4	; Call Procedure
-stc			; Set Carry Flag
-jnz	short locret_2D15 ; Jump if Not	Zero (ZF=0)
+call	sub_2D7D
+jz	short locret_2D15
+call	sub_2E74
+call	sub_2D1C
+stc
+jz	short locret_2D15
+call	sub_2D19
+call	sub_2BC4
+stc
+jnz	short locret_2D15
 
 loc_2CE2:
 mov	ax, word_30E2
 mov	bp, 0E46h
-call	sub_2EBA	; Call Procedure
-stc			; Set Carry Flag
-jnz	short locret_2D15 ; Jump if Not	Zero (ZF=0)
-cmp	word_30E2, 0	; Compare Two Operands
-jnz	short loc_2CE2	; Jump if Not Zero (ZF=0)
+call	sub_2EBA
+stc
+jnz	short locret_2D15
+cmp	word_30E2, 0
+jnz	short loc_2CE2
 mov	si, 0EEh ; '�'
-lodsw			; Load String
-call	sub_308D	; Call Procedure
-xchg	al, ah		; Exchange Register/Memory with	Register
-call	sub_308D	; Call Procedure
-cmp	ax, 4C4Fh	; Compare Two Operands
-jnz	short loc_2D14	; Jump if Not Zero (ZF=0)
-lodsw			; Load String
-call	sub_308D	; Call Procedure
-xchg	al, ah		; Exchange Register/Memory with	Register
-call	sub_308D	; Call Procedure
-cmp	ax, 4F50h	; Compare Two Operands
-jz	short loc_2CB6	; Jump if Zero (ZF=1)
+lodsw
+call	sub_308D
+xchg	al, ah
+call	sub_308D
+cmp	ax, 4C4Fh
+jnz	short loc_2D14
+lodsw
+call	sub_308D
+xchg	al, ah
+call	sub_308D
+cmp	ax, 4F50h
+jz	short loc_2CB6
 
-loc_2D14:		; Clear	Carry Flag
+loc_2D14:
 clc
 
-locret_2D15:		; Return Near from Procedure
+locret_2D15:
 retn
 sub_2CAE endp
 
-call	sub_2BF2	; Call Procedure
+call	sub_2BF2
 
 
 
 sub_2D19 proc near
-call	sub_2D29	; Call Procedure
+call	sub_2D29
 sub_2D19 endp
 
 
 
 
 sub_2D1C proc near
-call	sub_2D56	; Call Procedure
-jz	short loc_2D22	; Jump if Zero (ZF=1)
-retn			; Return Near from Procedure
+call	sub_2D56
+jz	short loc_2D22
+retn
 
 loc_2D22:
 mov	word_30E2, 0
-retn			; Return Near from Procedure
+retn
 sub_2D1C endp
 
 
@@ -903,58 +894,63 @@ sub_2D1C endp
 
 sub_2D29 proc near
 push	ds
-lds	si, dword_30E6	; Load Full Pointer to DS:xx
-add	si, 2		; Add
-lodsw			; Load String
+lds	si, dword_30E6
+add	si, 2
+lodsw
 mov	di, ax
-lodsw			; Load String
+lodsw
 mov	cx, ax
-or	cl, cl		; Logical Inclusive OR
-jz	short loc_2D54	; Jump if Zero (ZF=1)
-test	di, 200h	; Logical Compare
-jz	short loc_2D44	; Jump if Zero (ZF=1)
-call	sub_2D8D	; Call Procedure
+or	cl, cl
+jz	short loc_2D54
+test	di, 200h
+jz	short loc_2D44
+call	sub_2D8D
 
-loc_2D44:		; Load String
+loc_2D44:
 lodsw
 mov	dx, ax
-lodsw			; Load String
+lodsw
 mov	bx, ax
 mov	ax, 0A000h
 mov	es, ax
 assume es:nothing
-call	sub_2A6A	; Call Procedure
+call	sub_2A6A
 
 loc_2D54:
 pop	ds
-retn			; Return Near from Procedure
+retn
 sub_2D29 endp
 
 
 
 
 sub_2D56 proc near
+
+loc_2D82:
+lods	word ptr es:[si]
+mov	cx, ax
+sub	cx, 2
+pop	si
+or	ax, ax
+retn
+
 push	si
-les	si, dword_30E6	; Load Full Pointer to ES:xx
+les	si, dword_30E6
 assume es:nothing
 mov	ax, es:[si]
-add	si, ax		; Add
+add	si, ax
 mov	ax, si
-shr	ax, 1		; Shift	Logical	Right
-shr	ax, 1		; Shift	Logical	Right
-shr	ax, 1		; Shift	Logical	Right
-shr	ax, 1		; Shift	Logical	Right
+shr	ax, 1
+shr	ax, 1
+shr	ax, 1
+shr	ax, 1
 mov	cx, es
-add	ax, cx		; Add
+add	ax, cx
 mov	es, ax
-and	si, 0Fh		; Logical AND
+and	si, 0Fh
 mov	word ptr dword_30E6, si
 mov	word ptr dword_30E6+2, es
-;jmp	short loc_2D82	; Jump
-mov	cx, ax
-sub	cx, 2		; Integer Subtraction
-pop	si
-or	ax, ax		; Logical Inclusive OR
+jmp	short loc_2D82
 sub_2D56 endp
 
 
@@ -962,20 +958,15 @@ sub_2D56 endp
 
 sub_2D7D proc near
 push	si
-les	si, dword_30E6	; Load Full Pointer to ES:xx
+les	si, dword_30E6
 
-loc_2D82:		; Load String
-lods	word ptr es:[si]
-mov	cx, ax
-sub	cx, 2		; Integer Subtraction
-pop	si
-or	ax, ax		; Logical Inclusive OR
-retn			; Return Near from Procedure
 sub_2D7D endp
 
 
+
+
 sub_2D8D proc near
-and	di, 0FDFFh	; Logical AND
+and	di, 0FDFFh
 push	cx
 push	di
 mov	ax, seg	seg002
@@ -984,12 +975,12 @@ assume es:seg002
 mov	di, 0
 push	di
 push	es
-call	sub_2DCE	; Call Procedure
+call	sub_2DCE
 pop	ds
 pop	si
 pop	di
 pop	cx
-retn			; Return Near from Procedure
+retn
 sub_2D8D endp
 
 push	cx
@@ -999,58 +990,58 @@ push	es
 pop	ds
 assume ds:seg002
 mov	dx, di
-add	dx, cx		; Add
+add	dx, cx
 mov	cx, 6
 mov	si, di
-xor	ax, ax		; Logical Exclusive OR
+xor	ax, ax
 
-loc_2DF2:		; Decrement by 1
+
+loc_2DF2:
 dec	si
-dec	di		; Decrement by 1
-rep movsw		; Move Byte(s) from String to String
-cld			; Clear	Direction Flag
+dec	di
+rep movsw
+cld
 mov	si, di
-add	si, 2		; Add
+add	si, 2
 mov	di, bp
-xor	bp, bp		; Logical Exclusive OR
+xor	bp, bp
 
-loc_2DD8:		; Load String
+loc_2DD8:
 lodsw
 mov	cx, ax
-sub	si, 5		; Integer Subtraction
+sub	si, 5
 mov	bp, si
-add	di, si		; Add
-add	di, 20h	; ' '   ; Add
-add	si, cx		; Add
-dec	si		; Decrement by 1
-dec	di		; Decrement by 1
-sub	cx, 6		; Integer Subtraction
-std			; Set Direction	Flag
-shr	cx, 1		; Shift	Logical	Right
-jnb	short loc_2DF2	; Jump if Not Below (CF=0)
-movsb			; Move Byte(s) from String to String
+add	di, si
+add	di, 20h	; ' '
+add	si, cx
+dec	si
+dec	di
+sub	cx, 6
+std
+shr	cx, 1
+jnb	short loc_2DF2
+movsb
 
-
-loc_2DB5:		; Load String
+loc_2DB5:
 lodsb
-add	ah, al		; Add
-loop	loc_2DB5	; Loop while CX	!= 0
-cmp	ah, 0ABh ; '�'  ; Compare Two Operands
-jnz	short loc_2DC9	; Jump if Not Zero (ZF=0)
+add	ah, al
+loop	loc_2DB5
+cmp	ah, 0ABh ; '�'
+jnz	short loc_2DC9
 mov	si, di
-lodsw			; Load String
+lodsw
 mov	di, ax
-lodsb			; Load String
-or	al, al		; Logical Inclusive OR
-jz	short loc_2DD8	; Jump if Zero (ZF=1)
+lodsb
+or	al, al
+jz	short loc_2DD8
 
-loc_2DC9:		; Set Carry Flag
+loc_2DC9:
 stc
 pop	ds
 assume ds:dseg
 pop	di
 pop	cx
-retn			; Return Near from Procedure
+retn
 
 
 
@@ -1058,126 +1049,127 @@ sub_2DCE proc near
 push	cx
 push	di
 push	ds
-add	si, 6		; Add
-xor	bp, bp		; Logical Exclusive OR
-jmp	short loc_2E00	; Jump
+add	si, 6
+xor	bp, bp
+jmp	short loc_2E00
 
-loc_2E00:		; Shift	Logical	Right
+
+loc_2E00:
 shr	bp, 1
-jz	short loc_2E09	; Jump if Zero (ZF=1)
-jnb	short loc_2E11	; Jump if Not Below (CF=0)
+jz	short loc_2E09
+jnb	short loc_2E11
 
-loc_2E06:		; Move Byte(s) from String to String
+loc_2E06:
 movsb
-jmp	short loc_2E00	; Jump
+jmp	short loc_2E00
 
-loc_2E09:		; Load String
+loc_2E09:
 lodsw
 mov	bp, ax
-stc			; Set Carry Flag
-rcr	bp, 1		; Rotate Through Carry Right
-jb	short loc_2E06	; Jump if Below	(CF=1)
+stc
+rcr	bp, 1
+jb	short loc_2E06
 
-loc_2E11:		; Logical Exclusive OR
+loc_2E11:
 xor	cx, cx
-shr	bp, 1		; Shift	Logical	Right
-jnz	short loc_2E1D	; Jump if Not Zero (ZF=0)
-lodsw			; Load String
+shr	bp, 1
+jnz	short loc_2E1D
+lodsw
 mov	bp, ax
-stc			; Set Carry Flag
-rcr	bp, 1		; Rotate Through Carry Right
+stc
+rcr	bp, 1
 
-loc_2E1D:		; Jump if Below	(CF=1)
+loc_2E1D:
 jb	short loc_2E4D
-shr	bp, 1		; Shift	Logical	Right
-jnz	short loc_2E29	; Jump if Not Zero (ZF=0)
-lodsw			; Load String
+shr	bp, 1
+jnz	short loc_2E29
+lodsw
 mov	bp, ax
-stc			; Set Carry Flag
-rcr	bp, 1		; Rotate Through Carry Right
+stc
+rcr	bp, 1
 
-loc_2E29:		; Rotate Through Carry Left
+loc_2E29:
 rcl	cx, 1
-shr	bp, 1		; Shift	Logical	Right
-jnz	short loc_2E35	; Jump if Not Zero (ZF=0)
-lodsw			; Load String
+shr	bp, 1
+jnz	short loc_2E35
+lodsw
 mov	bp, ax
-stc			; Set Carry Flag
-rcr	bp, 1		; Rotate Through Carry Right
+stc
+rcr	bp, 1
 
-loc_2E35:		; Rotate Through Carry Left
+loc_2E35:
 rcl	cx, 1
-lodsb			; Load String
+lodsb
 mov	ah, 0FFh
 
-loc_2E3A:		; Add
+loc_2E3A:
 add	ax, di
-xchg	ax, si		; Exchange Register/Memory with	Register
+xchg	ax, si
 mov	bx, ds
 mov	dx, es
 mov	ds, dx
 assume ds:seg002
-inc	cx		; Increment by 1
-inc	cx		; Increment by 1
-rep movsb		; Move Byte(s) from String to String
+inc	cx
+inc	cx
+rep movsb
 mov	ds, bx
 assume ds:dseg
 mov	si, ax
-jmp	short loc_2E00	; Jump
+jmp	short loc_2E00
 
-loc_2E4D:		; Load String
+loc_2E4D:
 lodsw
 mov	cl, al
-shr	ax, 1		; Shift	Logical	Right
-shr	ax, 1		; Shift	Logical	Right
-shr	ax, 1		; Shift	Logical	Right
-or	ah, 0E0h	; Logical Inclusive OR
-and	cl, 7		; Logical AND
-jnz	short loc_2E3A	; Jump if Not Zero (ZF=0)
+shr	ax, 1
+shr	ax, 1
+shr	ax, 1
+or	ah, 0E0h
+and	cl, 7
+jnz	short loc_2E3A
 mov	bx, ax
-lodsb			; Load String
+lodsb
 mov	cl, al
 mov	ax, bx
-or	cl, cl		; Logical Inclusive OR
-jnz	short loc_2E3A	; Jump if Not Zero (ZF=0)
-stc			; Set Carry Flag
+or	cl, cl
+jnz	short loc_2E3A
+stc
 mov	cx, di
 pop	ds
 pop	di
-add	sp, 2		; Add
-sub	cx, di		; Integer Subtraction
-retn			; Return Near from Procedure
+add	sp, 2
+sub	cx, di
+retn
 sub_2DCE endp
 
 
 
 
 sub_2E74 proc near
-les	si, dword_30E6	; Load Full Pointer to ES:xx
+les	si, dword_30E6
 assume es:nothing
-add	si, 2		; Add
+add	si, 2
 
-loc_2E7B:		; Load String
+loc_2E7B:
 lods	word ptr es:[si]
-cmp	al, 0FFh	; Compare Two Operands
-jz	short locret_2E9B ; Jump if Zero (ZF=1)
-xor	cx, cx		; Logical Exclusive OR
-xor	bx, bx		; Logical Exclusive OR
+cmp	al, 0FFh
+jz	short locret_2E9B
+xor	cx, cx
+xor	bx, bx
 mov	bl, al
 mov	cl, ah
 mov	dx, si
-add	si, cx		; Add
-add	si, cx		; Add
-add	si, cx		; Add
+add	si, cx
+add	si, cx
+add	si, cx
 mov	ax, 1012h
 int	10h		; - VIDEO - SET	BLOCK OF DAC REGISTERS (EGA, VGA/MCGA)
 			; BX = starting	color register,	CX = number of registers to set
 			; ES:DX	-> table of 3*CX bytes where each 3 byte group represents one
 			; byte each of red, green and blue (0-63)
-call	sub_2E9C	; Call Procedure
-jmp	short loc_2E7B	; Jump
+call	sub_2E9C
+jmp	short loc_2E7B
 
-locret_2E9B:		; Return Near from Procedure
+locret_2E9B:
 retn
 sub_2E74 endp
 
@@ -1189,81 +1181,81 @@ push	si
 push	di
 mov	si, dx
 mov	di, 70h	; 'p'
-add	di, bx		; Add
-add	di, bx		; Add
-add	di, bx		; Add
+add	di, bx
+add	di, bx
+add	di, bx
 mov	ax, cx
-shl	cx, 1		; Shift	Logical	Left
-add	cx, ax		; Add
+shl	cx, 1
+add	cx, ax
 
-loc_2EAF:		; Load String
+loc_2EAF:
 lods	byte ptr es:[si]
 mov	cs:[di], al
-inc	di		; Increment by 1
-loop	loc_2EAF	; Loop while CX	!= 0
+inc	di
+loop	loc_2EAF
 pop	di
 pop	si
-retn			; Return Near from Procedure
+retn
 sub_2E9C endp
 
 
 
 
 sub_2EBA proc near
-sti			; Set Interrupt	Flag
+sti
 push	ax
-xor	ax, ax		; Logical Exclusive OR
+xor	ax, ax
 mov	es, ax
 assume es:nothing
 push	word ptr es:46Ch
-call	bp		; Indirect Call	Near Procedure
+call	bp
 pop	bx
 pop	bp
-shr	bp, 1		; Shift	Logical	Right
-shr	bp, 1		; Shift	Logical	Right
-shr	bp, 1		; Shift	Logical	Right
+shr	bp, 1
+shr	bp, 1
+shr	bp, 1
 mov	ax, bp
-shr	ax, 1		; Shift	Logical	Right
-shr	ax, 1		; Shift	Logical	Right
-sub	bp, ax		; Integer Subtraction
+shr	ax, 1
+shr	ax, 1
+sub	bp, ax
 
-loc_2ED7:		; Logical Exclusive OR
+loc_2ED7:
 xor	ax, ax
 mov	es, ax
 mov	ax, es:46Ch
-sub	ax, bx		; Integer Subtraction
-cmp	ax, bp		; Compare Two Operands
-jb	short loc_2ED7	; Jump if Below	(CF=1)
-call	sub_2F55	; Call Procedure
-retn			; Return Near from Procedure
+sub	ax, bx
+cmp	ax, bp
+jb	short loc_2ED7
+call	sub_2F55
+retn
 sub_2EBA endp
 
 
 
 
 sub_2EE9 proc near
-pushf			; Push Flags Register onto the Stack
-pushf			; Push Flags Register onto the Stack
-xor	ax, ax		; Logical Exclusive OR
+pushf
+pushf
+xor	ax, ax
 push	ax
-popf			; Pop Stack into Flags Register
-pushf			; Push Flags Register onto the Stack
+popf
+pushf
 pop	ax
-popf			; Pop Stack into Flags Register
-and	ax, 0F000h	; Logical AND
-cmp	ax, 0F000h	; Compare Two Operands
-jz	short loc_2F09	; Jump if Zero (ZF=1)
+popf
+and	ax, 0F000h
+cmp	ax, 0F000h
+jz	short loc_2F09
 mov	ax, 7000h
 push	ax
-popf			; Pop Stack into Flags Register
-pushf			; Push Flags Register onto the Stack
+popf
+pushf
 pop	ax
-and	ax, 7000h	; Logical AND
+and	ax, 7000h
 mov	cs:byte_1F3B, ah
 
-loc_2F09:		; Pop Stack into Flags Register
+loc_2F09:
 popf
-retn			; Return Near from Procedure
+retn
 sub_2EE9 endp
 
 db 2 dup(0), 52h, 2Eh, 0A1h, 3Bh, 10h, 0Bh
@@ -1279,14 +1271,14 @@ mov	di, dx
 
 loc_2F31:
 mov	al, [di]
-cmp	al, 2Eh	; '.'   ; Compare Two Operands
-jz	short locret_2F3E ; Jump if Zero (ZF=1)
-or	al, al		; Logical Inclusive OR
-jz	short locret_2F3E ; Jump if Zero (ZF=1)
-inc	di		; Increment by 1
-jmp	short loc_2F31	; Jump
+cmp	al, 2Eh	; '.'
+jz	short locret_2F3E
+or	al, al
+jz	short locret_2F3E
+inc	di
+jmp	short loc_2F31
 
-locret_2F3E:		; Return Near from Procedure
+locret_2F3E:
 retn
 sub_2F2F endp
 
@@ -1302,13 +1294,13 @@ int	16h		; KEYBOARD - CHECK BUFFER, DO NOT CLEAR
 			; Return: ZF clear if character	in buffer
 			; AH = scan code, AL = character
 			; ZF set if no character in buffer
-jz	short locret_2F61 ; Jump if Zero (ZF=1)
-xor	ah, ah		; Logical Exclusive OR
+jz	short locret_2F61
+xor	ah, ah
 int	16h		; KEYBOARD - READ CHAR FROM BUFFER, WAIT IF EMPTY
 			; Return: AH = scan code, AL = character
-or	ax, ax		; Logical Inclusive OR
+or	ax, ax
 
-locret_2F61:		; Return Near from Procedure
+locret_2F61:
 retn
 sub_2F55 endp
 
@@ -1329,26 +1321,26 @@ int	21h		; DOS -	2+ - READ FROM FILE WITH HANDLE
 			; DS:DX	-> buffer
 pop	ds
 assume ds:dseg
-jb	short loc_2F8B	; Jump if Below	(CF=1)
-cmp	cx, ax		; Compare Two Operands
-ja	short loc_2F88	; Jump if Above	(CF=0 &	ZF=0)
+jb	short loc_2F8B
+cmp	cx, ax
+ja	short loc_2F88
 mov	ax, es
-add	ax, 800h	; Add
+add	ax, 800h
 mov	es, ax
 assume es:nothing
-jmp	short sub_2F6A	; Jump
+jmp	short sub_2F6A
 
 loc_2F88:
 mov	cx, ax
-clc			; Clear	Carry Flag
+clc
 
-loc_2F8B:		; Push Flags Register onto the Stack
+loc_2F8B:
 pushf
 mov	ah, 3Eh
 int	21h		; DOS -	2+ - CLOSE A FILE WITH HANDLE
 			; BX = file handle
-popf			; Pop Stack into Flags Register
-retn			; Return Near from Procedure
+popf
+retn
 sub_2F6A endp
 
 db 0B8h, 2, 3Dh, 0CDh, 21h, 72h, 0Ah, 8Bh
@@ -1368,46 +1360,46 @@ pop	ds
 assume ds:nothing
 pop	es
 assume es:nothing
-cld			; Clear	Direction Flag
+cld
 mov	si, 80h	; '�'
-lodsb			; Load String
-xor	cx, cx		; Logical Exclusive OR
+lodsb
+xor	cx, cx
 mov	cl, al
-jcxz	short loc_2FF7	; Jump if CX is	0
+jcxz	short loc_2FF7
 
 loc_2FD3:
 mov	di, es:[bx]
-inc	bx		; Increment by 1
-inc	bx		; Increment by 1
-or	di, di		; Logical Inclusive OR
-jz	short loc_2FF7	; Jump if Zero (ZF=1)
+inc	bx
+inc	bx
+or	di, di
+jz	short loc_2FF7
 
-loc_2FDC:		; Compare Two Operands
+loc_2FDC:
 cmp	byte ptr [si], 20h ; ' '
-jnz	short loc_2FE4	; Jump if Not Zero (ZF=0)
-inc	si		; Increment by 1
-loop	loc_2FDC	; Loop while CX	!= 0
+jnz	short loc_2FE4
+inc	si
+loop	loc_2FDC
 
-loc_2FE4:		; Load String
+loc_2FE4:
 lodsb
-cmp	al, 20h	; ' '   ; Compare Two Operands
-jz	short loc_2FF0	; Jump if Zero (ZF=1)
-cmp	al, 0Dh		; Compare Two Operands
-jz	short loc_2FF0	; Jump if Zero (ZF=1)
-stosb			; Store	String
-loop	loc_2FE4	; Loop while CX	!= 0
+cmp	al, 20h	; ' '
+jz	short loc_2FF0
+cmp	al, 0Dh
+jz	short loc_2FF0
+stosb
+loop	loc_2FE4
 
-loc_2FF0:		; Logical Exclusive OR
+loc_2FF0:
 xor	al, al
-stosb			; Store	String
-jcxz	short loc_2FF7	; Jump if CX is	0
-loop	loc_2FD3	; Loop while CX	!= 0
+stosb
+jcxz	short loc_2FF7
+loop	loc_2FD3
 
 loc_2FF7:
 mov	ax, seg	dseg
 mov	ds, ax
 assume ds:dseg
-retn			; Return Near from Procedure
+retn
 sub_2FC4 endp
 
 
@@ -1422,104 +1414,104 @@ mov	di, si
 
 loc_3002:
 mov	al, es:[di]
-inc	di		; Increment by 1
-cmp	al, 20h	; ' '   ; Compare Two Operands
-jbe	short loc_3014	; Jump if Below	or Equal (CF=1 | ZF=1)
-cmp	al, 61h	; 'a'   ; Compare Two Operands
-jb	short loc_3002	; Jump if Below	(CF=1)
-and	al, 0DFh	; Logical AND
-dec	di		; Decrement by 1
-stosb			; Store	String
-jmp	short loc_3002	; Jump
+inc	di
+cmp	al, 20h	; ' '
+jbe	short loc_3014
+cmp	al, 61h	; 'a'
+jb	short loc_3002
+and	al, 0DFh
+dec	di
+stosb
+jmp	short loc_3002
 
 loc_3014:
 mov	di, si
 mov	cx, 0Ah
 mov	al, 48h	; 'H'
-repne scasb		; Compare String
-jz	short loc_3057	; Jump if Zero (ZF=1)
-xor	bx, bx		; Logical Exclusive OR
-xor	dx, dx		; Logical Exclusive OR
+repne scasb
+jz	short loc_3057
+xor	bx, bx
+xor	dx, dx
 mov	cx, 8
 
-loc_3026:		; Load String
+loc_3026:
 lodsb
-cmp	al, 41h	; 'A'   ; Compare Two Operands
-jb	short loc_3031	; Jump if Below	(CF=1)
-cmp	al, 46h	; 'F'   ; Compare Two Operands
-ja	short loc_3031	; Jump if Above	(CF=0 &	ZF=0)
-sub	al, 7		; Integer Subtraction
+cmp	al, 41h	; 'A'
+jb	short loc_3031
+cmp	al, 46h	; 'F'
+ja	short loc_3031
+sub	al, 7
 
-loc_3031:		; Integer Subtraction
+loc_3031:
 sub	al, 30h	; '0'
-jb	short loc_3085	; Jump if Below	(CF=1)
-cmp	al, 10h		; Compare Two Operands
-jnb	short loc_3085	; Jump if Not Below (CF=0)
-shl	bx, 1		; Shift	Logical	Left
-rcl	dx, 1		; Rotate Through Carry Left
+jb	short loc_3085
+cmp	al, 10h
+jnb	short loc_3085
+shl	bx, 1
+rcl	dx, 1
 mov	bp, bx
 mov	di, dx
-shl	bx, 1		; Shift	Logical	Left
-rcl	dx, 1		; Rotate Through Carry Left
-shl	bx, 1		; Shift	Logical	Left
-rcl	dx, 1		; Rotate Through Carry Left
-add	bx, bp		; Add
-adc	dx, di		; Add with Carry
-cbw			; AL ->	AX (with sign)
-add	bx, ax		; Add
-adc	dx, 0		; Add with Carry
-loop	loc_3026	; Loop while CX	!= 0
-jmp	short loc_3085	; Jump
+shl	bx, 1
+rcl	dx, 1
+shl	bx, 1
+rcl	dx, 1
+add	bx, bp
+adc	dx, di
+cbw
+add	bx, ax
+adc	dx, 0
+loop	loc_3026
+jmp	short loc_3085
 
-loc_3057:		; Logical Exclusive OR
+loc_3057:
 xor	bx, bx
-xor	dx, dx		; Logical Exclusive OR
+xor	dx, dx
 mov	cx, 8
 
-loc_305E:		; Load String
+loc_305E:
 lodsb
-cmp	al, 41h	; 'A'   ; Compare Two Operands
-jb	short loc_3069	; Jump if Below	(CF=1)
-cmp	al, 46h	; 'F'   ; Compare Two Operands
-ja	short loc_3069	; Jump if Above	(CF=0 &	ZF=0)
-sub	al, 7		; Integer Subtraction
+cmp	al, 41h	; 'A'
+jb	short loc_3069
+cmp	al, 46h	; 'F'
+ja	short loc_3069
+sub	al, 7
 
-loc_3069:		; Integer Subtraction
+loc_3069:
 sub	al, 30h	; '0'
-jb	short loc_3085	; Jump if Below	(CF=1)
-cmp	al, 10h		; Compare Two Operands
-jnb	short loc_3085	; Jump if Not Below (CF=0)
-shl	bx, 1		; Shift	Logical	Left
-rcl	dx, 1		; Rotate Through Carry Left
-shl	bx, 1		; Shift	Logical	Left
-rcl	dx, 1		; Rotate Through Carry Left
-shl	bx, 1		; Shift	Logical	Left
-rcl	dx, 1		; Rotate Through Carry Left
-shl	bx, 1		; Shift	Logical	Left
-rcl	dx, 1		; Rotate Through Carry Left
-or	bl, al		; Logical Inclusive OR
-loop	loc_305E	; Loop while CX	!= 0
+jb	short loc_3085
+cmp	al, 10h
+jnb	short loc_3085
+shl	bx, 1
+rcl	dx, 1
+shl	bx, 1
+rcl	dx, 1
+shl	bx, 1
+rcl	dx, 1
+shl	bx, 1
+rcl	dx, 1
+or	bl, al
+loop	loc_305E
 
 loc_3085:
 mov	ax, bx
 pop	di
-stosw			; Store	String
+stosw
 mov	ax, dx
-stosw			; Store	String
-retn			; Return Near from Procedure
+stosw
+retn
 sub_2FFD endp
 
 
 
 
 sub_308D proc near
-cmp	al, 61h	; 'a'   ; Compare Two Operands
-jb	short locret_3097 ; Jump if Below (CF=1)
-cmp	al, 7Ah	; 'z'   ; Compare Two Operands
-ja	short locret_3097 ; Jump if Above (CF=0	& ZF=0)
-and	al, 0DFh	; Logical AND
+cmp	al, 61h	; 'a'
+jb	short locret_3097
+cmp	al, 7Ah	; 'z'
+ja	short locret_3097
+and	al, 0DFh
 
-locret_3097:		; Return Near from Procedure
+locret_3097:
 retn
 sub_308D endp
 
@@ -1531,7 +1523,7 @@ dseg segment para public 'DATA'
 assume cs:dseg
 ;org 8
 aZou:
-db    0
+asciiz	0, <Z��>,0
 aReadErrorOnSou	db 0Dh,0Ah
 db 'Read error on source file',0Dh,0Ah
 db '$Error: HNM file not found$',0
@@ -1543,6 +1535,53 @@ word_30E2 dw 0
 word_30E4 dw 0
 dword_30E6 dd 0
 aLogo db 'LOGO',0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
+db    0
 word_311E dw 0
 db    0
 db    0
@@ -1742,7 +1781,7 @@ dseg ends
 seg002 segment byte public 'UNK'
 assume cs:seg002
 assume es:nothing, ss:nothing, ds:dseg
-
+db    ?	;
 seg002 ends
 
 
@@ -1755,7 +1794,7 @@ seg003 ends
 
 
 ; Segment type:	Zero-length
-seg004 segment byte public 'UNK'
+seg004 segment byte public ''
 unk_132E0 label	byte
 seg004 ends
 
