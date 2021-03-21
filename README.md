@@ -16,7 +16,7 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [IDA Freeware](https://www.scummvm.org/news/20180331/)
 
-[MASM/TASM](https://marketplace.visualstudio.com/items?itemName=xsro.masm-tasm)
+[MASM/TASM](https://github.com/xsro/masm-tasm) [VSCode marketplace](https://marketplace.visualstudio.com/items?itemName=xsro.masm-tasm)
 
 [MASM2C](https://github.com/xor2003/masm2c)
 
