@@ -61,13 +61,6 @@ mov	word ptr [di], 482Eh
 mov	word ptr [di+2], 4D4Eh
 mov	byte ptr [di+4], 0
 
-loc_2DB2:
-lods    word ptr es:[si]
-mov     cx, ax
-sub     cx, 2
-pop     si
-or      ax,ax
-retn
 loc_1F0E:
 mov	ax, 3D00h
 int	21h		; DOS -	2+ - OPEN DISK FILE WITH HANDLE
@@ -920,8 +913,6 @@ loc_2D54:
 pop	ds
 retn
 sub_2D29 endp
-
-
 
 
 sub_2D56 proc near
