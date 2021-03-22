@@ -13,3 +13,6 @@
 [submodule "tools/dunerevival-code"]
 	path = tools/dunerevival-code
 	url = https://github.com/sonicpp/dunerevival-code
+[submodule "tools/dune"]
+	path = tools/dune
+	url = https://github.com/madmoose/dune
