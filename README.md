@@ -1,3 +1,5 @@
+<img src="worm.gif" width="640" height="400" />
+
 # OpenRakis
 
 This is a WIP project aiming at reversing Cryo's DUNE game.
@@ -40,7 +42,7 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [Save editors and other resources](https://sites.google.com/site/duneeditor/home)
 
-[scummvm-cryo](https://github.com/elyosh/scummvm-cryo) by sev (see [entry on the scummvm wiki](https://wiki.scummvm.org/index.php?title=Dune))
+[scummvm-cryo](https://github.com/elyosh/scummvm-cryo) 
 
 [Dune "HERAD" Ad Lib Music Hacking thread](https://www.vogons.org/viewtopic.php?t=49813)
 
