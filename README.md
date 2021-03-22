@@ -32,11 +32,11 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [8080JIT](https://github.com/DaveTCode/8080JIT)
 
-[reko decompiler](https://github.com/uxmal/reko)
-
 # works by other people
 
 [madmoose/dune](https://github.com/madmoose/dune) (Uses SCUMMVM, and can decode videos)
+
+[scummvm/cryo](https://github.com/scummvm/scummvm/tree/master/engines/cryo) (for Lost Eden, a very similar game from Cryo)
 
 [Save editors and other resources](https://sites.google.com/site/duneeditor/home)
 
