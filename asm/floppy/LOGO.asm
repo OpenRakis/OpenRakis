@@ -950,7 +950,13 @@ sub_2D56 endp
 sub_2D7D proc near
 push	si
 les	si, dword_30E6
-
+loc_2DB2:
+lods    word ptr es:[si]
+mov     cx, ax
+sub     cx, 2
+pop     si
+or      ax,ax
+retn
 sub_2D7D endp
 
 
