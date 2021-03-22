@@ -69,4 +69,4 @@ Entry point (CS initial value) = 1ED.
 
 # LICENSE
 
-GNU GPLv3 License
+GNU GPLv2 License
