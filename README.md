@@ -36,7 +36,7 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 # works by other people
 
-[madmouse/dune](https://github.com/madmoose/dune) (Uses SCUMMVM, and can decode videos)
+[madmoose/dune](https://github.com/madmoose/dune) (Uses SCUMMVM, and can decode videos)
 
 [Save editors and other resources](https://sites.google.com/site/duneeditor/home)
 
