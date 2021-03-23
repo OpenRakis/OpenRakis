@@ -38,13 +38,19 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 # works by other people
 
+## Engines
+
 [madmoose/dune](https://github.com/madmoose/dune) (Uses SCUMMVM, and can decode videos)
 
 [scummvm/cryo](https://github.com/scummvm/scummvm/tree/master/engines/cryo) (for Lost Eden, a very similar game from Cryo)
 
-[Save editors and other resources](https://sites.google.com/site/duneeditor/home)
+[scummvm-cryo](https://github.com/elyosh/scummvm-cryo) ([Scummvm Wiki page](https://wiki.scummvm.org/index.php?title=Dune))
 
-[scummvm-cryo](https://github.com/elyosh/scummvm-cryo) 
+[DUNE revival project](https://sourceforge.net/p/dunerevival/code/HEAD/tree/) ([GitHub copy](https://github.com/sonicpp/dunerevival-code)) (uses [SCUMMVM](https://www.scummvm.org/) too)
+
+## Resources
+
+[Save editors and other resources](https://sites.google.com/site/duneeditor/home)
 
 [Dune "HERAD" Ad Lib Music Hacking thread](https://www.vogons.org/viewtopic.php?t=49813)
 
@@ -59,8 +65,6 @@ the bin folder is not part of this repo, as it is copyrighted material.
 [HERAD implementation in adplug](https://github.com/adplug/adplug/blob/master/src/herad.cpp)
 
 [DUNE revival thread](https://forum.dune2k.com/topic/17217-rewriting-cryos-dune-1-it-seems-possible/page/13/)
-
-[DUNE revival project](https://sourceforge.net/p/dunerevival/code/HEAD/tree/) ([GitHub copy](https://github.com/sonicpp/dunerevival-code)) (uses [SCUMMVM](https://www.scummvm.org/))
 
 [DUNE game translations](https://github.com/sonicpp/Dune-game-translations)
 
