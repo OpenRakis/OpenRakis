@@ -24,8 +24,6 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [MASM2C](https://github.com/xor2003/masm2c)
 
-[semblance](https://github.com/zfigura/semblance)
-
 [LZEXE 0.91](https://bellard.org/lzexe.html) (to uncompress LOGO.EXE)
 
 [CiCParser2021](https://github.com/gabonator/Projects/tree/master/XenonResurrection/Parser/CicParser2021)
@@ -35,6 +33,8 @@ the bin folder is not part of this repo, as it is copyrighted material.
 # To be looked into
 
 [8080JIT](https://github.com/DaveTCode/8080JIT)
+
+[semblance](https://github.com/zfigura/semblance)
 
 # works by other people
 
@@ -66,10 +66,12 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [HERAD implementation in MIDIPLEX](https://github.com/stascorp/MIDIPLEX)
 
-# IDA Settings
+# IDA Settings and How to
 
 8086 16-bit Real Mode.
 Entry point (CS initial value) = 1ED.
+
+[ScummVM Wiki : HOWTO-Reverse Engineering](https://wiki.scummvm.org/index.php?title=HOWTO-Reverse_Engineering)
 
 # LICENSE
 
