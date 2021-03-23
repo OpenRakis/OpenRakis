@@ -16,3 +16,6 @@
 [submodule "tools/dune"]
 	path = tools/dune
 	url = https://github.com/madmoose/dune
+[submodule "src/scummvm"]
+	path = src/scummvm
+	url = https://github.com/scummvm/scummvm
