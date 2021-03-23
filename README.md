@@ -1,4 +1,6 @@
-<img src="worm.gif" width="640" height="400" />
+<div style="height: 25px; width: 160px; border: 1px solid red; white-space: nowrap; text-align: center; margin: 1em 0;">
+    <span style="display: inline-block; height: 100%; vertical-align: middle;"></span><img src="worm.gif" style="vertical-align: middle; max-height: 400px; max-width: 640px;" height="400" />
+</div>
 
 # OpenRakis
 
