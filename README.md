@@ -22,19 +22,19 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [MASM/TASM](https://github.com/xsro/masm-tasm) ([VSCode marketplace](https://marketplace.visualstudio.com/items?itemName=xsro.masm-tasm))
 
-[MASM2C](https://github.com/xor2003/masm2c)
-
-[LZEXE 0.91](https://bellard.org/lzexe.html) (to uncompress LOGO.EXE)
-
-[CiCParser2021](https://github.com/gabonator/Projects/tree/master/XenonResurrection/Parser/CicParser2021)
+[LZEXE 0.91](https://bellard.org/lzexe.html) (to unpack LOGO.EXE)
 
 [DOSBox Debugger with AUTOEXEC support](https://www.vogons.org/viewtopic.php?p=860536#p860536)
 
-# To be looked into
+# Might be useful
 
 [8080JIT](https://github.com/DaveTCode/8080JIT)
 
+[CiCParser2021](https://github.com/gabonator/Projects/tree/master/XenonResurrection/Parser/CicParser2021)
+
 [semblance](https://github.com/zfigura/semblance)
+
+[MASM2C](https://github.com/xor2003/masm2c)
 
 # Works by other people
 
