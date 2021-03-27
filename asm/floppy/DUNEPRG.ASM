@@ -288,7 +288,7 @@ sub_2104	endp
 locret_2185:				; CODE XREF: seg000:02ABj
 		retn
 ; ���������������������������������������������������������������������������
-		;align 4
+		align 4
 		db 8Dh,	5, 2 dup(0), 4,	0, 3Dh,	13h, 2Ch, 1, 2 dup(0)
 		db 0B9h, 5, 2 dup(0), 3Ah, 0, 3Dh, 13h,	90h, 1,	2 dup(0)
 		db 0C1h, 5, 2 dup(0), 3Ah, 0, 3Dh, 13h,	90h, 1,	2 dup(0)
@@ -2306,7 +2306,7 @@ sub_3464	endp
 		db 6Ah,	14h, 6Bh, 14h, 79h, 14h, 7Fh, 14h, 80h,	14h, 86h
 		db 14h,	0CBh, 14h, 0D7h, 14h, 0EFh, 14h, 0F5h, 14h
 word_34A1	dw 14F6h		; DATA XREF: seg000:11A1w sub_3097+3w
-		;align 2
+		align 2
 		adc	al, 2
 		adc	ax, 152Fh
 		inc	sp
@@ -2401,7 +2401,7 @@ loc_3527:				; CODE XREF: sub_3516+2j sub_3516+9j
 sub_3516	endp
 
 ; ���������������������������������������������������������������������������
-		;align 2
+		align 2
 		db 2, 10h, 3, 1, 7, 2, 4, 5, 7 dup(0Fh), 0Ah, 0Bh, 9, 8
 		db 2, 2	dup(4),	8, 2, 0Bh, 2, 3, 3 dup(2), 0Bh,	2 dup(2)
 		db 4, 8, 2, 5, 2, 9, 2,	7, 2, 0Ah, 4, 8, 2, 5, 2, 0Bh
@@ -4717,7 +4717,7 @@ sub_45CE	endp
 		mov	al, 1
 		jmp	short loc_467E
 ; ���������������������������������������������������������������������������
-		;align 2
+		align 2
 
 loc_460E:				; CODE XREF: seg000:2737j
 		mov	di, ds:10B4h
@@ -4725,13 +4725,13 @@ loc_460E:				; CODE XREF: seg000:2737j
 		mov	al, 1
 		jmp	short loc_467E
 ; ���������������������������������������������������������������������������
-		;align 2
+		align 2
 		cmp	word ptr ds:431Bh, 0Dh
 		jz	short loc_4626
 		mov	al, 2
 		jmp	short loc_467E
 ; ���������������������������������������������������������������������������
-		;align 2
+		align 2
 
 loc_4626:				; CODE XREF: seg000:274Fj
 		mov	di, ds:10B4h
@@ -17002,7 +17002,7 @@ loc_9D5F:				; CODE XREF: sub_9D05+9j sub_9D05+54j
 		mov	al, 0Eh
 		jmp	short sub_9DEB
 ; ���������������������������������������������������������������������������
-		;align 2
+		align 2
 
 loc_9D82:				; CODE XREF: sub_9D05+72j
 		jmp	sub_B072
@@ -18433,7 +18433,7 @@ loc_A7A9:				; CODE XREF: sub_AEA6+26p
 sub_A7A4	endp
 
 ; ���������������������������������������������������������������������������
-		;align 2
+		align 2
 
 ; ��������������� S U B	R O U T	I N E ���������������������������������������
 
@@ -20675,7 +20675,7 @@ loc_B5DE:				; CODE XREF: sub_B5B3+Fj sub_B5B3+22j
 		mov	ds:42F1h, ax
 		jmp	short loc_B621
 ; ���������������������������������������������������������������������������
-		;align 2
+		align 2
 
 loc_B612:				; CODE XREF: sub_B5B3+55j
 		shr	ax, 1
@@ -26943,7 +26943,7 @@ sub_DEFF	endp
 byte_DF03	db 0B8h			; CODE XREF: sub_2B21+Cp
 					; sub_2D7B:loc_2D91p ...
 byte_DF04	db 25h			; DATA XREF: sub_2A40-8w sub_2B21+6w ...
-		;align 2
+		align 2
 
 ; ��������������� S U B	R O U T	I N E ���������������������������������������
 
@@ -33576,7 +33576,7 @@ loc_10860:				; CODE XREF: seg000:E9A4j
 		call	sub_10908
 		jmp	short loc_108B0
 ; ���������������������������������������������������������������������������
-		;align 2
+		align 2
 
 loc_10866:				; CODE XREF: seg000:E9FCJ
 		push	ax
@@ -34278,7 +34278,7 @@ loc_10B91:				; CODE XREF: sub_10B12:loc_10B61j
 sub_10B12	endp
 
 ; ���������������������������������������������������������������������������
-		;align 10h
+		align 10h
 seg000		ends
 
 ; ���������������������������������������������������������������������������
@@ -34292,7 +34292,7 @@ word_10BC2	dw 2			; DATA XREF: seg000:003Fw seg000:0263w ...
 off_10BC4	dw offset sub_3EDA	; DATA XREF: sub_2050+7Bw seg000:0252w ...
 off_10BC6	dw offset sub_2050	; DATA XREF: sub_2050+7Fw seg000:0258w ...
 byte_10BC8	db 20h			; DATA XREF: sub_2050+83w seg000:025Ew ...
-		;align 2
+		align 2
 		db 0
 		db 0Ah
 		db    0
@@ -34323,7 +34323,7 @@ word_10BD2	dw 0			; DATA XREF: seg000:0275w seg000:082Ew ...
 		db    0
 		db    3
 		db 0
-		;align 2
+		align 2
 byte_10BEA	db 0			; DATA XREF: sub_C340+88r
 		db 0
 		db    0
@@ -34515,9 +34515,9 @@ byte_10C85	db 0			; DATA XREF: sub_2050+5Aw seg000:0829w ...
 		db    0
 		db    0
 		db 0
-		;align 8
+		align 8
 word_10CB0	dw 0			; DATA XREF: sub_C340+99r
-		;align 4
+		align 4
 		db 0
 		db    0
 		db    0
@@ -38823,7 +38823,7 @@ word_11D0E	dw 0FFFFh		; DATA XREF: sub_2050+8Ew sub_285C+Fw	...
 		db    0
 		db    0
 byte_11D94	db 0			; DATA XREF: seg000:09B2w
-		;align 2
+		align 2
 byte_11D96	db 0			; DATA XREF: sub_285Cw	sub_285C+1Dw
 		db 0
 		db    0
@@ -43091,7 +43091,7 @@ byte_12CAD	db 48h			; DATA XREF: sub_285C+Aw
 		db  13h
 word_12E50	dw 0			; DATA XREF: sub_C4F7+Br sub_C59B+2Er
 word_12E52	dw 0			; DATA XREF: sub_C4F7+12r sub_C59B+33r
-		;align 8
+		align 8
 		dw 0
 		db 0FFh
 		db 0FFh
@@ -44682,7 +44682,7 @@ byte_13495	db 1			; DATA XREF: sub_2050+55w sub_28EF+3r	...
 		db 8,8,9,9,9,9,9,9,9,9,9,0Ah
 		db 0Ah
 		db 0Bh,0Bh,0Bh,0
-		;align 2
+		align 2
 aN:
 		asciiz 	0, <N!>
 		db 0FFh
@@ -51129,14 +51129,14 @@ byte_14E4D	db ?			; DATA XREF: seg000:0979w seg000:0981w
 		db    ?	;
 		db ?
 		db ?
-		;align 2
+		align 2
 word_14E8A	dw ?			; DATA XREF: sub_E611+3w
 		db    ?	;
 		db    ?	;
 word_14E8E	dw ?			; DATA XREF: sub_E611+6w
 		db ?
 		db ?
-		;align 8
+		align 8
 		dw ?
 		db ?
 		db    ?	;
@@ -51336,7 +51336,7 @@ word_14F77	dw ?			; DATA XREF: sub_75FF-AEw
 word_14F79	dw ?			; DATA XREF: sub_75FF-A8w
 word_14F7B	dw ?			; DATA XREF: sub_75FF-85w
 word_14F7D	dw ?			; DATA XREF: sub_75FF-7Ew
-		;align 2
+		align 2
 		db ?
 		db    ?	;
 		db    ?	;
@@ -96159,7 +96159,7 @@ byte_1FE87	db ?			; DATA XREF: seg000:0050w
 		db    ?	;
 		db    ?	;
 		db ?
-		;align 4
+		align 4
 		db ?
 byte_1FEA5	db ?			; DATA XREF: seg000:E9CBr seg000:E9D9r
 		db    ?	;
@@ -96227,7 +96227,7 @@ byte_1FEC0	db ?			; DATA XREF: seg000:E9C8r
 		db    ?	;
 		db    ?	;
 		db ?
-		;align 2
+		align 2
 		db ?
 		db    ?	;
 		db    ?	;
@@ -98567,7 +98567,7 @@ byte_1FEEF	db ?			; DATA XREF: seg000:E9C1w
 		dw ?
 		dw ?
 		dw ?
-		;align 4
+		align 4
 		dw ?
 		dw ?
 		dw ?

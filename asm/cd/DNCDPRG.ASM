@@ -131,7 +131,7 @@ loop	loc_1F6F
 retn
 sub_1F68 endp
 
-;align 10h
+align 10h
 
 
 
@@ -2245,7 +2245,7 @@ clc
 retn
 sub_314C endp
 
-;align 2
+align 2
 db 2, 10h, 3, 1, 7, 2, 4, 5, 7 dup(0Fh)
 db 0Ah,	0Bh, 9,	8, 2, 2	dup(4),	8, 2, 0Bh
 db 2, 3, 3 dup(2), 0Bh,	2 dup(2), 4, 8,	2
@@ -4504,19 +4504,19 @@ cmp	word ptr ds:47C4h, 0Dh
 jz	short loc_42F6
 mov	al, 1
 jmp	short loc_4366
-;align 2
+align 2
 
 loc_42F6:
 mov	di, ds:10B4h
 call	sub_42B6
 mov	al, 1
 jmp	short loc_4366
-;align 2
+align 2
 cmp	word ptr ds:47C4h, 0Dh
 jz	short loc_430E
 mov	al, 2
 jmp	short loc_4366
-;align 2
+align 2
 
 loc_430E:
 mov	di, ds:10B4h
@@ -9677,7 +9677,7 @@ call	sub_6870
 
 loc_68B3:
 jmp	short sub_692A
-;align 2
+align 2
 
 loc_68B6:
 jmp	word ptr ds:46EDh
@@ -17062,7 +17062,7 @@ mov	si, ds:46F1h
 jmp	short loc_9B26
 sub_9A89 endp
 
-;align 2
+align 2
 
 
 
@@ -17122,7 +17122,7 @@ push	si
 call	sub_9CEE
 pop	si
 jmp	short loc_9B26
-;align 2
+align 2
 
 loc_9B26:
 cmp	byte ptr ds:46EBh, 0
@@ -20443,7 +20443,7 @@ mov	al, 0Ah
 jmp	loc_B27A
 mov	al, 0Bh
 jmp	short loc_B27A
-;align 2
+align 2
 mov	si, ds:4768h
 call	sub_50C6
 call	sub_5F4E
@@ -21591,7 +21591,7 @@ mov	di, 0D834h
 call	sub_7A69
 mov	word ptr [si], 80h ; '�'
 jmp	short loc_BAA7
-;align 2
+align 2
 
 loc_BA9C:
 call	sub_BAFD
@@ -22230,7 +22230,7 @@ sub	ax, 4
 push	ax
 mov	byte ptr [di-1], 0FFh
 jmp	short loc_BEFC
-;align 2
+align 2
 
 loc_BEF6:
 call	sub_A7C1
@@ -22701,7 +22701,7 @@ or	dx, dx
 retn
 sub_C266 endp
 
-;align 10h
+align 10h
 mov	ax, 1AD6h
 call	sub_F82E
 call	sub_F18D
@@ -24501,7 +24501,7 @@ xor	dx, dx
 call	sub_D07F
 mov	bp, 1797h
 jmp	short sub_CEFC
-;align 2
+align 2
 
 
 
@@ -25949,7 +25949,7 @@ mov	ax, 1
 jmp	short sub_D8B0
 sub_D85B endp
 
-;align 2
+align 2
 mov	es, word ptr ds:0DBD6h
 call	dword ptr ds:3915h
 jb	short loc_D85E
@@ -27131,7 +27131,7 @@ sub_E007 endp
 
 byte_E00B db 0B8h
 byte_E00C db 25h
-;align 2
+align 2
 
 
 
@@ -32726,7 +32726,7 @@ pop	cx
 retn
 sub_102AF endp
 
-;align 2
+align 2
 db 33h,	38h, 36h, 0, 1,	2 dup(0), 4Dh, 4Fh
 db 4Eh,	0, 2, 2	dup(0),	46h, 52h, 41h, 0
 db 4, 2	dup(0),	47h, 45h, 52h, 0, 8, 2 dup(0)
@@ -35280,7 +35280,7 @@ sub	cx, di
 retn
 sub_112D3 endp
 
-;align 8
+align 8
 seg000 ends
 
 
