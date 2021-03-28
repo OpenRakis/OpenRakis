@@ -22,23 +22,23 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [MASM/TASM](https://github.com/xsro/masm-tasm) ([VSCode marketplace](https://marketplace.visualstudio.com/items?itemName=xsro.masm-tasm))
 
-[MASM2C](https://github.com/xor2003/masm2c)
-
-[LZEXE 0.91](https://bellard.org/lzexe.html) (to uncompress LOGO.EXE)
-
-[CiCParser2021](https://github.com/gabonator/Projects/tree/master/XenonResurrection/Parser/CicParser2021)
+[LZEXE 0.91](https://bellard.org/lzexe.html) (to unpack LOGO.EXE)
 
 [DOSBox Debugger with AUTOEXEC support](https://www.vogons.org/viewtopic.php?p=860536#p860536)
 
-# To be looked into
+# Might be useful
 
 [8080JIT](https://github.com/DaveTCode/8080JIT)
 
+[CiCParser2021](https://github.com/gabonator/Projects/tree/master/XenonResurrection/Parser/CicParser2021)
+
 [semblance](https://github.com/zfigura/semblance)
 
-# works by other people
+[MASM2C](https://github.com/xor2003/masm2c)
 
-## Engines
+# Works by other people
+
+### Engines
 
 [madmoose/dune](https://github.com/madmoose/dune) (Uses SCUMMVM, and can decode videos)
 
@@ -48,7 +48,7 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [DUNE revival project](https://sourceforge.net/p/dunerevival/code/HEAD/tree/) ([GitHub copy](https://github.com/sonicpp/dunerevival-code)) (uses [SCUMMVM](https://www.scummvm.org/) too)
 
-## Resources
+### Resources
 
 [Save editors and other resources](https://sites.google.com/site/duneeditor/home)
 
