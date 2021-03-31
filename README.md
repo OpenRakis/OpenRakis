@@ -36,7 +36,7 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [MASM2C](https://github.com/xor2003/masm2c)
 
-# Works by other people
+# Existing efforts
 
 ### Engines
 
