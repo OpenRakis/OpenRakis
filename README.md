@@ -36,11 +36,13 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [MASM2C](https://github.com/xor2003/masm2c)
 
-# Works by other people
+# Existing efforts
 
 ### Engines
 
 [madmoose/dune](https://github.com/madmoose/dune) (Uses SCUMMVM, and can decode videos)
+
+[madmoose/dune-disassembly](https://github.com/madmoose/dune-disassembly): Disassembly work on the PC CD DOS version.
 
 [scummvm/cryo](https://github.com/scummvm/scummvm/tree/master/engines/cryo) (for Lost Eden, a very similar game from Cryo)
 
