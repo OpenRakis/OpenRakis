@@ -1,7 +1,9 @@
-
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuneExtractor", "DuneExtractor.csproj", "{771158AF-74BD-49A7-B315-AE158B86F0E9}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuneExtractor", "DuneExtractor.csproj", "{9F38FCC1-AF76-4A87-9671-739AC36D4092}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{771158AF-74BD-49A7-B315-AE158B86F0E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{771158AF-74BD-49A7-B315-AE158B86F0E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{771158AF-74BD-49A7-B315-AE158B86F0E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{771158AF-74BD-49A7-B315-AE158B86F0E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F38FCC1-AF76-4A87-9671-739AC36D4092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F38FCC1-AF76-4A87-9671-739AC36D4092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F38FCC1-AF76-4A87-9671-739AC36D4092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F38FCC1-AF76-4A87-9671-739AC36D4092}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D731521D-1B96-4E1A-B8A6-12F22AC512E3}
 	EndGlobalSection
 EndGlobal

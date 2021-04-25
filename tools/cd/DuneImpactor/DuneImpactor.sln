@@ -1,7 +1,9 @@
-
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuneImpactor", "DuneImpactor.csproj", "{7D77A1CF-2B16-404C-ADD8-E3D914D1DF1F}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuneImpactor", "DuneImpactor.csproj", "{8290BACD-9112-4EB9-AB1F-6071FDD2F388}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7D77A1CF-2B16-404C-ADD8-E3D914D1DF1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D77A1CF-2B16-404C-ADD8-E3D914D1DF1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D77A1CF-2B16-404C-ADD8-E3D914D1DF1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D77A1CF-2B16-404C-ADD8-E3D914D1DF1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8290BACD-9112-4EB9-AB1F-6071FDD2F388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8290BACD-9112-4EB9-AB1F-6071FDD2F388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8290BACD-9112-4EB9-AB1F-6071FDD2F388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8290BACD-9112-4EB9-AB1F-6071FDD2F388}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {897185EF-F6FE-4B23-A18E-E0543853918C}
 	EndGlobalSection
 EndGlobal

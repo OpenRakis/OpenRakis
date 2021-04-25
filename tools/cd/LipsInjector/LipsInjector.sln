@@ -1,7 +1,9 @@
-
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LipsInjector", "LipsInjector.csproj", "{D5AA2366-4893-49B5-9D98-C5FDD84217C5}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipsInjector", "LipsInjector.csproj", "{255A5A11-8605-40F4-9626-8AFA4E591EA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D5AA2366-4893-49B5-9D98-C5FDD84217C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5AA2366-4893-49B5-9D98-C5FDD84217C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5AA2366-4893-49B5-9D98-C5FDD84217C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5AA2366-4893-49B5-9D98-C5FDD84217C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{255A5A11-8605-40F4-9626-8AFA4E591EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{255A5A11-8605-40F4-9626-8AFA4E591EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{255A5A11-8605-40F4-9626-8AFA4E591EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{255A5A11-8605-40F4-9626-8AFA4E591EA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57849F2E-149E-4D8F-BF01-808AF188F568}
 	EndGlobalSection
 EndGlobal

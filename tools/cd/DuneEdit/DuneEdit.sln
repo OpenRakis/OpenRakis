@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipsExtractor", "LipsExtractor.csproj", "{75F0BCFC-E174-40F6-BCE1-5AAA05350F57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuneEdit", "DuneEdit.csproj", "{45D0FE31-676B-4B66-B5B8-0BFFBB3A46AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{75F0BCFC-E174-40F6-BCE1-5AAA05350F57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75F0BCFC-E174-40F6-BCE1-5AAA05350F57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75F0BCFC-E174-40F6-BCE1-5AAA05350F57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75F0BCFC-E174-40F6-BCE1-5AAA05350F57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45D0FE31-676B-4B66-B5B8-0BFFBB3A46AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D0FE31-676B-4B66-B5B8-0BFFBB3A46AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D0FE31-676B-4B66-B5B8-0BFFBB3A46AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D0FE31-676B-4B66-B5B8-0BFFBB3A46AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AFF868AF-C1A1-4C1D-ACA3-B452A1B1D435}
+		SolutionGuid = {DEB7402D-F57D-4DAF-8F6F-9BBD6D68BDC5}
 	EndGlobalSection
 EndGlobal
