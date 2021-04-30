@@ -10,7 +10,7 @@ namespace DuneEdit2.UnitTests
         [Fact]
         public void CanReadCharisma()
         {
-
+                
         }
     }
 }

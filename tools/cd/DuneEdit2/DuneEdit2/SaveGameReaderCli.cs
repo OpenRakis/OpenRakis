@@ -1,6 +1,6 @@
 namespace DuneEdit2
 {
-    internal class SaveGameReaderCli : IStandardOutput
+    internal class SaveGameReaderCli
     {
         public string GetStandardOutput()
         {

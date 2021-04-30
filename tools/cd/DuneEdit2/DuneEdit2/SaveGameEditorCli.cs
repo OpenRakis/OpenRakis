@@ -1,6 +1,6 @@
 ﻿namespace DuneEdit2
 {
-    internal class SaveGameEditorCli : IStandardOutput
+    internal class SaveGameEditorCli
     {
         private Options _options;
 
