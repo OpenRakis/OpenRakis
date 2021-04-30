@@ -8,7 +8,7 @@ namespace DuneEdit2.UnitTests
     public class ReadTests
     {
         [Fact]
-        public void CanReadTimeOfDay()
+        public void CanReadCharisma()
         {
 
         }

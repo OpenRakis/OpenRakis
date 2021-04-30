@@ -26,10 +26,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Saves\DateTime\Day1At900AndDay1At10h30\DUNE37S1.SAV">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Saves\DateTime\Day1At900AndDay1At10h30\DUNE37S2.SAV">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Saves\DUNE37S1.SAV">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Saves\DUNE37S2.SAV">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Saves\Dialogues\BeforeAfter1stDialogue(TalkWithFather)\DUNE37S1.SAV">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Saves\Dialogues\BeforeAfter1stDialogue(TalkWithFather)\DUNE37S2.SAV">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

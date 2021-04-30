@@ -1,21 +1,19 @@
 ﻿namespace DuneEdit2
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using CommandLine;
 
-    class Options
+    internal class Options
     {
-        [Option('i', "inputFile", Default = "", Required = true, HelpText = "The savegame to edit, for example DUNE37S1.SAV")]
+        [Option('i', "InputFile", Default = "", Required = true, HelpText = "The savegame to edit or describe on the standard output, for example DUNE37S1.SAV")]
         public string InputSaveGameFile { get; set; } = "";
 
-        [Option('r', "readMode", Default = false, Required = false, HelpText = "Describe the entire save game and exit")]
+        [Option('r', "ReadMode", Default = false, Required = false, HelpText = "Describe the entire save game on the standard input")]
         public bool ReadMode { get; set; }
 
-        [Option('t', "timeOfDay", Default = null, Required = false, HelpText = "Set the time of day")]
+        [Option('t', "TimeOfDay", Default = null, Required = false, HelpText = "Edit the time of day in the input savegame file")]
         public int? TimeOfDay { get; set; }
+
+        [Option('w', "WaitBeforeExit", Default = false, Required = false, HelpText = "Wait a key press before exiting")]
+        public bool WaitBeforeExit { get; set; }
     }
 }
