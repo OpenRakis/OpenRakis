@@ -2,7 +2,7 @@
 {
     internal class SaveGameEditorCli
     {
-        private Options _options;
+        private readonly Options _options;
 
         public SaveGameEditorCli(Options options)
         {
