@@ -1,4 +1,4 @@
-using Microsoft.VisualBasic.CompilerServices;
+using System;
 
 namespace DuneEdit2.Models
 {
@@ -90,7 +90,7 @@ namespace DuneEdit2.Models
             }
         }
 
-        public string ID => Conversions.ToString(_region) + "," + Conversions.ToString(_subRegion);
+        public string ID => Convert.ToString(_region) + "," + Convert.ToString(_subRegion);
 
         public string RegionName => Regions.Region(_region) + " - " + Regions.Subregion(_subRegion);
 
@@ -254,13 +254,13 @@ namespace DuneEdit2.Models
         {
             get
             {
-                return _bitfield.getBit(0) != 0;
+                return _bitfield.GetBit(0) != 0;
             }
             set
             {
                 if (value)
                 {
-                    _bitfield.setBit(0);
+                    _bitfield.SetBit(0);
                 }
             }
         }
@@ -269,13 +269,13 @@ namespace DuneEdit2.Models
         {
             get
             {
-                return _bitfield.getBit(1) != 0;
+                return _bitfield.GetBit(1) != 0;
             }
             set
             {
                 if (value)
                 {
-                    _bitfield.setBit(1);
+                    _bitfield.SetBit(1);
                 }
             }
         }
@@ -284,13 +284,13 @@ namespace DuneEdit2.Models
         {
             get
             {
-                return _bitfield.getBit(2) != 0;
+                return _bitfield.GetBit(2) != 0;
             }
             set
             {
                 if (value)
                 {
-                    _bitfield.setBit(2);
+                    _bitfield.SetBit(2);
                 }
             }
         }
@@ -299,13 +299,13 @@ namespace DuneEdit2.Models
         {
             get
             {
-                return _bitfield.getBit(3) != 0;
+                return _bitfield.GetBit(3) != 0;
             }
             set
             {
                 if (value)
                 {
-                    _bitfield.setBit(3);
+                    _bitfield.SetBit(3);
                 }
             }
         }
@@ -314,13 +314,13 @@ namespace DuneEdit2.Models
         {
             get
             {
-                return _bitfield.getBit(4) != 0;
+                return _bitfield.GetBit(4) != 0;
             }
             set
             {
                 if (value)
                 {
-                    _bitfield.setBit(4);
+                    _bitfield.SetBit(4);
                 }
             }
         }
@@ -329,13 +329,13 @@ namespace DuneEdit2.Models
         {
             get
             {
-                return _bitfield.getBit(5) != 0;
+                return _bitfield.GetBit(5) != 0;
             }
             set
             {
                 if (value)
                 {
-                    _bitfield.setBit(5);
+                    _bitfield.SetBit(5);
                 }
             }
         }
@@ -344,13 +344,13 @@ namespace DuneEdit2.Models
         {
             get
             {
-                return _bitfield.getBit(6) != 0;
+                return _bitfield.GetBit(6) != 0;
             }
             set
             {
                 if (value)
                 {
-                    _bitfield.setBit(6);
+                    _bitfield.SetBit(6);
                 }
             }
         }
@@ -359,13 +359,13 @@ namespace DuneEdit2.Models
         {
             get
             {
-                return _bitfield.getBit(7) != 0;
+                return _bitfield.GetBit(7) != 0;
             }
             set
             {
                 if (value)
                 {
-                    _bitfield.setBit(7);
+                    _bitfield.SetBit(7);
                 }
             }
         }

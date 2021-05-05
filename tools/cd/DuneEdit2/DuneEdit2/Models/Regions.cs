@@ -1,10 +1,7 @@
-using System.Diagnostics;
-
 namespace DuneEdit2.Models
 {
     public class Regions
     {
-        [DebuggerNonUserCode]
         public Regions()
         {
         }

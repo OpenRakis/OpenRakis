@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-
-using DuneEdit2.Parsing;
-
-using Microsoft.VisualBasic.CompilerServices;
-
 namespace DuneEdit2.Models
 {
+    using DuneEdit2.Parsing;
+
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
     public class SavegameItem
     {
         private readonly List<byte> _original;
@@ -63,11 +61,10 @@ namespace DuneEdit2.Models
         public SavegameItem(string fileName)
         {
             _FileName = fileName;
-            FileStream fileStream = null;
             try
             {
                 _original = new List<byte>();
-                fileStream = new FileStream(fileName, FileMode.Open)
+                using FileStream fileStream = new(fileName, FileMode.Open)
                 {
                     Position = 0L
                 };
@@ -76,17 +73,14 @@ namespace DuneEdit2.Models
                     _original.Add(checked((byte)fileStream.ReadByte()));
                 }
                 DetectTraps();
-                UnCompress();
+                Uncompress();
             }
             catch (Exception ex)
             {
-                ProjectData.SetProjectError(ex);
-                ProjectData.ClearProjectError();
             }
-            fileStream?.Close();
         }
 
-        public bool UnCompress()
+        public bool Uncompress()
         {
             bool result = true;
             checked
@@ -159,9 +153,7 @@ namespace DuneEdit2.Models
                 }
                 catch (Exception ex)
                 {
-                    ProjectData.SetProjectError(ex);
                     result = false;
-                    ProjectData.ClearProjectError();
                 }
                 return result;
             }
@@ -322,9 +314,7 @@ namespace DuneEdit2.Models
                 }
                 catch (Exception ex)
                 {
-                    ProjectData.SetProjectError(ex);
                     result2 = false;
-                    ProjectData.ClearProjectError();
                 }
                 return result2;
             }
@@ -359,10 +349,8 @@ namespace DuneEdit2.Models
             }
             catch (Exception ex)
             {
-                ProjectData.SetProjectError(ex);
                 fileStream?.Close();
                 result = false;
-                ProjectData.ClearProjectError();
             }
             return result;
         }
@@ -383,10 +371,8 @@ namespace DuneEdit2.Models
             }
             catch (Exception ex)
             {
-                ProjectData.SetProjectError(ex);
                 fileStream?.Close();
                 result = false;
-                ProjectData.ClearProjectError();
             }
             return result;
         }

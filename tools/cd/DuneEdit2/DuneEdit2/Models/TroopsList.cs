@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-
-using Microsoft.VisualBasic.CompilerServices;
-
 namespace DuneEdit2.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class TroopsList : List<TroopsItem>
     {
         private const int StartOffSet = 19657;
@@ -81,7 +79,7 @@ namespace DuneEdit2.Models
                     int num4;
                     do
                     {
-                        troops_Item.Coordinates += Conversions.ToString(Data[num2 + 6 + num3]);
+                        troops_Item.Coordinates += Convert.ToString(Data[num2 + 6 + num3]);
                         num3++;
                         num4 = num3;
                         num5 = 3;

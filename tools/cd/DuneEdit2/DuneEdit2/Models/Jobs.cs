@@ -1,10 +1,7 @@
-using System.Diagnostics;
-
 namespace DuneEdit2.Models
 {
     public class Jobs
     {
-        [DebuggerNonUserCode]
         public Jobs()
         {
         }

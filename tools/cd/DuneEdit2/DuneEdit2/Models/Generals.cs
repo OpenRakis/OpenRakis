@@ -2,9 +2,6 @@ namespace DuneEdit2.Models
 {
     using DuneEdit2.Parsing;
 
-    using Microsoft.VisualBasic;
-    using Microsoft.VisualBasic.CompilerServices;
-
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -27,10 +24,7 @@ namespace DuneEdit2.Models
 
         public byte CharismaGUI
         {
-            get
-            {
-                return Conversions.ToByte(Interaction.IIf(_charisma <= 1, 0, (double)(int)_charisma / 2.0));
-            }
+            get => Convert.ToByte(_charisma <= 1 ? 0 : _charisma / 2.0);
             set
             {
                 checked

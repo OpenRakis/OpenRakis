@@ -1,9 +1,8 @@
-using System.Collections.Generic;
-
-using Microsoft.VisualBasic.CompilerServices;
-
 namespace DuneEdit2.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class SietchList : List<SietchItem>
     {
         private const int StartOffSet = 17695;
@@ -54,7 +53,7 @@ namespace DuneEdit2.Models
             }
         }
 
-        public SietchList( List<byte> data)
+        public SietchList(List<byte> data)
         {
             _Data = data;
             int num = 0;
@@ -70,7 +69,7 @@ namespace DuneEdit2.Models
                     int num4;
                     do
                     {
-                        sietch_Item.Coordinates += Conversions.ToString(data[num2 + 2 + num3]);
+                        sietch_Item.Coordinates += Convert.ToString(data[num2 + 2 + num3]);
                         num3++;
                         num4 = num3;
                         num5 = 3;

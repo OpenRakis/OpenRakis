@@ -1,10 +1,7 @@
-using System;
-using System.Diagnostics;
-
-using Microsoft.VisualBasic;
-
 namespace DuneEdit2.Models
 {
+    using System;
+
     public class TroopsItem
     {
         private int _startOffset;
@@ -47,7 +44,7 @@ namespace DuneEdit2.Models
             }
         }
 
-        public string TroopDesc => "Troop " + Strings.Format(_troopID, "00");
+        public string TroopDesc => $"Troop {_troopID}00";
 
         public byte TroopID
         {
@@ -201,7 +198,7 @@ namespace DuneEdit2.Models
             get
             {
                 ClsBitfield clsBitfield2 = new(_Equipment);
-                return clsBitfield2.getBit(1) != 0;
+                return clsBitfield2.GetBit(1) != 0;
             }
         }
 
@@ -210,7 +207,7 @@ namespace DuneEdit2.Models
             get
             {
                 ClsBitfield clsBitfield2 = new(_Equipment);
-                return clsBitfield2.getBit(2) != 0;
+                return clsBitfield2.GetBit(2) != 0;
             }
         }
 
@@ -219,7 +216,7 @@ namespace DuneEdit2.Models
             get
             {
                 ClsBitfield clsBitfield2 = new(_Equipment);
-                return clsBitfield2.getBit(3) != 0;
+                return clsBitfield2.GetBit(3) != 0;
             }
         }
 
@@ -228,7 +225,7 @@ namespace DuneEdit2.Models
             get
             {
                 ClsBitfield clsBitfield2 = new(_Equipment);
-                return clsBitfield2.getBit(4) != 0;
+                return clsBitfield2.GetBit(4) != 0;
             }
         }
 
@@ -237,7 +234,7 @@ namespace DuneEdit2.Models
             get
             {
                 ClsBitfield clsBitfield2 = new(_Equipment);
-                return clsBitfield2.getBit(5) != 0;
+                return clsBitfield2.GetBit(5) != 0;
             }
         }
 
@@ -246,7 +243,7 @@ namespace DuneEdit2.Models
             get
             {
                 ClsBitfield clsBitfield2 = new(_Equipment);
-                return clsBitfield2.getBit(6) != 0;
+                return clsBitfield2.GetBit(6) != 0;
             }
         }
 
@@ -255,11 +252,10 @@ namespace DuneEdit2.Models
             get
             {
                 ClsBitfield clsBitfield2 = new(_Equipment);
-                return clsBitfield2.getBit(7) != 0;
+                return clsBitfield2.GetBit(7) != 0;
             }
         }
 
-        [DebuggerNonUserCode]
         public TroopsItem()
         {
         }
