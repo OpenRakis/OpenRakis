@@ -90,9 +90,9 @@ namespace DuneEdit2.Models
             }
         }
 
-        public string ID => Convert.ToString(_region) + "," + Convert.ToString(_subRegion);
+        public string ID => $"{Convert.ToString(_region)},{Convert.ToString(_subRegion)}";
 
-        public string RegionName => Regions.Region(_region) + " - " + Regions.Subregion(_subRegion);
+        public string RegionName => $"{Regions.Region(_region)} - {Regions.Subregion(_subRegion)}";
 
         public byte HousedTroopID
         {
@@ -368,10 +368,6 @@ namespace DuneEdit2.Models
                     _bitfield.SetBit(7);
                 }
             }
-        }
-
-        public SietchItem()
-        {
         }
 
         public SietchItem(int startOffset, byte region, byte subRegion, byte housedTroopID, byte status, byte spicefieldID, byte spiceDensity, byte harvesters, byte ornis, byte krys, byte laserGuns, byte weirdingMods, byte atomics, byte bulbs, byte water)

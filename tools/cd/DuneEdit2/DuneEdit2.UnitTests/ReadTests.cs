@@ -14,6 +14,12 @@ namespace DuneEdit2.UnitTests
         private const string MidGamesSaveFileName = "MidGameSave.SAV";
 
         [Fact]
-        public void CanReadCharismaForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetCharismaForUI().Should().Be(24);
+        public void CanReadPlayerCharismaForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerCharismaForUI().Should().Be(24);
+
+        [Fact]
+        public void CanReadPlayerContactDistanceForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerContactDistanceForUI().Should().Be(50);
+
+        [Fact]
+        public void CanReadPlayerSpiceForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerSpiceForUI().Should().Be(42650);
     }
 }

@@ -25,15 +25,15 @@ namespace DuneEdit2.Models
                     TroopsItem current = enumerator.Current;
                     if (current.TroopID == troopID)
                     {
-                        TroopsItem troops_Item = current;
-                        troops_Item.Job = job;
-                        troops_Item.Dissatisfaction = dissatisfaction;
-                        troops_Item.Motivation = motivation;
-                        troops_Item.SpiceSkill = spiceSkill;
-                        troops_Item.ArmySkill = armySkill;
-                        troops_Item.EcologySkill = ecologySkill;
-                        troops_Item.Equipment = equipment;
-                        troops_Item.Population = population;
+                        TroopsItem troopsItem = current;
+                        troopsItem.Job = job;
+                        troopsItem.Dissatisfaction = dissatisfaction;
+                        troopsItem.Motivation = motivation;
+                        troopsItem.SpiceSkill = spiceSkill;
+                        troopsItem.ArmySkill = armySkill;
+                        troopsItem.EcologySkill = ecologySkill;
+                        troopsItem.Equipment = equipment;
+                        troopsItem.Population = population;
                         int startOffset = current.StartOffset;
                         _Data[startOffset + 3] = job;
                         _Data[startOffset + 18] = dissatisfaction;
@@ -60,7 +60,7 @@ namespace DuneEdit2.Models
                 do
                 {
                     int num2 = 19657 + num * 27;
-                    TroopsItem troops_Item = new()
+                    TroopsItem troopsItem = new()
                     {
                         StartOffset = num2,
                         TroopID = Data[num2 + 0],
@@ -79,13 +79,13 @@ namespace DuneEdit2.Models
                     int num4;
                     do
                     {
-                        troops_Item.Coordinates += Convert.ToString(Data[num2 + 6 + num3]);
+                        troopsItem.Coordinates += Convert.ToString(Data[num2 + 6 + num3]);
                         num3++;
                         num4 = num3;
                         num5 = 3;
                     }
                     while (num4 <= num5);
-                    Add(troops_Item);
+                    Add(troopsItem);
                     num++;
                     num6 = num;
                     num5 = 66;

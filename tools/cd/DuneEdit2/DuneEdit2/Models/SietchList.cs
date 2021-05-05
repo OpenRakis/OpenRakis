@@ -64,7 +64,22 @@ namespace DuneEdit2.Models
                 do
                 {
                     int num2 = 17695 + num * 28;
-                    SietchItem sietch_Item = new(num2, data[num2 + 0], data[num2 + 1], data[num2 + 9], data[num2 + 10], data[num2 + 16], data[num2 + 18], data[num2 + 20], data[num2 + 21], data[num2 + 22], data[num2 + 23], data[num2 + 24], data[num2 + 25], data[num2 + 26], data[num2 + 27]);
+                    SietchItem sietch_Item = new(
+                        num2,
+                        data[num2 + 0],
+                        data[num2 + 1],
+                        data[num2 + 9],
+                        data[num2 + 10],
+                        data[num2 + 16],
+                        data[num2 + 18],
+                        data[num2 + 20],
+                        data[num2 + 21],
+                        data[num2 + 22],
+                        data[num2 + 23],
+                        data[num2 + 24],
+                        data[num2 + 25],
+                        data[num2 + 26],
+                        data[num2 + 27]);
                     int num3 = 0;
                     int num4;
                     do

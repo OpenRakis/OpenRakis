@@ -5,6 +5,7 @@ namespace DuneEdit2.Parsing
     using DuneEdit2.Models;
     using DuneEdit2.Parsing;
     using DuneEdit2.Models.Enums;
+    using System;
 
     internal class SaveGameReader
     {
@@ -18,9 +19,19 @@ namespace DuneEdit2.Parsing
             _generals = new Generals(_savegame.Uncompressed);
         }
 
-        public byte GetCharismaForUI()
+        public byte GetPlayerCharismaForUI()
         {
             return _generals.CharismaGUI;
+        }
+
+        internal int GetPlayerContactDistanceForUI()
+        {
+            return _generals.ContactDistance;
+        }
+
+        internal int GetPlayerSpiceForUI()
+        {
+            return _generals.Spice;
         }
     }
 }
