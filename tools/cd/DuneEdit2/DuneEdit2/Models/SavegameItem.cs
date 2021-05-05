@@ -14,7 +14,7 @@ namespace DuneEdit2.Models
 
         private List<byte> _uncompressed;
 
-        private readonly string _FileName;
+        private readonly string _fileName;
 
         private List<Trap> _traps;
 
@@ -60,7 +60,7 @@ namespace DuneEdit2.Models
 
         public SavegameItem(string fileName)
         {
-            _FileName = fileName;
+            _fileName = fileName;
             try
             {
                 _original = new List<byte>();
@@ -322,12 +322,12 @@ namespace DuneEdit2.Models
 
         public bool SaveCompressed()
         {
-            return SaveCompressedAs(_FileName);
+            return SaveCompressedAs(_fileName);
         }
 
         public bool SaveUnCompressed()
         {
-            return SaveUnCompressedAs(_FileName);
+            return SaveUnCompressedAs(_fileName);
         }
 
         public bool SaveCompressedAs(string fileName)

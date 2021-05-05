@@ -8,22 +8,19 @@ namespace DuneEdit2.Parsing
 
     internal class SaveGameReader
     {
-        private readonly string _saveFilePath = "";
-
         private readonly SavegameItem _savegame;
 
         private readonly Generals _generals;
 
         public SaveGameReader(string saveFilePath)
         {
-            _saveFilePath = saveFilePath;
-            _savegame = new SavegameItem(_saveFilePath);
+            _savegame = new SavegameItem(saveFilePath);
             _generals = new Generals(_savegame.Uncompressed);
         }
 
-        public byte GetCharisma()
+        public byte GetCharismaForUI()
         {
-            return _generals.Charisma;
+            return _generals.CharismaGUI;
         }
     }
 }

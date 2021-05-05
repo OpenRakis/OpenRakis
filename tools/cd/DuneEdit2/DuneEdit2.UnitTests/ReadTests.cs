@@ -1,19 +1,19 @@
 namespace DuneEdit2.UnitTests
 {
-    using System;
-
     using DuneEdit2.Parsing;
 
     using FluentAssertions;
+
+    using System.IO;
 
     using Xunit;
 
     public class ReadTests
     {
+        private const string SavesFolder = "Saves";
+        private const string MidGamesSaveFileName = "MidGameSave.SAV";
+
         [Fact]
-        public void CanReadCharisma()
-        {
-            new SaveGameReader("Saves\\MidGameSave.SAV").GetCharisma().Should().Be(24);
-        }
+        public void CanReadCharismaForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetCharismaForUI().Should().Be(24);
     }
 }

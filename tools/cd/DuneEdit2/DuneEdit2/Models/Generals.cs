@@ -29,7 +29,7 @@ namespace DuneEdit2.Models
             {
                 checked
                 {
-                    _charisma = (byte)(unchecked((int)value) * 2);
+                    _charisma = (byte)(unchecked(value) * 2);
                 }
             }
         }
