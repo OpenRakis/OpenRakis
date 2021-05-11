@@ -8,7 +8,7 @@ namespace DuneEdit2.Models
 
     public class Generals
     {
-        private const int SpiceStartOffset = 17599;
+        public const int SpiceStartOffset = 17599;
 
         private const int CharismaStartOffset = 17480;
 
@@ -50,7 +50,7 @@ namespace DuneEdit2.Models
         {
             get
             {
-                string s = _spice[1].ToString("X") + _spice[0].ToString("X");
+                string s = SpiceAsHex;
                 int num = int.Parse(s, NumberStyles.HexNumber);
                 return checked(num * 10);
             }
@@ -61,6 +61,8 @@ namespace DuneEdit2.Models
                 _spice = SequenceParser.SplitTwo(s);
             }
         }
+
+        public string SpiceAsHex => $"{_spice[1]:X}{_spice[0]:X}";
 
         public int ContactDistance
         {

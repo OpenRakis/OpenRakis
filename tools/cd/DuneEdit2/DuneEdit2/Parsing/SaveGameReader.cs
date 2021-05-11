@@ -29,6 +29,10 @@ namespace DuneEdit2.Parsing
             return _generals.ContactDistance;
         }
 
+        internal string GetPlayerSpiceHexPosition() => Generals.SpiceStartOffset.ToString("X");
+
+        internal string GetPlayerSpiceHexValue() => _generals.SpiceAsHex;
+
         internal int GetPlayerSpiceForUI()
         {
             return _generals.Spice;

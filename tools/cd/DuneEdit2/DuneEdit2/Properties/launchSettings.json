@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DuneEdit2": {
+      "commandName": "Project",
+      "commandLineArgs": "-i ..\\..\\..\\..\\DuneEdit2.UnitTests\\Saves\\MidGameSave.sav -r -w"
+    }
+  }
+}

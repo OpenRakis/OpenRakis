@@ -20,6 +20,10 @@ namespace DuneEdit2.UnitTests
         public void CanReadPlayerContactDistanceForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerContactDistanceForUI().Should().Be(50);
 
         [Fact]
-        public void CanReadPlayerSpiceForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerSpiceForUI().Should().Be(42650);
+        public void CanReadPlayerSpiceForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerSpiceForUI().Should().Be(43270);
+
+        [Fact]
+        public void CanPrintSpiceValue() => new SaveGameReaderCli(new Options() { ReadMode = true, InputSaveGameFile = Path.Combine(SavesFolder, MidGamesSaveFileName) }).GetPlayerSpiceValue()
+            .Should().Be("Spice: 43270 Kg - Position: 44BF - HexValue: 10E7");
     }
 }

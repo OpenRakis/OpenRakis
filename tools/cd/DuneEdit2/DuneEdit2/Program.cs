@@ -1,19 +1,20 @@
 ﻿using System;
 
 using CommandLine;
+
 using DuneEdit2;
 
 Parser.Default.ParseArguments<Options>(args).WithParsed((o) =>
     {
         if (o.ReadMode)
         {
-            new SaveGameReaderCli().GetStandardOutput();
+            Console.Write(new SaveGameReaderCli(o).GetStandardOutput());
         }
         else
         {
-            new SaveGameEditorCli(o).GetStandardOutput();
+            Console.Write(new SaveGameEditorCli(o).GetStandardOutput());
         }
-        if(o.WaitBeforeExit)
+        if (o.WaitBeforeExit)
         {
             Console.WriteLine("Press any key to exit");
             Console.Read();
