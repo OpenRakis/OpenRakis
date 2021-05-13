@@ -28,7 +28,7 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 # Might be useful
 
-[8080JIT](https://github.com/DaveTCode/8080JIT)
+[dosdebug](https://github.com/johndoe31415/dosdebug)
 
 [CiCParser2021](https://github.com/gabonator/Projects/tree/master/XenonResurrection/Parser/CicParser2021)
 
