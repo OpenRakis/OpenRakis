@@ -16,6 +16,7 @@ Parser.Default.ParseArguments<Options>(args).WithParsed((o) =>
         }
         if (o.WaitBeforeExit)
         {
+            Console.WriteLine("");
             Console.WriteLine("Press any key to exit");
             Console.Read();
         }

@@ -19,19 +19,21 @@ namespace DuneEdit2.Parsing
             _generals = new Generals(_savegame.Uncompressed);
         }
 
-        public byte GetPlayerCharismaForUI()
-        {
-            return _generals.CharismaGUI;
-        }
+        public byte GetPlayerCharismaForUI() => _generals.CharismaGUI;
 
-        internal int GetPlayerContactDistanceForUI()
-        {
-            return _generals.ContactDistance;
-        }
+        internal int GetPlayerContactDistanceForUI() => _generals.ContactDistance;
 
-        internal string GetPlayerSpiceHexPosition() => Generals.SpiceStartOffset.ToString("X");
+        internal string GetPlayerContactDistanceHexValue() => $"0x{_generals.ContactDistance:X}";
 
-        internal string GetPlayerSpiceHexValue() => _generals.SpiceAsHex;
+        internal object GetPlayerCharismaPosition() => $"0x{Generals.CharismaStartOffset:X}";
+
+        internal string GetPlayerCharismaHexValue() => $"0x{_generals.Charisma:X}";
+
+        internal string GetPlayerContactDistancePosition() => $"0x{Generals.ContactDistanceStartOffset:X}";
+
+        internal string GetPlayerSpiceHexPosition() => $"0x{Generals.SpiceStartOffset:X}";
+
+        internal string GetPlayerSpiceHexValue() => $"0x{_generals.SpiceAsHex}";
 
         internal int GetPlayerSpiceForUI()
         {

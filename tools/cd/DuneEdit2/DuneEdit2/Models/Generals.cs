@@ -10,9 +10,9 @@ namespace DuneEdit2.Models
     {
         public const int SpiceStartOffset = 17599;
 
-        private const int CharismaStartOffset = 17480;
+        public const int CharismaStartOffset = 17480;
 
-        private const int ContactDistanceStartOffset = 21909;
+        public const int ContactDistanceStartOffset = 21909;
 
         private byte[] _spice;
 
