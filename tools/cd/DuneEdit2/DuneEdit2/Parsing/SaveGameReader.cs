@@ -11,6 +11,8 @@ namespace DuneEdit2.Parsing
         private readonly Generals _generals;
         private readonly string _saveFilePath;
 
+        public string SaveFilePath => _saveFilePath;
+
         public SaveGameReader(string saveFilePath)
         {
             _savegame = new SavegameItem(saveFilePath);
@@ -26,19 +28,19 @@ namespace DuneEdit2.Parsing
 
         internal string GetPlayerContactDistanceHexValue() => $"0x{_generals.ContactDistance:X}";
 
-        internal object GetPlayerCharismaPosition() => $"0x{Generals.CharismaStartOffset:X}";
+        internal static object GetPlayerCharismaPosition() => $"0x{Generals.CharismaStartOffset:X}";
 
         internal string GetPlayerCharismaHexValue() => $"0x{_generals.Charisma:X}";
 
         internal string GetDateHexValue() => $"0x{_generals.DateAsHex}";
 
-        internal string GetDatePosition() => $"0x{Generals.DateTimeStartOffset:X}";
+        internal static string GetDatePosition() => $"0x{Generals.DateTimeStartOffset:X}";
 
         internal int GetDateForUI() => _generals.DateGUI;
 
-        internal string GetPlayerContactDistancePosition() => $"0x{Generals.ContactDistanceStartOffset:X}";
+        internal static string GetPlayerContactDistancePosition() => $"0x{Generals.ContactDistanceStartOffset:X}";
 
-        internal string GetPlayerSpiceHexPosition() => $"0x{Generals.SpiceStartOffset:X}";
+        internal static string GetPlayerSpiceHexPosition() => $"0x{Generals.SpiceStartOffset:X}";
 
         internal string GetPlayerSpiceHexValue() => $"0x{_generals.SpiceAsHex}";
 

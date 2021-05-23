@@ -7,41 +7,58 @@ using System.Text;
 namespace DuneEdit2
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
 
     internal class SaveGameReaderCli
     {
-        private readonly SaveGameReader _reader;
+        private readonly List<SaveGameReader> _readers = new();
         private readonly Options _options;
 
         public SaveGameReaderCli(Options options)
         {
-            _reader = new SaveGameReader(options.InputSaveGameFile);
+            if (File.Exists(options.InputSaveGameFile))
+            {
+                _readers.Add(new SaveGameReader(options.InputSaveGameFile));
+            }
+            else if (options.InputSaveGameFile.Split(',').Length > 0)
+            {
+                foreach (var inputFile in options.InputSaveGameFile.Split(','))
+                {
+                    _readers.Add(new SaveGameReader(inputFile));
+                }
+            }
             _options = options;
         }
 
         public string GetStandardOutput()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("Player information");
-            stringBuilder.AppendLine("------------------");
-            stringBuilder.AppendLine(GetPlayerSpice());
-            stringBuilder.AppendLine(GetPlayerContactDistance());
-            stringBuilder.AppendLine(GetPlayerCharisma());
-            stringBuilder.AppendLine(GetDateAndTime());
-            if (_options.Uncompress)
+            foreach (var reader in _readers)
             {
-                _reader.WriteUncompressedSaveGameInTheSameFolder();
-                stringBuilder.AppendLine($"{Environment.NewLine}Uncompressed savegame written to disk in another file");
+                stringBuilder.AppendLine(reader.SaveFilePath);
+                stringBuilder.AppendLine("Player information");
+                stringBuilder.AppendLine("------------------");
+                stringBuilder.AppendLine(GetPlayerSpice(reader));
+                stringBuilder.AppendLine(GetPlayerContactDistance(reader));
+                stringBuilder.AppendLine(GetPlayerCharisma(reader));
+                stringBuilder.AppendLine(GetDateAndTime(reader));
+                if (_options.Uncompress)
+                {
+                    reader.WriteUncompressedSaveGameInTheSameFolder();
+                    stringBuilder.AppendLine($"{Environment.NewLine}Uncompressed savegame written to disk in another file");
+                    stringBuilder.AppendLine(Environment.NewLine);
+                }
             }
             return stringBuilder.ToString();
         }
 
-        internal string GetDateAndTime() => $"Date and Time: {_reader.GetDateForUI()} ({_reader.GetDateHexValue()}) - Position: {_reader.GetDatePosition()}";
+        private static string GetDateAndTime(SaveGameReader reader) => $"Date and Time: {reader.GetDateForUI()} ({reader.GetDateHexValue()}) - Position: {SaveGameReader.GetDatePosition()}";
 
-        internal string GetPlayerCharisma() => $"Charisma: {_reader.GetPlayerCharismaForUI()} ({_reader.GetPlayerCharismaHexValue()}) - Position: {_reader.GetPlayerCharismaPosition()}";
+        private static string GetPlayerCharisma(SaveGameReader reader) => $"Charisma: {reader.GetPlayerCharismaForUI()} ({reader.GetPlayerCharismaHexValue()}) - Position: {SaveGameReader.GetPlayerCharismaPosition()}";
 
-        internal string GetPlayerContactDistance() => $"Contact distance: {_reader.GetPlayerContactDistanceForUI()} ({_reader.GetPlayerContactDistanceHexValue()}) - Position: {_reader.GetPlayerContactDistancePosition()}";
+        private static string GetPlayerContactDistance(SaveGameReader reader) => $"Contact distance: {reader.GetPlayerContactDistanceForUI()} ({reader.GetPlayerContactDistanceHexValue()}) - Position: {SaveGameReader.GetPlayerContactDistancePosition()}";
 
-        internal string GetPlayerSpice() => $"Spice: {_reader.GetPlayerSpiceForUI()} Kg ({_reader.GetPlayerSpiceHexValue()}) - Position: {_reader.GetPlayerSpiceHexPosition()}";
+        private static string GetPlayerSpice(SaveGameReader reader) => $"Spice: {reader.GetPlayerSpiceForUI()} Kg ({reader.GetPlayerSpiceHexValue()}) - Position: {SaveGameReader.GetPlayerSpiceHexPosition()}";
     }
 }
