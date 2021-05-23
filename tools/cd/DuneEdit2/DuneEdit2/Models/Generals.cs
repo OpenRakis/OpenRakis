@@ -68,7 +68,7 @@ namespace DuneEdit2.Models
 
         private string GetSpiceAsHexReversed() => $"{_spice[1]:X}{_spice[0]:X}";
 
-        public string SpiceAsHex => $"{_spice[0]:X}{_spice[1]:X}";
+        public string SpiceAsHex => $"{_spice[0]:X2}{_spice[1]:X2}";
 
         public int Date
         {
@@ -80,7 +80,7 @@ namespace DuneEdit2.Models
             }
         }
 
-        public string DateAsHex => $"{_date[0]:X}{_date[1]:X}";
+        public string DateAsHex => $"{_date[0]:X2}{_date[1]:X2}";
 
         public int DateGUI => _date[0] + _date[1];
 
