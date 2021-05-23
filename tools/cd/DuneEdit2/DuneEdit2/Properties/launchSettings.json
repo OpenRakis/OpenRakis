@@ -2,7 +2,7 @@
   "profiles": {
     "DuneEdit2": {
       "commandName": "Project",
-      "commandLineArgs": "-i ..\\..\\..\\..\\DuneEdit2.UnitTests\\Saves\\MidGameSave.sav -r -w"
+      "commandLineArgs": "-i C:\\Jeux\\ABWFR\\DUNE_CD\\C\\DUNECD\\DUNE37S1.SAV -r -w"
     }
   }
 }

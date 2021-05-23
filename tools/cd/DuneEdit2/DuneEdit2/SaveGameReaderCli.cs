@@ -23,8 +23,11 @@ namespace DuneEdit2
             stringBuilder.AppendLine(GetPlayerSpice());
             stringBuilder.AppendLine(GetPlayerContactDistance());
             stringBuilder.AppendLine(GetPlayerCharisma());
+            stringBuilder.AppendLine(GetDateAndTime());
             return stringBuilder.ToString();
         }
+
+        internal string GetDateAndTime() => $"Date and Time: {_reader.GetDateForUI()} ({_reader.GetDateHexValue()}) - Position: {_reader.GetDatePosition()}";
 
         internal string GetPlayerCharisma() => $"Charisma: {_reader.GetPlayerCharismaForUI()} ({_reader.GetPlayerCharismaHexValue()}) - Position: {_reader.GetPlayerCharismaPosition()}";
 

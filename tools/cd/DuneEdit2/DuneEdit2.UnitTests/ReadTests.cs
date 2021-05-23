@@ -21,5 +21,8 @@ namespace DuneEdit2.UnitTests
 
         [Fact]
         public void CanReadPlayerSpiceForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerSpiceForUI().Should().Be(43270);
+
+        [Fact]
+        public void CanReadTheDateForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetDateForUI().Should().Be(23);
     }
 }

@@ -29,6 +29,12 @@ namespace DuneEdit2.Parsing
 
         internal string GetPlayerCharismaHexValue() => $"0x{_generals.Charisma:X}";
 
+        internal string GetDateHexValue() => $"0x{_generals.DateAsHex}";
+
+        internal string GetDatePosition() => $"0x{Generals.DateTimeStartOffset:X}";
+
+        internal int GetDateForUI() => _generals.DateGUI;
+
         internal string GetPlayerContactDistancePosition() => $"0x{Generals.ContactDistanceStartOffset:X}";
 
         internal string GetPlayerSpiceHexPosition() => $"0x{Generals.SpiceStartOffset:X}";

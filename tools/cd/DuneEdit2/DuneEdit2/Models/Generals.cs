@@ -14,9 +14,13 @@ namespace DuneEdit2.Models
 
         public const int ContactDistanceStartOffset = 21909;
 
+        public const int DateTimeStartOffset = 21907;
+
         private byte[] _spice;
 
         private int _contactDistance;
+
+        private readonly byte[] _date;
 
         private byte _charisma;
 
@@ -50,7 +54,7 @@ namespace DuneEdit2.Models
         {
             get
             {
-                string s = SpiceAsHex;
+                string s = GetSpiceAsHexReversed();
                 int num = int.Parse(s, NumberStyles.HexNumber);
                 return checked(num * 10);
             }
@@ -62,7 +66,23 @@ namespace DuneEdit2.Models
             }
         }
 
-        public string SpiceAsHex => $"{_spice[1]:X}{_spice[0]:X}";
+        private string GetSpiceAsHexReversed() => $"{_spice[1]:X}{_spice[0]:X}";
+
+        public string SpiceAsHex => $"{_spice[0]:X}{_spice[1]:X}";
+
+        public int Date
+        {
+            get
+            {
+                string d = DateAsHex;
+                int num = int.Parse(d, NumberStyles.HexNumber);
+                return num;
+            }
+        }
+
+        public string DateAsHex => $"{_date[0]:X}{_date[1]:X}";
+
+        public int DateGUI => _date[0] + _date[1];
 
         public int ContactDistance
         {
@@ -82,11 +102,16 @@ namespace DuneEdit2.Models
             _sg = sg;
             _spice = new byte[2]
             {
-                _sg[17599],
-                _sg[17600]
+                _sg[SpiceStartOffset],
+                _sg[SpiceStartOffset + 1]
             };
-            _contactDistance = _sg[21909];
-            _charisma = _sg[17480];
+            _contactDistance = _sg[ContactDistanceStartOffset];
+            _date = new byte[2]
+            {
+                _sg[DateTimeStartOffset],
+                _sg[DateTimeStartOffset + 1]
+            };
+            _charisma = _sg[CharismaStartOffset];
         }
 
         public void Update(int spiceVal, int contactDistValue, byte charisma)
@@ -94,13 +119,13 @@ namespace DuneEdit2.Models
             Spice = spiceVal;
             ContactDistance = contactDistValue;
             CharismaGUI = charisma;
-            _sg[17599] = _spice[0];
+            _sg[SpiceStartOffset] = _spice[0];
             if (_spice.Length > 1)
             {
-                _sg[17600] = _spice[1];
+                _sg[SpiceStartOffset + 1] = _spice[1];
             }
-            _sg[21909] = checked((byte)int.Parse(ContactDistance.ToString(), NumberStyles.Integer));
-            _sg[17480] = _charisma;
+            _sg[ContactDistanceStartOffset] = checked((byte)int.Parse(ContactDistance.ToString(), NumberStyles.Integer));
+            _sg[CharismaStartOffset] = _charisma;
         }
     }
 }
