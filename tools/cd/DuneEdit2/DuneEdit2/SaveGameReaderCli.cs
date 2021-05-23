@@ -6,13 +6,17 @@ using System.Text;
 
 namespace DuneEdit2
 {
+    using System;
+
     internal class SaveGameReaderCli
     {
         private readonly SaveGameReader _reader;
+        private readonly Options _options;
 
         public SaveGameReaderCli(Options options)
         {
             _reader = new SaveGameReader(options.InputSaveGameFile);
+            _options = options;
         }
 
         public string GetStandardOutput()
@@ -24,6 +28,11 @@ namespace DuneEdit2
             stringBuilder.AppendLine(GetPlayerContactDistance());
             stringBuilder.AppendLine(GetPlayerCharisma());
             stringBuilder.AppendLine(GetDateAndTime());
+            if (_options.Uncompress)
+            {
+                _reader.WriteUncompressedSaveGameInTheSameFolder();
+                stringBuilder.AppendLine($"{Environment.NewLine}Uncompressed savegame written to disk in another file");
+            }
             return stringBuilder.ToString();
         }
 

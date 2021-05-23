@@ -10,6 +10,9 @@
         [Option('r', "ReadMode", Default = false, Required = false, HelpText = "Describe the entire save game on the standard input")]
         public bool ReadMode { get; set; }
 
+        [Option('u', "Uncompress", Default = false, Required = false, HelpText = "Save the uncompressed savegame to disk as [Filename.SAV.UNCOMPRESSED]")]
+        public bool Uncompress { get; set; }
+
         [Option('t', "TimeOfDay", Default = null, Required = false, HelpText = "Edit the time of day in the input savegame file")]
         public int? TimeOfDay { get; set; }
 

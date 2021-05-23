@@ -3,21 +3,22 @@
 namespace DuneEdit2.Parsing
 {
     using DuneEdit2.Models;
-    using DuneEdit2.Parsing;
-    using DuneEdit2.Models.Enums;
-    using System;
 
     internal class SaveGameReader
     {
         private readonly SavegameItem _savegame;
 
         private readonly Generals _generals;
+        private readonly string _saveFilePath;
 
         public SaveGameReader(string saveFilePath)
         {
             _savegame = new SavegameItem(saveFilePath);
             _generals = new Generals(_savegame.Uncompressed);
+            _saveFilePath = saveFilePath;
         }
+
+        public void WriteUncompressedSaveGameInTheSameFolder() => System.IO.File.WriteAllBytes($"{_saveFilePath}.UNCOMPRESSED", _savegame.Uncompressed.ToArray());
 
         public byte GetPlayerCharismaForUI() => _generals.CharismaGUI;
 
