@@ -2,7 +2,7 @@ namespace DuneEdit2.Models
 {
     using System;
 
-    public class TroopsItem
+    public class Troops
     {
         private int _startOffset;
 
@@ -256,7 +256,7 @@ namespace DuneEdit2.Models
             }
         }
 
-        public TroopsItem()
+        public Troops()
         {
         }
     }

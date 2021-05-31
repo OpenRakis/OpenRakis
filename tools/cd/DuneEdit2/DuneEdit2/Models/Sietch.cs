@@ -2,7 +2,7 @@ using System;
 
 namespace DuneEdit2.Models
 {
-    public class SietchItem
+    public class Sietch
     {
         private int _startOffset;
 
@@ -370,7 +370,7 @@ namespace DuneEdit2.Models
             }
         }
 
-        public SietchItem(int startOffset, byte region, byte subRegion, byte housedTroopID, byte status, byte spicefieldID, byte spiceDensity, byte harvesters, byte ornis, byte krys, byte laserGuns, byte weirdingMods, byte atomics, byte bulbs, byte water)
+        public Sietch(int startOffset, byte region, byte subRegion, byte housedTroopID, byte status, byte spicefieldID, byte spiceDensity, byte harvesters, byte ornis, byte krys, byte laserGuns, byte weirdingMods, byte atomics, byte bulbs, byte water)
         {
             _startOffset = startOffset;
             _region = region;

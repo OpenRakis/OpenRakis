@@ -1,12 +1,13 @@
-namespace DuneEdit2.Models
+namespace DuneEdit2
 {
+    using DuneEdit2.Models;
     using DuneEdit2.Parsing;
 
     using System;
     using System.Collections.Generic;
     using System.IO;
 
-    public class SavegameItem
+    public class Savegame
     {
         private readonly List<byte> _original;
 
@@ -49,16 +50,23 @@ namespace DuneEdit2.Models
             }
         }
 
-        public SavegameItem()
+        public Savegame()
         {
         }
 
-        public SavegameItem(List<byte> data)
+        public Savegame(List<byte> data, bool compressed = true)
         {
-            _compressed = data;
+            if (compressed)
+            {
+                _compressed = data;
+            }
+            else
+            {
+                _uncompressed = data;
+            }
         }
 
-        public SavegameItem(string fileName)
+        public Savegame(string fileName)
         {
             _fileName = fileName;
             try
@@ -77,6 +85,7 @@ namespace DuneEdit2.Models
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.GetBaseException().Message);
             }
         }
 
@@ -153,6 +162,7 @@ namespace DuneEdit2.Models
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.GetBaseException().Message);
                     result = false;
                 }
                 return result;
@@ -314,21 +324,16 @@ namespace DuneEdit2.Models
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.GetBaseException().Message);
                     result2 = false;
                 }
                 return result2;
             }
         }
 
-        public bool SaveCompressed()
-        {
-            return SaveCompressedAs(_fileName);
-        }
+        public bool SaveCompressed() => SaveCompressedAs(_fileName);
 
-        public bool SaveUnCompressed()
-        {
-            return SaveUnCompressedAs(_fileName);
-        }
+        public bool SaveUnCompressed() => SaveUnCompressedAs(_fileName, _uncompressed);
 
         public bool SaveCompressedAs(string fileName)
         {
@@ -349,13 +354,14 @@ namespace DuneEdit2.Models
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.GetBaseException().Message);
                 fileStream?.Close();
                 result = false;
             }
             return result;
         }
 
-        public bool SaveUnCompressedAs(string fileName)
+        public static bool SaveUnCompressedAs(string fileName, List<byte> uncompressed)
         {
             bool result = true;
             FileStream fileStream = null;
@@ -363,7 +369,7 @@ namespace DuneEdit2.Models
             {
                 File.Delete(fileName);
                 fileStream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write);
-                foreach (byte item in _uncompressed)
+                foreach (byte item in uncompressed)
                 {
                     fileStream.WriteByte(item);
                 }
@@ -371,6 +377,7 @@ namespace DuneEdit2.Models
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.GetBaseException().Message);
                 fileStream?.Close();
                 result = false;
             }
