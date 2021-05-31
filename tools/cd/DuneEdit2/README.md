@@ -8,7 +8,7 @@ Options:
 
   -o, --OutputFile         (Default: ) Savegame output file name after a Compress or Write
 
-  -r, --Read               (Default: true) Describe the entire save game on the standard input (partially implemented)
+  -r, --Read               (Default: true) Describe the entire save game on the standard output (partially implemented)
 
   -t, --TimeOfDay          Edit the time of day in the input savegame file (not implemented yet!)
 
