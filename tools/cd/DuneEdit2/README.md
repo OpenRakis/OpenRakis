@@ -8,9 +8,9 @@ Options:
 
   -o, --OutputFile         (Default: ) Savegame output file name after a Compress or Write
 
-  -r, --Read               (Default: true) Describe the entire save game on the standard input
+  -r, --Read               (Default: true) Describe the entire save game on the standard input (partially implemented)
 
-  -t, --TimeOfDay          Edit the time of day in the input savegame file
+  -t, --TimeOfDay          Edit the time of day in the input savegame file (not implemented yet!)
 
   -u, --Uncompress         (Default: false) Save the uncompressed savegame to disk as [Filename.SAV.UNCOMPRESSED]
 
