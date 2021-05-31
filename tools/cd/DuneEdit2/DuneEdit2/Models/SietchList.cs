@@ -3,7 +3,7 @@ namespace DuneEdit2.Models
     using System;
     using System.Collections.Generic;
 
-    public class SietchList : List<SietchItem>
+    public class SietchList : List<Sietch>
     {
         private const int StartOffSet = 17695;
 
@@ -22,10 +22,10 @@ namespace DuneEdit2.Models
                 using Enumerator enumerator = GetEnumerator();
                 while (enumerator.MoveNext())
                 {
-                    SietchItem current = enumerator.Current;
+                    Sietch current = enumerator.Current;
                     if ((current.Region == region) & (current.SubRegion == subRegion))
                     {
-                        SietchItem sietch_Item = current;
+                        Sietch sietch_Item = current;
                         sietch_Item.Status = status;
                         sietch_Item.SpiceDensity = spiceDensity;
                         sietch_Item.Harvesters = harvesters;
@@ -64,7 +64,7 @@ namespace DuneEdit2.Models
                 do
                 {
                     int num2 = 17695 + num * 28;
-                    SietchItem sietch_Item = new(
+                    Sietch sietch_Item = new(
                         num2,
                         data[num2 + 0],
                         data[num2 + 1],

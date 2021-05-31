@@ -6,7 +6,7 @@ namespace DuneEdit2.Parsing
 
     internal class SaveGameReader
     {
-        private readonly SavegameItem _savegame;
+        private readonly Savegame _savegame;
 
         private readonly Generals _generals;
         private readonly string _saveFilePath;
@@ -15,12 +15,12 @@ namespace DuneEdit2.Parsing
 
         public SaveGameReader(string saveFilePath)
         {
-            _savegame = new SavegameItem(saveFilePath);
+            _savegame = new Savegame(saveFilePath);
             _generals = new Generals(_savegame.Uncompressed);
             _saveFilePath = saveFilePath;
         }
 
-        public void WriteUncompressedSaveGameInTheSameFolder() => System.IO.File.WriteAllBytes($"{_saveFilePath}.UNCOMPRESSED", _savegame.Uncompressed.ToArray());
+        public void WriteUncompressedSaveGameInTheSameFolder() => Savegame.SaveUnCompressedAs($"{_saveFilePath}.UNCOMPRESSED", _savegame.Uncompressed);
 
         public byte GetPlayerCharismaForUI() => _generals.CharismaGUI;
 

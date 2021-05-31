@@ -3,7 +3,7 @@ namespace DuneEdit2.Models
     using System;
     using System.Collections.Generic;
 
-    public class TroopsList : List<TroopsItem>
+    public class TroopsList : List<Troops>
     {
         private const int StartOffSet = 19657;
 
@@ -22,10 +22,10 @@ namespace DuneEdit2.Models
                 using Enumerator enumerator = GetEnumerator();
                 while (enumerator.MoveNext())
                 {
-                    TroopsItem current = enumerator.Current;
+                    Troops current = enumerator.Current;
                     if (current.TroopID == troopID)
                     {
-                        TroopsItem troopsItem = current;
+                        Troops troopsItem = current;
                         troopsItem.Job = job;
                         troopsItem.Dissatisfaction = dissatisfaction;
                         troopsItem.Motivation = motivation;
@@ -60,7 +60,7 @@ namespace DuneEdit2.Models
                 do
                 {
                     int num2 = 19657 + num * 27;
-                    TroopsItem troopsItem = new()
+                    Troops troopsItem = new()
                     {
                         StartOffset = num2,
                         TroopID = Data[num2 + 0],

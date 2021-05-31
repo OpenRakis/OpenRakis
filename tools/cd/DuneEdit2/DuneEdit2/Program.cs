@@ -6,9 +6,13 @@ using DuneEdit2;
 
 Parser.Default.ParseArguments<Options>(args).WithParsed((o) =>
     {
-        if (o.ReadMode)
+        if (o.Read)
         {
             Console.Write(new SaveGameReaderCli(o).GetStandardOutput());
+        }
+        if (string.IsNullOrWhiteSpace(o.OutputSaveGameFile) && (string.IsNullOrWhiteSpace(o.Compress) == false || string.IsNullOrWhiteSpace(o.Write) == false))
+        {
+            Console.WriteLine("You must specify an output file path if you Compress an uncompressed save game file or Write to a savegame file.");
         }
         else
         {
@@ -21,4 +25,7 @@ Parser.Default.ParseArguments<Options>(args).WithParsed((o) =>
             Console.Read();
         }
     }
-).WithNotParsed((h) => { Console.WriteLine("options parse error!"); });
+).WithNotParsed((h) =>
+{
+    Console.WriteLine("options parse error!");
+});

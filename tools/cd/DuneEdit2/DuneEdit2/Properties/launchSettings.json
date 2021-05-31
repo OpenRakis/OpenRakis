@@ -2,7 +2,7 @@
   "profiles": {
     "DuneEdit2": {
       "commandName": "Project",
-      "commandLineArgs": "-i C:\\Jeux\\ABWFR\\DUNE_CD\\C\\DUNECD\\DUNE37S1.SAV,C:\\Jeux\\ABWFR\\DUNE_CD\\C\\DUNECD\\DUNE37S2.SAV -r -w -u"
+      "commandLineArgs": "-i C:\\Jeux\\ABWFR\\DUNE_CD\\C\\DUNECD\\DUNE37S1.SAV,C:\\Jeux\\ABWFR\\DUNE_CD\\C\\DUNECD\\DUNE37S2.SAV -c C:\\Jeux\\ABWFR\\DUNE_CD\\C\\DUNECD\\DUNE37S1.SAV.UNCOMPRESSED -o C:\\Jeux\\ABWFR\\DUNE_CD\\C\\DUNECD\\DUNE37S1.SAV  -p -u"
     }
   }
 }

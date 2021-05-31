@@ -1,64 +1,43 @@
-namespace DuneEdit2.Models
+namespace DuneEdit2
 {
+    using DuneEdit2.Models;
     using DuneEdit2.Parsing;
 
     using System;
     using System.Collections.Generic;
     using System.IO;
 
-    public class SavegameItem
+    public class Savegame
     {
-        private readonly List<byte> _original;
+        private readonly string _fileName = "";
 
-        private List<byte> _compressed;
+        private readonly List<byte> _original = new();
 
-        private List<byte> _uncompressed;
+        private List<byte> _compressed = new();
 
-        private readonly string _fileName;
+        private List<Control> _control = new();
 
-        private List<Trap> _traps;
+        private List<Trap> _traps = new();
 
-        private List<Control> _control;
+        private List<byte> _uncompressed = new();
 
-        public List<byte> Uncompressed => _uncompressed;
-
-        public List<byte> Compressed => _compressed;
-
-        public void SetRealOffset(int i, int v)
+        public Savegame()
         {
-            checked
+        }
+
+        public Savegame(List<byte> data, bool isCompressed = true)
+        {
+            if (isCompressed)
             {
-                int num = _traps.Count - 1;
-                int num2 = 0;
-                while (true)
-                {
-                    int num3 = num2;
-                    int num4 = num;
-                    if (num3 <= num4)
-                    {
-                        if (_traps[num2].Offset == i)
-                        {
-                            _traps[num2].SetRealOffset(v);
-                            break;
-                        }
-                        num2++;
-                        continue;
-                    }
-                    break;
-                }
+                _compressed = data;
+            }
+            else
+            {
+                _uncompressed = data;
             }
         }
 
-        public SavegameItem()
-        {
-        }
-
-        public SavegameItem(List<byte> data)
-        {
-            _compressed = data;
-        }
-
-        public SavegameItem(string fileName)
+        public Savegame(string fileName)
         {
             _fileName = fileName;
             try
@@ -77,128 +56,33 @@ namespace DuneEdit2.Models
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.GetBaseException().Message);
             }
         }
 
-        public bool Uncompress()
+        public List<byte> Compressed => _compressed;
+
+        public List<byte> Uncompressed => _uncompressed;
+
+        public static bool SaveUnCompressedAs(string fileName, List<byte> uncompressed)
         {
             bool result = true;
-            checked
+            FileStream? fileStream = null;
+            try
             {
-                int num = _original.Count - 3;
-                _uncompressed = new List<byte>();
-                _control = new List<Control>();
-                try
+                File.Delete(fileName);
+                fileStream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write);
+                foreach (byte item in uncompressed)
                 {
-                    int num2 = num;
-                    int num3 = 0;
-                    while (true)
-                    {
-                        int num4 = num3;
-                        int num5 = num2;
-                        if (num4 > num5)
-                        {
-                            break;
-                        }
-                        byte b = _original[num3];
-                        byte b2 = _original[num3 + 1];
-                        byte b3 = _original[num3 + 2];
-                        byte[] ba = new byte[3] { b, b2, b3 };
-                        if (!SequenceParser.IsControlSequence(ba))
-                        {
-                            Trap t = null;
-                            bool trap = GetTrap(num3, t);
-                            if (!SequenceParser.IsDeflateSequence(ba))
-                            {
-                                _uncompressed.Add(b);
-                                if (num3 == num)
-                                {
-                                    _uncompressed.Add(b2);
-                                    _uncompressed.Add(b3);
-                                }
-                            }
-                            else
-                            {
-                                if (trap)
-                                {
-                                    SetRealOffset(num3, _uncompressed.Count);
-                                }
-                                int num6 = b2;
-                                int num7 = 1;
-                                while (true)
-                                {
-                                    int num8 = num7;
-                                    num5 = num6;
-                                    if (num8 > num5)
-                                    {
-                                        break;
-                                    }
-                                    _uncompressed.Add(b3);
-                                    num7++;
-                                }
-                                num3 += 2;
-                            }
-                        }
-                        else
-                        {
-                            Control control = new();
-                            control.Offset = _uncompressed.Count;
-                            control.ControlType = new byte[3] { b, b2, b3 };
-                            _control.Add(control);
-                            _uncompressed.Add(247);
-                            num3 += 2;
-                        }
-                        num3++;
-                    }
+                    fileStream.WriteByte(item);
                 }
-                catch (Exception ex)
-                {
-                    result = false;
-                }
-                return result;
+                fileStream.Close();
             }
-        }
-
-        private bool GetTrap(int index, Trap t)
-        {
-            bool result = false;
-            foreach (Trap trap in _traps)
+            catch (Exception ex)
             {
-                if (trap.Offset == index)
-                {
-                    t = trap;
-                    result = true;
-                    break;
-                }
-            }
-            return result;
-        }
-
-        private bool GetTrapByRealOffset(int index, Trap t)
-        {
-            bool result = false;
-            foreach (Trap trap in _traps)
-            {
-                if (trap.realOffset == index)
-                {
-                    t = trap;
-                    result = true;
-                    break;
-                }
-            }
-            return result;
-        }
-
-        private bool IsNonDeflate(int i)
-        {
-            bool result = false;
-            foreach (Control item in _control)
-            {
-                if (item.Offset == i)
-                {
-                    result = true;
-                    break;
-                }
+                Console.WriteLine(ex.GetBaseException().Message);
+                fileStream?.Close();
+                result = false;
             }
             return result;
         }
@@ -241,7 +125,7 @@ namespace DuneEdit2.Models
                                 int num7 = 255;
                                 Trap t = new();
                                 bool flag = false;
-                                if (GetTrapByRealOffset(num3, t))
+                                if (GetTrapByRealOffset(num3, ref t))
                                 {
                                     num7 = t.Repeat;
                                     flag = true;
@@ -314,27 +198,20 @@ namespace DuneEdit2.Models
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.GetBaseException().Message);
                     result2 = false;
                 }
                 return result2;
             }
         }
 
-        public bool SaveCompressed()
-        {
-            return SaveCompressedAs(_fileName);
-        }
-
-        public bool SaveUnCompressed()
-        {
-            return SaveUnCompressedAs(_fileName);
-        }
+        public bool SaveCompressed() => SaveCompressedAs(_fileName);
 
         public bool SaveCompressedAs(string fileName)
         {
             bool result = true;
             Compress();
-            FileStream fileStream = null;
+            FileStream? fileStream = null;
             try
             {
                 File.Delete(fileName + ".bak");
@@ -349,32 +226,118 @@ namespace DuneEdit2.Models
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.GetBaseException().Message);
                 fileStream?.Close();
                 result = false;
             }
             return result;
         }
 
-        public bool SaveUnCompressedAs(string fileName)
+        public bool SaveUnCompressed() => SaveUnCompressedAs(_fileName, _uncompressed);
+
+        public void SetRealOffset(int i, int v)
+        {
+            checked
+            {
+                int num = _traps.Count - 1;
+                int num2 = 0;
+                while (true)
+                {
+                    int num3 = num2;
+                    int num4 = num;
+                    if (num3 <= num4)
+                    {
+                        if (_traps[num2].Offset == i)
+                        {
+                            _traps[num2].SetRealOffset(v);
+                            break;
+                        }
+                        num2++;
+                        continue;
+                    }
+                    break;
+                }
+            }
+        }
+
+        public bool Uncompress()
         {
             bool result = true;
-            FileStream fileStream = null;
-            try
+            checked
             {
-                File.Delete(fileName);
-                fileStream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write);
-                foreach (byte item in _uncompressed)
+                int num = _original.Count - 3;
+                _uncompressed = new List<byte>();
+                _control = new List<Control>();
+                try
                 {
-                    fileStream.WriteByte(item);
+                    int num2 = num;
+                    int num3 = 0;
+                    while (true)
+                    {
+                        int num4 = num3;
+                        int num5 = num2;
+                        if (num4 > num5)
+                        {
+                            break;
+                        }
+                        byte b = _original[num3];
+                        byte b2 = _original[num3 + 1];
+                        byte b3 = _original[num3 + 2];
+                        byte[] ba = new byte[3] { b, b2, b3 };
+                        if (!SequenceParser.IsControlSequence(ba))
+                        {
+                            Trap t = new();
+                            bool trap = GetTrap(num3, ref t);
+                            if (!SequenceParser.IsDeflateSequence(ba))
+                            {
+                                _uncompressed.Add(b);
+                                if (num3 == num)
+                                {
+                                    _uncompressed.Add(b2);
+                                    _uncompressed.Add(b3);
+                                }
+                            }
+                            else
+                            {
+                                if (trap)
+                                {
+                                    SetRealOffset(num3, _uncompressed.Count);
+                                }
+                                int num6 = b2;
+                                int num7 = 1;
+                                while (true)
+                                {
+                                    int num8 = num7;
+                                    num5 = num6;
+                                    if (num8 > num5)
+                                    {
+                                        break;
+                                    }
+                                    _uncompressed.Add(b3);
+                                    num7++;
+                                }
+                                num3 += 2;
+                            }
+                        }
+                        else
+                        {
+                            Control control = new();
+                            control.Offset = _uncompressed.Count;
+                            control.ControlType = new byte[3] { b, b2, b3 };
+                            _control.Add(control);
+                            _uncompressed.Add(247);
+                            num3 += 2;
+                        }
+                        num3++;
+                    }
                 }
-                fileStream.Close();
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.GetBaseException().Message);
+                    result = false;
+                }
+                return result;
             }
-            catch (Exception ex)
-            {
-                fileStream?.Close();
-                result = false;
-            }
-            return result;
         }
 
         private void DetectTraps()
@@ -410,6 +373,50 @@ namespace DuneEdit2.Models
                     break;
                 }
             }
+        }
+
+        private bool GetTrap(int index, ref Trap t)
+        {
+            bool result = false;
+            foreach (Trap trap in _traps)
+            {
+                if (trap.Offset == index)
+                {
+                    t = trap;
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        private bool GetTrapByRealOffset(int index, ref Trap t)
+        {
+            bool result = false;
+            foreach (Trap trap in _traps)
+            {
+                if (trap.realOffset == index)
+                {
+                    t = trap;
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        private bool IsNonDeflate(int i)
+        {
+            bool result = false;
+            foreach (Control item in _control)
+            {
+                if (item.Offset == i)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
         }
     }
 }
