@@ -25,4 +25,7 @@ Parser.Default.ParseArguments<Options>(args).WithParsed((o) =>
             Console.Read();
         }
     }
-).WithNotParsed((h) => { Console.WriteLine("options parse error!"); });
+).WithNotParsed((h) =>
+{
+    Console.WriteLine("options parse error!");
+});

@@ -22,11 +22,26 @@
 
             if (string.IsNullOrWhiteSpace(_options.Compress) == false && string.IsNullOrWhiteSpace(_options.OutputSaveGameFile) == false)
             {
-                var savegame = new Savegame(File.ReadAllBytes(_options.InputSaveGameFile).ToList(), false);
-                savegame.SaveCompressedAs(_options.OutputSaveGameFile);
-                return $"Compressed {_options.Compress} to {_options.OutputSaveGameFile}{Environment.NewLine}";
+                if (_options.InputSaveGameFile.Contains(","))
+                {
+                    foreach (var inputFilePath in _options.InputSaveGameFile.Split(','))
+                    {
+                        return ReCompressUncompressedSavegameFile(inputFilePath);
+                    }
+                }
+                else
+                {
+                    return ReCompressUncompressedSavegameFile(_options.InputSaveGameFile);
+                }
             }
             return "";
+        }
+
+        private string ReCompressUncompressedSavegameFile(string inputFilePath)
+        {
+            var savegame = new Savegame(File.ReadAllBytes(inputFilePath).ToList(), false);
+            savegame.SaveCompressedAs(_options.OutputSaveGameFile);
+            return $"Compressed {_options.Compress} to {_options.OutputSaveGameFile}{Environment.NewLine}";
         }
     }
 }
