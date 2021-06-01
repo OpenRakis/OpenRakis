@@ -4,7 +4,9 @@ namespace DuneEdit2.UnitTests
 
     using FluentAssertions;
 
+    using System.Diagnostics;
     using System.IO;
+    using System.Threading.Tasks;
 
     using Xunit;
 
@@ -23,6 +25,33 @@ namespace DuneEdit2.UnitTests
         public void CanReadPlayerSpiceForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerSpiceForUI().Should().Be(43270);
 
         [Fact]
-        public void CanReadTheDateForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetDateForUI().Should().Be(23);
+        public void CanReadTheDateForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetDateForUI().Should().Be(99);
+
+        [Fact]
+        public async Task CanReadSeveralFiles()
+        {
+            var executablePath = "DuneEdit2";
+            var processStartInfo = new ProcessStartInfo(executablePath, $"-r -i {Path.Combine(SavesFolder, MidGamesSaveFileName)} {Path.Combine(SavesFolder, MidGamesSaveFileName)}")
+            {
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            var process = new Process
+            {
+                StartInfo = processStartInfo,
+                EnableRaisingEvents = true
+            };
+            var output = "";
+            process.Exited += async (s, e) =>
+            {
+                output = await process.StandardOutput.ReadToEndAsync();
+            };
+            process.Start();
+            while (output == "")
+            {
+                await Task.Yield();
+            }
+            output.Should().Contain(MidGamesSaveFileName);
+        }
     }
 }

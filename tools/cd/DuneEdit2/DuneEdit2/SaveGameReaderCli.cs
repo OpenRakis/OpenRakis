@@ -17,16 +17,9 @@ namespace DuneEdit2
 
         public SaveGameReaderCli(Options options)
         {
-            if (File.Exists(options.InputSaveGameFile))
+            foreach (var inputFile in options.InputSaveGameFiles)
             {
-                _readers.Add(new SaveGameReader(options.InputSaveGameFile));
-            }
-            else if (options.InputSaveGameFile.Split(',').Length > 0)
-            {
-                foreach (var inputFile in options.InputSaveGameFile.Split(','))
-                {
-                    _readers.Add(new SaveGameReader(inputFile));
-                }
+                _readers.Add(new SaveGameReader(inputFile));
             }
             _options = options;
         }

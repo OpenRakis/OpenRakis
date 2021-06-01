@@ -22,16 +22,9 @@
 
             if (string.IsNullOrWhiteSpace(_options.Compress) == false && string.IsNullOrWhiteSpace(_options.OutputSaveGameFile) == false)
             {
-                if (_options.InputSaveGameFile.Contains(","))
+                foreach (var inputFilePath in _options.InputSaveGameFiles)
                 {
-                    foreach (var inputFilePath in _options.InputSaveGameFile.Split(','))
-                    {
-                        return ReCompressUncompressedSavegameFile(inputFilePath);
-                    }
-                }
-                else
-                {
-                    return ReCompressUncompressedSavegameFile(_options.InputSaveGameFile);
+                    return ReCompressUncompressedSavegameFile(inputFilePath);
                 }
             }
             return "";
