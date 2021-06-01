@@ -28,7 +28,7 @@ namespace DuneEdit2.UnitTests
         public void CanReadTheDateForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetDateForUI().Should().Be(99);
 
         [Fact]
-        public async Task CanReadSeveralFiles()
+        public async Task ProcessReadSeveralFilesAsync()
         {
             var executablePath = "DuneEdit2";
             var processStartInfo = new ProcessStartInfo(executablePath, $"-r -i {Path.Combine(SavesFolder, MidGamesSaveFileName)} {Path.Combine(SavesFolder, MidGamesSaveFileName)}")
@@ -47,7 +47,7 @@ namespace DuneEdit2.UnitTests
                 output = await process.StandardOutput.ReadToEndAsync();
             };
             process.Start();
-            while (output == "")
+            while (process.HasExited == false)
             {
                 await Task.Yield();
             }

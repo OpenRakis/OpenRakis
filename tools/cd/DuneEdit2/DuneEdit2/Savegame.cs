@@ -37,6 +37,8 @@ namespace DuneEdit2
             }
         }
 
+        internal void ModiifyByteAtAddressInUncompressedData(byte value, int position) => _uncompressed[position] = value;
+
         public Savegame(string fileName)
         {
             _fileName = fileName;
