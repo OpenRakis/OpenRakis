@@ -25,9 +25,6 @@ namespace DuneEdit2.UnitTests
         public void CanReadPlayerSpiceForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerSpiceForUI().Should().Be(43270);
 
         [Fact]
-        public void CanReadTheDateForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetDateForUI().Should().Be(99);
-
-        [Fact]
         public async Task ProcessReadSeveralFilesAsync()
         {
             var executablePath = "DuneEdit2";

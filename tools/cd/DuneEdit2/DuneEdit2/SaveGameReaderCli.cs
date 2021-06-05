@@ -46,7 +46,7 @@ namespace DuneEdit2
             return stringBuilder.ToString();
         }
 
-        private static string GetDateAndTime(SaveGameReader reader) => $"Date and Time: {reader.GetDateForUI()} ({reader.GetDateHexValue()}) - Position: {SaveGameReader.GetDatePosition()}";
+        private static string GetDateAndTime(SaveGameReader reader) => $"Date and Time: {SaveGameReader.GetDateForUI()} ({reader.GetDateHexValue()}) - Position: {SaveGameReader.GetDatePosition()}";
 
         private static string GetPlayerCharisma(SaveGameReader reader) => $"Charisma: {reader.GetPlayerCharismaForUI()} ({reader.GetPlayerCharismaHexValue()}) - Position: {SaveGameReader.GetPlayerCharismaPosition()}";
 

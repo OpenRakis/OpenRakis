@@ -82,7 +82,7 @@ namespace DuneEdit2.Models
 
         public string DateAsHex => $"{_date[0]:X2}{_date[1]:X2}";
 
-        public int DateGUI => _date[0] + _date[1];
+        public static string DateGUI => "??";
 
         public int ContactDistance
         {

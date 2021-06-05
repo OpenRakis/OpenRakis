@@ -36,7 +36,7 @@ namespace DuneEdit2.Parsing
 
         internal static string GetDatePosition() => $"0x{Generals.DateTimeStartOffset:X}";
 
-        internal int GetDateForUI() => _generals.DateGUI;
+        internal static string GetDateForUI() => Generals.DateGUI;
 
         internal static string GetPlayerContactDistancePosition() => $"0x{Generals.ContactDistanceStartOffset:X}";
 
