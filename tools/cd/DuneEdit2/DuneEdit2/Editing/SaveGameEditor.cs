@@ -24,7 +24,7 @@
             var savegame = new Savegame(_fileName);
             if (position < 0 || position > savegame.Uncompressed.Count)
             {
-                throw new ArgumentException($"{nameof(position)} is out of range in the uncompressed data !");
+                throw new ArgumentException($"{nameof(position)} {position} is out of range in the uncompressed data !");
             }
             savegame.ModiifyByteAtAddressInUncompressedData(value, position);
         }
