@@ -59,27 +59,27 @@ namespace DuneEdit2.Models
                 int num5;
                 do
                 {
-                    int num2 = 19657 + num * 27;
+                    int offset = StartOffSet + num * 27;
                     Troops troopsItem = new()
                     {
-                        StartOffset = num2,
-                        TroopID = Data[num2 + 0],
-                        NextTroopInSietch = Data[num2 + 1],
-                        Job = Data[num2 + 3],
-                        Dissatisfaction = Data[num2 + 18],
-                        Speech = Data[num2 + 19],
-                        Motivation = Data[num2 + 21],
-                        SpiceSkill = Data[num2 + 22],
-                        ArmySkill = Data[num2 + 23],
-                        EcologySkill = Data[num2 + 24],
-                        Equipment = Data[num2 + 25],
-                        Population = unchecked((int)Data[checked(num2 + 26)]) * 10
+                        StartOffset = offset,
+                        TroopID = Data[offset + 0],
+                        NextTroopInSietch = Data[offset + 1],
+                        Job = Data[offset + 3],
+                        Dissatisfaction = Data[offset + 18],
+                        Speech = Data[offset + 19],
+                        Motivation = Data[offset + 21],
+                        SpiceSkill = Data[offset + 22],
+                        ArmySkill = Data[offset + 23],
+                        EcologySkill = Data[offset + 24],
+                        Equipment = Data[offset + 25],
+                        Population = unchecked((int)Data[checked(offset + 26)]) * 10
                     };
                     int num3 = 0;
                     int num4;
                     do
                     {
-                        troopsItem.Coordinates += Convert.ToString(Data[num2 + 6 + num3]);
+                        troopsItem.Coordinates += Convert.ToString(Data[offset + 6 + num3]);
                         num3++;
                         num4 = num3;
                         num5 = 3;

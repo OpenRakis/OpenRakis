@@ -63,7 +63,7 @@ namespace DuneEdit2.Models
                 int num5;
                 do
                 {
-                    int num2 = 17695 + num * 28;
+                    int num2 = StartOffSet + num * 28;
                     Sietch sietch_Item = new(
                         num2,
                         data[num2 + 0],

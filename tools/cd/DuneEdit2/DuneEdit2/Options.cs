@@ -24,7 +24,7 @@
         [Option('p', "PauseBeforeExit", Default = false, Required = false, HelpText = "Wait a key press before exiting")]
         public bool WaitBeforeExit { get; set; }
 
-        [Option('w', "Write", Default = "", Separator = ' ', Required = false, HelpText = "Write hex at position to the FIRST input file, before recompressing it. Format: ByteHexValue,UncompressedSaveGameHexPosition. Can be several Byte and Position couples, separated by a space. For example: 0x00,0x1 0x01,0x2")]
+        [Option('w', "Write", Separator = ' ', Required = false, HelpText = "Write hex at position to the FIRST input file, before recompressing it. Format: ByteHexValue,UncompressedSaveGameHexPosition. Can be several Byte and Position couples, separated by a space. For example: 0x00,0x1 0x01,0x2")]
         public IEnumerable<string> Write { get; set; } = new List<string>();
     }
 }
