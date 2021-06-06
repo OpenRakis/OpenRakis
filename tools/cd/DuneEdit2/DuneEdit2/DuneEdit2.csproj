@@ -5,7 +5,7 @@
     <TargetFramework>net50</TargetFramework>
     <Nullable>Enable</Nullable>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <Version>0.2</Version>
+    <Version>0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
