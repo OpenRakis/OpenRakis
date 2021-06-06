@@ -36,6 +36,7 @@ namespace DuneEdit2
                 stringBuilder.AppendLine(GetPlayerContactDistance(reader));
                 stringBuilder.AppendLine(GetPlayerCharisma(reader));
                 stringBuilder.AppendLine(GetDateAndTime(reader));
+                stringBuilder.AppendLine(GetGameStage(reader));
                 if (_options.Uncompress)
                 {
                     reader.WriteUncompressedSaveGameInTheSameFolder();
@@ -47,6 +48,8 @@ namespace DuneEdit2
         }
 
         private static string GetDateAndTime(SaveGameReader reader) => $"Date and Time: {SaveGameReader.GetDateForUI()} ({reader.GetDateHexValue()}) - Position: {SaveGameReader.GetDatePosition()}";
+
+        private static string GetGameStage(SaveGameReader reader) => $"Game Stage: {reader.GetGameStageExplained()} ({reader.GetGameStageHexValue()}) - Position: {SaveGameReader.GetGameStagePosition()}";
 
         private static string GetPlayerCharisma(SaveGameReader reader) => $"Charisma: {reader.GetPlayerCharismaForUI()} ({reader.GetPlayerCharismaHexValue()}) - Position: {SaveGameReader.GetPlayerCharismaPosition()}";
 

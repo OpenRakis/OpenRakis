@@ -16,6 +16,8 @@ namespace DuneEdit2.Models
 
         public const int DateTimeStartOffset = 21907;
 
+        public const int GameStageOffset = 17481;
+
         private byte[] _spice;
 
         private int _contactDistance;
@@ -23,6 +25,8 @@ namespace DuneEdit2.Models
         private readonly byte[] _date;
 
         private byte _charisma;
+
+        private byte _gameStage;
 
         private readonly List<byte> _sg;
 
@@ -36,6 +40,12 @@ namespace DuneEdit2.Models
                     _charisma = (byte)(unchecked(value) * 2);
                 }
             }
+        }
+
+        public byte GameStage
+        {
+            get => _gameStage;
+            set { _gameStage = value; }
         }
 
         public byte Charisma
@@ -69,6 +79,10 @@ namespace DuneEdit2.Models
         private string GetSpiceAsHexReversed() => $"{_spice[1]:X}{_spice[0]:X}";
 
         public string SpiceAsHex => $"{_spice[0]:X2}{_spice[1]:X2}";
+
+        public string GameStageAsHex => $"{_gameStage:X2}";
+
+        public string GetGameStageExplained() => GameStageFinder.FindStage(_gameStage);
 
         public int Date
         {
@@ -105,6 +119,7 @@ namespace DuneEdit2.Models
                 _sg[SpiceStartOffset],
                 _sg[SpiceStartOffset + 1]
             };
+            _gameStage = _sg[GameStageOffset];
             _contactDistance = _sg[ContactDistanceStartOffset];
             _date = new byte[2]
             {

@@ -22,6 +22,12 @@ namespace DuneEdit2.Parsing
 
         public void WriteUncompressedSaveGameInTheSameFolder() => Savegame.SaveUnCompressedAs($"{_saveFilePath}.UNCOMPRESSED", _savegame.Uncompressed);
 
+        public string GetGameStageHexValue() => _generals.GameStageAsHex;
+
+        public string GetGameStageExplained() => _generals.GetGameStageExplained();
+
+        public static string GetGameStagePosition() => $"0x{Generals.GameStageOffset:X}";
+
         public byte GetPlayerCharismaForUI() => _generals.CharismaGUI;
 
         internal int GetPlayerContactDistanceForUI() => _generals.ContactDistance;
