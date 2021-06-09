@@ -30,9 +30,9 @@ namespace DuneEdit2.Parsing
 
         public byte GetPlayerCharismaForUI() => _generals.CharismaGUI;
 
-        internal int GetPlayerContactDistanceForUI() => _generals.ContactDistance;
+        internal int GetPlayerContactDistanceForUI() => _generals.ContactDistanceGUI;
 
-        internal string GetPlayerContactDistanceHexValue() => $"0x{_generals.ContactDistance:X}";
+        internal string GetPlayerContactDistanceHexValue() => $"0x{_generals.ContactDistanceGUI:X}";
 
         internal static object GetPlayerCharismaPosition() => $"0x{Generals.CharismaStartOffset:X}";
 
@@ -52,7 +52,7 @@ namespace DuneEdit2.Parsing
 
         internal int GetPlayerSpiceForUI()
         {
-            return _generals.Spice;
+            return _generals.SpiceGUI;
         }
     }
 }

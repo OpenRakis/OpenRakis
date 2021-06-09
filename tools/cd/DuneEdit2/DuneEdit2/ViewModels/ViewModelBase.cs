@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ReactiveUI;
-
-namespace DuneEdit2.ViewModels
+﻿namespace DuneEdit2.ViewModels
 {
+    using ReactiveUI;
+
     public class ViewModelBase : ReactiveObject
     {
     }
