@@ -22,7 +22,7 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [MASM/TASM](https://github.com/xsro/masm-tasm) ([VSCode marketplace](https://marketplace.visualstudio.com/items?itemName=xsro.masm-tasm))
 
-[LZEXE 0.91](https://bellard.org/lzexe.html) (to unpack LOGO.EXE)
+[UNLZEXE](https://keenwiki.shikadi.net/wiki/UNLZEXE) (to unpack LOGO.EXE)
 
 [DOSBox Debugger with AUTOEXEC support](https://www.vogons.org/viewtopic.php?p=860536#p860536)
 
