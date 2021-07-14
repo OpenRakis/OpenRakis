@@ -20,11 +20,11 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [IDA Freeware](https://www.scummvm.org/news/20180331/)
 
-[MASM/TASM](https://github.com/xsro/masm-tasm) ([VSCode marketplace](https://marketplace.visualstudio.com/items?itemName=xsro.masm-tasm))
-
-[UNLZEXE](https://keenwiki.shikadi.net/wiki/UNLZEXE) (to unpack LOGO.EXE)
+[UNLZEXE](https://keenwiki.shikadi.net/wiki/UNLZEXE) (to unpack LOGO.EXE, if it is packed)
 
 [DOSBox Debugger with AUTOEXEC support](https://www.vogons.org/viewtopic.php?p=860536#p860536)
+
+[Chani: Simulfow Debugger](https://github.com/madmoose/chani)
 
 # Might be useful
 
@@ -35,6 +35,8 @@ the bin folder is not part of this repo, as it is copyrighted material.
 [semblance](https://github.com/zfigura/semblance)
 
 [MASM2C](https://github.com/xor2003/masm2c)
+
+[MASM/TASM](https://github.com/xsro/masm-tasm) ([VSCode marketplace](https://marketplace.visualstudio.com/items?itemName=xsro.masm-tasm))
 
 # Existing efforts
 
