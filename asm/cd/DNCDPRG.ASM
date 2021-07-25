@@ -99,6 +99,101 @@ loc_1F3E:				; CODE XREF: start+61j	start+66j
 		int	21h		; DOS -	2+ - QUIT WITH EXIT CODE (EXIT)
 start		endp			; AL = exit code
 
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_1	proc near
+		retn
+nullsub_1	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_2	proc near
+		retn
+nullsub_2	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_3	proc near
+		retn
+nullsub_3	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_4	proc near
+		retn
+nullsub_4	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_5	proc near
+		retn
+nullsub_5	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_6	proc near
+		retn
+nullsub_6	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_7	proc near
+		retn
+nullsub_7	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_8	proc near
+		retn
+nullsub_8	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_9	proc near
+		retn
+nullsub_9	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_10	proc near
+		retn
+nullsub_10	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_11	proc near
+		retn
+nullsub_11	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_12	proc near
+		retn
+nullsub_12	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_13	proc near
+		retn
+nullsub_13	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_14	proc near
+		retn
+nullsub_14	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_15	proc near
+		retn
+nullsub_15	endp
+
+; ��������������� S U B	R O U T	I N E ���������������������������������������
+
+nullsub_16	proc near
+		retn
+nullsub_16	endp
 
 ; ��������������� S U B	R O U T	I N E ���������������������������������������
 
@@ -1858,7 +1953,7 @@ sub_2DD8	endp
 		mov	bx, ax
 		and	al, 0Fh
 		cmp	al, 0Ch
-		jnb	short nullsub_1
+		jnb	nullsub_1
 		push	bx
 		cmp	al, 2
 		jnb	short loc_2E2F
@@ -1877,7 +1972,7 @@ loc_2E2F:				; CODE XREF: seg000:0F56j
 		mov	bx, ax
 		and	al, 0Fh
 		cmp	al, 0Bh
-		jb	short nullsub_1
+		jb	nullsub_1
 		push	bx
 		cmp	al, 0Dh
 		jnb	short loc_2E4E
@@ -3486,14 +3581,14 @@ sub_39B0	endp
 ; ���������������������������������������������������������������������������
 		call	sub_F2EB
 		cmp	bp, 1F7Eh
-		jnz	short nullsub_5
+		jnz	nullsub_5
 		mov	ax, ds:0CE7Ah
 		cmp	ax, ds:4770h
-		jz	short nullsub_5
+		jz	nullsub_5
 		mov	ds:4770h, ax
 		sub	ax, ds:476Eh
 		cmp	ax, ds:4772h
-		jb	short nullsub_5
+		jb	nullsub_5
 		call	sub_E72B
 		call	sub_E738
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_5. PRESS KEYPAD "+" TO EXPAND]
@@ -3503,11 +3598,11 @@ sub_39B0	endp
 
 sub_39DD	proc near		; CODE XREF: sub_F6E5+26p
 		call	sub_CA9C
-		jnz	short nullsub_5
+		jnz	nullsub_5
 		cmp	byte ptr ds:2788h, 0
-		jnz	short nullsub_5
+		jnz	nullsub_5
 		cmp	byte ptr ds:2Ah, 0C8h ;	'�'
-		jnb	short nullsub_5
+		jnb	nullsub_5
 		call	sub_49FA
 sub_39DD	endp
 
@@ -3520,7 +3615,7 @@ sub_39F3	proc near		; CODE XREF: sub_2EA9+1Ap sub_2EA9+26p
 ; FUNCTION CHUNK AT 1BB8 SIZE 00000034 BYTES
 
 		cmp	byte ptr ds:46DDh, 0
-		jz	short nullsub_5
+		jz	nullsub_5
 		mov	byte ptr ds:46DDh, 0
 		mov	al, ds:0F4h
 		dec	al
@@ -7524,9 +7619,9 @@ loc_55EB:				; CODE XREF: seg000:3701j seg000:3705j
 loc_55F3:				; CODE XREF: sub_4D22+17j
 		and	byte ptr ds:4735h, 7Fh
 		sub	al, 94h	; '�'
-		jb	short nullsub_6
+		jb	nullsub_6
 		test	al, 0Fh
-		jnz	short nullsub_6
+		jnz	nullsub_6
 		push	ax
 		call	sub_FA82
 		call	sub_DF4C
@@ -7863,7 +7958,7 @@ loc_5800:				; CODE XREF: sub_57E6+12j
 
 loc_581A:				; CODE XREF: sub_57E6+28j
 		dec	byte ptr ds:46D7h
-		jnz	short nullsub_7
+		jnz	nullsub_7
 sub_57E6	endp
 
 
@@ -12361,7 +12456,7 @@ sub_7616	proc near		; CODE XREF: sub_7AD3+6Fp
 		jnb	short loc_767D
 		call	sub_7682
 		cmp	byte ptr ds:4722h, 0
-		jnz	short nullsub_15
+		jnz	nullsub_15
 		mov	es, word ptr ds:0DBD8h
 		call	dword ptr ds:3965h
 		sub	al, 50h	; 'P'
@@ -12373,7 +12468,7 @@ loc_7642:				; CODE XREF: sub_7616+28j
 		mov	ah, al
 		xchg	al, ds:4724h
 		cmp	al, ah
-		jz	short nullsub_15
+		jz	nullsub_15
 		call	sub_FA82
 		call	sub_765B
 		mov	al, ah
@@ -12388,7 +12483,7 @@ sub_7616	endp
 
 sub_765B	proc near		; CODE XREF: sub_7616+39p sub_7616+3Ep
 		or	al, al
-		js	short nullsub_15
+		js	nullsub_15
 		push	ax
 		call	sub_744B
 		add	dx, 5Eh	; '^'
@@ -12422,7 +12517,7 @@ loc_7685:				; CODE XREF: sub_7616+6Aj
 		mov	al, cl
 		xchg	al, ds:4725h
 		cmp	al, cl
-		jz	short nullsub_15
+		jz	nullsub_15
 		push	bx
 		push	dx
 		call	sub_DF5E
@@ -18495,13 +18590,13 @@ sub_9D0D	endp
 loc_9D67:				; CODE XREF: seg000:loc_7B62j
 					; sub_9AB0+1Bj
 		cmp	byte ptr ds:46F5h, 0
-		jz	short nullsub_16
+		jz	nullsub_16
 		mov	di, 1936h
 		call	sub_F5CE
-		jnb	short nullsub_16
+		jnb	nullsub_16
 		mov	si, 4C7Ch
 		call	sub_9DB2
-		jnb	short nullsub_16
+		jnb	nullsub_16
 		dec	byte ptr [di+4705h]
 		inc	byte ptr [di+46FEh]
 		jmp	short loc_9DAE
@@ -18510,15 +18605,15 @@ loc_9D67:				; CODE XREF: seg000:loc_7B62j
 
 loc_9D88:				; CODE XREF: seg000:5CA2j
 		cmp	byte ptr ds:46F5h, 0
-		jz	short nullsub_16
+		jz	nullsub_16
 		mov	di, 1940h
 		call	sub_F5CE
-		jnb	short nullsub_16
+		jnb	nullsub_16
 		mov	si, 4C60h
 		call	sub_9DB2
-		jnb	short nullsub_16
+		jnb	nullsub_16
 		cmp	byte ptr [di+4705h], 0
-		jnz	short nullsub_16
+		jnz	nullsub_16
 		inc	byte ptr [di+4705h]
 		dec	byte ptr [di+46FEh]
 ; START	OF FUNCTION CHUNK FOR sub_9AB0
@@ -18542,7 +18637,7 @@ loc_9DB4:				; CODE XREF: sub_9DB2+16j
 		cmp	dx, ax
 		jb	short loc_9DC1
 		cmp	dx, [si]
-		jb	short nullsub_16
+		jb	nullsub_16
 
 loc_9DC1:				; CODE XREF: sub_9DB2+5j sub_9DB2+9j
 		add	si, 2
@@ -20089,7 +20184,7 @@ loc_A765:				; CODE XREF: sub_ADF8+FAj
 
 sub_A77F	proc near		; CODE XREF: seg000:02D8p sub_2C5E+54p ...
 		or	ax, ax
-		jz	short nullsub_8
+		jz	nullsub_8
 		mov	ds:4780h, ax
 		mov	byte ptr ds:47E0h, 0
 		test	byte ptr ds:46EBh, 40h
@@ -20534,7 +20629,7 @@ sub_A9E1	proc near		; CODE XREF: sub_A7A2+15p sub_BE6E+91p
 		call	sub_AB5A
 		pop	si
 		call	sub_AB9D
-		jb	short nullsub_9
+		jb	nullsub_9
 		call	sub_ADF8
 		call	sub_ACC0
 		mov	dx, ds:4791h
@@ -22078,7 +22173,7 @@ loc_B4AE:				; CODE XREF: seg000:95CAj seg000:95D0j ...
 		inc	byte ptr ds:1Bh
 		mov	byte ptr ds:23h, 0
 		call	sub_C0B2
-		jnz	short nullsub_10
+		jnz	nullsub_10
 		mov	si, ds:47A2h
 		mov	cl, [si+0Eh]
 		cmp	cl, 0Eh
@@ -22130,7 +22225,7 @@ sub_B525	proc near		; CODE XREF: sub_5FB6+Fp
 		jz	short loc_B539
 		dec	di
 		cmp	[di], cl
-		jnz	short nullsub_10
+		jnz	nullsub_10
 		xchg	al, [di+1]
 
 loc_B539:				; CODE XREF: sub_B525+Aj
@@ -22147,12 +22242,12 @@ sub_B543	proc near		; CODE XREF: sub_B69F+5Cj sub_B69F+86p
 		mov	cl, [si+0Eh]
 		mov	di, 1152h
 		cmp	[di], cl
-		jz	short nullsub_10
+		jz	nullsub_10
 		cmp	byte ptr [di], 0FFh
 		jz	short loc_B57B
 		inc	di
 		cmp	[di], cl
-		jz	short nullsub_10
+		jz	nullsub_10
 		cmp	byte ptr [di], 0FFh
 		jz	short loc_B57B
 		dec	di
@@ -27822,7 +27917,7 @@ sub_D96E	endp
 sub_D9C2	proc near		; CODE XREF: sub_D85B:loc_D85Ep
 		xor	dx, dx
 		cmp	byte ptr ds:227Dh, 0
-		jnz	short nullsub_13
+		jnz	nullsub_13
 		call	sub_5F4E
 		sub	sp, 0Ah
 		mov	bp, sp
@@ -33833,9 +33928,9 @@ sub_FD38	endp
 
 sub_FD4B	proc near		; CODE XREF: sub_FC33p	sub_FDEEp ...
 		cmp	byte ptr ds:0CE9Ah, 0
-		jz	short nullsub_11
+		jz	nullsub_11
 		cmp	byte ptr ds:0CE80h, 0
-		jz	short nullsub_11
+		jz	nullsub_11
 		call	sub_10140
 		mov	al, 1
 		xchg	al, ds:2788h
@@ -35062,7 +35157,7 @@ loc_10562:				; CODE XREF: sub_10545+6j
 					; DS:DX	-> ASCIZ filename
 					; AL = access mode
 					; 0 - read
-		jb	short nullsub_12
+		jb	nullsub_12
 		mov	ds:0DBBAh, ax
 		call	sub_10611
 		mov	si, di
