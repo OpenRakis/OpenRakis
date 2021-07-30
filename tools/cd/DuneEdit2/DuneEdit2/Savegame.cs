@@ -2,12 +2,12 @@ namespace DuneEdit2
 {
     using DuneEdit2.Models;
     using DuneEdit2.Parsing;
-
+    using ReactiveUI;
     using System;
     using System.Collections.Generic;
     using System.IO;
 
-    public class Savegame
+    public class Savegame : ReactiveObject
     {
         private readonly string _fileName = "";
 
@@ -16,6 +16,8 @@ namespace DuneEdit2
         private List<byte> _compressed = new();
 
         private List<Control> _control = new();
+
+        private Generals _generals = new Generals();
 
         private List<Trap> _traps = new();
 
@@ -36,8 +38,6 @@ namespace DuneEdit2
                 _uncompressed = data;
             }
         }
-
-        internal void ModiifyByteAtAddressInUncompressedData(byte value, int position) => _uncompressed[position] = value;
 
         public Savegame(string fileName)
         {
@@ -60,9 +60,16 @@ namespace DuneEdit2
             {
                 Console.WriteLine(ex.GetBaseException().Message);
             }
+            Generals = new Generals(this.Uncompressed);
         }
 
         public List<byte> Compressed => _compressed;
+
+        public Generals Generals
+        {
+            get => _generals;
+            private set { this.RaiseAndSetIfChanged(ref _generals, value); }
+        }
 
         public List<byte> Uncompressed => _uncompressed;
 
@@ -341,6 +348,8 @@ namespace DuneEdit2
                 return result;
             }
         }
+
+        internal void ModiifyByteAtAddressInUncompressedData(byte value, int position) => _uncompressed[position] = value;
 
         private void DetectTraps()
         {
