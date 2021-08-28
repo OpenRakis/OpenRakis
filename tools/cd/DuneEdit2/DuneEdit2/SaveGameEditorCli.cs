@@ -24,7 +24,7 @@
             if (_options.Write.Any() && _options.InputSaveGameFiles.Any())
             {
                 var inputFile = _options.InputSaveGameFiles.ElementAt(0);
-                var savegame = new Savegame(inputFile);
+                var savegame = new SaveGame(inputFile);
                 EditSavegame(savegame);
             }
 
@@ -38,7 +38,7 @@
             return "";
         }
 
-        private void EditSavegame(Savegame savegame)
+        private void EditSavegame(SaveGame savegame)
         {
             for (int i = 0; i < _options.Write.Count(); i++)
             {
@@ -67,7 +67,7 @@
 
         private string ReCompressUncompressedSavegameFile(string inputFilePath)
         {
-            var savegame = new Savegame(File.ReadAllBytes(inputFilePath).ToList(), false);
+            var savegame = new SaveGame(File.ReadAllBytes(inputFilePath).ToList(), false);
             savegame.SaveCompressedAs(_options.OutputSaveGameFile);
             return $"Compressed {_options.Compress} to {_options.OutputSaveGameFile}{Environment.NewLine}";
         }

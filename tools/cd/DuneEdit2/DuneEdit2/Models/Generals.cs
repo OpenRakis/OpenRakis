@@ -1,23 +1,16 @@
 namespace DuneEdit2.Models
 {
-    using DuneEdit2.Parsing;
+    using DuneEdit2.Enums;
+    using DuneEdit2.Parsers;
+
     using ReactiveUI;
+
     using System;
     using System.Collections.Generic;
     using System.Globalization;
 
     public class Generals : ReactiveObject
     {
-        public const int CharismaStartOffset = 17480;
-
-        public const int ContactDistanceStartOffset = 21909;
-
-        public const int DateTimeStartOffset = 21907;
-
-        public const int GameStageOffset = 17481;
-
-        public const int SpiceStartOffset = 17599;
-
         private readonly byte[] _date = new byte[] { 0 };
 
         private readonly List<byte> _sg = new List<byte>();
@@ -40,32 +33,26 @@ namespace DuneEdit2.Models
             _sg = sg;
             _spice = new byte[2]
             {
-                _sg[SpiceStartOffset],
-                _sg[SpiceStartOffset + 1]
+                _sg[SaveGameIndex.GetFieldStartPos(FieldName.Spice)],
+                _sg[SaveGameIndex.GetFieldStartPos(FieldName.Charisma) + 1]
             };
-            _gameStage = _sg[GameStageOffset];
-            _contactDistance = _sg[ContactDistanceStartOffset];
+            _gameStage = _sg[SaveGameIndex.GetFieldStartPos(FieldName.GameStage)];
+            _contactDistance = _sg[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)];
             _date = new byte[2]
             {
-                _sg[DateTimeStartOffset],
-                _sg[DateTimeStartOffset + 1]
+                _sg[SaveGameIndex.GetFieldStartPos(FieldName.DateTime)],
+                _sg[SaveGameIndex.GetFieldStartPos(FieldName.DateTime) + 1]
             };
-            _charisma = _sg[CharismaStartOffset];
+            _charisma = _sg[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)];
         }
 
         public static string DateGUI => "??";
 
         public byte Charisma
         {
-            get
-            {
-                return _charisma;
-            }
+            get => _charisma;
 
-            set
-            {
-                _charisma = value;
-            }
+            set => _charisma = value;
         }
 
         public byte CharismaGUI
@@ -84,15 +71,9 @@ namespace DuneEdit2.Models
 
         public int ContactDistanceGUI
         {
-            get
-            {
-                return int.Parse(_contactDistance.ToString("X"), NumberStyles.HexNumber);
-            }
+            get => int.Parse(_contactDistance.ToString("X"), NumberStyles.HexNumber);
 
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _contactDistance, value);
-            }
+            set => this.RaiseAndSetIfChanged(ref _contactDistance, value);
         }
 
         public string DateAsHex => $"{_date[0]:X2}{_date[1]:X2}";
@@ -116,9 +97,8 @@ namespace DuneEdit2.Models
 
             set
             {
-                _spice = new byte[2] { 0, 0 };
                 string s = checked((int)Math.Round((double)value / 10.0)).ToString("X");
-                var newValue = SequenceParser.SplitTwo(s);
+                byte[] newValue = SequenceParser.SplitTwo(s);
                 this.RaiseAndSetIfChanged(ref _spice, newValue);
             }
         }
@@ -130,13 +110,13 @@ namespace DuneEdit2.Models
             SpiceGUI = spiceVal;
             ContactDistanceGUI = contactDistValue;
             CharismaGUI = charisma;
-            _sg[SpiceStartOffset] = _spice[0];
+            _sg[SaveGameIndex.GetFieldStartPos(FieldName.Spice)] = _spice[0];
             if (_spice.Length > 1)
             {
-                _sg[SpiceStartOffset + 1] = _spice[1];
+                _sg[SaveGameIndex.GetFieldStartPos(FieldName.Spice) + 1] = _spice[1];
             }
-            _sg[ContactDistanceStartOffset] = checked((byte)int.Parse(ContactDistanceGUI.ToString(), NumberStyles.Integer));
-            _sg[CharismaStartOffset] = _charisma;
+            _sg[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)] = checked((byte)int.Parse(ContactDistanceGUI.ToString(), NumberStyles.Integer));
+            _sg[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)] = _charisma;
         }
 
         private string GetSpiceAsHexReversed() => $"{_spice[1]:X}{_spice[0]:X}";

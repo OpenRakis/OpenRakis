@@ -1,6 +1,8 @@
 using System;
+
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+
 using DuneEdit2.ViewModels;
 
 namespace DuneEdit2
@@ -20,7 +22,7 @@ namespace DuneEdit2
             }
             else
             {
-                return new TextBlock { Text = "Not Found: " + name };
+                return new TextBlock { Text = $"Not Found: {name}" };
             }
         }
 

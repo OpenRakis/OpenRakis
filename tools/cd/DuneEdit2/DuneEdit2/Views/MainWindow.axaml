@@ -6,7 +6,9 @@
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		x:Class="DuneEdit2.Views.MainWindow"
 		Icon="/Assets/app.ico"
-		Title="DuneEdit2">
+		Title="DuneEdit2"
+    MinWidth="1024"
+    MinHeight="768">
 
 	<Design.DataContext>
 		<vm:MainWindowViewModel />
@@ -19,14 +21,15 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Menu Grid.Row="0">
-			<MenuItem Header="File">
-				<MenuItem Header="Load" Command="{Binding OpenSaveGame}"></MenuItem>
-				<MenuItem Header="Save" Command="{Binding SaveGame}" IsEnabled="{Binding IsSaveGameLoaded}"></MenuItem>
-				<MenuItem Header="Exit" Command="{Binding ExitApp}"></MenuItem>
+			<MenuItem Header="File" HotKey="Alt+F">
+				<MenuItem Header="Open" Command="{Binding OpenSaveGame}" HotKey="Ctrl+O">
+        </MenuItem>
+				<MenuItem Header="Save" Command="{Binding SaveGame}" HotKey="Ctrl+S" IsEnabled="{Binding IsSaveGameLoaded}"></MenuItem>
+				<MenuItem Header="Exit" Command="{Binding ExitApp}" HotKey="Alt+F4"></MenuItem>
 			</MenuItem>
 		</Menu>
-		<TabControl Grid.Row="1" IsEnabled="{Binding IsSaveGameLoaded}">
-			<TabItem Header="General">
+		<TabControl Grid.Row="1">
+			<TabItem Header="General" IsEnabled="{Binding IsSaveGameLoaded}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -64,21 +67,19 @@
 					</StackPanel>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Sietches">
+			<TabItem Header="Sietches" IsEnabled="{Binding IsSaveGameLoaded}">
 			</TabItem>
-			<TabItem Header="Troops">
+			<TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
 			</TabItem>
-			<TabItem Header="Map of Dune">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
-					<TextBlock Grid.Row="0" HorizontalAlignment="Center">NB: Harkonnen fortresses have been turned into sietches</TextBlock>
-					<Image Grid.Row="1" Source="/Assets/Map.png" Stretch="Fill" />
-				</Grid>
-			</TabItem>
-		</TabControl>
+      <TabItem Header="Map of Dune">
+        <Grid RowDefinitions="Auto,*">
+          <TextBlock Grid.Row="0" HorizontalAlignment="Center">NB: Harkonnen fortresses have been turned into sietches</TextBlock>
+          <Viewbox Grid.Row="1" StretchDirection="Both" Stretch="Fill">
+            <Image Source="/Assets/Map.png" />
+          </Viewbox>
+        </Grid>
+      </TabItem>
+    </TabControl>
 		<TextBlock HorizontalAlignment="Center" Grid.Row="3">Created by Stephan Fourie. Made multiplatform by Maximilien Noal.</TextBlock>
 	</Grid>
 </Window>

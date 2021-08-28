@@ -1,4 +1,4 @@
-using DuneEdit2.Parsing;
+using DuneEdit2.Parsers;
 
 using System.Text;
 

@@ -16,7 +16,7 @@
 
         private Window? _mainWindow;
 
-        private Savegame _savegame = new();
+        private SaveGame _savegame = new();
 
         public MainWindowViewModel()
         {
@@ -34,7 +34,7 @@
 
         public ReactiveCommand<Unit, Unit> OpenSaveGame { get; private set; }
 
-        public Savegame Savegame
+        public SaveGame Savegame
         {
             get => _savegame;
             private set { this.RaiseAndSetIfChanged(ref _savegame, value); }
@@ -65,7 +65,7 @@
             var result = await dialog.ShowAsync(_mainWindow);
             if (result.Length > 0)
             {
-                Savegame = new Savegame(result[0]);
+                Savegame = new SaveGame(result[0]);
                 IsSaveGameLoaded = true;
             }
             return Unit.Default;
