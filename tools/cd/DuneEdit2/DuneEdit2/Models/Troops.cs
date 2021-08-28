@@ -1,5 +1,7 @@
 namespace DuneEdit2.Models
 {
+    using DuneEdit2.Parsers;
+
     using System;
 
     public class Troops
@@ -249,7 +251,7 @@ namespace DuneEdit2.Models
             }
         }
 
-        public string TroopDesc => $"Troop {_troopID}00";
+        public string TroopDesc => $"Troop {_troopID:X3}";
 
         public byte TroopID
         {

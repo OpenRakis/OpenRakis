@@ -1,4 +1,4 @@
-namespace DuneEdit2.Parsing
+namespace DuneEdit2.Parsers
 {
     using Microsoft.VisualBasic;
     using Microsoft.VisualBasic.CompilerServices;

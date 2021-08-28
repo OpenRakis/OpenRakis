@@ -1,13 +1,13 @@
 namespace DuneEdit2
 {
     using DuneEdit2.Models;
-    using DuneEdit2.Parsing;
+    using DuneEdit2.Parsers;
     using ReactiveUI;
     using System;
     using System.Collections.Generic;
     using System.IO;
 
-    public class Savegame : ReactiveObject
+    public class SaveGame : ReactiveObject
     {
         private readonly string _fileName = "";
 
@@ -23,11 +23,11 @@ namespace DuneEdit2
 
         private List<byte> _uncompressed = new();
 
-        public Savegame()
+        public SaveGame()
         {
         }
 
-        public Savegame(List<byte> data, bool isCompressed = true)
+        public SaveGame(List<byte> data, bool isCompressed = true)
         {
             if (isCompressed)
             {
@@ -39,7 +39,7 @@ namespace DuneEdit2
             }
         }
 
-        public Savegame(string fileName)
+        public SaveGame(string fileName)
         {
             _fileName = fileName;
             try

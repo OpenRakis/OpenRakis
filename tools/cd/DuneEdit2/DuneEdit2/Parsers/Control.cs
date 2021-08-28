@@ -1,4 +1,4 @@
-namespace DuneEdit2.Models
+namespace DuneEdit2.Parsers
 {
     public class Control
     {
