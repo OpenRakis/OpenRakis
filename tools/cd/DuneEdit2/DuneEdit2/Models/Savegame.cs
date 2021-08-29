@@ -1,17 +1,14 @@
-namespace DuneEdit2
+namespace DuneEdit2.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
     using DuneEdit2.Enums;
     using DuneEdit2.Models;
     using DuneEdit2.Parsers;
 
-    using ReactiveUI;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-
-    public class SaveGame : ReactiveObject
+    public record SaveGame
     {
         private readonly string _fileName = "";
 
@@ -64,15 +61,12 @@ namespace DuneEdit2
             {
                 Console.WriteLine(ex.GetBaseException().Message);
             }
-            Generals = new Generals(this.Uncompressed);
+            _generals = new Generals(this.Uncompressed);
         }
-
-        public List<byte> Compressed => _compressedData;
 
         public Generals Generals
         {
             get => _generals;
-            private set { this.RaiseAndSetIfChanged(ref _generals, value); }
         }
 
         public List<byte> Uncompressed => _uncompressedData;
@@ -268,9 +262,7 @@ namespace DuneEdit2
             return result;
         }
 
-        public bool SaveUnCompressed() => SaveUnCompressedAs(_fileName, _uncompressedData);
-
-        public void SetRealOffset(int i, int v)
+        private void SetRealOffset(int i, int v)
         {
             checked
             {

@@ -5,6 +5,8 @@
     using System.IO;
     using System.Linq;
 
+    using DuneEdit2.Models;
+
     internal class SaveGameEditorCli
     {
         private readonly Options _options;

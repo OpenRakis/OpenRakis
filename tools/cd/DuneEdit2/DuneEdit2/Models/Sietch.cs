@@ -4,7 +4,7 @@ using System;
 
 namespace DuneEdit2.Models
 {
-    public class Sietch
+    public record Sietch
     {
         private readonly string _regionDesc = "";
 

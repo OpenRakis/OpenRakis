@@ -7,7 +7,6 @@
     <Version>0.2</Version>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
     <Watch Include="**\*.xaml" />
   </ItemGroup>

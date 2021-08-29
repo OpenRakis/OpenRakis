@@ -4,7 +4,7 @@ namespace DuneEdit2.Models
 
     using System;
 
-    public class Troops
+    public record Troops
     {
         private byte _ArmySkill;
 

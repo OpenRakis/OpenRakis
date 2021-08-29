@@ -1,5 +1,7 @@
 ﻿namespace DuneEdit2.UnitTests
 {
+    using DuneEdit2.Models;
+
     using FluentAssertions;
 
     using System.Diagnostics;

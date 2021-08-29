@@ -1,6 +1,6 @@
 namespace DuneEdit2.Models
 {
-    public class Trap
+    public record Trap
     {
         public int Offset;
 

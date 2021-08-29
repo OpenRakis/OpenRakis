@@ -25,19 +25,19 @@ namespace DuneEdit2.Parsers
 
         public string GetGameStageHexValue() => _generals.GameStageAsHex;
 
-        public string GetGameStageExplained() => _generals.GetGameStageExplained();
+        public string GetGameStageExplained() => _generals.GameStage();
 
         public static string GetGameStagePosition() => $"0x{SaveGameIndex.GetFieldStartPos(FieldName.GameStage):X}";
 
         public byte GetPlayerCharismaForUI() => _generals.CharismaGUI;
 
-        internal int GetPlayerContactDistanceForUI() => _generals.ContactDistanceGUI;
+        internal int GetPlayerContactDistanceForUI() => _generals.ContactDistance;
 
-        internal string GetPlayerContactDistanceHexValue() => $"0x{_generals.ContactDistanceGUI:X}";
+        internal string GetPlayerContactDistanceHexValue() => $"0x{_generals.ContactDistance:X}";
 
         internal static object GetPlayerCharismaPosition() => $"0x{SaveGameIndex.GetFieldStartPos(FieldName.Charisma):X}";
 
-        internal string GetPlayerCharismaHexValue() => $"0x{_generals.Charisma:X}";
+        internal string GetPlayerCharismaHexValue() => $"0x{_generals.CharismaByte:X}";
 
         internal string GetDateHexValue() => $"0x{_generals.DateAsHex}";
 
@@ -51,6 +51,6 @@ namespace DuneEdit2.Parsers
 
         internal string GetPlayerSpiceHexValue() => $"0x{_generals.SpiceAsHex}";
 
-        internal int GetPlayerSpiceForUI() => _generals.SpiceGUI;
+        internal int GetPlayerSpiceForUI() => _generals.Spice;
     }
 }

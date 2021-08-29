@@ -10,6 +10,8 @@
 
     using Avalonia.Controls;
 
+    using DuneEdit2.Models;
+
     using ReactiveUI;
 
     public class MainWindowViewModel : ViewModelBase
@@ -94,9 +96,9 @@
                 Savegame = new SaveGame(result[0]);
                 IsSaveGameLoaded = true;
             }
-            SpiceVM = Savegame.Generals.SpiceGUI;
+            SpiceVM = Savegame.Generals.Spice;
             CharismaVM = Savegame.Generals.CharismaGUI;
-            ContactDistanceVM = Savegame.Generals.ContactDistanceGUI;
+            ContactDistanceVM = Savegame.Generals.ContactDistance;
 
             return Unit.Default;
         }

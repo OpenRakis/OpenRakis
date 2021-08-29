@@ -2,6 +2,8 @@
 {
     using System;
 
+    using DuneEdit2.Models;
+
     internal class SaveGameEditor
     {
         private readonly string _fileName = "";
