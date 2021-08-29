@@ -89,12 +89,11 @@
             if (result.Length > 0)
             {
                 _savegameFile = new SaveGameFile(result[0]);
+                SpiceVM = _savegameFile.Generals.Spice;
+                CharismaVM = _savegameFile.Generals.CharismaGUI;
+                ContactDistanceVM = _savegameFile.Generals.ContactDistance;
                 IsSaveGameLoaded = true;
             }
-            SpiceVM = _savegameFile.Generals.Spice;
-            CharismaVM = _savegameFile.Generals.CharismaGUI;
-            ContactDistanceVM = _savegameFile.Generals.ContactDistance;
-
             return Unit.Default;
         }
 
