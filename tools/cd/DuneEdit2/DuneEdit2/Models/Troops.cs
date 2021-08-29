@@ -251,7 +251,7 @@ namespace DuneEdit2.Models
             }
         }
 
-        public string TroopDesc => $"Troop {_troopID:X3}";
+        public string TroopDesc => $"Troop {_troopID:D3}";
 
         public byte TroopID
         {
