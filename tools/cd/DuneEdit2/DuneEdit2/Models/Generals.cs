@@ -13,7 +13,7 @@ namespace DuneEdit2.Models
     {
         private readonly byte[] _date = new byte[] { 0 };
 
-        private readonly List<byte> _sg = new List<byte>();
+        private readonly List<byte> _uncompressedData = new List<byte>();
 
         private byte _charisma;
 
@@ -27,23 +27,23 @@ namespace DuneEdit2.Models
         {
         }
 
-        public Generals(List<byte> sg)
+        public Generals(List<byte> uncompressedData)
         {
             _spice = new byte[2] { 0, 0 };
-            _sg = sg;
+            _uncompressedData = uncompressedData;
             _spice = new byte[2]
             {
-                _sg[SaveGameIndex.GetFieldStartPos(FieldName.Spice)],
-                _sg[SaveGameIndex.GetFieldStartPos(FieldName.Charisma) + 1]
+                _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice)],
+                _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice) + 1]
             };
-            _gameStage = _sg[SaveGameIndex.GetFieldStartPos(FieldName.GameStage)];
-            _contactDistance = _sg[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)];
+            _gameStage = _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.GameStage)];
+            _contactDistance = _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)];
             _date = new byte[2]
             {
-                _sg[SaveGameIndex.GetFieldStartPos(FieldName.DateTime)],
-                _sg[SaveGameIndex.GetFieldStartPos(FieldName.DateTime) + 1]
+                _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.DateTime)],
+                _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.DateTime) + 1]
             };
-            _charisma = _sg[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)];
+            _charisma = _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)];
         }
 
         public static string DateGUI => "??";
@@ -86,19 +86,16 @@ namespace DuneEdit2.Models
         {
             get
             {
-                if (_spice.Length < 2)
-                {
-                    return 0;
-                }
-                string s = GetSpiceAsHexReversed();
+                string s = _spice[1].ToString("X") + _spice[0].ToString("X");
                 int num = int.Parse(s, NumberStyles.HexNumber);
                 return checked(num * 10);
             }
 
             set
             {
+                _spice = new byte[2] { 0, 0 };
                 string s = checked((int)Math.Round((double)value / 10.0)).ToString("X");
-                byte[] newValue = SequenceParser.SplitTwo(s);
+                var newValue = SequenceParser.SplitTwo(s);
                 this.RaiseAndSetIfChanged(ref _spice, newValue);
             }
         }
@@ -110,13 +107,13 @@ namespace DuneEdit2.Models
             SpiceGUI = spiceVal;
             ContactDistanceGUI = contactDistValue;
             CharismaGUI = charisma;
-            _sg[SaveGameIndex.GetFieldStartPos(FieldName.Spice)] = _spice[0];
+            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice)] = _spice[0];
             if (_spice.Length > 1)
             {
-                _sg[SaveGameIndex.GetFieldStartPos(FieldName.Spice) + 1] = _spice[1];
+                _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice) + 1] = _spice[1];
             }
-            _sg[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)] = checked((byte)int.Parse(ContactDistanceGUI.ToString(), NumberStyles.Integer));
-            _sg[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)] = _charisma;
+            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)] = checked((byte)int.Parse(ContactDistanceGUI.ToString(), NumberStyles.Integer));
+            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)] = _charisma;
         }
 
         private string GetSpiceAsHexReversed() => $"{_spice[1]:X}{_spice[0]:X}";

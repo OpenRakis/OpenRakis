@@ -10,67 +10,67 @@
     MinWidth="1024"
     MinHeight="768">
 
-	<Design.DataContext>
-		<vm:MainWindowViewModel />
-	</Design.DataContext>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<Menu Grid.Row="0">
-			<MenuItem Header="File" HotKey="Alt+F">
-				<MenuItem Header="Open" Command="{Binding OpenSaveGame}" HotKey="Ctrl+O">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Menu Grid.Row="0">
+      <MenuItem Header="File" HotKey="Alt+F">
+        <MenuItem Header="Open" Command="{Binding OpenSaveGame}" HotKey="Ctrl+O">
         </MenuItem>
-				<MenuItem Header="Save" Command="{Binding SaveGame}" HotKey="Ctrl+S" IsEnabled="{Binding IsSaveGameLoaded}"></MenuItem>
-				<MenuItem Header="Exit" Command="{Binding ExitApp}" HotKey="Alt+F4"></MenuItem>
-			</MenuItem>
-		</Menu>
-		<TabControl Grid.Row="1">
-			<TabItem Header="General" IsEnabled="{Binding IsSaveGameLoaded}">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
-					<Grid Grid.Column="0">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<StackPanel Orientation="Vertical" Grid.Column="0" Margin="5">
-							<TextBlock>Spice:</TextBlock>
-							<NumericUpDown Value="{Binding Savegame.Generals.SpiceGUI, Mode=TwoWay}"></NumericUpDown>
-						</StackPanel>
-						<StackPanel Orientation="Vertical" Grid.Column="1" Margin="5">
-							<TextBlock>Contact Distance:</TextBlock>
-							<NumericUpDown Value="{Binding Savegame.Generals.ContactDistanceGUI, Mode=TwoWay}"></NumericUpDown>
-						</StackPanel>
-						<StackPanel Orientation="Vertical" Grid.Column="2" Margin="5">
-							<TextBlock>Charisma:</TextBlock>
-							<NumericUpDown Value="{Binding Savegame.Generals.CharismaGUI, Mode=TwoWay}"></NumericUpDown>
-						</StackPanel>
-					</Grid>
-					<StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-						<TextBlock>Tips to use this savegame editor:</TextBlock>
-						<TextBlock>* Do the Stillsuit Mission first before editing your savegame.</TextBlock>
-						<TextBlock>* Some inputs were limited to avoid overflows and games crashs.</TextBlock>
-						<TextBlock>* Do not use the maximum Charisma value at the beginning of the game.</TextBlock>
-						<TextBlock>* Do not set the maximum Spice value if you will be doing harvesting.</TextBlock>
-						<TextBlock>* Saved games are backed up. Check for the files with a ".bak" extension.</TextBlock>
-						<TextBlock>* The savegame files that you should use are DUNE37S1.SAV and DUNE37S2.SAV</TextBlock>
-						<TextBlock>* Enjoy...</TextBlock>
-					</StackPanel>
-				</Grid>
-			</TabItem>
-			<TabItem Header="Sietches" IsEnabled="{Binding IsSaveGameLoaded}">
-			</TabItem>
-			<TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
-			</TabItem>
+        <MenuItem Header="Save" Command="{Binding SaveGameFile}" HotKey="Ctrl+S" IsEnabled="{Binding IsSaveGameLoaded}"></MenuItem>
+        <MenuItem Header="Exit" Command="{Binding ExitApp}" HotKey="Alt+F4"></MenuItem>
+      </MenuItem>
+    </Menu>
+    <TabControl Grid.Row="1">
+      <TabItem Header="General" IsEnabled="{Binding IsSaveGameLoaded}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="0" Margin="5">
+              <TextBlock>Spice:</TextBlock>
+              <NumericUpDown Value="{Binding SpiceVM, Mode=TwoWay}"></NumericUpDown>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5">
+              <TextBlock>Contact Distance:</TextBlock>
+              <NumericUpDown Value="{Binding ContactDistanceVM, Mode=TwoWay}"></NumericUpDown>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="2" Margin="5">
+              <TextBlock>Charisma:</TextBlock>
+              <NumericUpDown Value="{Binding CharismaVM, Mode=TwoWay}"></NumericUpDown>
+            </StackPanel>
+          </Grid>
+          <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock>Tips to use this savegame editor:</TextBlock>
+            <TextBlock>* Do the Stillsuit Mission first before editing your savegame.</TextBlock>
+            <TextBlock>* Some inputs were limited to avoid overflows and games crashs.</TextBlock>
+            <TextBlock>* Do not use the maximum Charisma value at the beginning of the game.</TextBlock>
+            <TextBlock>* Do not set the maximum Spice value if you will be doing harvesting.</TextBlock>
+            <TextBlock>* Saved games are backed up. Check for the files with a ".bak" extension.</TextBlock>
+            <TextBlock>* The savegame files that you should use are DUNE37S1.SAV and DUNE37S2.SAV</TextBlock>
+            <TextBlock>* Enjoy...</TextBlock>
+          </StackPanel>
+        </Grid>
+      </TabItem>
+      <TabItem Header="Sietches" IsEnabled="{Binding IsSaveGameLoaded}">
+      </TabItem>
+      <TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
+      </TabItem>
       <TabItem Header="Map of Dune">
         <Grid RowDefinitions="Auto,*">
           <TextBlock Grid.Row="0" HorizontalAlignment="Center">NB: Harkonnen fortresses have been turned into sietches</TextBlock>
@@ -80,6 +80,6 @@
         </Grid>
       </TabItem>
     </TabControl>
-		<TextBlock HorizontalAlignment="Center" Grid.Row="3">Created by Stephan Fourie. Made multiplatform by Maximilien Noal.</TextBlock>
-	</Grid>
+    <TextBlock HorizontalAlignment="Center" Grid.Row="3">Created by Stephan Fourie. Made multiplatform by Maximilien Noal.</TextBlock>
+  </Grid>
 </Window>

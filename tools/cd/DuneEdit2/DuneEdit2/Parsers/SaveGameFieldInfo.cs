@@ -9,13 +9,13 @@ namespace DuneEdit2.Parsers
         public SaveGameFieldInfo(FieldName name, int startPos)
         {
             Name = name;
-            StartPos = StartPos;
+            StartPos = startPos;
         }
 
         public SaveGameFieldInfo(FieldName name, int startPos, int length)
         {
             Name = name;
-            StartPos = StartPos;
+            StartPos = startPos;
             _length = length;
         }
 

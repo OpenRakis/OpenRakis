@@ -1,10 +1,14 @@
 namespace DuneEdit2
 {
+    using DuneEdit2.Enums;
     using DuneEdit2.Models;
     using DuneEdit2.Parsers;
+
     using ReactiveUI;
+
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
 
     public class SaveGame : ReactiveObject
@@ -13,7 +17,7 @@ namespace DuneEdit2
 
         private readonly List<byte> _original = new();
 
-        private List<byte> _compressed = new();
+        private List<byte> _compressedData = new();
 
         private List<Control> _control = new();
 
@@ -21,7 +25,7 @@ namespace DuneEdit2
 
         private List<Trap> _traps = new();
 
-        private List<byte> _uncompressed = new();
+        private List<byte> _uncompressedData = new();
 
         public SaveGame()
         {
@@ -31,11 +35,11 @@ namespace DuneEdit2
         {
             if (isCompressed)
             {
-                _compressed = data;
+                _compressedData = data;
             }
             else
             {
-                _uncompressed = data;
+                _uncompressedData = data;
             }
         }
 
@@ -54,7 +58,7 @@ namespace DuneEdit2
                     _original.Add(checked((byte)fileStream.ReadByte()));
                 }
                 DetectTraps();
-                Uncompress();
+                UncompressData();
             }
             catch (Exception ex)
             {
@@ -63,7 +67,7 @@ namespace DuneEdit2
             Generals = new Generals(this.Uncompressed);
         }
 
-        public List<byte> Compressed => _compressed;
+        public List<byte> Compressed => _compressedData;
 
         public Generals Generals
         {
@@ -71,7 +75,7 @@ namespace DuneEdit2
             private set { this.RaiseAndSetIfChanged(ref _generals, value); }
         }
 
-        public List<byte> Uncompressed => _uncompressed;
+        public List<byte> Uncompressed => _uncompressedData;
 
         public static bool SaveUnCompressedAs(string fileName, List<byte> uncompressed)
         {
@@ -81,8 +85,9 @@ namespace DuneEdit2
             {
                 File.Delete(fileName);
                 fileStream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write);
-                foreach (byte item in uncompressed)
+                for (int i = 0; i < uncompressed.Count; i++)
                 {
+                    byte item = uncompressed[i];
                     fileStream.WriteByte(item);
                 }
                 fileStream.Close();
@@ -96,16 +101,16 @@ namespace DuneEdit2
             return result;
         }
 
-        public bool Compress()
+        public bool CompressData()
         {
             bool result2 = true;
-            _compressed = new List<byte>();
+            _compressedData = new List<byte>();
             checked
             {
                 try
                 {
                     int num = 0;
-                    int num2 = _uncompressed.Count - 3;
+                    int num2 = _uncompressedData.Count - 3;
                     int num3 = 0;
                     byte b2 = 0;
                     byte b3 = 0;
@@ -117,16 +122,16 @@ namespace DuneEdit2
                         {
                             break;
                         }
-                        byte b = _uncompressed[num3];
-                        b2 = _uncompressed[num3 + 1];
-                        b3 = _uncompressed[num3 + 2];
+                        byte b = _uncompressedData[num3];
+                        b2 = _uncompressedData[num3 + 1];
+                        b3 = _uncompressedData[num3 + 2];
                         unchecked
                         {
                             if (IsNonDeflate(num3) && b == 247)
                             {
-                                _compressed.Add(247);
-                                _compressed.Add(1);
-                                _compressed.Add(247);
+                                _compressedData.Add(247);
+                                _compressedData.Add(1);
+                                _compressedData.Add(247);
                             }
                             else
                             {
@@ -141,14 +146,14 @@ namespace DuneEdit2
                                 }
                                 if (b == b2 && b != b3)
                                 {
-                                    _compressed.Add(b);
+                                    _compressedData.Add(b);
                                 }
                                 else if (b == b2 && b == b3)
                                 {
                                     int num8 = num3;
                                     checked
                                     {
-                                        int num9 = _uncompressed.Count - 1;
+                                        int num9 = _uncompressedData.Count - 1;
                                         num = num8;
                                         while (true)
                                         {
@@ -158,19 +163,19 @@ namespace DuneEdit2
                                             {
                                                 break;
                                             }
-                                            if (b == _uncompressed[num])
+                                            if (b == _uncompressedData[num])
                                             {
                                                 num6++;
                                                 if (num6 == num7)
                                                 {
                                                     num3 += num6 - 1;
-                                                    _compressed.Add(247);
-                                                    _compressed.Add((byte)num6);
-                                                    _compressed.Add(b);
-                                                    num = _uncompressed.Count;
+                                                    _compressedData.Add(247);
+                                                    _compressedData.Add((byte)num6);
+                                                    _compressedData.Add(b);
+                                                    num = _uncompressedData.Count;
                                                     if (flag)
                                                     {
-                                                        _compressed.Add(t.HexCode);
+                                                        _compressedData.Add(t.HexCode);
                                                         num3++;
                                                     }
                                                 }
@@ -178,10 +183,10 @@ namespace DuneEdit2
                                             else
                                             {
                                                 num3 += num6 - 1;
-                                                _compressed.Add(247);
-                                                _compressed.Add((byte)num6);
-                                                _compressed.Add(b);
-                                                num = _uncompressed.Count;
+                                                _compressedData.Add(247);
+                                                _compressedData.Add((byte)num6);
+                                                _compressedData.Add(b);
+                                                num = _uncompressedData.Count;
                                             }
                                             num++;
                                         }
@@ -189,20 +194,20 @@ namespace DuneEdit2
                                 }
                                 else
                                 {
-                                    _compressed.Add(b);
+                                    _compressedData.Add(b);
                                 }
                             }
                         }
                         num3++;
                     }
-                    if (num3 == _uncompressed.Count - 2)
+                    if (num3 == _uncompressedData.Count - 2)
                     {
-                        _compressed.Add(b2);
-                        _compressed.Add(b3);
+                        _compressedData.Add(b2);
+                        _compressedData.Add(b3);
                     }
-                    if (num3 == _uncompressed.Count - 1)
+                    if (num3 == _uncompressedData.Count - 1)
                     {
-                        _compressed.Add(b3);
+                        _compressedData.Add(b3);
                     }
                 }
                 catch (Exception ex)
@@ -214,12 +219,33 @@ namespace DuneEdit2
             }
         }
 
+        internal void UpdateContactDistance(int contactDistanceValue)
+        {
+            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)] = (byte)checked(contactDistanceValue);
+        }
+
+        internal void UpdateSpice(int spiceValue)
+        {
+            string spiceString = checked((int)Math.Round((double)spiceValue / 10.0)).ToString("X");
+            byte[] spice = SequenceParser.SplitTwo(spiceString);
+            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice)] = spice[0];
+            if (spice.Length > 1)
+            {
+                _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice) + 1] = spice[1];
+            }
+        }
+
+        internal void UpdateCharisma(byte charismaValue)
+        {
+            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)] = (byte)(unchecked(charismaValue) * 2);
+        }
+
         public bool SaveCompressed() => SaveCompressedAs(_fileName);
 
         public bool SaveCompressedAs(string fileName)
         {
             bool result = true;
-            Compress();
+            CompressData();
             FileStream? fileStream = null;
             try
             {
@@ -227,7 +253,7 @@ namespace DuneEdit2
                 File.Copy(fileName, fileName + ".bak");
                 File.Delete(fileName);
                 fileStream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write);
-                foreach (byte item in _compressed)
+                foreach (byte item in _compressedData)
                 {
                     fileStream.WriteByte(item);
                 }
@@ -242,7 +268,7 @@ namespace DuneEdit2
             return result;
         }
 
-        public bool SaveUnCompressed() => SaveUnCompressedAs(_fileName, _uncompressed);
+        public bool SaveUnCompressed() => SaveUnCompressedAs(_fileName, _uncompressedData);
 
         public void SetRealOffset(int i, int v)
         {
@@ -269,13 +295,13 @@ namespace DuneEdit2
             }
         }
 
-        public bool Uncompress()
+        public bool UncompressData()
         {
             bool result = true;
             checked
             {
                 int num = _original.Count - 3;
-                _uncompressed = new List<byte>();
+                _uncompressedData = new List<byte>();
                 _control = new List<Control>();
                 try
                 {
@@ -299,18 +325,18 @@ namespace DuneEdit2
                             bool trap = GetTrap(num3, ref t);
                             if (!SequenceParser.IsDeflateSequence(ba))
                             {
-                                _uncompressed.Add(b);
+                                _uncompressedData.Add(b);
                                 if (num3 == num)
                                 {
-                                    _uncompressed.Add(b2);
-                                    _uncompressed.Add(b3);
+                                    _uncompressedData.Add(b2);
+                                    _uncompressedData.Add(b3);
                                 }
                             }
                             else
                             {
                                 if (trap)
                                 {
-                                    SetRealOffset(num3, _uncompressed.Count);
+                                    SetRealOffset(num3, _uncompressedData.Count);
                                 }
                                 int num6 = b2;
                                 int num7 = 1;
@@ -322,7 +348,7 @@ namespace DuneEdit2
                                     {
                                         break;
                                     }
-                                    _uncompressed.Add(b3);
+                                    _uncompressedData.Add(b3);
                                     num7++;
                                 }
                                 num3 += 2;
@@ -331,10 +357,10 @@ namespace DuneEdit2
                         else
                         {
                             Control control = new();
-                            control.Offset = _uncompressed.Count;
+                            control.Offset = _uncompressedData.Count;
                             control.ControlType = new byte[3] { b, b2, b3 };
                             _control.Add(control);
-                            _uncompressed.Add(247);
+                            _uncompressedData.Add(247);
                             num3 += 2;
                         }
                         num3++;
@@ -349,7 +375,7 @@ namespace DuneEdit2
             }
         }
 
-        internal void ModiifyByteAtAddressInUncompressedData(byte value, int position) => _uncompressed[position] = value;
+        internal void ModifyByteAtAddressInUncompressedData(byte value, int position) => _uncompressedData[position] = value;
 
         private void DetectTraps()
         {
@@ -389,8 +415,9 @@ namespace DuneEdit2
         private bool GetTrap(int index, ref Trap t)
         {
             bool result = false;
-            foreach (Trap trap in _traps)
+            for (int i = 0; i < _traps.Count; i++)
             {
+                Trap trap = _traps[i];
                 if (trap.Offset == index)
                 {
                     t = trap;
@@ -404,8 +431,9 @@ namespace DuneEdit2
         private bool GetTrapByRealOffset(int index, ref Trap t)
         {
             bool result = false;
-            foreach (Trap trap in _traps)
+            for (int i = 0; i < _traps.Count; i++)
             {
+                Trap trap = _traps[i];
                 if (trap.realOffset == index)
                 {
                     t = trap;
@@ -419,8 +447,9 @@ namespace DuneEdit2
         private bool IsNonDeflate(int i)
         {
             bool result = false;
-            foreach (Control item in _control)
+            for (int j = 0; j < _control.Count; j++)
             {
+                Control item = _control[j];
                 if (item.Offset == i)
                 {
                     result = true;

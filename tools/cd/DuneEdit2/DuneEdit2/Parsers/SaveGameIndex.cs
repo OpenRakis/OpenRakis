@@ -13,7 +13,7 @@
         private enum SavegameFieldsOffsetsEnum
         {
             TroopsStartOffset = 19657,
-            SietchStartOffset = 6038,
+            SietchsStartOffset = 6038,
             SietchLength = 28,
             CharismaStartOffset = 17480,
             ContactDistanceStartOffset = 21909,
@@ -31,7 +31,7 @@
             _tableOfContents.Add(FieldName.ContactDistance, new SaveGameFieldInfo(FieldName.ContactDistance, (int)SavegameFieldsOffsetsEnum.ContactDistanceStartOffset));
             _tableOfContents.Add(FieldName.DateTime, new SaveGameFieldInfo(FieldName.DateTime, (int)SavegameFieldsOffsetsEnum.DateTimeStartOffset));
             _tableOfContents.Add(FieldName.GameStage, new SaveGameFieldInfo(FieldName.GameStage, (int)SavegameFieldsOffsetsEnum.GameStageOffset));
-            _tableOfContents.Add(FieldName.Sietchs, new SaveGameFieldInfo(FieldName.Sietchs, (int)SavegameFieldsOffsetsEnum.SietchStartOffset));
+            _tableOfContents.Add(FieldName.Sietchs, new SaveGameFieldInfo(FieldName.Sietchs, (int)SavegameFieldsOffsetsEnum.SietchsStartOffset));
             _tableOfContents.Add(FieldName.Troops, new SaveGameFieldInfo(FieldName.Troops, (int)SavegameFieldsOffsetsEnum.TroopsStartOffset));
         }
 

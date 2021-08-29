@@ -8,7 +8,6 @@ namespace DuneEdit2
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
     internal class SaveGameReaderCli
     {

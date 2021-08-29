@@ -7,7 +7,9 @@
     using System.Reactive.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
     using Avalonia.Controls;
+
     using ReactiveUI;
 
     public class MainWindowViewModel : ViewModelBase
@@ -21,7 +23,7 @@
         public MainWindowViewModel()
         {
             OpenSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenSaveGameMethodAsync);
-            SaveGame = ReactiveCommand.Create<Unit, Unit>(SaveGameMethod);
+            SaveGameFile = ReactiveCommand.Create<Unit, Unit>(SaveGameMethod);
         }
 
         public ReactiveCommand<Unit, Unit>? ExitApp { get; private set; }
@@ -40,7 +42,31 @@
             private set { this.RaiseAndSetIfChanged(ref _savegame, value); }
         }
 
-        public ReactiveCommand<Unit, Unit> SaveGame { get; private set; }
+        private int _spiceVM = 0;
+
+        public int SpiceVM
+        {
+            get => _spiceVM;
+            set { this.RaiseAndSetIfChanged(ref _spiceVM, value); }
+        }
+
+        private byte _charismaVM = 0;
+
+        public byte CharismaVM
+        {
+            get => _charismaVM;
+            set { this.RaiseAndSetIfChanged(ref _charismaVM, value); }
+        }
+
+        private int _contactDistanceVM = 0;
+
+        public int ContactDistanceVM
+        {
+            get => _contactDistanceVM;
+            set { this.RaiseAndSetIfChanged(ref _contactDistanceVM, value); }
+        }
+
+        public ReactiveCommand<Unit, Unit> SaveGameFile { get; private set; }
 
         private Window? MainWindow
         {
@@ -68,11 +94,22 @@
                 Savegame = new SaveGame(result[0]);
                 IsSaveGameLoaded = true;
             }
+            SpiceVM = Savegame.Generals.SpiceGUI;
+            CharismaVM = Savegame.Generals.CharismaGUI;
+            ContactDistanceVM = Savegame.Generals.ContactDistanceGUI;
+
             return Unit.Default;
         }
 
         private Unit SaveGameMethod(Unit arg)
         {
+            if (IsSaveGameLoaded == false)
+            {
+                return Unit.Default;
+            }
+            _savegame.UpdateCharisma(CharismaVM);
+            _savegame.UpdateSpice(SpiceVM);
+            _savegame.UpdateContactDistance(ContactDistanceVM);
             _savegame.SaveCompressed();
             return Unit.Default;
         }
