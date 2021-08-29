@@ -3,6 +3,7 @@
     using System;
 
     using DuneEdit2.Models;
+    using DuneEdit2.Parsers;
 
     internal class SaveGameEditor
     {
@@ -19,7 +20,7 @@
 
         public void EditAtPosition(byte value, int position)
         {
-            var savegame = new SaveGame(_fileName);
+            var savegame = new SaveGameFile(_fileName);
             if (position < 0 || position > savegame.Uncompressed.Count)
             {
                 throw new ArgumentException($"{nameof(position)} {position} is out of range in the uncompressed data !");

@@ -80,13 +80,6 @@ namespace DuneEdit2.Models
                 int num = int.Parse(s, NumberStyles.HexNumber);
                 return checked(num * 10);
             }
-
-            set
-            {
-                _spice = new byte[2] { 0, 0 };
-                string s = checked((int)Math.Round((double)value / 10.0)).ToString("X");
-                var newValue = SequenceParser.SplitTwo(s);
-            }
         }
 
         public string GameStage() => GameStageFinder.FindStage(_gameStage);

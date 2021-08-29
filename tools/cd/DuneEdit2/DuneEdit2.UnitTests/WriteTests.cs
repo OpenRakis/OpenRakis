@@ -1,6 +1,7 @@
 ﻿namespace DuneEdit2.UnitTests
 {
     using DuneEdit2.Models;
+    using DuneEdit2.Parsers;
 
     using FluentAssertions;
 
@@ -22,7 +23,7 @@
             var output = Path.GetTempFileName();
             var writer = new SaveGameEditorCli(new Options { InputSaveGameFiles = new string[] { save }, Write = new string[] { "FF,CC", "11,01" }, OutputSaveGameFile = output });
             writer.GetStandardOutput();
-            var bytes = new SaveGame(output).Uncompressed;
+            var bytes = new SaveGameFile(output).Uncompressed;
             bytes.Should().HaveElementAt(0xCC, 0xFF);
             bytes.Should().HaveElementAt(0x01, 0x11);
         }
@@ -52,7 +53,7 @@
             {
                 await Task.Yield();
             }
-            var bytes = new SaveGame(output).Uncompressed;
+            var bytes = new SaveGameFile(output).Uncompressed;
             bytes.Should().HaveElementAt(0xCC, 0xFF);
             bytes.Should().HaveElementAt(0x01, 0x11);
         }

@@ -7,7 +7,7 @@ namespace DuneEdit2.Parsers
 
     internal class SaveGameReader
     {
-        private readonly SaveGame _savegame;
+        private readonly SaveGameFile _savegame;
 
         private readonly Generals _generals;
         private readonly string _saveFilePath;
@@ -16,12 +16,12 @@ namespace DuneEdit2.Parsers
 
         public SaveGameReader(string saveFilePath)
         {
-            _savegame = new SaveGame(saveFilePath);
+            _savegame = new SaveGameFile(saveFilePath);
             _generals = new Generals(_savegame.Uncompressed);
             _saveFilePath = saveFilePath;
         }
 
-        public void WriteUncompressedSaveGameInTheSameFolder() => SaveGame.SaveUnCompressedAs($"{_saveFilePath}.UNCOMPRESSED", _savegame.Uncompressed);
+        public void WriteUncompressedSaveGameInTheSameFolder() => SaveGameFile.SaveUnCompressedAs($"{_saveFilePath}.UNCOMPRESSED", _savegame.Uncompressed);
 
         public string GetGameStageHexValue() => _generals.GameStageAsHex;
 

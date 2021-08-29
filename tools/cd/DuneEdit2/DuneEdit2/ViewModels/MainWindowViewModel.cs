@@ -11,6 +11,7 @@
     using Avalonia.Controls;
 
     using DuneEdit2.Models;
+    using DuneEdit2.Parsers;
 
     using ReactiveUI;
 
@@ -20,7 +21,7 @@
 
         private Window? _mainWindow;
 
-        private SaveGame _savegame = new();
+        private SaveGameFile _savegameFile = new();
 
         public MainWindowViewModel()
         {
@@ -37,12 +38,6 @@
         }
 
         public ReactiveCommand<Unit, Unit> OpenSaveGame { get; private set; }
-
-        public SaveGame Savegame
-        {
-            get => _savegame;
-            private set { this.RaiseAndSetIfChanged(ref _savegame, value); }
-        }
 
         private int _spiceVM = 0;
 
@@ -93,12 +88,12 @@
             var result = await dialog.ShowAsync(_mainWindow);
             if (result.Length > 0)
             {
-                Savegame = new SaveGame(result[0]);
+                _savegameFile = new SaveGameFile(result[0]);
                 IsSaveGameLoaded = true;
             }
-            SpiceVM = Savegame.Generals.Spice;
-            CharismaVM = Savegame.Generals.CharismaGUI;
-            ContactDistanceVM = Savegame.Generals.ContactDistance;
+            SpiceVM = _savegameFile.Generals.Spice;
+            CharismaVM = _savegameFile.Generals.CharismaGUI;
+            ContactDistanceVM = _savegameFile.Generals.ContactDistance;
 
             return Unit.Default;
         }
@@ -109,10 +104,10 @@
             {
                 return Unit.Default;
             }
-            _savegame.UpdateCharisma(CharismaVM);
-            _savegame.UpdateSpice(SpiceVM);
-            _savegame.UpdateContactDistance(ContactDistanceVM);
-            _savegame.SaveCompressed();
+            _savegameFile.UpdateCharisma(CharismaVM);
+            _savegameFile.UpdateSpice(SpiceVM);
+            _savegameFile.UpdateContactDistance(ContactDistanceVM);
+            _savegameFile.SaveCompressed();
             return Unit.Default;
         }
     }

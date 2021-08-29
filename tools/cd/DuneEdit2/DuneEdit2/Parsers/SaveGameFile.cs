@@ -1,14 +1,16 @@
-namespace DuneEdit2.Models
+﻿namespace DuneEdit2.Parsers
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     using DuneEdit2.Enums;
     using DuneEdit2.Models;
-    using DuneEdit2.Parsers;
 
-    public record SaveGame
+    public class SaveGameFile
     {
         private readonly string _fileName = "";
 
@@ -24,11 +26,11 @@ namespace DuneEdit2.Models
 
         private List<byte> _uncompressedData = new();
 
-        public SaveGame()
+        public SaveGameFile()
         {
         }
 
-        public SaveGame(List<byte> data, bool isCompressed = true)
+        public SaveGameFile(List<byte> data, bool isCompressed = true)
         {
             if (isCompressed)
             {
@@ -40,7 +42,7 @@ namespace DuneEdit2.Models
             }
         }
 
-        public SaveGame(string fileName)
+        public SaveGameFile(string fileName)
         {
             _fileName = fileName;
             try
