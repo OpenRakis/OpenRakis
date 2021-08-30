@@ -51,6 +51,7 @@ namespace DuneEdit2
                     // during a test run with an attached debugger.
                     var mainWindow = new MainWindow();
                     mainWindow.DataContext = MainWindowViewModel.Create(mainWindow);
+                    mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     desktop.MainWindow = mainWindow;
                     mainWindow.Show();
                 }
@@ -63,6 +64,7 @@ namespace DuneEdit2
                     // show the LiveViewHost window. Simple enough, huh?
                     var window = new LiveViewHost(this, Console.WriteLine);
                     window.StartWatchingSourceFilesForHotReloading();
+                    window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     window.Show();
                 }
 

@@ -1,19 +1,15 @@
 ﻿namespace DuneEdit2.Parsers
 {
-    using DuneEdit2.Enums;
-
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+
+    using DuneEdit2.Enums;
 
     public class SaveGameIndex
     {
         private enum SavegameFieldsOffsetsEnum
         {
             TroopsStartOffset = 19657,
-            SietchsStartOffset = 6038,
+            SietchsStartOffset = 17695,
             SietchLength = 28,
             CharismaStartOffset = 17480,
             ContactDistanceStartOffset = 21909,

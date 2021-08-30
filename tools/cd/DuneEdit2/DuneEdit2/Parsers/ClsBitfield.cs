@@ -6,14 +6,8 @@ namespace DuneEdit2.Parsers
 
         public int Bitfield
         {
-            get
-            {
-                return bf;
-            }
-            set
-            {
-                bf = value;
-            }
+            get => bf;
+            set => bf = value;
         }
 
         public ClsBitfield(int v = 0)

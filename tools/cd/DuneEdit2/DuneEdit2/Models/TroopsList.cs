@@ -5,7 +5,7 @@ namespace DuneEdit2.Models
 
     public record TroopsList
     {
-        private List<Troops> _troopsList = new();
+        private List<Troop> _troopsList = new();
 
         private const int StartOffSet = 19657;
 

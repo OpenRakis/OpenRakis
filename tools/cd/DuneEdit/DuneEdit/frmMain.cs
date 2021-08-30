@@ -312,1752 +312,1311 @@ namespace DuneEdit
 		private bool isLoading;
 
 		internal virtual ListBox lsSietches
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _lsSietches;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = lsSietches_SelectedIndexChanged;
-				if (_lsSietches != null)
-				{
-					_lsSietches.SelectedIndexChanged -= value2;
-				}
-				_lsSietches = value;
-				if (_lsSietches != null)
-				{
-					_lsSietches.SelectedIndexChanged += value2;
-				}
-			}
-		}
-
-		internal virtual OpenFileDialog OpenFileDialog
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _OpenFileDialog;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_OpenFileDialog = value;
-			}
-		}
-
-		internal virtual TextBox txtRegion
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtRegion;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtRegion = value;
-			}
-		}
-
-		internal virtual TextBox txtSubRegion
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtSubRegion;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtSubRegion = value;
-			}
-		}
-
-		internal virtual TabControl TabControl
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _TabControl;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_TabControl = value;
-			}
-		}
-
-		internal virtual TabPage tabSietches
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _tabSietches;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_tabSietches = value;
-			}
-		}
-
-		internal virtual TabPage tabTroops
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _tabTroops;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_tabTroops = value;
-			}
-		}
-
-		internal virtual TextBox txtSpicefieldID
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtSpicefieldID;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtSpicefieldID = value;
-			}
-		}
-
-		internal virtual TextBox txtStatus
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtStatus;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = txtStatus_TextChanged;
-				if (_txtStatus != null)
-				{
-					_txtStatus.TextChanged -= value2;
-				}
-				_txtStatus = value;
-				if (_txtStatus != null)
-				{
-					_txtStatus.TextChanged += value2;
-				}
-			}
-		}
-
-		internal virtual TextBox txtHousedTroopID
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtHousedTroopID;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtHousedTroopID = value;
-			}
-		}
-
-		internal virtual Label Label14
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label14;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label14 = value;
-			}
-		}
-
-		internal virtual Label Label13
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label13;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label13 = value;
-			}
-		}
-
-		internal virtual Label Label12
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label12;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label12 = value;
-			}
-		}
-
-		internal virtual Label Label11
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label11;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label11 = value;
-			}
-		}
-
-		internal virtual Label Label10
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label10;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label10 = value;
-			}
-		}
-
-		internal virtual Label Label9
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label9;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label9 = value;
-			}
-		}
-
-		internal virtual Label Label8
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label8;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label8 = value;
-			}
-		}
-
-		internal virtual Label Label7
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label7;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label7 = value;
-			}
-		}
-
-		internal virtual Label Label6
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label6;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label6 = value;
-			}
-		}
-
-		internal virtual Label Label5
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label5;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label5 = value;
-			}
-		}
-
-		internal virtual Label Label4
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label4;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label4 = value;
-			}
-		}
-
-		internal virtual Label Label3
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label3;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label3 = value;
-			}
-		}
-
-		internal virtual Label Label2
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label2;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label2 = value;
-			}
-		}
-
-		internal virtual Label Label1
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label1;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label1 = value;
-			}
-		}
-
-		internal virtual TabPage tabGeneral
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _tabGeneral;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_tabGeneral = value;
-			}
-		}
-
-		internal virtual Label Label15
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label15;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label15 = value;
-			}
-		}
-
-		internal virtual Label Label16
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label16;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label16 = value;
-			}
-		}
-
-		internal virtual TextBox txtEquipment
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtEquipment;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtEquipment = value;
-			}
-		}
-
-		internal virtual TextBox txtJob
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtJob;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtJob = value;
-			}
-		}
-
-		internal virtual Label Label17
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label17;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label17 = value;
-			}
-		}
-
-		internal virtual Label Label18
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label18;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label18 = value;
-			}
-		}
-
-		internal virtual Label Label19
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label19;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label19 = value;
-			}
-		}
-
-		internal virtual Label Label20
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label20;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label20 = value;
-			}
-		}
-
-		internal virtual Label Label21
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label21;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label21 = value;
-			}
-		}
-
-		internal virtual Label Label22
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label22;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label22 = value;
-			}
-		}
-
-		internal virtual Label Label23
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label23;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label23 = value;
-			}
-		}
-
-		internal virtual Label Label24
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label24;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label24 = value;
-			}
-		}
-
-		internal virtual Label Label25
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label25;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label25 = value;
-			}
-		}
-
-		internal virtual Label Label26
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label26;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label26 = value;
-			}
-		}
-
-		internal virtual ListBox lsTroops
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _lsTroops;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = lsTroops_SelectedIndexChanged;
-				if (_lsTroops != null)
-				{
-					_lsTroops.SelectedIndexChanged -= value2;
-				}
-				_lsTroops = value;
-				if (_lsTroops != null)
-				{
-					_lsTroops.SelectedIndexChanged += value2;
-				}
-			}
-		}
-
-		internal virtual TextBox txtNextTroopID
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtNextTroopID;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtNextTroopID = value;
-			}
-		}
-
-		internal virtual TextBox txtTroopID
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtTroopID;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtTroopID = value;
-			}
-		}
-
-		internal virtual Button btnSietchUpdate
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _btnSietchUpdate;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = btnSietchUpdate_Click;
-				if (_btnSietchUpdate != null)
-				{
-					_btnSietchUpdate.Click -= value2;
-				}
-				_btnSietchUpdate = value;
-				if (_btnSietchUpdate != null)
-				{
-					_btnSietchUpdate.Click += value2;
-				}
-			}
-		}
-
-		internal virtual Button btnTroopsUpdate
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _btnTroopsUpdate;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = btnTroopsUpdate_Click;
-				if (_btnTroopsUpdate != null)
-				{
-					_btnTroopsUpdate.Click -= value2;
-				}
-				_btnTroopsUpdate = value;
-				if (_btnTroopsUpdate != null)
-				{
-					_btnTroopsUpdate.Click += value2;
-				}
-			}
-		}
-
-		internal virtual ToolStrip ToolStrip1
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _ToolStrip1;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_ToolStrip1 = value;
-			}
-		}
-
-		internal virtual Label Label27
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label27;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label27 = value;
-			}
-		}
-
-		internal virtual ComboBox cmbTroopAtSietch
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _cmbTroopAtSietch;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = cmbTroopAtSietch_SelectedIndexChanged;
-				if (_cmbTroopAtSietch != null)
-				{
-					_cmbTroopAtSietch.SelectedIndexChanged -= value2;
-				}
-				_cmbTroopAtSietch = value;
-				if (_cmbTroopAtSietch != null)
-				{
-					_cmbTroopAtSietch.SelectedIndexChanged += value2;
-				}
-			}
-		}
-
-		internal virtual Label Label28
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _Label28;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_Label28 = value;
-			}
-		}
-
-		internal virtual NumericUpDown txtSpice
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtSpice;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtSpice = value;
-			}
-		}
-
-		internal virtual NumericUpDown txtCharisma
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtCharisma;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtCharisma = value;
-			}
-		}
-
-		internal virtual NumericUpDown txtContactDistance
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtContactDistance;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtContactDistance = value;
-			}
-		}
-
-		internal virtual NumericUpDown txtWater
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtWater;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchValueChanged;
-				if (_txtWater != null)
-				{
-					_txtWater.ValueChanged -= value2;
-				}
-				_txtWater = value;
-				if (_txtWater != null)
-				{
-					_txtWater.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtBulbs
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtBulbs;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchValueChanged;
-				if (_txtBulbs != null)
-				{
-					_txtBulbs.ValueChanged -= value2;
-				}
-				_txtBulbs = value;
-				if (_txtBulbs != null)
-				{
-					_txtBulbs.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtAtomics
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtAtomics;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchValueChanged;
-				if (_txtAtomics != null)
-				{
-					_txtAtomics.ValueChanged -= value2;
-				}
-				_txtAtomics = value;
-				if (_txtAtomics != null)
-				{
-					_txtAtomics.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtWeirding
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtWeirding;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchValueChanged;
-				if (_txtWeirding != null)
-				{
-					_txtWeirding.ValueChanged -= value2;
-				}
-				_txtWeirding = value;
-				if (_txtWeirding != null)
-				{
-					_txtWeirding.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtLaserGuns
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtLaserGuns;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchValueChanged;
-				if (_txtLaserGuns != null)
-				{
-					_txtLaserGuns.ValueChanged -= value2;
-				}
-				_txtLaserGuns = value;
-				if (_txtLaserGuns != null)
-				{
-					_txtLaserGuns.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtKrys
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtKrys;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchValueChanged;
-				if (_txtKrys != null)
-				{
-					_txtKrys.ValueChanged -= value2;
-				}
-				_txtKrys = value;
-				if (_txtKrys != null)
-				{
-					_txtKrys.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtOrni
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtOrni;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchValueChanged;
-				if (_txtOrni != null)
-				{
-					_txtOrni.ValueChanged -= value2;
-				}
-				_txtOrni = value;
-				if (_txtOrni != null)
-				{
-					_txtOrni.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtHarvesters
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtHarvesters;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchValueChanged;
-				if (_txtHarvesters != null)
-				{
-					_txtHarvesters.ValueChanged -= value2;
-				}
-				_txtHarvesters = value;
-				if (_txtHarvesters != null)
-				{
-					_txtHarvesters.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtSpiceDensity
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtSpiceDensity;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchValueChanged;
-				if (_txtSpiceDensity != null)
-				{
-					_txtSpiceDensity.ValueChanged -= value2;
-				}
-				_txtSpiceDensity = value;
-				if (_txtSpiceDensity != null)
-				{
-					_txtSpiceDensity.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual GroupBox gbStatus
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _gbStatus;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_gbStatus = value;
-			}
-		}
-
-		internal virtual CheckBox chkSietchStatus6
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkSietchStatus6;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchStatusChange;
-				if (_chkSietchStatus6 != null)
-				{
-					_chkSietchStatus6.CheckedChanged -= value2;
-				}
-				_chkSietchStatus6 = value;
-				if (_chkSietchStatus6 != null)
-				{
-					_chkSietchStatus6.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkSietchStatus5
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkSietchStatus5;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchStatusChange;
-				if (_chkSietchStatus5 != null)
-				{
-					_chkSietchStatus5.CheckedChanged -= value2;
-				}
-				_chkSietchStatus5 = value;
-				if (_chkSietchStatus5 != null)
-				{
-					_chkSietchStatus5.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkSietchStatus3
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkSietchStatus3;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchStatusChange;
-				if (_chkSietchStatus3 != null)
-				{
-					_chkSietchStatus3.CheckedChanged -= value2;
-				}
-				_chkSietchStatus3 = value;
-				if (_chkSietchStatus3 != null)
-				{
-					_chkSietchStatus3.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkSietchStatus4
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkSietchStatus4;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchStatusChange;
-				if (_chkSietchStatus4 != null)
-				{
-					_chkSietchStatus4.CheckedChanged -= value2;
-				}
-				_chkSietchStatus4 = value;
-				if (_chkSietchStatus4 != null)
-				{
-					_chkSietchStatus4.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkSietchStatus2
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkSietchStatus2;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchStatusChange;
-				if (_chkSietchStatus2 != null)
-				{
-					_chkSietchStatus2.CheckedChanged -= value2;
-				}
-				_chkSietchStatus2 = value;
-				if (_chkSietchStatus2 != null)
-				{
-					_chkSietchStatus2.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkSietchStatus1
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkSietchStatus1;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchStatusChange;
-				if (_chkSietchStatus1 != null)
-				{
-					_chkSietchStatus1.CheckedChanged -= value2;
-				}
-				_chkSietchStatus1 = value;
-				if (_chkSietchStatus1 != null)
-				{
-					_chkSietchStatus1.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkSietchStatus8
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkSietchStatus8;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchStatusChange;
-				if (_chkSietchStatus8 != null)
-				{
-					_chkSietchStatus8.CheckedChanged -= value2;
-				}
-				_chkSietchStatus8 = value;
-				if (_chkSietchStatus8 != null)
-				{
-					_chkSietchStatus8.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkSietchStatus7
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkSietchStatus7;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SietchStatusChange;
-				if (_chkSietchStatus7 != null)
-				{
-					_chkSietchStatus7.CheckedChanged -= value2;
-				}
-				_chkSietchStatus7 = value;
-				if (_chkSietchStatus7 != null)
-				{
-					_chkSietchStatus7.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual GroupBox GroupBox1
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _GroupBox1;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_GroupBox1 = value;
-			}
-		}
-
-		internal virtual TabPage tabMap
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _tabMap;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_tabMap = value;
-			}
-		}
-
-		internal virtual Label lblJobDesc
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _lblJobDesc;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_lblJobDesc = value;
-			}
-		}
-
-		internal virtual NumericUpDown txtPopulation
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtPopulation;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = TroopValueChanged;
-				if (_txtPopulation != null)
-				{
-					_txtPopulation.ValueChanged -= value2;
-				}
-				_txtPopulation = value;
-				if (_txtPopulation != null)
-				{
-					_txtPopulation.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtEcologySkill
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtEcologySkill;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = TroopValueChanged;
-				if (_txtEcologySkill != null)
-				{
-					_txtEcologySkill.ValueChanged -= value2;
-				}
-				_txtEcologySkill = value;
-				if (_txtEcologySkill != null)
-				{
-					_txtEcologySkill.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtArmySkill
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtArmySkill;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = TroopValueChanged;
-				if (_txtArmySkill != null)
-				{
-					_txtArmySkill.ValueChanged -= value2;
-				}
-				_txtArmySkill = value;
-				if (_txtArmySkill != null)
-				{
-					_txtArmySkill.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtMotivation
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtMotivation;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = TroopValueChanged;
-				if (_txtMotivation != null)
-				{
-					_txtMotivation.ValueChanged -= value2;
-				}
-				_txtMotivation = value;
-				if (_txtMotivation != null)
-				{
-					_txtMotivation.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtSpiceSkill
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtSpiceSkill;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = TroopValueChanged;
-				if (_txtSpiceSkill != null)
-				{
-					_txtSpiceSkill.ValueChanged -= value2;
-				}
-				_txtSpiceSkill = value;
-				if (_txtSpiceSkill != null)
-				{
-					_txtSpiceSkill.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual NumericUpDown txtDissatisfaction
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtDissatisfaction;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = TroopValueChanged;
-				if (_txtDissatisfaction != null)
-				{
-					_txtDissatisfaction.ValueChanged -= value2;
-				}
-				_txtDissatisfaction = value;
-				if (_txtDissatisfaction != null)
-				{
-					_txtDissatisfaction.ValueChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkHarverster
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkHarverster;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = EquipmentChanged;
-				if (_chkHarverster != null)
-				{
-					_chkHarverster.CheckedChanged -= value2;
-				}
-				_chkHarverster = value;
-				if (_chkHarverster != null)
-				{
-					_chkHarverster.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkOrni
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkOrni;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = EquipmentChanged;
-				if (_chkOrni != null)
-				{
-					_chkOrni.CheckedChanged -= value2;
-				}
-				_chkOrni = value;
-				if (_chkOrni != null)
-				{
-					_chkOrni.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkKrys
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkKrys;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = EquipmentChanged;
-				if (_chkKrys != null)
-				{
-					_chkKrys.CheckedChanged -= value2;
-				}
-				_chkKrys = value;
-				if (_chkKrys != null)
-				{
-					_chkKrys.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkLaserGuns
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkLaserGuns;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = EquipmentChanged;
-				if (_chkLaserGuns != null)
-				{
-					_chkLaserGuns.CheckedChanged -= value2;
-				}
-				_chkLaserGuns = value;
-				if (_chkLaserGuns != null)
-				{
-					_chkLaserGuns.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkWeirdings
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkWeirdings;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = EquipmentChanged;
-				if (_chkWeirdings != null)
-				{
-					_chkWeirdings.CheckedChanged -= value2;
-				}
-				_chkWeirdings = value;
-				if (_chkWeirdings != null)
-				{
-					_chkWeirdings.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkAtomics
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkAtomics;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = EquipmentChanged;
-				if (_chkAtomics != null)
-				{
-					_chkAtomics.CheckedChanged -= value2;
-				}
-				_chkAtomics = value;
-				if (_chkAtomics != null)
-				{
-					_chkAtomics.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual CheckBox chkBulb
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _chkBulb;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = EquipmentChanged;
-				if (_chkBulb != null)
-				{
-					_chkBulb.CheckedChanged -= value2;
-				}
-				_chkBulb = value;
-				if (_chkBulb != null)
-				{
-					_chkBulb.CheckedChanged += value2;
-				}
-			}
-		}
-
-		internal virtual TextBox txtSubRegionDesc
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtSubRegionDesc;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtSubRegionDesc = value;
-			}
-		}
-
-		internal virtual TextBox txtRegionDesc
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _txtRegionDesc;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_txtRegionDesc = value;
-			}
-		}
-
-		internal virtual ToolStripDropDownButton ToolStripDropDownButton1
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _ToolStripDropDownButton1;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_ToolStripDropDownButton1 = value;
-			}
-		}
-
-		internal virtual ToolStripMenuItem OpenToolStripMenuItem
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _OpenToolStripMenuItem;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = OpenToolStripMenuItem_Click;
-				if (_OpenToolStripMenuItem != null)
-				{
-					_OpenToolStripMenuItem.Click -= value2;
-				}
-				_OpenToolStripMenuItem = value;
-				if (_OpenToolStripMenuItem != null)
-				{
-					_OpenToolStripMenuItem.Click += value2;
-				}
-			}
-		}
-
-		internal virtual ToolStripMenuItem btnSave
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _btnSave;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = SaveToolStripMenuItem_Click;
-				if (_btnSave != null)
-				{
-					_btnSave.Click -= value2;
-				}
-				_btnSave = value;
-				if (_btnSave != null)
-				{
-					_btnSave.Click += value2;
-				}
-			}
-		}
-
-		internal virtual ToolStripSeparator ToolStripSeparator1
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _ToolStripSeparator1;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_ToolStripSeparator1 = value;
-			}
-		}
-
-		internal virtual ToolStripMenuItem ExitToolStripMenuItem
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _ExitToolStripMenuItem;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				EventHandler value2 = ExitToolStripMenuItem_Click;
-				if (_ExitToolStripMenuItem != null)
-				{
-					_ExitToolStripMenuItem.Click -= value2;
-				}
-				_ExitToolStripMenuItem = value;
-				if (_ExitToolStripMenuItem != null)
-				{
-					_ExitToolStripMenuItem.Click += value2;
-				}
-			}
-		}
-
-		internal virtual Label lblAbout
-		{
-			[DebuggerNonUserCode]
-			get
-			{
-				return _lblAbout;
-			}
-			[MethodImpl(MethodImplOptions.Synchronized)]
-			[DebuggerNonUserCode]
-			set
-			{
-				_lblAbout = value;
-			}
-		}
-
-		public frmMain()
+        {
+            [DebuggerNonUserCode]
+            get => _lsSietches;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = lsSietches_SelectedIndexChanged;
+                if (_lsSietches != null)
+                {
+                    _lsSietches.SelectedIndexChanged -= value2;
+                }
+                _lsSietches = value;
+                if (_lsSietches != null)
+                {
+                    _lsSietches.SelectedIndexChanged += value2;
+                }
+            }
+        }
+
+        internal virtual OpenFileDialog OpenFileDialog
+        {
+            [DebuggerNonUserCode]
+            get => _OpenFileDialog;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _OpenFileDialog = value;
+        }
+
+        internal virtual TextBox txtRegion
+        {
+            [DebuggerNonUserCode]
+            get => _txtRegion;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtRegion = value;
+        }
+
+        internal virtual TextBox txtSubRegion
+        {
+            [DebuggerNonUserCode]
+            get => _txtSubRegion;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtSubRegion = value;
+        }
+
+        internal virtual TabControl TabControl
+        {
+            [DebuggerNonUserCode]
+            get => _TabControl;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _TabControl = value;
+        }
+
+        internal virtual TabPage tabSietches
+        {
+            [DebuggerNonUserCode]
+            get => _tabSietches;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _tabSietches = value;
+        }
+
+        internal virtual TabPage tabTroops
+        {
+            [DebuggerNonUserCode]
+            get => _tabTroops;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _tabTroops = value;
+        }
+
+        internal virtual TextBox txtSpicefieldID
+        {
+            [DebuggerNonUserCode]
+            get => _txtSpicefieldID;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtSpicefieldID = value;
+        }
+
+        internal virtual TextBox txtStatus
+        {
+            [DebuggerNonUserCode]
+            get => _txtStatus;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = txtStatus_TextChanged;
+                if (_txtStatus != null)
+                {
+                    _txtStatus.TextChanged -= value2;
+                }
+                _txtStatus = value;
+                if (_txtStatus != null)
+                {
+                    _txtStatus.TextChanged += value2;
+                }
+            }
+        }
+
+        internal virtual TextBox txtHousedTroopID
+        {
+            [DebuggerNonUserCode]
+            get => _txtHousedTroopID;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtHousedTroopID = value;
+        }
+
+        internal virtual Label Label14
+        {
+            [DebuggerNonUserCode]
+            get => _Label14;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label14 = value;
+        }
+
+        internal virtual Label Label13
+        {
+            [DebuggerNonUserCode]
+            get => _Label13;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label13 = value;
+        }
+
+        internal virtual Label Label12
+        {
+            [DebuggerNonUserCode]
+            get => _Label12;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label12 = value;
+        }
+
+        internal virtual Label Label11
+        {
+            [DebuggerNonUserCode]
+            get => _Label11;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label11 = value;
+        }
+
+        internal virtual Label Label10
+        {
+            [DebuggerNonUserCode]
+            get => _Label10;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label10 = value;
+        }
+
+        internal virtual Label Label9
+        {
+            [DebuggerNonUserCode]
+            get => _Label9;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label9 = value;
+        }
+
+        internal virtual Label Label8
+        {
+            [DebuggerNonUserCode]
+            get => _Label8;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label8 = value;
+        }
+
+        internal virtual Label Label7
+        {
+            [DebuggerNonUserCode]
+            get => _Label7;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label7 = value;
+        }
+
+        internal virtual Label Label6
+        {
+            [DebuggerNonUserCode]
+            get => _Label6;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label6 = value;
+        }
+
+        internal virtual Label Label5
+        {
+            [DebuggerNonUserCode]
+            get => _Label5;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label5 = value;
+        }
+
+        internal virtual Label Label4
+        {
+            [DebuggerNonUserCode]
+            get => _Label4;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label4 = value;
+        }
+
+        internal virtual Label Label3
+        {
+            [DebuggerNonUserCode]
+            get => _Label3;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label3 = value;
+        }
+
+        internal virtual Label Label2
+        {
+            [DebuggerNonUserCode]
+            get => _Label2;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label2 = value;
+        }
+
+        internal virtual Label Label1
+        {
+            [DebuggerNonUserCode]
+            get => _Label1;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label1 = value;
+        }
+
+        internal virtual TabPage tabGeneral
+        {
+            [DebuggerNonUserCode]
+            get => _tabGeneral;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _tabGeneral = value;
+        }
+
+        internal virtual Label Label15
+        {
+            [DebuggerNonUserCode]
+            get => _Label15;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label15 = value;
+        }
+
+        internal virtual Label Label16
+        {
+            [DebuggerNonUserCode]
+            get => _Label16;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label16 = value;
+        }
+
+        internal virtual TextBox txtEquipment
+        {
+            [DebuggerNonUserCode]
+            get => _txtEquipment;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtEquipment = value;
+        }
+
+        internal virtual TextBox txtJob
+        {
+            [DebuggerNonUserCode]
+            get => _txtJob;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtJob = value;
+        }
+
+        internal virtual Label Label17
+        {
+            [DebuggerNonUserCode]
+            get => _Label17;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label17 = value;
+        }
+
+        internal virtual Label Label18
+        {
+            [DebuggerNonUserCode]
+            get => _Label18;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label18 = value;
+        }
+
+        internal virtual Label Label19
+        {
+            [DebuggerNonUserCode]
+            get => _Label19;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label19 = value;
+        }
+
+        internal virtual Label Label20
+        {
+            [DebuggerNonUserCode]
+            get => _Label20;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label20 = value;
+        }
+
+        internal virtual Label Label21
+        {
+            [DebuggerNonUserCode]
+            get => _Label21;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label21 = value;
+        }
+
+        internal virtual Label Label22
+        {
+            [DebuggerNonUserCode]
+            get => _Label22;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label22 = value;
+        }
+
+        internal virtual Label Label23
+        {
+            [DebuggerNonUserCode]
+            get => _Label23;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label23 = value;
+        }
+
+        internal virtual Label Label24
+        {
+            [DebuggerNonUserCode]
+            get => _Label24;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label24 = value;
+        }
+
+        internal virtual Label Label25
+        {
+            [DebuggerNonUserCode]
+            get => _Label25;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label25 = value;
+        }
+
+        internal virtual Label Label26
+        {
+            [DebuggerNonUserCode]
+            get => _Label26;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label26 = value;
+        }
+
+        internal virtual ListBox lsTroops
+        {
+            [DebuggerNonUserCode]
+            get => _lsTroops;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = lsTroops_SelectedIndexChanged;
+                if (_lsTroops != null)
+                {
+                    _lsTroops.SelectedIndexChanged -= value2;
+                }
+                _lsTroops = value;
+                if (_lsTroops != null)
+                {
+                    _lsTroops.SelectedIndexChanged += value2;
+                }
+            }
+        }
+
+        internal virtual TextBox txtNextTroopID
+        {
+            [DebuggerNonUserCode]
+            get => _txtNextTroopID;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtNextTroopID = value;
+        }
+
+        internal virtual TextBox txtTroopID
+        {
+            [DebuggerNonUserCode]
+            get => _txtTroopID;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtTroopID = value;
+        }
+
+        internal virtual Button btnSietchUpdate
+        {
+            [DebuggerNonUserCode]
+            get => _btnSietchUpdate;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = btnSietchUpdate_Click;
+                if (_btnSietchUpdate != null)
+                {
+                    _btnSietchUpdate.Click -= value2;
+                }
+                _btnSietchUpdate = value;
+                if (_btnSietchUpdate != null)
+                {
+                    _btnSietchUpdate.Click += value2;
+                }
+            }
+        }
+
+        internal virtual Button btnTroopsUpdate
+        {
+            [DebuggerNonUserCode]
+            get => _btnTroopsUpdate;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = btnTroopsUpdate_Click;
+                if (_btnTroopsUpdate != null)
+                {
+                    _btnTroopsUpdate.Click -= value2;
+                }
+                _btnTroopsUpdate = value;
+                if (_btnTroopsUpdate != null)
+                {
+                    _btnTroopsUpdate.Click += value2;
+                }
+            }
+        }
+
+        internal virtual ToolStrip ToolStrip1
+        {
+            [DebuggerNonUserCode]
+            get => _ToolStrip1;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _ToolStrip1 = value;
+        }
+
+        internal virtual Label Label27
+        {
+            [DebuggerNonUserCode]
+            get => _Label27;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label27 = value;
+        }
+
+        internal virtual ComboBox cmbTroopAtSietch
+        {
+            [DebuggerNonUserCode]
+            get => _cmbTroopAtSietch;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = cmbTroopAtSietch_SelectedIndexChanged;
+                if (_cmbTroopAtSietch != null)
+                {
+                    _cmbTroopAtSietch.SelectedIndexChanged -= value2;
+                }
+                _cmbTroopAtSietch = value;
+                if (_cmbTroopAtSietch != null)
+                {
+                    _cmbTroopAtSietch.SelectedIndexChanged += value2;
+                }
+            }
+        }
+
+        internal virtual Label Label28
+        {
+            [DebuggerNonUserCode]
+            get => _Label28;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _Label28 = value;
+        }
+
+        internal virtual NumericUpDown txtSpice
+        {
+            [DebuggerNonUserCode]
+            get => _txtSpice;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtSpice = value;
+        }
+
+        internal virtual NumericUpDown txtCharisma
+        {
+            [DebuggerNonUserCode]
+            get => _txtCharisma;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtCharisma = value;
+        }
+
+        internal virtual NumericUpDown txtContactDistance
+        {
+            [DebuggerNonUserCode]
+            get => _txtContactDistance;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtContactDistance = value;
+        }
+
+        internal virtual NumericUpDown txtWater
+        {
+            [DebuggerNonUserCode]
+            get => _txtWater;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchValueChanged;
+                if (_txtWater != null)
+                {
+                    _txtWater.ValueChanged -= value2;
+                }
+                _txtWater = value;
+                if (_txtWater != null)
+                {
+                    _txtWater.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtBulbs
+        {
+            [DebuggerNonUserCode]
+            get => _txtBulbs;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchValueChanged;
+                if (_txtBulbs != null)
+                {
+                    _txtBulbs.ValueChanged -= value2;
+                }
+                _txtBulbs = value;
+                if (_txtBulbs != null)
+                {
+                    _txtBulbs.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtAtomics
+        {
+            [DebuggerNonUserCode]
+            get => _txtAtomics;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchValueChanged;
+                if (_txtAtomics != null)
+                {
+                    _txtAtomics.ValueChanged -= value2;
+                }
+                _txtAtomics = value;
+                if (_txtAtomics != null)
+                {
+                    _txtAtomics.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtWeirding
+        {
+            [DebuggerNonUserCode]
+            get => _txtWeirding;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchValueChanged;
+                if (_txtWeirding != null)
+                {
+                    _txtWeirding.ValueChanged -= value2;
+                }
+                _txtWeirding = value;
+                if (_txtWeirding != null)
+                {
+                    _txtWeirding.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtLaserGuns
+        {
+            [DebuggerNonUserCode]
+            get => _txtLaserGuns;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchValueChanged;
+                if (_txtLaserGuns != null)
+                {
+                    _txtLaserGuns.ValueChanged -= value2;
+                }
+                _txtLaserGuns = value;
+                if (_txtLaserGuns != null)
+                {
+                    _txtLaserGuns.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtKrys
+        {
+            [DebuggerNonUserCode]
+            get => _txtKrys;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchValueChanged;
+                if (_txtKrys != null)
+                {
+                    _txtKrys.ValueChanged -= value2;
+                }
+                _txtKrys = value;
+                if (_txtKrys != null)
+                {
+                    _txtKrys.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtOrni
+        {
+            [DebuggerNonUserCode]
+            get => _txtOrni;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchValueChanged;
+                if (_txtOrni != null)
+                {
+                    _txtOrni.ValueChanged -= value2;
+                }
+                _txtOrni = value;
+                if (_txtOrni != null)
+                {
+                    _txtOrni.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtHarvesters
+        {
+            [DebuggerNonUserCode]
+            get => _txtHarvesters;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchValueChanged;
+                if (_txtHarvesters != null)
+                {
+                    _txtHarvesters.ValueChanged -= value2;
+                }
+                _txtHarvesters = value;
+                if (_txtHarvesters != null)
+                {
+                    _txtHarvesters.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtSpiceDensity
+        {
+            [DebuggerNonUserCode]
+            get => _txtSpiceDensity;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchValueChanged;
+                if (_txtSpiceDensity != null)
+                {
+                    _txtSpiceDensity.ValueChanged -= value2;
+                }
+                _txtSpiceDensity = value;
+                if (_txtSpiceDensity != null)
+                {
+                    _txtSpiceDensity.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual GroupBox gbStatus
+        {
+            [DebuggerNonUserCode]
+            get => _gbStatus;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _gbStatus = value;
+        }
+
+        internal virtual CheckBox chkSietchStatus6
+        {
+            [DebuggerNonUserCode]
+            get => _chkSietchStatus6;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchStatusChange;
+                if (_chkSietchStatus6 != null)
+                {
+                    _chkSietchStatus6.CheckedChanged -= value2;
+                }
+                _chkSietchStatus6 = value;
+                if (_chkSietchStatus6 != null)
+                {
+                    _chkSietchStatus6.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkSietchStatus5
+        {
+            [DebuggerNonUserCode]
+            get => _chkSietchStatus5;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchStatusChange;
+                if (_chkSietchStatus5 != null)
+                {
+                    _chkSietchStatus5.CheckedChanged -= value2;
+                }
+                _chkSietchStatus5 = value;
+                if (_chkSietchStatus5 != null)
+                {
+                    _chkSietchStatus5.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkSietchStatus3
+        {
+            [DebuggerNonUserCode]
+            get => _chkSietchStatus3;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchStatusChange;
+                if (_chkSietchStatus3 != null)
+                {
+                    _chkSietchStatus3.CheckedChanged -= value2;
+                }
+                _chkSietchStatus3 = value;
+                if (_chkSietchStatus3 != null)
+                {
+                    _chkSietchStatus3.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkSietchStatus4
+        {
+            [DebuggerNonUserCode]
+            get => _chkSietchStatus4;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchStatusChange;
+                if (_chkSietchStatus4 != null)
+                {
+                    _chkSietchStatus4.CheckedChanged -= value2;
+                }
+                _chkSietchStatus4 = value;
+                if (_chkSietchStatus4 != null)
+                {
+                    _chkSietchStatus4.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkSietchStatus2
+        {
+            [DebuggerNonUserCode]
+            get => _chkSietchStatus2;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchStatusChange;
+                if (_chkSietchStatus2 != null)
+                {
+                    _chkSietchStatus2.CheckedChanged -= value2;
+                }
+                _chkSietchStatus2 = value;
+                if (_chkSietchStatus2 != null)
+                {
+                    _chkSietchStatus2.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkSietchStatus1
+        {
+            [DebuggerNonUserCode]
+            get => _chkSietchStatus1;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchStatusChange;
+                if (_chkSietchStatus1 != null)
+                {
+                    _chkSietchStatus1.CheckedChanged -= value2;
+                }
+                _chkSietchStatus1 = value;
+                if (_chkSietchStatus1 != null)
+                {
+                    _chkSietchStatus1.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkSietchStatus8
+        {
+            [DebuggerNonUserCode]
+            get => _chkSietchStatus8;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchStatusChange;
+                if (_chkSietchStatus8 != null)
+                {
+                    _chkSietchStatus8.CheckedChanged -= value2;
+                }
+                _chkSietchStatus8 = value;
+                if (_chkSietchStatus8 != null)
+                {
+                    _chkSietchStatus8.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkSietchStatus7
+        {
+            [DebuggerNonUserCode]
+            get => _chkSietchStatus7;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SietchStatusChange;
+                if (_chkSietchStatus7 != null)
+                {
+                    _chkSietchStatus7.CheckedChanged -= value2;
+                }
+                _chkSietchStatus7 = value;
+                if (_chkSietchStatus7 != null)
+                {
+                    _chkSietchStatus7.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual GroupBox GroupBox1
+        {
+            [DebuggerNonUserCode]
+            get => _GroupBox1;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _GroupBox1 = value;
+        }
+
+        internal virtual TabPage tabMap
+        {
+            [DebuggerNonUserCode]
+            get => _tabMap;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _tabMap = value;
+        }
+
+        internal virtual Label lblJobDesc
+        {
+            [DebuggerNonUserCode]
+            get => _lblJobDesc;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _lblJobDesc = value;
+        }
+
+        internal virtual NumericUpDown txtPopulation
+        {
+            [DebuggerNonUserCode]
+            get => _txtPopulation;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = TroopValueChanged;
+                if (_txtPopulation != null)
+                {
+                    _txtPopulation.ValueChanged -= value2;
+                }
+                _txtPopulation = value;
+                if (_txtPopulation != null)
+                {
+                    _txtPopulation.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtEcologySkill
+        {
+            [DebuggerNonUserCode]
+            get => _txtEcologySkill;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = TroopValueChanged;
+                if (_txtEcologySkill != null)
+                {
+                    _txtEcologySkill.ValueChanged -= value2;
+                }
+                _txtEcologySkill = value;
+                if (_txtEcologySkill != null)
+                {
+                    _txtEcologySkill.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtArmySkill
+        {
+            [DebuggerNonUserCode]
+            get => _txtArmySkill;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = TroopValueChanged;
+                if (_txtArmySkill != null)
+                {
+                    _txtArmySkill.ValueChanged -= value2;
+                }
+                _txtArmySkill = value;
+                if (_txtArmySkill != null)
+                {
+                    _txtArmySkill.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtMotivation
+        {
+            [DebuggerNonUserCode]
+            get => _txtMotivation;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = TroopValueChanged;
+                if (_txtMotivation != null)
+                {
+                    _txtMotivation.ValueChanged -= value2;
+                }
+                _txtMotivation = value;
+                if (_txtMotivation != null)
+                {
+                    _txtMotivation.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtSpiceSkill
+        {
+            [DebuggerNonUserCode]
+            get => _txtSpiceSkill;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = TroopValueChanged;
+                if (_txtSpiceSkill != null)
+                {
+                    _txtSpiceSkill.ValueChanged -= value2;
+                }
+                _txtSpiceSkill = value;
+                if (_txtSpiceSkill != null)
+                {
+                    _txtSpiceSkill.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual NumericUpDown txtDissatisfaction
+        {
+            [DebuggerNonUserCode]
+            get => _txtDissatisfaction;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = TroopValueChanged;
+                if (_txtDissatisfaction != null)
+                {
+                    _txtDissatisfaction.ValueChanged -= value2;
+                }
+                _txtDissatisfaction = value;
+                if (_txtDissatisfaction != null)
+                {
+                    _txtDissatisfaction.ValueChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkHarverster
+        {
+            [DebuggerNonUserCode]
+            get => _chkHarverster;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = EquipmentChanged;
+                if (_chkHarverster != null)
+                {
+                    _chkHarverster.CheckedChanged -= value2;
+                }
+                _chkHarverster = value;
+                if (_chkHarverster != null)
+                {
+                    _chkHarverster.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkOrni
+        {
+            [DebuggerNonUserCode]
+            get => _chkOrni;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = EquipmentChanged;
+                if (_chkOrni != null)
+                {
+                    _chkOrni.CheckedChanged -= value2;
+                }
+                _chkOrni = value;
+                if (_chkOrni != null)
+                {
+                    _chkOrni.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkKrys
+        {
+            [DebuggerNonUserCode]
+            get => _chkKrys;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = EquipmentChanged;
+                if (_chkKrys != null)
+                {
+                    _chkKrys.CheckedChanged -= value2;
+                }
+                _chkKrys = value;
+                if (_chkKrys != null)
+                {
+                    _chkKrys.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkLaserGuns
+        {
+            [DebuggerNonUserCode]
+            get => _chkLaserGuns;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = EquipmentChanged;
+                if (_chkLaserGuns != null)
+                {
+                    _chkLaserGuns.CheckedChanged -= value2;
+                }
+                _chkLaserGuns = value;
+                if (_chkLaserGuns != null)
+                {
+                    _chkLaserGuns.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkWeirdings
+        {
+            [DebuggerNonUserCode]
+            get => _chkWeirdings;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = EquipmentChanged;
+                if (_chkWeirdings != null)
+                {
+                    _chkWeirdings.CheckedChanged -= value2;
+                }
+                _chkWeirdings = value;
+                if (_chkWeirdings != null)
+                {
+                    _chkWeirdings.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkAtomics
+        {
+            [DebuggerNonUserCode]
+            get => _chkAtomics;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = EquipmentChanged;
+                if (_chkAtomics != null)
+                {
+                    _chkAtomics.CheckedChanged -= value2;
+                }
+                _chkAtomics = value;
+                if (_chkAtomics != null)
+                {
+                    _chkAtomics.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual CheckBox chkBulb
+        {
+            [DebuggerNonUserCode]
+            get => _chkBulb;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = EquipmentChanged;
+                if (_chkBulb != null)
+                {
+                    _chkBulb.CheckedChanged -= value2;
+                }
+                _chkBulb = value;
+                if (_chkBulb != null)
+                {
+                    _chkBulb.CheckedChanged += value2;
+                }
+            }
+        }
+
+        internal virtual TextBox txtSubRegionDesc
+        {
+            [DebuggerNonUserCode]
+            get => _txtSubRegionDesc;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtSubRegionDesc = value;
+        }
+
+        internal virtual TextBox txtRegionDesc
+        {
+            [DebuggerNonUserCode]
+            get => _txtRegionDesc;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _txtRegionDesc = value;
+        }
+
+        internal virtual ToolStripDropDownButton ToolStripDropDownButton1
+        {
+            [DebuggerNonUserCode]
+            get => _ToolStripDropDownButton1;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _ToolStripDropDownButton1 = value;
+        }
+
+        internal virtual ToolStripMenuItem OpenToolStripMenuItem
+        {
+            [DebuggerNonUserCode]
+            get => _OpenToolStripMenuItem;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = OpenToolStripMenuItem_Click;
+                if (_OpenToolStripMenuItem != null)
+                {
+                    _OpenToolStripMenuItem.Click -= value2;
+                }
+                _OpenToolStripMenuItem = value;
+                if (_OpenToolStripMenuItem != null)
+                {
+                    _OpenToolStripMenuItem.Click += value2;
+                }
+            }
+        }
+
+        internal virtual ToolStripMenuItem btnSave
+        {
+            [DebuggerNonUserCode]
+            get => _btnSave;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = SaveToolStripMenuItem_Click;
+                if (_btnSave != null)
+                {
+                    _btnSave.Click -= value2;
+                }
+                _btnSave = value;
+                if (_btnSave != null)
+                {
+                    _btnSave.Click += value2;
+                }
+            }
+        }
+
+        internal virtual ToolStripSeparator ToolStripSeparator1
+        {
+            [DebuggerNonUserCode]
+            get => _ToolStripSeparator1;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _ToolStripSeparator1 = value;
+        }
+
+        internal virtual ToolStripMenuItem ExitToolStripMenuItem
+        {
+            [DebuggerNonUserCode]
+            get => _ExitToolStripMenuItem;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set
+            {
+                EventHandler value2 = ExitToolStripMenuItem_Click;
+                if (_ExitToolStripMenuItem != null)
+                {
+                    _ExitToolStripMenuItem.Click -= value2;
+                }
+                _ExitToolStripMenuItem = value;
+                if (_ExitToolStripMenuItem != null)
+                {
+                    _ExitToolStripMenuItem.Click += value2;
+                }
+            }
+        }
+
+        internal virtual Label lblAbout
+        {
+            [DebuggerNonUserCode]
+            get => _lblAbout;
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            [DebuggerNonUserCode]
+            set => _lblAbout = value;
+        }
+
+        public frmMain()
 		{
 			base.Load += frmMain_Load;
 			__ENCAddToList(this);

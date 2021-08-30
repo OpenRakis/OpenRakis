@@ -5,18 +5,12 @@ namespace DuneEdit
 		private int bf;
 
 		public int bitfield
-		{
-			get
-			{
-				return bf;
-			}
-			set
-			{
-				bf = value;
-			}
-		}
+        {
+            get => bf;
+            set => bf = value;
+        }
 
-		public clsBitfield(int v = 0)
+        public clsBitfield(int v = 0)
 		{
 			bf = 0;
 			bf = v;

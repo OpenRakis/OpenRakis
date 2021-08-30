@@ -1,11 +1,10 @@
 ﻿namespace DuneEdit2.ViewModels
 {
-    using System;
     using System.Collections.Generic;
-    using System.IO;
+    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Reactive;
     using System.Reactive.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Avalonia.Controls;
@@ -33,8 +32,46 @@
 
         public bool IsSaveGameLoaded
         {
-            get => _isSavegameLoaded;
-            private set { this.RaiseAndSetIfChanged(ref _isSavegameLoaded, value); }
+            get
+            {
+                if (Design.IsDesignMode)
+                    return true;
+                else
+                    return _isSavegameLoaded;
+            }
+            private set => this.RaiseAndSetIfChanged(ref _isSavegameLoaded, value);
+        }
+
+        private SietchViewModel? _currentSietch;
+
+        public SietchViewModel? CurrentSietch
+        {
+            get => _currentSietch;
+            set => this.RaiseAndSetIfChanged(ref _currentSietch, value);
+        }
+
+        private TroopViewModel? _currentTroop;
+
+        public TroopViewModel? CurrentTroop
+        {
+            get => _currentTroop;
+            set => this.RaiseAndSetIfChanged(ref _currentTroop, value);
+        }
+
+        private ObservableCollection<SietchViewModel> _sietches = new();
+
+        public ObservableCollection<SietchViewModel> Sietches
+        {
+            get => _sietches;
+            private set => this.RaiseAndSetIfChanged(ref _sietches, value);
+        }
+
+        private ObservableCollection<TroopViewModel> _troops = new();
+
+        public ObservableCollection<TroopViewModel> Troops
+        {
+            get => _troops;
+            private set => this.RaiseAndSetIfChanged(ref _troops, value);
         }
 
         public ReactiveCommand<Unit, Unit> OpenSaveGame { get; private set; }
@@ -44,7 +81,7 @@
         public int SpiceVM
         {
             get => _spiceVM;
-            set { this.RaiseAndSetIfChanged(ref _spiceVM, value); }
+            set => this.RaiseAndSetIfChanged(ref _spiceVM, value);
         }
 
         private byte _charismaVM = 0;
@@ -52,7 +89,7 @@
         public byte CharismaVM
         {
             get => _charismaVM;
-            set { this.RaiseAndSetIfChanged(ref _charismaVM, value); }
+            set => this.RaiseAndSetIfChanged(ref _charismaVM, value);
         }
 
         private int _contactDistanceVM = 0;
@@ -60,7 +97,7 @@
         public int ContactDistanceVM
         {
             get => _contactDistanceVM;
-            set { this.RaiseAndSetIfChanged(ref _contactDistanceVM, value); }
+            set => this.RaiseAndSetIfChanged(ref _contactDistanceVM, value);
         }
 
         public ReactiveCommand<Unit, Unit> SaveGameFile { get; private set; }
@@ -92,9 +129,35 @@
                 SpiceVM = _savegameFile.Generals.Spice;
                 CharismaVM = _savegameFile.Generals.CharismaGUI;
                 ContactDistanceVM = _savegameFile.Generals.ContactDistance;
+                PopulateSietches(_savegameFile.GetSietches());
+                PopulateTroops(_savegameFile.GetTroops());
                 IsSaveGameLoaded = true;
             }
             return Unit.Default;
+        }
+
+        private void PopulateSietches(List<Sietch> sietches)
+        {
+            foreach (var sietch in sietches)
+            {
+                Sietches.Add(new SietchViewModel(sietch));
+            }
+            if (sietches.Any())
+            {
+                CurrentSietch = Sietches.First();
+            }
+        }
+
+        private void PopulateTroops(List<Troop> troops)
+        {
+            foreach (var troop in troops)
+            {
+                Troops.Add(new TroopViewModel(troop));
+            }
+            if (troops.Any())
+            {
+                CurrentTroop = Troops.First();
+            }
         }
 
         private Unit SaveGameMethod(Unit arg)

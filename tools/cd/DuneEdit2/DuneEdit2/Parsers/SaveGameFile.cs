@@ -26,6 +26,10 @@
 
         private List<byte> _uncompressedData = new();
 
+        private List<Sietch> _sietches = new();
+
+        private List<Troop> _troops = new();
+
         public SaveGameFile()
         {
         }
@@ -63,13 +67,100 @@
             {
                 Console.WriteLine(ex.GetBaseException().Message);
             }
-            _generals = new Generals(this.Uncompressed);
+            _generals = new Generals(_uncompressedData);
+            _sietches = PopulateSietches(_uncompressedData);
+            _troops = PopulateTroops(_uncompressedData);
         }
 
-        public Generals Generals
+        private List<Sietch> PopulateSietches(List<byte> data)
         {
-            get => _generals;
+            var sietches = new List<Sietch>();
+            int num = 0;
+            checked
+            {
+                int position;
+                int endPos;
+                do
+                {
+                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Sietchs) + num * 28;
+                    var sietch = new Sietch(itemPos, data[itemPos + 0], data[itemPos + 1], data[itemPos + 9], data[itemPos + 10], data[itemPos + 16], data[itemPos + 18], data[itemPos + 20], data[itemPos + 21], data[itemPos + 22], data[itemPos + 23], data[itemPos + 24], data[itemPos + 25], data[itemPos + 26], data[itemPos + 27]);
+                    int coordsCursor = 0;
+                    int coordsPos;
+                    do
+                    {
+                        sietch.Coordinates += Convert.ToString(data[itemPos + 2 + coordsCursor]);
+                        coordsCursor++;
+                        coordsPos = coordsCursor;
+                        endPos = 3;
+                    }
+                    while (coordsPos <= endPos);
+                    sietches.Add(sietch);
+                    num++;
+                    position = num;
+                    endPos = 69;
+                }
+                while (position <= endPos);
+            }
+            return sietches;
         }
+
+        private List<Troop> PopulateTroops(List<byte> data)
+        {
+            var troops = new List<Troop>();
+            int num = 0;
+            checked
+            {
+                int position;
+                int endPos;
+                do
+                {
+                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Troops) + num * 27;
+                    var troop = new Troop(data[itemPos + 25])
+                    {
+                        StartOffset = itemPos,
+                        TroopID = data[itemPos + 0],
+                        NextTroopInSietch = data[itemPos + 1],
+                        Job = data[itemPos + 3],
+                        Dissatisfaction = data[itemPos + 18],
+                        Speech = data[itemPos + 19],
+                        Motivation = data[itemPos + 21],
+                        SpiceSkill = data[itemPos + 22],
+                        ArmySkill = data[itemPos + 23],
+                        EcologySkill = data[itemPos + 24],
+                        Equipment = data[itemPos + 25],
+                        Population = unchecked(data[checked(itemPos + 26)]) * 10
+                    };
+                    int coordsCursor = 0;
+                    int coordsPos;
+                    do
+                    {
+                        troop.Coordinates += Convert.ToString(data[itemPos + 6 + coordsCursor]);
+                        coordsCursor++;
+                        coordsPos = coordsCursor;
+                        endPos = 3;
+                    }
+                    while (coordsPos <= endPos);
+                    troops.Add(troop);
+                    num++;
+                    position = num;
+                    endPos = 66;
+                }
+                while (position <= endPos);
+            }
+            return troops;
+        }
+
+        public List<Sietch> GetSietches()
+        {
+            return _sietches;
+        }
+
+        public List<Troop> GetTroops()
+        {
+            return _troops;
+        }
+
+        public Generals Generals => _generals;
 
         public List<byte> Uncompressed => _uncompressedData;
 
@@ -231,10 +322,7 @@
             }
         }
 
-        internal void UpdateCharisma(byte charismaValue)
-        {
-            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)] = (byte)(unchecked(charismaValue) * 2);
-        }
+        internal void UpdateCharisma(byte charismaValue) => _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)] = (byte)(unchecked(charismaValue) * 2);
 
         public bool SaveCompressed() => SaveCompressedAs(_fileName);
 

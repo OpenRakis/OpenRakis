@@ -23,33 +23,24 @@ namespace DuneEdit
 		private List<byte> _sg;
 
 		public byte CharismaGUI
-		{
-			get
-			{
-				return Conversions.ToByte(Interaction.IIf(_charisma <= 1, 0, (double)(int)_charisma / 2.0));
-			}
-			set
-			{
-				checked
-				{
-					_charisma = (byte)(unchecked((int)value) * 2);
-				}
-			}
-		}
+        {
+            get => Conversions.ToByte(Interaction.IIf(_charisma <= 1, 0, (double)(int)_charisma / 2.0));
+            set
+            {
+                checked
+                {
+                    _charisma = (byte)(unchecked((int)value) * 2);
+                }
+            }
+        }
 
-		public byte Charisma
-		{
-			get
-			{
-				return _charisma;
-			}
-			set
-			{
-				_charisma = value;
-			}
-		}
+        public byte Charisma
+        {
+            get => _charisma;
+            set => _charisma = value;
+        }
 
-		public int Spice
+        public int Spice
 		{
 			get
 			{
@@ -66,18 +57,12 @@ namespace DuneEdit
 		}
 
 		public int contactDistance
-		{
-			get
-			{
-				return int.Parse(_contactDistance.ToString("X"), NumberStyles.HexNumber);
-			}
-			set
-			{
-				_contactDistance = value;
-			}
-		}
+        {
+            get => int.Parse(_contactDistance.ToString("X"), NumberStyles.HexNumber);
+            set => _contactDistance = value;
+        }
 
-		public Generals(ref List<byte> sg)
+        public Generals(ref List<byte> sg)
 		{
 			_spice = new byte[2] { 0, 0 };
 			_sg = sg;

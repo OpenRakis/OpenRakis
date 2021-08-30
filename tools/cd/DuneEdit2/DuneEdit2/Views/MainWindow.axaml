@@ -70,8 +70,22 @@
         </Grid>
       </TabItem>
       <TabItem Header="Sietches" IsEnabled="{Binding IsSaveGameLoaded}">
+        <ComboBox Items="{Binding Sietches}" SelectedItem="{Binding CurrentSietch, Mode=TwoWay}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate DataType="{x:Type vm:SietchViewModel}">
+              <Label Content="{Binding RegionName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
       </TabItem>
       <TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
+        <ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate DataType="{x:Type vm:TroopViewModel}">
+              <Label Content="{Binding TroopDesc}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
       </TabItem>
       <TabItem Header="Map of Dune">
         <Grid RowDefinitions="Auto,*">
