@@ -3,9 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using DuneEdit2.Enums;
     using DuneEdit2.Models;
@@ -160,6 +157,16 @@
             return _troops;
         }
 
+        internal void UpdateTroop(Troop troop)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void UpdateSietch(Sietch sietch)
+        {
+            throw new NotImplementedException();
+        }
+
         public Generals Generals => _generals;
 
         public List<byte> Uncompressed => _uncompressedData;
@@ -196,25 +203,25 @@
             {
                 try
                 {
-                    int num = 0;
-                    int num2 = _uncompressedData.Count - 3;
-                    int num3 = 0;
-                    byte b2 = 0;
-                    byte b3 = 0;
+                    int overallCurrentPos = 0;
+                    int uncompressedDataCountMinusThree = _uncompressedData.Count - 3;
+                    int cursorPosition = 0;
+                    byte byteValueAtCursorPlusOne = 0;
+                    byte byteValueAtCursorPlusTwo = 0;
                     while (true)
                     {
-                        int num4 = num3;
-                        int num5 = num2;
-                        if (num4 > num5)
+                        int currentTrapPos = cursorPosition;
+                        int uncompressedDataEnd = uncompressedDataCountMinusThree;
+                        if (currentTrapPos > uncompressedDataEnd)
                         {
                             break;
                         }
-                        byte b = _uncompressedData[num3];
-                        b2 = _uncompressedData[num3 + 1];
-                        b3 = _uncompressedData[num3 + 2];
+                        byte byteValueAtCursor = _uncompressedData[cursorPosition];
+                        byteValueAtCursorPlusOne = _uncompressedData[cursorPosition + 1];
+                        byteValueAtCursorPlusTwo = _uncompressedData[cursorPosition + 2];
                         unchecked
                         {
-                            if (IsNonDeflate(num3) && b == 247)
+                            if (IsNonDeflate(cursorPosition) && byteValueAtCursor == 247)
                             {
                                 _compressedData.Add(247);
                                 _compressedData.Add(1);
@@ -222,79 +229,79 @@
                             }
                             else
                             {
-                                int num6 = 0;
-                                int num7 = 255;
+                                int start = 0;
+                                int end = 255;
                                 Trap t = new();
-                                bool flag = false;
-                                if (GetTrapByRealOffset(num3, ref t))
+                                bool isOverTrap = false;
+                                if (GetTrapByRealOffset(cursorPosition, t))
                                 {
-                                    num7 = t.Repeat;
-                                    flag = true;
+                                    end = t.Repeat;
+                                    isOverTrap = true;
                                 }
-                                if (b == b2 && b != b3)
+                                if (byteValueAtCursor == byteValueAtCursorPlusOne && byteValueAtCursor != byteValueAtCursorPlusTwo)
                                 {
-                                    _compressedData.Add(b);
+                                    _compressedData.Add(byteValueAtCursor);
                                 }
-                                else if (b == b2 && b == b3)
+                                else if (byteValueAtCursor == byteValueAtCursorPlusOne && byteValueAtCursor == byteValueAtCursorPlusTwo)
                                 {
-                                    int num8 = num3;
+                                    int num8 = cursorPosition;
                                     checked
                                     {
-                                        int num9 = _uncompressedData.Count - 1;
-                                        num = num8;
+                                        int uncompressedDataEndMinusOne = _uncompressedData.Count - 1;
+                                        overallCurrentPos = num8;
                                         while (true)
                                         {
-                                            int num10 = num;
-                                            num5 = num9;
-                                            if (num10 > num5)
+                                            int currentPos = overallCurrentPos;
+                                            uncompressedDataEnd = uncompressedDataEndMinusOne;
+                                            if (currentPos > uncompressedDataEnd)
                                             {
                                                 break;
                                             }
-                                            if (b == _uncompressedData[num])
+                                            if (byteValueAtCursor == _uncompressedData[overallCurrentPos])
                                             {
-                                                num6++;
-                                                if (num6 == num7)
+                                                start++;
+                                                if (start == end)
                                                 {
-                                                    num3 += num6 - 1;
+                                                    cursorPosition += start - 1;
                                                     _compressedData.Add(247);
-                                                    _compressedData.Add((byte)num6);
-                                                    _compressedData.Add(b);
-                                                    num = _uncompressedData.Count;
-                                                    if (flag)
+                                                    _compressedData.Add((byte)start);
+                                                    _compressedData.Add(byteValueAtCursor);
+                                                    overallCurrentPos = _uncompressedData.Count;
+                                                    if (isOverTrap)
                                                     {
                                                         _compressedData.Add(t.HexCode);
-                                                        num3++;
+                                                        cursorPosition++;
                                                     }
                                                 }
                                             }
                                             else
                                             {
-                                                num3 += num6 - 1;
+                                                cursorPosition += start - 1;
                                                 _compressedData.Add(247);
-                                                _compressedData.Add((byte)num6);
-                                                _compressedData.Add(b);
-                                                num = _uncompressedData.Count;
+                                                _compressedData.Add((byte)start);
+                                                _compressedData.Add(byteValueAtCursor);
+                                                overallCurrentPos = _uncompressedData.Count;
                                             }
-                                            num++;
+                                            overallCurrentPos++;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    _compressedData.Add(b);
+                                    _compressedData.Add(byteValueAtCursor);
                                 }
                             }
                         }
-                        num3++;
+                        cursorPosition++;
                     }
-                    if (num3 == _uncompressedData.Count - 2)
+                    if (cursorPosition == _uncompressedData.Count - 2)
                     {
-                        _compressedData.Add(b2);
-                        _compressedData.Add(b3);
+                        _compressedData.Add(byteValueAtCursorPlusOne);
+                        _compressedData.Add(byteValueAtCursorPlusTwo);
                     }
-                    if (num3 == _uncompressedData.Count - 1)
+                    if (cursorPosition == _uncompressedData.Count - 1)
                     {
-                        _compressedData.Add(b3);
+                        _compressedData.Add(byteValueAtCursorPlusTwo);
                     }
                 }
                 catch (Exception ex)
@@ -404,7 +411,7 @@
                         if (!SequenceParser.IsControlSequence(ba))
                         {
                             Trap t = new();
-                            bool trap = GetTrap(num3, ref t);
+                            bool trap = GetTrap(num3, t);
                             if (!SequenceParser.IsDeflateSequence(ba))
                             {
                                 _uncompressedData.Add(b);
@@ -494,7 +501,7 @@
             }
         }
 
-        private bool GetTrap(int index, ref Trap t)
+        private bool GetTrap(int index, Trap t)
         {
             bool result = false;
             for (int i = 0; i < _traps.Count; i++)
@@ -510,7 +517,7 @@
             return result;
         }
 
-        private bool GetTrapByRealOffset(int index, ref Trap t)
+        private bool GetTrapByRealOffset(int index, Trap t)
         {
             bool result = false;
             for (int i = 0; i < _traps.Count; i++)
