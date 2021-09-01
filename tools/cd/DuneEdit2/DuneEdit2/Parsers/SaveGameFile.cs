@@ -331,6 +331,11 @@
             }
         }
 
+        internal void UpdateGameStage(byte gameStageValue)
+        {
+            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.GameStage)] = gameStageValue;
+        }
+
         internal void UpdateContactDistance(int contactDistanceValue)
         {
             _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)] = (byte)checked(contactDistanceValue);

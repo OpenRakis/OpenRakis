@@ -31,16 +31,21 @@
           <DockPanel>
             <UniformGrid DockPanel.Dock="Top">
               <StackPanel Orientation="Vertical" Margin="5">
-                <TextBlock>Spice:</TextBlock>
-                <NumericUpDown Value="{Binding SpiceVM, Mode=TwoWay}"></NumericUpDown>
+                <Label>Spice:</Label>
+                <NumericUpDown Value="{Binding SpiceVal, Mode=TwoWay}"></NumericUpDown>
               </StackPanel>
               <StackPanel Orientation="Vertical" Margin="5">
-                <TextBlock>Contact Distance:</TextBlock>
-                <NumericUpDown Value="{Binding ContactDistanceVM, Mode=TwoWay}"></NumericUpDown>
+                <Label>Contact Distance:</Label>
+                <NumericUpDown Value="{Binding ContactDistanceVal, Mode=TwoWay}"></NumericUpDown>
               </StackPanel>
               <StackPanel Orientation="Vertical" Margin="5">
-                <TextBlock>Charisma:</TextBlock>
-                <NumericUpDown Value="{Binding CharismaVM, Mode=TwoWay}"></NumericUpDown>
+                <Label>Charisma:</Label>
+                <NumericUpDown Value="{Binding CharismaVal, Mode=TwoWay}"></NumericUpDown>
+              </StackPanel>
+              <StackPanel Orientation="Vertical" Margin="5">
+                <Label>Game Stage:</Label>
+                <NumericUpDown Value="{Binding GameStageVal, Mode=TwoWay}"></NumericUpDown>
+                <TextBlock Text="{Binding GameStageDesc}"></TextBlock>
               </StackPanel>
             </UniformGrid>
 
@@ -71,6 +76,8 @@
               <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
                 <Label>Start Offset</Label>
                 <TextBlock Text="{Binding CurrentSietch.StartOffset}" IsEnabled="False" />
+                <Label>Coordinates</Label>
+                <TextBlock Text="{Binding CurrentSietch.Coordinates}" />
                 <Label>Region</Label>
                 <TextBlock Text="{Binding CurrentSietch.Region}" IsEnabled="False" />
                 <Label>Sub Region</Label>
@@ -109,7 +116,7 @@
                 <CheckBox Content="Fremen Found" IsChecked="{Binding CurrentSietch.FremenFound}" />
                 <CheckBox Content="Battle Won" IsChecked="{Binding CurrentSietch.BattleWon}" />
                 <CheckBox Content="See Inventory" IsChecked="{Binding CurrentSietch.SeeInventory}" />
-                <CheckBox Content="Wind Trap" IsChecked="{Binding CurrentSietch.WindTrap}" />
+                <CheckBox Content="Wind Trap" IsChecked="{Binding CurrentSietch.HasWindtrap}" />
                 <CheckBox Content="Prospected" IsChecked="{Binding CurrentSietch.Prospected}" />
                 <CheckBox Content="Not Discovered" IsChecked="{Binding CurrentSietch.NotDiscovered}" />
               </StackPanel>
@@ -117,13 +124,63 @@
           </Grid>
         </TabItem>
         <TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
-          <ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
-            <ComboBox.ItemTemplate>
-              <DataTemplate DataType="{x:Type vm:TroopViewModel}">
-                <Label Content="{Binding Description}" />
-              </DataTemplate>
-            </ComboBox.ItemTemplate>
-          </ComboBox>
+          <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
+            <ComboBox Grid.Row="0" Grid.Column="0" Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:TroopViewModel}">
+                  <Label Content="{Binding Description}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*">
+              <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
+                <Label>Start Offset</Label>
+                <TextBlock Text="{Binding CurrentTroop.StartOffset}" IsEnabled="False" />
+                <Label>Coordinates</Label>
+                <TextBlock Text="{Binding CurrentTroop.Coordinates}" />
+                <Label>Troop ID</Label>
+                <TextBlock Text="{Binding CurrentTroop.TroopID}" IsEnabled="False" />
+                <Label>Next Troop ID</Label>
+                <TextBlock Text="{Binding CurrentTroop.NextTroopInSietch}" IsEnabled="False" />
+                <Label>Current Sietch</Label>
+                <TextBlock Text="{Binding CurrentTroop.CurrentSietch}" IsEnabled="False" />
+                <Label>Status</Label>
+                <TextBlock Text="{Binding CurrentTroop.Status}" IsEnabled="False" />
+                <Label>Spicefield ID</Label>
+                <TextBlock Text="{Binding CurrentTroop.SpicefieldID}" IsEnabled="False" />
+              </StackPanel>
+              <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
+                <Label>Spice Skill</Label>
+                <NumericUpDown Text="{Binding CurrentTroop.SpiceSkill}" />
+                <Label>Army Skill</Label>
+                <NumericUpDown Text="{Binding CurrentTroop.ArmySkill}" />
+                <Label>Ecology Skill</Label>
+                <NumericUpDown Text="{Binding CurrentTroop.EcologySkill}" />
+                <Label>Population</Label>
+                <NumericUpDown Text="{Binding CurrentTroop.Population}" />
+                <Label>Motivation</Label>
+                <NumericUpDown Text="{Binding CurrentTroop.Motivation}" />
+                <Label>Dissatisfaction</Label>
+                <NumericUpDown Text="{Binding CurrentTroop.Dissatisfaction}" />
+                <TextBlock Text="{Binding CurrentTroop.DissatisfactionDesc}" />
+                <Label>Job</Label>
+                <NumericUpDown Text="{Binding CurrentTroop.Job}" />
+                <TextBlock Text="{Binding CurrentTroop.JobDesc}" />
+              </StackPanel>
+              <StackPanel HorizontalAlignment="Right" Orientation="Vertical" Grid.Column="2">
+                <Label>Equipment</Label>
+                <CheckBox Content="Has weirding modules" IsChecked="{Binding CurrentTroop.Weirdings}" />
+                <CheckBox Content="Has Orni" IsChecked="{Binding CurrentTroop.Ornithopters}" />
+                <CheckBox Content="Has Laserguns" IsChecked="{Binding CurrentTroop.LaserGuns}" />
+                <CheckBox Content="Has Krys knives" IsChecked="{Binding CurrentTroop.KrysKnives}" />
+                <CheckBox Content="Has Harvester" IsChecked="{Binding CurrentTroop.Harvesters}" />
+                <CheckBox Content="Has Bulbs" IsChecked="{Binding CurrentTroop.Bulbs}" />
+                <CheckBox Content="Has Atomics" IsChecked="{Binding CurrentTroop.Atomics}" />
+                <CheckBox Content="Not Discovered" IsChecked="{Binding CurrentTroop.NotDiscovered}" />
+              </StackPanel>
+            </Grid>
+            <Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentSietch.HasChanged}" Command="{Binding UpdateTroop}" />
+          </Grid>
         </TabItem>
         <TabItem Header="Map of Dune">
           <DockPanel>

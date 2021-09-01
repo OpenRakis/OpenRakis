@@ -1,6 +1,7 @@
 ﻿namespace DuneEdit2.ViewModels
 {
     using DuneEdit2.Models;
+    using DuneEdit2.Parsers;
 
     using ReactiveUI;
 
@@ -79,8 +80,11 @@
                 _troop.Dissatisfaction = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Dissatisfaction));
+                this.RaisePropertyChanged(nameof(DissatisfactionDesc));
             }
         }
+
+        public string DissatisfactionDesc => SpeechFinder.GetSpeechDesc(_troop.Dissatisfaction);
 
         public byte EcologySkill
         {
@@ -114,8 +118,11 @@
                 _troop.Job = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Job));
+                this.RaisePropertyChanged(nameof(JobDesc));
             }
         }
+
+        public string JobDesc => JobFinder.GetJobDesc(_troop.Job);
 
         public bool KrysKnives
         {
@@ -227,7 +234,19 @@
             }
         }
 
-        public string Description => $"{_troop.TroopID} ({_sietch?.RegionName})";
+        public string CurrentSietch => GetSietchName();
+
+        private string GetSietchName()
+        {
+            var name = "no sietch ID";
+            if (_sietch != null && string.IsNullOrWhiteSpace(_sietch.RegionName) == false)
+            {
+                return _sietch.RegionName;
+            }
+            return name;
+        }
+
+        public string Description => $"{_troop.TroopID} ({GetSietchName()})";
 
         public TroopViewModel(Troop troop, Sietch? sietch)
         {

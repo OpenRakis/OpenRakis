@@ -1,12 +1,12 @@
 namespace DuneEdit2.Parsers
 {
-    public class Jobs
+    public class JobFinder
     {
-        public Jobs()
+        public JobFinder()
         {
         }
 
-        public static string Job(byte id)
+        public static string GetJobDesc(byte id)
         {
             return id switch
             {

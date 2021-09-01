@@ -2,13 +2,15 @@ namespace DuneEdit2.Parsers
 {
     public class SpeechFinder
     {
+        private const string _default = "Unknown / Not yet discovered.";
+
         public SpeechFinder()
         {
         }
 
-        public static string Speech(byte id)
+        public static string GetSpeechDesc(byte id)
         {
-            string result = string.Empty;
+            string result = _default;
             switch (id)
             {
                 case 1:
@@ -41,6 +43,9 @@ namespace DuneEdit2.Parsers
 
                 case 128:
                     result = "Ecology skill showing in troop characteristics";
+                    break;
+
+                default:
                     break;
             }
             return result;

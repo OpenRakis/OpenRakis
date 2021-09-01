@@ -99,28 +99,42 @@
 
         public ReactiveCommand<Unit, Unit> OpenSaveGame { get; private set; }
 
-        private int _spiceVM = 0;
+        private int _spiceVal = 0;
 
-        public int SpiceVM
+        public int SpiceVal
         {
-            get => _spiceVM;
-            set => this.RaiseAndSetIfChanged(ref _spiceVM, value);
+            get => _spiceVal;
+            set => this.RaiseAndSetIfChanged(ref _spiceVal, value);
         }
 
-        private byte _charismaVM = 0;
+        private byte _charismaVal = 0;
 
-        public byte CharismaVM
+        public byte CharismaVal
         {
-            get => _charismaVM;
-            set => this.RaiseAndSetIfChanged(ref _charismaVM, value);
+            get => _charismaVal;
+            set => this.RaiseAndSetIfChanged(ref _charismaVal, value);
         }
 
-        private int _contactDistanceVM = 0;
+        private int _contactDistanceVal = 0;
 
-        public int ContactDistanceVM
+        public int ContactDistanceVal
         {
-            get => _contactDistanceVM;
-            set => this.RaiseAndSetIfChanged(ref _contactDistanceVM, value);
+            get => _contactDistanceVal;
+            set => this.RaiseAndSetIfChanged(ref _contactDistanceVal, value);
+        }
+
+        public string GameStageDesc => GameStageFinder.FindStage(_gameStageVal);
+
+        private byte _gameStageVal = 0;
+
+        public byte GameStageVal
+        {
+            get => _gameStageVal;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _gameStageVal, value);
+                this.RaisePropertyChanged(nameof(GameStageDesc));
+            }
         }
 
         public ReactiveCommand<Unit, Unit> SaveGameFile { get; private set; }
@@ -149,9 +163,10 @@
             if (result.Length > 0)
             {
                 _savegameFile = new SaveGameFile(result[0]);
-                SpiceVM = _savegameFile.Generals.Spice;
-                CharismaVM = _savegameFile.Generals.CharismaGUI;
-                ContactDistanceVM = _savegameFile.Generals.ContactDistance;
+                SpiceVal = _savegameFile.Generals.Spice;
+                CharismaVal = _savegameFile.Generals.CharismaGUI;
+                ContactDistanceVal = _savegameFile.Generals.ContactDistance;
+                GameStageVal = _savegameFile.Generals.GameStage;
                 PopulateSietches(_savegameFile.GetSietches());
                 PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
                 IsSaveGameLoaded = true;
@@ -191,9 +206,10 @@
             {
                 return Unit.Default;
             }
-            _savegameFile.UpdateCharisma(CharismaVM);
-            _savegameFile.UpdateSpice(SpiceVM);
-            _savegameFile.UpdateContactDistance(ContactDistanceVM);
+            _savegameFile.UpdateCharisma(CharismaVal);
+            _savegameFile.UpdateSpice(SpiceVal);
+            _savegameFile.UpdateContactDistance(ContactDistanceVal);
+            _savegameFile.UpdateGameStage(GameStageVal);
             _savegameFile.SaveCompressed();
             return Unit.Default;
         }

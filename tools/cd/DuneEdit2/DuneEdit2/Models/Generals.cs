@@ -75,6 +75,8 @@ namespace DuneEdit2.Models
 
         public string GameStageAsHex => $"{_gameStage:X2}";
 
+        public byte GameStage => _gameStage;
+
         public string SpiceAsHex => $"{_spice[0]:X2}{_spice[1]:X2}";
 
         public int Spice
@@ -87,6 +89,6 @@ namespace DuneEdit2.Models
             }
         }
 
-        public string GameStage() => GameStageFinder.FindStage(_gameStage);
+        public string GetGameStageDesc() => GameStageFinder.FindStage(_gameStage);
     }
 }

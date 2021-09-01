@@ -1,11 +1,5 @@
 ﻿namespace DuneEdit2.Parsers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public class GameStageFinder
     {
         public GameStageFinder()
@@ -14,7 +8,7 @@
 
         public static string FindStage(byte id)
         {
-            string result = string.Empty;
+            string result = "Unkown / not yet discovered.";
             if (id == 0x0) { result = "Game start"; }
             if (id == 0x01) { result = "met Gurney, Duncan appears in throne room"; }
             if (id == 0x02) { result = "go find the stillsuit maker"; }

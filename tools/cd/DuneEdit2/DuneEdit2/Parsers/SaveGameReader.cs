@@ -25,7 +25,7 @@ namespace DuneEdit2.Parsers
 
         public string GetGameStageHexValue() => _generals.GameStageAsHex;
 
-        public string GetGameStageExplained() => _generals.GameStage();
+        public string GetGameStageExplained() => _generals.GetGameStageDesc();
 
         public static string GetGameStagePosition() => $"0x{SaveGameIndex.GetFieldStartPos(FieldName.GameStage):X}";
 
