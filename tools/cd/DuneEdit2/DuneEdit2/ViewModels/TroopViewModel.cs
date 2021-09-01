@@ -6,6 +6,8 @@
 
     public class TroopViewModel : ReactiveObject
     {
+        private Sietch? _sietch;
+
         private bool _hasChanged;
 
         public bool HasChanged
@@ -225,6 +227,12 @@
             }
         }
 
-        public TroopViewModel(Troop troop) => _troop = troop;
+        public string Description => $"{_troop.TroopID} ({_sietch?.RegionName})";
+
+        public TroopViewModel(Troop troop, Sietch? sietch)
+        {
+            _troop = troop;
+            _sietch = sietch;
+        }
     }
 }

@@ -120,7 +120,7 @@
           <ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
               <DataTemplate DataType="{x:Type vm:TroopViewModel}">
-                <Label Content="{Binding TroopDesc}" />
+                <Label Content="{Binding Description}" />
               </DataTemplate>
             </ComboBox.ItemTemplate>
           </ComboBox>

@@ -153,7 +153,7 @@
                 CharismaVM = _savegameFile.Generals.CharismaGUI;
                 ContactDistanceVM = _savegameFile.Generals.ContactDistance;
                 PopulateSietches(_savegameFile.GetSietches());
-                PopulateTroops(_savegameFile.GetTroops());
+                PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
                 IsSaveGameLoaded = true;
             }
             return Unit.Default;
@@ -171,11 +171,13 @@
             }
         }
 
-        private void PopulateTroops(List<Troop> troops)
+        private void PopulateTroops(List<Troop> troops, List<Sietch> sietches)
         {
             foreach (var troop in troops)
             {
-                Troops.Add(new TroopViewModel(troop));
+                var sietch = sietches.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);
+                var troopVM = new TroopViewModel(troop, sietch);
+                Troops.Add(troopVM);
             }
             if (troops.Any())
             {
