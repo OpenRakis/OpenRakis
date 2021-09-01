@@ -56,15 +56,20 @@ namespace DuneEdit2.Models
             {
                 checked
                 {
-                    var newValue = (byte)(unchecked(value) * 2);
+                    var newValue = value * 2;
+                    if (newValue > 0)
+                    {
+                        _charisma = (byte)newValue;
+                    }
+                    else
+                    {
+                        _charisma = 0;
+                    }
                 }
             }
         }
 
-        public int ContactDistance
-        {
-            get => int.Parse(_contactDistance.ToString("X"), NumberStyles.HexNumber);
-        }
+        public int ContactDistance => int.Parse(_contactDistance.ToString("X"), NumberStyles.HexNumber);
 
         public string DateAsHex => $"{_dateAndTime[0]:X2}{_dateAndTime[1]:X2}";
 

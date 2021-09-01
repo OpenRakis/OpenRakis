@@ -159,12 +159,30 @@
 
         internal void UpdateTroop(Troop troop)
         {
-            throw new NotImplementedException();
+            int startOffset = troop.StartOffset;
+            _uncompressedData[startOffset + 3] = troop.Job;
+            _uncompressedData[startOffset + 18] = troop.Dissatisfaction;
+            _uncompressedData[startOffset + 21] = troop.Motivation;
+            _uncompressedData[startOffset + 22] = troop.SpiceSkill;
+            _uncompressedData[startOffset + 23] = troop.ArmySkill;
+            _uncompressedData[startOffset + 24] = troop.EcologySkill;
+            _uncompressedData[startOffset + 25] = troop.Equipment;
+            _uncompressedData[startOffset + 26] = (byte)Math.Round(troop.Population / 10.0);
         }
 
         internal void UpdateSietch(Sietch sietch)
         {
-            throw new NotImplementedException();
+            int startOffset = sietch.StartOffset;
+            _uncompressedData[startOffset + 10] = sietch.Status;
+            _uncompressedData[startOffset + 18] = sietch.SpiceDensity;
+            _uncompressedData[startOffset + 20] = sietch.Harvesters;
+            _uncompressedData[startOffset + 21] = sietch.Ornis;
+            _uncompressedData[startOffset + 22] = sietch.Krys;
+            _uncompressedData[startOffset + 23] = sietch.LaserGuns;
+            _uncompressedData[startOffset + 24] = sietch.WeirdingMod;
+            _uncompressedData[startOffset + 25] = sietch.Atomics;
+            _uncompressedData[startOffset + 26] = sietch.Bulbs;
+            _uncompressedData[startOffset + 27] = sietch.Water;
         }
 
         public Generals Generals => _generals;

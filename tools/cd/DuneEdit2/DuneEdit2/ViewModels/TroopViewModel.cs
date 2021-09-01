@@ -1,15 +1,26 @@
 ﻿namespace DuneEdit2.ViewModels
 {
-    using System;
-
     using DuneEdit2.Models;
-    using DuneEdit2.Parsers;
 
     using ReactiveUI;
 
     public class TroopViewModel : ReactiveObject
     {
+        private bool _hasChanged;
+
+        public bool HasChanged
+        {
+            get => _hasChanged;
+            private set
+            {
+                _hasChanged = value;
+                this.RaisePropertyChanged(nameof(HasChanged));
+            }
+        }
+
         private Troop _troop;
+
+        public Troop Troop => _troop;
 
         public byte ArmySkill
         {
@@ -18,6 +29,7 @@
             set
             {
                 _troop.ArmySkill = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(ArmySkill));
             }
         }
@@ -28,6 +40,7 @@
             set
             {
                 _troop.Atomics = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Atomics));
             }
         }
@@ -38,6 +51,7 @@
             set
             {
                 _troop.Bulbs = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Bulbs));
             }
         }
@@ -49,6 +63,7 @@
             set
             {
                 _troop.Coordinates = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Coordinates));
             }
         }
@@ -60,6 +75,7 @@
             set
             {
                 _troop.Dissatisfaction = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Dissatisfaction));
             }
         }
@@ -71,6 +87,7 @@
             set
             {
                 _troop.EcologySkill = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(EcologySkill));
             }
         }
@@ -81,6 +98,7 @@
             set
             {
                 _troop.Harvesters = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Harvesters));
             }
         }
@@ -92,6 +110,7 @@
             set
             {
                 _troop.Job = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Job));
             }
         }
@@ -102,6 +121,7 @@
             set
             {
                 _troop.KrysKnives = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(KrysKnives));
             }
         }
@@ -112,6 +132,7 @@
             set
             {
                 _troop.LaserGuns = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(LaserGuns));
             }
         }
@@ -123,6 +144,7 @@
             set
             {
                 _troop.Motivation = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Motivation));
             }
         }
@@ -134,6 +156,7 @@
             set
             {
                 _troop.NextTroopInSietch = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(NextTroopInSietch));
             }
         }
@@ -144,6 +167,7 @@
             set
             {
                 _troop.Ornithopters = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Ornithopters));
             }
         }
@@ -155,6 +179,7 @@
             set
             {
                 _troop.Population = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Population));
             }
         }
@@ -166,6 +191,7 @@
             set
             {
                 _troop.Speech = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Speech));
             }
         }
@@ -177,6 +203,7 @@
             set
             {
                 _troop.SpiceSkill = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(SpiceSkill));
             }
         }
@@ -193,6 +220,7 @@
             set
             {
                 _troop.Weirdings = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Weirdings));
             }
         }

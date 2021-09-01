@@ -26,9 +26,32 @@
         {
             OpenSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenSaveGameMethodAsync);
             SaveGameFile = ReactiveCommand.Create<Unit, Unit>(SaveGameMethod);
+            UpdateSietch = ReactiveCommand.Create<Unit, Unit>(UpdateSietchMethod);
+            UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
+        }
+
+        private Unit UpdateTroopMethod(Unit arg)
+        {
+            if (CurrentTroop != null)
+            {
+                _savegameFile.UpdateTroop(CurrentTroop.Troop);
+            }
+            return Unit.Default;
+        }
+
+        private Unit UpdateSietchMethod(Unit arg)
+        {
+            if (CurrentSietch != null)
+            {
+                _savegameFile.UpdateSietch(CurrentSietch.Sietch);
+            }
+            return Unit.Default;
         }
 
         public ReactiveCommand<Unit, Unit>? ExitApp { get; private set; }
+
+        public ReactiveCommand<Unit, Unit>? UpdateSietch { get; private set; }
+        public ReactiveCommand<Unit, Unit>? UpdateTroop { get; private set; }
 
         public bool IsSaveGameLoaded
         {

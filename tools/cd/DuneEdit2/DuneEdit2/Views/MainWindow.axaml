@@ -15,87 +15,125 @@
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
-    <Menu Grid.Row="0">
-      <MenuItem Header="File" HotKey="Alt+F">
-        <MenuItem Header="Open" Command="{Binding OpenSaveGame}" HotKey="Ctrl+O">
+  <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+    <StackPanel>
+      <Menu>
+        <MenuItem Header="File" HotKey="Alt+F">
+          <MenuItem Header="Open" Command="{Binding OpenSaveGame}" HotKey="Ctrl+O">
+          </MenuItem>
+          <MenuItem Header="Save" Command="{Binding SaveGameFile}" HotKey="Ctrl+S" IsEnabled="{Binding IsSaveGameLoaded}"></MenuItem>
+          <MenuItem Header="Exit" Command="{Binding ExitApp}" HotKey="Alt+F4"></MenuItem>
         </MenuItem>
-        <MenuItem Header="Save" Command="{Binding SaveGameFile}" HotKey="Ctrl+S" IsEnabled="{Binding IsSaveGameLoaded}"></MenuItem>
-        <MenuItem Header="Exit" Command="{Binding ExitApp}" HotKey="Alt+F4"></MenuItem>
-      </MenuItem>
-    </Menu>
-    <TabControl Grid.Row="1">
-      <TabItem Header="General" IsEnabled="{Binding IsSaveGameLoaded}">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-          </Grid.RowDefinitions>
-          <Grid Grid.Column="0">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Vertical" Grid.Column="0" Margin="5">
-              <TextBlock>Spice:</TextBlock>
-              <NumericUpDown Value="{Binding SpiceVM, Mode=TwoWay}"></NumericUpDown>
+      </Menu>
+
+      <TabControl>
+        <TabItem Header="General" IsEnabled="{Binding IsSaveGameLoaded}">
+          <DockPanel>
+            <UniformGrid DockPanel.Dock="Top">
+              <StackPanel Orientation="Vertical" Margin="5">
+                <TextBlock>Spice:</TextBlock>
+                <NumericUpDown Value="{Binding SpiceVM, Mode=TwoWay}"></NumericUpDown>
+              </StackPanel>
+              <StackPanel Orientation="Vertical" Margin="5">
+                <TextBlock>Contact Distance:</TextBlock>
+                <NumericUpDown Value="{Binding ContactDistanceVM, Mode=TwoWay}"></NumericUpDown>
+              </StackPanel>
+              <StackPanel Orientation="Vertical" Margin="5">
+                <TextBlock>Charisma:</TextBlock>
+                <NumericUpDown Value="{Binding CharismaVM, Mode=TwoWay}"></NumericUpDown>
+              </StackPanel>
+            </UniformGrid>
+
+            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock>Tips to use this savegame editor:</TextBlock>
+              <TextBlock>* Do the Stillsuit Mission first before editing your savegame.</TextBlock>
+              <TextBlock>* Some inputs were limited to avoid overflows and games crashs.</TextBlock>
+              <TextBlock>* Do not use the maximum Charisma value at the beginning of the game.</TextBlock>
+              <TextBlock>* Do not set the maximum Spice value if you will be doing harvesting.</TextBlock>
+              <TextBlock>* Saved games are backed up. Check for the files with a ".bak" extension.</TextBlock>
+              <TextBlock>* The savegame files that you should use are DUNE37S1.SAV and DUNE37S2.SAV</TextBlock>
+              <TextBlock>* Enjoy...</TextBlock>
+              <TextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom">Made from the original DuneEdit created by Stephan Fourie.</TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5">
-              <TextBlock>Contact Distance:</TextBlock>
-              <NumericUpDown Value="{Binding ContactDistanceVM, Mode=TwoWay}"></NumericUpDown>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" Grid.Column="2" Margin="5">
-              <TextBlock>Charisma:</TextBlock>
-              <NumericUpDown Value="{Binding CharismaVM, Mode=TwoWay}"></NumericUpDown>
-            </StackPanel>
+          </DockPanel>
+        </TabItem>
+        <TabItem Header="Sietches" IsEnabled="{Binding IsSaveGameLoaded}">
+          <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
+            <ComboBox Grid.Row="0" Grid.Column="0" Items="{Binding Sietches}" SelectedItem="{Binding CurrentSietch, Mode=TwoWay}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:SietchViewModel}">
+                  <Label Content="{Binding RegionName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentSietch.HasChanged}" Command="{Binding UpdateSietch}" />
+            <Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*">
+              <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
+                <Label>Start Offset</Label>
+                <TextBlock Text="{Binding CurrentSietch.StartOffset}" IsEnabled="False" />
+                <Label>Region</Label>
+                <TextBlock Text="{Binding CurrentSietch.Region}" IsEnabled="False" />
+                <Label>Sub Region</Label>
+                <TextBlock Text="{Binding CurrentSietch.SubRegion}" IsEnabled="False" />
+                <Label>Housed Troop ID</Label>
+                <TextBlock Text="{Binding CurrentSietch.HousedTroopID}" IsEnabled="False" />
+                <Label>Status</Label>
+                <TextBlock Text="{Binding CurrentSietch.Status}" IsEnabled="False" />
+                <Label>Spicefield ID</Label>
+                <TextBlock Text="{Binding CurrentSietch.SpicefieldID}" IsEnabled="False" />
+              </StackPanel>
+              <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
+                <Label>Spice Density</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.SpiceDensity}" />
+                <Label>Harvesters</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.Harvesters}" />
+                <Label>Ornis</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.Ornis}" />
+                <Label>Krys/Knifes</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.Krys}" />
+                <Label>Laserguns</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.LaserGuns}" />
+                <Label>Weirdng Mod</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.WeirdingMod}" />
+                <Label>Atomics</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.Atomics}" />
+                <Label>Bulbs</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.Bulbs}" />
+                <Label>Water</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.Water}" />
+              </StackPanel>
+              <StackPanel HorizontalAlignment="Right" Orientation="Vertical" Grid.Column="2">
+                <Label>Status</Label>
+                <CheckBox Content="Vegetation" IsChecked="{Binding CurrentSietch.HasVegetation}" />
+                <CheckBox Content="In Battle" IsChecked="{Binding CurrentSietch.InBattle}" />
+                <CheckBox Content="Fremen Found" IsChecked="{Binding CurrentSietch.FremenFound}" />
+                <CheckBox Content="Battle Won" IsChecked="{Binding CurrentSietch.BattleWon}" />
+                <CheckBox Content="See Inventory" IsChecked="{Binding CurrentSietch.SeeInventory}" />
+                <CheckBox Content="Wind Trap" IsChecked="{Binding CurrentSietch.WindTrap}" />
+                <CheckBox Content="Prospected" IsChecked="{Binding CurrentSietch.Prospected}" />
+                <CheckBox Content="Not Discovered" IsChecked="{Binding CurrentSietch.NotDiscovered}" />
+              </StackPanel>
+            </Grid>
           </Grid>
-          <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock>Tips to use this savegame editor:</TextBlock>
-            <TextBlock>* Do the Stillsuit Mission first before editing your savegame.</TextBlock>
-            <TextBlock>* Some inputs were limited to avoid overflows and games crashs.</TextBlock>
-            <TextBlock>* Do not use the maximum Charisma value at the beginning of the game.</TextBlock>
-            <TextBlock>* Do not set the maximum Spice value if you will be doing harvesting.</TextBlock>
-            <TextBlock>* Saved games are backed up. Check for the files with a ".bak" extension.</TextBlock>
-            <TextBlock>* The savegame files that you should use are DUNE37S1.SAV and DUNE37S2.SAV</TextBlock>
-            <TextBlock>* Enjoy...</TextBlock>
-          </StackPanel>
-        </Grid>
-      </TabItem>
-      <TabItem Header="Sietches" IsEnabled="{Binding IsSaveGameLoaded}">
-        <ComboBox Items="{Binding Sietches}" SelectedItem="{Binding CurrentSietch, Mode=TwoWay}">
-          <ComboBox.ItemTemplate>
-            <DataTemplate DataType="{x:Type vm:SietchViewModel}">
-              <Label Content="{Binding RegionName}" />
-            </DataTemplate>
-          </ComboBox.ItemTemplate>
-        </ComboBox>
-      </TabItem>
-      <TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
-        <ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
-          <ComboBox.ItemTemplate>
-            <DataTemplate DataType="{x:Type vm:TroopViewModel}">
-              <Label Content="{Binding TroopDesc}" />
-            </DataTemplate>
-          </ComboBox.ItemTemplate>
-        </ComboBox>
-      </TabItem>
-      <TabItem Header="Map of Dune">
-        <Grid RowDefinitions="Auto,*">
-          <TextBlock Grid.Row="0" HorizontalAlignment="Center">NB: Harkonnen fortresses have been turned into sietches</TextBlock>
-          <Viewbox Grid.Row="1" StretchDirection="Both" Stretch="Fill">
-            <Image Source="/Assets/Map.png" />
-          </Viewbox>
-        </Grid>
-      </TabItem>
-    </TabControl>
-    <TextBlock HorizontalAlignment="Center" Grid.Row="3">Created by Stephan Fourie. Made multiplatform by Maximilien Noal.</TextBlock>
-  </Grid>
+        </TabItem>
+        <TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
+          <ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate DataType="{x:Type vm:TroopViewModel}">
+                <Label Content="{Binding TroopDesc}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </TabItem>
+        <TabItem Header="Map of Dune">
+          <DockPanel>
+            <TextBlock DockPanel.Dock="Top"  HorizontalAlignment="Center">NB: Harkonnen fortresses have been turned into sietches</TextBlock>
+            <Viewbox DockPanel.Dock="Bottom" StretchDirection="Both" Stretch="Fill">
+              <Image Source="/Assets/Map.png" />
+            </Viewbox>
+          </DockPanel>
+        </TabItem>
+      </TabControl>
+    </StackPanel>
+  </ScrollViewer>
 </Window>

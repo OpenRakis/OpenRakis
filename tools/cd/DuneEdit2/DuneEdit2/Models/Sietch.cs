@@ -20,7 +20,7 @@ namespace DuneEdit2.Models
             SpicefieldID = spicefieldID;
             SpiceDensity = spiceDensity;
             Harvesters = harvesters;
-            Orni = ornis;
+            Ornis = ornis;
             Krys = krys;
             LaserGuns = laserGuns;
             WeirdingMod = weirdingMods;
@@ -36,13 +36,7 @@ namespace DuneEdit2.Models
         {
             get => _statesField.GetBit(3) != 0;
 
-            set
-            {
-                if (value)
-                {
-                    _statesField.SetBit(3);
-                }
-            }
+            set => _statesField.SetBit(3, value);
         }
 
         public byte Bulbs { get; set; }
@@ -53,13 +47,7 @@ namespace DuneEdit2.Models
         {
             get => _statesField.GetBit(2) != 0;
 
-            set
-            {
-                if (value)
-                {
-                    _statesField.SetBit(2);
-                }
-            }
+            set => _statesField.SetBit(2, value);
         }
 
         public byte Harvesters { get; set; }
@@ -68,26 +56,14 @@ namespace DuneEdit2.Models
         {
             get => _statesField.GetBit(0) != 0;
 
-            set
-            {
-                if (value)
-                {
-                    _statesField.SetBit(0);
-                }
-            }
+            set => _statesField.SetBit(0, value);
         }
 
         public bool HasWindtrap
         {
             get => _statesField.GetBit(5) != 0;
 
-            set
-            {
-                if (value)
-                {
-                    _statesField.SetBit(5);
-                }
-            }
+            set => _statesField.SetBit(5, value);
         }
 
         public byte HousedTroopID { get; set; }
@@ -98,13 +74,7 @@ namespace DuneEdit2.Models
         {
             get => _statesField.GetBit(1) != 0;
 
-            set
-            {
-                if (value)
-                {
-                    _statesField.SetBit(1);
-                }
-            }
+            set => _statesField.SetBit(1, value);
         }
 
         public byte Krys { get; set; }
@@ -115,28 +85,16 @@ namespace DuneEdit2.Models
         {
             get => _statesField.GetBit(7) != 0;
 
-            set
-            {
-                if (value)
-                {
-                    _statesField.SetBit(7);
-                }
-            }
+            set => _statesField.SetBit(7, value);
         }
 
-        public byte Orni { get; set; }
+        public byte Ornis { get; set; }
 
         public bool Prospected
         {
             get => _statesField.GetBit(6) != 0;
 
-            set
-            {
-                if (value)
-                {
-                    _statesField.SetBit(6);
-                }
-            }
+            set => _statesField.SetBit(6, value);
         }
 
         public byte Region { get; set; }
@@ -147,13 +105,7 @@ namespace DuneEdit2.Models
         {
             get => _statesField.GetBit(4) != 0;
 
-            set
-            {
-                if (value)
-                {
-                    _statesField.SetBit(4);
-                }
-            }
+            set => _statesField.SetBit(4, value);
         }
 
         public byte SpiceDensity { get; set; }

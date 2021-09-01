@@ -8,6 +8,20 @@
     {
         private Sietch _sietch;
 
+        private bool _hasChanged;
+
+        public bool HasChanged
+        {
+            get => _hasChanged;
+            private set
+            {
+                _hasChanged = value;
+                this.RaisePropertyChanged(nameof(HasChanged));
+            }
+        }
+
+        public Sietch Sietch => _sietch;
+
         public byte Atomics
         {
             get => _sietch.Atomics;
@@ -15,6 +29,7 @@
             set
             {
                 _sietch.Atomics = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Atomics));
             }
         }
@@ -26,6 +41,7 @@
             set
             {
                 _sietch.BattleWon = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(BattleWon));
             }
         }
@@ -37,20 +53,12 @@
             set
             {
                 _sietch.Bulbs = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Bulbs));
             }
         }
 
-        public string? Coordinates
-        {
-            get => _sietch.Coordinates;
-
-            set
-            {
-                _sietch.Coordinates = value;
-                this.RaisePropertyChanged(nameof(Coordinates));
-            }
-        }
+        public string? Coordinates => _sietch.Coordinates;
 
         public bool FremenFound
         {
@@ -59,6 +67,7 @@
             set
             {
                 _sietch.FremenFound = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(FremenFound));
             }
         }
@@ -70,6 +79,7 @@
             set
             {
                 _sietch.Harvesters = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Harvesters));
             }
         }
@@ -81,6 +91,7 @@
             set
             {
                 _sietch.HasVegetation = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(HasVegetation));
             }
         }
@@ -92,6 +103,7 @@
             set
             {
                 _sietch.HasWindtrap = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(HasWindtrap));
             }
         }
@@ -107,6 +119,7 @@
             set
             {
                 _sietch.InBattle = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(InBattle));
             }
         }
@@ -118,6 +131,7 @@
             set
             {
                 _sietch.Krys = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Krys));
             }
         }
@@ -129,6 +143,7 @@
             set
             {
                 _sietch.LaserGuns = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(LaserGuns));
             }
         }
@@ -140,18 +155,20 @@
             set
             {
                 _sietch.NotDiscovered = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(NotDiscovered));
             }
         }
 
-        public byte Orni
+        public byte Ornis
         {
-            get => Orni;
+            get => _sietch.Ornis;
 
             set
             {
                 _sietch.Bulbs = value;
-                this.RaisePropertyChanged(nameof(Bulbs));
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Ornis));
             }
         }
 
@@ -162,20 +179,12 @@
             set
             {
                 _sietch.Prospected = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Prospected));
             }
         }
 
-        public byte Region
-        {
-            get => _sietch.Region;
-
-            set
-            {
-                _sietch.Region = value;
-                this.RaisePropertyChanged(nameof(Region));
-            }
-        }
+        public byte Region => _sietch.Region;
 
         public string RegionName => _sietch.RegionName;
 
@@ -186,6 +195,7 @@
             set
             {
                 _sietch.SeeInventory = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(SeeInventory));
             }
         }
@@ -196,54 +206,19 @@
 
             set
             {
-                _sietch.SpicefieldID = value;
-                this.RaisePropertyChanged(nameof(SpicefieldID));
+                _sietch.SpiceDensity = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(SpiceDensity));
             }
         }
 
-        public byte SpicefieldID
-        {
-            get => _sietch.SpicefieldID;
+        public byte SpicefieldID => _sietch.SpicefieldID;
 
-            set
-            {
-                _sietch.SpicefieldID = value;
-                this.RaisePropertyChanged(nameof(SpicefieldID));
-            }
-        }
+        public int StartOffset => _sietch.StartOffset;
 
-        public int StartOffset
-        {
-            get => _sietch.StartOffset;
+        public byte Status => _sietch.Status;
 
-            set
-            {
-                _sietch.StartOffset = value;
-                this.RaisePropertyChanged(nameof(StartOffset));
-            }
-        }
-
-        public byte Status
-        {
-            get => _sietch.Status;
-
-            set
-            {
-                _sietch.Status = value;
-                this.RaisePropertyChanged(nameof(Status));
-            }
-        }
-
-        public byte SubRegion
-        {
-            get => _sietch.SubRegion;
-
-            set
-            {
-                _sietch.SubRegion = value;
-                this.RaisePropertyChanged(nameof(SubRegion));
-            }
-        }
+        public byte SubRegion => _sietch.SubRegion;
 
         public byte Water
         {
@@ -252,6 +227,7 @@
             set
             {
                 _sietch.Water = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Water));
             }
         }
@@ -263,6 +239,7 @@
             set
             {
                 _sietch.WeirdingMod = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(WeirdingMod));
             }
         }
