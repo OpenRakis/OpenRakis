@@ -4,7 +4,7 @@
     <TargetFramework>net50</TargetFramework>
     <Nullable>Enable</Nullable>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <Version>0.2</Version>
+    <Version>1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
