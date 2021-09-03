@@ -1,6 +1,5 @@
 ﻿namespace DuneEdit2.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -194,6 +193,7 @@
 
         private void PopulateSietches(List<Sietch> sietches)
         {
+            Sietches.Clear();
             foreach (var sietch in sietches)
             {
                 Sietches.Add(new SietchViewModel(sietch));
@@ -206,6 +206,7 @@
 
         private void PopulateTroops(List<Troop> troops, List<Sietch> sietches)
         {
+            Troops.Clear();
             foreach (var troop in troops)
             {
                 var sietch = sietches.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);

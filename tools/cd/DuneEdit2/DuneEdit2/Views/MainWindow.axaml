@@ -181,7 +181,6 @@
                 <CheckBox Content="Has Harvester" IsChecked="{Binding CurrentTroop.Harvesters}" />
                 <CheckBox Content="Has Bulbs" IsChecked="{Binding CurrentTroop.Bulbs}" />
                 <CheckBox Content="Has Atomics" IsChecked="{Binding CurrentTroop.Atomics}" />
-                <CheckBox Content="Not Discovered" IsChecked="{Binding CurrentTroop.NotDiscovered}" />
               </StackPanel>
             </Grid>
             <Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentSietch.HasChanged}" Command="{Binding UpdateTroop}" />
