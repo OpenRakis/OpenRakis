@@ -44,8 +44,13 @@
               </StackPanel>
               <StackPanel Orientation="Vertical" Margin="5">
                 <Label>Game Stage:</Label>
-                <NumericUpDown Value="{Binding GameStageVal, Mode=TwoWay}"></NumericUpDown>
-                <TextBlock Text="{Binding GameStageDesc}"></TextBlock>
+                <ComboBox Items="{Binding GameStages}" SelectedItem="{Binding CurrentGameStage, Mode=TwoWay}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:GameStageViewModel}">
+                      <Label Content="{Binding FullDesc}" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
               </StackPanel>
             </UniformGrid>
 

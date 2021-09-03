@@ -1,5 +1,6 @@
 ﻿namespace DuneEdit2.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -22,12 +23,15 @@
 
         private SaveGameFile _savegameFile = new();
 
+        private ObservableCollection<GameStageViewModel> _gameStages = new ObservableCollection<GameStageViewModel>();
+
         public MainWindowViewModel()
         {
             OpenSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenSaveGameMethodAsync);
             SaveGameFile = ReactiveCommand.Create<Unit, Unit>(SaveGameMethod);
             UpdateSietch = ReactiveCommand.Create<Unit, Unit>(UpdateSietchMethod);
             UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
+            GameStages = PopulateGameStages();
         }
 
         private Unit UpdateTroopMethod(Unit arg)
@@ -123,18 +127,22 @@
             set => this.RaiseAndSetIfChanged(ref _contactDistanceVal, value);
         }
 
-        public string GameStageDesc => GameStageFinder.FindStage(_gameStageVal);
+        private GameStageViewModel? _currentGameStage = new GameStageViewModel(0, GameStageFinder.FindStage(0));
 
-        private byte _gameStageVal = 0;
-
-        public byte GameStageVal
+        public GameStageViewModel? CurrentGameStage
         {
-            get => _gameStageVal;
+            get => _currentGameStage;
             set
             {
-                this.RaiseAndSetIfChanged(ref _gameStageVal, value);
-                this.RaisePropertyChanged(nameof(GameStageDesc));
+                this.RaiseAndSetIfChanged(ref _currentGameStage, value);
+                this.RaisePropertyChanged(nameof(CurrentGameStage));
             }
+        }
+
+        public ObservableCollection<GameStageViewModel> GameStages
+        {
+            get => _gameStages;
+            set => this.RaiseAndSetIfChanged(ref _gameStages, value);
         }
 
         public ReactiveCommand<Unit, Unit> SaveGameFile { get; private set; }
@@ -166,12 +174,22 @@
                 SpiceVal = _savegameFile.Generals.Spice;
                 CharismaVal = _savegameFile.Generals.CharismaGUI;
                 ContactDistanceVal = _savegameFile.Generals.ContactDistance;
-                GameStageVal = _savegameFile.Generals.GameStage;
+                CurrentGameStage = GameStages.FirstOrDefault(x => x.GameStage == _savegameFile.Generals.GameStage);
                 PopulateSietches(_savegameFile.GetSietches());
                 PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
                 IsSaveGameLoaded = true;
             }
             return Unit.Default;
+        }
+
+        private static ObservableCollection<GameStageViewModel> PopulateGameStages()
+        {
+            var collection = new ObservableCollection<GameStageViewModel>();
+            for (byte i = byte.MinValue; i < byte.MaxValue; i++)
+            {
+                collection.Add(new GameStageViewModel(i, GameStageFinder.FindStage(i)));
+            }
+            return collection;
         }
 
         private void PopulateSietches(List<Sietch> sietches)
@@ -209,7 +227,10 @@
             _savegameFile.UpdateCharisma(CharismaVal);
             _savegameFile.UpdateSpice(SpiceVal);
             _savegameFile.UpdateContactDistance(ContactDistanceVal);
-            _savegameFile.UpdateGameStage(GameStageVal);
+            if (CurrentGameStage != null)
+            {
+                _savegameFile.UpdateGameStage(CurrentGameStage.GameStage);
+            }
             _savegameFile.SaveCompressed();
             return Unit.Default;
         }

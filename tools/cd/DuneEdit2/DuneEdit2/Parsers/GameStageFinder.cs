@@ -8,7 +8,7 @@
 
         public static string FindStage(byte id)
         {
-            string result = "Unkown / not yet discovered.";
+            string result = "Unused / not yet discovered.";
             if (id == 0x0) { result = "Game start"; }
             if (id == 0x01) { result = "met Gurney, Duncan appears in throne room"; }
             if (id == 0x02) { result = "go find the stillsuit maker"; }
