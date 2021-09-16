@@ -147,15 +147,9 @@
             return troops;
         }
 
-        public List<Sietch> GetSietches()
-        {
-            return _sietches;
-        }
+        public List<Sietch> GetSietches() => _sietches;
 
-        public List<Troop> GetTroops()
-        {
-            return _troops;
-        }
+        public List<Troop> GetTroops() => _troops;
 
         internal void UpdateTroop(Troop troop)
         {
@@ -187,7 +181,7 @@
 
         public Generals Generals => _generals;
 
-        public List<byte> Uncompressed => _uncompressedData;
+        public List<byte> UncompressedData => _uncompressedData;
 
         public static bool SaveUnCompressedAs(string fileName, List<byte> uncompressed)
         {

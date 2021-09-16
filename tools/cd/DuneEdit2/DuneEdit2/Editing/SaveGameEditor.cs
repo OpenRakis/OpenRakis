@@ -21,7 +21,7 @@
         public void EditAtPosition(byte value, int position)
         {
             var savegame = new SaveGameFile(_fileName);
-            if (position < 0 || position > savegame.Uncompressed.Count)
+            if (position < 0 || position > savegame.UncompressedData.Count)
             {
                 throw new ArgumentException($"{nameof(position)} {position} is out of range in the uncompressed data !");
             }

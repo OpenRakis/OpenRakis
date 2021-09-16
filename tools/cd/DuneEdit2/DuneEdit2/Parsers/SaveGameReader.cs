@@ -17,11 +17,11 @@ namespace DuneEdit2.Parsers
         public SaveGameReader(string saveFilePath)
         {
             _savegame = new SaveGameFile(saveFilePath);
-            _generals = new Generals(_savegame.Uncompressed);
+            _generals = new Generals(_savegame.UncompressedData);
             _saveFilePath = saveFilePath;
         }
 
-        public void WriteUncompressedSaveGameInTheSameFolder() => SaveGameFile.SaveUnCompressedAs($"{_saveFilePath}.UNCOMPRESSED", _savegame.Uncompressed);
+        public void WriteUncompressedSaveGameInTheSameFolder() => SaveGameFile.SaveUnCompressedAs($"{_saveFilePath}.UNCOMPRESSED", _savegame.UncompressedData);
 
         public string GetGameStageHexValue() => _generals.GameStageAsHex;
 
