@@ -6,9 +6,9 @@ namespace DuneEdit2.Parsers
     using System.Collections.Generic;
     using System.Globalization;
 
-    internal sealed partial class SequenceParser
+    internal class SequenceParser
     {
-        public static bool IsControlSequence( byte[] ba)
+        public static bool IsControlSequence(byte[] ba)
         {
             bool result = false;
             if ((ba[0] == 247) & (ba[1] == 1) & (ba[2] == 247))
@@ -18,7 +18,7 @@ namespace DuneEdit2.Parsers
             return result;
         }
 
-        public static bool IsDeflateSequence( byte[] ba)
+        public static bool IsDeflateSequence(byte[] ba)
         {
             bool result = false;
             if ((ba[0] == 247) & (ba[1] > 2))
@@ -28,7 +28,7 @@ namespace DuneEdit2.Parsers
             return result;
         }
 
-        public static byte[] SplitTwo( string s)
+        public static byte[] SplitTwo(string s)
         {
             List<byte> list = new();
             checked
