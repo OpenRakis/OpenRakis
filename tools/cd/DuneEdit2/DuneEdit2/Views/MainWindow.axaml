@@ -80,7 +80,7 @@
             <Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*">
               <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
                 <Label>Start Offset</Label>
-                <TextBlock Text="{Binding CurrentSietch.StartOffset}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentSietch.StartOffset, StringFormat={}0x{0:x}}" IsEnabled="False" />
                 <Label>Coordinates</Label>
                 <TextBlock Text="{Binding CurrentSietch.Coordinates}" />
                 <Label>Region</Label>
@@ -140,7 +140,7 @@
             <Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*">
               <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
                 <Label>Start Offset</Label>
-                <TextBlock Text="{Binding CurrentTroop.StartOffset}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentTroop.StartOffset, StringFormat={}0x{0:x}}}" IsEnabled="False" />
                 <Label>Coordinates</Label>
                 <TextBlock Text="{Binding CurrentTroop.Coordinates}" />
                 <Label>Troop ID</Label>
@@ -187,12 +187,7 @@
           </Grid>
         </TabItem>
         <TabItem Header="Map of Dune">
-          <DockPanel>
-            <TextBlock DockPanel.Dock="Top"  HorizontalAlignment="Center">NB: Harkonnen fortresses have been turned into sietches</TextBlock>
-            <Viewbox DockPanel.Dock="Bottom" StretchDirection="Both" Stretch="Fill">
-              <Image Source="/Assets/Map.png" />
-            </Viewbox>
-          </DockPanel>
+            <Image Source="/Assets/Map.png" />
         </TabItem>
       </TabControl>
     </StackPanel>
