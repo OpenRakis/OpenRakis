@@ -187,7 +187,9 @@
           </Grid>
         </TabItem>
         <TabItem Header="Map of Dune">
-            <Image Source="/Assets/Map.png" />
+          <Viewbox>
+              <Image Source="/Assets/Map.png" />
+          </Viewbox>
         </TabItem>
       </TabControl>
     </StackPanel>

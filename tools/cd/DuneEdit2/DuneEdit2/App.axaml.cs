@@ -91,11 +91,12 @@ namespace DuneEdit2
             }
 
             var registryValue = (int)registryValueObject;
-            return registryValue > 0 ? false : true;
+            return registryValue <= 0;
         }
 
         private bool IsInDarkMode()
         {
+#pragma warning disable ERP022 // Unobserved exception in generic exception handler
             try
             {
                 if (OperatingSystem.IsWindows())
@@ -105,8 +106,9 @@ namespace DuneEdit2
             }
             catch
             {
-                //No OS support for themes. Not worth crashing for.
+                //No OS support for themes. Not worth crashing for. Not worth reporting.
             }
+#pragma warning restore ERP022 // Unobserved exception in generic exception handler
             return false;
         }
     }

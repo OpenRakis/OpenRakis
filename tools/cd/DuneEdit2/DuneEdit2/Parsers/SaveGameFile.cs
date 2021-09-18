@@ -11,21 +11,21 @@
     {
         private readonly string _fileName = "";
 
-        private readonly List<byte> _original = new();
+        private readonly List<byte> _originalSaveGameData = new();
 
         private List<byte> _compressedData = new();
 
         private List<Control> _control = new();
 
-        private Generals _generals = new Generals();
+        private readonly Generals _generals = new();
 
         private List<Trap> _traps = new();
 
         private List<byte> _uncompressedData = new();
 
-        private List<Sietch> _sietches = new();
+        private readonly List<Sietch> _sietches = new();
 
-        private List<Troop> _troops = new();
+        private readonly List<Troop> _troops = new();
 
         public SaveGameFile()
         {
@@ -48,14 +48,11 @@
             _fileName = fileName;
             try
             {
-                _original = new List<byte>();
-                using FileStream fileStream = new(fileName, FileMode.Open)
-                {
-                    Position = 0L
-                };
+                _originalSaveGameData = new List<byte>();
+                using FileStream fileStream = new(fileName, FileMode.Open);
                 while (fileStream.Position < fileStream.Length)
                 {
-                    _original.Add(checked((byte)fileStream.ReadByte()));
+                    _originalSaveGameData.Add(checked((byte)fileStream.ReadByte()));
                 }
                 DetectTraps();
                 UncompressData();
@@ -63,23 +60,24 @@
             catch (Exception ex)
             {
                 Console.WriteLine(ex.GetBaseException().Message);
+                throw;
             }
             _generals = new Generals(_uncompressedData);
             _sietches = PopulateSietches(_uncompressedData);
             _troops = PopulateTroops(_uncompressedData);
         }
 
-        private List<Sietch> PopulateSietches(List<byte> data)
+        private static List<Sietch> PopulateSietches(List<byte> data)
         {
             var sietches = new List<Sietch>();
-            int num = 0;
+            int cursor = 0;
             checked
             {
                 int position;
                 int endPos;
                 do
                 {
-                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Sietchs) + num * 28;
+                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Sietchs) + cursor * 28;
                     var sietch = new Sietch(itemPos, data[itemPos + 0], data[itemPos + 1], data[itemPos + 9], data[itemPos + 10], data[itemPos + 16], data[itemPos + 18], data[itemPos + 20], data[itemPos + 21], data[itemPos + 22], data[itemPos + 23], data[itemPos + 24], data[itemPos + 25], data[itemPos + 26], data[itemPos + 27]);
                     int coordsCursor = 0;
                     int coordsPos;
@@ -92,8 +90,8 @@
                     }
                     while (coordsPos <= endPos);
                     sietches.Add(sietch);
-                    num++;
-                    position = num;
+                    cursor++;
+                    position = cursor;
                     endPos = 69;
                 }
                 while (position <= endPos);
@@ -101,17 +99,17 @@
             return sietches;
         }
 
-        private List<Troop> PopulateTroops(List<byte> data)
+        private static List<Troop> PopulateTroops(List<byte> data)
         {
             var troops = new List<Troop>();
-            int num = 0;
+            int cursor = 0;
             checked
             {
                 int position;
                 int endPos;
                 do
                 {
-                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Troops) + num * 27;
+                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Troops) + cursor * 27;
                     var troop = new Troop(data[itemPos + 25])
                     {
                         StartOffset = itemPos,
@@ -138,8 +136,8 @@
                     }
                     while (coordsPos <= endPos);
                     troops.Add(troop);
-                    num++;
-                    position = num;
+                    cursor++;
+                    position = cursor;
                     endPos = 66;
                 }
                 while (position <= endPos);
@@ -202,7 +200,7 @@
             {
                 Console.WriteLine(ex.GetBaseException().Message);
                 fileStream?.Close();
-                result = false;
+                throw;
             }
             return result;
         }
@@ -245,7 +243,7 @@
                                 int end = 255;
                                 Trap t = new();
                                 bool isOverTrap = false;
-                                if (GetTrapByRealOffset(cursorPosition, t))
+                                if (GetTrapByRealOffset(cursorPosition))
                                 {
                                     end = t.Repeat;
                                     isOverTrap = true;
@@ -256,11 +254,10 @@
                                 }
                                 else if (byteValueAtCursor == byteValueAtCursorPlusOne && byteValueAtCursor == byteValueAtCursorPlusTwo)
                                 {
-                                    int num8 = cursorPosition;
                                     checked
                                     {
                                         int uncompressedDataEndMinusOne = _uncompressedData.Count - 1;
-                                        overallCurrentPos = num8;
+                                        overallCurrentPos = cursorPosition;
                                         while (true)
                                         {
                                             int currentPos = overallCurrentPos;
@@ -337,7 +334,7 @@
 
         internal void UpdateSpice(int spiceValue)
         {
-            string spiceString = checked((int)Math.Round((double)spiceValue / 10.0)).ToString("X");
+            string spiceString = checked((int)Math.Round(spiceValue / 10.0)).ToString("X");
             byte[] spice = SequenceParser.SplitTwo(spiceString);
             _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice)] = spice[0];
             if (spice.Length > 1)
@@ -371,29 +368,27 @@
             {
                 Console.WriteLine(ex.GetBaseException().Message);
                 fileStream?.Close();
-                result = false;
+                throw;
             }
             return result;
         }
 
-        private void SetRealOffset(int i, int v)
+        private void SetRealOffset(int index, int value)
         {
             checked
             {
-                int num = _traps.Count - 1;
-                int num2 = 0;
+                int length = _traps.Count - 1;
+                int count = 0;
                 while (true)
                 {
-                    int num3 = num2;
-                    int num4 = num;
-                    if (num3 <= num4)
+                    if (count <= length)
                     {
-                        if (_traps[num2].Offset == i)
+                        if (_traps[count].Offset == index)
                         {
-                            _traps[num2].SetRealOffset(v);
+                            _traps[count].RealOffset = value;
                             break;
                         }
-                        num2++;
+                        count++;
                         continue;
                     }
                     break;
@@ -406,111 +401,108 @@
             bool result = true;
             checked
             {
-                int num = _original.Count - 3;
+                int overallLength = _originalSaveGameData.Count - 3;
                 _uncompressedData = new List<byte>();
                 _control = new List<Control>();
                 try
                 {
-                    int num2 = num;
-                    int num3 = 0;
+                    int length = overallLength;
+                    int offset = 0;
                     while (true)
                     {
-                        int num4 = num3;
-                        int num5 = num2;
-                        if (num4 > num5)
+                        int innerLength = length;
+                        if (offset > innerLength)
                         {
                             break;
                         }
-                        byte b = _original[num3];
-                        byte b2 = _original[num3 + 1];
-                        byte b3 = _original[num3 + 2];
-                        byte[] ba = new byte[3] { b, b2, b3 };
-                        if (!SequenceParser.IsControlSequence(ba))
+                        byte firstByte = _originalSaveGameData[offset];
+                        byte secondByte = _originalSaveGameData[offset + 1];
+                        byte thirdByte = _originalSaveGameData[offset + 2];
+                        byte[] byteArray = new byte[3] { firstByte, secondByte, thirdByte };
+                        if (!SequenceParser.IsControlSequence(byteArray))
                         {
                             Trap t = new();
-                            bool trap = GetTrap(num3, t);
-                            if (!SequenceParser.IsDeflateSequence(ba))
+                            bool trap = GetTrap(offset);
+                            if (!SequenceParser.IsDeflateSequence(byteArray))
                             {
-                                _uncompressedData.Add(b);
-                                if (num3 == num)
+                                _uncompressedData.Add(firstByte);
+                                if (offset == overallLength)
                                 {
-                                    _uncompressedData.Add(b2);
-                                    _uncompressedData.Add(b3);
+                                    _uncompressedData.Add(secondByte);
+                                    _uncompressedData.Add(thirdByte);
                                 }
                             }
                             else
                             {
                                 if (trap)
                                 {
-                                    SetRealOffset(num3, _uncompressedData.Count);
+                                    SetRealOffset(offset, _uncompressedData.Count);
                                 }
-                                int num6 = b2;
-                                int num7 = 1;
+                                int count = 1;
                                 while (true)
                                 {
-                                    int num8 = num7;
-                                    num5 = num6;
-                                    if (num8 > num5)
+                                    innerLength = secondByte;
+                                    if (count > innerLength)
                                     {
                                         break;
                                     }
-                                    _uncompressedData.Add(b3);
-                                    num7++;
+                                    _uncompressedData.Add(thirdByte);
+                                    count++;
                                 }
-                                num3 += 2;
+                                offset += 2;
                             }
                         }
                         else
                         {
                             Control control = new();
                             control.Offset = _uncompressedData.Count;
-                            control.ControlType = new byte[3] { b, b2, b3 };
+                            control.ControlType = new byte[3] { firstByte, secondByte, thirdByte };
                             _control.Add(control);
                             _uncompressedData.Add(247);
-                            num3 += 2;
+                            offset += 2;
                         }
-                        num3++;
+                        offset++;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.GetBaseException().Message);
-                    result = false;
+                    throw;
                 }
                 return result;
             }
         }
 
-        internal void ModifyByteAtAddressInUncompressedData(byte value, int position) => _uncompressedData[position] = value;
+        internal void ModifyByteInUncompressedData(byte value, int position) => _uncompressedData[position] = value;
 
         private void DetectTraps()
         {
             _traps = new List<Trap>();
             checked
             {
-                int num = _original.Count - 4;
-                int num2 = 0;
+                int length = _originalSaveGameData.Count - 4;
+                int count = 0;
                 while (true)
                 {
-                    int num3 = num2;
-                    int num4 = num;
+                    int num3 = count;
+                    int num4 = length;
                     if (num3 <= num4)
                     {
-                        byte b = _original[num2];
-                        byte repeat = _original[num2 + 1];
-                        byte b2 = _original[num2 + 2];
-                        byte b3 = _original[num2 + 3];
-                        if (unchecked(b == 247 && b2 == b3))
+                        byte firstByte = _originalSaveGameData[count];
+                        byte repeatByte = _originalSaveGameData[count + 1];
+                        byte secondByte = _originalSaveGameData[count + 2];
+                        byte thirdByte = _originalSaveGameData[count + 3];
+                        if (unchecked(firstByte == 247 && secondByte == thirdByte))
                         {
                             Trap trap = new()
                             {
-                                Offset = num2,
-                                Repeat = repeat,
-                                HexCode = b2
+                                Offset = count,
+                                Repeat = repeatByte,
+                                HexCode = secondByte
                             };
                             _traps.Add(trap);
                         }
-                        num2++;
+                        count++;
                         continue;
                     }
                     break;
@@ -518,7 +510,7 @@
             }
         }
 
-        private bool GetTrap(int index, Trap t)
+        private bool GetTrap(int index)
         {
             bool result = false;
             for (int i = 0; i < _traps.Count; i++)
@@ -526,7 +518,6 @@
                 Trap trap = _traps[i];
                 if (trap.Offset == index)
                 {
-                    t = trap;
                     result = true;
                     break;
                 }
@@ -534,15 +525,14 @@
             return result;
         }
 
-        private bool GetTrapByRealOffset(int index, Trap t)
+        private bool GetTrapByRealOffset(int index)
         {
             bool result = false;
             for (int i = 0; i < _traps.Count; i++)
             {
                 Trap trap = _traps[i];
-                if (trap.realOffset == index)
+                if (trap.RealOffset == index)
                 {
-                    t = trap;
                     result = true;
                     break;
                 }

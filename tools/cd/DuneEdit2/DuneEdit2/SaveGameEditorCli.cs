@@ -61,7 +61,7 @@
                 {
                     throw new ArgumentException($"{nameof(_options.Write)} invalid date found: {edit} for position part");
                 }
-                savegame.ModifyByteAtAddressInUncompressedData(value, pos);
+                savegame.ModifyByteInUncompressedData(value, pos);
                 Console.WriteLine($"Written byte 0x{value:X2} at position 0x{pos:X2}");
             }
             savegame.SaveCompressedAs(_options.OutputSaveGameFile);

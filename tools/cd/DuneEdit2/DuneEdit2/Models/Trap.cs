@@ -2,21 +2,12 @@ namespace DuneEdit2.Models
 {
     public record Trap
     {
-        public int Offset;
+        public int Offset { get; set; }
 
-        public int realOffset;
+        public int RealOffset { get; set; }
 
-        public int Repeat;
+        public int Repeat { get; set; }
 
-        public byte HexCode;
-
-        public Trap()
-        {
-        }
-
-        public void SetRealOffset(int v)
-        {
-            realOffset = v;
-        }
+        public byte HexCode { get; set; }
     }
 }

@@ -25,7 +25,7 @@
             {
                 throw new ArgumentException($"{nameof(position)} {position} is out of range in the uncompressed data !");
             }
-            savegame.ModifyByteAtAddressInUncompressedData(value, position);
+            savegame.ModifyByteInUncompressedData(value, position);
         }
     }
 }
