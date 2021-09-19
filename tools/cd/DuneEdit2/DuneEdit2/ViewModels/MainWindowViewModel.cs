@@ -22,7 +22,7 @@
 
         private SaveGameFile _savegameFile = new();
 
-        private ObservableCollection<GameStageViewModel> _gameStages = new ObservableCollection<GameStageViewModel>();
+        private ObservableCollection<GameStageViewModel> _gameStages = new();
 
         public MainWindowViewModel()
         {
@@ -81,7 +81,15 @@
         public TroopViewModel? CurrentTroop
         {
             get => _currentTroop;
-            set => this.RaiseAndSetIfChanged(ref _currentTroop, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _currentTroop, value);
+                if(value != null)
+                {
+                    this._currentSietchWithTroop = this.Sietches.FirstOrDefault(x => x.HousedTroopID == value.TroopID);
+                    this.RaisePropertyChanged(nameof(CurrentSietchWithTroop));
+                }
+            }
         }
 
         private ObservableCollection<SietchViewModel> _sietches = new();
@@ -90,6 +98,26 @@
         {
             get => _sietches;
             private set => this.RaiseAndSetIfChanged(ref _sietches, value);
+        }
+
+        private ObservableCollection<SietchViewModel> _sietchesOfTroop = new();
+
+        public ObservableCollection<SietchViewModel> SietchesWithTroops
+        {
+            get => _sietchesOfTroop;
+            private set => this.RaiseAndSetIfChanged(ref _sietchesOfTroop, value);
+        }
+
+        private SietchViewModel? _currentSietchWithTroop;
+        public SietchViewModel? CurrentSietchWithTroop
+        {
+            get => _currentSietchWithTroop;
+            private set
+            {
+                this.RaiseAndSetIfChanged(ref _currentSietchWithTroop, value);
+                this._currentTroop = this.Troops.FirstOrDefault(x => x.TroopID == value?.HousedTroopID);
+                this.RaisePropertyChanged(nameof(CurrentTroop));
+            }
         }
 
         private ObservableCollection<TroopViewModel> _troops = new();
@@ -126,7 +154,7 @@
             set => this.RaiseAndSetIfChanged(ref _contactDistanceVal, value);
         }
 
-        private GameStageViewModel? _currentGameStage = new GameStageViewModel(0, GameStageFinder.FindStage(0));
+        private GameStageViewModel? _currentGameStage = new(0, GameStageFinder.FindStage(0));
 
         public GameStageViewModel? CurrentGameStage
         {
@@ -164,8 +192,10 @@
 
         private async Task<Unit> OpenSaveGameMethodAsync(Unit arg)
         {
-            var dialog = new OpenFileDialog();
-            dialog.AllowMultiple = false;
+            var dialog = new OpenFileDialog
+            {
+                AllowMultiple = false
+            };
             var result = await dialog.ShowAsync(_mainWindow);
             if (result.Length > 0)
             {
@@ -174,8 +204,8 @@
                 CharismaVal = _savegameFile.Generals.CharismaGUI;
                 ContactDistanceVal = _savegameFile.Generals.ContactDistance;
                 CurrentGameStage = GameStages.FirstOrDefault(x => x.GameStage == _savegameFile.Generals.GameStage);
-                PopulateSietches(_savegameFile.GetSietches());
                 PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
+                PopulateSietches(_savegameFile.GetSietches());
                 IsSaveGameLoaded = true;
             }
             return Unit.Default;
@@ -200,6 +230,9 @@
             }
             if (sietches.Any())
             {
+                Sietches = new ObservableCollection<SietchViewModel>(Sietches.OrderBy(x => x.RegionName));
+                SietchesWithTroops = new ObservableCollection<SietchViewModel>(Sietches.OrderBy(x => x.RegionName).Where(x => Troops.Any(y => y.TroopID == x.HousedTroopID)));
+                CurrentSietchWithTroop = SietchesWithTroops.FirstOrDefault();
                 CurrentSietch = Sietches.First();
             }
         }

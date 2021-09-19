@@ -116,7 +116,7 @@
                         TroopID = data[itemPos + 0],
                         NextTroopInSietch = data[itemPos + 1],
                         Job = data[itemPos + 3],
-                        Dissatisfaction = data[itemPos + 18],
+                        Status = data[itemPos + 18],
                         Speech = data[itemPos + 19],
                         Motivation = data[itemPos + 21],
                         SpiceSkill = data[itemPos + 22],
@@ -145,15 +145,15 @@
             return troops;
         }
 
-        public List<Sietch> GetSietches() => _sietches;
+        public List<Sietch> GetSietches() => new(_sietches);
 
-        public List<Troop> GetTroops() => _troops;
+        public List<Troop> GetTroops() => new(_troops);
 
         internal void UpdateTroop(Troop troop)
         {
             int startOffset = troop.StartOffset;
             _uncompressedData[startOffset + 3] = troop.Job;
-            _uncompressedData[startOffset + 18] = troop.Dissatisfaction;
+            _uncompressedData[startOffset + 18] = troop.Status;
             _uncompressedData[startOffset + 21] = troop.Motivation;
             _uncompressedData[startOffset + 22] = troop.SpiceSkill;
             _uncompressedData[startOffset + 23] = troop.ArmySkill;
@@ -540,13 +540,13 @@
             return result;
         }
 
-        private bool IsNonDeflate(int i)
+        private bool IsNonDeflate(int index)
         {
             bool result = false;
-            for (int j = 0; j < _control.Count; j++)
+            for (int i = 0; i < _control.Count; i++)
             {
-                Control item = _control[j];
-                if (item.Offset == i)
+                Control item = _control[i];
+                if (item.Offset == index)
                 {
                     result = true;
                     break;

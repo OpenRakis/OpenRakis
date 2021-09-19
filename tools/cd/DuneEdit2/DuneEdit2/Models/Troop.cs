@@ -4,7 +4,7 @@ namespace DuneEdit2.Models
 
     public record Troop
     {
-        private ClsBitfield _equipment;
+        private readonly ClsBitfield _equipment;
 
         public Troop(byte equipment) => _equipment = new ClsBitfield(equipment);
 
@@ -24,7 +24,7 @@ namespace DuneEdit2.Models
 
         public string? Coordinates { get; set; }
 
-        public byte Dissatisfaction { get; set; }
+        public byte Status { get; set; }
 
         public byte EcologySkill { get; set; }
 

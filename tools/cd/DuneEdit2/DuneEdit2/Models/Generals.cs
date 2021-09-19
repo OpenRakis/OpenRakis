@@ -13,11 +13,11 @@ namespace DuneEdit2.Models
 
         private byte _charisma;
 
-        private int _contactDistance;
+        private readonly int _contactDistance;
 
-        private byte _gameStage;
+        private readonly byte _gameStage;
 
-        private byte[] _spice = new byte[] { 0 };
+        private readonly byte[] _spice = new byte[] { 0 };
 
         public Generals()
         {
@@ -25,7 +25,6 @@ namespace DuneEdit2.Models
 
         public Generals(List<byte> uncompressedData)
         {
-            _spice = new byte[2] { 0, 0 };
             _spice = new byte[2]
             {
                 uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice)],

@@ -3,15 +3,16 @@
 		xmlns:vm="using:DuneEdit2.ViewModels"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:paz="using:Avalonia.Controls.PanAndZoom"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		x:Class="DuneEdit2.Views.MainWindow"
 		Icon="/Assets/app.ico"
 		Title="DuneEdit2"
     MinWidth="1024"
     MinHeight="768"
     Width="1024"
-    Height="768">
-
+    Height="768"
+    x:Name="AppWindow">
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
@@ -130,13 +131,22 @@
         </TabItem>
         <TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
           <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
-            <ComboBox Grid.Row="0" Grid.Column="0" Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
-              <ComboBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type vm:TroopViewModel}">
-                  <Label Content="{Binding Description}" />
-                </DataTemplate>
-              </ComboBox.ItemTemplate>
-            </ComboBox>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+              <ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate DataType="{x:Type vm:TroopViewModel}">
+                    <Label Content="{Binding Description}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+              <ComboBox Items="{Binding SietchesWithTroops}" SelectedItem="{Binding CurrentSietchWithTroop, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate DataType="{x:Type vm:SietchViewModel}">
+                    <Label Content="{Binding RegionName}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+            </StackPanel>
             <Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*">
               <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
                 <Label>Start Offset</Label>
@@ -165,12 +175,22 @@
                 <NumericUpDown Text="{Binding CurrentTroop.Population}" />
                 <Label>Motivation</Label>
                 <NumericUpDown Text="{Binding CurrentTroop.Motivation}" />
-                <Label>Dissatisfaction</Label>
-                <NumericUpDown Text="{Binding CurrentTroop.Dissatisfaction}" />
-                <TextBlock Text="{Binding CurrentTroop.DissatisfactionDesc}" />
+                <Label>Status</Label>
+                <ComboBox Items="{Binding CurrentTroop.StatusValues}" SelectedItem="{Binding CurrentTroop.CurrentStatus, Mode=TwoWay}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:StatusViewModel}">
+                      <Label Content="{Binding StatusDesc}" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
                 <Label>Job</Label>
-                <NumericUpDown Text="{Binding CurrentTroop.Job}" />
-                <TextBlock Text="{Binding CurrentTroop.JobDesc}" />
+                <ComboBox Items="{Binding CurrentTroop.JobValues}" SelectedItem="{Binding CurrentTroop.CurrentJob, Mode=TwoWay}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:JobViewModel}">
+                      <Label Content="{Binding JobDesc}" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
               </StackPanel>
               <StackPanel HorizontalAlignment="Right" Orientation="Vertical" Grid.Column="2">
                 <Label>Equipment</Label>
@@ -183,13 +203,18 @@
                 <CheckBox Content="Has Atomics" IsChecked="{Binding CurrentTroop.Atomics}" />
               </StackPanel>
             </Grid>
-            <Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentSietch.HasChanged}" Command="{Binding UpdateTroop}" />
+            <Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentTroop.HasChanged}" Command="{Binding UpdateTroop}" />
           </Grid>
         </TabItem>
         <TabItem Header="Map of Dune">
-          <Viewbox>
-              <Image Source="/Assets/Map.png" />
-          </Viewbox>
+          <DockPanel>
+            <Button DockPanel.Dock="Top" Command="{Binding ZoomMap, ElementName=AppWindow}">Zoom In</Button>
+            <Viewbox DockPanel.Dock="Bottom">
+              <Image  Source="/Assets/Map.png" Name="MapOfDune"
+                      Width="{Binding $parent[Window].Bounds.With}"
+                      Height="{Binding $parent[Window].Bounds.Height}"/>
+            </Viewbox>
+          </DockPanel>
         </TabItem>
       </TabControl>
     </StackPanel>

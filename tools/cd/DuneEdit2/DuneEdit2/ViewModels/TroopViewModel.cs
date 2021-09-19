@@ -1,13 +1,17 @@
 ﻿namespace DuneEdit2.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+
     using DuneEdit2.Models;
     using DuneEdit2.Parsers;
 
     using ReactiveUI;
 
-    public class TroopViewModel : ReactiveObject
+    public partial class TroopViewModel : ViewModelBase
     {
-        private Sietch? _sietch;
+        private readonly Sietch? _sietch;
 
         private bool _hasChanged;
 
@@ -21,7 +25,7 @@
             }
         }
 
-        private Troop _troop;
+        private readonly Troop _troop;
 
         public Troop Troop => _troop;
 
@@ -71,20 +75,55 @@
             }
         }
 
-        public byte Dissatisfaction
-        {
-            get => _troop.Dissatisfaction;
+        private StatusViewModel? _currentStatus;
 
+        public StatusViewModel? CurrentStatus
+        {
+            get => _currentStatus;
             set
             {
-                _troop.Dissatisfaction = value;
+                _currentStatus = value;
+                if(value != null)
+                {
+                    _troop.Status = value.Status;
+                }
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Dissatisfaction));
-                this.RaisePropertyChanged(nameof(DissatisfactionDesc));
+                this.RaisePropertyChanging(nameof(CurrentStatus));
             }
         }
 
-        public string DissatisfactionDesc => SpeechFinder.GetSpeechDesc(_troop.Dissatisfaction);
+        private JobViewModel? _currentJob;
+
+        public JobViewModel? CurrentJob
+        {
+            get => _currentJob;
+            set
+            {
+                _currentJob = value;
+                if (value != null)
+                {
+                    _troop.Job = value.Job;
+                }
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(CurrentJob));
+            }
+        }
+
+        private ObservableCollection<StatusViewModel> _statusValues = new();
+
+        public ObservableCollection<StatusViewModel> StatusValues
+        {
+            get => _statusValues;
+            private set => this.RaiseAndSetIfChanged(ref _statusValues, value);
+        }
+
+        private ObservableCollection<JobViewModel> _jobValues = new();
+
+        public ObservableCollection<JobViewModel> JobValues
+        {
+            get => _jobValues;
+            private set => this.RaiseAndSetIfChanged(ref _jobValues, value);
+        }
 
         public byte EcologySkill
         {
@@ -108,21 +147,6 @@
                 this.RaisePropertyChanged(nameof(Harvesters));
             }
         }
-
-        public byte Job
-        {
-            get => _troop.Job;
-
-            set
-            {
-                _troop.Job = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Job));
-                this.RaisePropertyChanged(nameof(JobDesc));
-            }
-        }
-
-        public string JobDesc => JobFinder.GetJobDesc(_troop.Job);
 
         public bool KrysKnives
         {
@@ -252,6 +276,22 @@
         {
             _troop = troop;
             _sietch = sietch;
+            var statusCollection = new List<StatusViewModel>();
+            for (byte i = byte.MinValue; i < byte.MaxValue; i++)
+            {
+                StatusViewModel value = new(i, $"{i} - {StatusFinder.GetStatusDesc(i)}");
+                statusCollection.Add(value);
+            }
+            StatusValues = new ObservableCollection<StatusViewModel>(statusCollection);
+            CurrentStatus = StatusValues.FirstOrDefault(x => x.Status == _troop.Status);
+            var jobCollection = new List<JobViewModel>();
+            for (byte i = byte.MinValue; i < byte.MaxValue; i++)
+            {
+                JobViewModel value = new(i, $"{i} - {JobFinder.GetJobDesc(i)}");
+                jobCollection.Add(value);
+            }
+            JobValues = new ObservableCollection<JobViewModel>(jobCollection);
+            CurrentJob = JobValues.FirstOrDefault(x => x.Job == _troop.Job);
         }
     }
 }

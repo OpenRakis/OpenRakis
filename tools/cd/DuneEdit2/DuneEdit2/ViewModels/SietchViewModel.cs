@@ -4,9 +4,9 @@
 
     using ReactiveUI;
 
-    public class SietchViewModel : ReactiveObject
+    public class SietchViewModel : ViewModelBase
     {
-        private Sietch _sietch;
+        private readonly Sietch _sietch;
 
         private bool _hasChanged;
 

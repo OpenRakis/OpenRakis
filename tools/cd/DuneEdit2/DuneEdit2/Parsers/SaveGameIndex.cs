@@ -18,7 +18,7 @@
             SpiceStartOffset = 17599,
         }
 
-        private Dictionary<FieldName, SaveGameFieldInfo> _tableOfContents = new Dictionary<FieldName, SaveGameFieldInfo>();
+        private readonly Dictionary<FieldName, SaveGameFieldInfo> _tableOfContents = new();
 
         public SaveGameIndex()
         {

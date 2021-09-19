@@ -6,7 +6,7 @@
         NextTroopID = 1,
         Position = 2,
         Job = 3,
-        Dissatisfaction = 18,
+        Status = 18,
         Speech = 19,
         MissYouMsg = 20,
         Motivation = 21,

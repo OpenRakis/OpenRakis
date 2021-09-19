@@ -1,16 +1,16 @@
 namespace DuneEdit2.Parsers
 {
-    public class SpeechFinder
+    public class StatusFinder
     {
-        private const string _default = "Unknown / Not yet discovered.";
+        public const string UnknownValue = "Unknown Status value / Not used.";
 
-        public SpeechFinder()
+        public StatusFinder()
         {
         }
 
-        public static string GetSpeechDesc(byte id)
+        public static string GetStatusDesc(byte id)
         {
-            string result = _default;
+            string result = UnknownValue;
             switch (id)
             {
                 case 1:

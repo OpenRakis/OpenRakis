@@ -6,7 +6,7 @@ namespace DuneEdit2.Models
 {
     public record Sietch
     {
-        private ClsBitfield _statesField;
+        private readonly ClsBitfield _statesField;
 
         public Sietch(int startOffset, byte region, byte subRegion, byte housedTroopID, byte status, byte spicefieldID, byte spiceDensity, byte harvesters, byte ornis, byte krys, byte laserGuns, byte weirdingMods, byte atomics, byte bulbs, byte water)
         {
