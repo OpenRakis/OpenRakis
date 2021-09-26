@@ -78,8 +78,10 @@
             set
             {
                 _troop.Job = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Job));
                 this.RaisePropertyChanged(nameof(JobDesc));
+                this.RaisePropertyChanged(nameof(Description));
             }
         }
 
@@ -91,6 +93,7 @@
                 _troop.Status = value;
                 this.RaisePropertyChanged(nameof(Status));
                 this.RaisePropertyChanged(nameof(StatusDesc));
+                this.RaisePropertyChanged(nameof(Origin));
             }
         }
 
