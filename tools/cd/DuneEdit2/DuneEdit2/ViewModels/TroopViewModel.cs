@@ -1,7 +1,6 @@
 ﻿namespace DuneEdit2.ViewModels
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
 
     using DuneEdit2.Models;
@@ -75,55 +74,31 @@
             }
         }
 
-        private StatusViewModel? _currentStatus;
-
-        public StatusViewModel? CurrentStatus
+        public byte Job
         {
-            get => _currentStatus;
+            get => _troop.Job;
             set
             {
-                _currentStatus = value;
-                if(value != null)
-                {
-                    _troop.Status = value.Status;
-                }
-                HasChanged = true;
-                this.RaisePropertyChanging(nameof(CurrentStatus));
+                _troop.Job = value;
+                this.RaisePropertyChanged(nameof(Job));
+                this.RaisePropertyChanged(nameof(JobDesc));
             }
         }
 
-        private JobViewModel? _currentJob;
-
-        public JobViewModel? CurrentJob
+        public byte Status
         {
-            get => _currentJob;
+            get => _troop.Status;
             set
             {
-                _currentJob = value;
-                if (value != null)
-                {
-                    _troop.Job = value.Job;
-                }
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(CurrentJob));
+                _troop.Status = value;
+                this.RaisePropertyChanged(nameof(Status));
+                this.RaisePropertyChanged(nameof(StatusDesc));
             }
         }
 
-        private ObservableCollection<StatusViewModel> _statusValues = new();
+        public string JobDesc => $"{Job} - {JobFinder.GetJobDesc(Job)}";
 
-        public ObservableCollection<StatusViewModel> StatusValues
-        {
-            get => _statusValues;
-            private set => this.RaiseAndSetIfChanged(ref _statusValues, value);
-        }
-
-        private ObservableCollection<JobViewModel> _jobValues = new();
-
-        public ObservableCollection<JobViewModel> JobValues
-        {
-            get => _jobValues;
-            private set => this.RaiseAndSetIfChanged(ref _jobValues, value);
-        }
+        public string StatusDesc => $"{Status} - {StatusFinder.GetStatusDesc(Status)}";
 
         public byte EcologySkill
         {
@@ -276,22 +251,6 @@
         {
             _troop = troop;
             _sietch = sietch;
-            var statusCollection = new List<StatusViewModel>();
-            for (byte i = byte.MinValue; i < byte.MaxValue; i++)
-            {
-                StatusViewModel value = new(i, $"{i} - {StatusFinder.GetStatusDesc(i)}");
-                statusCollection.Add(value);
-            }
-            StatusValues = new ObservableCollection<StatusViewModel>(statusCollection);
-            CurrentStatus = StatusValues.FirstOrDefault(x => x.Status == _troop.Status);
-            var jobCollection = new List<JobViewModel>();
-            for (byte i = byte.MinValue; i < byte.MaxValue; i++)
-            {
-                JobViewModel value = new(i, $"{i} - {JobFinder.GetJobDesc(i)}");
-                jobCollection.Add(value);
-            }
-            JobValues = new ObservableCollection<JobViewModel>(jobCollection);
-            CurrentJob = JobValues.FirstOrDefault(x => x.Job == _troop.Job);
         }
     }
 }

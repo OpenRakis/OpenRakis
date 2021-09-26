@@ -1,7 +1,6 @@
 ﻿namespace DuneEdit2.ViewModels
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reactive;
     using System.Reactive.Linq;
@@ -22,15 +21,12 @@
 
         private SaveGameFile _savegameFile = new();
 
-        private ObservableCollection<GameStageViewModel> _gameStages = new();
-
         public MainWindowViewModel()
         {
             OpenSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenSaveGameMethodAsync);
             SaveGameFile = ReactiveCommand.Create<Unit, Unit>(SaveGameMethod);
             UpdateSietch = ReactiveCommand.Create<Unit, Unit>(UpdateSietchMethod);
             UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
-            GameStages = PopulateGameStages();
         }
 
         private Unit UpdateTroopMethod(Unit arg)
@@ -83,26 +79,27 @@
             get => _currentTroop;
             set
             {
-                this.RaiseAndSetIfChanged(ref _currentTroop, value);
+                _currentTroop = value;
                 if(value != null)
                 {
                     this._currentSietchWithTroop = this.Sietches.FirstOrDefault(x => x.HousedTroopID == value.TroopID);
                     this.RaisePropertyChanged(nameof(CurrentSietchWithTroop));
                 }
+                this.RaisePropertyChanged(nameof(CurrentTroop));
             }
         }
 
-        private ObservableCollection<SietchViewModel> _sietches = new();
+        private List<SietchViewModel> _sietches = new();
 
-        public ObservableCollection<SietchViewModel> Sietches
+        public List<SietchViewModel> Sietches
         {
             get => _sietches;
             private set => this.RaiseAndSetIfChanged(ref _sietches, value);
         }
 
-        private ObservableCollection<SietchViewModel> _sietchesOfTroop = new();
+        private List<SietchViewModel> _sietchesOfTroop = new();
 
-        public ObservableCollection<SietchViewModel> SietchesWithTroops
+        public List<SietchViewModel> SietchesWithTroops
         {
             get => _sietchesOfTroop;
             private set => this.RaiseAndSetIfChanged(ref _sietchesOfTroop, value);
@@ -120,15 +117,29 @@
             }
         }
 
-        private ObservableCollection<TroopViewModel> _troops = new();
+        private List<TroopViewModel> _troops = new();
 
-        public ObservableCollection<TroopViewModel> Troops
+        public List<TroopViewModel> Troops
         {
             get => _troops;
             private set => this.RaiseAndSetIfChanged(ref _troops, value);
         }
 
         public ReactiveCommand<Unit, Unit> OpenSaveGame { get; private set; }
+
+        public string GameStageDesc => GameStageFinder.FindStage(GameStage);
+
+        private byte _gameStage = 0;
+
+        public byte GameStage
+        {
+            get => _gameStage;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _gameStage, value);
+                this.RaisePropertyChanged(nameof(GameStageDesc));
+            }
+        }
 
         private int _spiceVal = 0;
 
@@ -152,24 +163,6 @@
         {
             get => _contactDistanceVal;
             set => this.RaiseAndSetIfChanged(ref _contactDistanceVal, value);
-        }
-
-        private GameStageViewModel? _currentGameStage = new(0, GameStageFinder.FindStage(0));
-
-        public GameStageViewModel? CurrentGameStage
-        {
-            get => _currentGameStage;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _currentGameStage, value);
-                this.RaisePropertyChanged(nameof(CurrentGameStage));
-            }
-        }
-
-        public ObservableCollection<GameStageViewModel> GameStages
-        {
-            get => _gameStages;
-            set => this.RaiseAndSetIfChanged(ref _gameStages, value);
         }
 
         public ReactiveCommand<Unit, Unit> SaveGameFile { get; private set; }
@@ -203,7 +196,7 @@
                 SpiceVal = _savegameFile.Generals.Spice;
                 CharismaVal = _savegameFile.Generals.CharismaGUI;
                 ContactDistanceVal = _savegameFile.Generals.ContactDistance;
-                CurrentGameStage = GameStages.FirstOrDefault(x => x.GameStage == _savegameFile.Generals.GameStage);
+                GameStage = _savegameFile.Generals.GameStage;
                 PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
                 PopulateSietches(_savegameFile.GetSietches());
                 IsSaveGameLoaded = true;
@@ -211,27 +204,18 @@
             return Unit.Default;
         }
 
-        private static ObservableCollection<GameStageViewModel> PopulateGameStages()
-        {
-            var collection = new ObservableCollection<GameStageViewModel>();
-            for (byte i = byte.MinValue; i < byte.MaxValue; i++)
-            {
-                collection.Add(new GameStageViewModel(i, GameStageFinder.FindStage(i)));
-            }
-            return collection;
-        }
-
         private void PopulateSietches(List<Sietch> sietches)
         {
-            Sietches.Clear();
+            var sietchesVMs = new List<SietchViewModel>();
             foreach (var sietch in sietches)
             {
-                Sietches.Add(new SietchViewModel(sietch));
+                sietchesVMs.Add(new SietchViewModel(sietch));
             }
-            if (sietches.Any())
+            Sietches = sietchesVMs;
+            if (Sietches.Any())
             {
-                Sietches = new ObservableCollection<SietchViewModel>(Sietches.OrderBy(x => x.RegionName));
-                SietchesWithTroops = new ObservableCollection<SietchViewModel>(Sietches.OrderBy(x => x.RegionName).Where(x => Troops.Any(y => y.TroopID == x.HousedTroopID)));
+                Sietches = new List<SietchViewModel>(Sietches.OrderBy(x => x.RegionName));
+                SietchesWithTroops = new List<SietchViewModel>(Sietches.OrderBy(x => x.RegionName).Where(x => Troops.Any(y => y.TroopID == x.HousedTroopID)));
                 CurrentSietchWithTroop = SietchesWithTroops.FirstOrDefault();
                 CurrentSietch = Sietches.First();
             }
@@ -239,14 +223,15 @@
 
         private void PopulateTroops(List<Troop> troops, List<Sietch> sietches)
         {
-            Troops.Clear();
+            var troopsVMs = new List<TroopViewModel>();
             foreach (var troop in troops)
             {
                 var sietch = sietches.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);
                 var troopVM = new TroopViewModel(troop, sietch);
-                Troops.Add(troopVM);
+                troopsVMs.Add(troopVM);
             }
-            if (troops.Any())
+            Troops = troopsVMs;
+            if (Troops.Any())
             {
                 CurrentTroop = Troops.First();
             }
@@ -261,10 +246,7 @@
             _savegameFile.UpdateCharisma(CharismaVal);
             _savegameFile.UpdateSpice(SpiceVal);
             _savegameFile.UpdateContactDistance(ContactDistanceVal);
-            if (CurrentGameStage != null)
-            {
-                _savegameFile.UpdateGameStage(CurrentGameStage.GameStage);
-            }
+            _savegameFile.UpdateGameStage(GameStage);
             _savegameFile.SaveCompressed();
             return Unit.Default;
         }

@@ -45,13 +45,8 @@
               </StackPanel>
               <StackPanel Orientation="Vertical" Margin="5">
                 <Label>Game Stage:</Label>
-                <ComboBox Items="{Binding GameStages}" SelectedItem="{Binding CurrentGameStage, Mode=TwoWay}">
-                  <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type vm:GameStageViewModel}">
-                      <Label Content="{Binding FullDesc}" />
-                    </DataTemplate>
-                  </ComboBox.ItemTemplate>
-                </ComboBox>
+                <NumericUpDown Value="{Binding GameStage}" />
+                <TextBlock Text="{Binding GameStageDesc}" />
               </StackPanel>
             </UniformGrid>
 
@@ -132,20 +127,26 @@
         <TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
           <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-              <ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
-                <ComboBox.ItemTemplate>
-                  <DataTemplate DataType="{x:Type vm:TroopViewModel}">
-                    <Label Content="{Binding Description}" />
-                  </DataTemplate>
-                </ComboBox.ItemTemplate>
-              </ComboBox>
-              <ComboBox Items="{Binding SietchesWithTroops}" SelectedItem="{Binding CurrentSietchWithTroop, Mode=TwoWay}">
-                <ComboBox.ItemTemplate>
-                  <DataTemplate DataType="{x:Type vm:SietchViewModel}">
-                    <Label Content="{Binding RegionName}" />
-                  </DataTemplate>
-                </ComboBox.ItemTemplate>
-              </ComboBox>
+              <StackPanel Orientation="Vertical">
+                <Label>Select by Troop ID:</Label>
+                <ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:TroopViewModel}">
+                      <Label Content="{Binding Description}" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+              </StackPanel>
+              <StackPanel Orientation="Vertical">
+                <Label>Select by Sietch:</Label>
+                <ComboBox Items="{Binding SietchesWithTroops}" SelectedItem="{Binding CurrentSietchWithTroop, Mode=TwoWay}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:SietchViewModel}">
+                      <Label Content="{Binding RegionName}" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+              </StackPanel>
             </StackPanel>
             <Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*">
               <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
@@ -159,10 +160,6 @@
                 <TextBlock Text="{Binding CurrentTroop.NextTroopInSietch}" IsEnabled="False" />
                 <Label>Current Sietch</Label>
                 <TextBlock Text="{Binding CurrentTroop.CurrentSietch}" IsEnabled="False" />
-                <Label>Status</Label>
-                <TextBlock Text="{Binding CurrentTroop.Status}" IsEnabled="False" />
-                <Label>Spicefield ID</Label>
-                <TextBlock Text="{Binding CurrentTroop.SpicefieldID}" IsEnabled="False" />
               </StackPanel>
               <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
                 <Label>Spice Skill</Label>
@@ -176,21 +173,11 @@
                 <Label>Motivation</Label>
                 <NumericUpDown Text="{Binding CurrentTroop.Motivation}" />
                 <Label>Status</Label>
-                <ComboBox Items="{Binding CurrentTroop.StatusValues}" SelectedItem="{Binding CurrentTroop.CurrentStatus, Mode=TwoWay}">
-                  <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type vm:StatusViewModel}">
-                      <Label Content="{Binding StatusDesc}" />
-                    </DataTemplate>
-                  </ComboBox.ItemTemplate>
-                </ComboBox>
+                <NumericUpDown Text="{Binding CurrentTroop.Status}" />
+                <TextBlock Text="{Binding CurrentTroop.StatusDesc}" />
                 <Label>Job</Label>
-                <ComboBox Items="{Binding CurrentTroop.JobValues}" SelectedItem="{Binding CurrentTroop.CurrentJob, Mode=TwoWay}">
-                  <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type vm:JobViewModel}">
-                      <Label Content="{Binding JobDesc}" />
-                    </DataTemplate>
-                  </ComboBox.ItemTemplate>
-                </ComboBox>
+                <NumericUpDown Text="{Binding CurrentTroop.Job}" />
+                <TextBlock Text="{Binding CurrentTroop.JobDesc}" />
               </StackPanel>
               <StackPanel HorizontalAlignment="Right" Orientation="Vertical" Grid.Column="2">
                 <Label>Equipment</Label>
