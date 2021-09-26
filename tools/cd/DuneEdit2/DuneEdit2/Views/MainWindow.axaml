@@ -76,19 +76,19 @@
             <Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*">
               <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
                 <Label>Start Offset</Label>
-                <TextBlock Text="{Binding CurrentSietch.StartOffset, StringFormat={}0x{0:x}}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentSietch.StartOffset, StringFormat={}0x{0:x}}" />
                 <Label>Coordinates</Label>
                 <TextBlock Text="{Binding CurrentSietch.Coordinates}" />
                 <Label>Region</Label>
-                <TextBlock Text="{Binding CurrentSietch.Region}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentSietch.Region}" />
                 <Label>Sub Region</Label>
-                <TextBlock Text="{Binding CurrentSietch.SubRegion}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentSietch.SubRegion}" />
                 <Label>Housed Troop ID</Label>
-                <TextBlock Text="{Binding CurrentSietch.HousedTroopID}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentSietch.HousedTroopID}" />
                 <Label>Status</Label>
-                <TextBlock Text="{Binding CurrentSietch.Status}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentSietch.Status}" />
                 <Label>Spicefield ID</Label>
-                <TextBlock Text="{Binding CurrentSietch.SpicefieldID}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentSietch.SpicefieldID}" />
               </StackPanel>
               <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
                 <Label>Spice Density</Label>
@@ -151,13 +151,15 @@
             <Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*">
               <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
                 <Label>Start Offset</Label>
-                <TextBlock Text="{Binding CurrentTroop.StartOffset, StringFormat={}0x{0:x}}}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentTroop.StartOffset, StringFormat={}0x{0:x}}}" />
                 <Label>Coordinates</Label>
                 <TextBlock Text="{Binding CurrentTroop.Coordinates}" />
                 <Label>Troop ID</Label>
-                <TextBlock Text="{Binding CurrentTroop.TroopID}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentTroop.TroopID}" />
                 <Label>Next Troop ID</Label>
-                <TextBlock Text="{Binding CurrentTroop.NextTroopInSietch}" IsEnabled="False" />
+                <TextBlock Text="{Binding CurrentTroop.NextTroopInSietch}" />
+                <Label>Regional Origin</Label>
+                <TextBlock Text="{Binding CurrentTroop.Origin}" />
               </StackPanel>
               <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
                 <Label>Spice Skill</Label>

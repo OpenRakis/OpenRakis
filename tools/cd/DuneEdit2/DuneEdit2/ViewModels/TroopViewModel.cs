@@ -246,6 +246,8 @@
             return name;
         }
 
+        public string Origin => TroopOriginFinder.GetOrigin(_troop.Status);
+
         public string Description => $"{_troop.TroopID} ({GetSietchName()}) ({GetFaction()})";
 
         public TroopViewModel(Troop troop, Sietch? sietch)
