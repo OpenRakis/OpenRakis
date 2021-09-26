@@ -201,8 +201,11 @@
                 _troop.Speech = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Speech));
+                this.RaisePropertyChanged(nameof(SpeechDesc));
             }
         }
+
+        public string SpeechDesc => SpeechFinder.GetSpeechDesc(Speech);
 
         public byte SpiceSkill
         {

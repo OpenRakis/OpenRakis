@@ -178,6 +178,9 @@
                 <Label>Job</Label>
                 <NumericUpDown Text="{Binding CurrentTroop.Job}" />
                 <TextBlock Text="{Binding CurrentTroop.JobDesc}" />
+                <Label>Speech</Label>
+                <NumericUpDown Text="{Binding CurrentTroop.Speech}" />
+                <TextBlock Text="{Binding CurrentTroop.SpeechDesc}" />
               </StackPanel>
               <StackPanel HorizontalAlignment="Right" Orientation="Vertical" Grid.Column="2">
                 <Label>Equipment</Label>
