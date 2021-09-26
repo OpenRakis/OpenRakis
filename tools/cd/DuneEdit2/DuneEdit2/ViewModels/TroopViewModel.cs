@@ -1,7 +1,5 @@
 ﻿namespace DuneEdit2.ViewModels
 {
-    using System.Collections.Generic;
-    using System.Linq;
 
     using DuneEdit2.Models;
     using DuneEdit2.Parsers;

@@ -16,9 +16,6 @@
     public class MainWindowViewModel : ViewModelBase
     {
         private bool _isSavegameLoaded;
-
-        private Window? _mainWindow;
-
         private SaveGameFile _savegameFile = new();
 
         public MainWindowViewModel()
@@ -167,11 +164,7 @@
 
         public ReactiveCommand<Unit, Unit> SaveGameFile { get; private set; }
 
-        private Window? MainWindow
-        {
-            get => _mainWindow;
-            set => _mainWindow = value;
-        }
+        private Window? MainWindow { get; set; }
 
         public static MainWindowViewModel Create(Window mainWindow)
         {
@@ -189,7 +182,7 @@
             {
                 AllowMultiple = false
             };
-            var result = await dialog.ShowAsync(_mainWindow);
+            var result = await dialog.ShowAsync(MainWindow);
             if (result.Length > 0)
             {
                 _savegameFile = new SaveGameFile(result[0]);
