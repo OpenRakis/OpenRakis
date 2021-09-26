@@ -2,6 +2,7 @@
 {
     internal static class SietchFactionFinder
     {
+        // TODO: Verify it more closely...
         public static string GetFaction(int value)
         {
             if (value > 100)
