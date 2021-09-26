@@ -158,14 +158,14 @@
             _uncompressedData[startOffset + 22] = troop.SpiceSkill;
             _uncompressedData[startOffset + 23] = troop.ArmySkill;
             _uncompressedData[startOffset + 24] = troop.EcologySkill;
-            _uncompressedData[startOffset + 25] = troop.Equipment;
+            _uncompressedData[startOffset + 25] = (byte)troop.Equipment;
             _uncompressedData[startOffset + 26] = (byte)Math.Round(troop.Population / 10.0);
         }
 
         internal void UpdateSietch(Sietch sietch)
         {
             int startOffset = sietch.StartOffset;
-            _uncompressedData[startOffset + 10] = sietch.Status;
+            _uncompressedData[startOffset + 10] = (byte)sietch.Status;
             _uncompressedData[startOffset + 18] = sietch.SpiceDensity;
             _uncompressedData[startOffset + 20] = sietch.Harvesters;
             _uncompressedData[startOffset + 21] = sietch.Ornis;

@@ -85,12 +85,14 @@
                 <TextBlock Text="{Binding CurrentSietch.SubRegion}" />
                 <Label>Housed Troop ID</Label>
                 <TextBlock Text="{Binding CurrentSietch.HousedTroopID}" />
-                <Label>Status</Label>
-                <TextBlock Text="{Binding CurrentSietch.Status}" />
                 <Label>Spicefield ID</Label>
                 <TextBlock Text="{Binding CurrentSietch.SpicefieldID}" />
+                <Label>Belongs to (Modified via Status Field)</Label>
+                <TextBlock Text="{Binding CurrentSietch.Faction}" />
               </StackPanel>
               <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
+                <Label>Status</Label>
+                <NumericUpDown Text="{Binding CurrentSietch.Status}" />
                 <Label>Spice Density</Label>
                 <NumericUpDown Text="{Binding CurrentSietch.SpiceDensity}" />
                 <Label>Harvesters</Label>

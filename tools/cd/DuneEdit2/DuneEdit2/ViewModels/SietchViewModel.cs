@@ -1,6 +1,7 @@
 ﻿namespace DuneEdit2.ViewModels
 {
     using DuneEdit2.Models;
+    using DuneEdit2.Parsers;
 
     using ReactiveUI;
 
@@ -42,7 +43,7 @@
             {
                 _sietch.BattleWon = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(BattleWon));
+                RaiseStatusChanged();
             }
         }
 
@@ -68,7 +69,7 @@
             {
                 _sietch.FremenFound = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(FremenFound));
+                RaiseStatusChanged();
             }
         }
 
@@ -92,7 +93,7 @@
             {
                 _sietch.HasVegetation = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(HasVegetation));
+                RaiseStatusChanged();
             }
         }
 
@@ -104,7 +105,7 @@
             {
                 _sietch.HasWindtrap = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(HasWindtrap));
+                RaiseStatusChanged();
             }
         }
 
@@ -120,7 +121,7 @@
             {
                 _sietch.InBattle = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(InBattle));
+                RaiseStatusChanged();
             }
         }
 
@@ -156,7 +157,7 @@
             {
                 _sietch.NotDiscovered = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(NotDiscovered));
+                RaiseStatusChanged();
             }
         }
 
@@ -180,7 +181,7 @@
             {
                 _sietch.Prospected = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Prospected));
+                RaiseStatusChanged();
             }
         }
 
@@ -196,7 +197,7 @@
             {
                 _sietch.SeeInventory = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(SeeInventory));
+                RaiseStatusChanged();
             }
         }
 
@@ -216,7 +217,31 @@
 
         public int StartOffset => _sietch.StartOffset;
 
-        public byte Status => _sietch.Status;
+        public int Status
+        {
+            get => _sietch.Status;
+            set
+            {
+                _sietch.Status = value;
+                RaiseStatusChanged();
+            }
+        }
+
+        private void RaiseStatusChanged()
+        {
+            this.RaisePropertyChanged(nameof(Status));
+            this.RaisePropertyChanged(nameof(HasVegetation));
+            this.RaisePropertyChanged(nameof(InBattle));
+            this.RaisePropertyChanged(nameof(BattleWon));
+            this.RaisePropertyChanged(nameof(FremenFound));
+            this.RaisePropertyChanged(nameof(SeeInventory));
+            this.RaisePropertyChanged(nameof(HasWindtrap));
+            this.RaisePropertyChanged(nameof(Prospected));
+            this.RaisePropertyChanged(nameof(NotDiscovered));
+            this.RaisePropertyChanged(nameof(Faction));
+        }
+
+        public string Faction => SietchFactionFinder.GetFaction(Status);
 
         public byte SubRegion => _sietch.SubRegion;
 
