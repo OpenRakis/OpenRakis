@@ -183,7 +183,7 @@
                 AllowMultiple = false
             };
             var result = await dialog.ShowAsync(MainWindow);
-            if (result.Length > 0)
+            if (result != null && result.Length > 0)
             {
                 _savegameFile = new SaveGameFile(result[0]);
                 SpiceVal = _savegameFile.Generals.Spice;
