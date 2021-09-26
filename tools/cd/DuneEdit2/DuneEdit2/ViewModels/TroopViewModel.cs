@@ -236,8 +236,6 @@
             }
         }
 
-        public string CurrentSietch => GetSietchName();
-
         private string GetSietchName()
         {
             var name = "no sietch ID";
@@ -248,12 +246,38 @@
             return name;
         }
 
-        public string Description => $"{_troop.TroopID} ({GetSietchName()})";
+        public string Description => $"{_troop.TroopID} ({GetSietchName()}) ({GetFaction()})";
 
         public TroopViewModel(Troop troop, Sietch? sietch)
         {
             _troop = troop;
             _sietch = sietch;
+        }
+
+        private string GetFaction()
+        {
+            if (IsFremen())
+            {
+                return "Fremen";
+            }
+            else
+            {
+                return "Harkonnen";
+            }
+        }
+
+        private bool IsFremen()
+        {
+            if(_troop.Job > 0xA0)
+            {
+                return true;
+            }
+            var computedValue = _troop.Job & 0xF;
+            if(computedValue < 0xC)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

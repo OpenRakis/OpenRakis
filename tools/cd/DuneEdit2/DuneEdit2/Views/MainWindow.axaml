@@ -158,8 +158,6 @@
                 <TextBlock Text="{Binding CurrentTroop.TroopID}" IsEnabled="False" />
                 <Label>Next Troop ID</Label>
                 <TextBlock Text="{Binding CurrentTroop.NextTroopInSietch}" IsEnabled="False" />
-                <Label>Current Sietch</Label>
-                <TextBlock Text="{Binding CurrentTroop.CurrentSietch}" IsEnabled="False" />
               </StackPanel>
               <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
                 <Label>Spice Skill</Label>
