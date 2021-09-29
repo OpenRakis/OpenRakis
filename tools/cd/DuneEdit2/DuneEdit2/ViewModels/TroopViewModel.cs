@@ -91,6 +91,7 @@
             set
             {
                 _troop.Status = value;
+                HasChanged = true;
                 this.RaisePropertyChanged(nameof(Status));
                 this.RaisePropertyChanged(nameof(StatusDesc));
                 this.RaisePropertyChanged(nameof(Origin));
