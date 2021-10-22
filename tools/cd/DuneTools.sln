@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuneEdit2", "DuneEdit2\Dune
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuneEdit2.UnitTests", "DuneEdit2\DuneEdit2.UnitTests\DuneEdit2.UnitTests.csproj", "{ECA955D5-EA7C-4CA3-BB7D-61AF7D2BA6DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuneEdit", "DuneEdit\DuneEdit.csproj", "{BC4BE7A4-6D3A-4A15-BE73-349B42CDB5FF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuneExtractor", "DuneExtractor\DuneExtractor.csproj", "{2B0307A8-E3D7-4980-9755-BECF887AF612}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuneImpactor", "DuneImpactor\DuneImpactor.csproj", "{4E8F0BB1-4F9C-4F94-BD47-C67022C8AF1A}"
