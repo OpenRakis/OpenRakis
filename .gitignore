@@ -1,3 +1,5 @@
+.vscode/
+.config/
 # CMake build
 build/
 # Binary files

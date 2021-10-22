@@ -1,12 +1,10 @@
 namespace DuneEdit2.UnitTests
 {
+    using System.IO;
+
     using DuneEdit2.Parsers;
 
     using FluentAssertions;
-
-    using System.Diagnostics;
-    using System.IO;
-    using System.Threading.Tasks;
 
     using Xunit;
 
@@ -23,32 +21,5 @@ namespace DuneEdit2.UnitTests
 
         [Fact]
         public void CanReadPlayerSpiceForUI() => new SaveGameReader(Path.Combine(SavesFolder, MidGamesSaveFileName)).GetPlayerSpiceForUI().Should().Be(43270);
-
-        [Fact]
-        public async Task ProcessReadSeveralFilesAsync()
-        {
-            var executablePath = "DuneEdit2";
-            var processStartInfo = new ProcessStartInfo(executablePath, $"-r -i {Path.Combine(SavesFolder, MidGamesSaveFileName)} {Path.Combine(SavesFolder, MidGamesSaveFileName)}")
-            {
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            var process = new Process
-            {
-                StartInfo = processStartInfo,
-                EnableRaisingEvents = true
-            };
-            var output = "";
-            process.Exited += async (s, e) =>
-            {
-                output = await process.StandardOutput.ReadToEndAsync();
-            };
-            process.Start();
-            while (process.HasExited == false)
-            {
-                await Task.Yield();
-            }
-            output.Should().Contain(MidGamesSaveFileName);
-        }
     }
 }
