@@ -1,7 +1,8 @@
 Publish/
-publish.zip
+publish-linux.zip
+publish-mac.zip
+publish-win.zip
 .vscode/
-.config/
 # CMake build
 build/
 # Binary files
@@ -388,3 +389,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/tools/cd/tools
