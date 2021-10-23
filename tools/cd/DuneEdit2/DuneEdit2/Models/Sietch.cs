@@ -125,6 +125,9 @@ namespace DuneEdit2.Models
         public string SubRegionDesc { get; private set; }
         public byte Water { get; set; }
 
+        public byte Spice { get; set; }
+        public byte Area { get; set; }
+
         public byte WeirdingMod { get; set; }
     }
 }

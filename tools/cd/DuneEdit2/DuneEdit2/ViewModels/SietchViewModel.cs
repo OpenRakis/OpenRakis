@@ -223,6 +223,7 @@
             set
             {
                 _sietch.Status = value;
+                HasChanged = true;
                 RaiseStatusChanged();
             }
         }
@@ -254,6 +255,30 @@
                 _sietch.Water = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Water));
+            }
+        }
+
+        public byte Spice
+        {
+            get => _sietch.Spice;
+
+            set
+            {
+                _sietch.Spice = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Spice));
+            }
+        }
+
+        public byte Area
+        {
+            get => _sietch.Area;
+
+            set
+            {
+                _sietch.Area = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Area));
             }
         }
 

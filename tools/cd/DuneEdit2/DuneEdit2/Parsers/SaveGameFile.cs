@@ -80,7 +80,12 @@
                 do
                 {
                     int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Sietchs) + cursor * 28;
-                    var sietch = new Sietch(itemPos, data[itemPos + 0], data[itemPos + 1], data[itemPos + 9], data[itemPos + 10], data[itemPos + 16], data[itemPos + 18], data[itemPos + 20], data[itemPos + 21], data[itemPos + 22], data[itemPos + 23], data[itemPos + 24], data[itemPos + 25], data[itemPos + 26], data[itemPos + 27]);
+                    var sietch = new Sietch(itemPos, data[itemPos + 0], data[itemPos + 1], data[itemPos + 9], data[itemPos + 10], data[itemPos + 16], data[itemPos + 18], data[itemPos + 20], data[itemPos + 21], data[itemPos + 22], data[itemPos + 23], data[itemPos + 24], data[itemPos + 25], data[itemPos + 26], data[itemPos + 27])
+                    {
+
+                        Area = data[itemPos + 16],
+                        Spice = data[itemPos + 17],
+                    };
                     int coordsCursor = 0;
                     int coordsPos;
                     do
@@ -168,6 +173,8 @@
         {
             int startOffset = sietch.StartOffset;
             _uncompressedData[startOffset + 10] = (byte)sietch.Status;
+            _uncompressedData[startOffset + 16] = sietch.Area;
+            _uncompressedData[startOffset + 17] = sietch.Spice;
             _uncompressedData[startOffset + 18] = sietch.SpiceDensity;
             _uncompressedData[startOffset + 20] = sietch.Harvesters;
             _uncompressedData[startOffset + 21] = sietch.Ornis;
