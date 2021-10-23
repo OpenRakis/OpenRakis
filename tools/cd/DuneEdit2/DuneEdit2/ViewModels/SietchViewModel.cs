@@ -61,13 +61,13 @@
 
         public string? Coordinates => _sietch.Coordinates;
 
-        public bool FremenFound
+        public bool Infiltrated
         {
-            get => _sietch.FremenFound;
+            get => _sietch.Infiltrated;
 
             set
             {
-                _sietch.FremenFound = value;
+                _sietch.Infiltrated = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
@@ -233,7 +233,7 @@
             this.RaisePropertyChanged(nameof(HasVegetation));
             this.RaisePropertyChanged(nameof(InBattle));
             this.RaisePropertyChanged(nameof(BattleWon));
-            this.RaisePropertyChanged(nameof(FremenFound));
+            this.RaisePropertyChanged(nameof(Infiltrated));
             this.RaisePropertyChanged(nameof(SeeInventory));
             this.RaisePropertyChanged(nameof(HasWindtrap));
             this.RaisePropertyChanged(nameof(Prospected));

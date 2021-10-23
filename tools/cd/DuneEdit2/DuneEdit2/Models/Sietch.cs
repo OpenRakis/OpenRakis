@@ -43,7 +43,7 @@ namespace DuneEdit2.Models
 
         public string? Coordinates { get; set; }
 
-        public bool FremenFound
+        public bool Infiltrated
         {
             get => StatusBitField.GetBit(2) != 0;
 

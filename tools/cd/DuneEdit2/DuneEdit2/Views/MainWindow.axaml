@@ -113,7 +113,7 @@
 								<Label>Status</Label>
 								<CheckBox Content="Vegetation" IsChecked="{Binding CurrentSietch.HasVegetation}" />
 								<CheckBox Content="In Battle" IsChecked="{Binding CurrentSietch.InBattle}" />
-								<CheckBox Content="Fremen Found" IsChecked="{Binding CurrentSietch.FremenFound}" />
+								<CheckBox Content="Infiltrated" IsChecked="{Binding CurrentSietch.Infiltrated}" />
 								<CheckBox Content="Battle Won" IsChecked="{Binding CurrentSietch.BattleWon}" />
 								<CheckBox Content="See Inventory" IsChecked="{Binding CurrentSietch.SeeInventory}" />
 								<CheckBox Content="Wind Trap" IsChecked="{Binding CurrentSietch.HasWindtrap}" />
