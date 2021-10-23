@@ -3,6 +3,7 @@ using System.Reactive;
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 
 using ReactiveUI;
@@ -13,25 +14,46 @@ namespace DuneEdit2.Views
     {
         public MainWindow()
         {
-            ZoomMap = ReactiveCommand.Create<Unit, Unit>(ZoomMapMethod);
+            ZoomIn = ReactiveCommand.Create<Unit, Unit>(ZoomInMethod);
+            ZoomOut = ReactiveCommand.Create<Unit, Unit>(ZoomOutMethod);
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
 #endif
         }
 
-        private Unit ZoomMapMethod(Unit arg)
+        private Unit ZoomInMethod(Unit arg)
         {
-            var map = this.Find<Image>("MapOfDune");
+            var map = this.Find<Image>("MapOfDuneZoomedIn");
             if(map != null)
             {
-                map.Width = double.NaN;
-                map.Height = double.NaN;
+                map.IsVisible = true;
+            }
+            var map2 = this.Find<Image>("MapOfDuneZoomedOut");
+            if (map2 != null)
+            {
+                map2.IsVisible = false;
             }
             return Unit.Default;
         }
 
-        public ReactiveCommand<Unit, Unit> ZoomMap { get; private set; }
+        private Unit ZoomOutMethod(Unit arg)
+        {
+            var map = this.Find<Image>("MapOfDuneZoomedIn");
+            if (map != null)
+            {
+                map.IsVisible = false;
+            }
+            var map2 = this.Find<Image>("MapOfDuneZoomedOut");
+            if (map2 != null)
+            {
+                map2.IsVisible = true;
+            }
+            return Unit.Default;
+        }
+
+        public ReactiveCommand<Unit, Unit> ZoomOut { get; private set; }
+        public ReactiveCommand<Unit, Unit> ZoomIn { get; private set; }
 
         private void InitializeComponent()
         {
