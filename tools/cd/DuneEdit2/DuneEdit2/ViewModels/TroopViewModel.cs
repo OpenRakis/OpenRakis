@@ -46,6 +46,7 @@
                 _troop.Atomics = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Atomics));
+                this.RaisePropertyChanged(nameof(Equipement));
             }
         }
 
@@ -57,6 +58,7 @@
                 _troop.Bulbs = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Bulbs));
+                this.RaisePropertyChanged(nameof(Equipement));
             }
         }
 
@@ -122,6 +124,7 @@
                 _troop.Harvesters = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Harvesters));
+                this.RaisePropertyChanged(nameof(Equipement));
             }
         }
 
@@ -133,6 +136,7 @@
                 _troop.KrysKnives = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(KrysKnives));
+                this.RaisePropertyChanged(nameof(Equipement));
             }
         }
 
@@ -144,6 +148,7 @@
                 _troop.LaserGuns = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(LaserGuns));
+                this.RaisePropertyChanged(nameof(Equipement));
             }
         }
 
@@ -179,6 +184,7 @@
                 _troop.Ornithopters = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Ornithopters));
+                this.RaisePropertyChanged(nameof(Equipement));
             }
         }
 
@@ -235,6 +241,7 @@
                 _troop.Weirdings = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Weirdings));
+                this.RaisePropertyChanged(nameof(Equipement));
             }
         }
 
@@ -282,6 +289,24 @@
                 return true;
             }
             return false;
+        }
+
+        public int Equipement
+        {
+            get => _troop.Equipment;
+            set
+            {
+                _troop.Equipment = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Equipement));
+                this.RaisePropertyChanged(nameof(Weirdings));
+                this.RaisePropertyChanged(nameof(Atomics));
+                this.RaisePropertyChanged(nameof(LaserGuns));
+                this.RaisePropertyChanged(nameof(KrysKnives));
+                this.RaisePropertyChanged(nameof(Ornithopters));
+                this.RaisePropertyChanged(nameof(Harvesters));
+                this.RaisePropertyChanged(nameof(Bulbs));
+            }
         }
     }
 }

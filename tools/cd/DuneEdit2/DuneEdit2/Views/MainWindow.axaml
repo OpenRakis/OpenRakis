@@ -190,6 +190,8 @@
 								<CheckBox Content="Has Harvester" IsChecked="{Binding CurrentTroop.Harvesters}" />
 								<CheckBox Content="Has Bulbs" IsChecked="{Binding CurrentTroop.Bulbs}" />
 								<CheckBox Content="Has Atomics" IsChecked="{Binding CurrentTroop.Atomics}" />
+								<Label>Direct Value Edit</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Equipement}" />
 							</StackPanel>
 						</Grid>
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentTroop.HasChanged}" Command="{Binding UpdateTroop}" />
