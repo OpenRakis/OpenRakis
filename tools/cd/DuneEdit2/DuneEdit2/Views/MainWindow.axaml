@@ -87,8 +87,6 @@
 								<TextBlock Text="{Binding CurrentSietch.HousedTroopID}" />
 								<Label>Spicefield ID</Label>
 								<TextBlock Text="{Binding CurrentSietch.SpicefieldID}" />
-								<Label>Belongs to (Modified via Status Field)</Label>
-								<TextBlock Text="{Binding CurrentSietch.Faction}" />
 							</StackPanel>
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
 								<Label>Status</Label>
