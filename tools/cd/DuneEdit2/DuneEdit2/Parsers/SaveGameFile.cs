@@ -27,6 +27,8 @@
 
         private readonly List<Troop> _troops = new();
 
+        public string Filename => _fileName;
+
         public SaveGameFile()
         {
         }
@@ -49,7 +51,7 @@
             try
             {
                 _originalSaveGameData = new List<byte>();
-                using FileStream fileStream = new(fileName, FileMode.Open);
+                using FileStream fileStream = File.OpenRead(_fileName);
                 while (fileStream.Position < fileStream.Length)
                 {
                     _originalSaveGameData.Add(checked((byte)fileStream.ReadByte()));
@@ -347,19 +349,23 @@
 
         public bool SaveCompressed() => SaveCompressedAs(_fileName);
 
-        public bool SaveCompressedAs(string fileName)
+        public bool SaveCompressedAs(string newFileName)
         {
             bool result = true;
             CompressData();
             FileStream? fileStream = null;
             try
             {
-                File.Delete(fileName + ".bak");
-                File.Copy(fileName, fileName + ".bak");
-                File.Delete(fileName);
-                fileStream = new FileStream(fileName, FileMode.CreateNew, FileAccess.Write);
-                foreach (byte item in _compressedData)
+                if(File.Exists(newFileName))
                 {
+                    File.Delete(newFileName + ".bak");
+                    File.Copy(newFileName, newFileName + ".bak");
+                    File.Delete(newFileName);
+                }
+                fileStream = new FileStream(newFileName, FileMode.CreateNew, FileAccess.Write);
+                for (int i = 0; i < _compressedData.Count; i++)
+                {
+                    byte item = _compressedData[i];
                     fileStream.WriteByte(item);
                 }
                 fileStream.Close();

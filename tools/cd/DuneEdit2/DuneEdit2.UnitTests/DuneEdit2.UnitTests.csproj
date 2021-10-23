@@ -31,6 +31,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Saves\AHarderPath\DUNE21S0.SAV">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Saves\AHarderPath\DUNE23S0.SAV">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Saves\AHarderPath\DUNE24S0.SAV">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Saves\AHarderPath\DUNE37S0.SAV">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Saves\DateTime\Day1At900AndDay1At10h30\DUNE37S1.SAV">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

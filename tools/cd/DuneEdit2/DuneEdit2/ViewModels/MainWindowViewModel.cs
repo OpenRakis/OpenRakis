@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.IO;
     using System.Reactive;
     using System.Reactive.Linq;
     using System.Threading.Tasks;
@@ -21,7 +22,7 @@
         public MainWindowViewModel()
         {
             OpenSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenSaveGameMethodAsync);
-            SaveGameFile = ReactiveCommand.Create<Unit, Unit>(SaveGameMethod);
+            SaveGameFile = ReactiveCommand.CreateFromTask<Unit, Unit>(SaveGameMethodAsync);
             UpdateSietch = ReactiveCommand.Create<Unit, Unit>(UpdateSietchMethod);
             UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
         }
@@ -185,7 +186,8 @@
             var result = await dialog.ShowAsync(MainWindow);
             if (result != null && result.Length > 0)
             {
-                _savegameFile = new SaveGameFile(result[0]);
+                var selectedFile = result[0];
+                _savegameFile = new SaveGameFile(selectedFile);
                 SpiceVal = _savegameFile.Generals.Spice;
                 CharismaVal = _savegameFile.Generals.CharismaGUI;
                 ContactDistanceVal = _savegameFile.Generals.ContactDistance;
@@ -230,7 +232,7 @@
             }
         }
 
-        private Unit SaveGameMethod(Unit arg)
+        private async Task<Unit> SaveGameMethodAsync(Unit arg)
         {
             if (IsSaveGameLoaded == false)
             {
@@ -240,7 +242,24 @@
             _savegameFile.UpdateSpice(SpiceVal);
             _savegameFile.UpdateContactDistance(ContactDistanceVal);
             _savegameFile.UpdateGameStage(GameStage);
-            _savegameFile.SaveCompressed();
+            FileAttributes attributes = File.GetAttributes(_savegameFile.Filename);
+            if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+            {
+                var fileName = await new SaveFileDialog()
+                {
+                    Directory = Path.GetDirectoryName(_savegameFile.Filename),
+                    InitialFileName = $"{Path.GetFileNameWithoutExtension(_savegameFile.Filename)}-modified.SAV"
+                }.ShowAsync(MainWindow);
+                if(string.IsNullOrWhiteSpace(fileName) == false)
+                {
+                    _savegameFile.SaveCompressedAs(fileName);
+                }
+            }
+            else
+            {
+                _savegameFile.SaveCompressed();
+
+            }
             return Unit.Default;
         }
     }
