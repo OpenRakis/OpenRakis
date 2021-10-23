@@ -14,4 +14,4 @@ using System.Runtime.Versioning;
 [assembly: AssemblyFileVersion("1.3.2.0")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyVersion("1.3.2.0")]
-[assembly: AssemblyInformationalVersion("1.3.2+Branch.master.Sha.52822934b5a0de0d720cce0c620087446e55be90")]
+[assembly: AssemblyInformationalVersion("1.3.2+Branch.master.Sha.7b360ada6e8170136564cfe40044fbb590937ff4")]

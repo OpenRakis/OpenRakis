@@ -174,9 +174,9 @@
 								<NumericUpDown Text="{Binding CurrentTroop.Population}" />
 								<Label>Motivation</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Motivation}" />
-								<Label>Status</Label>
-								<NumericUpDown Text="{Binding CurrentTroop.Status}" />
-								<TextBlock Text="{Binding CurrentTroop.StatusDesc}" />
+								<Label>Dissatisfaction</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Dissatisfaction}" />
+								<TextBlock Text="{Binding CurrentTroop.DissatisfactionDesc}" />
 								<Label>Job</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Job}" />
 								<TextBlock Text="{Binding CurrentTroop.JobDesc}" />

@@ -85,22 +85,22 @@
             }
         }
 
-        public byte Status
+        public byte Dissatisfaction
         {
-            get => _troop.Status;
+            get => _troop.Dissatisfaction;
             set
             {
-                _troop.Status = value;
+                _troop.Dissatisfaction = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Status));
-                this.RaisePropertyChanged(nameof(StatusDesc));
+                this.RaisePropertyChanged(nameof(Dissatisfaction));
+                this.RaisePropertyChanged(nameof(DissatisfactionDesc));
                 this.RaisePropertyChanged(nameof(Origin));
             }
         }
 
         public string JobDesc => $"{Job} - {JobFinder.GetJobDesc(Job)}";
 
-        public string StatusDesc => $"{Status} - {StatusFinder.GetStatusDesc(Status)}";
+        public string DissatisfactionDesc => $"{Dissatisfaction} - {DissatisfactionFinder.GetStatusDesc(Dissatisfaction)}";
 
         public byte EcologySkill
         {
@@ -248,7 +248,7 @@
             return name;
         }
 
-        public string Origin => TroopOriginFinder.GetOrigin(_troop.Status);
+        public string Origin => TroopOriginFinder.GetOrigin(_troop.Dissatisfaction);
 
         public string Description => $"{_troop.TroopID} ({GetSietchName()}) ({GetFaction()})";
 

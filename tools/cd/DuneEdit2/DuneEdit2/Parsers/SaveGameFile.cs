@@ -118,7 +118,7 @@
                         TroopID = data[itemPos + 0],
                         NextTroopInSietch = data[itemPos + 1],
                         Job = data[itemPos + 3],
-                        Status = data[itemPos + 18],
+                        Dissatisfaction = data[itemPos + 18],
                         Speech = data[itemPos + 19],
                         Motivation = data[itemPos + 21],
                         SpiceSkill = data[itemPos + 22],
@@ -155,7 +155,7 @@
         {
             int startOffset = troop.StartOffset;
             _uncompressedData[startOffset + 3] = troop.Job;
-            _uncompressedData[startOffset + 18] = troop.Status;
+            _uncompressedData[startOffset + 18] = troop.Dissatisfaction;
             _uncompressedData[startOffset + 21] = troop.Motivation;
             _uncompressedData[startOffset + 22] = troop.SpiceSkill;
             _uncompressedData[startOffset + 23] = troop.ArmySkill;

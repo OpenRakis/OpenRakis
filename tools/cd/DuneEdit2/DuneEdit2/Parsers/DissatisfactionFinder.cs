@@ -1,10 +1,10 @@
 namespace DuneEdit2.Parsers
 {
-    public class StatusFinder
+    public class DissatisfactionFinder
     {
-        public const string UnknownValue = "Unknown Status value / Not used.";
+        public const string UnknownValue = "Unknown Dissatisfaction value / Not used.";
 
-        public StatusFinder()
+        public DissatisfactionFinder()
         {
         }
 

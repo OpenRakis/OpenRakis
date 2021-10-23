@@ -27,7 +27,7 @@ namespace DuneEdit2.Models
 
         public string? Coordinates { get; set; }
 
-        public byte Status { get; set; }
+        public byte Dissatisfaction { get; set; }
 
         public byte EcologySkill { get; set; }
 
