@@ -186,7 +186,9 @@
         internal void UpdateSietch(Sietch sietch)
         {
             int startOffset = sietch.StartOffset;
+            _uncompressedData[startOffset + 9] = sietch.HousedTroopID;
             _uncompressedData[startOffset + 10] = (byte)sietch.Status;
+            _uncompressedData[startOffset + 16] = sietch.SpicefieldID;
             _uncompressedData[startOffset + 17] = sietch.Spice;
             _uncompressedData[startOffset + 18] = sietch.SpiceDensity;
             _uncompressedData[startOffset + 20] = sietch.Harvesters;

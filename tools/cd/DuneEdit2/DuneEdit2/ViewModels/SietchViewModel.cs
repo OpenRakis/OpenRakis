@@ -109,7 +109,15 @@
             }
         }
 
-        public byte HousedTroopID => _sietch.HousedTroopID;
+        public byte HousedTroopID
+        {
+            get => _sietch.HousedTroopID;
+            set
+            {
+                _sietch.HousedTroopID = value;
+                HasChanged = true;
+            }
+        }
 
         public string ID => _sietch.ID;
 
