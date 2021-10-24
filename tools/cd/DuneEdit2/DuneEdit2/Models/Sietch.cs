@@ -92,6 +92,8 @@ namespace DuneEdit2.Models
 
         public int StartOffset { get; set; }
 
+        public byte Type { get; set; }
+
         public int Status
         {
             get { if (StatusBitField != null) { return StatusBitField.Bitfield; } else { return 0; } }

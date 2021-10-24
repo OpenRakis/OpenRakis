@@ -90,6 +90,8 @@
 								<NumericUpDown Text="{Binding CurrentSietch.Water}" />
 								<Label>Spice Density</Label>
 								<NumericUpDown Text="{Binding CurrentSietch.SpiceDensity}" />
+								<Label>Type</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.Type}" />
 								<Label>Area / Spicefield ID</Label>
 								<NumericUpDown Text="{Binding CurrentSietch.SpicefieldID}" />
 								<Label>Housed Troop ID</Label>

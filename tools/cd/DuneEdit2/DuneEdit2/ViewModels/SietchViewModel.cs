@@ -236,6 +236,17 @@
             }
         }
 
+        public byte Type
+        {
+            get => _sietch.Type;
+            set
+            {
+                _sietch.Type = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Type));
+            }
+        }
+
         private void RaiseStatusChanged()
         {
             this.RaisePropertyChanged(nameof(Status));

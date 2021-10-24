@@ -99,6 +99,7 @@
                         Bulbs = data[itemPos + 26],
                         Water = data[itemPos + 27],
                         Spice = data[itemPos + 17],
+                        Type = data[itemPos + 8],
                     };
                     int coordsCursor = 0;
                     int coordsPos;
@@ -186,6 +187,7 @@
         internal void UpdateSietch(Sietch sietch)
         {
             int startOffset = sietch.StartOffset;
+            _uncompressedData[startOffset + 8] = sietch.Type;
             _uncompressedData[startOffset + 9] = sietch.HousedTroopID;
             _uncompressedData[startOffset + 10] = (byte)sietch.Status;
             _uncompressedData[startOffset + 16] = sietch.SpicefieldID;
