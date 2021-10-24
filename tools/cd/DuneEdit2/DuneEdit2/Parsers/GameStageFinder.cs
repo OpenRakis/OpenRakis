@@ -24,6 +24,7 @@
             if (id == 0x2c) { result = "take Stilgar home to meet your folks"; }
             if (id == 0x34) { result = "Leto is about to leave"; }
             if (id == 0x35) { result = "Leto has left"; }
+            if (id == 0x39) { result = "Leto has left (why the different value then ?)"; }
             if (id == 0x48) { result = "morning song starts playing"; }
             if (id == 0x4f) { result = "can ride worms"; }
             if (id == 0x50) { result = "have ridden a worm, let's tell Thufir"; }
