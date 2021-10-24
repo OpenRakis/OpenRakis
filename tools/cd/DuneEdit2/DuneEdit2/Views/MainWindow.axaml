@@ -84,6 +84,14 @@
 								<TextBlock Text="{Binding CurrentSietch.SubRegion}" />
 							</StackPanel>
 							<StackPanel Orientation="Vertical" Grid.Column="1">
+								<Label>Position X (map)</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.PosXmap}" />
+								<Label>Position Y (map)</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.PosYmap}" />
+								<Label>Position X</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.PosX}" />
+								<Label>Position Y</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.PosY}" />
 								<Label>Amount of Spice</Label>
 								<NumericUpDown Text="{Binding CurrentSietch.Spice}" />
 								<Label>Amount of Water</Label>

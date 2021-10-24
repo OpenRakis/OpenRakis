@@ -85,6 +85,11 @@
                         StartOffset = itemPos,
                         Region = data[itemPos + 0],
                         SubRegion = data[itemPos + 1],
+                        PosXmap = data[itemPos + 3],
+                        PosYmap = data[itemPos + 4],
+                        PosX = data[itemPos + 6],
+                        PosY = data[itemPos + 7],
+                        Type = data[itemPos + 8],
                         HousedTroopID = data[itemPos + 9],
                         StatusBitField = new ClsBitfield(data[itemPos + 10]),
                         Status = data[itemPos + 10],
@@ -99,13 +104,13 @@
                         Bulbs = data[itemPos + 26],
                         Water = data[itemPos + 27],
                         Spice = data[itemPos + 17],
-                        Type = data[itemPos + 8],
                     };
                     int coordsCursor = 0;
                     int coordsPos;
                     do
                     {
-                        sietch.Coordinates += Convert.ToString(data[itemPos + 2 + coordsCursor]);
+                        int coordinatesPartOffset = itemPos + 2 + coordsCursor;
+                        sietch.Coordinates += Convert.ToString(data[coordinatesPartOffset]);
                         coordsCursor++;
                         coordsPos = coordsCursor;
                         endPos = 3;
@@ -187,6 +192,10 @@
         internal void UpdateSietch(Sietch sietch)
         {
             int startOffset = sietch.StartOffset;
+            _uncompressedData[startOffset + 3] = sietch.PosXmap;
+            _uncompressedData[startOffset + 4] = sietch.PosYmap;
+            _uncompressedData[startOffset + 6] = sietch.PosX;
+            _uncompressedData[startOffset + 7] = sietch.PosY;
             _uncompressedData[startOffset + 8] = sietch.Type;
             _uncompressedData[startOffset + 9] = sietch.HousedTroopID;
             _uncompressedData[startOffset + 10] = (byte)sietch.Status;

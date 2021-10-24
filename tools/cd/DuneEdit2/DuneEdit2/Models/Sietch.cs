@@ -94,6 +94,11 @@ namespace DuneEdit2.Models
 
         public byte Type { get; set; }
 
+        public byte PosX { get; set; }
+        public byte PosY { get; set; }
+        public byte PosYmap { get; set; }
+        public byte PosXmap { get; set; }
+
         public int Status
         {
             get { if (StatusBitField != null) { return StatusBitField.Bitfield; } else { return 0; } }

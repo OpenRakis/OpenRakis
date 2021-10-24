@@ -247,6 +247,50 @@
             }
         }
 
+        public byte PosXmap
+        {
+            get => _sietch.PosXmap;
+            set
+            {
+                _sietch.PosXmap = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(PosXmap));
+            }
+        }
+
+        public byte PosYmap
+        {
+            get => _sietch.PosYmap;
+            set
+            {
+                _sietch.PosYmap = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(PosYmap));
+            }
+        }
+
+        public byte PosY
+        {
+            get => _sietch.PosY;
+            set
+            {
+                _sietch.PosY = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(PosY));
+            }
+        }
+
+        public byte PosX
+        {
+            get => _sietch.PosX;
+            set
+            {
+                _sietch.PosX = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(PosX));
+            }
+        }
+
         private void RaiseStatusChanged()
         {
             this.RaisePropertyChanged(nameof(Status));
