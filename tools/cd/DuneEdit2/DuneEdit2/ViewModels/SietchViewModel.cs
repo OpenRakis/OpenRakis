@@ -175,7 +175,7 @@
 
             set
             {
-                _sietch.Bulbs = value;
+                _sietch.Ornis = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Ornis));
             }
