@@ -54,7 +54,7 @@
                 using FileStream fileStream = File.OpenRead(_fileName);
                 while (fileStream.Position < fileStream.Length)
                 {
-                    _originalSaveGameData.Add(checked((byte)fileStream.ReadByte()));
+                    _originalSaveGameData.Add((byte)fileStream.ReadByte());
                 }
                 DetectTraps();
                 UncompressData();
