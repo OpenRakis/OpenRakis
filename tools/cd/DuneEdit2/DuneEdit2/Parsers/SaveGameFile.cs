@@ -104,6 +104,14 @@
                         Bulbs = data[itemPos + 26],
                         Water = data[itemPos + 27],
                         Spice = data[itemPos + 17],
+                        Unknown1 = data[itemPos + 5],
+                        Unknown2 = data[itemPos + 11],
+                        Unknown3 = data[itemPos + 12],
+                        Unknown4 = data[itemPos + 13],
+                        Unknown5 = data[itemPos + 14],
+                        Unknown6 = data[itemPos + 15],
+                        Unknown7 = data[itemPos + 2],
+                        Unknown8 = data[itemPos + 19],
                     };
                     int coordsCursor = 0;
                     int coordsPos;
@@ -210,6 +218,14 @@
             _uncompressedData[startOffset + 25] = sietch.Atomics;
             _uncompressedData[startOffset + 26] = sietch.Bulbs;
             _uncompressedData[startOffset + 27] = sietch.Water;
+            _uncompressedData[startOffset + 5] = sietch.Unknown1;
+            _uncompressedData[startOffset + 11] = sietch.Unknown2;
+            _uncompressedData[startOffset + 12] = sietch.Unknown3;
+            _uncompressedData[startOffset + 13] = sietch.Unknown4;
+            _uncompressedData[startOffset + 14] = sietch.Unknown5;
+            _uncompressedData[startOffset + 15] = sietch.Unknown6;
+            _uncompressedData[startOffset + 2] = sietch.Unknown7;
+            _uncompressedData[startOffset + 19] = sietch.Unknown8;
         }
 
         public Generals Generals => _generals;

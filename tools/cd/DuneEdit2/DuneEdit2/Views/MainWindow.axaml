@@ -72,7 +72,7 @@
 							</ComboBox.ItemTemplate>
 						</ComboBox>
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentSietch.HasChanged}" Command="{Binding UpdateSietch}" />
-						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*">
+						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*,*">
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Left" Grid.Column="0">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentSietch.StartOffset, StringFormat={}0x{0:x}}" />
@@ -133,6 +133,24 @@
 								<CheckBox Content="Not Discovered" IsChecked="{Binding CurrentSietch.NotDiscovered}" />
 								<Label>Direct Value Edit</Label>
 								<NumericUpDown Text="{Binding CurrentSietch.Status}" />
+							</StackPanel>
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
+								<Label>Unknown 1</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.Unknown1}" />
+								<Label>Unknown 2</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.Unknown2}" />
+								<Label>Unknown 3</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.Unknown3}" />
+								<Label>Unknown 4</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.Unknown4}" />
+								<Label>Unknown 5</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.Unknown5}" />
+								<Label>Unknown 6</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.Unknown6}" />
+								<Label>Unknown 7</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.Unknown7}" />
+								<Label>Unknown 8</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.Unknown8}" />
 							</StackPanel>
 						</Grid>
 					</Grid>

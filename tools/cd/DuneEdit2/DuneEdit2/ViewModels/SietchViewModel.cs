@@ -291,6 +291,94 @@
             }
         }
 
+        public byte Unknown1
+        {
+            get => _sietch.Unknown1;
+            set
+            {
+                _sietch.Unknown1 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown1));
+            }
+        }
+
+        public byte Unknown2
+        {
+            get => _sietch.Unknown2;
+            set
+            {
+                _sietch.Unknown2 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown2));
+            }
+        }
+
+        public byte Unknown3
+        {
+            get => _sietch.Unknown1;
+            set
+            {
+                _sietch.Unknown3 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown3));
+            }
+        }
+
+        public byte Unknown4
+        {
+            get => _sietch.Unknown4;
+            set
+            {
+                _sietch.Unknown4 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown4));
+            }
+        }
+
+        public byte Unknown5
+        {
+            get => _sietch.Unknown5;
+            set
+            {
+                _sietch.Unknown5 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown5));
+            }
+        }
+
+        public byte Unknown6
+        {
+            get => _sietch.Unknown6;
+            set
+            {
+                _sietch.Unknown6 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown6));
+            }
+        }
+
+        public byte Unknown7
+        {
+            get => _sietch.Unknown7;
+            set
+            {
+                _sietch.Unknown7 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown7));
+            }
+        }
+
+        public byte Unknown8
+        {
+            get => _sietch.Unknown8;
+            set
+            {
+                _sietch.Unknown8 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown8));
+            }
+        }
+
         private void RaiseStatusChanged()
         {
             this.RaisePropertyChanged(nameof(Status));
