@@ -270,18 +270,6 @@
             }
         }
 
-        public byte Area
-        {
-            get => _sietch.Area;
-
-            set
-            {
-                _sietch.Area = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Area));
-            }
-        }
-
         public byte WeirdingMod
         {
             get => _sietch.WeirdingMod;

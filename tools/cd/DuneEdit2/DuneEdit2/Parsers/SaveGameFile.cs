@@ -80,10 +80,24 @@
                 do
                 {
                     int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Sietchs) + cursor * 28;
-                    var sietch = new Sietch(itemPos, data[itemPos + 0], data[itemPos + 1], data[itemPos + 9], data[itemPos + 10], data[itemPos + 16], data[itemPos + 18], data[itemPos + 20], data[itemPos + 21], data[itemPos + 22], data[itemPos + 23], data[itemPos + 24], data[itemPos + 25], data[itemPos + 26], data[itemPos + 27])
+                    var sietch = new Sietch()
                     {
-
-                        Area = data[itemPos + 16],
+                        StartOffset = itemPos,
+                        Region = data[itemPos + 0],
+                        SubRegion = data[itemPos + 1],
+                        HousedTroopID = data[itemPos + 9],
+                        StatusBitField = new ClsBitfield(data[itemPos + 10]),
+                        Status = data[itemPos + 10],
+                        SpicefieldID = data[itemPos + 16],
+                        SpiceDensity = data[itemPos + 18],
+                        Harvesters = data[itemPos + 20],
+                        Ornis = data[itemPos + 21],
+                        Krys = data[itemPos + 22],
+                        LaserGuns = data[itemPos + 23],
+                        WeirdingMod = data[itemPos + 24],
+                        Atomics = data[itemPos + 25],
+                        Bulbs = data[itemPos + 26],
+                        Water = data[itemPos + 27],
                         Spice = data[itemPos + 17],
                     };
                     int coordsCursor = 0;
@@ -117,7 +131,7 @@
                 do
                 {
                     int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Troops) + cursor * 27;
-                    var troop = new Troop(data[itemPos + 25])
+                    var troop = new Troop(equipment: data[itemPos + 25])
                     {
                         StartOffset = itemPos,
                         TroopID = data[itemPos + 0],
@@ -130,7 +144,7 @@
                         ArmySkill = data[itemPos + 23],
                         EcologySkill = data[itemPos + 24],
                         Equipment = data[itemPos + 25],
-                        Population = unchecked(data[checked(itemPos + 26)]) * 10
+                        Population = data[itemPos + 26] * 10
                     };
                     int coordsCursor = 0;
                     int coordsPos;
@@ -173,7 +187,6 @@
         {
             int startOffset = sietch.StartOffset;
             _uncompressedData[startOffset + 10] = (byte)sietch.Status;
-            _uncompressedData[startOffset + 16] = sietch.Area;
             _uncompressedData[startOffset + 17] = sietch.Spice;
             _uncompressedData[startOffset + 18] = sietch.SpiceDensity;
             _uncompressedData[startOffset + 20] = sietch.Harvesters;

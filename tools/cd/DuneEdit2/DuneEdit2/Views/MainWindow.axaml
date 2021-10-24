@@ -84,8 +84,6 @@
 								<TextBlock Text="{Binding CurrentSietch.SubRegion}" />
 								<Label>Housed Troop ID</Label>
 								<TextBlock Text="{Binding CurrentSietch.HousedTroopID}" />
-								<Label>Spicefield ID</Label>
-								<TextBlock Text="{Binding CurrentSietch.SpicefieldID}" />
 							</StackPanel>
 							<StackPanel Orientation="Vertical" Grid.Column="1">
 								<Label>Amount of Spice</Label>
@@ -94,8 +92,8 @@
 								<NumericUpDown Text="{Binding CurrentSietch.Water}" />
 								<Label>Spice Density</Label>
 								<NumericUpDown Text="{Binding CurrentSietch.SpiceDensity}" />
-								<Label>Area</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Area}" />
+								<Label>Area / Spicefield ID</Label>
+								<NumericUpDown Text="{Binding CurrentSietch.SpicefieldID}" />
 							</StackPanel>
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="2">
 								<Label>Harvesters</Label>
