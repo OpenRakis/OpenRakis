@@ -133,6 +133,7 @@
 								<CheckBox Content="Not Discovered" IsChecked="{Binding CurrentLocation.NotDiscovered}" />
 								<Label>Direct Value Edit</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Status}" />
+								<TextBlock Text="{Binding CurrentLocation.StatusDesc}" />
 							</StackPanel>
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
 								<Label>Unknown 1</Label>
