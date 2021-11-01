@@ -4,7 +4,7 @@ using System;
 
 namespace DuneEdit2.Models
 {
-    public record Sietch
+    public record Location
     {
         public ClsBitfield? StatusBitField { get; set; }
 
@@ -92,20 +92,19 @@ namespace DuneEdit2.Models
 
         public int StartOffset { get; set; }
 
-        public byte Type { get; set; }
+        public byte Appearance { get; set; }
 
         public byte PosX { get; set; }
         public byte PosY { get; set; }
         public byte PosYmap { get; set; }
         public byte PosXmap { get; set; }
         public byte Unknown1 { get; set; }
-        public byte Unknown2 { get; set; }
-        public byte Unknown3 { get; set; }
-        public byte Unknown4 { get; set; }
-        public byte Unknown5 { get; set; }
-        public byte Unknown6 { get; set; }
-        public byte Unknown7 { get; set; }
-        public byte Unknown8 { get; set; }
+        public byte StageByte1 { get; set; }
+        public byte StageByte2 { get; set; }
+        public byte StageByte3 { get; set; }
+        public byte StageByte4 { get; set; }
+        public byte StageByte5 { get; set; }
+        public byte GameStage { get; set; }
 
         public int Status
         {

@@ -62,95 +62,93 @@
 						</StackPanel>
 					</DockPanel>
 				</TabItem>
-				<TabItem Header="Sietches" IsEnabled="{Binding IsSaveGameLoaded}">
+				<TabItem Header="Locations" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
-						<ComboBox Grid.Row="0" Grid.Column="0" Items="{Binding Sietches}" SelectedItem="{Binding CurrentSietch, Mode=TwoWay}">
+						<ComboBox Grid.Row="0" Grid.Column="0" Items="{Binding Locations}" SelectedItem="{Binding CurrentLocation, Mode=TwoWay}">
 							<ComboBox.ItemTemplate>
-								<DataTemplate DataType="{x:Type vm:SietchViewModel}">
+								<DataTemplate DataType="{x:Type vm:LocationViewModel}">
 									<Label Content="{Binding RegionName}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
-						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentSietch.HasChanged}" Command="{Binding UpdateSietch}" />
+						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentLocation.HasChanged}" Command="{Binding UpdateSietch}" />
 						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*,*">
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Left" Grid.Column="0">
 								<Label>Start Offset</Label>
-								<TextBlock Text="{Binding CurrentSietch.StartOffset, StringFormat={}0x{0:x}}" />
+								<TextBlock Text="{Binding CurrentLocation.StartOffset, StringFormat={}0x{0:x}}" />
 								<Label>Coordinates</Label>
-								<TextBlock Text="{Binding CurrentSietch.Coordinates}" />
+								<TextBlock Text="{Binding CurrentLocation.Coordinates}" />
 								<Label>Region</Label>
-								<TextBlock Text="{Binding CurrentSietch.Region}" />
+								<TextBlock Text="{Binding CurrentLocation.Region}" />
 								<Label>Sub Region</Label>
-								<TextBlock Text="{Binding CurrentSietch.SubRegion}" />
+								<TextBlock Text="{Binding CurrentLocation.SubRegion}" />
 							</StackPanel>
 							<StackPanel Orientation="Vertical" Grid.Column="1">
 								<Label>Position X (map)</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.PosXmap}" />
+								<NumericUpDown Text="{Binding CurrentLocation.PosXmap}" />
 								<Label>Position Y (map)</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.PosYmap}" />
+								<NumericUpDown Text="{Binding CurrentLocation.PosYmap}" />
 								<Label>Position X</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.PosX}" />
+								<NumericUpDown Text="{Binding CurrentLocation.PosX}" />
 								<Label>Position Y</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.PosY}" />
+								<NumericUpDown Text="{Binding CurrentLocation.PosY}" />
 								<Label>Amount of Spice</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Spice}" />
+								<NumericUpDown Text="{Binding CurrentLocation.Spice}" />
 								<Label>Amount of Water</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Water}" />
+								<NumericUpDown Text="{Binding CurrentLocation.Water}" />
 								<Label>Spice Density</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.SpiceDensity}" />
-								<Label>Type</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Type}" />
-								<Label>Area / Spicefield ID</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.SpicefieldID}" />
+								<NumericUpDown Text="{Binding CurrentLocation.SpiceDensity}" />
+								<Label>Appearance</Label>
+								<NumericUpDown Text="{Binding CurrentLocation.Appearance}" />
+								<Label>Spicefield ID</Label>
+								<NumericUpDown Text="{Binding CurrentLocation.SpicefieldID}" />
 								<Label>Housed Troop ID</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.HousedTroopID}" />
+								<NumericUpDown Text="{Binding CurrentLocation.HousedTroopID}" />
 							</StackPanel>
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="2">
 								<Label>Harvesters</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Harvesters}" />
+								<NumericUpDown Text="{Binding CurrentLocation.Harvesters}" />
 								<Label>Ornis</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Ornis}" />
+								<NumericUpDown Text="{Binding CurrentLocation.Ornis}" />
 								<Label>Krys/Knifes</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Krys}" />
+								<NumericUpDown Text="{Binding CurrentLocation.Krys}" />
 								<Label>Laserguns</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.LaserGuns}" />
+								<NumericUpDown Text="{Binding CurrentLocation.LaserGuns}" />
 								<Label>Weirdng Mod</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.WeirdingMod}" />
+								<NumericUpDown Text="{Binding CurrentLocation.WeirdingMod}" />
 								<Label>Atomics</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Atomics}" />
+								<NumericUpDown Text="{Binding CurrentLocation.Atomics}" />
 								<Label>Bulbs</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Bulbs}" />
+								<NumericUpDown Text="{Binding CurrentLocation.Bulbs}" />
 							</StackPanel>
 							<StackPanel HorizontalAlignment="Right" Orientation="Vertical" Grid.Column="3">
 								<Label>Status</Label>
-								<CheckBox Content="Vegetation has begun" IsChecked="{Binding CurrentSietch.HasVegetation}" />
-								<CheckBox Content="Under Attack" IsChecked="{Binding CurrentSietch.InBattle}" />
-								<CheckBox Content="Infiltrated" IsChecked="{Binding CurrentSietch.Infiltrated}" />
-								<CheckBox Content="Battle Won" IsChecked="{Binding CurrentSietch.BattleWon}" />
-								<CheckBox Content="See Inventory" IsChecked="{Binding CurrentSietch.SeeInventory}" />
-								<CheckBox Content="Wind Trap" IsChecked="{Binding CurrentSietch.HasWindtrap}" />
-								<CheckBox Content="Prospected" IsChecked="{Binding CurrentSietch.Prospected}" />
-								<CheckBox Content="Not Discovered" IsChecked="{Binding CurrentSietch.NotDiscovered}" />
+								<CheckBox Content="Vegetation has begun" IsChecked="{Binding CurrentLocation.HasVegetation}" />
+								<CheckBox Content="Under Attack" IsChecked="{Binding CurrentLocation.InBattle}" />
+								<CheckBox Content="Infiltrated" IsChecked="{Binding CurrentLocation.Infiltrated}" />
+								<CheckBox Content="Battle Won" IsChecked="{Binding CurrentLocation.BattleWon}" />
+								<CheckBox Content="See Inventory" IsChecked="{Binding CurrentLocation.SeeInventory}" />
+								<CheckBox Content="Wind Trap" IsChecked="{Binding CurrentLocation.HasWindtrap}" />
+								<CheckBox Content="Prospected" IsChecked="{Binding CurrentLocation.Prospected}" />
+								<CheckBox Content="Not Discovered" IsChecked="{Binding CurrentLocation.NotDiscovered}" />
 								<Label>Direct Value Edit</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Status}" />
+								<NumericUpDown Text="{Binding CurrentLocation.Status}" />
 							</StackPanel>
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
 								<Label>Unknown 1</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Unknown1}" />
-								<Label>Unknown 2</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Unknown2}" />
-								<Label>Unknown 3</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Unknown3}" />
-								<Label>Unknown 4</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Unknown4}" />
-								<Label>Unknown 5</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Unknown5}" />
-								<Label>Unknown 6</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Unknown6}" />
-								<Label>Unknown 7</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Unknown7}" />
-								<Label>Unknown 8</Label>
-								<NumericUpDown Text="{Binding CurrentSietch.Unknown8}" />
+								<NumericUpDown Text="{Binding CurrentLocation.Unknown1}" />
+								<Label>Stage Byte 1 of 5</Label>
+								<NumericUpDown Text="{Binding CurrentLocation.StageByte1}" />
+								<Label>Stage Byte 2 of 5</Label>
+								<NumericUpDown Text="{Binding CurrentLocation.StageByte2}" />
+								<Label>Stage Byte 3 of 5</Label>
+								<NumericUpDown Text="{Binding CurrentLocation.StageByte3}" />
+								<Label>Stage Byte 4 of 5</Label>
+								<NumericUpDown Text="{Binding CurrentLocation.StageByte4}" />
+								<Label>Stage Byte 5 of 5</Label>
+								<NumericUpDown Text="{Binding CurrentLocation.StageByte5}" />
+								<Label>Discoverable at Game Stage</Label>
+								<NumericUpDown Text="{Binding CurrentLocation.GameStage}" />
 							</StackPanel>
 						</Grid>
 					</Grid>
@@ -169,10 +167,10 @@
 								</ComboBox>
 							</StackPanel>
 							<StackPanel Orientation="Vertical">
-								<Label>Select by Sietch:</Label>
-								<ComboBox Items="{Binding SietchesWithTroops}" SelectedItem="{Binding CurrentSietchWithTroop, Mode=TwoWay}">
+								<Label>Select by Location:</Label>
+								<ComboBox Items="{Binding LocationsWithTroops}" SelectedItem="{Binding CurrentLocationWithTroop, Mode=TwoWay}">
 									<ComboBox.ItemTemplate>
-										<DataTemplate DataType="{x:Type vm:SietchViewModel}">
+										<DataTemplate DataType="{x:Type vm:LocationViewModel}">
 											<Label Content="{Binding RegionName}" />
 										</DataTemplate>
 									</ComboBox.ItemTemplate>
@@ -188,7 +186,7 @@
 								<Label>Troop ID</Label>
 								<TextBlock Text="{Binding CurrentTroop.TroopID}" />
 								<Label>Next Troop ID</Label>
-								<TextBlock Text="{Binding CurrentTroop.NextTroopInSietch}" />
+								<TextBlock Text="{Binding CurrentTroop.NextTroopInLocation}" />
 								<Label>Regional Origin</Label>
 								<TextBlock Text="{Binding CurrentTroop.Origin}" />
 							</StackPanel>

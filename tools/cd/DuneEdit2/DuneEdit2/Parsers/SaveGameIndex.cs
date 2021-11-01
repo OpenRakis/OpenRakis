@@ -27,7 +27,7 @@
             _tableOfContents.Add(FieldName.ContactDistance, new SaveGameFieldInfo(FieldName.ContactDistance, (int)SavegameFieldsOffsetsEnum.ContactDistanceStartOffset));
             _tableOfContents.Add(FieldName.DateTime, new SaveGameFieldInfo(FieldName.DateTime, (int)SavegameFieldsOffsetsEnum.DateTimeStartOffset));
             _tableOfContents.Add(FieldName.GameStage, new SaveGameFieldInfo(FieldName.GameStage, (int)SavegameFieldsOffsetsEnum.GameStageOffset));
-            _tableOfContents.Add(FieldName.Sietchs, new SaveGameFieldInfo(FieldName.Sietchs, (int)SavegameFieldsOffsetsEnum.SietchsStartOffset));
+            _tableOfContents.Add(FieldName.Locations, new SaveGameFieldInfo(FieldName.Locations, (int)SavegameFieldsOffsetsEnum.SietchsStartOffset));
             _tableOfContents.Add(FieldName.Troops, new SaveGameFieldInfo(FieldName.Troops, (int)SavegameFieldsOffsetsEnum.TroopsStartOffset));
         }
 

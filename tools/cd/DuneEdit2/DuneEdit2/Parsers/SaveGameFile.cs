@@ -23,7 +23,7 @@
 
         private List<byte> _uncompressedData = new();
 
-        private readonly List<Sietch> _sietches = new();
+        private readonly List<Location> _locations = new();
 
         private readonly List<Troop> _troops = new();
 
@@ -65,13 +65,13 @@
                 throw;
             }
             _generals = new Generals(_uncompressedData);
-            _sietches = PopulateSietches(_uncompressedData);
+            _locations = PopulateSietches(_uncompressedData);
             _troops = PopulateTroops(_uncompressedData);
         }
 
-        private static List<Sietch> PopulateSietches(List<byte> data)
+        private static List<Location> PopulateSietches(List<byte> data)
         {
-            var sietches = new List<Sietch>();
+            var locations = new List<Location>();
             int cursor = 0;
             checked
             {
@@ -79,22 +79,30 @@
                 int endPos;
                 do
                 {
-                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Sietchs) + cursor * 28;
-                    var sietch = new Sietch()
+                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Locations) + cursor * 28;
+                    var location = new Location()
                     {
                         StartOffset = itemPos,
                         Region = data[itemPos + 0],
                         SubRegion = data[itemPos + 1],
                         PosXmap = data[itemPos + 3],
                         PosYmap = data[itemPos + 4],
+                        Unknown1 = data[itemPos + 5],
                         PosX = data[itemPos + 6],
                         PosY = data[itemPos + 7],
-                        Type = data[itemPos + 8],
+                        Appearance = data[itemPos + 8],
                         HousedTroopID = data[itemPos + 9],
                         StatusBitField = new ClsBitfield(data[itemPos + 10]),
                         Status = data[itemPos + 10],
+                        StageByte1 = data[itemPos + 11],
+                        StageByte2 = data[itemPos + 12],
+                        StageByte3 = data[itemPos + 13],
+                        StageByte4 = data[itemPos + 14],
+                        StageByte5 = data[itemPos + 15],
                         SpicefieldID = data[itemPos + 16],
+                        Spice = data[itemPos + 17],
                         SpiceDensity = data[itemPos + 18],
+                        GameStage = data[itemPos + 19],
                         Harvesters = data[itemPos + 20],
                         Ornis = data[itemPos + 21],
                         Krys = data[itemPos + 22],
@@ -103,35 +111,26 @@
                         Atomics = data[itemPos + 25],
                         Bulbs = data[itemPos + 26],
                         Water = data[itemPos + 27],
-                        Spice = data[itemPos + 17],
-                        Unknown1 = data[itemPos + 5],
-                        Unknown2 = data[itemPos + 11],
-                        Unknown3 = data[itemPos + 12],
-                        Unknown4 = data[itemPos + 13],
-                        Unknown5 = data[itemPos + 14],
-                        Unknown6 = data[itemPos + 15],
-                        Unknown7 = data[itemPos + 2],
-                        Unknown8 = data[itemPos + 19],
                     };
                     int coordsCursor = 0;
                     int coordsPos;
                     do
                     {
                         int coordinatesPartOffset = itemPos + 2 + coordsCursor;
-                        sietch.Coordinates += Convert.ToString(data[coordinatesPartOffset]);
+                        location.Coordinates += Convert.ToString(data[coordinatesPartOffset]);
                         coordsCursor++;
                         coordsPos = coordsCursor;
                         endPos = 3;
                     }
                     while (coordsPos <= endPos);
-                    sietches.Add(sietch);
+                    locations.Add(location);
                     cursor++;
                     position = cursor;
                     endPos = 69;
                 }
                 while (position <= endPos);
             }
-            return sietches;
+            return locations;
         }
 
         private static List<Troop> PopulateTroops(List<byte> data)
@@ -180,7 +179,7 @@
             return troops;
         }
 
-        public List<Sietch> GetSietches() => new(_sietches);
+        public List<Location> GetSietches() => new(_locations);
 
         public List<Troop> GetTroops() => new(_troops);
 
@@ -197,35 +196,34 @@
             _uncompressedData[startOffset + 26] = (byte)Math.Round(troop.Population / 10.0);
         }
 
-        internal void UpdateSietch(Sietch sietch)
+        internal void UpdateSietch(Location location)
         {
-            int startOffset = sietch.StartOffset;
-            _uncompressedData[startOffset + 3] = sietch.PosXmap;
-            _uncompressedData[startOffset + 4] = sietch.PosYmap;
-            _uncompressedData[startOffset + 6] = sietch.PosX;
-            _uncompressedData[startOffset + 7] = sietch.PosY;
-            _uncompressedData[startOffset + 8] = sietch.Type;
-            _uncompressedData[startOffset + 9] = sietch.HousedTroopID;
-            _uncompressedData[startOffset + 10] = (byte)sietch.Status;
-            _uncompressedData[startOffset + 16] = sietch.SpicefieldID;
-            _uncompressedData[startOffset + 17] = sietch.Spice;
-            _uncompressedData[startOffset + 18] = sietch.SpiceDensity;
-            _uncompressedData[startOffset + 20] = sietch.Harvesters;
-            _uncompressedData[startOffset + 21] = sietch.Ornis;
-            _uncompressedData[startOffset + 22] = sietch.Krys;
-            _uncompressedData[startOffset + 23] = sietch.LaserGuns;
-            _uncompressedData[startOffset + 24] = sietch.WeirdingMod;
-            _uncompressedData[startOffset + 25] = sietch.Atomics;
-            _uncompressedData[startOffset + 26] = sietch.Bulbs;
-            _uncompressedData[startOffset + 27] = sietch.Water;
-            _uncompressedData[startOffset + 5] = sietch.Unknown1;
-            _uncompressedData[startOffset + 11] = sietch.Unknown2;
-            _uncompressedData[startOffset + 12] = sietch.Unknown3;
-            _uncompressedData[startOffset + 13] = sietch.Unknown4;
-            _uncompressedData[startOffset + 14] = sietch.Unknown5;
-            _uncompressedData[startOffset + 15] = sietch.Unknown6;
-            _uncompressedData[startOffset + 2] = sietch.Unknown7;
-            _uncompressedData[startOffset + 19] = sietch.Unknown8;
+            int startOffset = location.StartOffset;
+            _uncompressedData[startOffset + 3] = location.PosXmap;
+            _uncompressedData[startOffset + 4] = location.PosYmap;
+            _uncompressedData[startOffset + 5] = location.Unknown1;
+            _uncompressedData[startOffset + 6] = location.PosX;
+            _uncompressedData[startOffset + 7] = location.PosY;
+            _uncompressedData[startOffset + 8] = location.Appearance;
+            _uncompressedData[startOffset + 9] = location.HousedTroopID;
+            _uncompressedData[startOffset + 10] = (byte)location.Status;
+            _uncompressedData[startOffset + 11] = location.StageByte1;
+            _uncompressedData[startOffset + 12] = location.StageByte2;
+            _uncompressedData[startOffset + 13] = location.StageByte3;
+            _uncompressedData[startOffset + 14] = location.StageByte4;
+            _uncompressedData[startOffset + 15] = location.StageByte5;
+            _uncompressedData[startOffset + 16] = location.SpicefieldID;
+            _uncompressedData[startOffset + 17] = location.Spice;
+            _uncompressedData[startOffset + 18] = location.SpiceDensity;
+            _uncompressedData[startOffset + 19] = location.GameStage;
+            _uncompressedData[startOffset + 20] = location.Harvesters;
+            _uncompressedData[startOffset + 21] = location.Ornis;
+            _uncompressedData[startOffset + 22] = location.Krys;
+            _uncompressedData[startOffset + 23] = location.LaserGuns;
+            _uncompressedData[startOffset + 24] = location.WeirdingMod;
+            _uncompressedData[startOffset + 25] = location.Atomics;
+            _uncompressedData[startOffset + 26] = location.Bulbs;
+            _uncompressedData[startOffset + 27] = location.Water;
         }
 
         public Generals Generals => _generals;
@@ -258,7 +256,7 @@
 
         public bool CompressData()
         {
-            bool result2 = true;
+            bool result = true;
             _compressedData = new List<byte>();
             checked
             {
@@ -367,9 +365,9 @@
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.GetBaseException().Message);
-                    result2 = false;
+                    result = false;
                 }
-                return result2;
+                return result;
             }
         }
 

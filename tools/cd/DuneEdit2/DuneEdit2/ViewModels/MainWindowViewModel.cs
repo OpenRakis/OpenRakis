@@ -23,7 +23,7 @@
         {
             OpenSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenSaveGameMethodAsync);
             SaveGameFile = ReactiveCommand.CreateFromTask<Unit, Unit>(SaveGameMethodAsync);
-            UpdateSietch = ReactiveCommand.Create<Unit, Unit>(UpdateSietchMethod);
+            UpdateSietch = ReactiveCommand.Create<Unit, Unit>(UpdateLocationMethod);
             UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
         }
 
@@ -36,11 +36,11 @@
             return Unit.Default;
         }
 
-        private Unit UpdateSietchMethod(Unit arg)
+        private Unit UpdateLocationMethod(Unit arg)
         {
-            if (CurrentSietch != null)
+            if (CurrentLocation != null)
             {
-                _savegameFile.UpdateSietch(CurrentSietch.Sietch);
+                _savegameFile.UpdateSietch(CurrentLocation.Sietch);
             }
             return Unit.Default;
         }
@@ -62,9 +62,9 @@
             private set => this.RaiseAndSetIfChanged(ref _isSavegameLoaded, value);
         }
 
-        private SietchViewModel? _currentSietch;
+        private LocationViewModel? _currentSietch;
 
-        public SietchViewModel? CurrentSietch
+        public LocationViewModel? CurrentLocation
         {
             get => _currentSietch;
             set => this.RaiseAndSetIfChanged(ref _currentSietch, value);
@@ -80,36 +80,36 @@
                 _currentTroop = value;
                 if(value != null)
                 {
-                    this._currentSietchWithTroop = this.Sietches.FirstOrDefault(x => x.HousedTroopID == value.TroopID);
-                    this.RaisePropertyChanged(nameof(CurrentSietchWithTroop));
+                    this._currentLocationWithTroop = this.Locations.FirstOrDefault(x => x.HousedTroopID == value.TroopID);
+                    this.RaisePropertyChanged(nameof(CurrentLocationWithTroop));
                 }
                 this.RaisePropertyChanged(nameof(CurrentTroop));
             }
         }
 
-        private List<SietchViewModel> _sietches = new();
+        private List<LocationViewModel> _locations = new();
 
-        public List<SietchViewModel> Sietches
+        public List<LocationViewModel> Locations
         {
-            get => _sietches;
-            private set => this.RaiseAndSetIfChanged(ref _sietches, value);
+            get => _locations;
+            private set => this.RaiseAndSetIfChanged(ref _locations, value);
         }
 
-        private List<SietchViewModel> _sietchesOfTroop = new();
+        private List<LocationViewModel> _locationsWithTroops = new();
 
-        public List<SietchViewModel> SietchesWithTroops
+        public List<LocationViewModel> LocationsWithTroops
         {
-            get => _sietchesOfTroop;
-            private set => this.RaiseAndSetIfChanged(ref _sietchesOfTroop, value);
+            get => _locationsWithTroops;
+            private set => this.RaiseAndSetIfChanged(ref _locationsWithTroops, value);
         }
 
-        private SietchViewModel? _currentSietchWithTroop;
-        public SietchViewModel? CurrentSietchWithTroop
+        private LocationViewModel? _currentLocationWithTroop;
+        public LocationViewModel? CurrentLocationWithTroop
         {
-            get => _currentSietchWithTroop;
+            get => _currentLocationWithTroop;
             private set
             {
-                this.RaiseAndSetIfChanged(ref _currentSietchWithTroop, value);
+                this.RaiseAndSetIfChanged(ref _currentLocationWithTroop, value);
                 this._currentTroop = this.Troops.FirstOrDefault(x => x.TroopID == value?.HousedTroopID);
                 this.RaisePropertyChanged(nameof(CurrentTroop));
             }
@@ -199,30 +199,30 @@
             return Unit.Default;
         }
 
-        private void PopulateSietches(List<Sietch> sietches)
+        private void PopulateSietches(List<Models.Location> locations)
         {
-            var sietchesVMs = new List<SietchViewModel>();
-            foreach (var sietch in sietches)
+            var locationsVMs = new List<LocationViewModel>();
+            foreach (var location in locations)
             {
-                sietchesVMs.Add(new SietchViewModel(sietch));
+                locationsVMs.Add(new LocationViewModel(location));
             }
-            Sietches = sietchesVMs;
-            if (Sietches.Any())
+            Locations = locationsVMs;
+            if (Locations.Any())
             {
-                Sietches = new List<SietchViewModel>(Sietches.OrderBy(x => x.RegionName));
-                SietchesWithTroops = new List<SietchViewModel>(Sietches.OrderBy(x => x.RegionName).Where(x => Troops.Any(y => y.TroopID == x.HousedTroopID)));
-                CurrentSietchWithTroop = SietchesWithTroops.FirstOrDefault();
-                CurrentSietch = Sietches.First();
+                Locations = new List<LocationViewModel>(Locations.OrderBy(x => x.RegionName));
+                LocationsWithTroops = new List<LocationViewModel>(Locations.OrderBy(x => x.RegionName).Where(x => Troops.Any(y => y.TroopID == x.HousedTroopID)));
+                CurrentLocationWithTroop = LocationsWithTroops.FirstOrDefault();
+                CurrentLocation = Locations.First();
             }
         }
 
-        private void PopulateTroops(List<Troop> troops, List<Sietch> sietches)
+        private void PopulateTroops(List<Troop> troops, List<Models.Location> locations)
         {
             var troopsVMs = new List<TroopViewModel>();
             foreach (var troop in troops)
             {
-                var sietch = sietches.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);
-                var troopVM = new TroopViewModel(troop, sietch);
+                var location = locations.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);
+                var troopVM = new TroopViewModel(troop, location);
                 troopsVMs.Add(troopVM);
             }
             Troops = troopsVMs;

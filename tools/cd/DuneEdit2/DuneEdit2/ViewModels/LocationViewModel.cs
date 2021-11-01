@@ -5,9 +5,9 @@
 
     using ReactiveUI;
 
-    public class SietchViewModel : ViewModelBase
+    public class LocationViewModel : ViewModelBase
     {
-        private readonly Sietch _sietch;
+        private readonly Location _location;
 
         private bool _hasChanged;
 
@@ -21,15 +21,15 @@
             }
         }
 
-        public Sietch Sietch => _sietch;
+        public Location Sietch => _location;
 
         public byte Atomics
         {
-            get => _sietch.Atomics;
+            get => _location.Atomics;
 
             set
             {
-                _sietch.Atomics = value;
+                _location.Atomics = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Atomics));
             }
@@ -37,11 +37,11 @@
 
         public bool BattleWon
         {
-            get => _sietch.BattleWon;
+            get => _location.BattleWon;
 
             set
             {
-                _sietch.BattleWon = value;
+                _location.BattleWon = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
@@ -49,25 +49,25 @@
 
         public byte Bulbs
         {
-            get => _sietch.Bulbs;
+            get => _location.Bulbs;
 
             set
             {
-                _sietch.Bulbs = value;
+                _location.Bulbs = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Bulbs));
             }
         }
 
-        public string? Coordinates => _sietch.Coordinates;
+        public string? Coordinates => _location.Coordinates;
 
         public bool Infiltrated
         {
-            get => _sietch.Infiltrated;
+            get => _location.Infiltrated;
 
             set
             {
-                _sietch.Infiltrated = value;
+                _location.Infiltrated = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
@@ -75,11 +75,11 @@
 
         public byte Harvesters
         {
-            get => _sietch.Harvesters;
+            get => _location.Harvesters;
 
             set
             {
-                _sietch.Harvesters = value;
+                _location.Harvesters = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Harvesters));
             }
@@ -87,11 +87,11 @@
 
         public bool HasVegetation
         {
-            get => _sietch.HasVegetation;
+            get => _location.HasVegetation;
 
             set
             {
-                _sietch.HasVegetation = value;
+                _location.HasVegetation = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
@@ -99,11 +99,11 @@
 
         public bool HasWindtrap
         {
-            get => _sietch.HasWindtrap;
+            get => _location.HasWindtrap;
 
             set
             {
-                _sietch.HasWindtrap = value;
+                _location.HasWindtrap = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
@@ -111,23 +111,23 @@
 
         public byte HousedTroopID
         {
-            get => _sietch.HousedTroopID;
+            get => _location.HousedTroopID;
             set
             {
-                _sietch.HousedTroopID = value;
+                _location.HousedTroopID = value;
                 HasChanged = true;
             }
         }
 
-        public string ID => _sietch.ID;
+        public string ID => _location.ID;
 
         public bool InBattle
         {
-            get => _sietch.InBattle;
+            get => _location.InBattle;
 
             set
             {
-                _sietch.InBattle = value;
+                _location.InBattle = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
@@ -135,11 +135,11 @@
 
         public byte Krys
         {
-            get => _sietch.Krys;
+            get => _location.Krys;
 
             set
             {
-                _sietch.Krys = value;
+                _location.Krys = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Krys));
             }
@@ -147,11 +147,11 @@
 
         public byte LaserGuns
         {
-            get => _sietch.LaserGuns;
+            get => _location.LaserGuns;
 
             set
             {
-                _sietch.LaserGuns = value;
+                _location.LaserGuns = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(LaserGuns));
             }
@@ -159,11 +159,11 @@
 
         public bool NotDiscovered
         {
-            get => _sietch.NotDiscovered;
+            get => _location.NotDiscovered;
 
             set
             {
-                _sietch.NotDiscovered = value;
+                _location.NotDiscovered = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
@@ -171,11 +171,11 @@
 
         public byte Ornis
         {
-            get => _sietch.Ornis;
+            get => _location.Ornis;
 
             set
             {
-                _sietch.Ornis = value;
+                _location.Ornis = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Ornis));
             }
@@ -183,27 +183,27 @@
 
         public bool Prospected
         {
-            get => _sietch.Prospected;
+            get => _location.Prospected;
 
             set
             {
-                _sietch.Prospected = value;
+                _location.Prospected = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
         }
 
-        public byte Region => _sietch.Region;
+        public byte Region => _location.Region;
 
-        public string RegionName => _sietch.RegionName;
+        public string RegionName => _location.RegionName;
 
         public bool SeeInventory
         {
-            get => _sietch.SeeInventory;
+            get => _location.SeeInventory;
 
             set
             {
-                _sietch.SeeInventory = value;
+                _location.SeeInventory = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
@@ -211,48 +211,48 @@
 
         public byte SpiceDensity
         {
-            get => _sietch.SpiceDensity;
+            get => _location.SpiceDensity;
 
             set
             {
-                _sietch.SpiceDensity = value;
+                _location.SpiceDensity = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(SpiceDensity));
             }
         }
 
-        public byte SpicefieldID => _sietch.SpicefieldID;
+        public byte SpicefieldID => _location.SpicefieldID;
 
-        public int StartOffset => _sietch.StartOffset;
+        public int StartOffset => _location.StartOffset;
 
         public int Status
         {
-            get => _sietch.Status;
+            get => _location.Status;
             set
             {
-                _sietch.Status = value;
+                _location.Status = value;
                 HasChanged = true;
                 RaiseStatusChanged();
             }
         }
 
-        public byte Type
+        public byte Appearance
         {
-            get => _sietch.Type;
+            get => _location.Appearance;
             set
             {
-                _sietch.Type = value;
+                _location.Appearance = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Type));
+                this.RaisePropertyChanged(nameof(Appearance));
             }
         }
 
         public byte PosXmap
         {
-            get => _sietch.PosXmap;
+            get => _location.PosXmap;
             set
             {
-                _sietch.PosXmap = value;
+                _location.PosXmap = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(PosXmap));
             }
@@ -260,10 +260,10 @@
 
         public byte PosYmap
         {
-            get => _sietch.PosYmap;
+            get => _location.PosYmap;
             set
             {
-                _sietch.PosYmap = value;
+                _location.PosYmap = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(PosYmap));
             }
@@ -271,10 +271,10 @@
 
         public byte PosY
         {
-            get => _sietch.PosY;
+            get => _location.PosY;
             set
             {
-                _sietch.PosY = value;
+                _location.PosY = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(PosY));
             }
@@ -282,10 +282,10 @@
 
         public byte PosX
         {
-            get => _sietch.PosX;
+            get => _location.PosX;
             set
             {
-                _sietch.PosX = value;
+                _location.PosX = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(PosX));
             }
@@ -293,89 +293,78 @@
 
         public byte Unknown1
         {
-            get => _sietch.Unknown1;
+            get => _location.Unknown1;
             set
             {
-                _sietch.Unknown1 = value;
+                _location.Unknown1 = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Unknown1));
             }
         }
 
-        public byte Unknown2
+        public byte StageByte1
         {
-            get => _sietch.Unknown2;
+            get => _location.StageByte1;
             set
             {
-                _sietch.Unknown2 = value;
+                _location.StageByte1 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown2));
+                this.RaisePropertyChanged(nameof(StageByte1));
             }
         }
 
-        public byte Unknown3
+        public byte StageByte2
         {
-            get => _sietch.Unknown1;
+            get => _location.StageByte2;
             set
             {
-                _sietch.Unknown3 = value;
+                _location.StageByte2 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown3));
+                this.RaisePropertyChanged(nameof(StageByte2));
             }
         }
 
-        public byte Unknown4
+        public byte StageByte3
         {
-            get => _sietch.Unknown4;
+            get => _location.StageByte3;
             set
             {
-                _sietch.Unknown4 = value;
+                _location.StageByte3 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown4));
+                this.RaisePropertyChanged(nameof(StageByte3));
             }
         }
 
-        public byte Unknown5
+        public byte StageByte4
         {
-            get => _sietch.Unknown5;
+            get => _location.StageByte4;
             set
             {
-                _sietch.Unknown5 = value;
+                _location.StageByte4 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown5));
+                this.RaisePropertyChanged(nameof(StageByte4));
             }
         }
 
-        public byte Unknown6
+        public byte StageByte5
         {
-            get => _sietch.Unknown6;
+            get => _location.StageByte5;
             set
             {
-                _sietch.Unknown6 = value;
+                _location.StageByte5 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown6));
+                this.RaisePropertyChanged(nameof(StageByte5));
             }
         }
 
-        public byte Unknown7
+        public byte GameStage
         {
-            get => _sietch.Unknown7;
+            get => _location.GameStage;
             set
             {
-                _sietch.Unknown7 = value;
+                _location.GameStage = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown7));
-            }
-        }
-
-        public byte Unknown8
-        {
-            get => _sietch.Unknown8;
-            set
-            {
-                _sietch.Unknown8 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown8));
+                this.RaisePropertyChanged(nameof(GameStage));
             }
         }
 
@@ -395,15 +384,15 @@
 
         public string Faction => SietchFactionFinder.GetFaction(Status);
 
-        public byte SubRegion => _sietch.SubRegion;
+        public byte SubRegion => _location.SubRegion;
 
         public byte Water
         {
-            get => _sietch.Water;
+            get => _location.Water;
 
             set
             {
-                _sietch.Water = value;
+                _location.Water = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Water));
             }
@@ -411,11 +400,11 @@
 
         public byte Spice
         {
-            get => _sietch.Spice;
+            get => _location.Spice;
 
             set
             {
-                _sietch.Spice = value;
+                _location.Spice = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Spice));
             }
@@ -423,16 +412,16 @@
 
         public byte WeirdingMod
         {
-            get => _sietch.WeirdingMod;
+            get => _location.WeirdingMod;
 
             set
             {
-                _sietch.WeirdingMod = value;
+                _location.WeirdingMod = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(WeirdingMod));
             }
         }
 
-        public SietchViewModel(Sietch sietch) => _sietch = sietch;
+        public LocationViewModel(Location location) => _location = location;
     }
 }

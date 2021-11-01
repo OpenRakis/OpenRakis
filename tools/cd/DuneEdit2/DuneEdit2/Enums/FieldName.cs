@@ -8,6 +8,6 @@
         DateTime,
         GameStage,
         Troops,
-        Sietchs
+        Locations
     }
 }
