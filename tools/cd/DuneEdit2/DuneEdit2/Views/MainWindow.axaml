@@ -133,19 +133,20 @@
 								<CheckBox Content="Not Discovered" IsChecked="{Binding CurrentLocation.NotDiscovered}" />
 								<Label>Direct Value Edit</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Status}" />
+								<TextBlock Text="{Binding CurrentLocation.StatusDesc}" />
 							</StackPanel>
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
 								<Label>Unknown 1</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown1}" />
 								<Label>Unknown 2</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown2}" />
-								<Label>Stage Byte 2 of 5</Label>
+								<Label>Unknown 3</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown3}" />
-								<Label>Stage Byte 3 of 5</Label>
+								<Label>Unknown 4</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown4}" />
-								<Label>Stage Byte 4 of 5</Label>
+								<Label>Unknown 5</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown5}" />
-								<Label>Stage Byte 5 of 5</Label>
+								<Label>Unknown 6</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown6}" />
 								<Label>Discoverable at Game Stage</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.GameStage}" />

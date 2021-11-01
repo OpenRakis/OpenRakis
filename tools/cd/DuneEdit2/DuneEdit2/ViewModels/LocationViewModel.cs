@@ -302,69 +302,69 @@
             }
         }
 
-        public byte StageByte1
+        public byte GameStage
         {
             get => _location.GameStage;
             set
             {
                 _location.GameStage = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(StageByte1));
+                this.RaisePropertyChanged(nameof(GameStage));
             }
         }
 
-        public byte StageByte2
+        public byte Unknown3
         {
             get => _location.Unknown3;
             set
             {
                 _location.Unknown3 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(StageByte2));
+                this.RaisePropertyChanged(nameof(Unknown3));
             }
         }
 
-        public byte StageByte3
+        public byte Unknown4
         {
             get => _location.Unknown4;
             set
             {
                 _location.Unknown4 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(StageByte3));
+                this.RaisePropertyChanged(nameof(Unknown4));
             }
         }
 
-        public byte StageByte4
+        public byte Unknown5
         {
             get => _location.Unknown5;
             set
             {
                 _location.Unknown5 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(StageByte4));
+                this.RaisePropertyChanged(nameof(Unknown5));
             }
         }
 
-        public byte StageByte5
+        public byte Unknown6
         {
             get => _location.Unknown6;
             set
             {
                 _location.Unknown6 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(StageByte5));
+                this.RaisePropertyChanged(nameof(Unknown6));
             }
         }
 
-        public byte GameStage
+        public byte Unknown2
         {
             get => _location.Unknown2;
             set
             {
                 _location.Unknown2 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(GameStage));
+                this.RaisePropertyChanged(nameof(Unknown2));
             }
         }
 
@@ -379,10 +379,12 @@
             this.RaisePropertyChanged(nameof(HasWindtrap));
             this.RaisePropertyChanged(nameof(Prospected));
             this.RaisePropertyChanged(nameof(NotDiscovered));
-            this.RaisePropertyChanged(nameof(Faction));
+            this.RaisePropertyChanging(nameof(StatusDesc));
         }
 
-        public string Faction => SietchFactionFinder.GetFaction(Status);
+        public string StatusDesc => LocationStatusFinder.GetSietchStatusDescription(Status);
+
+        public string? Faction { get; set; }
 
         public byte SubRegion => _location.SubRegion;
 
