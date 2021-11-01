@@ -304,10 +304,10 @@
 
         public byte StageByte1
         {
-            get => _location.StageByte1;
+            get => _location.GameStage;
             set
             {
-                _location.StageByte1 = value;
+                _location.GameStage = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(StageByte1));
             }
@@ -315,10 +315,10 @@
 
         public byte StageByte2
         {
-            get => _location.StageByte2;
+            get => _location.Unknown3;
             set
             {
-                _location.StageByte2 = value;
+                _location.Unknown3 = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(StageByte2));
             }
@@ -326,10 +326,10 @@
 
         public byte StageByte3
         {
-            get => _location.StageByte3;
+            get => _location.Unknown4;
             set
             {
-                _location.StageByte3 = value;
+                _location.Unknown4 = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(StageByte3));
             }
@@ -337,10 +337,10 @@
 
         public byte StageByte4
         {
-            get => _location.StageByte4;
+            get => _location.Unknown5;
             set
             {
-                _location.StageByte4 = value;
+                _location.Unknown5 = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(StageByte4));
             }
@@ -348,10 +348,10 @@
 
         public byte StageByte5
         {
-            get => _location.StageByte5;
+            get => _location.Unknown6;
             set
             {
-                _location.StageByte5 = value;
+                _location.Unknown6 = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(StageByte5));
             }
@@ -359,10 +359,10 @@
 
         public byte GameStage
         {
-            get => _location.GameStage;
+            get => _location.Unknown2;
             set
             {
-                _location.GameStage = value;
+                _location.Unknown2 = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(GameStage));
             }

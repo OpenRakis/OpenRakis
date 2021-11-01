@@ -99,12 +99,12 @@ namespace DuneEdit2.Models
         public byte PosYmap { get; set; }
         public byte PosXmap { get; set; }
         public byte Unknown1 { get; set; }
-        public byte StageByte1 { get; set; }
-        public byte StageByte2 { get; set; }
-        public byte StageByte3 { get; set; }
-        public byte StageByte4 { get; set; }
-        public byte StageByte5 { get; set; }
         public byte GameStage { get; set; }
+        public byte Unknown3 { get; set; }
+        public byte Unknown4 { get; set; }
+        public byte Unknown5 { get; set; }
+        public byte Unknown6 { get; set; }
+        public byte Unknown2 { get; set; }
 
         public int Status
         {
