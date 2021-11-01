@@ -1,12 +1,12 @@
 ﻿namespace DuneExtractor
 {
-    using Microsoft.VisualBasic;
-    using Microsoft.VisualBasic.CompilerServices;
-
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
     using System.Text;
+
+    using Microsoft.VisualBasic;
+    using Microsoft.VisualBasic.CompilerServices;
 
     internal static class DuneExtractor
     {
@@ -25,7 +25,7 @@
 
         public static void WriteLog(string log, string folder)
         {
-            var contents = $"Unofficial Dune (PC VERSION) Extractor V1.0{Environment.NewLine}Tgames (c) 2019{Environment.NewLine}{Environment.NewLine}-------------- Begin Log File --------------{Environment.NewLine}{Environment.NewLine}{log}{{Environment.NewLine}}{{Environment.NewLine}}-------------- End Log File ----------------";
+            var contents = $"Unofficial Dune (PC VERSION) Extractor V1.0{Environment.NewLine}Tgames (c) 2019{Environment.NewLine}{Environment.NewLine}-------------- Begin Log File --------------{Environment.NewLine}{Environment.NewLine}{log}{Environment.NewLine}{Environment.NewLine}-------------- End Log File ----------------";
             File.WriteAllText(Path.Combine(folder, $"{nameof(DuneExtractor)}.log"), contents, Encoding.Default);
         }
 
@@ -63,7 +63,7 @@
             while (index < DatFile.Length & index < size)
             {
                 byte num = checked((byte)DatFile.ReadByte());
-                if (num > (byte)0)
+                if (num > 0)
                 {
                     array[index] = num;
                     checked { ++newSize; }
@@ -74,7 +74,7 @@
             return array;
         }
 
-        public static void ReadDatFileSectionHeader(FileStream DatFile, DatasSection section)
+        public static void ReadDatFileSectionHeader(FileStream DatFile, DataSection section)
         {
             section.NameOfFile = UnicodeBytesToString(DuneExtractor.ReadDataFileName(DatFile, 16));
             section.SizeOfFile = UnicodeBytesToInteger(DuneExtractor.ReadData(DatFile, 4));
@@ -97,9 +97,9 @@
 
         public static void ReadWriteSectionData(FileStream DatFile, string filepath, int offset, int size)
         {
-            string[] strArray = filepath.Split('\\');
+            string[] strArray = filepath.Split(Path.DirectorySeparatorChar);
             string str = strArray[checked(strArray.Length - 1)];
-            string path = $"{filepath.Substring(0, filepath.LastIndexOf("\\"))}\\";
+            string path = $"{filepath.Substring(0, filepath.LastIndexOf(Path.DirectorySeparatorChar))}{Path.DirectorySeparatorChar}";
             DatFile.Seek(offset, SeekOrigin.Begin);
             if (!Directory.Exists(path))
             {
@@ -117,48 +117,48 @@
         public static void ExtractDuneDatFile(string file)
         {
             string str1 = "";
-            string[] strArray = file.Split('\\');
+            string[] strArray = file.Split(Path.DirectorySeparatorChar);
             string str2 = strArray[checked(strArray.Length - 1)];
-            string folder = file.Substring(0, file.LastIndexOf("\\")) + "\\";
+            string folder = file.Substring(0, file.LastIndexOf(Path.DirectorySeparatorChar)) + Path.DirectorySeparatorChar;
             Console.WriteLine($"[STARTING] Extraction of the DAT file has started...{Environment.NewLine}");
             string str3 = str1 + $"[STARTING] Extraction of the DAT file has started...{Environment.NewLine}{Environment.NewLine}";
-            FileStream DatFile = new FileStream(file, FileMode.Open);
-            DatFile.Seek(0L, SeekOrigin.Begin);
+            FileStream datafile = new FileStream(file, FileMode.Open);
+            datafile.Seek(0L, SeekOrigin.Begin);
             Console.WriteLine($"[STEP 1] Reading DatFile header... PLEASE WAIT{Environment.NewLine}");
             string str4 = str3 + $"[STEP 1] Reading DatFile header... PLEASE WAIT{Environment.NewLine}{Environment.NewLine}";
-            byte[] numArray2 = new byte[2] { (byte)61, (byte)10 };
-            byte[] numArray3 = ReadData(DatFile, 2);
+            byte[] numArray2 = new byte[2] { 61, 10 };
+            byte[] numArray3 = ReadData(datafile, 2);
             string log;
-            if ((int)numArray3[0] == (int)numArray2[0] & (int)numArray3[1] == (int)numArray2[1])
+            if (numArray3[0] == numArray2[0] & numArray3[1] == numArray2[1])
             {
                 Console.WriteLine($"Cryo DatFile Detected... {Environment.NewLine}");
                 string str5 = str4 + $"DatFile Detected... {Environment.NewLine}{Environment.NewLine}";
                 Console.WriteLine($"[STEP 2] Extracting each files... PLEASE WAIT{Environment.NewLine}");
                 string str6 = str5 + $"[STEP 2] Extracting each files... PLEASE WAIT{Environment.NewLine}{Environment.NewLine}";
-                var arrayList = new ArrayList();
-                int num = 0;
+                var arrayList = new List<DataSection>();
+                int index = 0;
                 do
                 {
-                    DatasSection section = new DatasSection();
-                    ReadDatFileSectionHeader(DatFile, section);
+                    DataSection section = new DataSection();
+                    ReadDatFileSectionHeader(datafile, section);
                     if ((uint)Operators.CompareString(section.NameOfFile, "", false) > 0U)
                     {
-                        arrayList.Add((object)section);
-                        DatFile.ReadByte();
+                        arrayList.Add(section);
+                        datafile.ReadByte();
                     }
                     else
                         break;
                 }
-                while (!Operators.ConditionalCompareObjectGreater(num, NewLateBinding.LateGet(arrayList[0], null, "OffsetOfFile", Array.Empty<object>(), null, null, null), false));
-                folder = folder + str2 + "_\\";
+                while (index < arrayList[0].OffsetOfFile);
+                folder = folder + str2 + $"_{Path.DirectorySeparatorChar}";
                 try
                 {
                     for (int i = 0; i < arrayList.Count; i++)
                     {
-                        DatasSection datasSection = (DatasSection)arrayList[i];
-                        Console.WriteLine($"Extracting... {datasSection.NameOfFile} ({Math.Round(datasSection.SizeOfFile / 1024.0, 2)} KB)");
-                        str6 = $"{str6}Extracting... {datasSection.NameOfFile} ({Math.Round(datasSection.SizeOfFile / 1024.0, 2)} KB){Environment.NewLine}";
-                        ReadWriteSectionData(DatFile, $"{folder}{datasSection.NameOfFile}", datasSection.OffsetOfFile, datasSection.SizeOfFile);
+                        DataSection dataSection = arrayList[i];
+                        Console.WriteLine($"Extracting... {dataSection.NameOfFile} ({Math.Round(dataSection.SizeOfFile / 1024.0, 2)} KB)");
+                        str6 = $"{str6}Extracting... {dataSection.NameOfFile} ({Math.Round(dataSection.SizeOfFile / 1024.0, 2)} KB){Environment.NewLine}";
+                        ReadWriteSectionData(datafile, $"{folder}{dataSection.NameOfFile}", dataSection.OffsetOfFile, dataSection.SizeOfFile);
                     }
                 }
                 catch (Exception e)
@@ -173,7 +173,7 @@
                 Console.WriteLine($"FATAL ERROR: {file} is not a valid Cryo DatFile !{Environment.NewLine}");
                 log = $"{str4}FATAL ERROR: {file} is not a valid Cryo DatFile !{Environment.NewLine}{Environment.NewLine}";
             }
-            DatFile.Close();
+            datafile.Close();
             WriteLog(log, folder);
         }
     }

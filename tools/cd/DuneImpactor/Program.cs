@@ -10,18 +10,17 @@ if (args.Length != 1)
 else
 {
     string str = Path.GetFullPath(args[0]);
-    if (str.EndsWith("\\") == false)
-    {
-        str += "\\";
-    }
-
     if (Directory.Exists(str))
     {
+        if (str.EndsWith(Path.DirectorySeparatorChar) == false)
+        {
+            str += Path.DirectorySeparatorChar;
+        }
         DuneImpactor.DuneImpactor.WriteDuneDatFile(str);
     }
     else
     {
-        Console.WriteLine($"FATAL ERROR: " + str + " directory not exist !{Environment.NewLine}");
+        Console.WriteLine($"FATAL ERROR: {str} directory does not exist !{Environment.NewLine}");
     }
 }
 Console.WriteLine($"{Environment.NewLine}Press Enter to exit.");

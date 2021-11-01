@@ -21,7 +21,7 @@
 
         public static void WriteLog(string log, string folder)
         {
-            string contents = $"Unofficial DUNE CD (PC VERSION) LipsExtractor V1.0{Environment.NewLine}Tgames (c) 2019{Environment.NewLine}{Environment.NewLine}-------------- Begin Log File --------------{Environment.NewLine}{Environment.NewLine}" + log + "{Environment.NewLine}{Environment.NewLine}-------------- End Log File ----------------";
+            string contents = $"Unofficial DUNE CD (PC VERSION) LipsExtractor V1.0{Environment.NewLine}Tgames (c) 2019{Environment.NewLine}{Environment.NewLine}-------------- Begin Log File --------------{Environment.NewLine}{Environment.NewLine}{log}{Environment.NewLine}{Environment.NewLine}-------------- End Log File ----------------";
             File.WriteAllText(Path.Combine(folder, "lipsextractor.log"), contents, Encoding.Default);
         }
 
@@ -58,13 +58,13 @@
                                 fileStream2.WriteByte(num1);
                                 checked { ++num2; }
                             }
-                            if ((long)num2 < fileStream1.Length)
+                            if (num2 < fileStream1.Length)
                             {
                                 byte num3 = checked((byte)fileStream1.ReadByte());
-                                if (num3 != (byte)1)
+                                if (num3 != 1)
                                 {
                                     fileStream2.WriteByte(num3);
-                                    while ((long)num2 < fileStream1.Length & num3 != byte.MaxValue)
+                                    while (num2 < fileStream1.Length & num3 != byte.MaxValue)
                                     {
                                         num3 = checked((byte)fileStream1.ReadByte());
                                         fileStream2.WriteByte(num3);
@@ -72,7 +72,7 @@
                                     }
                                 }
                             }
-                            if ((long)num2 >= fileStream1.Length)
+                            if (num2 >= fileStream1.Length)
                             {
                                 Console.WriteLine($"FATAL ERROR : {str}.VOC readed seems to be corrupted");
                                 File.Delete(Path.Combine(folder, $"{str}.LIP"));

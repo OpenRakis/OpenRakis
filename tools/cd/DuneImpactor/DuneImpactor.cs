@@ -1,20 +1,17 @@
 ﻿namespace DuneImpactor
 {
-    using Microsoft.VisualBasic.CompilerServices;
 
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Text;
 
     internal static class DuneImpactor
     {
         public static byte[] DatFileVersion = new byte[2]
         {
-            (byte) 61,
-            (byte) 10
+            61,
+            10
         };
 
         public static void Print_Welcome()
@@ -55,17 +52,17 @@
         public static void ReadWritetoFileStream(FileStream input, string target, uint length)
         {
             byte[] numArray = new byte[8193];
-            Stream stream = (Stream)File.OpenWrite(target);
+            Stream stream = File.OpenWrite(target);
             stream.Seek(0L, SeekOrigin.End);
-            for (int count = 1; length > 0U & count > 0; length = checked((uint)((long)length - (long)count)))
+            for (int count = 1; length > 0U & count > 0; length = checked((uint)(length - count)))
             {
-                count = input.Read(numArray, 0, checked((int)Math.Min((long)length, (long)numArray.Length)));
+                count = input.Read(numArray, 0, checked((int)Math.Min(length, numArray.Length)));
                 stream.Write(numArray, 0, count);
             }
             stream.Close();
         }
 
-        public static object AddNullBytesUntilEnd(byte[] input, int size)
+        public static byte[] AddNullBytesUntilEnd(byte[] input, int size)
         {
             byte[] numArray = new byte[16];
             int num = checked(size - 1);
@@ -75,16 +72,16 @@
                 numArray[index] = index >= input.Length ? (byte)0 : input[index];
                 checked { ++index; }
             }
-            return (object)numArray;
+            return numArray;
         }
 
         public static void WriteDuneDatFile(string path)
         {
             string str1 = "";
             string str2 = path.Substring(0, checked(path.Length - 1));
-            string[] strArray1 = str2.Split('\\');
+            string[] strArray1 = str2.Split(Path.DirectorySeparatorChar);
             string str3 = strArray1[checked(strArray1.Length - 1)].ToUpperInvariant() + ".DAT";
-            string folder = str2.Substring(0, str2.LastIndexOf("\\")) + "\\";
+            string folder = str2.Substring(0, str2.LastIndexOf(Path.DirectorySeparatorChar)) + Path.DirectorySeparatorChar;
             Console.WriteLine($"[STARTING] Packing of the DatFile has started...{Environment.NewLine}");
             string str4 = str1 + $"[STARTING] Packing of the DatFile has started...{Environment.NewLine}{Environment.NewLine}";
             if (File.Exists(folder + str3))
@@ -100,7 +97,7 @@
             string[] listOfFiles = DuneFiles.ListOfFiles;
             Console.WriteLine(listOfFiles.Length.ToString() + $" files founds...{Environment.NewLine}");
             string str6 = str5 + listOfFiles.Length.ToString() + $" files founds...{Environment.NewLine}{Environment.NewLine}";
-            var arrayList = new ArrayList();
+            var arrayList = new List<DataSection>();
             int number = 65536;
             int num = checked(listOfFiles.Length - 1);
             int index1 = 0;
@@ -109,14 +106,14 @@
                 listOfFiles[index1] = listOfFiles[index1].Replace(path, "");
                 if (File.Exists(path + listOfFiles[index1]))
                 {
-                    DatasSection datasSection2 = new DatasSection();
+                    DataSection datasSection2 = new DataSection();
                     int length = checked((int)new FileInfo(path + listOfFiles[index1]).Length);
                     byte[] bytes = UnicodeStringToBytes(listOfFiles[index1]);
-                    datasSection2.NameOfFile = (byte[])AddNullBytesUntilEnd(bytes, 16);
+                    datasSection2.NameOfFile = AddNullBytesUntilEnd(bytes, 16);
                     datasSection2.SizeOfFile = UnicodeIntegerToBytes(length);
                     datasSection2.OffsetOfFile = UnicodeIntegerToBytes(number);
                     datasSection2.Unused = new byte[1];
-                    arrayList.Add((object)datasSection2);
+                    arrayList.Add(datasSection2);
                     checked { number += length; }
                 }
                 checked { ++index1; }
@@ -125,14 +122,14 @@
             string str7 = str6 + $"[STEP 2] Writing the header to the DatFile...{Environment.NewLine}{Environment.NewLine}";
             for (int i = 0; i < arrayList.Count; i++)
             {
-                DatasSection datasSection2 = (DatasSection)arrayList[i];
+                DataSection datasSection2 = (DataSection)arrayList[i];
                 WritetoFileStream(input1, datasSection2.NameOfFile);
                 WritetoFileStream(input1, datasSection2.SizeOfFile);
                 WritetoFileStream(input1, datasSection2.OffsetOfFile);
                 WritetoFileStream(input1, datasSection2.Unused);
             }
             int position = checked((int)input1.Position);
-            while (position <= (int)ushort.MaxValue)
+            while (position <= ushort.MaxValue)
             {
                 WritetoFileStream(input1, new byte[1]);
                 checked { ++position; }

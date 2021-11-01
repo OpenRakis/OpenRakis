@@ -1,12 +1,10 @@
 ﻿namespace LipsInjector
 {
-    using Microsoft.VisualBasic.CompilerServices;
-
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Text;
+
+    using Microsoft.VisualBasic.CompilerServices;
 
     internal static class LipsInjector
     {
@@ -25,7 +23,7 @@
 
         public static void WriteLog(string log, string folder)
         {
-            string contents = $"Unofficial DUNE CD (PC VERSION) LipsInjector V1.0{Environment.NewLine}Tgames (c) 2019{Environment.NewLine}{Environment.NewLine}-------------- Begin Log File --------------{Environment.NewLine}{Environment.NewLine}" + log + "{Environment.NewLine}{Environment.NewLine}-------------- End Log File ----------------";
+            string contents = $"Unofficial DUNE CD (PC VERSION) LipsInjector V1.0{Environment.NewLine}Tgames (c) 2019{Environment.NewLine}{Environment.NewLine}-------------- Begin Log File --------------{Environment.NewLine}{Environment.NewLine}{log}{Environment.NewLine}{Environment.NewLine}-------------- End Log File ----------------";
             File.WriteAllText(Path.Combine(folder, "lipsinjector.log"), contents, Encoding.Default);
         }
 
@@ -173,9 +171,12 @@
                     {
                         string[] strArray2 = file.Split(Path.DirectorySeparatorChar);
                         string[] strArray3 = strArray2[checked(^1)].Split('.');
-                        if (File.Exists(Conversions.ToString(Operators.AddObject(Operators.AddObject(Operators.AddObject(Operators.AddObject((object)folder, FolderFromFileName(strArray3[0])), (object)"\\"), (object)strArray3[0]), (object)".VOC"))))
-                            File.Delete(Conversions.ToString(Operators.AddObject(Operators.AddObject(Operators.AddObject(Operators.AddObject((object)folder, FolderFromFileName(strArray3[0])), (object)"\\"), (object)strArray3[0]), (object)".VOC")));
-                        File.Move(file, Conversions.ToString(Operators.AddObject(Operators.AddObject(Operators.AddObject(Operators.AddObject((object)folder, FolderFromFileName(strArray3[0])), (object)"\\"), (object)strArray3[0]), (object)".VOC")));
+                        if (File.Exists(Conversions.ToString(Operators.AddObject(Operators.AddObject(Operators.AddObject(Operators.AddObject(folder, FolderFromFileName(strArray3[0])), Path.DirectorySeparatorChar), strArray3[0]), ".VOC"))))
+                        {
+                            File.Delete(Conversions.ToString(Operators.AddObject(Operators.AddObject(Operators.AddObject(Operators.AddObject(folder, FolderFromFileName(strArray3[0])), Path.DirectorySeparatorChar), strArray3[0]), ".VOC")));
+                        }
+
+                        File.Move(file, Conversions.ToString(Operators.AddObject(Operators.AddObject(Operators.AddObject(Operators.AddObject(folder, FolderFromFileName(strArray3[0])), Path.DirectorySeparatorChar), strArray3[0]), ".VOC")));
                     }
                 }
             }
