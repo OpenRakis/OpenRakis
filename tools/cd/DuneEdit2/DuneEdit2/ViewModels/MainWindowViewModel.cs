@@ -20,8 +20,9 @@
         private bool _isSavegameLoaded;
         private SaveGameFile _savegameFile = new(SaveFileFormat.DUNE_37);
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(Window mainWindow)
         {
+            MainWindow = mainWindow;
             OpenCDSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenCDSaveGameMethodAsync);
             Open21SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open21SaveGameMethodAsync);
             Open23SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open23SaveGameMethodAsync);
@@ -208,14 +209,13 @@
 
         public ReactiveCommand<Unit, Unit> SaveGameFile { get; private set; }
 
-        private Window? MainWindow { get; set; }
+        private Window MainWindow { get; set; }
 
         public static MainWindowViewModel Create(Window mainWindow)
         {
-            var instance = new MainWindowViewModel
+            var instance = new MainWindowViewModel(mainWindow)
             {
-                ExitApp = ReactiveCommand.Create(() => mainWindow.Close()),
-                MainWindow = mainWindow
+                ExitApp = ReactiveCommand.Create(() => mainWindow.Close())
             };
             return instance;
         }
