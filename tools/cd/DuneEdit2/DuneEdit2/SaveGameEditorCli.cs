@@ -27,7 +27,7 @@
             if (_options.Write.Any() && _options.InputSaveGameFiles.Any())
             {
                 var inputFile = _options.InputSaveGameFiles.ElementAt(0);
-                var savegame = new SaveGameFile(inputFile);
+                var savegame = new SaveGameFile(inputFile, Enums.SaveFileFormat.DUNE_37);
                 EditSavegame(savegame);
             }
 
@@ -70,7 +70,7 @@
 
         private string ReCompressUncompressedSavegameFile(string inputFilePath)
         {
-            var savegame = new SaveGameFile(File.ReadAllBytes(inputFilePath).ToList(), false);
+            var savegame = new SaveGameFile(File.ReadAllBytes(inputFilePath).ToList(), Enums.SaveFileFormat.DUNE_37, false);
             savegame.SaveCompressedAs(_options.OutputSaveGameFile);
             return $"Compressed {_options.Compress} to {_options.OutputSaveGameFile}{Environment.NewLine}";
         }

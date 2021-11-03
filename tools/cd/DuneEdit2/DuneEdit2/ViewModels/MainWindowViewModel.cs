@@ -13,18 +13,23 @@
     using DuneEdit2.Parsers;
 
     using ReactiveUI;
+    using DuneEdit2.Enums;
 
     public class MainWindowViewModel : ViewModelBase
     {
         private bool _isSavegameLoaded;
-        private SaveGameFile _savegameFile = new();
+        private SaveGameFile _savegameFile = new(SaveFileFormat.DUNE_37);
 
         public MainWindowViewModel()
         {
-            OpenSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenSaveGameMethodAsync);
+            OpenCDSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenCDSaveGameMethodAsync);
+            Open21SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open21SaveGameMethodAsync);
+            Open23SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open23SaveGameMethodAsync);
+            Open24SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open24SaveGameMethodAsync);
             SaveGameFile = ReactiveCommand.CreateFromTask<Unit, Unit>(SaveGameMethodAsync);
             UpdateSietch = ReactiveCommand.Create<Unit, Unit>(UpdateLocationMethod);
             UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
+            UpdateGenerals = ReactiveCommand.Create<Unit, Unit>(UpdateGeneralsMethod);
         }
 
         private Unit UpdateTroopMethod(Unit arg)
@@ -44,6 +49,8 @@
             }
             return Unit.Default;
         }
+
+        public ReactiveCommand<Unit, Unit>? UpdateGenerals { get; private set; }
 
         public ReactiveCommand<Unit, Unit>? ExitApp { get; private set; }
 
@@ -123,19 +130,34 @@
             private set => this.RaiseAndSetIfChanged(ref _troops, value);
         }
 
-        public ReactiveCommand<Unit, Unit> OpenSaveGame { get; private set; }
+        public ReactiveCommand<Unit, Unit> OpenCDSaveGame { get; private set; }
+        public ReactiveCommand<Unit, Unit> Open21SaveGame { get; private set; }
+        public ReactiveCommand<Unit, Unit> Open23SaveGame { get; private set; }
+        public ReactiveCommand<Unit, Unit> Open24SaveGame { get; private set; }
 
         public string GameStageDesc => GameStageFinder.FindStage(GameStage);
 
         private byte _gameStage = 0;
+
+        private bool _hasChanged = false;
+
+        public bool HasChanged
+        {
+            get => _hasChanged;
+            set => this.RaiseAndSetIfChanged(ref _hasChanged, value);
+        }
 
         public byte GameStage
         {
             get => _gameStage;
             set
             {
-                this.RaiseAndSetIfChanged(ref _gameStage, value);
-                this.RaisePropertyChanged(nameof(GameStageDesc));
+                if(_gameStage != value)
+                {
+                    this.RaiseAndSetIfChanged(ref _gameStage, value);
+                    this.RaisePropertyChanged(nameof(GameStageDesc));
+                    HasChanged = true;
+                }
             }
         }
 
@@ -144,7 +166,14 @@
         public int SpiceVal
         {
             get => _spiceVal;
-            set => this.RaiseAndSetIfChanged(ref _spiceVal, value);
+            set
+            {
+                if(_spiceVal != value)
+                {
+                    this.RaiseAndSetIfChanged(ref _spiceVal, value);
+                    HasChanged = true;
+                }
+            }
         }
 
         private byte _charismaVal = 0;
@@ -152,7 +181,14 @@
         public byte CharismaVal
         {
             get => _charismaVal;
-            set => this.RaiseAndSetIfChanged(ref _charismaVal, value);
+            set
+            {
+                if(_charismaVal != value)
+                {
+                    this.RaiseAndSetIfChanged(ref _charismaVal, value);
+                    HasChanged = true;
+                }
+            }
         }
 
         private int _contactDistanceVal = 0;
@@ -160,7 +196,14 @@
         public int ContactDistanceVal
         {
             get => _contactDistanceVal;
-            set => this.RaiseAndSetIfChanged(ref _contactDistanceVal, value);
+            set
+            {
+                if(_contactDistanceVal != value)
+                {
+                    this.RaiseAndSetIfChanged(ref _contactDistanceVal, value);
+                    HasChanged = true;
+                }
+            }
         }
 
         public ReactiveCommand<Unit, Unit> SaveGameFile { get; private set; }
@@ -177,26 +220,79 @@
             return instance;
         }
 
-        private async Task<Unit> OpenSaveGameMethodAsync(Unit arg)
+        private async Task<Unit> OpenCDSaveGameMethodAsync(Unit arg)
         {
             var dialog = new OpenFileDialog
             {
-                AllowMultiple = false
+                AllowMultiple = false,
             };
             var result = await dialog.ShowAsync(MainWindow);
             if (result != null && result.Length > 0)
             {
                 var selectedFile = result[0];
-                _savegameFile = new SaveGameFile(selectedFile);
-                SpiceVal = _savegameFile.Generals.Spice;
-                CharismaVal = _savegameFile.Generals.CharismaGUI;
-                ContactDistanceVal = _savegameFile.Generals.ContactDistance;
-                GameStage = _savegameFile.Generals.GameStage;
-                PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
-                PopulateSietches(_savegameFile.GetSietches());
+                PopulateVMs(selectedFile, SaveFileFormat.DUNE_37);
                 IsSaveGameLoaded = true;
             }
             return Unit.Default;
+        }
+
+        private async Task<Unit> Open21SaveGameMethodAsync(Unit arg)
+        {
+            var dialog = new OpenFileDialog
+            {
+                AllowMultiple = false,
+            };
+            var result = await dialog.ShowAsync(MainWindow);
+            if (result != null && result.Length > 0)
+            {
+                var selectedFile = result[0];
+                PopulateVMs(selectedFile, SaveFileFormat.DUNE_21);
+                IsSaveGameLoaded = true;
+            }
+            return Unit.Default;
+        }
+
+        private async Task<Unit> Open23SaveGameMethodAsync(Unit arg)
+        {
+            var dialog = new OpenFileDialog
+            {
+                AllowMultiple = false,
+            };
+            var result = await dialog.ShowAsync(MainWindow);
+            if (result != null && result.Length > 0)
+            {
+                var selectedFile = result[0];
+                PopulateVMs(selectedFile, SaveFileFormat.DUNE_23);
+                IsSaveGameLoaded = true;
+            }
+            return Unit.Default;
+        }
+
+        private async Task<Unit> Open24SaveGameMethodAsync(Unit arg)
+        {
+            var dialog = new OpenFileDialog
+            {
+                AllowMultiple = false,
+            };
+            var result = await dialog.ShowAsync(MainWindow);
+            if (result != null && result.Length > 0)
+            {
+                var selectedFile = result[0];
+                PopulateVMs(selectedFile, SaveFileFormat.DUNE_24);
+                IsSaveGameLoaded = true;
+            }
+            return Unit.Default;
+        }
+
+        private void PopulateVMs(string saveFileName, SaveFileFormat format)
+        {
+            _savegameFile = new SaveGameFile(saveFileName, format);
+            SpiceVal = _savegameFile.Generals.Spice;
+            CharismaVal = _savegameFile.Generals.CharismaGUI;
+            ContactDistanceVal = _savegameFile.Generals.ContactDistance;
+            GameStage = _savegameFile.Generals.GameStage;
+            PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
+            PopulateSietches(_savegameFile.GetSietches());
         }
 
         private void PopulateSietches(List<Models.Location> locations)
@@ -238,10 +334,6 @@
             {
                 return Unit.Default;
             }
-            _savegameFile.UpdateCharisma(CharismaVal);
-            _savegameFile.UpdateSpice(SpiceVal);
-            _savegameFile.UpdateContactDistance(ContactDistanceVal);
-            _savegameFile.UpdateGameStage(GameStage);
             FileAttributes attributes = File.GetAttributes(_savegameFile.Filename);
             if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
             {
@@ -250,7 +342,7 @@
                     Directory = Path.GetDirectoryName(_savegameFile.Filename),
                     InitialFileName = $"{Path.GetFileNameWithoutExtension(_savegameFile.Filename)}-modified.SAV"
                 }.ShowAsync(MainWindow);
-                if(string.IsNullOrWhiteSpace(fileName) == false)
+                if (string.IsNullOrWhiteSpace(fileName) == false)
                 {
                     _savegameFile.SaveCompressedAs(fileName);
                 }
@@ -260,6 +352,15 @@
                 _savegameFile.SaveCompressed();
 
             }
+            return Unit.Default;
+        }
+
+        private Unit UpdateGeneralsMethod(Unit arg)
+        {
+            _savegameFile.UpdateCharisma(CharismaVal);
+            _savegameFile.UpdateSpice(SpiceVal);
+            _savegameFile.UpdateContactDistance(ContactDistanceVal);
+            _savegameFile.UpdateGameStage(GameStage);
             return Unit.Default;
         }
     }

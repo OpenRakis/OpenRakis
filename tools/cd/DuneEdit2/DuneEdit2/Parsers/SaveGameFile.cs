@@ -22,19 +22,45 @@
         private List<Trap> _traps = new();
 
         private List<byte> _uncompressedData = new();
-
+        private readonly SaveFileFormat _format;
+        private ISaveGameOffsets _offsets;
         private readonly List<Location> _locations = new();
 
         private readonly List<Troop> _troops = new();
 
         public string Filename => _fileName;
 
-        public SaveGameFile()
+        public SaveGameFile(SaveFileFormat format)
         {
+            _format = format;
+            _offsets = GetSaveFileOffsets(format);
         }
 
-        public SaveGameFile(List<byte> data, bool isCompressed = true)
+        private ISaveGameOffsets GetSaveFileOffsets(SaveFileFormat format)
         {
+            if (format == SaveFileFormat.DUNE_21)
+            {
+                return new Dune21Offsets();
+            }
+            if (format == SaveFileFormat.DUNE_23)
+            {
+                return new Dune23Offsets();
+            }
+            if (format == SaveFileFormat.DUNE_24)
+            {
+                return new Dune24Offsets();
+            }
+            if (format == SaveFileFormat.DUNE_37)
+            {
+                return new Dune37Offsets();
+            }
+            return new Dune37Offsets();
+        }
+
+        public SaveGameFile(List<byte> data, SaveFileFormat format, bool isCompressed = true)
+        {
+            _format = format;
+            _offsets = GetSaveFileOffsets(format);
             if (isCompressed)
             {
                 _compressedData = data;
@@ -45,8 +71,10 @@
             }
         }
 
-        public SaveGameFile(string fileName)
+        public SaveGameFile(string fileName, SaveFileFormat format)
         {
+            _format = format;
+            _offsets = GetSaveFileOffsets(format);
             _fileName = fileName;
             try
             {
@@ -64,12 +92,12 @@
                 Console.WriteLine(ex.GetBaseException().Message);
                 throw;
             }
-            _generals = new Generals(_uncompressedData);
+            _generals = new Generals(_uncompressedData, _offsets);
             _locations = PopulateSietches(_uncompressedData);
             _troops = PopulateTroops(_uncompressedData);
         }
 
-        private static List<Location> PopulateSietches(List<byte> data)
+        private List<Location> PopulateSietches(List<byte> data)
         {
             var locations = new List<Location>();
             int cursor = 0;
@@ -79,7 +107,7 @@
                 int endPos;
                 do
                 {
-                    int itemPos = (int)Dune37Offsets.Locations + cursor * 28;
+                    int itemPos = (int)_offsets.Locations + cursor * 28;
                     var location = new Location()
                     {
                         StartOffset = itemPos,
@@ -133,7 +161,7 @@
             return locations;
         }
 
-        private static List<Troop> PopulateTroops(List<byte> data)
+        private List<Troop> PopulateTroops(List<byte> data)
         {
             var troops = new List<Troop>();
             int cursor = 0;
@@ -143,7 +171,7 @@
                 int endPos;
                 do
                 {
-                    int itemPos = (int)Dune37Offsets.Troops + cursor * 27;
+                    int itemPos = _offsets.Troops + cursor * 27;
                     var troop = new Troop(equipment: data[itemPos + 25])
                     {
                         StartOffset = itemPos,
@@ -373,26 +401,26 @@
 
         internal void UpdateGameStage(byte gameStageValue)
         {
-            _uncompressedData[(int)Dune37Offsets.GameStage] = gameStageValue;
+            _uncompressedData[_offsets.GameStage] = gameStageValue;
         }
 
         internal void UpdateContactDistance(int contactDistanceValue)
         {
-            _uncompressedData[(int)Dune37Offsets.ContactDistance] = (byte)checked(contactDistanceValue);
+            _uncompressedData[_offsets.ContactDistance] = (byte)checked(contactDistanceValue);
         }
 
         internal void UpdateSpice(int spiceValue)
         {
             string spiceString = checked((int)Math.Round(spiceValue / 10.0)).ToString("X");
             byte[] spice = SequenceParser.SplitTwo(spiceString);
-            _uncompressedData[(int)Dune37Offsets.Spice] = spice[0];
+            _uncompressedData[_offsets.Spice] = spice[0];
             if (spice.Length > 1)
             {
-                _uncompressedData[(int)Dune37Offsets.Spice + 1] = spice[1];
+                _uncompressedData[_offsets.Spice + 1] = spice[1];
             }
         }
 
-        internal void UpdateCharisma(byte charismaValue) => _uncompressedData[(int)Dune37Offsets.Charisma] = (byte)(unchecked(charismaValue) * 2);
+        internal void UpdateCharisma(byte charismaValue) => _uncompressedData[_offsets.Charisma] = (byte)(unchecked(charismaValue) * 2);
 
         public bool SaveCompressed() => SaveCompressedAs(_fileName);
 

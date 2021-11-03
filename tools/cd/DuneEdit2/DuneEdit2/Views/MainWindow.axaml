@@ -19,8 +19,10 @@
 		<StackPanel>
 			<Menu>
 				<MenuItem Header="File" HotKey="Alt+F">
-					<MenuItem Header="Open" Command="{Binding OpenSaveGame}" HotKey="Ctrl+O">
-					</MenuItem>
+					<MenuItem Header="Open Floppy Savegame (v21)" Command="{Binding Open21SaveGame}" />
+					<MenuItem Header="Open Floppy Savegame (v23)" Command="{Binding Open23SaveGame}" />
+					<MenuItem Header="Open Floppy Savegame (v24)" Command="{Binding Open24SaveGame}" />
+					<MenuItem Header="Open CD Savegame (v37)" Command="{Binding OpenCDSaveGame}" HotKey="Ctrl+O" />
 					<MenuItem Header="Save" Command="{Binding SaveGameFile}" HotKey="Ctrl+S" IsEnabled="{Binding IsSaveGameLoaded}"></MenuItem>
 					<MenuItem Header="Exit" Command="{Binding ExitApp}" HotKey="Alt+F4"></MenuItem>
 				</MenuItem>
@@ -29,25 +31,28 @@
 			<TabControl>
 				<TabItem Header="General" IsEnabled="{Binding IsSaveGameLoaded}">
 					<DockPanel>
-						<UniformGrid DockPanel.Dock="Top">
-							<StackPanel Orientation="Vertical" Margin="5">
-								<Label>Spice:</Label>
-								<NumericUpDown Value="{Binding SpiceVal, Mode=TwoWay}"></NumericUpDown>
-							</StackPanel>
-							<StackPanel Orientation="Vertical" Margin="5">
-								<Label>Contact Distance:</Label>
-								<NumericUpDown Value="{Binding ContactDistanceVal, Mode=TwoWay}"></NumericUpDown>
-							</StackPanel>
-							<StackPanel Orientation="Vertical" Margin="5">
-								<Label>Charisma:</Label>
-								<NumericUpDown Value="{Binding CharismaVal, Mode=TwoWay}"></NumericUpDown>
-							</StackPanel>
-							<StackPanel Orientation="Vertical" Margin="5">
-								<Label>Game Stage:</Label>
-								<NumericUpDown Value="{Binding GameStage}" />
-								<TextBlock Text="{Binding GameStageDesc}" />
-							</StackPanel>
-						</UniformGrid>
+						<StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+							<Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Update" IsEnabled="{Binding HasChanged}" Command="{Binding UpdateGenerals}" />
+							<UniformGrid>
+								<StackPanel Orientation="Vertical" Margin="5">
+									<Label>Spice:</Label>
+									<NumericUpDown Value="{Binding SpiceVal, Mode=TwoWay}"></NumericUpDown>
+								</StackPanel>
+								<StackPanel Orientation="Vertical" Margin="5">
+									<Label>Contact Distance:</Label>
+									<NumericUpDown Value="{Binding ContactDistanceVal, Mode=TwoWay}"></NumericUpDown>
+								</StackPanel>
+								<StackPanel Orientation="Vertical" Margin="5">
+									<Label>Charisma:</Label>
+									<NumericUpDown Value="{Binding CharismaVal, Mode=TwoWay}"></NumericUpDown>
+								</StackPanel>
+								<StackPanel Orientation="Vertical" Margin="5">
+									<Label>Game Stage:</Label>
+									<NumericUpDown Value="{Binding GameStage, Mode=TwoWay}" />
+									<TextBlock Text="{Binding GameStageDesc}" />
+								</StackPanel>
+							</UniformGrid>
+						</StackPanel>
 
 						<StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
 							<TextBlock>Tips to use this savegame editor:</TextBlock>
@@ -56,7 +61,7 @@
 							<TextBlock>* Do not use the maximum Charisma value at the beginning of the game.</TextBlock>
 							<TextBlock>* Do not set the maximum Spice value if you will be doing harvesting.</TextBlock>
 							<TextBlock>* Saved games are backed up. Check for the files with a ".bak" extension.</TextBlock>
-							<TextBlock>* The savegame files that you should use are DUNE37S1.SAV and DUNE37S2.SAV</TextBlock>
+							<TextBlock>* The savegame files that you should use are DUNEXXS1.SAV and DUNEXXS2.SAV where XX is the game version (21, 23, 24, 37)</TextBlock>
 							<TextBlock>* Enjoy...</TextBlock>
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom">Made from the original DuneEdit created by Stephan Fourie.</TextBlock>
 						</StackPanel>

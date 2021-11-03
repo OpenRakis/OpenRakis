@@ -23,21 +23,21 @@ namespace DuneEdit2.Models
         {
         }
 
-        public Generals(List<byte> uncompressedData)
+        public Generals(List<byte> uncompressedData, ISaveGameOffsets offsets)
         {
             _spice = new byte[2]
             {
-                uncompressedData[(int)Dune37Offsets.Spice],
-                uncompressedData[(int)Dune37Offsets.Spice + 1]
+                uncompressedData[offsets.Spice],
+                uncompressedData[offsets.Spice + 1]
             };
-            _gameStage = uncompressedData[(int)Dune37Offsets.GameStage];
-            _contactDistance = uncompressedData[(int)Dune37Offsets.ContactDistance];
+            _gameStage = uncompressedData[offsets.GameStage];
+            _contactDistance = uncompressedData[offsets.ContactDistance];
             _dateAndTime = new byte[2]
             {
-                uncompressedData[(int)Dune37Offsets.DateTime],
-                uncompressedData[(int)Dune37Offsets.DateTime + 1]
+                uncompressedData[offsets.DateTime],
+                uncompressedData[offsets.DateTime + 1]
             };
-            _charisma = uncompressedData[(int)Dune37Offsets.Charisma];
+            _charisma = uncompressedData[offsets.Charisma];
         }
 
         public static string DateGUI => "??";

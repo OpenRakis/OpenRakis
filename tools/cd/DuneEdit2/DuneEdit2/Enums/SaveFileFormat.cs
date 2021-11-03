@@ -1,6 +1,6 @@
 ﻿namespace DuneEdit2.Enums
 {
-    internal enum SaveFileFormat
+    public enum SaveFileFormat
     {
         DUNE_21 = 1,
         DUNE_23 = 2,
