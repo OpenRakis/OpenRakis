@@ -27,7 +27,7 @@ namespace DuneEdit2.Parsers
 
         public string GetGameStageExplained() => _generals.GetGameStageDesc();
 
-        public static string GetGameStagePosition() => $"0x{SaveGameIndex.GetFieldStartPos(FieldName.GameStage):X}";
+        public static string GetGameStagePosition() => $"0x{Dune37Offsets.GameStage:X}";
 
         public byte GetPlayerCharismaForUI() => _generals.CharismaGUI;
 
@@ -35,19 +35,19 @@ namespace DuneEdit2.Parsers
 
         internal string GetPlayerContactDistanceHexValue() => $"0x{_generals.ContactDistance:X}";
 
-        internal static object GetPlayerCharismaPosition() => $"0x{SaveGameIndex.GetFieldStartPos(FieldName.Charisma):X}";
+        internal static object GetPlayerCharismaPosition() => $"0x{Dune37Offsets.Charisma:X}";
 
         internal string GetPlayerCharismaHexValue() => $"0x{_generals.CharismaByte:X}";
 
         internal string GetDateHexValue() => $"0x{_generals.DateAsHex}";
 
-        internal static string GetDatePosition() => $"0x{SaveGameIndex.GetFieldStartPos(FieldName.DateTime):X}";
+        internal static string GetDatePosition() => $"0x{Dune37Offsets.DateTime:X}";
 
         internal static string GetDateForUI() => Generals.DateGUI;
 
-        internal static string GetPlayerContactDistancePosition() => $"0x{SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance):X}";
+        internal static string GetPlayerContactDistancePosition() => $"0x{Dune37Offsets.ContactDistance:X}";
 
-        internal static string GetPlayerSpiceHexPosition() => $"0x{SaveGameIndex.GetFieldStartPos(FieldName.Spice):X}";
+        internal static string GetPlayerSpiceHexPosition() => $"0x{Dune37Offsets.Spice:X}";
 
         internal string GetPlayerSpiceHexValue() => $"0x{_generals.SpiceAsHex}";
 

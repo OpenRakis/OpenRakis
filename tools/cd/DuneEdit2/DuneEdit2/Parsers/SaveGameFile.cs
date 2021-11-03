@@ -79,7 +79,7 @@
                 int endPos;
                 do
                 {
-                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Locations) + cursor * 28;
+                    int itemPos = (int)Dune37Offsets.Locations + cursor * 28;
                     var location = new Location()
                     {
                         StartOffset = itemPos,
@@ -143,7 +143,7 @@
                 int endPos;
                 do
                 {
-                    int itemPos = SaveGameIndex.GetFieldStartPos(FieldName.Troops) + cursor * 27;
+                    int itemPos = (int)Dune37Offsets.Troops + cursor * 27;
                     var troop = new Troop(equipment: data[itemPos + 25])
                     {
                         StartOffset = itemPos,
@@ -373,26 +373,26 @@
 
         internal void UpdateGameStage(byte gameStageValue)
         {
-            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.GameStage)] = gameStageValue;
+            _uncompressedData[(int)Dune37Offsets.GameStage] = gameStageValue;
         }
 
         internal void UpdateContactDistance(int contactDistanceValue)
         {
-            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)] = (byte)checked(contactDistanceValue);
+            _uncompressedData[(int)Dune37Offsets.ContactDistance] = (byte)checked(contactDistanceValue);
         }
 
         internal void UpdateSpice(int spiceValue)
         {
             string spiceString = checked((int)Math.Round(spiceValue / 10.0)).ToString("X");
             byte[] spice = SequenceParser.SplitTwo(spiceString);
-            _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice)] = spice[0];
+            _uncompressedData[(int)Dune37Offsets.Spice] = spice[0];
             if (spice.Length > 1)
             {
-                _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice) + 1] = spice[1];
+                _uncompressedData[(int)Dune37Offsets.Spice + 1] = spice[1];
             }
         }
 
-        internal void UpdateCharisma(byte charismaValue) => _uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)] = (byte)(unchecked(charismaValue) * 2);
+        internal void UpdateCharisma(byte charismaValue) => _uncompressedData[(int)Dune37Offsets.Charisma] = (byte)(unchecked(charismaValue) * 2);
 
         public bool SaveCompressed() => SaveCompressedAs(_fileName);
 

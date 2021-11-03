@@ -27,17 +27,17 @@ namespace DuneEdit2.Models
         {
             _spice = new byte[2]
             {
-                uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice)],
-                uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Spice) + 1]
+                uncompressedData[(int)Dune37Offsets.Spice],
+                uncompressedData[(int)Dune37Offsets.Spice + 1]
             };
-            _gameStage = uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.GameStage)];
-            _contactDistance = uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.ContactDistance)];
+            _gameStage = uncompressedData[(int)Dune37Offsets.GameStage];
+            _contactDistance = uncompressedData[(int)Dune37Offsets.ContactDistance];
             _dateAndTime = new byte[2]
             {
-                uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.DateTime)],
-                uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.DateTime) + 1]
+                uncompressedData[(int)Dune37Offsets.DateTime],
+                uncompressedData[(int)Dune37Offsets.DateTime + 1]
             };
-            _charisma = uncompressedData[SaveGameIndex.GetFieldStartPos(FieldName.Charisma)];
+            _charisma = uncompressedData[(int)Dune37Offsets.Charisma];
         }
 
         public static string DateGUI => "??";

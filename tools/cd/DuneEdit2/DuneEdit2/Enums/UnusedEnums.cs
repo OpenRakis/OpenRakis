@@ -1,5 +1,10 @@
 ﻿namespace DuneEdit2.Models.Enums
 {
+    public enum FieldPropertiesEnum
+    {
+        TroopsLength = 28,
+    }
+
     public enum TroopPropertiesEnum
     {
         TroopID = 0,
