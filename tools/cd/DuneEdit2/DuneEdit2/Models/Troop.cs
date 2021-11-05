@@ -59,7 +59,7 @@ namespace DuneEdit2.Models
 
         public byte Motivation { get; set; }
 
-        public byte NextTroopInSietch { get; set; }
+        public byte NextTroopInLocation { get; set; }
 
         public bool Ornithopters
         {

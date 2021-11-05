@@ -88,7 +88,7 @@
                 _currentTroop = value;
                 if(value != null)
                 {
-                    this._currentLocationWithTroop = this.Locations.FirstOrDefault(x => x.HousedTroopID == value.TroopID);
+                    this._currentLocationWithTroop = Locations.FirstOrDefault(x => x.ID == value.CurrentLocation?.ID);
                     this.RaisePropertyChanged(nameof(CurrentLocationWithTroop));
                 }
                 this.RaisePropertyChanged(nameof(CurrentTroop));
@@ -317,7 +317,7 @@
             var troopsVMs = new List<TroopViewModel>();
             foreach (var troop in troops)
             {
-                var location = locations.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);
+                Models.Location? location = GetTroopHousing(troops, locations, troop);
                 var troopVM = new TroopViewModel(troop, location);
                 troopsVMs.Add(troopVM);
             }
@@ -326,6 +326,36 @@
             {
                 CurrentTroop = Troops.First();
             }
+        }
+
+        private static Models.Location? GetTroopHousing(List<Troop> troops, List<Models.Location> locations, Troop troop)
+        {
+            var populatedLocations = locations.Where(x => troops.Any(y => y.TroopID == x.HousedTroopID));
+            var orderedTroops = troops.OrderBy(x => x.NextTroopInLocation);
+            Models.Location? location = locations.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);
+            if (location is null)
+            {
+                foreach (var populatedLocation in populatedLocations)
+                {
+                    var firstTroopOfLocation = orderedTroops.First(x => x.TroopID == populatedLocation.HousedTroopID);
+                    var nextTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == firstTroopOfLocation.NextTroopInLocation);
+                    while (nextTroopInSietch != null)
+                    {
+                        if (nextTroopInSietch.TroopID == troop.TroopID)
+                        {
+                            location = populatedLocation;
+                            break;
+                        }
+                        nextTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == nextTroopInSietch.NextTroopInLocation);
+                    }
+                    if (location != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return location;
         }
 
         private async Task<Unit> SaveGameMethodAsync(Unit arg)

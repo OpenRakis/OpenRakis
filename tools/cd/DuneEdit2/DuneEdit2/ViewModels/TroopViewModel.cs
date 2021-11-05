@@ -8,9 +8,11 @@
 
     public partial class TroopViewModel : ViewModelBase
     {
-        private readonly Location? _sietch;
+        private readonly Location? _location;
 
         private bool _hasChanged;
+
+        public Location? CurrentLocation => _location;
 
         public bool HasChanged
         {
@@ -166,11 +168,11 @@
 
         public byte NextTroopInLocation
         {
-            get => _troop.NextTroopInSietch;
+            get => _troop.NextTroopInLocation;
 
             set
             {
-                _troop.NextTroopInSietch = value;
+                _troop.NextTroopInLocation = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(NextTroopInLocation));
             }
@@ -248,9 +250,9 @@
         private string GetSietchName()
         {
             var name = "no sietch ID";
-            if (_sietch != null && string.IsNullOrWhiteSpace(_sietch.RegionName) == false)
+            if (_location != null && string.IsNullOrWhiteSpace(_location.RegionName) == false)
             {
-                return _sietch.RegionName;
+                return _location.RegionName;
             }
             return name;
         }
@@ -262,7 +264,7 @@
         public TroopViewModel(Troop troop, Location? sietch)
         {
             _troop = troop;
-            _sietch = sietch;
+            _location = sietch;
         }
 
         private string GetFaction()

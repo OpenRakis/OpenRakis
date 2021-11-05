@@ -176,7 +176,7 @@
                     {
                         StartOffset = itemPos,
                         TroopID = data[itemPos + 0],
-                        NextTroopInSietch = data[itemPos + 1],
+                        NextTroopInLocation = data[itemPos + 1],
                         Job = data[itemPos + 3],
                         Dissatisfaction = data[itemPos + 18],
                         Speech = data[itemPos + 19],
