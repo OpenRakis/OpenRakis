@@ -54,7 +54,7 @@
 							</UniformGrid>
 						</StackPanel>
 
-						<StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
+						<StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Bottom">
 							<TextBlock>Tips to use this savegame editor:</TextBlock>
 							<TextBlock>* Do the Stillsuit Mission first before editing your savegame.</TextBlock>
 							<TextBlock>* Some inputs were limited to avoid overflows and games crashs.</TextBlock>
@@ -63,7 +63,7 @@
 							<TextBlock>* Saved games are backed up. Check for the files with a ".bak" extension.</TextBlock>
 							<TextBlock>* The savegame files that you should use are DUNEXXS1.SAV and DUNEXXS2.SAV where XX is the game version (21, 23, 24, 37)</TextBlock>
 							<TextBlock>* Enjoy...</TextBlock>
-							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom">Made from the original DuneEdit created by Stephan Fourie.</TextBlock>
+							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom">Made from the original DuneEdit by Stephan Fourie, ODRADE, DUNE: A Harder Path notes, and a lot of existing forum threads.</TextBlock>
 						</StackPanel>
 					</DockPanel>
 				</TabItem>
@@ -231,6 +231,36 @@
 							</StackPanel>
 						</Grid>
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentTroop.HasChanged}" Command="{Binding UpdateTroop}" />
+					</Grid>
+				</TabItem>
+				<TabItem Header="Smugglers" IsEnabled="{Binding IsSaveGameLoaded}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+					<StackPanel Orientation="Vertical" Grid.Column="0">
+						<Label>Select Smuggler to edit:</Label>	
+						<ComboBox></ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical" Grid.Column="1">
+						
+					</StackPanel>	
+					</Grid>
+				</TabItem>
+				<TabItem Header="NPCs" IsEnabled="{Binding IsSaveGameLoaded}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+					<StackPanel Orientation="Vertical" Grid.Column="0">
+						<Label>Select NPC to edit:</Label>	
+						<ComboBox></ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical" Grid.Column="1">
+						
+					</StackPanel>	
 					</Grid>
 				</TabItem>
 				<TabItem Header="Map of Dune">
