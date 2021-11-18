@@ -297,11 +297,7 @@
 
         private void PopulateSietches(List<Models.Location> locations)
         {
-            var locationsVMs = new List<LocationViewModel>();
-            foreach (var location in locations)
-            {
-                locationsVMs.Add(new LocationViewModel(location));
-            }
+            var locationsVMs = (locations.Select(location => new LocationViewModel(location))).ToList();
             Locations = locationsVMs;
             if (Locations.Any())
             {
@@ -315,8 +311,9 @@
         private void PopulateTroops(List<Troop> troops, List<Models.Location> locations)
         {
             var troopsVMs = new List<TroopViewModel>();
-            foreach (var troop in troops)
+            for (int i = 0; i < troops.Count; i++)
             {
+                Troop? troop = troops[i];
                 Models.Location? location = GetTroopHousing(troops, locations, troop);
                 var troopVM = new TroopViewModel(troop, location);
                 troopsVMs.Add(troopVM);
@@ -335,8 +332,9 @@
             Models.Location? location = locations.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);
             if (location is null)
             {
-                foreach (var populatedLocation in populatedLocations)
+                for(int i = 0; i < populatedLocations.Count(); i++)
                 {
+                    var populatedLocation = populatedLocations.ElementAt(i);
                     var firstTroopOfLocation = orderedTroops.First(x => x.TroopID == populatedLocation.HousedTroopID);
                     var nextTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == firstTroopOfLocation.NextTroopInLocation);
                     while (nextTroopInSietch != null)
@@ -346,7 +344,12 @@
                             location = populatedLocation;
                             break;
                         }
-                        nextTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == nextTroopInSietch.NextTroopInLocation);
+                        var newNextNexTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == nextTroopInSietch.NextTroopInLocation);
+                        if(newNextNexTroopInSietch == nextTroopInSietch)
+                        {
+                            break;
+                        }
+                        nextTroopInSietch = newNextNexTroopInSietch;
                     }
                     if (location != null)
                     {

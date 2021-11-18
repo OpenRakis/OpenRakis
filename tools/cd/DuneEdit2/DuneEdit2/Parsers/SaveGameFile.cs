@@ -148,7 +148,7 @@
         private List<Troop> PopulateTroops(List<byte> data)
         {
             var troops = new List<Troop>();
-            for(int i = 0; i < 67; i++)
+            for(int i = 0; i < 68; i++)
             {
                 int itemPos = _offsets.Troops + i * 27;
                 var troop = new Troop(equipment: data[itemPos + 25])
