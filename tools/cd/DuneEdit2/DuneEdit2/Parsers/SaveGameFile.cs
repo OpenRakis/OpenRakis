@@ -151,10 +151,14 @@
             for(int i = 0; i < 68; i++)
             {
                 int itemPos = _offsets.Troops + i * 27;
+                if (i == 68 && data[itemPos] == 0) {
+                    continue; // from ODRADE: Assume vanilla Dune and skip this entry.
+
+                }
                 var troop = new Troop(equipment: data[itemPos + 25])
                 {
                     StartOffset = itemPos,
-                    TroopID = data[itemPos + 0],
+                    TroopID = data[itemPos],
                     NextTroopInLocation = data[itemPos + 1],
                     Job = data[itemPos + 3],
                     Dissatisfaction = data[itemPos + 18],
