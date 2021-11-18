@@ -64,6 +64,9 @@
     <None Update="Saves\MidGameSaveWrite.SAV">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Saves\MidGameSaveWrite.SAV">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Saves\MidGameSave.SAV">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
