@@ -93,70 +93,54 @@
                 throw;
             }
             _generals = new Generals(_uncompressedData, _offsets);
-            _locations = PopulateSietches(_uncompressedData);
+            _locations = PopulateLocations(_uncompressedData);
             _troops = PopulateTroops(_uncompressedData);
         }
 
-        private List<Location> PopulateSietches(List<byte> data)
+        private List<Location> PopulateLocations(List<byte> data)
         {
             var locations = new List<Location>();
-            int cursor = 0;
-            checked
+            for(int i = 0; i < 70; i++)
             {
-                int position;
-                int endPos;
-                do
+                int itemPos = _offsets.Locations + i * 28;
+                var location = new Location()
                 {
-                    int itemPos = (int)_offsets.Locations + cursor * 28;
-                    var location = new Location()
-                    {
-                        StartOffset = itemPos,
-                        Region = data[itemPos + 0],
-                        SubRegion = data[itemPos + 1],
-                        PosXmap = data[itemPos + 3],
-                        PosYmap = data[itemPos + 4],
-                        Unknown1 = data[itemPos + 5],
-                        PosX = data[itemPos + 6],
-                        PosY = data[itemPos + 7],
-                        Appearance = data[itemPos + 8],
-                        HousedTroopID = data[itemPos + 9],
-                        StatusBitField = new ClsBitfield(data[itemPos + 10]),
-                        Status = data[itemPos + 10],
-                        GameStage = data[itemPos + 11],
-                        Unknown3 = data[itemPos + 12],
-                        Unknown4 = data[itemPos + 13],
-                        Unknown5 = data[itemPos + 14],
-                        Unknown6 = data[itemPos + 15],
-                        SpicefieldID = data[itemPos + 16],
-                        Spice = data[itemPos + 17],
-                        SpiceDensity = data[itemPos + 18],
-                        Unknown2 = data[itemPos + 19],
-                        Harvesters = data[itemPos + 20],
-                        Ornis = data[itemPos + 21],
-                        Krys = data[itemPos + 22],
-                        LaserGuns = data[itemPos + 23],
-                        WeirdingMod = data[itemPos + 24],
-                        Atomics = data[itemPos + 25],
-                        Bulbs = data[itemPos + 26],
-                        Water = data[itemPos + 27],
-                    };
-                    int coordsCursor = 0;
-                    int coordsPos;
-                    do
-                    {
-                        int coordinatesPartOffset = itemPos + 2 + coordsCursor;
-                        location.Coordinates += Convert.ToString(data[coordinatesPartOffset]);
-                        coordsCursor++;
-                        coordsPos = coordsCursor;
-                        endPos = 3;
-                    }
-                    while (coordsPos <= endPos);
-                    locations.Add(location);
-                    cursor++;
-                    position = cursor;
-                    endPos = 69;
+                    StartOffset = itemPos,
+                    Region = data[itemPos + 0],
+                    SubRegion = data[itemPos + 1],
+                    PosXmap = data[itemPos + 3],
+                    PosYmap = data[itemPos + 4],
+                    Unknown1 = data[itemPos + 5],
+                    PosX = data[itemPos + 6],
+                    PosY = data[itemPos + 7],
+                    Appearance = data[itemPos + 8],
+                    HousedTroopID = data[itemPos + 9],
+                    StatusBitField = new ClsBitfield(data[itemPos + 10]),
+                    Status = data[itemPos + 10],
+                    GameStage = data[itemPos + 11],
+                    Unknown3 = data[itemPos + 12],
+                    Unknown4 = data[itemPos + 13],
+                    Unknown5 = data[itemPos + 14],
+                    Unknown6 = data[itemPos + 15],
+                    SpicefieldID = data[itemPos + 16],
+                    Spice = data[itemPos + 17],
+                    SpiceDensity = data[itemPos + 18],
+                    Unknown2 = data[itemPos + 19],
+                    Harvesters = data[itemPos + 20],
+                    Ornis = data[itemPos + 21],
+                    Krys = data[itemPos + 22],
+                    LaserGuns = data[itemPos + 23],
+                    WeirdingMod = data[itemPos + 24],
+                    Atomics = data[itemPos + 25],
+                    Bulbs = data[itemPos + 26],
+                    Water = data[itemPos + 27],
+                };
+                for (int j = 0; j < 4; j++)
+                {
+                    int coordinatesPartOffset = itemPos + 2 + j;
+                    location.Coordinates += Convert.ToString(data[coordinatesPartOffset]);
                 }
-                while (position <= endPos);
+                locations.Add(location);
             }
             return locations;
         }
@@ -164,45 +148,29 @@
         private List<Troop> PopulateTroops(List<byte> data)
         {
             var troops = new List<Troop>();
-            int cursor = 0;
-            checked
+            for(int i = 0; i < 67; i++)
             {
-                int position;
-                int endPos;
-                do
+                int itemPos = _offsets.Troops + i * 27;
+                var troop = new Troop(equipment: data[itemPos + 25])
                 {
-                    int itemPos = _offsets.Troops + cursor * 27;
-                    var troop = new Troop(equipment: data[itemPos + 25])
-                    {
-                        StartOffset = itemPos,
-                        TroopID = data[itemPos + 0],
-                        NextTroopInLocation = data[itemPos + 1],
-                        Job = data[itemPos + 3],
-                        Dissatisfaction = data[itemPos + 18],
-                        Speech = data[itemPos + 19],
-                        Motivation = data[itemPos + 21],
-                        SpiceSkill = data[itemPos + 22],
-                        ArmySkill = data[itemPos + 23],
-                        EcologySkill = data[itemPos + 24],
-                        Equipment = data[itemPos + 25],
-                        Population = data[itemPos + 26] * 10
-                    };
-                    int coordsCursor = 0;
-                    int coordsPos;
-                    do
-                    {
-                        troop.Coordinates += Convert.ToString(data[itemPos + 6 + coordsCursor]);
-                        coordsCursor++;
-                        coordsPos = coordsCursor;
-                        endPos = 3;
-                    }
-                    while (coordsPos <= endPos);
-                    troops.Add(troop);
-                    cursor++;
-                    position = cursor;
-                    endPos = 66;
+                    StartOffset = itemPos,
+                    TroopID = data[itemPos + 0],
+                    NextTroopInLocation = data[itemPos + 1],
+                    Job = data[itemPos + 3],
+                    Dissatisfaction = data[itemPos + 18],
+                    Speech = data[itemPos + 19],
+                    Motivation = data[itemPos + 21],
+                    SpiceSkill = data[itemPos + 22],
+                    ArmySkill = data[itemPos + 23],
+                    EcologySkill = data[itemPos + 24],
+                    Equipment = data[itemPos + 25],
+                    Population = data[itemPos + 26] * 10
+                };
+                for(int j = 0; j < 4; j++)
+                {
+                    troop.Coordinates += Convert.ToString(data[itemPos + 6 + j]);
                 }
-                while (position <= endPos);
+                troops.Add(troop);
             }
             return troops;
         }
@@ -331,45 +299,42 @@
                                 }
                                 else if (byteValueAtCursor == byteValueAtCursorPlusOne && byteValueAtCursor == byteValueAtCursorPlusTwo)
                                 {
-                                    checked
+                                    int uncompressedDataEndMinusOne = _uncompressedData.Count - 1;
+                                    overallCurrentPos = cursorPosition;
+                                    while (true)
                                     {
-                                        int uncompressedDataEndMinusOne = _uncompressedData.Count - 1;
-                                        overallCurrentPos = cursorPosition;
-                                        while (true)
+                                        int currentPos = overallCurrentPos;
+                                        uncompressedDataEnd = uncompressedDataEndMinusOne;
+                                        if (currentPos > uncompressedDataEnd)
                                         {
-                                            int currentPos = overallCurrentPos;
-                                            uncompressedDataEnd = uncompressedDataEndMinusOne;
-                                            if (currentPos > uncompressedDataEnd)
-                                            {
-                                                break;
-                                            }
-                                            if (byteValueAtCursor == _uncompressedData[overallCurrentPos])
-                                            {
-                                                start++;
-                                                if (start == end)
-                                                {
-                                                    cursorPosition += start - 1;
-                                                    _compressedData.Add(247);
-                                                    _compressedData.Add((byte)start);
-                                                    _compressedData.Add(byteValueAtCursor);
-                                                    overallCurrentPos = _uncompressedData.Count;
-                                                    if (isOverTrap)
-                                                    {
-                                                        _compressedData.Add(t.HexCode);
-                                                        cursorPosition++;
-                                                    }
-                                                }
-                                            }
-                                            else
+                                            break;
+                                        }
+                                        if (byteValueAtCursor == _uncompressedData[overallCurrentPos])
+                                        {
+                                            start++;
+                                            if (start == end)
                                             {
                                                 cursorPosition += start - 1;
                                                 _compressedData.Add(247);
                                                 _compressedData.Add((byte)start);
                                                 _compressedData.Add(byteValueAtCursor);
                                                 overallCurrentPos = _uncompressedData.Count;
+                                                if (isOverTrap)
+                                                {
+                                                    _compressedData.Add(t.HexCode);
+                                                    cursorPosition++;
+                                                }
                                             }
-                                            overallCurrentPos++;
                                         }
+                                        else
+                                        {
+                                            cursorPosition += start - 1;
+                                            _compressedData.Add(247);
+                                            _compressedData.Add((byte)start);
+                                            _compressedData.Add(byteValueAtCursor);
+                                            overallCurrentPos = _uncompressedData.Count;
+                                        }
+                                        overallCurrentPos++;
                                     }
                                 }
                                 else
@@ -559,35 +524,32 @@
         private void DetectTraps()
         {
             _traps = new List<Trap>();
-            checked
+            int length = _originalSaveGameData.Count - 4;
+            int count = 0;
+            while (true)
             {
-                int length = _originalSaveGameData.Count - 4;
-                int count = 0;
-                while (true)
+                int num3 = count;
+                int num4 = length;
+                if (num3 <= num4)
                 {
-                    int num3 = count;
-                    int num4 = length;
-                    if (num3 <= num4)
+                    byte firstByte = _originalSaveGameData[count];
+                    byte repeatByte = _originalSaveGameData[count + 1];
+                    byte secondByte = _originalSaveGameData[count + 2];
+                    byte thirdByte = _originalSaveGameData[count + 3];
+                    if (firstByte == 247 && secondByte == thirdByte)
                     {
-                        byte firstByte = _originalSaveGameData[count];
-                        byte repeatByte = _originalSaveGameData[count + 1];
-                        byte secondByte = _originalSaveGameData[count + 2];
-                        byte thirdByte = _originalSaveGameData[count + 3];
-                        if (unchecked(firstByte == 247 && secondByte == thirdByte))
+                        Trap trap = new()
                         {
-                            Trap trap = new()
-                            {
-                                Offset = count,
-                                Repeat = repeatByte,
-                                HexCode = secondByte
-                            };
-                            _traps.Add(trap);
-                        }
-                        count++;
-                        continue;
+                            Offset = count,
+                            Repeat = repeatByte,
+                            HexCode = secondByte
+                        };
+                        _traps.Add(trap);
                     }
-                    break;
+                    count++;
+                    continue;
                 }
+                break;
             }
         }
 
