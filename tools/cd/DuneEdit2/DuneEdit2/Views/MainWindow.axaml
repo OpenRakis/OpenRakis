@@ -233,7 +233,7 @@
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentTroop.HasChanged}" Command="{Binding UpdateTroop}" />
 					</Grid>
 				</TabItem>
-				<TabItem Header="Smugglers" IsEnabled="{Binding IsSaveGameLoaded}">
+				<!--<TabItem Header="Smugglers" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition />
@@ -262,7 +262,7 @@
 						
 					</StackPanel>	
 					</Grid>
-				</TabItem>
+				</TabItem>-->
 				<TabItem Header="Map of Dune">
 					<DockPanel>
 						<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
