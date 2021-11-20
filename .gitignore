@@ -1,7 +1,7 @@
 Publish/
-publish-linux.zip
-publish-mac.zip
-publish-win.zip
+linux.zip
+mac.zip
+win.zip
 .vscode/
 # CMake build
 build/
