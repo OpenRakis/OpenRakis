@@ -20,8 +20,11 @@
                 _troop.PositionAroundLocation = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(PositionAroundLocation));
+                this.RaisePropertyChanged(nameof(PositionAroundLocationDescription));
             }
         }
+
+        public string PositionAroundLocationDescription => TroopPositionAroundLocationFinder.GetDescriptionOfTroopAroundLocation(PositionAroundLocation);
 
         public byte MissYouMsg
         {
@@ -196,13 +199,20 @@
             }
         }
 
-        public string? Coordinates
+        public int Coordinates
         {
-            get => _troop.Coordinates;
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_troop.Coordinates))
+                    return 0;
+                if (int.TryParse(_troop.Coordinates, out var coords))
+                    return coords;
+                return 0;
+            }
 
             set
             {
-                _troop.Coordinates = value;
+                _troop.Coordinates = value.ToString();
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Coordinates));
             }
