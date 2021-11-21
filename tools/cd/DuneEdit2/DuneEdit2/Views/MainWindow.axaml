@@ -66,11 +66,13 @@
 						</StackPanel>
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2">
 							<TextBlock>Made from:</TextBlock>
-							<TextBlock>the original DuneEdit by Stephan Fourie,</TextBlock>
-							<TextBlock>ODRADE, DUNE: A Harder Path notes, </TextBlock>
-							<TextBlock>https://sites.google.com/site/duneeditor/ </TextBlock>
-							<TextBlock>also from a lot of existing forum threads, </TextBlock>
-							<TextBlock>and with the help of the DOSBox Debugger.</TextBlock>
+							<TextBlock>- The original DuneEdit by Stephan Fourie</TextBlock>
+							<TextBlock>- https://github.com/debrouxl/odrade </TextBlock>
+							<TextBlock>- DUNE: A Harder Path notes </TextBlock>
+							<TextBlock>- https://sites.google.com/site/duneeditor/ </TextBlock>
+							<TextBlock>- DUNE: Sietch Editor v1.0 alpha</TextBlock>
+							<TextBlock>- Threads on https://forum.dune2k.com </TextBlock>
+							<TextBlock>- and with the help of the DOSBox Debugger</TextBlock>
 						</StackPanel>
 					</Grid>
 				</TabItem>
@@ -85,7 +87,7 @@
 						</ComboBox>
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentLocation.HasChanged}" Command="{Binding UpdateSietch}" />
 						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*,*">
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Left" Grid.Column="0">
+							<StackPanel Margin="5" Orientation="Vertical" HorizontalAlignment="Left" Grid.Column="0">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentLocation.StartOffset, StringFormat={}0x{0:x}}" />
 								<Label>Coordinates</Label>
@@ -95,7 +97,7 @@
 								<Label>Sub Region</Label>
 								<TextBlock Text="{Binding CurrentLocation.SubRegion}" />
 							</StackPanel>
-							<StackPanel Orientation="Vertical" Grid.Column="1">
+							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="1">
 								<Label>Position X (map)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.PosXmap}" />
 								<Label>Position Y (map)</Label>
@@ -117,7 +119,7 @@
 								<Label>Housed Troop ID</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.HousedTroopID}" />
 							</StackPanel>
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="2">
+							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="2">
 								<Label>Harvesters</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Harvesters}" />
 								<Label>Ornis</Label>
@@ -126,28 +128,14 @@
 								<NumericUpDown Text="{Binding CurrentLocation.Krys}" />
 								<Label>Laserguns</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.LaserGuns}" />
-								<Label>Weirdng Mod</Label>
+								<Label>Weirdng Modules</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.WeirdingMod}" />
 								<Label>Atomics</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Atomics}" />
 								<Label>Bulbs</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Bulbs}" />
 							</StackPanel>
-							<StackPanel HorizontalAlignment="Right" Orientation="Vertical" Grid.Column="3">
-								<Label>Status</Label>
-								<CheckBox Content="Vegetation has begun" IsChecked="{Binding CurrentLocation.HasVegetation}" />
-								<CheckBox Content="Under Attack" IsChecked="{Binding CurrentLocation.InBattle}" />
-								<CheckBox Content="Infiltrated" IsChecked="{Binding CurrentLocation.Infiltrated}" />
-								<CheckBox Content="Battle Won" IsChecked="{Binding CurrentLocation.BattleWon}" />
-								<CheckBox Content="See Inventory" IsChecked="{Binding CurrentLocation.SeeInventory}" />
-								<CheckBox Content="Wind Trap" IsChecked="{Binding CurrentLocation.HasWindtrap}" />
-								<CheckBox Content="Prospected" IsChecked="{Binding CurrentLocation.Prospected}" />
-								<CheckBox Content="Not Discovered" IsChecked="{Binding CurrentLocation.NotDiscovered}" />
-								<Label>Direct Value Edit</Label>
-								<NumericUpDown Text="{Binding CurrentLocation.Status}" />
-								<TextBlock Text="{Binding CurrentLocation.StatusDesc}" />
-							</StackPanel>
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="4">
+							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="3">
 								<Label>Unknown 1</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown1}" />
 								<Label>Unknown 2</Label>
@@ -163,13 +151,27 @@
 								<Label>Discoverable at Game Stage</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.GameStage}" />
 							</StackPanel>
+							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="4">
+								<Label>Status</Label>
+								<CheckBox Content="Vegetation has begun" IsChecked="{Binding CurrentLocation.HasVegetation}" />
+								<CheckBox Content="Under Attack" IsChecked="{Binding CurrentLocation.InBattle}" />
+								<CheckBox Content="Infiltrated" IsChecked="{Binding CurrentLocation.Infiltrated}" />
+								<CheckBox Content="Battle Won" IsChecked="{Binding CurrentLocation.BattleWon}" />
+								<CheckBox Content="See Inventory" IsChecked="{Binding CurrentLocation.SeeInventory}" />
+								<CheckBox Content="Wind Trap" IsChecked="{Binding CurrentLocation.HasWindtrap}" />
+								<CheckBox Content="Prospected" IsChecked="{Binding CurrentLocation.Prospected}" />
+								<CheckBox Content="Not Discovered" IsChecked="{Binding CurrentLocation.NotDiscovered}" />
+								<Label>Direct Value Edit</Label>
+								<NumericUpDown Text="{Binding CurrentLocation.Status}" />
+								<TextBlock Text="{Binding CurrentLocation.StatusDesc}" />
+							</StackPanel>
 						</Grid>
 					</Grid>
 				</TabItem>
 				<TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
-						<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-							<StackPanel Orientation="Vertical">
+						<StackPanel Margin="5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+							<StackPanel Margin="5" Orientation="Vertical">
 								<Label>Select by Troop ID:</Label>
 								<ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
 									<ComboBox.ItemTemplate>
@@ -179,7 +181,7 @@
 									</ComboBox.ItemTemplate>
 								</ComboBox>
 							</StackPanel>
-							<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+							<StackPanel Margin="5" Orientation="Vertical">
 								<Label>Select by Location:</Label>
 								<ComboBox Items="{Binding LocationsWithTroops}" SelectedItem="{Binding CurrentLocationWithTroop, Mode=TwoWay}">
 									<ComboBox.ItemTemplate>
@@ -191,11 +193,9 @@
 							</StackPanel>
 						</StackPanel>
 						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*">
-							<StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
+							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="0">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentTroop.StartOffset, StringFormat={}0x{0:x}}}" />
-								<Label>Coordinates</Label>
-								<TextBox Text="{Binding CurrentTroop.Coordinates}" />
 								<Label>Troop ID</Label>
 								<TextBlock Text="{Binding CurrentTroop.TroopID}" />
 								<Label>Next Troop ID</Label>
@@ -203,7 +203,13 @@
 								<Label>Regional Origin</Label>
 								<TextBlock Text="{Binding CurrentTroop.Origin}" />
 							</StackPanel>
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
+							<StackPanel Margin="5" Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
+								<Label>Coordinates</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Coordinates}" />
+								<TextBlock Text="{Binding CurrentTroop.Coordinates, StringFormat={}0x{0:X}}}" />
+								<Label>Position Around Location</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.PositionAroundLocation}" />
+								<TextBlock Text="{Binding CurrentTroop.PositionAroundLocationDescription}" />
 								<Label>Spice Skill</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.SpiceSkill}" />
 								<Label>Army Skill</Label>
@@ -224,22 +230,7 @@
 								<NumericUpDown Text="{Binding CurrentTroop.Speech}" />
 								<TextBlock Text="{Binding CurrentTroop.SpeechDesc}" />
 							</StackPanel>
-							<StackPanel HorizontalAlignment="Right" Orientation="Vertical" Grid.Column="2">
-								<Label>Equipment</Label>
-								<CheckBox Content="Has weirding modules" IsChecked="{Binding CurrentTroop.Weirdings}" />
-								<CheckBox Content="Has Orni" IsChecked="{Binding CurrentTroop.Ornithopters}" />
-								<CheckBox Content="Has Laserguns" IsChecked="{Binding CurrentTroop.LaserGuns}" />
-								<CheckBox Content="Has Krys knives" IsChecked="{Binding CurrentTroop.KrysKnives}" />
-								<CheckBox Content="Has Harvester" IsChecked="{Binding CurrentTroop.Harvesters}" />
-								<CheckBox Content="Has Bulbs" IsChecked="{Binding CurrentTroop.Bulbs}" />
-								<CheckBox Content="Has Atomics" IsChecked="{Binding CurrentTroop.Atomics}" />
-								<Label>Direct Value Edit</Label>
-								<NumericUpDown Text="{Binding CurrentTroop.Equipement}" />
-							</StackPanel>
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="3">
-								<Label>Position Around Location</Label>
-								<NumericUpDown Text="{Binding CurrentTroop.PositionAroundLocation}" />
-								<!-- TODO: Add description of position around location-->
+							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="2">
 								<Label>Unknown 1</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown1}" />
 								<Label>Unknown 2</Label>
@@ -262,6 +253,18 @@
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown10}" />
 								<Label>'We've missed you' Message byte:</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.MissYouMsg}" />
+							</StackPanel>
+							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="3">
+								<Label>Equipment</Label>
+								<CheckBox Content="Has Harvester" IsChecked="{Binding CurrentTroop.Harvesters}" />
+								<CheckBox Content="Has Orni" IsChecked="{Binding CurrentTroop.Ornithopters}" />
+								<CheckBox Content="Has Krys knives" IsChecked="{Binding CurrentTroop.KrysKnives}" />
+								<CheckBox Content="Has Laserguns" IsChecked="{Binding CurrentTroop.LaserGuns}" />
+								<CheckBox Content="Has weirding modules" IsChecked="{Binding CurrentTroop.Weirdings}" />
+								<CheckBox Content="Has Atomics" IsChecked="{Binding CurrentTroop.Atomics}" />
+								<CheckBox Content="Has Bulbs" IsChecked="{Binding CurrentTroop.Bulbs}" />
+								<Label>Direct Value Edit</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Equipement}" />
 							</StackPanel>
 						</Grid>
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentTroop.HasChanged}" Command="{Binding UpdateTroop}" />
