@@ -46,7 +46,7 @@
         {
             if (CurrentLocation != null)
             {
-                _savegameFile.UpdateSietch(CurrentLocation.Sietch);
+                _savegameFile.UpdateLocation(CurrentLocation.Sietch);
             }
             return Unit.Default;
         }

@@ -7,10 +7,10 @@
 		x:Class="DuneEdit2.Views.MainWindow"
 		Icon="/Assets/app.ico"
 		Title="DuneEdit2"
-		MinWidth="1024"
-		MinHeight="768"
-		Width="1024"
-		Height="768"
+		MinWidth="1152"
+		MinHeight="864"
+		Width="1152"
+		Height="864"
 		x:Name="AppWindow">
 	<Design.DataContext>
 		<vm:MainWindowViewModel />
@@ -30,8 +30,8 @@
 
 			<TabControl>
 				<TabItem Header="General" IsEnabled="{Binding IsSaveGameLoaded}">
-					<DockPanel>
-						<StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+					<Grid RowDefinitions="*,Auto,Auto">
+						<StackPanel Orientation="Vertical" Grid.Row="0">
 							<Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Update" IsEnabled="{Binding HasChanged}" Command="{Binding UpdateGenerals}" />
 							<UniformGrid>
 								<StackPanel Orientation="Vertical" Margin="5">
@@ -54,7 +54,7 @@
 							</UniformGrid>
 						</StackPanel>
 
-						<StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+						<StackPanel Grid.Row="1">
 							<TextBlock>Tips to use this savegame editor:</TextBlock>
 							<TextBlock>* Do the Stillsuit Mission first before editing your savegame.</TextBlock>
 							<TextBlock>* Some inputs were limited to avoid overflows and games crashs.</TextBlock>
@@ -63,9 +63,16 @@
 							<TextBlock>* Saved games are backed up. Check for the files with a ".bak" extension.</TextBlock>
 							<TextBlock>* The savegame files that you should use are DUNEXXS1.SAV and DUNEXXS2.SAV where XX is the game version (21, 23, 24, 37)</TextBlock>
 							<TextBlock>* Enjoy...</TextBlock>
-							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom">Made from the original DuneEdit by Stephan Fourie, ODRADE, DUNE: A Harder Path notes, and a lot of existing forum threads.</TextBlock>
 						</StackPanel>
-					</DockPanel>
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2">
+							<TextBlock>Made from:</TextBlock>
+							<TextBlock>the original DuneEdit by Stephan Fourie,</TextBlock>
+							<TextBlock>ODRADE, DUNE: A Harder Path notes, </TextBlock>
+							<TextBlock>https://sites.google.com/site/duneeditor/ </TextBlock>
+							<TextBlock>also from a lot of existing forum threads, </TextBlock>
+							<TextBlock>and with the help of the DOSBox Debugger.</TextBlock>
+						</StackPanel>
+					</Grid>
 				</TabItem>
 				<TabItem Header="Locations" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
@@ -172,7 +179,7 @@
 									</ComboBox.ItemTemplate>
 								</ComboBox>
 							</StackPanel>
-							<StackPanel Orientation="Vertical">
+							<StackPanel Orientation="Vertical" Margin="5,0,0,0">
 								<Label>Select by Location:</Label>
 								<ComboBox Items="{Binding LocationsWithTroops}" SelectedItem="{Binding CurrentLocationWithTroop, Mode=TwoWay}">
 									<ComboBox.ItemTemplate>
@@ -183,12 +190,12 @@
 								</ComboBox>
 							</StackPanel>
 						</StackPanel>
-						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*">
+						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*">
 							<StackPanel HorizontalAlignment="Left" Orientation="Vertical" Grid.Column="0">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentTroop.StartOffset, StringFormat={}0x{0:x}}}" />
 								<Label>Coordinates</Label>
-								<TextBlock Text="{Binding CurrentTroop.Coordinates}" />
+								<TextBox Text="{Binding CurrentTroop.Coordinates}" />
 								<Label>Troop ID</Label>
 								<TextBlock Text="{Binding CurrentTroop.TroopID}" />
 								<Label>Next Troop ID</Label>
@@ -228,6 +235,33 @@
 								<CheckBox Content="Has Atomics" IsChecked="{Binding CurrentTroop.Atomics}" />
 								<Label>Direct Value Edit</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Equipement}" />
+							</StackPanel>
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="3">
+								<Label>Position Around Location</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.PositionAroundLocation}" />
+								<!-- TODO: Add description of position around location-->
+								<Label>Unknown 1</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown1}" />
+								<Label>Unknown 2</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown2}" />
+								<Label>Unknown 3</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown3}" />
+								<Label>Unknown 4</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown4}" />
+								<Label>Unknown 5</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown5}" />
+								<Label>Unknown 6</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown6}" />
+								<Label>Unknown 7</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown7}" />
+								<Label>Unknown 8</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown8}" />
+								<Label>Unknown 9</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown9}" />
+								<Label>Unknown 10</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.Unknown10}" />
+								<Label>'We've missed you' Message byte:</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.MissYouMsg}" />
 							</StackPanel>
 						</Grid>
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentTroop.HasChanged}" Command="{Binding UpdateTroop}" />

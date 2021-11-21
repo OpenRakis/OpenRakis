@@ -12,6 +12,138 @@
 
         private bool _hasChanged;
 
+        public byte PositionAroundLocation
+        {
+            get => _troop.PositionAroundLocation;
+            set
+            {
+                _troop.PositionAroundLocation = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(PositionAroundLocation));
+            }
+        }
+
+        public byte MissYouMsg
+        {
+            get => _troop.MissYouMsg;
+            set
+            {
+                _troop.MissYouMsg = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(MissYouMsg));
+            }
+        }
+
+        public byte Unknown1
+        {
+            get => _troop.Unknown1;
+            set
+            {
+                _troop.Unknown1 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown1));
+            }
+        }
+
+        public byte Unknown2
+        {
+            get => _troop.Unknown2;
+            set
+            {
+                _troop.Unknown2 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown2));
+            }
+        }
+
+        public byte Unknown3
+        {
+            get => _troop.Unknown3;
+            set
+            {
+                _troop.Unknown3 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown3));
+            }
+        }
+
+        public byte Unknown4
+        {
+            get => _troop.Unknown4;
+            set
+            {
+                _troop.Unknown4 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown4));
+            }
+        }
+
+        public byte Unknown5
+        {
+            get => _troop.Unknown5;
+            set
+            {
+                _troop.Unknown5 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown5));
+            }
+        }
+
+        public byte Unknown6
+        {
+            get => _troop.Unknown6;
+            set
+            {
+                _troop.Unknown6 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown6));
+            }
+        }
+
+        public byte Unknown7
+        {
+            get => _troop.Unknown7;
+            set
+            {
+                _troop.Unknown7 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown7));
+            }
+        }
+
+        public byte Unknown8
+        {
+            get => _troop.Unknown8;
+            set
+            {
+                _troop.Unknown8 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown8));
+            }
+        }
+
+        public byte Unknown9
+        {
+            get => _troop.Unknown9;
+            set
+            {
+                _troop.Unknown9 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown9));
+            }
+        }
+
+        public byte Unknown10
+        {
+            get => _troop.Unknown10;
+            set
+            {
+                _troop.Unknown10 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(Unknown10));
+            }
+        }
+
         public Location? CurrentLocation => _location;
 
         public bool HasChanged

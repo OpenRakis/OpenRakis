@@ -58,8 +58,21 @@ namespace DuneEdit2.Models
         }
 
         public byte Motivation { get; set; }
+        public byte Unknown1 { get; set; }
+        public byte Unknown2 { get; set; }
+        public byte Unknown3 { get; set; }
+        public byte Unknown4 { get; set; }
+        public byte Unknown5 { get; set; }
+        public byte Unknown6 { get; set; }
+        public byte Unknown7 { get; set; }
+        public byte Unknown8 { get; set; }
+        public byte Unknown9 { get; set; }
+        public byte Unknown10 { get; set; }
+        public byte MissYouMsg { get; set; }
 
         public byte NextTroopInLocation { get; set; }
+
+        public byte PositionAroundLocation { get; set; }
 
         public bool Ornithopters
         {

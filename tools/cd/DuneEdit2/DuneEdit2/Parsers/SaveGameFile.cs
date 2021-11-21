@@ -22,7 +22,6 @@
         private List<Trap> _traps = new();
 
         private List<byte> _uncompressedData = new();
-        private readonly SaveFileFormat _format;
         private ISaveGameOffsets _offsets;
         private readonly List<Location> _locations = new();
 
@@ -32,7 +31,6 @@
 
         public SaveGameFile(SaveFileFormat format)
         {
-            _format = format;
             _offsets = GetSaveFileOffsets(format);
         }
 
@@ -59,7 +57,6 @@
 
         public SaveGameFile(List<byte> data, SaveFileFormat format, bool isCompressed = true)
         {
-            _format = format;
             _offsets = GetSaveFileOffsets(format);
             if (isCompressed)
             {
@@ -73,7 +70,6 @@
 
         public SaveGameFile(string fileName, SaveFileFormat format)
         {
-            _format = format;
             _offsets = GetSaveFileOffsets(format);
             _fileName = fileName;
             try
@@ -160,9 +156,21 @@
                     StartOffset = itemPos,
                     TroopID = data[itemPos],
                     NextTroopInLocation = data[itemPos + 1],
+                    PositionAroundLocation = data[itemPos + 2],
                     Job = data[itemPos + 3],
+                    Unknown1 = data[itemPos + 4],
+                    Unknown2 = data[itemPos + 5],
+                    Unknown3 = data[itemPos + 10],
+                    Unknown4 = data[itemPos + 11],
+                    Unknown5 = data[itemPos + 12],
+                    Unknown6 = data[itemPos + 13],
+                    Unknown7 = data[itemPos + 14],
+                    Unknown8 = data[itemPos + 15],
+                    Unknown9 = data[itemPos + 16],
+                    Unknown10 = data[itemPos + 17],
                     Dissatisfaction = data[itemPos + 18],
                     Speech = data[itemPos + 19],
+                    MissYouMsg = data[itemPos + 20],
                     Motivation = data[itemPos + 21],
                     SpiceSkill = data[itemPos + 22],
                     ArmySkill = data[itemPos + 23],
@@ -186,17 +194,37 @@
         internal void UpdateTroop(Troop troop)
         {
             int startOffset = troop.StartOffset;
+            _uncompressedData[startOffset + 2] = troop.PositionAroundLocation;
             _uncompressedData[startOffset + 3] = troop.Job;
+            _uncompressedData[startOffset + 4] = troop.Unknown1;
+            _uncompressedData[startOffset + 5] = troop.Unknown2;
+            _uncompressedData[startOffset + 10] = troop.Unknown3;
+            _uncompressedData[startOffset + 11] = troop.Unknown4;
+            _uncompressedData[startOffset + 12] = troop.Unknown5;
+            _uncompressedData[startOffset + 13] = troop.Unknown6;
+            _uncompressedData[startOffset + 14] = troop.Unknown7;
+            _uncompressedData[startOffset + 15] = troop.Unknown8;
+            _uncompressedData[startOffset + 15] = troop.Unknown9;
+            _uncompressedData[startOffset + 17] = troop.Unknown10;
             _uncompressedData[startOffset + 18] = troop.Dissatisfaction;
+            _uncompressedData[startOffset + 19] = troop.Speech;
+            _uncompressedData[startOffset + 20] = troop.MissYouMsg;
             _uncompressedData[startOffset + 21] = troop.Motivation;
             _uncompressedData[startOffset + 22] = troop.SpiceSkill;
             _uncompressedData[startOffset + 23] = troop.ArmySkill;
             _uncompressedData[startOffset + 24] = troop.EcologySkill;
             _uncompressedData[startOffset + 25] = (byte)troop.Equipment;
             _uncompressedData[startOffset + 26] = (byte)Math.Round(troop.Population / 10.0);
+            if(string.IsNullOrWhiteSpace(troop.Coordinates) == false && troop.Coordinates.Length == 4)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    _uncompressedData[startOffset + 6 + i] += byte.Parse(troop.Coordinates[i].ToString());
+                }
+            }
         }
 
-        internal void UpdateSietch(Location location)
+        internal void UpdateLocation(Location location)
         {
             int startOffset = location.StartOffset;
             _uncompressedData[startOffset + 3] = location.PosXmap;
