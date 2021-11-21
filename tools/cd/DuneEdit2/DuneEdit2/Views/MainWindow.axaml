@@ -270,6 +270,7 @@
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentTroop.HasChanged}" Command="{Binding UpdateTroop}" />
 					</Grid>
 				</TabItem>
+				<!-- From ODRADE: https://github.com/debrouxl/odrade -->
 				<!--<TabItem Header="Smugglers" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid>
 						<Grid.ColumnDefinitions>
@@ -284,7 +285,8 @@
 						
 					</StackPanel>	
 					</Grid>
-				</TabItem>
+				</TabItem>-->
+				<!-- From ODRADE: https://github.com/debrouxl/odrade -->
 				<TabItem Header="NPCs" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid>
 						<Grid.ColumnDefinitions>
