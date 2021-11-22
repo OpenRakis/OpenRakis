@@ -34,19 +34,19 @@
 						<StackPanel Orientation="Vertical" Grid.Row="0">
 							<Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Update" IsEnabled="{Binding HasChanged}" Command="{Binding UpdateGenerals}" />
 							<UniformGrid>
-								<StackPanel Orientation="Vertical" Margin="5">
+								<StackPanel Orientation="Vertical" Margin="5,0,0,0">
 									<Label>Spice:</Label>
 									<NumericUpDown Value="{Binding SpiceVal, Mode=TwoWay}"></NumericUpDown>
 								</StackPanel>
-								<StackPanel Orientation="Vertical" Margin="5">
+								<StackPanel Orientation="Vertical" Margin="5,0,0,0">
 									<Label>Contact Distance:</Label>
 									<NumericUpDown Value="{Binding ContactDistanceVal, Mode=TwoWay}"></NumericUpDown>
 								</StackPanel>
-								<StackPanel Orientation="Vertical" Margin="5">
+								<StackPanel Orientation="Vertical" Margin="5,0,0,0">
 									<Label>Charisma:</Label>
 									<NumericUpDown Value="{Binding CharismaVal, Mode=TwoWay}"></NumericUpDown>
 								</StackPanel>
-								<StackPanel Orientation="Vertical" Margin="5">
+								<StackPanel Orientation="Vertical" Margin="5,0,0,0">
 									<Label>Game Stage:</Label>
 									<NumericUpDown Value="{Binding GameStage, Mode=TwoWay}" />
 									<TextBlock Text="{Binding GameStageDesc}" />
@@ -87,7 +87,7 @@
 						</ComboBox>
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentLocation.HasChanged}" Command="{Binding UpdateSietch}" />
 						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*,*">
-							<StackPanel Margin="5" Orientation="Vertical" HorizontalAlignment="Left" Grid.Column="0">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" HorizontalAlignment="Left" Grid.Column="0">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentLocation.StartOffset, StringFormat={}0x{0:x}}" />
 								<Label>Coordinates</Label>
@@ -97,7 +97,7 @@
 								<Label>Sub Region</Label>
 								<TextBlock Text="{Binding CurrentLocation.SubRegion}" />
 							</StackPanel>
-							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="1">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1">
 								<Label>Position X (map)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.PosXmap}" />
 								<Label>Position Y (map)</Label>
@@ -119,7 +119,7 @@
 								<Label>Housed Troop ID</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.HousedTroopID}" />
 							</StackPanel>
-							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="2">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="2">
 								<Label>Harvesters</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Harvesters}" />
 								<Label>Ornis</Label>
@@ -135,7 +135,7 @@
 								<Label>Bulbs</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Bulbs}" />
 							</StackPanel>
-							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="3">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="3">
 								<Label>Unknown 1</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown1}" />
 								<Label>Unknown 2</Label>
@@ -151,7 +151,7 @@
 								<Label>Discoverable at Game Stage</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.GameStage}" />
 							</StackPanel>
-							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="4">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="4">
 								<Label>Status</Label>
 								<CheckBox Content="Vegetation has begun" IsChecked="{Binding CurrentLocation.HasVegetation}" />
 								<CheckBox Content="Under Attack" IsChecked="{Binding CurrentLocation.InBattle}" />
@@ -170,8 +170,8 @@
 				</TabItem>
 				<TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
-						<StackPanel Margin="5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-							<StackPanel Margin="5" Orientation="Vertical">
+						<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+							<StackPanel Orientation="Vertical">
 								<Label>Select by Troop ID:</Label>
 								<ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
 									<ComboBox.ItemTemplate>
@@ -181,7 +181,7 @@
 									</ComboBox.ItemTemplate>
 								</ComboBox>
 							</StackPanel>
-							<StackPanel Margin="5" Orientation="Vertical">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical">
 								<Label>Select by Location:</Label>
 								<ComboBox Items="{Binding LocationsWithTroops}" SelectedItem="{Binding CurrentLocationWithTroop, Mode=TwoWay}">
 									<ComboBox.ItemTemplate>
@@ -193,7 +193,7 @@
 							</StackPanel>
 						</StackPanel>
 						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*">
-							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="0">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentTroop.StartOffset, StringFormat={}0x{0:x}}}" />
 								<Label>Troop ID</Label>
@@ -203,7 +203,7 @@
 								<Label>Regional Origin</Label>
 								<TextBlock Text="{Binding CurrentTroop.Origin}" />
 							</StackPanel>
-							<StackPanel Margin="5" Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
 								<Label>Coordinates</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Coordinates}" />
 								<TextBlock Text="{Binding CurrentTroop.Coordinates, StringFormat={}0x{0:X}}}" />
@@ -230,7 +230,7 @@
 								<NumericUpDown Text="{Binding CurrentTroop.Speech}" />
 								<TextBlock Text="{Binding CurrentTroop.SpeechDesc}" />
 							</StackPanel>
-							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="2">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="2">
 								<Label>Unknown 1</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown1}" />
 								<Label>Unknown 2</Label>
@@ -254,7 +254,7 @@
 								<Label>'We've missed you' Message byte:</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.MissYouMsg}" />
 							</StackPanel>
-							<StackPanel Margin="5" Orientation="Vertical" Grid.Column="3">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="3">
 								<Label>Equipment</Label>
 								<CheckBox Content="Has Harvester" IsChecked="{Binding CurrentTroop.Harvesters}" />
 								<CheckBox Content="Has Orni" IsChecked="{Binding CurrentTroop.Ornithopters}" />
@@ -301,7 +301,7 @@
 						
 					</StackPanel>	
 					</Grid>
-				</TabItem>-->
+				</TabItem>
 				<TabItem Header="Map of Dune">
 					<DockPanel>
 						<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">

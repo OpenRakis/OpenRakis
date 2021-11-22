@@ -141,6 +141,16 @@
             return locations;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private List<NPC> PopulateNPCs(List<byte> data)
+        {
+            return new();
+        }
+
         private List<Troop> PopulateTroops(List<byte> data)
         {
             var troops = new List<Troop>();
@@ -186,6 +196,8 @@
             }
             return troops;
         }
+
+
 
         public List<Location> GetSietches() => new(_locations);
 
