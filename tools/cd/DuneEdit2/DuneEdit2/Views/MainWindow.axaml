@@ -87,7 +87,7 @@
 						</ComboBox>
 						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Update" IsEnabled="{Binding CurrentLocation.HasChanged}" Command="{Binding UpdateSietch}" />
 						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*,*">
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" HorizontalAlignment="Left" Grid.Column="0">
+							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentLocation.StartOffset, StringFormat={}0x{0:x}}" />
 								<Label>Coordinates</Label>
@@ -288,18 +288,38 @@
 				</TabItem>-->
 				<!-- From ODRADE: https://github.com/debrouxl/odrade -->
 				<TabItem Header="NPCs" IsEnabled="{Binding IsSaveGameLoaded}">
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-					<StackPanel Orientation="Vertical" Grid.Column="0">
-						<Label>Select NPC to edit:</Label>	
-						<ComboBox></ComboBox>
-					</StackPanel>
-					<StackPanel Orientation="Vertical" Grid.Column="1">
-						
-					</StackPanel>	
+					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
+						<Button Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Update" IsEnabled="{Binding HasChanged}" Command="{Binding UpdateNPC}" />
+						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+							<Label>Select NPC:</Label>
+							<ComboBox Items="{Binding NPCs}" SelectedItem="{Binding CurrentNPC, Mode=TwoWay}">
+								<ComboBox.ItemTemplate>
+									<DataTemplate DataType="{x:Type vm:NPCViewModel}">
+										<Label Content="{Binding Name}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
+							<Label>Start Offset</Label>
+							<TextBlock Text="{Binding CurrentNPC.StartOffset, StringFormat={}0x{0:x}}" />
+						</StackPanel>
+						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+							<Label>Sprite ID Byte</Label>
+							<NumericUpDown Text="{Binding CurrentNPC.SpriteId}" />
+							<Label>Unknown Byte 1</Label>
+							<NumericUpDown Text="{Binding CurrentNPC.UnknownByte1}" />
+							<Label>Room Location Byte</Label>
+							<NumericUpDown Text="{Binding CurrentNPC.RoomLocation}" />
+							<Label>Type of Place Byte (Comes from Sietch Appareance Field)</Label>
+							<NumericUpDown Text="{Binding CurrentNPC.TypeOfPlace}" />
+							<Label>Unknown Byte 2</Label>
+							<NumericUpDown Text="{Binding CurrentNPC.UnknownByte2}" />
+							<Label>Exact Place (Pointer) Byte</Label>
+							<NumericUpDown Text="{Binding CurrentNPC.ExactPlace}" />
+							<Label>For Dialogue Byte</Label>
+							<NumericUpDown Text="{Binding CurrentNPC.ForDialogue}" />
+							<Label>Unknown Byte 3</Label>
+							<NumericUpDown Text="{Binding CurrentNPC.UnknownByte3}" />
+						</StackPanel>
 					</Grid>
 				</TabItem>
 				<TabItem Header="Map of Dune">

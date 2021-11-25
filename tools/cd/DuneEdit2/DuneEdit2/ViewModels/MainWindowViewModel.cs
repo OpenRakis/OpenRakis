@@ -31,6 +31,7 @@
             UpdateSietch = ReactiveCommand.Create<Unit, Unit>(UpdateLocationMethod);
             UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
             UpdateGenerals = ReactiveCommand.Create<Unit, Unit>(UpdateGeneralsMethod);
+            UpdateNPC = ReactiveCommand.Create<Unit, Unit>(UpdateNPCMethod);
         }
 
         private Unit UpdateTroopMethod(Unit arg)
@@ -52,6 +53,7 @@
         }
 
         public ReactiveCommand<Unit, Unit>? UpdateGenerals { get; private set; }
+        public ReactiveCommand<Unit, Unit>? UpdateNPC { get; private set; }
 
         public ReactiveCommand<Unit, Unit>? ExitApp { get; private set; }
 
@@ -76,6 +78,14 @@
         {
             get => _currentSietch;
             set => this.RaiseAndSetIfChanged(ref _currentSietch, value);
+        }
+
+        private NPCViewModel? _currentNPC;
+
+        public NPCViewModel? CurrentNPC
+        {
+            get => _currentNPC;
+            set => this.RaiseAndSetIfChanged(ref _currentNPC, value);
         }
 
         private TroopViewModel? _currentTroop;
@@ -121,6 +131,14 @@
                 this._currentTroop = this.Troops.FirstOrDefault(x => x.TroopID == value?.HousedTroopID);
                 this.RaisePropertyChanged(nameof(CurrentTroop));
             }
+        }
+
+        private List<NPCViewModel> _NPCs = new();
+
+        public List<NPCViewModel> NPCs
+        {
+            get => _NPCs;
+            private set => this.RaiseAndSetIfChanged(ref _NPCs, value);
         }
 
         private List<TroopViewModel> _troops = new();
@@ -292,12 +310,24 @@
             ContactDistanceVal = _savegameFile.Generals.ContactDistance;
             GameStage = _savegameFile.Generals.GameStage;
             PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
-            PopulateSietches(_savegameFile.GetSietches());
+            PopulateLocations(_savegameFile.GetSietches());
+            PopulateNPCs(_savegameFile.GetNPCs());
         }
 
-        private void PopulateSietches(List<Models.Location> locations)
+        private void PopulateNPCs(List<NPC> npcs)
         {
-            var locationsVMs = (locations.Select(location => new LocationViewModel(location))).ToList();
+            var npcsVMs = npcs.Select(npc => new NPCViewModel(npc)).ToList();
+            NPCs = npcsVMs;
+            if (NPCs.Any())
+            {
+                NPCs = new List<NPCViewModel>(NPCs.OrderBy(x => x.Name));
+                CurrentNPC = NPCs.First();
+            }
+        }
+
+        private void PopulateLocations(List<Models.Location> locations)
+        {
+            var locationsVMs = locations.Select(location => new LocationViewModel(location)).ToList();
             Locations = locationsVMs;
             if (Locations.Any())
             {
@@ -394,6 +424,15 @@
             _savegameFile.UpdateSpice(SpiceVal);
             _savegameFile.UpdateContactDistance(ContactDistanceVal);
             _savegameFile.UpdateGameStage(GameStage);
+            return Unit.Default;
+        }
+
+        private Unit UpdateNPCMethod(Unit arg)
+        {
+            if (CurrentNPC != null)
+            {
+                _savegameFile.UpdateNPC(CurrentNPC.NPC);
+            }
             return Unit.Default;
         }
     }

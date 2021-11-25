@@ -22,10 +22,12 @@
         private List<Trap> _traps = new();
 
         private List<byte> _uncompressedData = new();
-        private ISaveGameOffsets _offsets;
+        private readonly ISaveGameOffsets _offsets;
         private readonly List<Location> _locations = new();
 
         private readonly List<Troop> _troops = new();
+
+        private readonly List<NPC> _npcs = new();
 
         public string Filename => _fileName;
 
@@ -91,6 +93,7 @@
             _generals = new Generals(_uncompressedData, _offsets);
             _locations = PopulateLocations(_uncompressedData);
             _troops = PopulateTroops(_uncompressedData);
+            _npcs = PopulateNPCs(_uncompressedData);
         }
 
         private List<Location> PopulateLocations(List<byte> data)
@@ -148,7 +151,25 @@
         /// <returns></returns>
         private List<NPC> PopulateNPCs(List<byte> data)
         {
-            return new();
+            var npcs = new List<NPC>();
+            for(int i = 0; i < 15; i++)
+            {
+                int itemPos = _offsets.NPCs + i * 8;
+                var npc = new NPC()
+                {
+                    StartOffset = itemPos,
+                    SpriteId = data[itemPos],
+                    UnknownByte1 = data[itemPos + 1],
+                    RoomLocation = data[itemPos + 2],
+                    TypeOfPlace = data[itemPos + 3],
+                    UnknownByte2 = data[itemPos + 4],
+                    ExactPlace = data[itemPos + 6],
+                    ForDialogue = data[itemPos + 7],
+                    UnknownByte3 = data[itemPos + 8],
+                };
+                npcs.Add(npc);
+            }
+            return npcs;
         }
 
         private List<Troop> PopulateTroops(List<byte> data)
@@ -202,6 +223,8 @@
         public List<Location> GetSietches() => new(_locations);
 
         public List<Troop> GetTroops() => new(_troops);
+
+        public List<NPC> GetNPCs() => new(_npcs);
 
         internal void UpdateTroop(Troop troop)
         {
@@ -406,6 +429,19 @@
                 }
                 return result;
             }
+        }
+
+        internal void UpdateNPC(NPC npc)
+        {
+            int startOffset = npc.StartOffset;
+            _uncompressedData[startOffset] = npc.SpriteId;
+            _uncompressedData[startOffset + 1] = npc.UnknownByte1;
+            _uncompressedData[startOffset + 2] = npc.RoomLocation;
+            _uncompressedData[startOffset + 3] = npc.TypeOfPlace;
+            _uncompressedData[startOffset + 4] = npc.UnknownByte2;
+            _uncompressedData[startOffset + 5] = npc.ExactPlace;
+            _uncompressedData[startOffset + 6] = npc.ForDialogue;
+            _uncompressedData[startOffset + 7] = npc.UnknownByte3;
         }
 
         internal void UpdateGameStage(byte gameStageValue)

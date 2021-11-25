@@ -1,8 +1,8 @@
 ﻿namespace DuneEdit2.Models
 {
-    internal record NPC
+    public record NPC
     {
-        public byte StartOffset { get; set; }
+        public int StartOffset { get; set; }
 
         /// <summary>
         /// 1st byte
@@ -10,9 +10,9 @@
         public byte SpriteId { get; set; }
 
         /// <summary>
-        /// 2nd byte
+        /// 2nd byte (Field B)
         /// </summary>
-        public byte UnknownByte { get; set; }
+        public byte UnknownByte1 { get; set; }
 
         /// <summary>
         /// 3rd byte
@@ -25,19 +25,19 @@
         public byte TypeOfPlace { get; set; }
 
         /// <summary>
-        /// 5th byte
+        /// 5th byte (Field E)
         /// </summary>
-        public byte ExactPlace { get; set; }
+        public byte UnknownByte2 { get; set; }
 
         /// <summary>
         /// 6th byte
         /// </summary>
-        public byte ForDialogue { get; set; }
+        public byte ExactPlace { get; set; }
 
         /// <summary>
         /// 7th byte
         /// </summary>
-        public byte UnknownByte2 { get; set; }
+        public byte ForDialogue { get; set; }
 
         /// <summary>
         /// 8th byte

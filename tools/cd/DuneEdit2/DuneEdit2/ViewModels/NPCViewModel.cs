@@ -1,15 +1,23 @@
 ﻿namespace DuneEdit2.ViewModels
 {
     using DuneEdit2.Models;
+    using DuneEdit2.Parsers;
 
     using ReactiveUI;
 
-    internal class NPCsViewModel : ViewModelBase
+    public class NPCViewModel : ViewModelBase
     {
-       
-        private NPC _npc;
-        public NPCsViewModel(NPC npc) => _npc = npc;
 
+        private NPC _npc;
+        public NPCViewModel(NPC npc)
+        {
+            _npc = npc;
+        }
+
+        public NPC NPC => _npc;
+
+        public string? Name => NPCNameFinder.GetNPCName(_npc.SpriteId);
+        public int StartOffset => _npc.StartOffset;
 
         private bool _hasChanged = false;
 
@@ -20,18 +28,6 @@
             {
                 _hasChanged = value;
                 this.RaisePropertyChanged(nameof(HasChanged));
-            }
-        }
-
-
-        public byte StartOffset
-        {
-            get => _npc.StartOffset;
-            set
-            {
-                _npc.StartOffset = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(StartOffset));
             }
         }
 
@@ -46,20 +42,21 @@
                 _npc.SpriteId = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(SpriteId));
+                this.RaisePropertyChanged(nameof(Name));
             }
         }
 
         /// <summary>
         /// 2nd byte
         /// </summary>
-        public byte UnknownByte
+        public byte UnknownByte1
         {
-            get => _npc.UnknownByte;
+            get => _npc.UnknownByte1;
             set
             {
-                _npc.UnknownByte = value;
+                _npc.UnknownByte1 = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(UnknownByte));
+                this.RaisePropertyChanged(nameof(UnknownByte1));
             }
         }
 
@@ -92,7 +89,21 @@
         }
 
         /// <summary>
-        /// 5th byte
+        /// 5th byte (Field E)
+        /// </summary>
+        public byte UnknownByte2
+        {
+            get => _npc.UnknownByte2;
+            set
+            {
+                _npc.UnknownByte2 = value;
+                HasChanged = true;
+                this.RaisePropertyChanged(nameof(UnknownByte2));
+            }
+        }
+
+        /// <summary>
+        /// 6th byte
         /// </summary>
         public byte ExactPlace
         {
@@ -106,7 +117,7 @@
         }
 
         /// <summary>
-        /// 6th byte
+        /// 7th byte
         /// </summary>
         public byte ForDialogue
         {
@@ -116,20 +127,6 @@
                 _npc.ForDialogue = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(ForDialogue));
-            }
-        }
-
-        /// <summary>
-        /// 7th byte
-        /// </summary>
-        public byte UnknownByte2
-        {
-            get => _npc.UnknownByte2;
-            set
-            {
-                _npc.UnknownByte2 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(UnknownByte2));
             }
         }
 
