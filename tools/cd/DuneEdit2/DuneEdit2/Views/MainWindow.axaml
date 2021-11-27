@@ -271,21 +271,41 @@
 					</Grid>
 				</TabItem>
 				<!-- From ODRADE: https://github.com/debrouxl/odrade -->
-				<!--<TabItem Header="Smugglers" IsEnabled="{Binding IsSaveGameLoaded}">
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-					<StackPanel Orientation="Vertical" Grid.Column="0">
-						<Label>Select Smuggler to edit:</Label>	
-						<ComboBox></ComboBox>
-					</StackPanel>
-					<StackPanel Orientation="Vertical" Grid.Column="1">
-						
-					</StackPanel>	
+				<TabItem Header="Smugglers" IsEnabled="{Binding IsSaveGameLoaded}">
+					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
+						<Button Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Update" IsEnabled="{Binding HasChanged}" Command="{Binding UpdateSmuggler}" />
+						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+							<Label>Select Smuggler:</Label>
+							<ComboBox Items="{Binding Smugglers}" SelectedItem="{Binding CurrentSmuggler, Mode=TwoWay}">
+								<ComboBox.ItemTemplate>
+									<DataTemplate DataType="{x:Type vm:SmugglerViewModel}">
+										<Label Content="{Binding Name}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
+							<Label>Start Offset</Label>
+							<TextBlock Text="{Binding CurrentSmuggler.StartOffset, StringFormat={}0x{0:x}}" />
+						</StackPanel>
+						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+							<Label>Sprite ID Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.SpriteId}" />
+							<Label>Unknown Byte 1</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.UnknownByte1}" />
+							<Label>Room Location Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.RoomLocation}" />
+							<Label>Type of Place Byte (Comes from Sietch Appareance Field)</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.TypeOfPlace}" />
+							<Label>Unknown Byte 2</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.UnknownByte2}" />
+							<Label>Exact Place (Pointer) Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.ExactPlace}" />
+							<Label>For Dialogue Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.ForDialogue}" />
+							<Label>Unknown Byte 3</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.UnknownByte3}" />
+						</StackPanel>
 					</Grid>
-				</TabItem>-->
+				</TabItem>
 				<!-- From ODRADE: https://github.com/debrouxl/odrade -->
 				<TabItem Header="NPCs" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
