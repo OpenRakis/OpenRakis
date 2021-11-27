@@ -5,7 +5,7 @@
     /// </summary>
     internal static class NPCNameFinder
     {
-        private const string UnknownValue = "Unknown/Unused NPC Name byte";
+        private const string UnknownValue = "Unknown/Unused NPC Sprite ID";
 
         public static string GetNPCName(int id)
         {
