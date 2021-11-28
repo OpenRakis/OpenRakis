@@ -77,7 +77,7 @@ namespace DuneEdit2.Models
 
         public byte Region { get; set; }
 
-        public string RegionName => $"{Regions.Region(Region)} - {Regions.Subregion(SubRegion)}";
+        public string RegionName => $"{RegionFinder.Region(Region)} - {RegionFinder.Subregion(SubRegion)}";
 
         public bool SeeInventory
         {
@@ -113,8 +113,8 @@ namespace DuneEdit2.Models
         }
 
         public byte SubRegion { get; set; }
-        public string RegionDesc => Regions.Region(Region);
-        public string SubRegionDesc => Regions.Subregion(SubRegion);
+        public string RegionDesc => RegionFinder.Region(Region);
+        public string SubRegionDesc => RegionFinder.Subregion(SubRegion);
         public byte Water { get; set; }
 
         public byte Spice { get; set; }

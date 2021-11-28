@@ -1,14 +1,11 @@
 namespace DuneEdit2.Parsers
 {
-    public class Regions
+    public static class RegionFinder
     {
-        public Regions()
-        {
-        }
 
         public static string Region(byte id)
         {
-            string result = string.Empty;
+            string result = "? Region";
             switch (id)
             {
                 case 1:
@@ -64,7 +61,7 @@ namespace DuneEdit2.Parsers
 
         public static string Subregion(byte id)
         {
-            string result = string.Empty;
+            string result = "? SubRegion";
             switch (id)
             {
                 case 1:

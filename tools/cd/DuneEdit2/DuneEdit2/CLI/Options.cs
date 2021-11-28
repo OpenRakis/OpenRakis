@@ -1,4 +1,4 @@
-﻿namespace DuneEdit2
+﻿namespace DuneEdit2.CLI
 {
     using CommandLine;
 

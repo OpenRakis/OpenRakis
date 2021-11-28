@@ -5,9 +5,11 @@
 
     using ReactiveUI;
 
-    internal class SmugglerViewModel : ViewModelBase
+    public class SmugglerViewModel : ViewModelBase
     {
         private Smuggler _smuggler;
+
+        public Smuggler Smuggler => _smuggler;
 
         private bool _hasChanged = false;
 
@@ -37,8 +39,11 @@
                 _smuggler.Region = value;
                 HasChanged = true;
                 this.RaisePropertyChanged(nameof(Region));
+                this.RaisePropertyChanged(nameof(RegionName));
             }
         }
+
+        public string RegionName => $"{RegionFinder.Region(Region)} - {RegionFinder.Subregion(0x0A)}";
 
         /// <summary>
         /// 2nd byte

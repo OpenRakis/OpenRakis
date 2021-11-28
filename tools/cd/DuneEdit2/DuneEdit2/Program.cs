@@ -3,6 +3,9 @@
     using Avalonia;
     using Avalonia.ReactiveUI;
     using CommandLine;
+
+    using DuneEdit2.CLI;
+
     using System;
     using System.Linq;
 

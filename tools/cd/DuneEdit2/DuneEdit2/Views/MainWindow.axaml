@@ -27,54 +27,58 @@
 					<MenuItem Header="Exit" Command="{Binding ExitApp}" HotKey="Alt+F4"></MenuItem>
 				</MenuItem>
 			</Menu>
-
 			<TabControl>
 				<TabItem Header="General" IsEnabled="{Binding IsSaveGameLoaded}">
-					<Grid RowDefinitions="*,Auto,Auto">
-						<StackPanel Orientation="Vertical" Grid.Row="0">
-							<Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Update" IsEnabled="{Binding HasChanged}" Command="{Binding UpdateGenerals}" />
-							<UniformGrid>
-								<StackPanel Orientation="Vertical" Margin="5,0,0,0">
-									<Label>Spice:</Label>
-									<NumericUpDown Value="{Binding SpiceVal, Mode=TwoWay}"></NumericUpDown>
-								</StackPanel>
-								<StackPanel Orientation="Vertical" Margin="5,0,0,0">
-									<Label>Contact Distance:</Label>
-									<NumericUpDown Value="{Binding ContactDistanceVal, Mode=TwoWay}"></NumericUpDown>
-								</StackPanel>
-								<StackPanel Orientation="Vertical" Margin="5,0,0,0">
-									<Label>Charisma:</Label>
-									<NumericUpDown Value="{Binding CharismaVal, Mode=TwoWay}"></NumericUpDown>
-								</StackPanel>
-								<StackPanel Orientation="Vertical" Margin="5,0,0,0">
-									<Label>Game Stage:</Label>
-									<NumericUpDown Value="{Binding GameStage, Mode=TwoWay}" />
-									<TextBlock Text="{Binding GameStageDesc}" />
-								</StackPanel>
-							</UniformGrid>
-						</StackPanel>
+					<DockPanel>
+						<Grid RowDefinitions="*,Auto,Auto" DockPanel.Dock="Top">
+							<StackPanel Orientation="Vertical" Grid.Row="0">
+								<Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Update" IsEnabled="{Binding HasChanged}" Command="{Binding UpdateGenerals}" />
+								<UniformGrid>
+									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+										<Label>Spice:</Label>
+										<NumericUpDown Value="{Binding SpiceVal, Mode=TwoWay}"></NumericUpDown>
+									</StackPanel>
+									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+										<Label>Contact Distance:</Label>
+										<NumericUpDown Value="{Binding ContactDistanceVal, Mode=TwoWay}"></NumericUpDown>
+									</StackPanel>
+									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+										<Label>Charisma:</Label>
+										<NumericUpDown Value="{Binding CharismaVal, Mode=TwoWay}"></NumericUpDown>
+									</StackPanel>
+									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+										<Label>Game Stage:</Label>
+										<NumericUpDown Value="{Binding GameStage, Mode=TwoWay}" />
+										<TextBlock Text="{Binding GameStageDesc}" />
+									</StackPanel>
+								</UniformGrid>
+							</StackPanel>
 
-						<StackPanel Grid.Row="1">
-							<TextBlock>Tips to use this savegame editor:</TextBlock>
-							<TextBlock>* Do the Stillsuit Mission first before editing your savegame.</TextBlock>
-							<TextBlock>* Some inputs were limited to avoid overflows and games crashs.</TextBlock>
-							<TextBlock>* Do not use the maximum Charisma value at the beginning of the game.</TextBlock>
-							<TextBlock>* Do not set the maximum Spice value if you will be doing harvesting.</TextBlock>
-							<TextBlock>* Saved games are backed up. Check for the files with a ".bak" extension.</TextBlock>
-							<TextBlock>* The savegame files that you should use are DUNEXXS1.SAV and DUNEXXS2.SAV where XX is the game version (21, 23, 24, 37)</TextBlock>
-							<TextBlock>* Enjoy...</TextBlock>
+							<StackPanel Grid.Row="1">
+								<TextBlock>Tips to use this savegame editor:</TextBlock>
+								<TextBlock>* Do the Stillsuit Mission first before editing your savegame.</TextBlock>
+								<TextBlock>* Some inputs were limited to avoid overflows and games crashs.</TextBlock>
+								<TextBlock>* Do not use the maximum Charisma value at the beginning of the game.</TextBlock>
+								<TextBlock>* Do not set the maximum Spice value if you will be doing harvesting.</TextBlock>
+								<TextBlock>* Saved games are backed up. Check for the files with a ".bak" extension.</TextBlock>
+								<TextBlock>* The savegame files that you should use are DUNEXXS1.SAV and DUNEXXS2.SAV where XX is the game version (21, 23, 24, 37)</TextBlock>
+								<TextBlock>* Enjoy...</TextBlock>
+							</StackPanel>
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2">
+								<TextBlock>Made from:</TextBlock>
+								<TextBlock>- The original DuneEdit by Stephan Fourie</TextBlock>
+								<TextBlock>- https://github.com/debrouxl/odrade </TextBlock>
+								<TextBlock>- DUNE: A Harder Path notes </TextBlock>
+								<TextBlock>- https://sites.google.com/site/duneeditor/ </TextBlock>
+								<TextBlock>- DUNE: Sietch Editor v1.0 alpha</TextBlock>
+								<TextBlock>- Threads on https://forum.dune2k.com </TextBlock>
+								<TextBlock>- and with the help of the DOSBox Debugger</TextBlock>
+							</StackPanel>
+						</Grid>
+						<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+							
 						</StackPanel>
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2">
-							<TextBlock>Made from:</TextBlock>
-							<TextBlock>- The original DuneEdit by Stephan Fourie</TextBlock>
-							<TextBlock>- https://github.com/debrouxl/odrade </TextBlock>
-							<TextBlock>- DUNE: A Harder Path notes </TextBlock>
-							<TextBlock>- https://sites.google.com/site/duneeditor/ </TextBlock>
-							<TextBlock>- DUNE: Sietch Editor v1.0 alpha</TextBlock>
-							<TextBlock>- Threads on https://forum.dune2k.com </TextBlock>
-							<TextBlock>- and with the help of the DOSBox Debugger</TextBlock>
-						</StackPanel>
-					</Grid>
+					</DockPanel>
 				</TabItem>
 				<TabItem Header="Locations" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
@@ -279,7 +283,7 @@
 							<ComboBox Items="{Binding Smugglers}" SelectedItem="{Binding CurrentSmuggler, Mode=TwoWay}">
 								<ComboBox.ItemTemplate>
 									<DataTemplate DataType="{x:Type vm:SmugglerViewModel}">
-										<Label Content="{Binding Name}" />
+										<Label Content="{Binding RegionName}" />
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
@@ -287,22 +291,32 @@
 							<TextBlock Text="{Binding CurrentSmuggler.StartOffset, StringFormat={}0x{0:x}}" />
 						</StackPanel>
 						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1" Grid.Row="1">
-							<Label>Sprite ID Byte</Label>
-							<NumericUpDown Text="{Binding CurrentSmuggler.SpriteId}" />
+							<Label>Region ID Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.Region}" />
+							<Label>Willingess to haggle Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.WillingnessToHaggle}" />
 							<Label>Unknown Byte 1</Label>
 							<NumericUpDown Text="{Binding CurrentSmuggler.UnknownByte1}" />
-							<Label>Room Location Byte</Label>
-							<NumericUpDown Text="{Binding CurrentSmuggler.RoomLocation}" />
-							<Label>Type of Place Byte (Comes from Sietch Appareance Field)</Label>
-							<NumericUpDown Text="{Binding CurrentSmuggler.TypeOfPlace}" />
 							<Label>Unknown Byte 2</Label>
 							<NumericUpDown Text="{Binding CurrentSmuggler.UnknownByte2}" />
-							<Label>Exact Place (Pointer) Byte</Label>
-							<NumericUpDown Text="{Binding CurrentSmuggler.ExactPlace}" />
-							<Label>For Dialogue Byte</Label>
-							<NumericUpDown Text="{Binding CurrentSmuggler.ForDialogue}" />
-							<Label>Unknown Byte 3</Label>
-							<NumericUpDown Text="{Binding CurrentSmuggler.UnknownByte3}" />
+							<Label>Harvesters Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.Harvesters}" />
+							<Label>Krys Knives Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.KrysKnives}" />
+							<Label>Laser Guns Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.LaserGuns}" />
+							<Label>Weirding Modules Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.WeirdingModules}" />
+							<Label>Harvesters Price Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.HarvestersPrice}" />
+							<Label>Ornithopters Price Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.OrnithoptersPrice}" />
+							<Label>Krys Knives Price Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.KrysKnivesPrice}" />
+							<Label>Laser Guns Price Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.LaserGunsPrice}" />
+							<Label>Weirding Modules Price Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.WeirdingModulesPrice}" />
 						</StackPanel>
 					</Grid>
 				</TabItem>

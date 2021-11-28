@@ -1,4 +1,4 @@
-﻿namespace DuneEdit2.Parsers
+﻿namespace DuneEdit2
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +6,7 @@
 
     using DuneEdit2.Enums;
     using DuneEdit2.Models;
+    using DuneEdit2.Parsers;
 
     public class SaveGameFile
     {
@@ -28,6 +29,8 @@
         private readonly List<Troop> _troops = new();
 
         private readonly List<NPC> _npcs = new();
+
+        private readonly List<Smuggler> _smugglers = new();
 
         public string Filename => _fileName;
 
@@ -94,6 +97,7 @@
             _locations = PopulateLocations(_uncompressedData);
             _troops = PopulateTroops(_uncompressedData);
             _npcs = PopulateNPCs(_uncompressedData);
+            _smugglers = PopulateSmugglers(_uncompressedData);
         }
 
         private List<Location> PopulateLocations(List<byte> data)
@@ -144,11 +148,35 @@
             return locations;
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        private List<Smuggler> PopulateSmugglers(List<byte> data)
+        {
+            var smugglers = new List<Smuggler>();
+            for (int i = 0; i < 5; i++)
+            {
+                int itemPos = _offsets.Smugglers + i * 8;
+                var smuggler = new Smuggler()
+                {
+                    StartOffset = itemPos,
+                    Region = data[itemPos],
+                    WillingnessToHaggle = data[itemPos + 1],
+                    UnknownByte1 = data[itemPos + 2],
+                    UnknownByte2 = data[itemPos + 3],
+                    Harvesters = data[itemPos + 4],
+                    Ornithopters = data[itemPos + 5],
+                    KrysKnives = data[itemPos + 6],
+                    LaserGuns = data[itemPos + 7],
+                    WeirdingModules = data[itemPos + 8],
+                    HarvestersPrice = data[itemPos + 9],
+                    OrnithoptersPrice = data[itemPos + 10],
+                    KrysKnivesPrice = data[itemPos + 11],
+                    LaserGunsPrice = data[itemPos + 12],
+                    WeirdingModulesPrice = data[itemPos + 13]
+                };
+                smugglers.Add(smuggler);
+            }
+            return smugglers;
+        }
+
         private List<NPC> PopulateNPCs(List<byte> data)
         {
             var npcs = new List<NPC>();
@@ -288,6 +316,8 @@
             _uncompressedData[startOffset + 26] = location.Bulbs;
             _uncompressedData[startOffset + 27] = location.Water;
         }
+
+        internal List<Smuggler> GetSmugglers() => new(_smugglers);
 
         public Generals Generals => _generals;
 
@@ -429,6 +459,25 @@
                 }
                 return result;
             }
+        }
+
+        internal void UpdateSmuggler(Smuggler smuggler)
+        {
+            int startOffset = smuggler.StartOffset;
+            _uncompressedData[startOffset] = smuggler.Region;
+            _uncompressedData[startOffset + 1] = smuggler.WillingnessToHaggle;
+            _uncompressedData[startOffset + 2] = smuggler.UnknownByte1;
+            _uncompressedData[startOffset + 3] = smuggler.UnknownByte2;
+            _uncompressedData[startOffset + 4] = smuggler.Harvesters;
+            _uncompressedData[startOffset + 5] = smuggler.Ornithopters;
+            _uncompressedData[startOffset + 6] = smuggler.KrysKnives;
+            _uncompressedData[startOffset + 7] = smuggler.LaserGuns;
+            _uncompressedData[startOffset + 8] = smuggler.WeirdingModules;
+            _uncompressedData[startOffset + 9] = smuggler.HarvestersPrice;
+            _uncompressedData[startOffset + 10] = smuggler.OrnithoptersPrice;
+            _uncompressedData[startOffset + 11] = smuggler.KrysKnivesPrice;
+            _uncompressedData[startOffset + 12] = smuggler.LaserGunsPrice;
+            _uncompressedData[startOffset + 13] = smuggler.WeirdingModulesPrice;
         }
 
         internal void UpdateNPC(NPC npc)

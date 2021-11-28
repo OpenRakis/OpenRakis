@@ -32,6 +32,7 @@
             UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
             UpdateGenerals = ReactiveCommand.Create<Unit, Unit>(UpdateGeneralsMethod);
             UpdateNPC = ReactiveCommand.Create<Unit, Unit>(UpdateNPCMethod);
+            UpdateSmuggler = ReactiveCommand.Create<Unit, Unit>(UpdateSmugglerMethod);
         }
 
         private Unit UpdateTroopMethod(Unit arg)
@@ -54,6 +55,7 @@
 
         public ReactiveCommand<Unit, Unit>? UpdateGenerals { get; private set; }
         public ReactiveCommand<Unit, Unit>? UpdateNPC { get; private set; }
+        public ReactiveCommand<Unit, Unit>? UpdateSmuggler { get; private set; }
 
         public ReactiveCommand<Unit, Unit>? ExitApp { get; private set; }
 
@@ -86,6 +88,13 @@
         {
             get => _currentNPC;
             set => this.RaiseAndSetIfChanged(ref _currentNPC, value);
+        }
+
+        private SmugglerViewModel? _currentSmuggler;
+        public SmugglerViewModel? CurrentSmuggler
+        {
+            get => _currentSmuggler;
+            set => this.RaiseAndSetIfChanged(ref _currentSmuggler, value);
         }
 
         private TroopViewModel? _currentTroop;
@@ -139,6 +148,14 @@
         {
             get => _NPCs;
             private set => this.RaiseAndSetIfChanged(ref _NPCs, value);
+        }
+
+        private List<SmugglerViewModel> _smugglers = new();
+
+        public List<SmugglerViewModel> Smugglers
+        {
+            get => _smugglers;
+            private set => this.RaiseAndSetIfChanged(ref _smugglers, value);
         }
 
         private List<TroopViewModel> _troops = new();
@@ -312,6 +329,7 @@
             PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
             PopulateLocations(_savegameFile.GetSietches());
             PopulateNPCs(_savegameFile.GetNPCs());
+            PopulateSmugglers(_savegameFile.GetSmugglers());
         }
 
         private void PopulateNPCs(List<NPC> npcs)
@@ -322,6 +340,17 @@
             {
                 NPCs = new List<NPCViewModel>(NPCs.OrderBy(x => x.Name));
                 CurrentNPC = NPCs.First();
+            }
+        }
+
+        private void PopulateSmugglers(List<Smuggler> smugglers)
+        {
+            var smugglersVMs = smugglers.Select(smuggler => new SmugglerViewModel(smuggler)).ToList();
+            Smugglers = smugglersVMs;
+            if (Smugglers.Any())
+            {
+                Smugglers = new List<SmugglerViewModel>(Smugglers.OrderBy(x => x.RegionName));
+                CurrentSmuggler = Smugglers.First();
             }
         }
 
@@ -432,6 +461,15 @@
             if (CurrentNPC != null)
             {
                 _savegameFile.UpdateNPC(CurrentNPC.NPC);
+            }
+            return Unit.Default;
+        }
+
+        private Unit UpdateSmugglerMethod(Unit arg)
+        {
+            if (CurrentSmuggler != null)
+            {
+                _savegameFile.UpdateSmuggler(CurrentSmuggler.Smuggler);
             }
             return Unit.Default;
         }

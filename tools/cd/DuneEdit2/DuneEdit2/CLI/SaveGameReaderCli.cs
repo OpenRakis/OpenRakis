@@ -4,7 +4,7 @@ using System.Text;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("DuneEdit2.UnitTests")]
 
-namespace DuneEdit2
+namespace DuneEdit2.CLI
 {
     using System;
     using System.Collections.Generic;

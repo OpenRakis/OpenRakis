@@ -2,6 +2,7 @@
 {
     using System.IO;
 
+    using DuneEdit2.CLI;
     using DuneEdit2.Parsers;
 
     using FluentAssertions;
