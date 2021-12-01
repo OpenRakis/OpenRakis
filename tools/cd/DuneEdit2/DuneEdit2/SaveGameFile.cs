@@ -10,6 +10,13 @@
 
     public class SaveGameFile
     {
+        // Padding values are from ODRADE
+        private const int SmugglerSize = 14;
+        private const int TroopSize = 28;
+        private const int SmugglerPadding = 3;
+        private const int NPCSize = 8;
+        private const int NPCPadding = 8;
+
         private readonly string _fileName = "";
 
         private readonly List<byte> _originalSaveGameData = new();
@@ -105,7 +112,7 @@
             var locations = new List<Location>();
             for(int i = 0; i < 70; i++)
             {
-                int itemPos = _offsets.Locations + i * 28;
+                int itemPos = _offsets.Locations + i * TroopSize;
                 var location = new Location()
                 {
                     StartOffset = itemPos,
@@ -153,7 +160,7 @@
             var smugglers = new List<Smuggler>();
             for (int i = 0; i < 5; i++)
             {
-                int itemPos = _offsets.Smugglers + i * (14 + 3);
+                int itemPos = _offsets.Smugglers + i * (SmugglerSize + SmugglerPadding);
                 var smuggler = new Smuggler()
                 {
                     StartOffset = itemPos,
@@ -182,7 +189,7 @@
             var npcs = new List<NPC>();
             for(int i = 0; i < 15; i++)
             {
-                int itemPos = _offsets.NPCs + i * (8+8);
+                int itemPos = _offsets.NPCs + i * (NPCSize + NPCPadding);
                 var npc = new NPC()
                 {
                     StartOffset = itemPos,
