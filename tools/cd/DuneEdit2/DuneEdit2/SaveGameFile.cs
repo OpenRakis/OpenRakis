@@ -153,7 +153,7 @@
             var smugglers = new List<Smuggler>();
             for (int i = 0; i < 5; i++)
             {
-                int itemPos = _offsets.Smugglers + i * 8;
+                int itemPos = _offsets.Smugglers + i * (14 + 3);
                 var smuggler = new Smuggler()
                 {
                     StartOffset = itemPos,
@@ -182,7 +182,7 @@
             var npcs = new List<NPC>();
             for(int i = 0; i < 15; i++)
             {
-                int itemPos = _offsets.NPCs + i * 8;
+                int itemPos = _offsets.NPCs + i * (8+8);
                 var npc = new NPC()
                 {
                     StartOffset = itemPos,
