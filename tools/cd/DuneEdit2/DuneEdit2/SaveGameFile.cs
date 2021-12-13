@@ -158,7 +158,7 @@
         private List<Smuggler> PopulateSmugglers(List<byte> data)
         {
             var smugglers = new List<Smuggler>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 6; i++)
             {
                 int itemPos = _offsets.Smugglers + i * (SmugglerSize + SmugglerPadding);
                 var smuggler = new Smuggler()
@@ -187,7 +187,7 @@
         private List<NPC> PopulateNPCs(List<byte> data)
         {
             var npcs = new List<NPC>();
-            for(int i = 0; i < 15; i++)
+            for(int i = 0; i < 16; i++)
             {
                 int itemPos = _offsets.NPCs + i * (NPCSize + NPCPadding);
                 var npc = new NPC()
