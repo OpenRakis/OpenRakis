@@ -15,6 +15,12 @@
 	<Design.DataContext>
 		<vm:MainWindowViewModel />
 	</Design.DataContext>
+	<Window.Styles>
+		<!--https://github.com/AvaloniaUI/Avalonia/issues/6826-->
+		<Style Selector="ScrollViewer">
+			<Setter Property="AllowAutoHide" Value="False"/>
+		</Style>
+	</Window.Styles>
 	<ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
 		<StackPanel>
 			<Menu>
