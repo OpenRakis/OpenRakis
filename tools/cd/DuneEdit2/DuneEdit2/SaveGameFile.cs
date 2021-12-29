@@ -198,9 +198,9 @@
                     RoomLocation = data[itemPos + 2],
                     TypeOfPlace = data[itemPos + 3],
                     UnknownByte2 = data[itemPos + 4],
-                    ExactPlace = data[itemPos + 6],
-                    ForDialogue = data[itemPos + 7],
-                    UnknownByte3 = data[itemPos + 8],
+                    ExactPlace = data[itemPos + 5],
+                    ForDialogue = data[itemPos + 6],
+                    UnknownByte3 = data[itemPos + 7],
                 };
                 npcs.Add(npc);
             }
