@@ -125,14 +125,14 @@
             }
         }
 
-        public byte Unknown9
+        public byte EspionageDiscoveryStatus
         {
-            get => _troop.Unknown9;
+            get => _troop.EspionageDiscoveryStatus;
             set
             {
-                _troop.Unknown9 = value;
+                _troop.EspionageDiscoveryStatus = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown9));
+                this.RaisePropertyChanged(nameof(EspionageDiscoveryStatus));
             }
         }
 

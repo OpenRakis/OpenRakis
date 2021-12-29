@@ -100,69 +100,69 @@
 							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentLocation.StartOffset, StringFormat={}0x{0:x}}" />
-								<Label>Coordinates</Label>
+								<Label>Coordinates (3nd field)</Label>
 								<TextBlock Text="{Binding CurrentLocation.Coordinates}" />
-								<Label>Region</Label>
+								<Label>Region (1st field)</Label>
 								<TextBlock Text="{Binding CurrentLocation.Region}" />
-								<Label>Sub Region</Label>
+								<Label>Sub Region (2nd field)</Label>
 								<TextBlock Text="{Binding CurrentLocation.SubRegion}" />
 							</StackPanel>
 							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1">
-								<Label>Position X (map)</Label>
+								<Label>Position X (map) (4th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.PosXmap}" />
-								<Label>Position Y (map)</Label>
+								<Label>Position Y (map) (5th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.PosYmap}" />
-								<Label>Position X</Label>
+								<Label>Position X (7th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.PosX}" />
-								<Label>Position Y</Label>
+								<Label>Position Y (8th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.PosY}" />
-								<Label>Amount of Spice</Label>
+								<Label>Amount of Spice (17th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Spice}" />
-								<Label>Amount of Water</Label>
+								<Label>Amount of Water (28th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Water}" />
-								<Label>Spice Density</Label>
+								<Label>Spice Density (19th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.SpiceDensity}" />
-								<Label>Appearance</Label>
+								<Label>Appearance (9th field))</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Appearance}" />
-								<Label>Spicefield ID</Label>
+								<Label>Spicefield ID (17th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.SpicefieldID}" />
-								<Label>Housed Troop ID</Label>
+								<Label>Housed Troop ID (10th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.HousedTroopID}" />
 							</StackPanel>
 							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="2">
-								<Label>Harvesters</Label>
+								<Label>Harvesters (21th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Harvesters}" />
-								<Label>Ornis</Label>
+								<Label>Ornis (22th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Ornis}" />
-								<Label>Krys/Knifes</Label>
+								<Label>Krys knives (23th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Krys}" />
-								<Label>Laserguns</Label>
+								<Label>Laserguns (24th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.LaserGuns}" />
-								<Label>Weirdng Modules</Label>
+								<Label>Weirding Modules (25th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.WeirdingMod}" />
-								<Label>Atomics</Label>
+								<Label>Atomics (26th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Atomics}" />
-								<Label>Bulbs</Label>
+								<Label>Bulbs (27th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Bulbs}" />
 							</StackPanel>
 							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="3">
-								<Label>Unknown 1</Label>
+								<Label>Unknown 1 (6th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown1}" />
-								<Label>Unknown 2</Label>
+								<Label>Unknown 2 (20th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown2}" />
-								<Label>Unknown 3</Label>
+								<Label>Unknown 3 (13th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown3}" />
-								<Label>Unknown 4</Label>
+								<Label>Unknown 4 (14th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown4}" />
-								<Label>Unknown 5</Label>
+								<Label>Unknown 5 (15th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown5}" />
-								<Label>Unknown 6</Label>
+								<Label>Unknown 6 (16th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown6}" />
-								<Label>Discoverable at Game Stage</Label>
+								<Label>Discoverable at Game Stage (12th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.GameStage}" />
 							</StackPanel>
 							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="4">
-								<Label>Status</Label>
+								<Label>Status (11th field)</Label>
 								<CheckBox Content="Vegetation has begun" IsChecked="{Binding CurrentLocation.HasVegetation}" />
 								<CheckBox Content="Under Attack" IsChecked="{Binding CurrentLocation.InBattle}" />
 								<CheckBox Content="Infiltrated" IsChecked="{Binding CurrentLocation.Infiltrated}" />
@@ -206,71 +206,71 @@
 							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentTroop.StartOffset, StringFormat={}0x{0:x}}}" />
-								<Label>Troop ID</Label>
+								<Label>Troop ID (1st field)</Label>
 								<TextBlock Text="{Binding CurrentTroop.TroopID}" />
-								<Label>Next Troop ID</Label>
+								<Label>Next Troop ID (2nd field)</Label>
 								<TextBlock Text="{Binding CurrentTroop.NextTroopInLocation}" />
-								<Label>Regional Origin</Label>
+								<Label>Regional Origin (from Status field)</Label>
 								<TextBlock Text="{Binding CurrentTroop.Origin}" />
 							</StackPanel>
 							<StackPanel Margin="5,0,0,0" Orientation="Vertical" HorizontalAlignment="Center" Grid.Column="1">
-								<Label>Coordinates</Label>
+								<Label>Coordinates (7th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Coordinates}" />
 								<TextBlock Text="{Binding CurrentTroop.Coordinates, StringFormat={}0x{0:X}}}" />
-								<Label>Position Around Location</Label>
+								<Label>Position Around Location (3th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.PositionAroundLocation}" />
 								<TextBlock Text="{Binding CurrentTroop.PositionAroundLocationDescription}" />
-								<Label>Spice Skill</Label>
+								<Label>Spice Skill (23th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.SpiceSkill}" />
-								<Label>Army Skill</Label>
+								<Label>Army Skill (24th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.ArmySkill}" />
-								<Label>Ecology Skill</Label>
+								<Label>Ecology Skill (25th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.EcologySkill}" />
-								<Label>Population</Label>
+								<Label>Population (27th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Population}" />
-								<Label>Motivation</Label>
+								<Label>Motivation (22th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Motivation}" />
-								<Label>Dissatisfaction</Label>
+								<Label>Dissatisfaction (19th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Dissatisfaction}" />
 								<TextBlock Text="{Binding CurrentTroop.DissatisfactionDesc}" />
-								<Label>Job</Label>
+								<Label>Job (4th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Job}" />
 								<TextBlock Text="{Binding CurrentTroop.JobDesc}" />
-								<Label>Speech</Label>
+								<Label>Speech (20th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Speech}" />
 								<TextBlock Text="{Binding CurrentTroop.SpeechDesc}" />
 							</StackPanel>
 							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="2">
-								<Label>Unknown 1</Label>
+								<Label>Unknown 1 (5th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown1}" />
-								<Label>Unknown 2</Label>
+								<Label>Unknown 2 (6th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown2}" />
-								<Label>Unknown 3</Label>
+								<Label>Unknown 3 (11th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown3}" />
-								<Label>Unknown 4</Label>
+								<Label>Unknown 4 (12th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown4}" />
-								<Label>Unknown 5</Label>
+								<Label>Unknown 5 (13th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown5}" />
-								<Label>Unknown 6</Label>
+								<Label>Unknown 6 (14th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown6}" />
-								<Label>Unknown 7</Label>
+								<Label>Unknown 7 (15th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown7}" />
-								<Label>Unknown 8</Label>
+								<Label>Unknown 8 (16th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown8}" />
-								<Label>Unknown 9</Label>
-								<NumericUpDown Text="{Binding CurrentTroop.Unknown9}" />
-								<Label>Unknown 10</Label>
+								<Label>Espionnage Discovery Status Byte (17th field)</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.EspionageDiscoveryStatus}" />
+								<Label>Unknown 10 (18th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown10}" />
-								<Label>'We've missed you' Message byte:</Label>
+								<Label>'We've missed you' Message byte (21th field):</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.MissYouMsg}" />
 							</StackPanel>
 							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="3">
-								<Label>Equipment</Label>
+								<Label>Equipment (26th field)</Label>
 								<CheckBox Content="Has Harvester" IsChecked="{Binding CurrentTroop.Harvesters}" />
 								<CheckBox Content="Has Orni" IsChecked="{Binding CurrentTroop.Ornithopters}" />
 								<CheckBox Content="Has Krys knives" IsChecked="{Binding CurrentTroop.KrysKnives}" />
 								<CheckBox Content="Has Laserguns" IsChecked="{Binding CurrentTroop.LaserGuns}" />
-								<CheckBox Content="Has weirding modules" IsChecked="{Binding CurrentTroop.Weirdings}" />
+								<CheckBox Content="Has Weirding modules" IsChecked="{Binding CurrentTroop.Weirdings}" />
 								<CheckBox Content="Has Atomics" IsChecked="{Binding CurrentTroop.Atomics}" />
 								<CheckBox Content="Has Bulbs" IsChecked="{Binding CurrentTroop.Bulbs}" />
 								<Label>Direct Value Edit</Label>
@@ -299,7 +299,7 @@
 						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1" Grid.Row="1">
 							<Label>Region ID Byte</Label>
 							<NumericUpDown Text="{Binding CurrentSmuggler.Region}" />
-							<Label>Willingess to haggle Byte</Label>
+							<Label>Willingness to haggle Byte</Label>
 							<NumericUpDown Text="{Binding CurrentSmuggler.WillingnessToHaggle}" />
 							<Label>Unknown Byte 1</Label>
 							<NumericUpDown Text="{Binding CurrentSmuggler.UnknownByte1}" />
@@ -349,7 +349,7 @@
 							<NumericUpDown Text="{Binding CurrentNPC.UnknownByte1}" />
 							<Label>Room Location Byte</Label>
 							<NumericUpDown Text="{Binding CurrentNPC.RoomLocation}" />
-							<Label>Type of Place Byte (Comes from Sietch Appareance Field)</Label>
+							<Label>Type of Place Byte (Comes from Sietch Appeareance Field)</Label>
 							<NumericUpDown Text="{Binding CurrentNPC.TypeOfPlace}" />
 							<Label>Unknown Byte 2</Label>
 							<NumericUpDown Text="{Binding CurrentNPC.UnknownByte2}" />
