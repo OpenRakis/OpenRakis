@@ -60,7 +60,7 @@
             {
                 return new Dune24Offsets();
             }
-            if (format == SaveFileFormat.DUNE_37)
+            if (format == SaveFileFormat.DUNE_37 || format == SaveFileFormat.DUNE_38)
             {
                 return new Dune37Offsets();
             }

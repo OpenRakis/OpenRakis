@@ -23,7 +23,8 @@
         public MainWindowViewModel(Window mainWindow)
         {
             MainWindow = mainWindow;
-            Open37SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenCDSaveGameMethodAsync);
+            Open37SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open37SaveGameMethodAsync);
+            Open38SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open38SaveGameMethodAsync);
             Open21SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open21SaveGameMethodAsync);
             Open23SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open23SaveGameMethodAsync);
             Open24SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open24SaveGameMethodAsync);
@@ -167,6 +168,7 @@
         }
 
         public ReactiveCommand<Unit, Unit> Open37SaveGame { get; private set; }
+        public ReactiveCommand<Unit, Unit> Open38SaveGame { get; private set; }
         public ReactiveCommand<Unit, Unit> Open21SaveGame { get; private set; }
         public ReactiveCommand<Unit, Unit> Open23SaveGame { get; private set; }
         public ReactiveCommand<Unit, Unit> Open24SaveGame { get; private set; }
@@ -255,7 +257,7 @@
             return instance;
         }
 
-        private async Task<Unit> OpenCDSaveGameMethodAsync(Unit arg)
+        private async Task<Unit> Open37SaveGameMethodAsync(Unit arg)
         {
             var dialog = new OpenFileDialog
             {
@@ -266,6 +268,22 @@
             {
                 var selectedFile = result[0];
                 PopulateVMs(selectedFile, SaveFileFormat.DUNE_37);
+                IsSaveGameLoaded = true;
+            }
+            return Unit.Default;
+        }
+
+        private async Task<Unit> Open38SaveGameMethodAsync(Unit arg)
+        {
+            var dialog = new OpenFileDialog
+            {
+                AllowMultiple = false,
+            };
+            var result = await dialog.ShowAsync(MainWindow);
+            if (result != null && result.Length > 0)
+            {
+                var selectedFile = result[0];
+                PopulateVMs(selectedFile, SaveFileFormat.DUNE_38);
                 IsSaveGameLoaded = true;
             }
             return Unit.Default;

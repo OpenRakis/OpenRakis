@@ -29,6 +29,7 @@
 					<MenuItem Header="Open Floppy Savegame (v23)" Command="{Binding Open23SaveGame}" />
 					<MenuItem Header="Open Floppy Savegame (v24)" Command="{Binding Open24SaveGame}" />
 					<MenuItem Header="Open CD Savegame (v37)" Command="{Binding Open37SaveGame}" HotKey="Ctrl+O" />
+					<MenuItem Header="Open CD Savegame (v38)" Command="{Binding Open38SaveGame}" />
 					<MenuItem Header="Save" Command="{Binding SaveGameFile}" HotKey="Ctrl+S" IsEnabled="{Binding IsSaveGameLoaded}"></MenuItem>
 					<MenuItem Header="Exit" Command="{Binding ExitApp}" HotKey="Alt+F4"></MenuItem>
 				</MenuItem>
