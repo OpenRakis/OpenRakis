@@ -23,12 +23,12 @@
         public MainWindowViewModel(Window mainWindow)
         {
             MainWindow = mainWindow;
-            OpenCDSaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenCDSaveGameMethodAsync);
+            Open37SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(OpenCDSaveGameMethodAsync);
             Open21SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open21SaveGameMethodAsync);
             Open23SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open23SaveGameMethodAsync);
             Open24SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open24SaveGameMethodAsync);
             SaveGameFile = ReactiveCommand.CreateFromTask<Unit, Unit>(SaveGameMethodAsync);
-            UpdateSietch = ReactiveCommand.Create<Unit, Unit>(UpdateLocationMethod);
+            Updatelocation = ReactiveCommand.Create<Unit, Unit>(UpdateLocationMethod);
             UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
             UpdateGenerals = ReactiveCommand.Create<Unit, Unit>(UpdateGeneralsMethod);
             UpdateNPC = ReactiveCommand.Create<Unit, Unit>(UpdateNPCMethod);
@@ -48,7 +48,7 @@
         {
             if (CurrentLocation != null)
             {
-                _savegameFile.UpdateLocation(CurrentLocation.Sietch);
+                _savegameFile.UpdateLocation(CurrentLocation.Location);
             }
             return Unit.Default;
         }
@@ -59,7 +59,7 @@
 
         public ReactiveCommand<Unit, Unit>? ExitApp { get; private set; }
 
-        public ReactiveCommand<Unit, Unit>? UpdateSietch { get; private set; }
+        public ReactiveCommand<Unit, Unit>? Updatelocation { get; private set; }
         public ReactiveCommand<Unit, Unit>? UpdateTroop { get; private set; }
 
         public bool IsSaveGameLoaded
@@ -166,7 +166,7 @@
             private set => this.RaiseAndSetIfChanged(ref _troops, value);
         }
 
-        public ReactiveCommand<Unit, Unit> OpenCDSaveGame { get; private set; }
+        public ReactiveCommand<Unit, Unit> Open37SaveGame { get; private set; }
         public ReactiveCommand<Unit, Unit> Open21SaveGame { get; private set; }
         public ReactiveCommand<Unit, Unit> Open23SaveGame { get; private set; }
         public ReactiveCommand<Unit, Unit> Open24SaveGame { get; private set; }
@@ -330,6 +330,7 @@
             PopulateLocations(_savegameFile.GetSietches());
             PopulateNPCs(_savegameFile.GetNPCs());
             PopulateSmugglers(_savegameFile.GetSmugglers());
+            HasChanged = false;
         }
 
         private void PopulateNPCs(List<NPC> npcs)
@@ -391,9 +392,8 @@
             Models.Location? location = locations.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);
             if (location is null)
             {
-                for(int i = 0; i < populatedLocations.Count(); i++)
+                foreach(var populatedLocation in populatedLocations)
                 {
-                    var populatedLocation = populatedLocations.ElementAt(i);
                     var firstTroopOfLocation = orderedTroops.First(x => x.TroopID == populatedLocation.HousedTroopID);
                     var nextTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == firstTroopOfLocation.NextTroopInLocation);
                     while (nextTroopInSietch != null)

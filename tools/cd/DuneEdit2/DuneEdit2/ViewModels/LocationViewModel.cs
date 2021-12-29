@@ -21,7 +21,7 @@
             }
         }
 
-        public Location Sietch => _location;
+        public Location Location => _location;
 
         public byte Atomics
         {

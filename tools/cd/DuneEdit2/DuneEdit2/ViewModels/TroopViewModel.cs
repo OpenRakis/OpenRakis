@@ -407,6 +407,7 @@
         {
             _troop = troop;
             _location = sietch;
+            HasChanged = false;
         }
 
         private string GetFaction()

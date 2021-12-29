@@ -9,7 +9,11 @@
     {
 
         private NPC _npc;
-        public NPCViewModel(NPC npc) => _npc = npc;
+        public NPCViewModel(NPC npc)
+        {
+            _npc = npc;
+            HasChanged = false;
+        }
 
         public NPC NPC => _npc;
 

@@ -24,7 +24,11 @@
         }
 
 
-        public SmugglerViewModel(Smuggler smuggler) => _smuggler = smuggler;
+        public SmugglerViewModel(Smuggler smuggler)
+        {
+            _smuggler = smuggler;
+            HasChanged = false;
+        }
 
         public int StartOffset => _smuggler.StartOffset;
 
