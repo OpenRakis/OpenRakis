@@ -1,6 +1,8 @@
-The complete DUNE CD savegame editor.
+The complete DUNE CD savegame editor. Uses AvaloniaUI for the GUI.
 
-Options:
+If a command line option is provided, the GUI won't be launched. Instead, it will be a console program.
+
+Command Line Options:
   -c, --Compress           (Default: ) Compress the specified file
 
   -i, --InputFile          Required. The savegame to edit or describe on the standard output, for example DUNE37S1.SAV. For reading ONLY, it can be several files, separated by a space.
