@@ -26,7 +26,7 @@ namespace DuneEdit2.CLI
         public string GetStandardOutput()
         {
             var stringBuilder = new StringBuilder();
-            foreach (var reader in _readers)
+            foreach (SaveGameReader? reader in _readers)
             {
                 stringBuilder.AppendLine(reader.SaveFilePath);
                 stringBuilder.AppendLine("Player information");

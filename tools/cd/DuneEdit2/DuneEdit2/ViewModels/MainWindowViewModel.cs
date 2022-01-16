@@ -405,15 +405,15 @@
 
         private static Models.Location? GetTroopHousing(List<Troop> troops, List<Models.Location> locations, Troop troop)
         {
-            var populatedLocations = locations.Where(x => troops.Any(y => y.TroopID == x.HousedTroopID));
-            var orderedTroops = troops.OrderBy(x => x.NextTroopInLocation);
+            IEnumerable<Models.Location>? populatedLocations = locations.Where(x => troops.Any(y => y.TroopID == x.HousedTroopID));
+            IOrderedEnumerable<Troop>? orderedTroops = troops.OrderBy(x => x.NextTroopInLocation);
             Models.Location? location = locations.FirstOrDefault(x => x.HousedTroopID == troop.TroopID);
             if (location is null)
             {
-                foreach(var populatedLocation in populatedLocations)
+                foreach(Models.Location? populatedLocation in populatedLocations)
                 {
-                    var firstTroopOfLocation = orderedTroops.First(x => x.TroopID == populatedLocation.HousedTroopID);
-                    var nextTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == firstTroopOfLocation.NextTroopInLocation);
+                    Troop? firstTroopOfLocation = orderedTroops.First(x => x.TroopID == populatedLocation.HousedTroopID);
+                    Troop? nextTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == firstTroopOfLocation.NextTroopInLocation);
                     while (nextTroopInSietch != null)
                     {
                         if (nextTroopInSietch.TroopID == troop.TroopID)
@@ -421,7 +421,7 @@
                             location = populatedLocation;
                             break;
                         }
-                        var newNextNexTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == nextTroopInSietch.NextTroopInLocation);
+                        Troop? newNextNexTroopInSietch = orderedTroops.FirstOrDefault(x => x.TroopID == nextTroopInSietch.NextTroopInLocation);
                         if(newNextNexTroopInSietch == nextTroopInSietch)
                         {
                             break;

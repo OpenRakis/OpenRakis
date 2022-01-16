@@ -25,12 +25,12 @@ namespace DuneEdit2.Views
 
         private Unit ZoomInMethod(Unit arg)
         {
-            var map = this.Find<Image>("MapOfDuneZoomedIn");
+            Image? map = this.Find<Image>("MapOfDuneZoomedIn");
             if(map != null)
             {
                 map.IsVisible = true;
             }
-            var map2 = this.Find<Image>("MapOfDuneZoomedOut");
+            Image? map2 = this.Find<Image>("MapOfDuneZoomedOut");
             if (map2 != null)
             {
                 map2.IsVisible = false;
@@ -40,12 +40,12 @@ namespace DuneEdit2.Views
 
         private Unit ZoomOutMethod(Unit arg)
         {
-            var map = this.Find<Image>("MapOfDuneZoomedIn");
+            Image? map = this.Find<Image>("MapOfDuneZoomedIn");
             if (map != null)
             {
                 map.IsVisible = false;
             }
-            var map2 = this.Find<Image>("MapOfDuneZoomedOut");
+            Image? map2 = this.Find<Image>("MapOfDuneZoomedOut");
             if (map2 != null)
             {
                 map2.IsVisible = true;

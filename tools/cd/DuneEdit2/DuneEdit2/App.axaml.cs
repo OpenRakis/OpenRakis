@@ -83,7 +83,7 @@ namespace DuneEdit2
         [SupportedOSPlatform("windows")]
         private static bool GetIsWindowsInDarkMode()
         {
-            var key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
+            RegistryKey? key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
             var registryValueObject = key?.GetValue(RegistryValueName);
             if (registryValueObject == null)
             {
