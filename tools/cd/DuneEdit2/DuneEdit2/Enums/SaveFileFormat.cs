@@ -6,6 +6,6 @@
         DUNE_23 = 2,
         DUNE_24 = 3,
         DUNE_37 = 4,
-        DUNE_38 = 4
+        DUNE_38 = 5
     }
 }
