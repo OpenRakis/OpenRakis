@@ -121,7 +121,7 @@ Task("GitHub-Release")
     .Does(() =>
     {
         var token = EnvironmentVariable("GitHubCakeToken");
-        var owner = "maximilien-noal";
+        var owner = "OpenRakis";
         var repo = "OpenRakis";
 
         var assets = new List<string>();
