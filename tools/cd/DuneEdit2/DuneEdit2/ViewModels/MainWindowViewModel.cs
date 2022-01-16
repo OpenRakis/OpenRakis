@@ -29,7 +29,7 @@
             Open23SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open23SaveGameMethodAsync);
             Open24SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open24SaveGameMethodAsync);
             SaveGameFile = ReactiveCommand.CreateFromTask<Unit, Unit>(SaveGameMethodAsync);
-            Updatelocation = ReactiveCommand.Create<Unit, Unit>(UpdateLocationMethod);
+            UpdateLocation = ReactiveCommand.Create<Unit, Unit>(UpdateLocationMethod);
             UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
             UpdateGenerals = ReactiveCommand.Create<Unit, Unit>(UpdateGeneralsMethod);
             UpdateNPC = ReactiveCommand.Create<Unit, Unit>(UpdateNPCMethod);
@@ -60,7 +60,7 @@
 
         public ReactiveCommand<Unit, Unit>? ExitApp { get; private set; }
 
-        public ReactiveCommand<Unit, Unit>? Updatelocation { get; private set; }
+        public ReactiveCommand<Unit, Unit>? UpdateLocation { get; private set; }
         public ReactiveCommand<Unit, Unit>? UpdateTroop { get; private set; }
 
         public bool IsSaveGameLoaded
