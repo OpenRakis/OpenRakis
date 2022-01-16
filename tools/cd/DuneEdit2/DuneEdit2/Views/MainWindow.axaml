@@ -309,6 +309,8 @@
 							<NumericUpDown Text="{Binding CurrentSmuggler.UnknownByte2}" />
 							<Label>Harvesters Byte</Label>
 							<NumericUpDown Text="{Binding CurrentSmuggler.Harvesters}" />
+							<Label>Ornithopters Byte</Label>
+							<NumericUpDown Text="{Binding CurrentSmuggler.Ornithopters}" />
 							<Label>Krys Knives Byte</Label>
 							<NumericUpDown Text="{Binding CurrentSmuggler.KrysKnives}" />
 							<Label>Laser Guns Byte</Label>
