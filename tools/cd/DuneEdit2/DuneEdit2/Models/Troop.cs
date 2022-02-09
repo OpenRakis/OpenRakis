@@ -67,7 +67,7 @@ namespace DuneEdit2.Models
         public byte Unknown7 { get; set; }
         public byte Unknown8 { get; set; }
         public byte EspionageDiscoveryStatus { get; set; }
-        public byte Unknown10 { get; set; }
+        public byte EquipmentRepairingStatus { get; set; }
         public byte MissYouMsg { get; set; }
 
         public byte NextTroopInLocation { get; set; }

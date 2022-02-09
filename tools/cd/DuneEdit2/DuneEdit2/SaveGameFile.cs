@@ -233,7 +233,7 @@
                     Unknown7 = data[itemPos + 14],
                     Unknown8 = data[itemPos + 15],
                     EspionageDiscoveryStatus = data[itemPos + 16],
-                    Unknown10 = data[itemPos + 17],
+                    EquipmentRepairingStatus = data[itemPos + 17],
                     Dissatisfaction = data[itemPos + 18],
                     Speech = data[itemPos + 19],
                     MissYouMsg = data[itemPos + 20],
@@ -275,7 +275,7 @@
             _uncompressedData[startOffset + 14] = troop.Unknown7;
             _uncompressedData[startOffset + 15] = troop.Unknown8;
             _uncompressedData[startOffset + 16] = troop.EspionageDiscoveryStatus;
-            _uncompressedData[startOffset + 17] = troop.Unknown10;
+            _uncompressedData[startOffset + 17] = troop.EquipmentRepairingStatus;
             _uncompressedData[startOffset + 18] = troop.Dissatisfaction;
             _uncompressedData[startOffset + 19] = troop.Speech;
             _uncompressedData[startOffset + 20] = troop.MissYouMsg;

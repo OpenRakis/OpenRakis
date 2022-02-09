@@ -260,8 +260,8 @@
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown8}" />
 								<Label>Espionnage Discovery Status Byte (17th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.EspionageDiscoveryStatus}" />
-								<Label>Unknown 10 (18th field)</Label>
-								<NumericUpDown Text="{Binding CurrentTroop.Unknown10}" />
+								<Label>Equipment Repairing Status Byte (18th field)</Label>
+								<NumericUpDown Text="{Binding CurrentTroop.EquipmentRepairingStatus}" />
 								<Label>'We've missed you' Message byte (21th field):</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.MissYouMsg}" />
 							</StackPanel>

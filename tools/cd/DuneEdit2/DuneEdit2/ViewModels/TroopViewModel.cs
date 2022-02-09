@@ -136,14 +136,14 @@
             }
         }
 
-        public byte Unknown10
+        public byte EquipmentRepairingStatus
         {
-            get => _troop.Unknown10;
+            get => _troop.EquipmentRepairingStatus;
             set
             {
-                _troop.Unknown10 = value;
+                _troop.EquipmentRepairingStatus = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown10));
+                this.RaisePropertyChanged(nameof(EquipmentRepairingStatus));
             }
         }
 
