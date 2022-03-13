@@ -24,6 +24,8 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [IDA Freeware](https://www.scummvm.org/news/20180331/)
 
+[Ghidra](https://github.com/NationalSecurityAgency/ghidra)
+
 [UNLZEXE](https://keenwiki.shikadi.net/wiki/UNLZEXE) (to unpack LOGO.EXE, if it is packed)
 
 [DOSBox Debugger with AUTOEXEC support](https://www.vogons.org/viewtopic.php?p=860536#p860536)
