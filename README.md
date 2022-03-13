@@ -11,7 +11,7 @@ This is a WIP project aiming at reversing Cryo's DUNE game.
 * *bin/floppy* :  PC DOS floppy version files (LOGO.HNM, BAGDAD.HSQ, DUNE.EXE, LOGO.EXE, ...)
 * *bin/cd* : PC DOS CD version files (DUNE.DAT, DNCDPRG.EXE, DUNE.EXE)
 * tools : a set of tools from various sources
-* src : the resulting source code
+* [bluegr/scummvm](https://github.com/bluegr/scummvm/tree/dune/engines/dune) : the resulting ScummVM engine (which is the work of multiple people)
 * asm : the original x86 DOS assembly
 
 the bin folder is not part of this repo, as it is copyrighted material.
