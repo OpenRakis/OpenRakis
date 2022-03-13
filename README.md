@@ -26,6 +26,12 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [Chani: Simulfow Debugger](https://github.com/madmoose/chani)
 
+[Spice86: Reverse Engineering Emulator](https://github.com/OpenRakis/Spice86)
+
+[Ghidra code generator](https://github.com/OpenRakis/Spice86/tree/master/ghidraCodeGenerator)
+
+[Cryogenic: Dune ASM code overriden with C# code, bit by bit](https://github.com/OpenRakis/Cryogenic)
+
 # Might be useful
 
 [dosdebug](https://github.com/johndoe31415/dosdebug)
