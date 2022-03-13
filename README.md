@@ -1,6 +1,6 @@
-![Linux](https://img.shields.io/badge/-Linux-light?logo=linux)
-![OSX](https://img.shields.io/badge/-OSX-light?logo=apple)
-![Windows](https://img.shields.io/badge/-Windows-light?logo=windows)
+![Linux](https://img.shields.io/badge/-Linux-grey?logo=linux)
+![OSX](https://img.shields.io/badge/-OSX-black?logo=apple)
+![Windows](https://img.shields.io/badge/-Windows-red?logo=windows)
 
 <div style="height: 25px; width: 160px; border: 1px solid red; white-space: nowrap; text-align: center; margin: 1em 0;">
     <span style="display: inline-block; height: 100%; vertical-align: middle;"></span><img src="worm.gif" style="vertical-align: middle; max-height: 400px; max-width: 640px;" height="400" />
