@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PublishTrimmed>True</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ErrorProne.NET.CoreAnalyzers" Version="0.1.2">
