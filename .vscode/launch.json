@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/tools/cd/DuneExtractor/bin/Debug/net5.0/DuneExtractor.dll",
+            "program": "${workspaceFolder}/tools/cd/DuneEdit2/DuneEdit2/bin/Debug/net6.0/DuneEdit2.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/tools/cd/DuneExtractor",
+            "cwd": "${workspaceFolder}/tools/cd/DuneEdit2/DuneEdit2",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
