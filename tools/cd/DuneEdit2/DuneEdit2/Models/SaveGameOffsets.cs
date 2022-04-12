@@ -11,6 +11,7 @@
         public  int ContactDistance { get;}
         public  int DateTime { get;}
         public  int DateTimeSaveScreen { get;}
+        public int NumberOfRalliedTroops { get; }
         public  int GameStage { get;}
         public  int Spice { get;}
         public  int Dialogues { get;}
@@ -28,6 +29,7 @@
         int ISaveGameOffsets.DateTime { get { return  21907;}}// TBD
         int ISaveGameOffsets.DateTimeSaveScreen { get { return  0;}}// TBD
         int ISaveGameOffsets.GameStage { get { return  17481;}}// TBD
+        int ISaveGameOffsets.NumberOfRalliedTroops => 17479; //TBD
         int ISaveGameOffsets.Spice { get { return  17599;}} // TBD
         int ISaveGameOffsets.Dialogues { get { return 13113;}} // TBD
     }
@@ -43,6 +45,7 @@
         int ISaveGameOffsets.ContactDistance { get { return  21909;}} // TBD
         int ISaveGameOffsets.DateTime { get { return  21907;}} // TBD
         int ISaveGameOffsets.DateTimeSaveScreen { get { return  0;}} // TBD
+        int ISaveGameOffsets.NumberOfRalliedTroops => 17479; //TBD
         int ISaveGameOffsets.GameStage { get { return  17481;}} // TBD
         int ISaveGameOffsets.Spice { get { return  17599;}} // TBD
         int ISaveGameOffsets.Dialogues { get { return  13113;}} // TBD
@@ -59,6 +62,7 @@
         int ISaveGameOffsets.ContactDistance { get { return  21909;}} // TBD
         int ISaveGameOffsets.DateTime { get { return  21907;}} // TBD
         int ISaveGameOffsets.DateTimeSaveScreen { get { return  0;}} // TBD
+        int ISaveGameOffsets.NumberOfRalliedTroops => 17479; //TBD
         int ISaveGameOffsets.GameStage { get { return  17481;}} // TBD
         int ISaveGameOffsets.Spice { get { return  17599;}} // TBD
         int ISaveGameOffsets.Dialogues { get { return  13113;}} // TBD
@@ -75,6 +79,7 @@
         int ISaveGameOffsets.ContactDistance { get { return  21909;}}
         int ISaveGameOffsets.DateTime { get { return  21907;}}
         int ISaveGameOffsets.DateTimeSaveScreen { get { return  0;}}
+        int ISaveGameOffsets.NumberOfRalliedTroops => 17479;
         int ISaveGameOffsets.GameStage { get { return  17481;}}
         int ISaveGameOffsets.Spice { get { return  17599;}}
         int ISaveGameOffsets.Dialogues { get { return  13113;}}

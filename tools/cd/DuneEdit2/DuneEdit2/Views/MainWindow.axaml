@@ -54,6 +54,10 @@
 										<NumericUpDown Value="{Binding CharismaVal, Mode=TwoWay}"></NumericUpDown>
 									</StackPanel>
 									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+										<Label>Number of Rallied Troops:</Label>
+										<NumericUpDown Value="{Binding NumberOfRalliedTroops, Mode=TwoWay}" />
+									</StackPanel>
+									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
 										<Label>Game Stage:</Label>
 										<NumericUpDown Value="{Binding GameStage, Mode=TwoWay}" />
 										<TextBlock Text="{Binding GameStageDesc}" />

@@ -18,6 +18,7 @@ namespace DuneEdit2.Models
         private readonly byte _gameStage;
 
         private readonly byte[] _spice = new byte[] { 0 };
+        private readonly byte _numberOfRalliedTroops;
 
         public Generals()
         {
@@ -30,6 +31,7 @@ namespace DuneEdit2.Models
                 uncompressedData[offsets.Spice],
                 uncompressedData[offsets.Spice + 1]
             };
+            _numberOfRalliedTroops = uncompressedData[offsets.NumberOfRalliedTroops];
             _gameStage = uncompressedData[offsets.GameStage];
             _contactDistance = uncompressedData[offsets.ContactDistance];
             _dateAndTime = new byte[2]
@@ -73,6 +75,8 @@ namespace DuneEdit2.Models
         public string DateAsHex => $"{_dateAndTime[0]:X2}{_dateAndTime[1]:X2}";
 
         public string GameStageAsHex => $"{_gameStage:X2}";
+
+        public byte NumberOfRalliedTroops => _numberOfRalliedTroops;
 
         public byte GameStage => _gameStage;
 

@@ -178,11 +178,26 @@
         private byte _gameStage = 0;
 
         private bool _hasChanged = false;
+        private byte _numberOfRalliedTroops;
 
         public bool HasChanged
         {
             get => _hasChanged;
             set => this.RaiseAndSetIfChanged(ref _hasChanged, value);
+        }
+
+        public byte NumberOfRalliedTroops
+        {
+            get => _numberOfRalliedTroops;
+            set
+            {
+                if (_numberOfRalliedTroops != value)
+                {
+                    this.RaiseAndSetIfChanged(ref _numberOfRalliedTroops, value);
+                    this.RaisePropertyChanged(nameof(GameStageDesc));
+                    HasChanged = true;
+                }
+            }
         }
 
         public byte GameStage
@@ -344,6 +359,7 @@
             CharismaVal = _savegameFile.Generals.CharismaGUI;
             ContactDistanceVal = _savegameFile.Generals.ContactDistance;
             GameStage = _savegameFile.Generals.GameStage;
+            NumberOfRalliedTroops = _savegameFile.Generals.NumberOfRalliedTroops;
             PopulateTroops(_savegameFile.GetTroops(), _savegameFile.GetSietches());
             PopulateLocations(_savegameFile.GetSietches());
             PopulateNPCs(_savegameFile.GetNPCs());
@@ -470,6 +486,7 @@
             _savegameFile.UpdateCharisma(CharismaVal);
             _savegameFile.UpdateSpice(SpiceVal);
             _savegameFile.UpdateContactDistance(ContactDistanceVal);
+            _savegameFile.UpdateNumberOfRalliedTroops(NumberOfRalliedTroops);
             _savegameFile.UpdateGameStage(GameStage);
             return Unit.Default;
         }

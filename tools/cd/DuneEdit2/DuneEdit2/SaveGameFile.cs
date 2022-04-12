@@ -505,6 +505,11 @@
             _uncompressedData[_offsets.GameStage] = gameStageValue;
         }
 
+        internal void UpdateNumberOfRalliedTroops(byte value)
+        {
+            _uncompressedData[_offsets.NumberOfRalliedTroops] = value;
+        }
+
         internal void UpdateContactDistance(int contactDistanceValue)
         {
             _uncompressedData[_offsets.ContactDistance] = (byte)checked(contactDistanceValue);
