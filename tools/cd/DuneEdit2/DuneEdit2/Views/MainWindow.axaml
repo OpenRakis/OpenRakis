@@ -1,63 +1,81 @@
-<Window xmlns="https://github.com/avaloniaui"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:vm="using:DuneEdit2.ViewModels"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		x:Class="DuneEdit2.Views.MainWindow"
-		Icon="/Assets/app.ico"
-		Title="DuneEdit2"
-		MinWidth="1152"
-		MinHeight="864"
-		Width="1152"
-		Height="864"
-		x:Name="AppWindow">
+<Window
+    x:Class="DuneEdit2.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:DuneEdit2.ViewModels"
+    x:Name="AppWindow"
+    Title="DuneEdit2"
+    Width="1152"
+    Height="864"
+    MinWidth="1152"
+    MinHeight="864"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Icon="/Assets/app.ico"
+    mc:Ignorable="d">
 	<Design.DataContext>
 		<vm:MainWindowViewModel />
 	</Design.DataContext>
 	<Window.Styles>
-		<!--https://github.com/AvaloniaUI/Avalonia/issues/6826-->
+		<!--  https://github.com/AvaloniaUI/Avalonia/issues/6826  -->
 		<Style Selector="ScrollViewer">
-			<Setter Property="AllowAutoHide" Value="False"/>
+			<Setter Property="AllowAutoHide" Value="False" />
 		</Style>
 	</Window.Styles>
 	<ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
 		<StackPanel>
 			<Menu>
 				<MenuItem Header="File" HotKey="Alt+F">
-					<MenuItem Header="Open Floppy Savegame (v21)" Command="{Binding Open21SaveGame}" />
-					<MenuItem Header="Open Floppy Savegame (v23)" Command="{Binding Open23SaveGame}" />
-					<MenuItem Header="Open Floppy Savegame (v24)" Command="{Binding Open24SaveGame}" />
-					<MenuItem Header="Open CD Savegame (v37)" Command="{Binding Open37SaveGame}" HotKey="Ctrl+O" />
-					<MenuItem Header="Open CD Savegame (v38)" Command="{Binding Open38SaveGame}" />
-					<MenuItem Header="Save" Command="{Binding SaveGameFile}" HotKey="Ctrl+S" IsEnabled="{Binding IsSaveGameLoaded}"></MenuItem>
-					<MenuItem Header="Exit" Command="{Binding ExitApp}" HotKey="Alt+F4"></MenuItem>
+					<MenuItem Command="{Binding Open21SaveGame}" Header="Open Floppy Savegame (v21)" />
+					<MenuItem Command="{Binding Open23SaveGame}" Header="Open Floppy Savegame (v23)" />
+					<MenuItem Command="{Binding Open24SaveGame}" Header="Open Floppy Savegame (v24)" />
+					<MenuItem
+                        Command="{Binding Open37SaveGame}"
+                        Header="Open CD Savegame (v37)"
+                        HotKey="Ctrl+O" />
+					<MenuItem Command="{Binding Open38SaveGame}" Header="Open CD Savegame (v38)" />
+					<MenuItem
+                        Command="{Binding SaveGameFile}"
+                        Header="Save"
+                        HotKey="Ctrl+S"
+                        IsEnabled="{Binding IsSaveGameLoaded}" />
+					<MenuItem
+                        Command="{Binding ExitApp}"
+                        Header="Exit"
+                        HotKey="Alt+F4" />
 				</MenuItem>
 			</Menu>
 			<TabControl>
 				<TabItem Header="General" IsEnabled="{Binding IsSaveGameLoaded}">
 					<DockPanel>
-						<Grid RowDefinitions="*,Auto,Auto" DockPanel.Dock="Top">
-							<StackPanel Orientation="Vertical" Grid.Row="0">
-								<Button VerticalAlignment="Top" HorizontalAlignment="Right" Content="Apply Modifications" IsEnabled="{Binding HasChanged}" Command="{Binding UpdateGenerals}" />
+						<Grid DockPanel.Dock="Top" RowDefinitions="*,Auto,Auto">
+							<StackPanel Grid.Row="0" Orientation="Vertical">
+								<Button
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding UpdateGenerals}"
+                                    Content="Apply Modifications"
+                                    IsEnabled="{Binding HasChanged}" />
 								<UniformGrid>
-									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+									<StackPanel Margin="5,0,0,0" Orientation="Vertical">
 										<Label>Spice:</Label>
-										<NumericUpDown Value="{Binding SpiceVal, Mode=TwoWay}"></NumericUpDown>
+										<NumericUpDown Value="{Binding SpiceVal, Mode=TwoWay}" />
 									</StackPanel>
-									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+									<StackPanel Margin="5,0,0,0" Orientation="Vertical">
 										<Label>Contact Distance:</Label>
-										<NumericUpDown Value="{Binding ContactDistanceVal, Mode=TwoWay}"></NumericUpDown>
+										<NumericUpDown Value="{Binding ContactDistanceVal, Mode=TwoWay}" />
 									</StackPanel>
-									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+									<StackPanel Margin="5,0,0,0" Orientation="Vertical">
 										<Label>Charisma:</Label>
-										<NumericUpDown Value="{Binding CharismaVal, Mode=TwoWay}"></NumericUpDown>
+										<NumericUpDown Value="{Binding CharismaVal, Mode=TwoWay}" />
 									</StackPanel>
-									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+									<StackPanel Margin="5,0,0,0" Orientation="Vertical">
 										<Label>Number of Rallied Troops:</Label>
 										<NumericUpDown Value="{Binding NumberOfRalliedTroops, Mode=TwoWay}" />
 									</StackPanel>
-									<StackPanel Orientation="Vertical" Margin="5,0,0,0">
+									<StackPanel Margin="5,0,0,0" Orientation="Vertical">
 										<Label>Game Stage:</Label>
 										<NumericUpDown Value="{Binding GameStage, Mode=TwoWay}" />
 										<TextBlock Text="{Binding GameStageDesc}" />
@@ -75,34 +93,53 @@
 								<TextBlock>* The savegame files that you should use are DUNEXXS1.SAV and DUNEXXS2.SAV where XX is the game version (21, 23, 24, 37)</TextBlock>
 								<TextBlock>* Enjoy...</TextBlock>
 							</StackPanel>
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2">
+							<StackPanel
+                                Grid.Row="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Orientation="Vertical">
 								<TextBlock>Made from:</TextBlock>
 								<TextBlock>- The original DuneEdit by Stephan Fourie</TextBlock>
-								<TextBlock>- https://github.com/debrouxl/odrade </TextBlock>
-								<TextBlock>- DUNE: A Harder Path notes </TextBlock>
-								<TextBlock>- https://sites.google.com/site/duneeditor/ </TextBlock>
+								<TextBlock>- https://github.com/debrouxl/odrade</TextBlock>
+								<TextBlock>- DUNE: A Harder Path notes</TextBlock>
+								<TextBlock>- https://sites.google.com/site/duneeditor/</TextBlock>
 								<TextBlock>- DUNE: Sietch Editor v1.0 alpha</TextBlock>
-								<TextBlock>- Threads on https://forum.dune2k.com </TextBlock>
+								<TextBlock>- Threads on https://forum.dune2k.com</TextBlock>
 								<TextBlock>- and with the help of the DOSBox Debugger</TextBlock>
 							</StackPanel>
 						</Grid>
-						<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
-							
-						</StackPanel>
+						<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" />
 					</DockPanel>
 				</TabItem>
 				<TabItem Header="Locations" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
-						<ComboBox Grid.Row="0" Grid.Column="0" Items="{Binding Locations}" SelectedItem="{Binding CurrentLocation, Mode=TwoWay}">
+						<ComboBox
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Items="{Binding Locations}"
+                            SelectedItem="{Binding CurrentLocation, Mode=TwoWay}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate DataType="{x:Type vm:LocationViewModel}">
 									<Label Content="{Binding RegionName}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
-						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Apply Modifications" IsEnabled="{Binding CurrentLocation.HasChanged}" Command="{Binding UpdateLocation}" />
-						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*,*">
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0">
+						<Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Command="{Binding UpdateLocation}"
+                            Content="Apply Modifications"
+                            IsEnabled="{Binding CurrentLocation.HasChanged}" />
+						<Grid
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            ColumnDefinitions="*,*,*,*,*">
+							<StackPanel
+                                Grid.Column="0"
+                                Margin="5,0,0,0"
+                                Orientation="Vertical">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentLocation.StartOffset, StringFormat={}0x{0:x}}" />
 								<Label>Coordinates (3nd field)</Label>
@@ -112,7 +149,10 @@
 								<Label>Sub Region (2nd field)</Label>
 								<TextBlock Text="{Binding CurrentLocation.SubRegion}" />
 							</StackPanel>
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1">
+							<StackPanel
+                                Grid.Column="1"
+                                Margin="5,0,0,0"
+                                Orientation="Vertical">
 								<Label>Position X (map) (4th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.PosXmap}" />
 								<Label>Position Y (map) (5th field)</Label>
@@ -134,7 +174,10 @@
 								<Label>Housed Troop ID (10th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.HousedTroopID}" />
 							</StackPanel>
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="2">
+							<StackPanel
+                                Grid.Column="2"
+                                Margin="5,0,0,0"
+                                Orientation="Vertical">
 								<Label>Harvesters (21th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Harvesters}" />
 								<Label>Ornis (22th field)</Label>
@@ -150,7 +193,10 @@
 								<Label>Bulbs (27th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Bulbs}" />
 							</StackPanel>
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="3">
+							<StackPanel
+                                Grid.Column="3"
+                                Margin="5,0,0,0"
+                                Orientation="Vertical">
 								<Label>Unknown 1 (6th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.Unknown1}" />
 								<Label>Unknown 2 (20th field)</Label>
@@ -166,7 +212,10 @@
 								<Label>Discoverable at Game Stage (12th field)</Label>
 								<NumericUpDown Text="{Binding CurrentLocation.GameStage}" />
 							</StackPanel>
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="4">
+							<StackPanel
+                                Grid.Column="4"
+                                Margin="5,0,0,0"
+                                Orientation="Vertical">
 								<Label>Status (11th field)</Label>
 								<CheckBox Content="Vegetation has begun" IsChecked="{Binding CurrentLocation.HasVegetation}" />
 								<CheckBox Content="Under Attack" IsChecked="{Binding CurrentLocation.InBattle}" />
@@ -185,7 +234,10 @@
 				</TabItem>
 				<TabItem Header="Troops" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
-						<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+						<StackPanel
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Orientation="Horizontal">
 							<StackPanel Orientation="Vertical">
 								<Label>Select by Troop ID:</Label>
 								<ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
@@ -207,18 +259,27 @@
 								</ComboBox>
 							</StackPanel>
 						</StackPanel>
-						<Grid Grid.ColumnSpan="2" Grid.Row="1" ColumnDefinitions="*,*,*,*">
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0">
+						<Grid
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            ColumnDefinitions="*,*,*,*">
+							<StackPanel
+                                Grid.Column="0"
+                                Margin="5,0,0,0"
+                                Orientation="Vertical">
 								<Label>Start Offset</Label>
 								<TextBlock Text="{Binding CurrentTroop.StartOffset, StringFormat={}0x{0:x}}}" />
 								<Label>Troop ID (1st field)</Label>
 								<TextBlock Text="{Binding CurrentTroop.TroopID}" />
 								<Label>Next Troop ID (2nd field)</Label>
-								<TextBlock Text="{Binding CurrentTroop.NextTroopInLocation}" />
+								<TextBox Text="{Binding CurrentTroop.NextTroopInLocation}" />
 								<Label>Regional Origin (from Status field)</Label>
 								<TextBlock Text="{Binding CurrentTroop.Origin}" />
 							</StackPanel>
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1">
+							<StackPanel
+                                Grid.Column="1"
+                                Margin="5,0,0,0"
+                                Orientation="Vertical">
 								<Label>Coordinates (7th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Coordinates}" />
 								<TextBlock Text="{Binding CurrentTroop.Coordinates, StringFormat={}0x{0:X}}}" />
@@ -245,7 +306,10 @@
 								<NumericUpDown Text="{Binding CurrentTroop.Speech}" />
 								<TextBlock Text="{Binding CurrentTroop.SpeechDesc}" />
 							</StackPanel>
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="2">
+							<StackPanel
+                                Grid.Column="2"
+                                Margin="5,0,0,0"
+                                Orientation="Vertical">
 								<Label>Unknown 1 (5th field)</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.Unknown1}" />
 								<Label>Unknown 2 (6th field)</Label>
@@ -269,7 +333,10 @@
 								<Label>'We've missed you' Message byte (21th field):</Label>
 								<NumericUpDown Text="{Binding CurrentTroop.MissYouMsg}" />
 							</StackPanel>
-							<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="3">
+							<StackPanel
+                                Grid.Column="3"
+                                Margin="5,0,0,0"
+                                Orientation="Vertical">
 								<Label>Equipment (26th field)</Label>
 								<CheckBox Content="Has Harvester" IsChecked="{Binding CurrentTroop.Harvesters}" />
 								<CheckBox Content="Has Orni" IsChecked="{Binding CurrentTroop.Ornithopters}" />
@@ -282,14 +349,32 @@
 								<NumericUpDown Text="{Binding CurrentTroop.Equipement}" />
 							</StackPanel>
 						</Grid>
-						<Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Content="Apply Modifications" IsEnabled="{Binding CurrentTroop.HasChanged}" Command="{Binding UpdateTroop}" />
+						<Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Command="{Binding UpdateTroop}"
+                            Content="Apply Modifications"
+                            IsEnabled="{Binding CurrentTroop.HasChanged}" />
 					</Grid>
 				</TabItem>
-				<!-- From ODRADE: https://github.com/debrouxl/odrade -->
+				<!--  From ODRADE: https://github.com/debrouxl/odrade  -->
 				<TabItem Header="Smugglers" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
-						<Button Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Apply Modifications" IsEnabled="{Binding CurrentSmuggler.HasChanged}" Command="{Binding UpdateSmuggler}" />
-						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+						<Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Command="{Binding UpdateSmuggler}"
+                            Content="Apply Modifications"
+                            IsEnabled="{Binding CurrentSmuggler.HasChanged}" />
+						<StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="5,0,0,0"
+                            Orientation="Vertical">
 							<Label>Select Smuggler:</Label>
 							<ComboBox Items="{Binding Smugglers}" SelectedItem="{Binding CurrentSmuggler, Mode=TwoWay}">
 								<ComboBox.ItemTemplate>
@@ -301,7 +386,11 @@
 							<Label>Start Offset</Label>
 							<TextBlock Text="{Binding CurrentSmuggler.StartOffset, StringFormat={}0x{0:x}}" />
 						</StackPanel>
-						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1" Grid.Row="2">
+						<StackPanel
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="5,0,0,0"
+                            Orientation="Vertical">
 							<TextBlock HorizontalAlignment="Center">From first to last byte</TextBlock>
 							<Label>Region ID Byte</Label>
 							<NumericUpDown Text="{Binding CurrentSmuggler.Region}" />
@@ -334,11 +423,22 @@
 						</StackPanel>
 					</Grid>
 				</TabItem>
-				<!-- From ODRADE: https://github.com/debrouxl/odrade -->
+				<!--  From ODRADE: https://github.com/debrouxl/odrade  -->
 				<TabItem Header="NPCs" IsEnabled="{Binding IsSaveGameLoaded}">
 					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
-						<Button Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Apply Modifications" IsEnabled="{Binding CurrentNPC.HasChanged}" Command="{Binding UpdateNPC}" />
-						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+						<Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Command="{Binding UpdateNPC}"
+                            Content="Apply Modifications"
+                            IsEnabled="{Binding CurrentNPC.HasChanged}" />
+						<StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="5,0,0,0"
+                            Orientation="Vertical">
 							<Label>Select NPC:</Label>
 							<ComboBox Items="{Binding NPCs}" SelectedItem="{Binding CurrentNPC, Mode=TwoWay}">
 								<ComboBox.ItemTemplate>
@@ -350,7 +450,11 @@
 							<Label>Start Offset</Label>
 							<TextBlock Text="{Binding CurrentNPC.StartOffset, StringFormat={}0x{0:x}}" />
 						</StackPanel>
-						<StackPanel Margin="5,0,0,0" Orientation="Vertical" Grid.Column="1" Grid.Row="2">
+						<StackPanel
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="5,0,0,0"
+                            Orientation="Vertical">
 							<TextBlock HorizontalAlignment="Center">From first to last byte</TextBlock>
 							<Label>Sprite ID Byte (1st byte)</Label>
 							<NumericUpDown Text="{Binding CurrentNPC.SpriteId}" />
@@ -374,16 +478,21 @@
 				<TabItem Header="Map of Dune">
 					<DockPanel>
 						<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-							<Button  Command="{Binding ZoomIn, ElementName=AppWindow}">Zoom In</Button>
-							<Button  Command="{Binding ZoomOut, ElementName=AppWindow}">Zoom Out</Button>
+							<Button Command="{Binding ZoomIn, ElementName=AppWindow}">Zoom In</Button>
+							<Button Command="{Binding ZoomOut, ElementName=AppWindow}">Zoom Out</Button>
 						</StackPanel>
 						<Viewbox DockPanel.Dock="Bottom">
 							<Grid>
-								<Image  Source="/Assets/Map.png" Name="MapOfDuneZoomedOut"
-												IsVisible="True"
-												Width="{Binding $parent[Window].Bounds.Width}"
-												Height="{Binding $parent[Window].Bounds.Height}"/>
-								<Image  Source="/Assets/Map.png" Name="MapOfDuneZoomedIn" IsVisible="False" />
+								<Image
+                                    Name="MapOfDuneZoomedOut"
+                                    Width="{Binding $parent[Window].Bounds.Width}"
+                                    Height="{Binding $parent[Window].Bounds.Height}"
+                                    IsVisible="True"
+                                    Source="/Assets/Map.png" />
+								<Image
+                                    Name="MapOfDuneZoomedIn"
+                                    IsVisible="False"
+                                    Source="/Assets/Map.png" />
 							</Grid>
 						</Viewbox>
 					</DockPanel>

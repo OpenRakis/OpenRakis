@@ -110,7 +110,7 @@
         private List<Location> PopulateLocations(List<byte> data)
         {
             var locations = new List<Location>();
-            for(int i = 0; i < 70; i++)
+            for (int i = 0; i < 70; i++)
             {
                 int itemPos = _offsets.Locations + i * TroopSize;
                 var location = new Location()
@@ -187,7 +187,7 @@
         private List<NPC> PopulateNPCs(List<byte> data)
         {
             var npcs = new List<NPC>();
-            for(int i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 int itemPos = _offsets.NPCs + i * (NPCSize + NPCPadding);
                 var npc = new NPC()
@@ -210,10 +210,11 @@
         private List<Troop> PopulateTroops(List<byte> data)
         {
             var troops = new List<Troop>();
-            for(int i = 0; i < 68; i++)
+            for (int i = 0; i < 68; i++)
             {
                 int itemPos = _offsets.Troops + i * 27;
-                if (i == 68 && data[itemPos] == 0) {
+                if (i == 68 && data[itemPos] == 0)
+                {
                     continue; // from ODRADE: Assume vanilla Dune and skip this entry.
 
                 }
@@ -244,7 +245,7 @@
                     Equipment = data[itemPos + 25],
                     Population = data[itemPos + 26] * 10
                 };
-                for(int j = 0; j < 4; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     troop.Coordinates += Convert.ToString(data[itemPos + 6 + j]);
                 }
@@ -264,6 +265,7 @@
         internal void UpdateTroop(Troop troop)
         {
             int startOffset = troop.StartOffset;
+            _uncompressedData[startOffset + 1] = troop.NextTroopInLocation;
             _uncompressedData[startOffset + 2] = troop.PositionAroundLocation;
             _uncompressedData[startOffset + 3] = troop.Job;
             _uncompressedData[startOffset + 4] = troop.Unknown1;
@@ -285,7 +287,7 @@
             _uncompressedData[startOffset + 24] = troop.EcologySkill;
             _uncompressedData[startOffset + 25] = (byte)troop.Equipment;
             _uncompressedData[startOffset + 26] = (byte)Math.Round(troop.Population / 10.0);
-            if(string.IsNullOrWhiteSpace(troop.Coordinates) == false && troop.Coordinates.Length == 4)
+            if (string.IsNullOrWhiteSpace(troop.Coordinates) == false && troop.Coordinates.Length == 4)
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -537,7 +539,7 @@
             FileStream? fileStream = null;
             try
             {
-                if(File.Exists(newFileName))
+                if (File.Exists(newFileName))
                 {
                     File.Delete(newFileName + ".bak");
                     File.Copy(newFileName, newFileName + ".bak");
