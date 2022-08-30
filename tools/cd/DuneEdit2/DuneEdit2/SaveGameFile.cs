@@ -197,7 +197,7 @@
                     UnknownByte1 = data[itemPos + 1],
                     RoomLocation = data[itemPos + 2],
                     TypeOfPlace = data[itemPos + 3],
-                    UnknownByte2 = data[itemPos + 4],
+                    DialogueAvailable = data[itemPos + 4],
                     ExactPlace = data[itemPos + 5],
                     ForDialogue = data[itemPos + 6],
                     UnknownByte3 = data[itemPos + 7],
@@ -496,7 +496,7 @@
             _uncompressedData[startOffset + 1] = npc.UnknownByte1;
             _uncompressedData[startOffset + 2] = npc.RoomLocation;
             _uncompressedData[startOffset + 3] = npc.TypeOfPlace;
-            _uncompressedData[startOffset + 4] = npc.UnknownByte2;
+            _uncompressedData[startOffset + 4] = npc.DialogueAvailable;
             _uncompressedData[startOffset + 5] = npc.ExactPlace;
             _uncompressedData[startOffset + 6] = npc.ForDialogue;
             _uncompressedData[startOffset + 7] = npc.UnknownByte3;

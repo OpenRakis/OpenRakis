@@ -92,14 +92,14 @@
         /// <summary>
         /// 5th byte (Field E)
         /// </summary>
-        public byte UnknownByte2
+        public byte DialogueAvailable
         {
-            get => _npc.UnknownByte2;
+            get => _npc.DialogueAvailable;
             set
             {
-                _npc.UnknownByte2 = value;
+                _npc.DialogueAvailable = value;
                 HasChanged = true;
-                this.RaisePropertyChanged(nameof(UnknownByte2));
+                this.RaisePropertyChanged(nameof(DialogueAvailable));
             }
         }
 

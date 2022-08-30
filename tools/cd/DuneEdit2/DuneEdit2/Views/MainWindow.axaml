@@ -455,6 +455,7 @@
                             Grid.Column="1"
                             Margin="5,0,0,0"
                             Orientation="Vertical">
+							<TextBlock>16 bytes long, only 8 shown for now.</TextBlock>
 							<TextBlock HorizontalAlignment="Center">From first to last byte</TextBlock>
 							<Label>Sprite ID Byte (1st byte)</Label>
 							<NumericUpDown Text="{Binding CurrentNPC.SpriteId}" />
@@ -464,8 +465,8 @@
 							<NumericUpDown Text="{Binding CurrentNPC.RoomLocation}" />
 							<Label>Type of Place Byte (Comes from Location Appeareance Field) (4th byte)</Label>
 							<NumericUpDown Text="{Binding CurrentNPC.TypeOfPlace}" />
-							<Label>Unknown Byte 2 (5th byte)</Label>
-							<NumericUpDown Text="{Binding CurrentNPC.UnknownByte2}" />
+							<Label>Dialogue Available (5th byte)</Label>
+							<NumericUpDown Text="{Binding CurrentNPC.DialogueAvailable}" />
 							<Label>Exact Place (Pointer) Byte (6th byte)</Label>
 							<NumericUpDown Text="{Binding CurrentNPC.ExactPlace}" />
 							<Label>For Dialogue Byte (7th byte)</Label>

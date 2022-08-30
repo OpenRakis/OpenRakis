@@ -27,7 +27,7 @@
         /// <summary>
         /// 5th byte (Field E)
         /// </summary>
-        public byte UnknownByte2 { get; set; }
+        public byte DialogueAvailable { get; set; }
 
         /// <summary>
         /// 6th byte
