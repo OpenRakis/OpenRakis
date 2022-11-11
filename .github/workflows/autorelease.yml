@@ -8,7 +8,7 @@ on:
 jobs:
   pre-release:
     name: "Pre Release"
-    runs-on: "windows-latest"
+    runs-on: "ubuntu-latest"
 
     steps:
        - uses: actions/checkout@v1
