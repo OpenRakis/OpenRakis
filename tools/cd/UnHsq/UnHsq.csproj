@@ -5,7 +5,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PublishAot>True</PublishAot>
+		<PublishSingleFile>True</PublishSingleFile>
+		<PublishReadyToRun>True</PublishReadyToRun>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ErrorProne.NET.CoreAnalyzers" Version="0.1.2">

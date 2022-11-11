@@ -3,7 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
-    <PublishAot>true</PublishAot>
+		<PublishSingleFile>True</PublishSingleFile>
+		<PublishReadyToRun>True</PublishReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>
