@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 		<PublishSingleFile>True</PublishSingleFile>
-		<PublishReadyToRun>True</PublishReadyToRun>
+		<PublishTrimmed>True</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ErrorProne.NET.CoreAnalyzers" Version="0.1.2">

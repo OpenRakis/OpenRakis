@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
 		<PublishSingleFile>True</PublishSingleFile>
-		<PublishReadyToRun>True</PublishReadyToRun>
+		<PublishTrimmed>True</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
