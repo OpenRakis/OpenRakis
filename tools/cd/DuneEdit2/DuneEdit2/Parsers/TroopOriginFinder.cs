@@ -1,11 +1,10 @@
-﻿namespace DuneEdit2.Parsers
+﻿namespace DuneEdit2.Parsers;
+
+internal static class TroopOriginFinder
 {
-    internal static class TroopOriginFinder
+    public static string GetOrigin(byte status)
     {
-        public static string GetOrigin(byte status)
-        {
-            if(status > 100) { return "Southern Tribe"; }
-            return "Northen Tribe";
-        }
+        if(status > 100) { return "Southern Tribe"; }
+        return "Northen Tribe";
     }
 }

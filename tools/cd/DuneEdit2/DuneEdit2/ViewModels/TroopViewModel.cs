@@ -1,457 +1,456 @@
-﻿namespace DuneEdit2.ViewModels
+﻿namespace DuneEdit2.ViewModels;
+
+
+using DuneEdit2.Models;
+using DuneEdit2.Parsers;
+
+using ReactiveUI;
+
+public partial class TroopViewModel : ViewModelBase
 {
+    private readonly Location? _location;
 
-    using DuneEdit2.Models;
-    using DuneEdit2.Parsers;
+    private bool _hasChanged;
 
-    using ReactiveUI;
-
-    public partial class TroopViewModel : ViewModelBase
+    public byte PositionAroundLocation
     {
-        private readonly Location? _location;
-
-        private bool _hasChanged;
-
-        public byte PositionAroundLocation
+        get => _troop.PositionAroundLocation;
+        set
         {
-            get => _troop.PositionAroundLocation;
-            set
-            {
-                _troop.PositionAroundLocation = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(PositionAroundLocation));
-                this.RaisePropertyChanged(nameof(PositionAroundLocationDescription));
-            }
+            _troop.PositionAroundLocation = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(PositionAroundLocation));
+            this.RaisePropertyChanged(nameof(PositionAroundLocationDescription));
         }
+    }
 
-        public string PositionAroundLocationDescription => TroopPositionAroundLocationFinder.GetDescriptionOfTroopAroundLocation(PositionAroundLocation);
+    public string PositionAroundLocationDescription => TroopPositionAroundLocationFinder.GetDescriptionOfTroopAroundLocation(PositionAroundLocation);
 
-        public byte MissYouMsg
+    public byte MissYouMsg
+    {
+        get => _troop.MissYouMsg;
+        set
         {
-            get => _troop.MissYouMsg;
-            set
-            {
-                _troop.MissYouMsg = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(MissYouMsg));
-            }
+            _troop.MissYouMsg = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(MissYouMsg));
         }
+    }
 
-        public byte Unknown1
+    public byte Unknown1
+    {
+        get => _troop.Unknown1;
+        set
         {
-            get => _troop.Unknown1;
-            set
-            {
-                _troop.Unknown1 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown1));
-            }
+            _troop.Unknown1 = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Unknown1));
         }
+    }
 
-        public byte Unknown2
+    public byte Unknown2
+    {
+        get => _troop.Unknown2;
+        set
         {
-            get => _troop.Unknown2;
-            set
-            {
-                _troop.Unknown2 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown2));
-            }
+            _troop.Unknown2 = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Unknown2));
         }
+    }
 
-        public byte Unknown3
+    public byte Unknown3
+    {
+        get => _troop.Unknown3;
+        set
         {
-            get => _troop.Unknown3;
-            set
-            {
-                _troop.Unknown3 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown3));
-            }
+            _troop.Unknown3 = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Unknown3));
         }
+    }
 
-        public byte Unknown4
+    public byte Unknown4
+    {
+        get => _troop.Unknown4;
+        set
         {
-            get => _troop.Unknown4;
-            set
-            {
-                _troop.Unknown4 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown4));
-            }
+            _troop.Unknown4 = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Unknown4));
         }
+    }
 
-        public byte Unknown5
+    public byte Unknown5
+    {
+        get => _troop.Unknown5;
+        set
         {
-            get => _troop.Unknown5;
-            set
-            {
-                _troop.Unknown5 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown5));
-            }
+            _troop.Unknown5 = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Unknown5));
         }
+    }
 
-        public byte Unknown6
+    public byte Unknown6
+    {
+        get => _troop.Unknown6;
+        set
         {
-            get => _troop.Unknown6;
-            set
-            {
-                _troop.Unknown6 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown6));
-            }
+            _troop.Unknown6 = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Unknown6));
         }
+    }
 
-        public byte Unknown7
+    public byte Unknown7
+    {
+        get => _troop.Unknown7;
+        set
         {
-            get => _troop.Unknown7;
-            set
-            {
-                _troop.Unknown7 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown7));
-            }
+            _troop.Unknown7 = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Unknown7));
         }
+    }
 
-        public byte Unknown8
+    public byte Unknown8
+    {
+        get => _troop.Unknown8;
+        set
         {
-            get => _troop.Unknown8;
-            set
-            {
-                _troop.Unknown8 = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Unknown8));
-            }
+            _troop.Unknown8 = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Unknown8));
         }
+    }
 
-        public byte EspionageDiscoveryStatus
+    public byte EspionageDiscoveryStatus
+    {
+        get => _troop.EspionageDiscoveryStatus;
+        set
         {
-            get => _troop.EspionageDiscoveryStatus;
-            set
-            {
-                _troop.EspionageDiscoveryStatus = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(EspionageDiscoveryStatus));
-            }
+            _troop.EspionageDiscoveryStatus = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(EspionageDiscoveryStatus));
         }
+    }
 
-        public byte EquipmentRepairingStatus
+    public byte EquipmentRepairingStatus
+    {
+        get => _troop.EquipmentRepairingStatus;
+        set
         {
-            get => _troop.EquipmentRepairingStatus;
-            set
-            {
-                _troop.EquipmentRepairingStatus = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(EquipmentRepairingStatus));
-            }
+            _troop.EquipmentRepairingStatus = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(EquipmentRepairingStatus));
         }
+    }
 
-        public Location? CurrentLocation => _location;
+    public Location? CurrentLocation => _location;
 
-        public bool HasChanged
+    public bool HasChanged
+    {
+        get => _hasChanged;
+        private set
         {
-            get => _hasChanged;
-            private set
-            {
-                _hasChanged = value;
-                this.RaisePropertyChanged(nameof(HasChanged));
-            }
+            _hasChanged = value;
+            this.RaisePropertyChanged(nameof(HasChanged));
         }
+    }
 
-        private readonly Troop _troop;
+    private readonly Troop _troop;
 
-        public Troop Troop => _troop;
+    public Troop Troop => _troop;
 
-        public byte ArmySkill
+    public byte ArmySkill
+    {
+        get => _troop.ArmySkill;
+
+        set
         {
-            get => _troop.ArmySkill;
-
-            set
-            {
-                _troop.ArmySkill = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(ArmySkill));
-            }
+            _troop.ArmySkill = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(ArmySkill));
         }
+    }
 
-        public bool Atomics
+    public bool Atomics
+    {
+        get => _troop.Atomics;
+        set
         {
-            get => _troop.Atomics;
-            set
-            {
-                _troop.Atomics = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Atomics));
-                this.RaisePropertyChanged(nameof(Equipement));
-            }
+            _troop.Atomics = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Atomics));
+            this.RaisePropertyChanged(nameof(Equipement));
         }
+    }
 
-        public bool Bulbs
+    public bool Bulbs
+    {
+        get => _troop.Bulbs;
+        set
         {
-            get => _troop.Bulbs;
-            set
-            {
-                _troop.Bulbs = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Bulbs));
-                this.RaisePropertyChanged(nameof(Equipement));
-            }
+            _troop.Bulbs = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Bulbs));
+            this.RaisePropertyChanged(nameof(Equipement));
         }
+    }
 
-        public int Coordinates
+    public int Coordinates
+    {
+        get
         {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_troop.Coordinates))
-                    return 0;
-                if (int.TryParse(_troop.Coordinates, out var coords))
-                    return coords;
+            if (string.IsNullOrWhiteSpace(_troop.Coordinates))
                 return 0;
-            }
-
-            set
-            {
-                _troop.Coordinates = value.ToString();
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Coordinates));
-            }
+            if (int.TryParse(_troop.Coordinates, out var coords))
+                return coords;
+            return 0;
         }
 
-        public byte Job
+        set
         {
-            get => _troop.Job;
-            set
-            {
-                _troop.Job = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Job));
-                this.RaisePropertyChanged(nameof(JobDesc));
-                this.RaisePropertyChanged(nameof(Description));
-            }
+            _troop.Coordinates = value.ToString();
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Coordinates));
         }
+    }
 
-        public byte Dissatisfaction
+    public byte Job
+    {
+        get => _troop.Job;
+        set
         {
-            get => _troop.Dissatisfaction;
-            set
-            {
-                _troop.Dissatisfaction = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Dissatisfaction));
-                this.RaisePropertyChanged(nameof(DissatisfactionDesc));
-                this.RaisePropertyChanged(nameof(Origin));
-            }
+            _troop.Job = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Job));
+            this.RaisePropertyChanged(nameof(JobDesc));
+            this.RaisePropertyChanged(nameof(Description));
         }
+    }
 
-        public string JobDesc => $"{Job} - {JobFinder.GetJobDesc(Job)}";
-
-        public string DissatisfactionDesc => $"{Dissatisfaction} - {DissatisfactionFinder.GetStatusDesc(Dissatisfaction)}";
-
-        public byte EcologySkill
+    public byte Dissatisfaction
+    {
+        get => _troop.Dissatisfaction;
+        set
         {
-            get => _troop.EcologySkill;
-
-            set
-            {
-                _troop.EcologySkill = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(EcologySkill));
-            }
+            _troop.Dissatisfaction = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Dissatisfaction));
+            this.RaisePropertyChanged(nameof(DissatisfactionDesc));
+            this.RaisePropertyChanged(nameof(Origin));
         }
+    }
 
-        public bool Harvesters
+    public string JobDesc => $"{Job} - {JobFinder.GetJobDesc(Job)}";
+
+    public string DissatisfactionDesc => $"{Dissatisfaction} - {DissatisfactionFinder.GetStatusDesc(Dissatisfaction)}";
+
+    public byte EcologySkill
+    {
+        get => _troop.EcologySkill;
+
+        set
         {
-            get => _troop.Harvesters;
-            set
-            {
-                _troop.Harvesters = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Harvesters));
-                this.RaisePropertyChanged(nameof(Equipement));
-            }
+            _troop.EcologySkill = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(EcologySkill));
         }
+    }
 
-        public bool KrysKnives
+    public bool Harvesters
+    {
+        get => _troop.Harvesters;
+        set
         {
-            get => _troop.KrysKnives;
-            set
-            {
-                _troop.KrysKnives = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(KrysKnives));
-                this.RaisePropertyChanged(nameof(Equipement));
-            }
+            _troop.Harvesters = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Harvesters));
+            this.RaisePropertyChanged(nameof(Equipement));
         }
+    }
 
-        public bool LaserGuns
+    public bool KrysKnives
+    {
+        get => _troop.KrysKnives;
+        set
         {
-            get => _troop.LaserGuns;
-            set
-            {
-                _troop.LaserGuns = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(LaserGuns));
-                this.RaisePropertyChanged(nameof(Equipement));
-            }
+            _troop.KrysKnives = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(KrysKnives));
+            this.RaisePropertyChanged(nameof(Equipement));
         }
+    }
 
-        public byte Motivation
+    public bool LaserGuns
+    {
+        get => _troop.LaserGuns;
+        set
         {
-            get => _troop.Motivation;
-
-            set
-            {
-                _troop.Motivation = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Motivation));
-            }
+            _troop.LaserGuns = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(LaserGuns));
+            this.RaisePropertyChanged(nameof(Equipement));
         }
+    }
 
-        public byte NextTroopInLocation
+    public byte Motivation
+    {
+        get => _troop.Motivation;
+
+        set
         {
-            get => _troop.NextTroopInLocation;
-
-            set
-            {
-                _troop.NextTroopInLocation = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(NextTroopInLocation));
-            }
+            _troop.Motivation = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Motivation));
         }
+    }
 
-        public bool Ornithopters
+    public byte NextTroopInLocation
+    {
+        get => _troop.NextTroopInLocation;
+
+        set
         {
-            get => _troop.Ornithopters;
-            set
-            {
-                _troop.Ornithopters = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Ornithopters));
-                this.RaisePropertyChanged(nameof(Equipement));
-            }
+            _troop.NextTroopInLocation = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(NextTroopInLocation));
         }
+    }
 
-        public int Population
+    public bool Ornithopters
+    {
+        get => _troop.Ornithopters;
+        set
         {
-            get => _troop.Population;
-
-            set
-            {
-                _troop.Population = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Population));
-            }
+            _troop.Ornithopters = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Ornithopters));
+            this.RaisePropertyChanged(nameof(Equipement));
         }
+    }
 
-        public byte Speech
+    public int Population
+    {
+        get => _troop.Population;
+
+        set
         {
-            get => _troop.Speech;
-
-            set
-            {
-                _troop.Speech = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Speech));
-                this.RaisePropertyChanged(nameof(SpeechDesc));
-            }
+            _troop.Population = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Population));
         }
+    }
 
-        public string SpeechDesc => SpeechFinder.GetSpeechDesc(Speech);
+    public byte Speech
+    {
+        get => _troop.Speech;
 
-        public byte SpiceSkill
+        set
         {
-            get => _troop.SpiceSkill;
-
-            set
-            {
-                _troop.SpiceSkill = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(SpiceSkill));
-            }
+            _troop.Speech = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Speech));
+            this.RaisePropertyChanged(nameof(SpeechDesc));
         }
+    }
 
-        public int StartOffset => _troop.StartOffset;
+    public string SpeechDesc => SpeechFinder.GetSpeechDesc(Speech);
 
-        public string TroopDesc => _troop.TroopDesc;
+    public byte SpiceSkill
+    {
+        get => _troop.SpiceSkill;
 
-        public byte TroopID => _troop.TroopID;
-
-        public bool Weirdings
+        set
         {
-            get => _troop.Weirdings;
-            set
-            {
-                _troop.Weirdings = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Weirdings));
-                this.RaisePropertyChanged(nameof(Equipement));
-            }
+            _troop.SpiceSkill = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(SpiceSkill));
         }
+    }
 
-        private string GetSietchName()
+    public int StartOffset => _troop.StartOffset;
+
+    public string TroopDesc => _troop.TroopDesc;
+
+    public byte TroopID => _troop.TroopID;
+
+    public bool Weirdings
+    {
+        get => _troop.Weirdings;
+        set
         {
-            var name = "no sietch ID";
-            if (_location != null && string.IsNullOrWhiteSpace(_location.RegionName) == false)
-            {
-                return _location.RegionName;
-            }
-            return name;
+            _troop.Weirdings = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Weirdings));
+            this.RaisePropertyChanged(nameof(Equipement));
         }
+    }
 
-        public string Origin => TroopOriginFinder.GetOrigin(_troop.Dissatisfaction);
-
-        public string Description => $"{_troop.TroopID} ({GetSietchName()}) ({GetFaction()})";
-
-        public TroopViewModel(Troop troop, Location? sietch)
+    private string GetSietchName()
+    {
+        var name = "no sietch ID";
+        if (_location != null && string.IsNullOrWhiteSpace(_location.RegionName) == false)
         {
-            _troop = troop;
-            _location = sietch;
-            HasChanged = false;
+            return _location.RegionName;
         }
+        return name;
+    }
 
-        private string GetFaction()
+    public string Origin => TroopOriginFinder.GetOrigin(_troop.Dissatisfaction);
+
+    public string Description => $"{_troop.TroopID} ({GetSietchName()}) ({GetFaction()})";
+
+    public TroopViewModel(Troop troop, Location? sietch)
+    {
+        _troop = troop;
+        _location = sietch;
+        HasChanged = false;
+    }
+
+    private string GetFaction()
+    {
+        if (IsFremen())
         {
-            if (IsFremen())
-            {
-                return "Fremen";
-            }
-            else
-            {
-                return "Harkonnen";
-            }
+            return "Fremen";
         }
-
-        private bool IsFremen()
+        else
         {
-            if(_troop.Job > 0xA0)
-            {
-                return true;
-            }
-            var computedValue = _troop.Job & 0xF;
-            if(computedValue < 0xC)
-            {
-                return true;
-            }
-            return false;
+            return "Harkonnen";
         }
+    }
 
-        public int Equipement
+    private bool IsFremen()
+    {
+        if(_troop.Job > 0xA0)
         {
-            get => _troop.Equipment;
-            set
-            {
-                _troop.Equipment = value;
-                HasChanged = true;
-                this.RaisePropertyChanged(nameof(Equipement));
-                this.RaisePropertyChanged(nameof(Weirdings));
-                this.RaisePropertyChanged(nameof(Atomics));
-                this.RaisePropertyChanged(nameof(LaserGuns));
-                this.RaisePropertyChanged(nameof(KrysKnives));
-                this.RaisePropertyChanged(nameof(Ornithopters));
-                this.RaisePropertyChanged(nameof(Harvesters));
-                this.RaisePropertyChanged(nameof(Bulbs));
-            }
+            return true;
+        }
+        var computedValue = _troop.Job & 0xF;
+        if(computedValue < 0xC)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public int Equipement
+    {
+        get => _troop.Equipment;
+        set
+        {
+            _troop.Equipment = value;
+            HasChanged = true;
+            this.RaisePropertyChanged(nameof(Equipement));
+            this.RaisePropertyChanged(nameof(Weirdings));
+            this.RaisePropertyChanged(nameof(Atomics));
+            this.RaisePropertyChanged(nameof(LaserGuns));
+            this.RaisePropertyChanged(nameof(KrysKnives));
+            this.RaisePropertyChanged(nameof(Ornithopters));
+            this.RaisePropertyChanged(nameof(Harvesters));
+            this.RaisePropertyChanged(nameof(Bulbs));
         }
     }
 }

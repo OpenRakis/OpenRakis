@@ -1,6 +1,6 @@
 
-namespace DuneEdit2.Parsers
-{
+namespace DuneEdit2.Parsers;
+
 	public static class SpeechFinder
 	{
 
@@ -17,4 +17,3 @@ namespace DuneEdit2.Parsers
 			return "Unknown / Not used.";
 		}
 	}
-}

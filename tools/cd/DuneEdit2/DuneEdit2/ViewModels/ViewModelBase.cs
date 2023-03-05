@@ -1,8 +1,7 @@
-﻿namespace DuneEdit2.ViewModels
-{
-    using ReactiveUI;
+﻿namespace DuneEdit2.ViewModels;
 
-    public class ViewModelBase : ReactiveObject
-    {
-    }
+using ReactiveUI;
+
+public class ViewModelBase : ReactiveObject
+{
 }

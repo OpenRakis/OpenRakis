@@ -29,8 +29,6 @@ public class App : Application
             this.Styles.RemoveAt(1);
         }
 
-        // Debugging requires pdb loading etc, so we disable live reloading
-        // during a test run with an attached debugger.
         var mainWindow = new MainWindow();
         mainWindow.DataContext = MainWindowViewModel.Create(mainWindow);
         mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;

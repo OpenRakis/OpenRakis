@@ -1,11 +1,10 @@
-﻿namespace DuneEdit2.Parsers
+﻿namespace DuneEdit2.Parsers;
+
+internal static class LocationStatusFinder
 {
-    internal static class LocationStatusFinder
+    public static string GetSietchStatusDescription(int id)
     {
-        public static string GetSietchStatusDescription(int id)
-        {
-            if (id == 224) return "Hidden before Stillsuit Mission";
-            return "If 224: Hidden before Stillsuit Mission";
-        }
+        if (id == 224) return "Hidden before Stillsuit Mission";
+        return "If 224: Hidden before Stillsuit Mission";
     }
 }

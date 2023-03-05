@@ -9,56 +9,55 @@ using Avalonia.Markup.Xaml;
 
 using ReactiveUI;
 
-namespace DuneEdit2.Views
+namespace DuneEdit2.Views;
+
+public partial class MainWindow : Window
 {
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            ZoomIn = ReactiveCommand.Create<Unit, Unit>(ZoomInMethod);
-            ZoomOut = ReactiveCommand.Create<Unit, Unit>(ZoomOutMethod);
-            InitializeComponent();
+        ZoomIn = ReactiveCommand.Create<Unit, Unit>(ZoomInMethod);
+        ZoomOut = ReactiveCommand.Create<Unit, Unit>(ZoomOutMethod);
+        InitializeComponent();
 #if DEBUG
-            this.AttachDevTools();
+        this.AttachDevTools();
 #endif
-        }
+    }
 
-        private Unit ZoomInMethod(Unit arg)
+    private Unit ZoomInMethod(Unit arg)
+    {
+        Image? map = this.Find<Image>("MapOfDuneZoomedIn");
+        if(map != null)
         {
-            Image? map = this.Find<Image>("MapOfDuneZoomedIn");
-            if(map != null)
-            {
-                map.IsVisible = true;
-            }
-            Image? map2 = this.Find<Image>("MapOfDuneZoomedOut");
-            if (map2 != null)
-            {
-                map2.IsVisible = false;
-            }
-            return Unit.Default;
+            map.IsVisible = true;
         }
-
-        private Unit ZoomOutMethod(Unit arg)
+        Image? map2 = this.Find<Image>("MapOfDuneZoomedOut");
+        if (map2 != null)
         {
-            Image? map = this.Find<Image>("MapOfDuneZoomedIn");
-            if (map != null)
-            {
-                map.IsVisible = false;
-            }
-            Image? map2 = this.Find<Image>("MapOfDuneZoomedOut");
-            if (map2 != null)
-            {
-                map2.IsVisible = true;
-            }
-            return Unit.Default;
+            map2.IsVisible = false;
         }
+        return Unit.Default;
+    }
 
-        public ReactiveCommand<Unit, Unit> ZoomOut { get; private set; }
-        public ReactiveCommand<Unit, Unit> ZoomIn { get; private set; }
-
-        private void InitializeComponent()
+    private Unit ZoomOutMethod(Unit arg)
+    {
+        Image? map = this.Find<Image>("MapOfDuneZoomedIn");
+        if (map != null)
         {
-            AvaloniaXamlLoader.Load(this);
+            map.IsVisible = false;
         }
+        Image? map2 = this.Find<Image>("MapOfDuneZoomedOut");
+        if (map2 != null)
+        {
+            map2.IsVisible = true;
+        }
+        return Unit.Default;
+    }
+
+    public ReactiveCommand<Unit, Unit> ZoomOut { get; private set; }
+    public ReactiveCommand<Unit, Unit> ZoomIn { get; private set; }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 }

@@ -38,7 +38,7 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [Cryogenic: Dune ASM code overriden with C# code, bit by bit](https://github.com/OpenRakis/Cryogenic)
 
-# Might be useful
+# Other interesting tools
 
 [dosdebug](https://github.com/johndoe31415/dosdebug)
 

@@ -1,11 +1,10 @@
-namespace DuneEdit2.Parsers
+namespace DuneEdit2.Parsers;
+
+using System;
+
+public class Control
 {
-    using System;
+    public byte[] ControlType { get; set; } = Array.Empty<byte>();
 
-    public class Control
-    {
-        public byte[] ControlType { get; set; } = Array.Empty<byte>();
-
-        public int Offset { get; set; }
-    }
+    public int Offset { get; set; }
 }

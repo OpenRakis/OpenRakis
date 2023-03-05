@@ -4,7 +4,7 @@ DuneEdit2: DuneEdit extended, and for Win/Mac/Linux.
 
 DuneExtractor: uncompresses all the files from DUNE.DAT
 
-DuneImpactor: creates a DUNE.DAT archive file from a DUNE.DAT_ file tree.
+DuneImpactor: creates a DUNE.DAT archive file from a DUNE.DAT_ folder tree.
 
 LipsExtractor: Copies the lip syncing data at the end of DUNE's VOC files into .LIP files.
 
