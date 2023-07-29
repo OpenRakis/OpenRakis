@@ -117,7 +117,7 @@
                         <ComboBox
                             Grid.Row="0"
                             Grid.Column="0"
-                            Items="{Binding Locations}"
+                            ItemsSource="{Binding Locations}"
                             SelectedItem="{Binding CurrentLocation, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:LocationViewModel}">
@@ -241,7 +241,7 @@
                             Orientation="Horizontal">
                             <StackPanel Orientation="Vertical">
                                 <Label>Select by Troop ID:</Label>
-                                <ComboBox Items="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
+                                <ComboBox ItemsSource="{Binding Troops}" SelectedItem="{Binding CurrentTroop, Mode=TwoWay}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate DataType="{x:Type vm:TroopViewModel}">
                                             <Label Content="{Binding Description}" />
@@ -251,7 +251,7 @@
                             </StackPanel>
                             <StackPanel Margin="5,0,0,0" Orientation="Vertical">
                                 <Label>Select by Location:</Label>
-                                <ComboBox Items="{Binding LocationsWithTroops}" SelectedItem="{Binding CurrentLocationWithTroop, Mode=TwoWay}">
+                                <ComboBox ItemsSource="{Binding LocationsWithTroops}" SelectedItem="{Binding CurrentLocationWithTroop, Mode=TwoWay}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate DataType="{x:Type vm:LocationViewModel}">
                                             <Label Content="{Binding RegionName}" />
@@ -377,7 +377,7 @@
                             Margin="5,0,0,0"
                             Orientation="Vertical">
                             <Label>Select Smuggler:</Label>
-                            <ComboBox Items="{Binding Smugglers}" SelectedItem="{Binding CurrentSmuggler, Mode=TwoWay}">
+                            <ComboBox ItemsSource="{Binding Smugglers}" SelectedItem="{Binding CurrentSmuggler, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type vm:SmugglerViewModel}">
                                         <Label Content="{Binding RegionName}" />
@@ -441,7 +441,7 @@
                             Margin="5,0,0,0"
                             Orientation="Vertical">
                             <Label>Select NPC:</Label>
-                            <ComboBox Items="{Binding NPCs}" SelectedItem="{Binding CurrentNPC, Mode=TwoWay}">
+                            <ComboBox ItemsSource="{Binding NPCs}" SelectedItem="{Binding CurrentNPC, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type vm:NPCViewModel}">
                                         <Label Content="{Binding Name}" />

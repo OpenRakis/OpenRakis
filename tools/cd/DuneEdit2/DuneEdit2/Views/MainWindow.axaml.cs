@@ -18,46 +18,22 @@ public partial class MainWindow : Window
         ZoomIn = ReactiveCommand.Create<Unit, Unit>(ZoomInMethod);
         ZoomOut = ReactiveCommand.Create<Unit, Unit>(ZoomOutMethod);
         InitializeComponent();
-#if DEBUG
-        this.AttachDevTools();
-#endif
     }
 
     private Unit ZoomInMethod(Unit arg)
     {
-        Image? map = this.Find<Image>("MapOfDuneZoomedIn");
-        if(map != null)
-        {
-            map.IsVisible = true;
-        }
-        Image? map2 = this.Find<Image>("MapOfDuneZoomedOut");
-        if (map2 != null)
-        {
-            map2.IsVisible = false;
-        }
+        MapOfDuneZoomedIn.IsVisible = true;
+        MapOfDuneZoomedOut.IsVisible = false;
         return Unit.Default;
     }
 
     private Unit ZoomOutMethod(Unit arg)
     {
-        Image? map = this.Find<Image>("MapOfDuneZoomedIn");
-        if (map != null)
-        {
-            map.IsVisible = false;
-        }
-        Image? map2 = this.Find<Image>("MapOfDuneZoomedOut");
-        if (map2 != null)
-        {
-            map2.IsVisible = true;
-        }
+        MapOfDuneZoomedIn.IsVisible = false;
+        MapOfDuneZoomedOut.IsVisible = true;
         return Unit.Default;
     }
 
     public ReactiveCommand<Unit, Unit> ZoomOut { get; private set; }
     public ReactiveCommand<Unit, Unit> ZoomIn { get; private set; }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
 }

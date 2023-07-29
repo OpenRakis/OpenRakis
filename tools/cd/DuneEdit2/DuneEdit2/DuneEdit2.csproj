@@ -13,17 +13,17 @@
 		<Watch Include="**\*.xaml" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.1" />
 		<PackageReference Include="ErrorProne.NET.CoreAnalyzers" Version="0.1.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-		<PackageReference Include="System.Management" Version="7.0.0" />
 		<PackageReference Include="CommandLineParser" Version="2.9.1" />
-		<PackageReference Include="Avalonia" Version="0.10.18" />
-		<PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
-		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
-		<PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
+		<PackageReference Include="Avalonia" Version="11.0.1" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.1" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.1" />
+		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.1" />
+		<PackageReference Include="System.Reactive" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="CLI\" />

@@ -7,7 +7,6 @@
 		<local:ViewLocator />
 	</Application.DataTemplates>
 	<Application.Styles>
-		<FluentTheme Mode="Light" />
-		<FluentTheme Mode="Dark" />
+		<FluentTheme />
 	</Application.Styles>
 </Application>
