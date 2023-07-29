@@ -15,9 +15,6 @@ internal class Options
     [Option('o', "OutputFile", Default = "", Required = false, HelpText = "Savegame output file name after a Compress or Write")]
     public string OutputSaveGameFile { get; set; } = "";
 
-    [Option('r', "Read", Default = true, Required = false, HelpText = "Describe the entire save game on the standard input")]
-    public bool Read { get; set; }
-
     [Option('u', "Uncompress", Default = false, Required = false, HelpText = "Save the uncompressed savegame to disk as [Filename.SAV.UNCOMPRESSED]")]
     public bool Uncompress { get; set; }
 
