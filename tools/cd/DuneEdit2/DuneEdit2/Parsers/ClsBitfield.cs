@@ -16,7 +16,7 @@ public class ClsBitfield
         bf = v;
     }
 
-    public byte GetBit(byte b = 0) => (byte)(0u - (((((bf & (1 << (int)b)) == 1 << (int)b) ? 1 : 0) != 0) ? 1u : 0u));
+    public byte GetBit(byte b = 0) => (byte)(0u - (((bf & (1 << b)) == 1 << b ? 1 : 0) != 0 ? 1u : 0u));
 
-    public void SetBit(int b, bool v = true) => bf = (v ? (bf | (1 << b)) : (bf & ~(1 << b)));
+    public void SetBit(int b, bool v = true) => bf = v ? bf | (1 << b) : bf & ~(1 << b);
 }

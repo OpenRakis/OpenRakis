@@ -122,7 +122,7 @@ internal static class DuneImpactor
         string str7 = str6 + $"[STEP 2] Writing the header to the DatFile...{Environment.NewLine}{Environment.NewLine}";
         for (int i = 0; i < arrayList.Count; i++)
         {
-            DataSection datasSection2 = (DataSection)arrayList[i];
+            DataSection datasSection2 = arrayList[i];
             WritetoFileStream(input1, datasSection2.NameOfFile);
             WritetoFileStream(input1, datasSection2.SizeOfFile);
             WritetoFileStream(input1, datasSection2.OffsetOfFile);
