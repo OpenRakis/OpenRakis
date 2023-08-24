@@ -19,14 +19,10 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="CommandLineParser" Version="2.9.1" />
 		<PackageReference Include="Avalonia" Version="11.0.4" />
 		<PackageReference Include="Avalonia.Desktop" Version="11.0.4" />
 		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.4" />
 		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.4" />
 		<PackageReference Include="System.Reactive" Version="6.0.0" />
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="CLI\" />
 	</ItemGroup>
 </Project>
