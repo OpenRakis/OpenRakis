@@ -16,6 +16,7 @@ internal class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .LogToTrace()
+            .WithInterFont()
             .UseReactiveUI();
 
     public static void Main(string[] args)
