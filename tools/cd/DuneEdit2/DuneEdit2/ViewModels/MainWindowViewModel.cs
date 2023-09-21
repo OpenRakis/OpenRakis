@@ -1,4 +1,7 @@
-﻿namespace DuneEdit2.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
+namespace DuneEdit2.ViewModels;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +18,7 @@ using DuneEdit2.Parsers;
 using ReactiveUI;
 using DuneEdit2.Enums;
 
-public class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase
 {
     private bool _isSavegameLoaded;
     private SaveGameFile _savegameFile = new(SaveFileFormat.DUNE_37);
@@ -23,55 +26,29 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel(Window mainWindow)
     {
         MainWindow = mainWindow;
-        Open37SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open37SaveGameMethodAsync);
-        Open38SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open38SaveGameMethodAsync);
-        Open21SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open21SaveGameMethodAsync);
-        Open23SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open23SaveGameMethodAsync);
-        Open24SaveGame = ReactiveCommand.CreateFromTask<Unit, Unit>(Open24SaveGameMethodAsync);
-        SaveGameFile = ReactiveCommand.CreateFromTask<Unit, Unit>(SaveGameMethodAsync);
-        UpdateLocation = ReactiveCommand.Create<Unit, Unit>(UpdateLocationMethod);
-        UpdateTroop = ReactiveCommand.Create<Unit, Unit>(UpdateTroopMethod);
-        UpdateGenerals = ReactiveCommand.Create<Unit, Unit>(UpdateGeneralsMethod);
-        UpdateNPC = ReactiveCommand.Create<Unit, Unit>(UpdateNPCMethod);
-        UpdateSmuggler = ReactiveCommand.Create<Unit, Unit>(UpdateSmugglerMethod);
     }
 
-    private Unit UpdateTroopMethod(Unit arg)
+    [RelayCommand]
+    private void UpdateTroop()
     {
         if (CurrentTroop != null)
         {
             _savegameFile.UpdateTroop(CurrentTroop.Troop);
         }
-        return Unit.Default;
     }
 
-    private Unit UpdateLocationMethod(Unit arg)
+    [RelayCommand]
+    private void UpdateLocation()
     {
         if (CurrentLocation != null)
         {
             _savegameFile.UpdateLocation(CurrentLocation.Location);
         }
-        return Unit.Default;
     }
-
-    public ReactiveCommand<Unit, Unit>? UpdateGenerals { get; private set; }
-    public ReactiveCommand<Unit, Unit>? UpdateNPC { get; private set; }
-    public ReactiveCommand<Unit, Unit>? UpdateSmuggler { get; private set; }
-
-    public ReactiveCommand<Unit, Unit>? ExitApp { get; private set; }
-
-    public ReactiveCommand<Unit, Unit>? UpdateLocation { get; private set; }
-    public ReactiveCommand<Unit, Unit>? UpdateTroop { get; private set; }
 
     public bool IsSaveGameLoaded
     {
-        get
-        {
-            if (Design.IsDesignMode)
-                return true;
-            else
-                return _isSavegameLoaded;
-        }
+        get { return Design.IsDesignMode || _isSavegameLoaded; }
         private set => this.RaiseAndSetIfChanged(ref _isSavegameLoaded, value);
     }
 
@@ -167,12 +144,6 @@ public class MainWindowViewModel : ViewModelBase
         private set => this.RaiseAndSetIfChanged(ref _troops, value);
     }
 
-    public ReactiveCommand<Unit, Unit> Open37SaveGame { get; private set; }
-    public ReactiveCommand<Unit, Unit> Open38SaveGame { get; private set; }
-    public ReactiveCommand<Unit, Unit> Open21SaveGame { get; private set; }
-    public ReactiveCommand<Unit, Unit> Open23SaveGame { get; private set; }
-    public ReactiveCommand<Unit, Unit> Open24SaveGame { get; private set; }
-
     public string GameStageDesc => GameStageFinder.FindStage(GameStage);
 
     private byte _gameStage = 0;
@@ -259,20 +230,10 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public ReactiveCommand<Unit, Unit> SaveGameFile { get; private set; }
-
     private Window MainWindow { get; set; }
 
-    public static MainWindowViewModel Create(Window mainWindow)
-    {
-        var instance = new MainWindowViewModel(mainWindow)
-        {
-            ExitApp = ReactiveCommand.Create(() => mainWindow.Close())
-        };
-        return instance;
-    }
-
-    private async Task<Unit> Open37SaveGameMethodAsync(Unit arg)
+    [RelayCommand]
+    private async Task Open37SaveGame()
     {
         var dialog = new OpenFileDialog
         {
@@ -285,10 +246,10 @@ public class MainWindowViewModel : ViewModelBase
             PopulateVMs(selectedFile, SaveFileFormat.DUNE_37);
             IsSaveGameLoaded = true;
         }
-        return Unit.Default;
     }
 
-    private async Task<Unit> Open38SaveGameMethodAsync(Unit arg)
+    [RelayCommand]
+    private async Task Open38SaveGame()
     {
         var dialog = new OpenFileDialog
         {
@@ -301,10 +262,10 @@ public class MainWindowViewModel : ViewModelBase
             PopulateVMs(selectedFile, SaveFileFormat.DUNE_38);
             IsSaveGameLoaded = true;
         }
-        return Unit.Default;
     }
 
-    private async Task<Unit> Open21SaveGameMethodAsync(Unit arg)
+    [RelayCommand]
+    private async Task Open21SaveGame()
     {
         var dialog = new OpenFileDialog
         {
@@ -317,10 +278,10 @@ public class MainWindowViewModel : ViewModelBase
             PopulateVMs(selectedFile, SaveFileFormat.DUNE_21);
             IsSaveGameLoaded = true;
         }
-        return Unit.Default;
     }
 
-    private async Task<Unit> Open23SaveGameMethodAsync(Unit arg)
+    [RelayCommand]
+    private async Task Open23SaveGame()
     {
         var dialog = new OpenFileDialog
         {
@@ -333,10 +294,10 @@ public class MainWindowViewModel : ViewModelBase
             PopulateVMs(selectedFile, SaveFileFormat.DUNE_23);
             IsSaveGameLoaded = true;
         }
-        return Unit.Default;
     }
 
-    private async Task<Unit> Open24SaveGameMethodAsync(Unit arg)
+    [RelayCommand]
+    private async Task Open24SaveGame()
     {
         var dialog = new OpenFileDialog
         {
@@ -349,7 +310,6 @@ public class MainWindowViewModel : ViewModelBase
             PopulateVMs(selectedFile, SaveFileFormat.DUNE_24);
             IsSaveGameLoaded = true;
         }
-        return Unit.Default;
     }
 
     private void PopulateVMs(string saveFileName, SaveFileFormat format)
@@ -454,11 +414,12 @@ public class MainWindowViewModel : ViewModelBase
         return location;
     }
 
-    private async Task<Unit> SaveGameMethodAsync(Unit arg)
+    [RelayCommand]
+    private async Task SaveGameFile()
     {
         if (IsSaveGameLoaded == false)
         {
-            return Unit.Default;
+            return;
         }
         FileAttributes attributes = File.GetAttributes(_savegameFile.Filename);
         if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
@@ -478,34 +439,33 @@ public class MainWindowViewModel : ViewModelBase
             _savegameFile.SaveCompressed();
 
         }
-        return Unit.Default;
     }
 
-    private Unit UpdateGeneralsMethod(Unit arg)
+    [RelayCommand]
+    private void UpdateGenerals()
     {
         _savegameFile.UpdateCharisma(CharismaVal);
         _savegameFile.UpdateSpice(SpiceVal);
         _savegameFile.UpdateContactDistance(ContactDistanceVal);
         _savegameFile.UpdateNumberOfRalliedTroops(NumberOfRalliedTroops);
         _savegameFile.UpdateGameStage(GameStage);
-        return Unit.Default;
     }
 
-    private Unit UpdateNPCMethod(Unit arg)
+    [RelayCommand]
+    private void UpdateNPC()
     {
         if (CurrentNPC != null)
         {
             _savegameFile.UpdateNPC(CurrentNPC.NPC);
         }
-        return Unit.Default;
     }
 
-    private Unit UpdateSmugglerMethod(Unit arg)
+    [RelayCommand]
+    private void UpdateSmuggler()
     {
         if (CurrentSmuggler != null)
         {
             _savegameFile.UpdateSmuggler(CurrentSmuggler.Smuggler);
         }
-        return Unit.Default;
     }
 }

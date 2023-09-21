@@ -28,23 +28,19 @@
         <StackPanel>
             <Menu>
                 <MenuItem Header="File" HotKey="Alt+F">
-                    <MenuItem Command="{Binding Open21SaveGame}" Header="Open Floppy Savegame (v21)" />
-                    <MenuItem Command="{Binding Open23SaveGame}" Header="Open Floppy Savegame (v23)" />
-                    <MenuItem Command="{Binding Open24SaveGame}" Header="Open Floppy Savegame (v24)" />
+                    <MenuItem Command="{Binding Open21SaveGameCommand}" Header="Open Floppy Savegame (v21)" />
+                    <MenuItem Command="{Binding Open23SaveGameCommand}" Header="Open Floppy Savegame (v23)" />
+                    <MenuItem Command="{Binding Open24SaveGameCommand}" Header="Open Floppy Savegame (v24)" />
                     <MenuItem
-                        Command="{Binding Open37SaveGame}"
+                        Command="{Binding Open37SaveGameCommand}"
                         Header="Open CD Savegame (v37)"
                         HotKey="Ctrl+O" />
-                    <MenuItem Command="{Binding Open38SaveGame}" Header="Open CD Savegame (v38)" />
+                    <MenuItem Command="{Binding Open38SaveGameCommand}" Header="Open CD Savegame (v38)" />
                     <MenuItem
-                        Command="{Binding SaveGameFile}"
+                        Command="{Binding SaveGameFileCommand}"
                         Header="Save"
                         HotKey="Ctrl+S"
                         IsEnabled="{Binding IsSaveGameLoaded}" />
-                    <MenuItem
-                        Command="{Binding ExitApp}"
-                        Header="Exit"
-                        HotKey="Alt+F4" />
                 </MenuItem>
             </Menu>
             <TabControl>
@@ -55,7 +51,7 @@
                                 <Button
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Top"
-                                    Command="{Binding UpdateGenerals}"
+                                    Command="{Binding UpdateGeneralsCommand}"
                                     Content="Apply Modifications"
                                     IsEnabled="{Binding HasChanged}" />
                                 <UniformGrid>
@@ -129,7 +125,7 @@
                             Grid.Column="1"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
-                            Command="{Binding UpdateLocation}"
+                            Command="{Binding UpdateLocationCommand}"
                             Content="Apply Modifications"
                             IsEnabled="{Binding CurrentLocation.HasChanged}" />
                         <Grid
@@ -354,7 +350,7 @@
                             Grid.Column="1"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
-                            Command="{Binding UpdateTroop}"
+                            Command="{Binding UpdateTroopCommand}"
                             Content="Apply Modifications"
                             IsEnabled="{Binding CurrentTroop.HasChanged}" />
                     </Grid>
@@ -367,7 +363,7 @@
                             Grid.Column="1"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
-                            Command="{Binding UpdateSmuggler}"
+                            Command="{Binding UpdateSmugglerCommand}"
                             Content="Apply Modifications"
                             IsEnabled="{Binding CurrentSmuggler.HasChanged}" />
                         <StackPanel
@@ -431,7 +427,7 @@
                             Grid.Column="1"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
-                            Command="{Binding UpdateNPC}"
+                            Command="{Binding UpdateNPCCommand}"
                             Content="Apply Modifications"
                             IsEnabled="{Binding CurrentNPC.HasChanged}" />
                         <StackPanel
@@ -479,8 +475,8 @@
                 <TabItem Header="Map of Dune">
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                            <Button Command="{Binding ZoomIn, ElementName=AppWindow}">Zoom In</Button>
-                            <Button Command="{Binding ZoomOut, ElementName=AppWindow}">Zoom Out</Button>
+                            <Button Command="{Binding ZoomInCommand, ElementName=AppWindow}">Zoom In</Button>
+                            <Button Command="{Binding ZoomOutCommand, ElementName=AppWindow}">Zoom Out</Button>
                         </StackPanel>
                         <Viewbox DockPanel.Dock="Bottom">
                             <Grid>
