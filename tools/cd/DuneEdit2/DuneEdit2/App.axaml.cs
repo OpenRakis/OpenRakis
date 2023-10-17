@@ -22,6 +22,5 @@ public class App : Application
         mainWindow.DataContext = new MainWindowViewModel(mainWindow);
         mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         desktop.MainWindow = mainWindow;
-        mainWindow.Show();
     }
 }
