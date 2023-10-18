@@ -1,6 +1,6 @@
 namespace DuneSaveDescriptor.Decompression;
 
-public class Control
+internal record Control
 {
     public byte[] ControlType { get; set; } = Array.Empty<byte>();
 

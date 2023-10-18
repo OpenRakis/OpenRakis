@@ -1,17 +1,15 @@
-namespace DuneEdit2.Parsers;
-
+using System.Globalization;
 using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.CompilerServices;
 
-using System.Collections.Generic;
-using System.Globalization;
+namespace DuneSaveDescriptor.Decompression;
 
-internal class SequenceParser
+internal static class SequenceParser
 {
     public static bool IsControlSequence(byte[] ba)
     {
         bool result = false;
-        if ((ba[0] == 247) & (ba[1] == 1) & (ba[2] == 247))
+        if ((ba[0x0] == 0xF7) & (ba[0x1] == 0x1) & (ba[0x2] == 0xF7))
         {
             result = true;
         }
@@ -21,7 +19,7 @@ internal class SequenceParser
     public static bool IsDeflateSequence(byte[] ba)
     {
         bool result = false;
-        if ((ba[0] == 247) & (ba[1] > 2))
+        if ((ba[0x0] == 0xF7) & (ba[0x1] > 0x2))
         {
             result = true;
         }
@@ -33,17 +31,17 @@ internal class SequenceParser
         List<byte> list = new();
         checked
         {
-            int num = s.Length - 1;
+            int num = s.Length - 0x1;
             while (true)
             {
                 int num2 = num;
-                int num3 = 0;
+                int num3 = 0x0;
                 if (num2 < num3)
                 {
                     break;
                 }
-                list.Add((byte)int.Parse(s.Substring(Conversions.ToInteger(Interaction.IIf(num > 0, num - 1, num)), Conversions.ToInteger(Interaction.IIf(num > 0, 2, 1))), NumberStyles.HexNumber));
-                num += -2;
+                list.Add((byte)int.Parse(s.Substring(Conversions.ToInteger(Interaction.IIf(num > 0x0, num - 0x1, num)), Conversions.ToInteger(Interaction.IIf(num > 0x0, 0x2, 0x1))), NumberStyles.HexNumber));
+                num += -0x2;
             }
             return list.ToArray();
         }
