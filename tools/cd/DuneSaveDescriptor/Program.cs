@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using DuneSaveDescriptor.CSV;
 using DuneSaveDescriptor.Decompression;
 
 if (!args.Any())
@@ -9,9 +10,25 @@ if (!args.Any())
 var saveFile = args[0];
 if (!File.Exists(saveFile))
 {
-    Console.WriteLine("File does not exit or is unreachable");
+    Console.WriteLine("File does not exist or is unreachable");
 }
 
 var compressedSaveFile = File.ReadAllBytes(saveFile);
 var uncompressedData = Decompressor.Decompress(compressedSaveFile);
-File.WriteAllBytes($"{saveFile}.BIN", uncompressedData);
+var uncompressedFileName = $"{saveFile}.BIN";
+if (File.Exists(uncompressedFileName))
+{
+    File.Delete(uncompressedFileName);
+}
+File.WriteAllBytes(uncompressedFileName, uncompressedData);
+
+var csvFileName = $"{saveFile}.CSV";
+
+if (File.Exists(csvFileName))
+{
+    File.Delete(csvFileName);
+}
+
+IEnumerable<string> csvData = SaveFileCsv.GenerateLines(uncompressedData);
+
+File.WriteAllLines(csvFileName, csvData);
