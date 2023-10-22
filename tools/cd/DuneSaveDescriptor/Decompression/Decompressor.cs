@@ -33,52 +33,42 @@ internal static class Decompressor
         int length = compressedData.Length - 3;
         var traps = DetectTraps(compressedData);
         var controls = new List<Control>();
-        int offset = 0;
-        while (true)
+        for (int i = 0; i <= length; i++)
         {
-            int innerLength = length;
-            if (offset <= innerLength)
+            byte firstByte = compressedData[i];
+            byte secondByte = compressedData[i + 1];
+            byte thirdByte = compressedData[i + 2];
+            byte[] byteArray = new byte[3] { firstByte, secondByte, thirdByte };
+            if (SequenceParser.IsControlSequence(byteArray))
             {
-                byte firstByte = compressedData[offset];
-                byte secondByte = compressedData[offset + 1];
-                byte thirdByte = compressedData[offset + 2];
-                byte[] byteArray = new byte[3] { firstByte, secondByte, thirdByte };
-                if (SequenceParser.IsControlSequence(byteArray))
-                {
-                    Control control = new(new byte[3] { firstByte, secondByte, thirdByte }, uncompressedData.Count);
-                    controls.Add(control);
-                    uncompressedData.Add(0xF7);
-                    offset += 2;
-                }
-                else
-                {
-                    if (SequenceParser.IsDeflateSequence(byteArray))
-                    {
-                        if (IsTrap(traps, offset))
-                        {
-                            SetRealOffset(traps, offset, uncompressedData.Count);
-                        }
-                        for(int y = 0; y < secondByte; y++)
-                        {
-                            uncompressedData.Add(thirdByte);
-                        }
-                        offset += 2;
-                    }
-                    else
-                    {
-                        uncompressedData.Add(firstByte);
-                        if (offset == length)
-                        {
-                            uncompressedData.Add(secondByte);
-                            uncompressedData.Add(thirdByte);
-                        }
-                    }
-                }
-                offset++;
+                Control control = new(new byte[3] { firstByte, secondByte, thirdByte }, uncompressedData.Count);
+                controls.Add(control);
+                uncompressedData.Add(0xF7);
+                i += 2;
             }
             else
             {
-                break;
+                if (SequenceParser.IsDeflateSequence(byteArray))
+                {
+                    if (IsTrap(traps, i))
+                    {
+                        SetRealOffset(traps, i, uncompressedData.Count);
+                    }
+                    for (int y = 0; y < secondByte; y++)
+                    {
+                        uncompressedData.Add(thirdByte);
+                    }
+                    i += 2;
+                }
+                else
+                {
+                    uncompressedData.Add(firstByte);
+                    if (i == length)
+                    {
+                        uncompressedData.Add(secondByte);
+                        uncompressedData.Add(thirdByte);
+                    }
+                }
             }
         }
         return uncompressedData.ToArray();
