@@ -4,8 +4,8 @@ internal static class Decompressor
 {
     private static List<Trap> DetectTraps(IReadOnlyList<byte> compressedData)
     {
-        int length = compressedData.Count - 0x4;
-        int count = 0x0;
+        int length = compressedData.Count - 4;
+        int count = 0;
         var traps = new List<Trap>();
         while (true)
         {
@@ -13,9 +13,9 @@ internal static class Decompressor
             int num4 = length;
             if (num3 > num4) break;
             byte firstByte = compressedData[count];
-            byte repeatByte = compressedData[count + 0x1];
-            byte secondByte = compressedData[count + 0x2];
-            byte thirdByte = compressedData[count + 0x3];
+            byte repeatByte = compressedData[count + 1];
+            byte secondByte = compressedData[count + 2];
+            byte thirdByte = compressedData[count + 3];
             if (firstByte == 0xF7 && secondByte == thirdByte)
             {
                 Trap trap = new()
@@ -35,7 +35,7 @@ internal static class Decompressor
     public static byte[] Decompress(byte[] compressedData)
     {
         var uncompressedData = new List<byte>();
-        int overallLength = compressedData.Length - 0x3;
+        int overallLength = compressedData.Length - 3;
         var traps = DetectTraps(compressedData);
         var controls = new List<Control>();
         int length = overallLength;
@@ -48,9 +48,9 @@ internal static class Decompressor
                 break;
             }
             byte firstByte = compressedData[offset];
-            byte secondByte = compressedData[offset + 0x1];
-            byte thirdByte = compressedData[offset + 0x2];
-            byte[] byteArray = new byte[0x3] { firstByte, secondByte, thirdByte };
+            byte secondByte = compressedData[offset + 1];
+            byte thirdByte = compressedData[offset + 2];
+            byte[] byteArray = new byte[3] { firstByte, secondByte, thirdByte };
             if (SequenceParser.IsControlSequence(byteArray))
             {
                 Control control = new(new byte[0x3] { firstByte, secondByte, thirdByte }, uncompressedData.Count);
@@ -68,7 +68,7 @@ internal static class Decompressor
                         SetRealOffset(traps, offset, uncompressedData.Count);
                     }
 
-                    int count = 0x1;
+                    int count = 1;
                     while (true)
                     {
                         innerLength = secondByte;
@@ -100,37 +100,14 @@ internal static class Decompressor
         }
         return uncompressedData.ToArray();
     }
-    
-    private static bool IsTrap(IReadOnlyList<Trap> traps, int index)
-    {
-        for (int i = 0; i < traps.Count; i++)
-        {
-            Trap trap = traps[i];
-            if (trap.Offset == index)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    
+
+    private static bool IsTrap(IReadOnlyList<Trap> traps, int index) => traps.Any(x => x.Offset == index);
+
     private static void SetRealOffset(IReadOnlyList<Trap> traps, int index, int value)
     {
-        int length = traps.Count - 1;
-        int count = 0;
-        while (true)
-        {
-            if (count <= length)
-            {
-                if (traps[count].Offset == index)
-                {
-                    traps[count].RealOffset = value;
-                    break;
-                }
-                count++;
-                continue;
-            }
-            break;
+        var trapToSet = traps.FirstOrDefault(x => x.Offset == index);
+        if(trapToSet is not null) {
+            trapToSet.RealOffset = value;
         }
     }
 }
