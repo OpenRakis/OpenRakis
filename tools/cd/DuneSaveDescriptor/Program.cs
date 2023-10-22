@@ -14,13 +14,13 @@ if (!File.Exists(saveFile))
 }
 
 var compressedSaveFile = File.ReadAllBytes(saveFile);
-var uncompressedData = Decompressor.Decompress(compressedSaveFile);
+var uncompressedSave = Decompressor.Decompress(compressedSaveFile);
 var uncompressedFileName = $"{saveFile}.BIN";
 if (File.Exists(uncompressedFileName))
 {
     File.Delete(uncompressedFileName);
 }
-File.WriteAllBytes(uncompressedFileName, uncompressedData);
+File.WriteAllBytes(uncompressedFileName, uncompressedSave.DecompressedData);
 
 var csvFileName = $"{saveFile}.CSV";
 
@@ -29,6 +29,6 @@ if (File.Exists(csvFileName))
     File.Delete(csvFileName);
 }
 
-IEnumerable<string> csvData = SaveFileCsv.GenerateLines(uncompressedData);
+IEnumerable<string> csvData = SaveFileCsv.GenerateLines(uncompressedSave);
 
 File.WriteAllLines(csvFileName, csvData);

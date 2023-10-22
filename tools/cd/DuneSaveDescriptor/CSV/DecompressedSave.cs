@@ -1,0 +1,1 @@
+internal record DecompressedSave(byte[] DecompressedData, List<int> ControlSequencesPositions);

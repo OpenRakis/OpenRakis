@@ -2,6 +2,8 @@ namespace DuneSaveDescriptor.Decompression;
 
 internal static class Decompressor
 {
+    private const int ControlSequence = 0xF7;
+
     private static List<Trap> DetectTraps(IReadOnlyList<byte> compressedData)
     {
         int length = compressedData.Count - 4;
@@ -12,7 +14,7 @@ internal static class Decompressor
             byte repeatByte = compressedData[i + 1];
             byte secondByte = compressedData[i + 2];
             byte thirdByte = compressedData[i + 3];
-            if (firstByte == 0xF7 && secondByte == thirdByte)
+            if (firstByte == ControlSequence && secondByte == thirdByte)
             {
                 Trap trap = new()
                 {
@@ -27,12 +29,13 @@ internal static class Decompressor
         return traps;
     }
     
-    public static byte[] Decompress(byte[] compressedData)
+    public static DecompressedSave Decompress(byte[] compressedData)
     {
         var uncompressedData = new List<byte>();
         int length = compressedData.Length - 3;
         var traps = DetectTraps(compressedData);
         var controls = new List<Control>();
+        var controlSequencesPositions = new List<int>();
         for (int i = 0; i <= length; i++)
         {
             byte firstByte = compressedData[i];
@@ -43,7 +46,8 @@ internal static class Decompressor
             {
                 Control control = new(new byte[3] { firstByte, secondByte, thirdByte }, uncompressedData.Count);
                 controls.Add(control);
-                uncompressedData.Add(0xF7);
+                uncompressedData.Add(ControlSequence);
+                controlSequencesPositions.Add(i);
                 i += 2;
             }
             else
@@ -71,7 +75,7 @@ internal static class Decompressor
                 }
             }
         }
-        return uncompressedData.ToArray();
+        return new (uncompressedData.ToArray(), controlSequencesPositions);
     }
 
     private static bool IsTrap(IReadOnlyList<Trap> traps, int index) => traps.Any(x => x.Offset == index);
