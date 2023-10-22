@@ -5,28 +5,23 @@ internal static class Decompressor
     private static List<Trap> DetectTraps(IReadOnlyList<byte> compressedData)
     {
         int length = compressedData.Count - 4;
-        int count = 0;
         var traps = new List<Trap>();
-        while (true)
+        for(int i = 0; i <= length; i++)
         {
-            int num3 = count;
-            int num4 = length;
-            if (num3 > num4) break;
-            byte firstByte = compressedData[count];
-            byte repeatByte = compressedData[count + 1];
-            byte secondByte = compressedData[count + 2];
-            byte thirdByte = compressedData[count + 3];
+            byte firstByte = compressedData[i];
+            byte repeatByte = compressedData[i + 1];
+            byte secondByte = compressedData[i + 2];
+            byte thirdByte = compressedData[i + 3];
             if (firstByte == 0xF7 && secondByte == thirdByte)
             {
                 Trap trap = new()
                 {
-                    Offset = count,
+                    Offset = i,
                     Repeat = repeatByte,
                     HexCode = secondByte
                 };
                 traps.Add(trap);
             }
-            count++;
         }
 
         return traps;
