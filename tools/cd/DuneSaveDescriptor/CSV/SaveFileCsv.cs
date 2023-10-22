@@ -12,17 +12,17 @@ public static class SaveFileCsv
         yield return Headers;
         for (int i = 0; i < uncompressedData.Length; i++)
         {
-            yield return Invariant($"{i},{GetBytesColumn(uncompressedData[i..])},{GetAsciiColumn(uncompressedData[i..])}");
+            yield return Invariant($"{i},{GetBytesCell(uncompressedData[i..])},{GetAsciiCell(uncompressedData[i..])}");
         }
     }
     
-    private static IEnumerable<string> GetBytesColumn(byte[] uncompressedData)
+    private static string GetBytesCell(byte[] uncompressedData)
     {
-        yield return Invariant($"{Convert.ToHexString(uncompressedData[..Math.Min(uncompressedData.Length, BytesColumnLength)])}");
+        return $"{Convert.ToHexString(uncompressedData[..Math.Min(uncompressedData.Length, BytesColumnLength)])}";
     }
     
-    private static IEnumerable<string> GetAsciiColumn(byte[] uncompressedData)
+    private static string GetAsciiCell(byte[] uncompressedData)
     {
-        yield return Invariant($"{Encoding.ASCII.GetString(uncompressedData[..Math.Min(uncompressedData.Length, BytesColumnLength)])}");
+        return $"{Encoding.ASCII.GetString(uncompressedData[..Math.Min(uncompressedData.Length, BytesColumnLength)])}";
     }
 }
