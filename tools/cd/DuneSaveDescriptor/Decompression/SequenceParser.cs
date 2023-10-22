@@ -12,20 +12,11 @@ internal static class SequenceParser
     {
         List<byte> list = new();
         int length = s.Length - 1;
-        while (true)
+        while (length >= 0)
         {
-            int count = length;
-            const int start = 0;
-            if (count >= start)
-            {
-                byte item = (byte)int.Parse(s.Substring(length > 0 ? length - 1 : length, length > 0 ? 2 : 1), NumberStyles.HexNumber);
-                list.Add(item);
-                length -= 2;
-            }
-            else
-            {
-                break;
-            }
+            byte item = byte.Parse(s.Substring(length > 0 ? length - 1 : length, length > 0 ? 2 : 1), NumberStyles.HexNumber);
+            list.Add(item);
+            length -= 2;
         }
         return list.ToArray();
     }
