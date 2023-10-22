@@ -35,7 +35,6 @@ internal static class Decompressor
     public static byte[] Decompress(byte[] compressedData)
     {
         var uncompressedData = new List<byte>();
-        bool result = true;
         checked
         {
             int overallLength = compressedData.Length - 0x3;
@@ -56,20 +55,17 @@ internal static class Decompressor
                 byte[] byteArray = new byte[0x3] { firstByte, secondByte, thirdByte };
                 if (SequenceParser.IsControlSequence(byteArray))
                 {
-                    Control control = new();
-                    control.Offset = uncompressedData.Count;
-                    control.ControlType = new byte[0x3] { firstByte, secondByte, thirdByte };
+                    Control control = new(new byte[0x3] { firstByte, secondByte, thirdByte }, uncompressedData.Count);
                     controls.Add(control);
                     uncompressedData.Add(0xF7);
                     offset += 0x2;
                 }
                 else
                 {
-                    Trap t = new();
-                    bool trap = GetTrap(traps, offset);
+                    bool isTrap = IsTrap(traps, offset);
                     if (SequenceParser.IsDeflateSequence(byteArray))
                     {
-                        if (trap)
+                        if (isTrap)
                         {
                             SetRealOffset(traps, offset, uncompressedData.Count);
                         }
@@ -78,13 +74,15 @@ internal static class Decompressor
                         while (true)
                         {
                             innerLength = secondByte;
-                            if (count > innerLength)
+                            if (count <= innerLength)
+                            {
+                                uncompressedData.Add(thirdByte);
+                                count++;
+                            }
+                            else
                             {
                                 break;
                             }
-
-                            uncompressedData.Add(thirdByte);
-                            count++;
                         }
 
                         offset += 0x2;
@@ -106,7 +104,7 @@ internal static class Decompressor
         }
     }
     
-    private static bool GetTrap(IReadOnlyList<Trap> traps, int index)
+    private static bool IsTrap(IReadOnlyList<Trap> traps, int index)
     {
         bool result = false;
         for (int i = 0x0; i < traps.Count; i++)
