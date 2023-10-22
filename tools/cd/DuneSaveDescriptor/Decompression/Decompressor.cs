@@ -52,29 +52,16 @@ internal static class Decompressor
                 }
                 else
                 {
-                    bool isTrap = IsTrap(traps, offset);
                     if (SequenceParser.IsDeflateSequence(byteArray))
                     {
-                        if (isTrap)
+                        if (IsTrap(traps, offset))
                         {
                             SetRealOffset(traps, offset, uncompressedData.Count);
                         }
-
-                        int count = 1;
-                        while (true)
+                        for(int y = 0; y < secondByte; y++)
                         {
-                            innerLength = secondByte;
-                            if (count <= innerLength)
-                            {
-                                uncompressedData.Add(thirdByte);
-                                count++;
-                            }
-                            else
-                            {
-                                break;
-                            }
+                            uncompressedData.Add(thirdByte);
                         }
-
                         offset += 2;
                     }
                     else
@@ -87,7 +74,6 @@ internal static class Decompressor
                         }
                     }
                 }
-
                 offset++;
             }
             else
