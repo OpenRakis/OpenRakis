@@ -13,6 +13,9 @@ internal static class SaveFileCsv
     public static IEnumerable<string> GenerateLines(DecompressedSave uncompressedSave)
     {
         yield return Headers;
+        // TOOD: Display each new high level data start bytes on a new line, so the struct name sequence and other columns cells
+        // only contain one value on each line.
+        // Else, the CSV will not be readable.
         for (int i = 0; i < uncompressedSave.DecompressedData.Length; i += BytesColumnLength)
         {
             byte[] dataPart = uncompressedSave.DecompressedData[i..];
@@ -26,7 +29,7 @@ internal static class SaveFileCsv
     }
     
     /// <summary>
-    /// TODO: Remove this, and display high level data instead
+    /// TODO: Remove this column, and display high level data instead
     /// </summary>
     /// <param name="uncompressedData"></param>
     /// <returns></returns>

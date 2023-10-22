@@ -2,8 +2,6 @@ namespace DuneSaveDescriptor.Decompression;
 
 internal static class Decompressor
 {
-    private const int ControlSequence = 0xF7;
-
     private static List<Trap> DetectTraps(IReadOnlyList<byte> compressedData)
     {
         int length = compressedData.Count - 4;
@@ -14,7 +12,7 @@ internal static class Decompressor
             byte repeatByte = compressedData[i + 1];
             byte secondByte = compressedData[i + 2];
             byte thirdByte = compressedData[i + 3];
-            if (firstByte == ControlSequence && secondByte == thirdByte)
+            if (SequenceParser.IsTrapSequence(new byte[]{firstByte, secondByte, thirdByte }))
             {
                 Trap trap = new()
                 {
@@ -46,7 +44,7 @@ internal static class Decompressor
             {
                 Control control = new(new byte[3] { firstByte, secondByte, thirdByte }, uncompressedData.Count);
                 controls.Add(control);
-                uncompressedData.Add(ControlSequence);
+                uncompressedData.Add(SequenceParser.SaveCompressionSequenceStart);
                 controlSequencesPositions.Add(i);
                 i += 2;
             }
