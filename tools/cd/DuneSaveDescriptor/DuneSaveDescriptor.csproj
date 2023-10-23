@@ -34,4 +34,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\DuneEdit2\DuneEdit2\DuneEdit2.csproj" />
+    </ItemGroup>
 </Project>
