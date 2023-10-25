@@ -14,8 +14,8 @@ public class GameStageFinder
         if (id == 0x02) { result = "go find the stillsuit maker"; }
         if (id == 0x04) { result = "find prospectors, visit sietch"; }
         if (id == 0x05) { result = "go back home"; }
-        if (id == 0x06) { result = "look for hidden room (comms)"; }
-        if (id == 0x08) { result = "getting warmer"; }
+        if (id == 0x06) { result = "looking for hidden comms room"; }
+        if (id == 0x08) { result = "getting warmer to the hidden comms room"; }
         if (id == 0x0c) { result = "found the comms room, go talk to Duncan"; }
         if (id == 0x0d) { result = "go find a harvester ?"; }
         if (id == 0x10) { result = "found the harvester in Tuono Harg"; }
