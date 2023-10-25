@@ -1,6 +1,10 @@
 ﻿using DuneSaveDescriptor.CLI;
 using DuneSaveDescriptor.CSV;
 using DuneSaveDescriptor.Decompression;
+using DuneSaveDescriptor.Savegame;
+
+using DuneEdit2.Enums;
+using DuneEdit2.Models;
 
 if (!args.Any())
 {
@@ -18,13 +22,13 @@ if (!File.Exists(saveFile))
 }
 
 var compressedSaveFile = File.ReadAllBytes(saveFile);
-var uncompressedSave = Decompressor.Decompress(compressedSaveFile);
+var uncompressedSave = Decompressor.Decompress(compressedSaveFile, new Dune37Offsets());
 var uncompressedFileName = $"{saveFile}.BIN";
 if (File.Exists(uncompressedFileName))
 {
     File.Delete(uncompressedFileName);
 }
-File.WriteAllBytes(uncompressedFileName, uncompressedSave.DecompressedData);
+File.WriteAllBytes(uncompressedFileName, uncompressedSave.Data);
 
 var csvFileName = $"{saveFile}.CSV";
 
@@ -33,7 +37,9 @@ if (File.Exists(csvFileName))
     File.Delete(csvFileName);
 }
 
-IEnumerable<string> csvData = SaveFileCsv.GenerateLines(uncompressedSave);
+Dictionary<Range, SaveStructure> description = SaveDescriptor.GenerateDescription(uncompressedSave);
+
+IEnumerable<string> csvData = SaveFileCsv.GenerateLines(description);
 
 File.WriteAllLines(csvFileName, csvData);
 foreach(var line in File.ReadAllLines(csvFileName))

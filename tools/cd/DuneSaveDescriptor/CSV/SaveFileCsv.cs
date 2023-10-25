@@ -10,14 +10,12 @@ internal static class SaveFileCsv
     private static readonly ISaveGameOffsets _dune37SaveGameOffsets = new Dune37Offsets();
     private const char Comma = ',';
 
-    public static IEnumerable<string> GenerateLines(DecompressedSave uncompressedSave)
+    public static IEnumerable<string> GenerateLines(Dictionary<Range, SaveStructure> description)
     {
         yield return Headers;
 
         //TODO: Generate a Dictionary where the key is the structure address in the decompressed save
-        var description = new Dictionary<int, SaveStructure>();
-
-        foreach (var s in description.Values)
+        foreach (var s in description.Values.OrderBy(x => x.Address))
         {
             yield return Invariant($"{s.Address}{Comma}{s.Length}{Comma}{Convert.ToHexString(s.Bytes)}{Comma}{s.Value}{Comma}{s.Notes}");
         }

@@ -1,1 +1,3 @@
-internal record DecompressedSave(byte[] DecompressedData, List<int> ControlSequencesPositions);
+using DuneEdit2.Models;
+
+internal record DecompressedSave(byte[] Data, ISaveGameOffsets Offsets, List<int> ControlSequencesPositions);
