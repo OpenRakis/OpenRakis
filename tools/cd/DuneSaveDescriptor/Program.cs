@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using DuneSaveDescriptor.CLI;
+﻿using DuneSaveDescriptor.CLI;
 using DuneSaveDescriptor.CSV;
 using DuneSaveDescriptor.Decompression;
 
