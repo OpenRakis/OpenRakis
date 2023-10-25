@@ -37,7 +37,7 @@ if (File.Exists(csvFileName))
     File.Delete(csvFileName);
 }
 
-Dictionary<Range, SaveStructure> description = SaveDescriptor.GenerateDescription(uncompressedSave);
+IDictionary<Range, DescribedSaveStructure> description = SaveDescriptor.GenerateDescription(uncompressedSave);
 
 IEnumerable<string> csvData = SaveFileCsv.GenerateLines(description);
 

@@ -1,4 +1,5 @@
 using DuneEdit2.Models;
+using DuneSaveDescriptor.Savegame;
 
 namespace DuneSaveDescriptor.Decompression;
 

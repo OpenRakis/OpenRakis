@@ -10,7 +10,7 @@ internal static class SaveFileCsv
     private static readonly ISaveGameOffsets _dune37SaveGameOffsets = new Dune37Offsets();
     private const char Comma = ',';
 
-    public static IEnumerable<string> GenerateLines(Dictionary<Range, SaveStructure> description)
+    public static IEnumerable<string> GenerateLines(IDictionary<Range, DescribedSaveStructure> description)
     {
         yield return Headers;
 
