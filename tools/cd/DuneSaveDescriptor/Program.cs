@@ -39,9 +39,9 @@ if (File.Exists(csvFileName))
 
 IDictionary<Range, DescribedSaveStructure> description = SaveDescriptor.GenerateDescription(uncompressedSave);
 
-IEnumerable<string> csvData = SaveFileCsv.GenerateLines(description);
+string csvData = SaveFileCsv.GenerateLines(description);
 
-File.WriteAllLines(csvFileName, csvData);
+File.WriteAllText(csvFileName, csvData);
 foreach(var line in File.ReadAllLines(csvFileName))
 {
     Console.WriteLine(line);

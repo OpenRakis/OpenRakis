@@ -10,6 +10,7 @@
     <PublishReadyToRun>True</PublishReadyToRun>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="csv" Version="2.0.93" />
     <PackageReference Include="Serilog" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
@@ -30,8 +31,5 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DuneEdit2\DuneEdit2\DuneEdit2.csproj" />
   </ItemGroup>
 </Project>
