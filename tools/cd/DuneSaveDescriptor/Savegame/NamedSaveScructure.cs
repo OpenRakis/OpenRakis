@@ -1,1 +1,0 @@
-public readonly record struct NamedSaveStructure(int Address, string Name, int Length);

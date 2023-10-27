@@ -1,4 +1,3 @@
-using DuneEdit2.Models;
 using DuneSaveDescriptor.Savegame;
 
 namespace DuneSaveDescriptor.Decompression;
@@ -30,7 +29,7 @@ internal static class Decompressor
         return traps;
     }
     
-    public static DecompressedSave Decompress(byte[] compressedData, ISaveGameOffsets savegameOffsets)
+    public static DecompressedSave Decompress(byte[] compressedData)
     {
         var uncompressedData = new List<byte>();
         int length = compressedData.Length - 3;
@@ -76,7 +75,7 @@ internal static class Decompressor
                 }
             }
         }
-        return new (uncompressedData.ToArray(), savegameOffsets, controlSequencesPositions);
+        return new (uncompressedData.ToArray(), controlSequencesPositions);
     }
 
     private static bool IsTrap(IReadOnlyList<Trap> traps, int index) => traps.Any(x => x.Offset == index);

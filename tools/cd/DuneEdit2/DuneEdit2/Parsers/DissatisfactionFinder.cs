@@ -18,7 +18,7 @@ public class DissatisfactionFinder
                 break;
 
             case 2:
-                result = "Small group merged with this group";
+                result = "Small troop merged with this troop";
                 break;
 
             case 4:

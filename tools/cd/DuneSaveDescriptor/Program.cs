@@ -3,9 +3,6 @@ using DuneSaveDescriptor.CSV;
 using DuneSaveDescriptor.Decompression;
 using DuneSaveDescriptor.Savegame;
 
-using DuneEdit2.Enums;
-using DuneEdit2.Models;
-
 if (!args.Any())
 {
     DisplayHelpAndExit();
@@ -22,7 +19,7 @@ if (!File.Exists(saveFile))
 }
 
 var compressedSaveFile = File.ReadAllBytes(saveFile);
-var uncompressedSave = Decompressor.Decompress(compressedSaveFile, new Dune37Offsets());
+var uncompressedSave = Decompressor.Decompress(compressedSaveFile);
 var uncompressedFileName = $"{saveFile}.BIN";
 if (File.Exists(uncompressedFileName))
 {
