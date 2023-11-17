@@ -3,25 +3,7 @@
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/src/Spice86"
-    schedule:
-      interval: "weekly"
-      day: "wednesday"
-    open-pull-requests-limit: 5
-  - package-ecosystem: "nuget"
-    directory: "/src/Spice86.Core"
-    schedule:
-      interval: "weekly"
-      day: "wednesday"
-    open-pull-requests-limit: 5
-  - package-ecosystem: "nuget"
-    directory: "/src/Spice86.Logging"
-    schedule:
-      interval: "weekly"
-      day: "wednesday"
-    open-pull-requests-limit: 5
-  - package-ecosystem: "nuget"
-    directory: "/src/Spice86.Tests"
+    directory: "/tools/cd"
     schedule:
       interval: "weekly"
       day: "wednesday"
