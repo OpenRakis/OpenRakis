@@ -23,7 +23,7 @@
 		<PackageReference Include="Avalonia" Version="11.0.10" />
 		<PackageReference Include="Avalonia.Desktop" Version="11.0.7" />
 		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.9" />
-		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.9" />
+		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.10" />
 		<PackageReference Include="System.Reactive" Version="6.0.0" />
 	</ItemGroup>
 </Project>
