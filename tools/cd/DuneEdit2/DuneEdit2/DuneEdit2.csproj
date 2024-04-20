@@ -13,7 +13,7 @@
 		<Watch Include="**\*.xaml" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.5" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
 		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="ErrorProne.NET.CoreAnalyzers" Version="0.1.2">
@@ -21,9 +21,9 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Avalonia" Version="11.0.10" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.0.7" />
 		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
-		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.9" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.10" />
 		<PackageReference Include="System.Reactive" Version="6.0.0" />
 	</ItemGroup>
 </Project>
