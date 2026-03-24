@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenRakis — Cryo DUNE Reverse Engineering Project</title>
+  <meta name="description" content="OpenRakis is an open-source project to reverse-engineer Cryo Interactive's 1992 DUNE game, including a ScummVM engine implementation, save-file editor, and data-extraction tools." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top">OpenRakis</a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#formats">Formats</a></li>
+      <li><a href="#status">Status</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#contributing">Contributing</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────── -->
+<header class="hero" id="top">
+  <img class="hero-logo" src="../worm.gif" alt="OpenRakis worm logo" />
+  <div class="hero-text">
+    <h1><span>Open</span>Rakis</h1>
+    <p class="tagline">
+      A work-in-progress reverse-engineering project for Cryo Interactive's
+      <em>DUNE</em> (1992 DOS). Combines x86 assembly analysis, a ScummVM engine
+      implementation, a cross-platform save-file editor, and data-extraction
+      utilities — all under GPLv2.
+    </p>
+    <div class="badges">
+      <span class="badge">GPLv2</span>
+      <span class="badge">C# · .NET 8</span>
+      <span class="badge">C++</span>
+      <span class="badge">x86 ASM</span>
+      <span class="badge">ScummVM</span>
+      <span class="badge">Linux · macOS · Windows</span>
+    </div>
+  </div>
+</header>
+
+<!-- ── Main ───────────────────────────────────────────── -->
+<main>
+
+  <!-- ── Overview ───────────────────────────────────── -->
+  <section id="overview">
+    <h2>Overview</h2>
+
+    <p>
+      <em>DUNE</em> (1992) is an adventure / strategy game developed by Cryo Interactive
+      Entertainment and published by Virgin Games, loosely based on Frank Herbert's novel.
+      It shipped in two builds: a <strong>floppy</strong> edition and a
+      <strong>CD edition</strong> that adds full speech and video sequences.
+    </p>
+
+    <p>
+      OpenRakis documents the game's binary formats, reconstructs its internal logic from
+      16-bit x86 DOS assembly, and provides a playable engine inside ScummVM. The project
+      targets the PC DOS versions of the game.
+    </p>
+
+    <div class="callout">
+      <strong>No copyrighted game data is distributed.</strong>
+      The original game binaries and data files are copyrighted by their respective owners
+      and are <em>not</em> included in this repository. You must own a copy of the game to
+      use these tools.
+    </div>
+
+    <h3>Project Structure</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Path</th><th>Contents</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>asm/</code></td>
+            <td>Reverse-engineered x86 16-bit DOS assembly extracted from the original executables (<code>LOGO.asm</code>, etc.) for both CD and floppy versions.</td>
+          </tr>
+          <tr>
+            <td><code>src/openrakis/scummvm/</code></td>
+            <td>C++ ScummVM engine implementation for the DUNE game: archive loader, graphics renderer, HNM video player, HSQ decompressor, and game-version detection.</td>
+          </tr>
+          <tr>
+            <td><code>tools/cd/</code></td>
+            <td>C# (.NET 8) command-line and GUI utilities targeting the CD version: <code>DuneEdit2</code>, <code>DuneExtractor</code>, <code>DuneImpactor</code>, <code>LipsExtractor</code>, <code>LipsInjector</code>, <code>UnHsq</code>.</td>
+          </tr>
+          <tr>
+            <td><code>tools/floppy/</code></td>
+            <td>Tooling for the floppy version of the game.</td>
+          </tr>
+          <tr>
+            <td><code>tools/dune-ds/</code></td>
+            <td>Early work on a Nintendo DS port.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Related Projects in the OpenRakis Organisation</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Project</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="https://github.com/OpenRakis/Spice86" target="_blank" rel="noopener">Spice86</a></td>
+            <td>A reverse-engineering emulator for x86/DOS code. Enables running original DOS programs and replacing assembly routines with C# equivalents incrementally.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/OpenRakis/Cryogenic" target="_blank" rel="noopener">Cryogenic</a></td>
+            <td>A C# bit-for-bit reimplementation of the DUNE assembly code, built on top of Spice86. Each assembly function is progressively replaced by equivalent C#.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Components ─────────────────────────────────── -->
+  <section id="components">
+    <h2>Components</h2>
+
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-title">DuneEdit2</div>
+        <p>
+          Cross-platform GUI and CLI save-file editor for the CD version.
+          Reads, decompresses, modifies, and recompresses <code>.SAV</code>
+          save game files. Displays every parsed field: generals, NPCs,
+          troops, locations, smugglers, traps, game stage, and more.
+        </p>
+        <div class="tag-row">
+          <span class="tag">C# / .NET 8</span>
+          <span class="tag">Avalonia UI 11</span>
+          <span class="tag">GUI + CLI</span>
+          <span class="tag">Win / macOS / Linux</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">ScummVM Engine</div>
+        <p>
+          C++ engine plugin for ScummVM that loads game archives, renders
+          graphics, plays HNM video sequences, and decompresses HSQ-compressed
+          data files. Detects both the floppy and CD game versions.
+        </p>
+        <div class="tag-row">
+          <span class="tag">C++</span>
+          <span class="tag">ScummVM API</span>
+          <span class="tag">HNM playback</span>
+          <span class="tag">HSQ decompression</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Data Extraction Suite</div>
+        <p>
+          Command-line tools to unpack <code>DUNE.DAT</code>, repack
+          modified files, and manipulate lip-sync data inside VOC audio
+          files. Enables inspection and modification of all game assets.
+        </p>
+        <div class="tag-row">
+          <span class="tag">C# / .NET 8</span>
+          <span class="tag">DUNE.DAT</span>
+          <span class="tag">VOC / LIP</span>
+          <span class="tag">CLI</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Assembly Archive</div>
+        <p>
+          Commented x86 16-bit real-mode assembly of the original DOS
+          executables, produced with IDA Freeware and Ghidra. Serves as the
+          ground truth for the C# reimplementation in Cryogenic.
+        </p>
+        <div class="tag-row">
+          <span class="tag">x86 ASM</span>
+          <span class="tag">IDA</span>
+          <span class="tag">Ghidra</span>
+          <span class="tag">16-bit DOS</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Tools ──────────────────────────────────────── -->
+  <section id="tools">
+    <h2>Tools</h2>
+
+    <h3>Included Tools (<code>tools/cd/</code>)</h3>
+    <ul class="tool-list">
+      <li>
+        <span class="tl-name">DuneEdit2</span>
+        <span class="tl-desc">
+          Save-file editor with Avalonia GUI and a full command-line interface.
+          Supports reading, writing, compressing, and decompressing <code>.SAV</code>
+          files for the PC CD DOS version.
+        </span>
+      </li>
+      <li>
+        <span class="tl-name">DuneExtractor</span>
+        <span class="tl-desc">
+          Decompresses and extracts every file stored inside <code>DUNE.DAT</code>,
+          the main game archive of the CD version, into a directory tree.
+        </span>
+      </li>
+      <li>
+        <span class="tl-name">DuneImpactor</span>
+        <span class="tl-desc">
+          Inverse of DuneExtractor. Re-creates a <code>DUNE.DAT</code> from a
+          previously extracted directory tree, allowing round-trip asset modification.
+        </span>
+      </li>
+      <li>
+        <span class="tl-name">LipsExtractor</span>
+        <span class="tl-desc">
+          Copies the lip-sync data block from the header of Cryo's VOC audio files
+          into separate <code>.LIP</code> files for analysis or editing.
+        </span>
+      </li>
+      <li>
+        <span class="tl-name">LipsInjector</span>
+        <span class="tl-desc">
+          Writes data from <code>.LIP</code> files back into the appropriate header
+          offset of VOC files, enabling lip-sync modification.
+        </span>
+      </li>
+      <li>
+        <span class="tl-name">UnHsq</span>
+        <span class="tl-desc">
+          Standalone command-line decompressor for Cryo's HSQ format, translated
+          from the ScummVM engine's HSQ implementation.
+        </span>
+      </li>
+      <li>
+        <span class="tl-name">DuneSaveDescriptor</span>
+        <span class="tl-desc">
+          Prints a human-readable description of every field in a save file to
+          standard output, useful for debugging the save-file format.
+        </span>
+      </li>
+    </ul>
+
+    <h3>DuneEdit2 Command-Line Reference</h3>
+    <pre><code>Usage: DuneEdit2 [options]
+
+  -i, --InputFile      Required. Path to the save game file, e.g. DUNE37S1.SAV
+                       (multiple files accepted for read-only mode).
+  -o, --OutputFile     Output file name after Compress or Write.
+  -r, --Read           (default: true) Print a description of the save game.
+  -u, --Uncompress     Save the uncompressed save game as [file].UNCOMPRESSED.
+  -c, --Compress       Compress the specified file.
+  -w, --Write          Write one or more hex bytes at specific offsets, then
+                       recompress. Format: 0xVALUE,0xOFFSET ...
+  -p, --PauseBeforeExit Wait for a keypress before exiting.
+  --help               Display help.
+  --version            Display version information.</code></pre>
+    <p>
+      <strong>Example:</strong> patch a single byte at offset <code>0x1A</code> to
+      <code>0xFF</code> and save the result:
+    </p>
+    <pre><code>DuneEdit2 -i DUNE37S1.SAV -o OUT.SAV -w 0xFF,0x1A</code></pre>
+
+    <h3>External Reverse-Engineering Tools</h3>
+    <ul class="tool-list">
+      <li>
+        <span class="tl-name"><a href="https://hex-rays.com/ida-free/" target="_blank" rel="noopener">IDA Freeware</a></span>
+        <span class="tl-desc">
+          Disassembler used to produce the initial annotated assembly. IDA settings:
+          8086 16-bit Real Mode, entry point CS = <code>0x1ED</code>.
+        </span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="https://github.com/NationalSecurityAgency/ghidra" target="_blank" rel="noopener">Ghidra</a></span>
+        <span class="tl-desc">
+          NSA's open-source reverse-engineering suite. Used alongside the
+          <a href="https://github.com/OpenRakis/Spice86/tree/master/ghidraCodeGenerator" target="_blank" rel="noopener">Spice86 Ghidra code generator</a>
+          to emit C# stub functions from the disassembly.
+        </span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="https://keenwiki.shikadi.net/wiki/UNLZEXE" target="_blank" rel="noopener">UNLZEXE</a></span>
+        <span class="tl-desc">
+          Unpacks LZEXE-compressed DOS executables. Required to unpack
+          <code>LOGO.EXE</code> before disassembly.
+        </span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="https://www.vogons.org/viewtopic.php?p=860536#p860536" target="_blank" rel="noopener">DOSBox Debugger with AUTOEXEC</a></span>
+        <span class="tl-desc">
+          A patched DOSBox build that accepts AUTOEXEC scripts, enabling
+          scripted debugging sessions. Typical usage:
+          <br /><code>Z:\DEBUG.COM DNCDPRG.EXE ENG ADP220 SBP2227 EMS 386 SAF WRIC:\DUNECD\</code>
+        </span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="https://github.com/madmoose/chani" target="_blank" rel="noopener">Chani (Simulfow Debugger)</a></span>
+        <span class="tl-desc">
+          A flow-simulation debugger for DOS programs, useful for tracing
+          execution paths through the original DUNE code.
+        </span>
+      </li>
+    </ul>
+
+    <h3>Other Useful Tools</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tool</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://github.com/johndoe31415/dosdebug" target="_blank" rel="noopener">dosdebug</a></td><td>Lightweight DOS debugger.</td></tr>
+          <tr><td><a href="https://github.com/gabonator/Projects/tree/master/XenonResurrection/Parser/CicParser2021" target="_blank" rel="noopener">CiCParser2021</a></td><td>Code / data classification helper for disassembly projects.</td></tr>
+          <tr><td><a href="https://github.com/zfigura/semblance" target="_blank" rel="noopener">semblance</a></td><td>Open-source NE/LE/MZ disassembler for 16-bit DOS executables.</td></tr>
+          <tr><td><a href="https://github.com/xor2003/masm2c" target="_blank" rel="noopener">MASM2C</a></td><td>Translates MASM assembly to C; useful for partial decompilation.</td></tr>
+          <tr><td><a href="https://github.com/xsro/masm-tasm" target="_blank" rel="noopener">MASM/TASM</a> (VS Code)</td><td>Assembler integration for editing and building the <code>asm/</code> sources.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── File Formats ───────────────────────────────── -->
+  <section id="formats">
+    <h2>File Formats</h2>
+
+    <p>
+      The CD version of DUNE uses several proprietary Cryo Interactive formats.
+      The table below summarises what is known and what is implemented in this project.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Format</th>
+            <th>Extension(s)</th>
+            <th>Description</th>
+            <th>Implemented?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>DUNE.DAT</strong></td>
+            <td><code>.DAT</code></td>
+            <td>Main archive containing all game assets (compressed). Extracted by <code>DuneExtractor</code>, repacked by <code>DuneImpactor</code>.</td>
+            <td>✔ Read &amp; Write</td>
+          </tr>
+          <tr>
+            <td><strong>HSQ</strong></td>
+            <td><code>.HSQ</code>, various</td>
+            <td>Cryo's in-house compression format used for most data files inside the archive. Header contains uncompressed length and a checksum.</td>
+            <td>✔ Decompress (ScummVM &amp; UnHsq)</td>
+          </tr>
+          <tr>
+            <td><strong>HNM</strong></td>
+            <td><code>.HNM</code></td>
+            <td>
+              Cryo's proprietary video format (HNM version 1). Contains interleaved audio
+              and delta-coded video frames.
+              See <a href="https://wiki.multimedia.cx/index.php?title=HNM_%281%29" target="_blank" rel="noopener">MultimediaWiki description</a>.
+            </td>
+            <td>✔ Playback (ScummVM engine)</td>
+          </tr>
+          <tr>
+            <td><strong>SAV</strong></td>
+            <td><code>.SAV</code></td>
+            <td>HSQ-compressed binary save game. Stores game state at a byte level including character attributes, troop positions, game stage, and dialogue flags.</td>
+            <td>✔ Read &amp; Write (DuneEdit2)</td>
+          </tr>
+          <tr>
+            <td><strong>VOC + LIP</strong></td>
+            <td><code>.VOC</code></td>
+            <td>Standard Creative Labs VOC audio files, with a Cryo-specific lip-sync data block prepended in the header. Managed by <code>LipsExtractor</code>/<code>LipsInjector</code>.</td>
+            <td>✔ LIP extraction &amp; injection</td>
+          </tr>
+          <tr>
+            <td><strong>HERAD</strong></td>
+            <td><em>embedded</em></td>
+            <td>
+              Cryo's AdLib / OPL2 music driver format used in the DOS version.
+              See <a href="http://www.vgmpf.com/Wiki/index.php/HERAD" target="_blank" rel="noopener">VGMPF description</a>
+              and <a href="https://github.com/adplug/adplug/blob/master/src/herad.cpp" target="_blank" rel="noopener">adplug implementation</a>.
+            </td>
+            <td>Partial (referenced)</td>
+          </tr>
+          <tr>
+            <td><strong>Palettes / sprites</strong></td>
+            <td><em>inside DAT</em></td>
+            <td>Paletted bitmap data referenced in the
+              <a href="https://bigs.fr/dune_old/" target="_blank" rel="noopener">partial data-files description</a>.
+              Decoded by the ScummVM graphics module.</td>
+            <td>Partial (ScummVM engine)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Save-File Internals ────────────────────────── -->
+  <section id="save-internals">
+    <h2>Save-File Internals</h2>
+
+    <p>
+      DuneEdit2 exposes every parsed field from the CD save file.
+      The following categories of data are currently decoded:
+    </p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">Generals</div>
+        <p>Player character state: charisma, contact distance, current game stage, and attribute flags.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">NPCs</div>
+        <p>Per-NPC data: identity, current status, and any flags controlling dialogue availability.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Troops</div>
+        <p>Each military unit's location, equipment level, and task assignment.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Locations</div>
+        <p>Map sietch metadata: name reference, region index, and associated flags.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Smugglers</div>
+        <p>Smuggler network state and availability flags.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Traps</div>
+        <p>Trap/obstacle placement data stored in the save binary.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Game Stage</div>
+        <p>Current story progress flag used to gate quests, cutscenes, and NPC conversations.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Dissatisfaction</div>
+        <p>Per-region dissatisfaction values that influence troop morale and mission outcomes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Reverse Engineering Approach ───────────────── -->
+  <section id="status">
+    <h2>Reverse-Engineering Approach &amp; Status</h2>
+
+    <p>
+      The project follows a layered strategy, moving from raw binary analysis to a
+      fully portable C# reimplementation:
+    </p>
+
+    <ol>
+      <li>
+        <strong>Disassembly</strong> — IDA Freeware and Ghidra produce annotated
+        16-bit x86 assembly of <code>DNCDPRG.EXE</code> and <code>DUNE.EXE</code>.
+        The results are committed to <code>asm/</code>.
+      </li>
+      <li>
+        <strong>Live debugging</strong> — DOSBox Debugger and Chani trace execution at
+        runtime to correlate data structures with disassembled code.
+      </li>
+      <li>
+        <strong>Spice86 emulation</strong> — The original DOS executable runs inside
+        Spice86, which exposes every memory access and I/O operation. Assembly functions
+        are progressively overridden by C# equivalents.
+      </li>
+      <li>
+        <strong>Cryogenic reimplementation</strong> — Each overridden C# function is
+        committed to the Cryogenic repository, building toward a full, dependency-free
+        C# reimplementation.
+      </li>
+      <li>
+        <strong>ScummVM engine</strong> — In parallel, a C++ ScummVM engine plugin
+        reproduces the game using ScummVM's cross-platform infrastructure.
+      </li>
+    </ol>
+
+    <h3>Approximate Completion</h3>
+
+    <div class="progress-row">
+      <span class="progress-label">Archive parsing</span>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:95%"></div></div>
+      <span class="progress-pct">~95%</span>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label">Save-file editor</span>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:80%"></div></div>
+      <span class="progress-pct">~80%</span>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label">HSQ decompression</span>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:100%"></div></div>
+      <span class="progress-pct">100%</span>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label">HNM video playback</span>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:85%"></div></div>
+      <span class="progress-pct">~85%</span>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label">Graphics rendering</span>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:50%"></div></div>
+      <span class="progress-pct">~50%</span>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label">Game logic (Cryogenic)</span>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:30%"></div></div>
+      <span class="progress-pct">~30%</span>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label">Audio / HERAD</span>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:20%"></div></div>
+      <span class="progress-pct">~20%</span>
+    </div>
+
+    <p style="margin-top:.9rem;font-size:13px;color:var(--text-dim)">
+      Percentages are estimates based on feature coverage and should be treated as
+      rough indicators, not precise measurements.
+    </p>
+  </section>
+
+  <!-- ── Existing Efforts ────────────────────────────── -->
+  <section id="resources">
+    <h2>Existing Efforts &amp; Resources</h2>
+
+    <h3>Other DUNE Engines</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Project</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><a href="https://github.com/madmoose/dune" target="_blank" rel="noopener">madmoose/dune</a></td>
+            <td>ScummVM-based engine; can decode HNM videos. One of the earliest open-source efforts.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/madmoose/dune-disassembly" target="_blank" rel="noopener">madmoose/dune-disassembly</a></td>
+            <td>Disassembly work on the PC CD DOS version; a key reference for this project.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/scummvm/scummvm/tree/master/engines/cryo" target="_blank" rel="noopener">scummvm/cryo</a></td>
+            <td>Official ScummVM Cryo engine for <em>Lost Eden</em>, a structurally similar Cryo game.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/elyosh/scummvm-cryo" target="_blank" rel="noopener">elyosh/scummvm-cryo</a></td>
+            <td>Earlier ScummVM DUNE engine attempt. See also the <a href="https://wiki.scummvm.org/index.php?title=Dune" target="_blank" rel="noopener">ScummVM wiki page</a>.</td>
+          </tr>
+          <tr>
+            <td><a href="https://sourceforge.net/p/dunerevival/code/HEAD/tree/" target="_blank" rel="noopener">DUNE Revival Project</a></td>
+            <td>SourceForge-hosted ScummVM-based reimplementation. <a href="https://github.com/sonicpp/dunerevival-code" target="_blank" rel="noopener">GitHub mirror</a>.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/bluegr/scummvm/tree/dune/engines/dune" target="_blank" rel="noopener">bluegr/scummvm (dune branch)</a></td>
+            <td>The current upstream target for the ScummVM engine work produced by this project.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Technical References</h3>
+    <ul class="tool-list">
+      <li>
+        <span class="tl-name"><a href="https://wiki.multimedia.cx/index.php?title=HNM_%281%29" target="_blank" rel="noopener">HNM Video Format (MultimediaWiki)</a></span>
+        <span class="tl-desc">Detailed description of the HNM v1 container and codec used by Cryo.</span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="http://www.vgmpf.com/Wiki/index.php/HERAD" target="_blank" rel="noopener">HERAD Music Format (VGMPF)</a></span>
+        <span class="tl-desc">Documents Cryo's AdLib music driver format and sequencing data.</span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="https://bigs.fr/dune_old/" target="_blank" rel="noopener">Partial DUNE CD Data-Files Description</a></span>
+        <span class="tl-desc">Community-documented layout of files inside DUNE.DAT.</span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="https://github.com/adplug/adplug/blob/master/src/herad.cpp" target="_blank" rel="noopener">HERAD Implementation in adplug</a></span>
+        <span class="tl-desc">Open-source C++ reference implementation of the HERAD player.</span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="https://github.com/stascorp/MIDIPLEX" target="_blank" rel="noopener">HERAD Implementation in MIDIPLEX</a></span>
+        <span class="tl-desc">An alternative open-source HERAD player.</span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="https://sites.google.com/site/duneeditor/home" target="_blank" rel="noopener">Save Editors and Resources</a></span>
+        <span class="tl-desc">Community site documenting save-file offsets; a reference for DuneEdit2 development.</span>
+      </li>
+      <li>
+        <span class="tl-name"><a href="https://github.com/sonicpp/Dune-game-translations" target="_blank" rel="noopener">DUNE Game Translations</a></span>
+        <span class="tl-desc">Community game translation files and tooling.</span>
+      </li>
+    </ul>
+
+    <h3>Community Discussions</h3>
+    <ul>
+      <li>
+        <a href="https://forum.dune2k.com/topic/17217-rewriting-cryos-dune-1-it-seems-possible/page/13/" target="_blank" rel="noopener">Dune2K forum: Rewriting Cryo's Dune 1</a>
+        — Long-running community thread tracking reverse-engineering progress.
+      </li>
+      <li>
+        <a href="https://www.vogons.org/viewtopic.php?t=49813" target="_blank" rel="noopener">VOGONS: Dune HERAD AdLib Music Hacking</a>
+        — Technical thread on the HERAD music format.
+      </li>
+      <li>
+        <a href="https://www.abandonware-forums.org/forum/autres/les-aventuriers-de-la-traduction-perdue/764167-dune-cd/page15#post804135" target="_blank" rel="noopener">French Mega CD dub port</a>
+        — Community work porting the French Mega CD voice-over to the PC CD version.
+      </li>
+    </ul>
+  </section>
+
+  <!-- ── Contributing ────────────────────────────────── -->
+  <section id="contributing">
+    <h2>Contributing</h2>
+
+    <h3>Prerequisites</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Requirement</th></tr></thead>
+        <tbody>
+          <tr><td>C# tools (<code>tools/cd/</code>)</td><td><a href="https://dotnet.microsoft.com/download" target="_blank" rel="noopener">.NET 8 SDK</a></td></tr>
+          <tr><td>ScummVM engine (<code>src/</code>)</td><td>ScummVM build environment (GCC / LLVM, SDL2)</td></tr>
+          <tr><td>Assembly (<code>asm/</code>)</td><td>IDA Freeware or Ghidra; MASM/TASM for reassembly</td></tr>
+          <tr><td>Game data</td><td>PC DOS floppy or CD version of <em>DUNE</em> (1992, Cryo/Virgin)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Building and Testing (C# tools)</h3>
+    <pre><code># Run all unit tests
+cd tools/cd
+dotnet test --configuration Release
+
+# Build self-contained binaries for all platforms
+dotnet publish -c Release -r linux-x64 --self-contained true -o Release/linux
+dotnet publish -c Release -r win-x64  --self-contained true -o Release/windows
+dotnet publish -c Release -r osx-x64  --self-contained true -o Release/macos</code></pre>
+
+    <h3>CI / Releases</h3>
+    <p>
+      Every push to <code>master</code> triggers a GitHub Actions workflow that:
+    </p>
+    <ol>
+      <li>Runs the unit test suite (<code>dotnet test</code>).</li>
+      <li>Publishes self-contained binaries for Linux x64, Windows x64, and macOS x64.</li>
+      <li>Creates a <strong>pre-release</strong> tagged <code>latest</code> on GitHub Releases, containing a <code>Release.zip</code> with all three platform builds.</li>
+    </ol>
+
+    <h3>Areas Where Contributions Help Most</h3>
+    <ul>
+      <li>Annotating additional functions in the disassembled <code>asm/</code> files.</li>
+      <li>Extending DuneEdit2 to decode remaining unknown save-file fields.</li>
+      <li>Completing audio support — implementing the HERAD music driver.</li>
+      <li>Improving the ScummVM engine's graphics and game-logic coverage.</li>
+      <li>Adding floppy-version tooling parity with the CD tools.</li>
+      <li>Documentation of any additional file formats found inside <code>DUNE.DAT</code>.</li>
+    </ul>
+
+    <h3>License</h3>
+    <p>
+      All original code in this repository is released under the
+      <strong>GNU General Public License v2 (GPLv2)</strong>. Contributions must be
+      compatible with GPLv2. No copyrighted game data may be committed.
+    </p>
+  </section>
+
+</main>
+
+<!-- ── Footer ─────────────────────────────────────────── -->
+<footer>
+  <span>
+    <a href="https://github.com/OpenRakis/OpenRakis" target="_blank" rel="noopener">OpenRakis/OpenRakis</a>
+    · GNU GPLv2
+  </span>
+  <span>
+    <a href="https://github.com/OpenRakis/Spice86" target="_blank" rel="noopener">Spice86</a>
+    ·
+    <a href="https://github.com/OpenRakis/Cryogenic" target="_blank" rel="noopener">Cryogenic</a>
+    ·
+    <a href="https://github.com/bluegr/scummvm/tree/dune/engines/dune" target="_blank" rel="noopener">ScummVM dune branch</a>
+  </span>
+</footer>
+
+</body>
+</html>
