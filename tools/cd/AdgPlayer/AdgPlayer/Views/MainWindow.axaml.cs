@@ -1,13 +1,11 @@
 namespace AdgPlayer.Views;
 
-using Avalonia.ReactiveUI;
-
-using AdgPlayer.ViewModels;
+using Avalonia.Controls;
 
 /// <summary>
 /// The main application window for AdgPlayer.
 /// </summary>
-public sealed partial class MainWindow : ReactiveWindow<MainWindowViewModel>
+public sealed partial class MainWindow : Window
 {
     /// <summary>
     /// Initializes a new instance of <see cref="MainWindow"/>.

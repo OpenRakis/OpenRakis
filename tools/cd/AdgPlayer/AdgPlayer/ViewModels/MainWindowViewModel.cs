@@ -2,15 +2,13 @@ namespace AdgPlayer.ViewModels;
 
 using AdgPlayer.Audio;
 
-using ReactiveUI;
-
 /// <summary>
 /// Root ViewModel for the AdgPlayer application window.
 /// Combines the song browser and transport controls.
 /// </summary>
 public sealed class MainWindowViewModel : ViewModelBase
 {
-    private string _title = "AdgPlayer – Dune CD Music";
+    private string _title;
 
     /// <summary>
     /// Initializes a new instance of <see cref="MainWindowViewModel"/>.
@@ -28,14 +26,17 @@ public sealed class MainWindowViewModel : ViewModelBase
             engine.Load(Browser.SelectedSong);
         }
 
-        // Keep Title in sync with the selected song name
-        Browser.WhenAnyValue(b => b.SelectedSongName)
-               .Subscribe(name =>
-               {
-                   Title = string.IsNullOrEmpty(name)
-                       ? "AdgPlayer – Dune CD Music"
-                       : $"AdgPlayer – {name}";
-               });
+        // Initialise title from whatever song the browser selected on startup
+        _title = FormatTitle(Browser.SelectedSongName);
+
+        // Keep Title in sync with subsequent selection changes
+        Browser.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName == nameof(AdgBrowserViewModel.SelectedSongName))
+            {
+                Title = FormatTitle(Browser.SelectedSongName);
+            }
+        };
     }
 
     /// <summary>
@@ -54,6 +55,11 @@ public sealed class MainWindowViewModel : ViewModelBase
     public string Title
     {
         get => _title;
-        private set => this.RaiseAndSetIfChanged(ref _title, value);
+        private set => SetProperty(ref _title, value);
     }
+
+    private static string FormatTitle(string? songName) =>
+        string.IsNullOrEmpty(songName)
+            ? "AdgPlayer – Dune CD Music"
+            : $"AdgPlayer – {songName}";
 }

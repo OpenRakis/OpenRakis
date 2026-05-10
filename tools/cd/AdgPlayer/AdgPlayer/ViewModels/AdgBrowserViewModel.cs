@@ -2,8 +2,6 @@ namespace AdgPlayer.ViewModels;
 
 using AdgPlayer.Audio;
 
-using ReactiveUI;
-
 /// <summary>
 /// ViewModel responsible for browsing the ADG song catalog and selecting a song.
 /// </summary>
@@ -30,7 +28,7 @@ public sealed class AdgBrowserViewModel : ViewModelBase
     public IReadOnlyList<AdgSong> Songs
     {
         get => _songs;
-        private set => this.RaiseAndSetIfChanged(ref _songs, value);
+        private set => SetProperty(ref _songs, value);
     }
 
     /// <summary>
@@ -42,8 +40,8 @@ public sealed class AdgBrowserViewModel : ViewModelBase
         get => _selectedSong;
         set
         {
-            this.RaiseAndSetIfChanged(ref _selectedSong, value);
-            this.RaisePropertyChanged(nameof(SelectedSongName));
+            SetProperty(ref _selectedSong, value);
+            OnPropertyChanged(nameof(SelectedSongName));
             if (value is not null)
             {
                 _engine.Load(value);

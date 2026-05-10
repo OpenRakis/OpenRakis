@@ -1,5 +1,4 @@
 using Avalonia;
-using Avalonia.ReactiveUI;
 
 using AdgPlayer;
 
@@ -23,6 +22,5 @@ internal sealed class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .LogToTrace()
-            .UseReactiveUI();
+            .LogToTrace();
 }
