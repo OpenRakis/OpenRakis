@@ -118,7 +118,7 @@
           </tr>
           <tr>
             <td><a href="https://github.com/OpenRakis/Cryogenic" target="_blank" rel="noopener">Cryogenic</a></td>
-            <td>A C# bit-for-bit reimplementation of the DUNE assembly code, built on top of Spice86. Each assembly function is progressively replaced by equivalent C#.</td>
+            <td>A C# bit-for-bit reimplementation of the DUNE assembly code, built on top of Spice86. Each assembly function is progressively replaced by equivalent C#. Current ADG / HERAD player work is tracked there under <code>reverse/adlib_gold_driver</code>.</td>
           </tr>
         </tbody>
       </table>
@@ -390,8 +390,10 @@
               Cryo's AdLib / OPL2 music driver format used in the DOS version.
               See <a href="http://www.vgmpf.com/Wiki/index.php/HERAD" target="_blank" rel="noopener">VGMPF description</a>
               and <a href="https://github.com/adplug/adplug/blob/master/src/herad.cpp" target="_blank" rel="noopener">adplug implementation</a>.
+              Live ADG388 evidence captured on 2026-05-10 now anchors the ongoing
+              Cryogenic implementation in <code>reverse/adlib_gold_driver</code>.
             </td>
-            <td>Partial (referenced)</td>
+            <td>Active handoff (Cryogenic)</td>
           </tr>
           <tr>
             <td><strong>Palettes / sprites</strong></td>
@@ -478,7 +480,9 @@
       <li>
         <strong>Cryogenic reimplementation</strong> — Each overridden C# function is
         committed to the Cryogenic repository, building toward a full, dependency-free
-        C# reimplementation.
+        C# reimplementation. This now includes the ADG / HERAD player effort in
+        <code>reverse/adlib_gold_driver</code>, seeded with the live ADG388 handoff
+        evidence captured from Spice86.
       </li>
       <li>
         <strong>ScummVM engine</strong> — In parallel, a C++ ScummVM engine plugin
@@ -657,7 +661,7 @@ dotnet publish -c Release -r osx-x64  --self-contained true -o Release/macos</co
     <ul>
       <li>Annotating additional functions in the disassembled <code>asm/</code> files.</li>
       <li>Extending DuneEdit2 to decode remaining unknown save-file fields.</li>
-      <li>Completing audio support — implementing the HERAD music driver.</li>
+      <li>Completing audio support in Cryogenic's <code>reverse/adlib_gold_driver</code> using the captured ADG388 handoff evidence (remaining B4.3b / B4.6b / Phase E cycles).</li>
       <li>Improving the ScummVM engine's graphics and game-logic coverage.</li>
       <li>Adding floppy-version tooling parity with the CD tools.</li>
       <li>Documentation of any additional file formats found inside <code>DUNE.DAT</code>.</li>

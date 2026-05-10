@@ -38,6 +38,23 @@ the bin folder is not part of this repo, as it is copyrighted material.
 
 [Cryogenic: Dune ASM code overriden with C# code, bit by bit](https://github.com/OpenRakis/Cryogenic)
 
+The active ADG / HERAD player implementation work now lives in the
+`reverse/adlib_gold_driver` area of Cryogenic. The 2026-05-10 ADG388 handoff
+captured live runtime evidence under
+`dump/live/adg388-handoff/adg-driver-active-20260510-115211/`, including:
+
+* `dnadg_5BAE_image_0100_4374.bin`: full driver image read from the live segment
+* `dnadg_5BAE_01C7_fractions.bin`: runtime PitchBend / Portamento tables populated by `Init`
+* `at_rest_vs_runtime_diff.json`: 318-byte diff isolating the bytes patched at runtime
+* `cfg_cpu_graph.json`, `cryogenic_status.json`, `adp_call_counts.json`, `manifest.json`,
+  plus game-state and song-region snapshots
+
+That handoff also recorded the corrected launch arguments
+`-a "ADG388 SBP2227"` and the `search_memory` lookup recipe
+(`signature E9FC03E92005…`, `segment = match - 0x10`), so the deferred
+B4.3b / B4.6b / Phase E TDD cycles can continue in Cryogenic without needing a
+local Spice86 setup.
+
 # Other interesting tools
 
 [dosdebug](https://github.com/johndoe31415/dosdebug)
