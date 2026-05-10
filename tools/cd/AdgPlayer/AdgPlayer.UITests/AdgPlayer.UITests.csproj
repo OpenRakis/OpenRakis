@@ -5,9 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <IsPublishable>false</IsPublishable>
+    <UseAppHost>true</UseAppHost>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia.Headless" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Headless.XUnit" Version="11.0.10" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="FluentAssertions.Analyzers" Version="0.31.0">
       <PrivateAssets>all</PrivateAssets>
@@ -27,5 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdgPlayer\AdgPlayer.csproj" />
+    <ProjectReference Include="..\AdgPlayer.UnitTests\AdgPlayer.UnitTests.csproj" />
   </ItemGroup>
 </Project>
