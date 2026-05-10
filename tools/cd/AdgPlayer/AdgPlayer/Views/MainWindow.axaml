@@ -1,0 +1,47 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AdgPlayer.ViewModels"
+        xmlns:audio="using:AdgPlayer.Audio"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="AdgPlayer.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="{Binding Title}"
+        Width="600" Height="400"
+        MinWidth="400" MinHeight="300">
+
+    <DockPanel>
+        <!-- Song browser -->
+        <Border DockPanel.Dock="Top" Padding="8" BorderThickness="0,0,0,1"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}">
+            <StackPanel>
+                <TextBlock Text="ADG Song Browser" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <ListBox ItemsSource="{Binding Browser.Songs}"
+                         SelectedItem="{Binding Browser.SelectedSong}"
+                         Height="200">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="audio:AdgSong">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+
+        <!-- Transport controls -->
+        <Border DockPanel.Dock="Bottom" Padding="8">
+            <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                <Button Content="▶ Play"  Command="{Binding Transport.PlayCommand}" />
+                <Button Content="⏸ Pause" Command="{Binding Transport.PauseCommand}" />
+                <Button Content="⏹ Stop"  Command="{Binding Transport.StopCommand}" />
+            </StackPanel>
+        </Border>
+
+        <!-- Status bar -->
+        <TextBlock DockPanel.Dock="Bottom"
+                   Text="{Binding Transport.Status}"
+                   Margin="8,4"
+                   Opacity="0.6"/>
+    </DockPanel>
+</Window>

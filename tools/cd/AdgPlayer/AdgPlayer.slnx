@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AdgPlayer.UnitTests/AdgPlayer.UnitTests.csproj" />
+  <Project Path="AdgPlayer/AdgPlayer.csproj" />
+</Solution>
