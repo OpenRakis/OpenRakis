@@ -38,7 +38,7 @@ public partial class MainViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            FileName = $"Error loading default file: {ex.Message}";
+            throw;
         }
     }
 
