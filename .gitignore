@@ -1,6 +1,12 @@
 *.br
 *.gz
 *.wasm
+
+# GitHub Pages publish output: WASM binaries MUST be tracked so the deployed
+# site can load the runtime and assemblies. .br/.gz remain ignored because
+# GitHub Pages does not serve pre-compressed variants via Content-Encoding.
+!docs/**/*.wasm
+
 .idea/
 Publish/
 linux.zip

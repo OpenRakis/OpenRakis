@@ -5,40 +5,80 @@ on:
         branches:
             - master
             - main
+    workflow_dispatch:
+
+# Allow the workflow to push the rebuilt docs/ folder back to the repo.
+permissions:
+    contents: write
+
+# Prevent overlapping deploys from racing on docs/.
+concurrency:
+    group: deploy-wasm-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-    build-and-deploy-wasm:
+    build-and-deploy:
         runs-on: ubuntu-latest
-        name: Build and Deploy Avalonia WASM App
         steps:
             - name: Checkout repository
-                uses: actions/checkout@v4
-                with:
-                    fetch-depth: 0
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  persist-credentials: true
 
             - name: Setup .NET
-                uses: actions/setup-dotnet@v4
-                with:
-                    dotnet-version: '12.0.x'
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: "10.0.x"
 
             - name: Publish Avalonia WASM app
-                run: |
-                    dotnet publish src/DuneTools/DuneTools.Browser/DuneTools.Browser.csproj -c Release -o wasm-publish
+              run: dotnet publish src/DuneTools/DuneTools.Browser/DuneTools.Browser.csproj -c Release -o wasm-publish
 
-            - name: Clean docs except .nojekyll
-                run: |
-                    find docs -mindepth 1 -not -name '.nojekyll' -exec rm -rf {} +
+            - name: Verify publish output
+              run: |
+                  if [ ! -d wasm-publish/wwwroot ]; then
+                    echo "::error::wasm-publish/wwwroot not found - publish did not produce expected output"
+                    ls -la wasm-publish || true
+                    exit 1
+                  fi
+                  if [ ! -f wasm-publish/wwwroot/index.html ]; then
+                    echo "::error::wasm-publish/wwwroot/index.html missing"
+                    exit 1
+                  fi
+
+            - name: Reset docs/ (preserve .nojekyll)
+              run: |
+                  mkdir -p docs
+                  touch docs/.nojekyll
+                  find docs -mindepth 1 -not -name '.nojekyll' -exec rm -rf {} +
 
             - name: Copy WASM output to docs/
-                run: |
-                    cp -r wasm-publish/wwwroot/* docs/
+              run: |
+                  cp -r wasm-publish/wwwroot/. docs/
+                  touch docs/.nojekyll
 
-            - name: Commit and push changes
-                run: |
-                    git config user.name "github-actions[bot]"
-                    git config user.email "github-actions[bot]@users.noreply.github.com"
-                    git add docs/
-                    git diff --cached --quiet || git commit -m "Auto-update WASM app (GitHub Pages root) [skip ci]"
-                    git push
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Force correct <base href> for GitHub Pages
+              run: |
+                  set -e
+                  # Replace existing base href if present, else inject one inside <head>.
+                  if grep -q '<base href=' docs/index.html; then
+                    sed -i 's|<base href="[^"]*"[^>]*/*>|<base href="/OpenRakis/">|' docs/index.html
+                  else
+                    sed -i 's|<head>|<head>\n    <base href="/OpenRakis/">|' docs/index.html
+                  fi
+                  # Sanity check.
+                  grep -q '<base href="/OpenRakis/">' docs/index.html
+
+            - name: Commit and push docs/
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git add docs/
+                  if git diff --cached --quiet; then
+                    echo "No changes to docs/ - skipping commit."
+                  else
+                    git commit -m "Auto-update WASM app (GitHub Pages) [skip ci]"
+                    git push origin HEAD:${{ github.ref_name }}
+                  fi
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

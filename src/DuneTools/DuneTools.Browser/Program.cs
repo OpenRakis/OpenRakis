@@ -8,13 +8,13 @@ using DuneTools;
 
 internal sealed partial class Program
 {
-    private static Task Main(string[] args) => BuildAvaloniaApp()
-            .WithInterFont()
+        private static Task Main(string[] args) => BuildAvaloniaApp()
+                .WithInterFont()
 #if DEBUG
-            .WithDeveloperTools()
+                .WithDeveloperTools()
 #endif
-            .StartBrowserAppAsync("out");
+                .StartBrowserAppAsync("out", "/OpenRakis/");
 
-    public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>();
+        public static AppBuilder BuildAvaloniaApp()
+            => AppBuilder.Configure<App>();
 }
