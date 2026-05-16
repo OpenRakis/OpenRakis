@@ -11,37 +11,37 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-       - uses: actions/checkout@v1
+      - uses: actions/checkout@v1
 
-       - name: Setup .NET
-         uses: actions/setup-dotnet@v1
-         with:
-           dotnet-version: '8.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "10.0.x"
 
-       - name: Install zip
-         uses: montudor/action-zip@v1
+      - name: Install zip
+        uses: montudor/action-zip@v1
 
-       - name: Test with dotnet
-         working-directory: ./tools/cd
-         run: dotnet test --configuration Release
+      - name: Test with dotnet
+        working-directory: ./tools/cd
+        run: dotnet test --configuration Release
 
-       - name: Build with dotnet
-         working-directory: ./tools/cd
-         run: |
-              dotnet publish -c Release -r linux-x64 --self-contained true -o Release/linux
-              dotnet publish -c Release -r win-x64 --self-contained true -o Release/windows
-              dotnet publish -c Release -r osx-x64 --self-contained true -o Release/macos
+      - name: Build with dotnet
+        working-directory: ./tools/cd
+        run: |
+          dotnet publish -c Release -r linux-x64 --self-contained true -o Release/linux
+          dotnet publish -c Release -r win-x64 --self-contained true -o Release/windows
+          dotnet publish -c Release -r osx-x64 --self-contained true -o Release/macos
 
-       - name: Zip output
-         run: zip -qq -r Release.zip Release
-         working-directory: ./tools/cd
+      - name: Zip output
+        run: zip -qq -r Release.zip Release
+        working-directory: ./tools/cd
 
-       - name: Publish GitHub Release
-         uses: "marvinpinto/action-automatic-releases@latest"
-         with:
-           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-           automatic_release_tag: "latest"
-           prerelease: true
-           title: "Development Build"
-           files: |
-             ./tools/cd/Release.zip
+      - name: Publish GitHub Release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            ./tools/cd/Release.zip
