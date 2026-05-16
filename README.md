@@ -8,6 +8,8 @@
 
 # OpenRakis
 
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-online-brightgreen?logo=github)](https://openrakis.github.io/OpenRakis/)
+
 This is a WIP project aiming at reversing Cryo's DUNE game.
 
 ## Project structure
@@ -93,7 +95,6 @@ Entry point (CS initial value) = 1ED.
 
 DOSBox Debugger AUTOEXEC example:
 
-
 ```
 mount C C:\DUNE_CD\C
 imgmount D "C:\DUNE_CD\CD\Dune.iso" -t iso
@@ -102,9 +103,4 @@ Z:\DEBUG.COM DNCDPRG.EXE ENG ADP220 SBP2227 EMS 386 SAF WRIC:\DUNECD\
 exit
 ```
 
-
 [ScummVM Wiki : HOWTO-Reverse Engineering](https://wiki.scummvm.org/index.php?title=HOWTO-Reverse_Engineering)
-
-# LICENSE
-
-GNU GPLv2 License

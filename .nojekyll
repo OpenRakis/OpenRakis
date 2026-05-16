@@ -1,0 +1,3 @@
+# .nojekyll
+
+This file disables Jekyll processing on GitHub Pages, allowing files and folders that start with an underscore to be served.
