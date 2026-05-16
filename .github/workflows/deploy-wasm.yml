@@ -56,6 +56,10 @@ jobs:
               run: |
                   cp -r wasm-publish/wwwroot/. docs/
                   touch docs/.nojekyll
+                  echo "Deployed files:"
+                  ls -la docs/
+                  echo "Framework files:"
+                  ls -la docs/_framework/ | head -20
 
             - name: Force correct <base href> for GitHub Pages
               run: |

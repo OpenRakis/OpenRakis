@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Browser" />
-    <PackageReference Include="Avalonia.Skia" />
   </ItemGroup>
 
   <ItemGroup>
