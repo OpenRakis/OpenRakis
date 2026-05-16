@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:DuneTools.ViewModels"
+             xmlns:avaloniaHex="clr-namespace:AvaloniaHex;assembly=AvaloniaHex"
+             xmlns:rendering="clr-namespace:AvaloniaHex.Rendering;assembly=AvaloniaHex"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DuneTools.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -12,5 +14,33 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <Grid RowDefinitions="Auto,5,*">
+    <!-- File info and upload section -->
+    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="10">
+      <TextBlock Text="File:" VerticalAlignment="Center" FontWeight="Bold" />
+      <TextBlock Text="{Binding FileName}" VerticalAlignment="Center" />
+      <TextBlock Text="Size:" VerticalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0" />
+      <TextBlock Text="{Binding FileSize}" VerticalAlignment="Center" />
+      <TextBlock Text="bytes" VerticalAlignment="Center" />
+      <Button Content="Upload File" Name="UploadButton" Click="OnUploadClick" Margin="20,0,0,0" />
+    </StackPanel>
+
+    <!-- Grid splitter -->
+    <GridSplitter Grid.Row="1" 
+                  Background="Gray" 
+                  ResizeDirection="Rows"
+                  HorizontalAlignment="Stretch" />
+
+    <!-- Hex viewer -->
+    <avaloniaHex:HexEditor Grid.Row="2" 
+                           Document="{Binding Document}"
+                           FontFamily="Cascadia Code,JetBrains Mono,Consolas,Courier New,monospace"
+                           Margin="10">
+      <avaloniaHex:HexEditor.Columns>
+        <rendering:OffsetColumn />
+        <rendering:HexColumn />
+        <rendering:AsciiColumn />
+      </avaloniaHex:HexEditor.Columns>
+    </avaloniaHex:HexEditor>
+  </Grid>
 </UserControl>

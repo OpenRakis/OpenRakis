@@ -1,9 +1,65 @@
 ﻿namespace DuneTools.ViewModels;
 
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Avalonia.Platform;
+using AvaloniaHex.Document;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private string _greeting = "Welcome to Avalonia!";
+    private IBinaryDocument? _document;
+
+    [ObservableProperty]
+    private string _fileName = "No file loaded";
+
+    [ObservableProperty]
+    private long _fileSize;
+
+    public MainViewModel()
+    {
+        LoadDefaultResource();
+    }
+
+    private void LoadDefaultResource()
+    {
+        try
+        {
+            var assets = AssetLoader.GetAssets(new Uri("avares://DuneTools"), null);
+            var defaultFileUri = new Uri("avares://DuneTools/DUNE37S1.SAV");
+            using var stream = AssetLoader.Open(defaultFileUri);
+            using var ms = new MemoryStream();
+            stream.CopyTo(ms);
+            var bytes = ms.ToArray();
+
+            Document = new MemoryBinaryDocument(bytes);
+            FileName = "DUNE37S1.SAV (default)";
+            FileSize = bytes.Length;
+        }
+        catch (Exception ex)
+        {
+            FileName = $"Error loading default file: {ex.Message}";
+        }
+    }
+
+    [RelayCommand]
+    private async Task LoadFile(byte[]? fileData)
+    {
+        if (fileData == null || fileData.Length == 0)
+            return;
+
+        Document = new MemoryBinaryDocument(fileData);
+        FileName = "Uploaded file";
+        FileSize = fileData.Length;
+    }
+
+    public void LoadFileFromBytes(byte[] bytes, string name)
+    {
+        Document = new MemoryBinaryDocument(bytes);
+        FileName = name;
+        FileSize = bytes.Length;
+    }
 }
