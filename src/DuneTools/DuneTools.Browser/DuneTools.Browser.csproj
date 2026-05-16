@@ -3,7 +3,14 @@
     <TargetFramework>net10.0-browser</TargetFramework>
     <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <WasmBuildNative>false</WasmBuildNative>
+    <!--
+      Native relink is required so SkiaSharp/HarfBuzz native code is statically
+      embedded into dotnet.native.wasm. Without it, SkiaSharp tries to load
+      libSkiaSharp.wasm / libHarfBuzzSharp.wasm at runtime which are not
+      published, producing 404s and a SkiaSharp.SKImageInfo type initialization
+      failure on GitHub Pages. Requires the wasm-tools workload.
+    -->
+    <WasmBuildNative>true</WasmBuildNative>
   </PropertyGroup>
 
   <ItemGroup>
