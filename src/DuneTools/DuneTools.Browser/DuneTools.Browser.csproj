@@ -3,10 +3,12 @@
     <TargetFramework>net10.0-browser</TargetFramework>
     <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <WasmBuildNative>false</WasmBuildNative>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Browser" />
+    <PackageReference Include="Avalonia.Skia" />
   </ItemGroup>
 
   <ItemGroup>

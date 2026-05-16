@@ -6,5 +6,10 @@
                 "host": "browser"
             }
         ]
+    },
+    "runtimeOptions": {
+        "configProperties": {
+            "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false
+        }
     }
 }

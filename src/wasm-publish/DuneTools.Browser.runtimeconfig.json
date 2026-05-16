@@ -15,6 +15,11 @@
         }
       ]
     },
+    "runtimeOptions": {
+      "configProperties": {
+        "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false
+      }
+    },
     "configProperties": {
       "MVVMTOOLKIT_ENABLE_INOTIFYPROPERTYCHANGING_SUPPORT": true,
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
