@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaResource Include="DUNE37S1.SAV" />
+    <AvaloniaResource Include="DUNE37S1.SAV" Condition="Exists('DUNE37S1.SAV')" />
   </ItemGroup>
 
   <ItemGroup>

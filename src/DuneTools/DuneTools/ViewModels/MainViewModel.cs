@@ -2,11 +2,9 @@
 
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using Avalonia.Platform;
 using AvaloniaHex.Document;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 public partial class MainViewModel : ViewModelBase
 {
@@ -28,7 +26,6 @@ public partial class MainViewModel : ViewModelBase
     {
         try
         {
-            var assets = AssetLoader.GetAssets(new Uri("avares://DuneTools"), null);
             var defaultFileUri = new Uri("avares://DuneTools/DUNE37S1.SAV");
             using var stream = AssetLoader.Open(defaultFileUri);
             using var ms = new MemoryStream();
@@ -43,17 +40,6 @@ public partial class MainViewModel : ViewModelBase
         {
             FileName = $"Error loading default file: {ex.Message}";
         }
-    }
-
-    [RelayCommand]
-    private async Task LoadFile(byte[]? fileData)
-    {
-        if (fileData == null || fileData.Length == 0)
-            return;
-
-        Document = new MemoryBinaryDocument(fileData);
-        FileName = "Uploaded file";
-        FileSize = fileData.Length;
     }
 
     public void LoadFileFromBytes(byte[] bytes, string name)
