@@ -1,0 +1,42 @@
+name: Deploy WASM App to GitHub Pages
+
+on:
+    push:
+        branches:
+            - master
+            - main
+
+jobs:
+    build-and-deploy-wasm:
+        runs-on: ubuntu-latest
+        name: Build and Deploy Avalonia WASM App
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: "10.0.x"
+
+            - name: Publish Avalonia WASM app
+              run: |
+                  dotnet publish src/DuneTools/DuneTools.Browser/DuneTools.Browser.csproj -c Release -o wasm-publish
+
+            - name: Copy WASM output to docs/wasm
+              run: |
+                  rm -rf docs/wasm
+                  mkdir -p docs/wasm
+                  cp -r wasm-publish/wwwroot/* docs/wasm/
+
+            - name: Commit and push changes
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git add docs/wasm
+                  git diff --cached --quiet || git commit -m "Auto-update WASM app [skip ci]"
+                  git push
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -337,6 +337,47 @@ li { margin-bottom: .3rem; color: var(--text); }
 
 .callout strong { color: var(--text); }
 
+.iframe-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 420px;
+}
+
+.iframe-wrap iframe {
+  width: 100%;
+  min-height: 520px;
+  border: none;
+  background: var(--bg);
+}
+
+.section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  transition: background .15s, border-color .15s, color .15s;
+}
+
+.btn:hover {
+  background: rgba(255,255,255,.05);
+  border-color: var(--accent);
+  color: var(--text-bright);
+}
+
 /* ── Progress bar ─────────────────────────────────────── */
 .progress-row {
   display: flex;
