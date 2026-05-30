@@ -15,7 +15,9 @@
             </StackPanel>
 
             <ScrollViewer Grid.Row="1" Margin="0,10,0,0">
-                <pgc:PropertyGrid DataContext="{Binding Info}" />
+                <pgc:PropertyGrid DataContext="{Binding Info}"
+                                  IsAutoNameWidth="False"
+                                  NameWidth="190" />
             </ScrollViewer>
         </Grid>
     </Border>

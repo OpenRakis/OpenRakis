@@ -82,7 +82,7 @@
                   ResizeDirection="Rows"
                   HorizontalAlignment="Stretch" />
 
-    <Grid Grid.Row="3" ColumnDefinitions="*,5,320" Margin="10">
+    <Grid Grid.Row="3" ColumnDefinitions="*,5,380" Margin="10">
       <!-- Hex viewer -->
       <avaloniaHex:HexEditor Grid.Column="0"
                              Name="HexEditorControl"
@@ -130,7 +130,7 @@
                     VerticalAlignment="Stretch" />
 
       <views:HexSelectionInspectorView Grid.Column="2"
-                                       MinWidth="240"
+                                       MinWidth="280"
                                        DataContext="{Binding Inspector}" />
     </Grid>
   </Grid>

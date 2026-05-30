@@ -10,6 +10,36 @@ public partial class HexSelectionInfo : ObservableObject
 {
     [ObservableProperty]
     [property: ReadOnly(true)]
+    [property: Category("Known Fields")]
+    [property: DisplayName("Primary field")]
+    private string? _primaryFieldName;
+
+    [ObservableProperty]
+    [property: ReadOnly(true)]
+    [property: Category("Known Fields")]
+    [property: DisplayName("Decoded value")]
+    private string? _primaryFieldValue;
+
+    [ObservableProperty]
+    [property: ReadOnly(true)]
+    [property: Category("Known Fields")]
+    [property: DisplayName("Description")]
+    private string? _primaryFieldDescription;
+
+    [ObservableProperty]
+    [property: ReadOnly(true)]
+    [property: Category("Known Fields")]
+    [property: DisplayName("Encoding")]
+    private string? _primaryFieldEncoding;
+
+    [ObservableProperty]
+    [property: ReadOnly(true)]
+    [property: Category("Known Fields")]
+    [property: DisplayName("Intersecting fields")]
+    private string? _intersectingFields;
+
+    [ObservableProperty]
+    [property: ReadOnly(true)]
     [property: Category("Status")]
     [property: DisplayName("Message")]
     private string? _statusMessage;
@@ -40,24 +70,6 @@ public partial class HexSelectionInfo : ObservableObject
 
     [ObservableProperty]
     [property: ReadOnly(true)]
-    [property: Category("Bytes")]
-    [property: DisplayName("Hex")]
-    private string? _rawHex;
-
-    [ObservableProperty]
-    [property: ReadOnly(true)]
-    [property: Category("Bytes")]
-    [property: DisplayName("Decimal")]
-    private string? _rawDecimal;
-
-    [ObservableProperty]
-    [property: ReadOnly(true)]
-    [property: Category("Bytes")]
-    [property: DisplayName("ASCII preview")]
-    private string? _asciiPreview;
-
-    [ObservableProperty]
-    [property: ReadOnly(true)]
     [property: Category("Integers")]
     [property: DisplayName("UInt16 LE")]
     private string? _uint16LittleEndian;
@@ -70,31 +82,19 @@ public partial class HexSelectionInfo : ObservableObject
 
     [ObservableProperty]
     [property: ReadOnly(true)]
-    [property: Category("Known Fields")]
-    [property: DisplayName("Intersecting fields")]
-    private string? _intersectingFields;
+    [property: Category("Bytes")]
+    [property: DisplayName("ASCII preview")]
+    private string? _asciiPreview;
 
     [ObservableProperty]
     [property: ReadOnly(true)]
-    [property: Category("Known Fields")]
-    [property: DisplayName("Primary field")]
-    private string? _primaryFieldName;
+    [property: Category("Bytes")]
+    [property: DisplayName("Hex")]
+    private string? _rawHex;
 
     [ObservableProperty]
     [property: ReadOnly(true)]
-    [property: Category("Known Fields")]
-    [property: DisplayName("Encoding")]
-    private string? _primaryFieldEncoding;
-
-    [ObservableProperty]
-    [property: ReadOnly(true)]
-    [property: Category("Known Fields")]
-    [property: DisplayName("Decoded value")]
-    private string? _primaryFieldValue;
-
-    [ObservableProperty]
-    [property: ReadOnly(true)]
-    [property: Category("Known Fields")]
-    [property: DisplayName("Description")]
-    private string? _primaryFieldDescription;
+    [property: Category("Bytes")]
+    [property: DisplayName("Decimal")]
+    private string? _rawDecimal;
 }
