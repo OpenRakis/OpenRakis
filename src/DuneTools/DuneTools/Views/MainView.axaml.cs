@@ -3,8 +3,10 @@ namespace DuneTools.Views;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using AvaloniaHex;
@@ -13,10 +15,23 @@ using DuneTools.ViewModels;
 
 public partial class MainView : UserControl
 {
+    private readonly DispatcherTimer _selectionDebounceTimer = new() { Interval = TimeSpan.FromMilliseconds(16) };
+    private HexSelectionChangedEventArgs? _pendingSelection;
+
     public MainView()
     {
         InitializeComponent();
         AttachSelectionSyncBehavior();
+        HexFieldSelectionBehavior.SelectionChanged += OnHexSelectionChanged;
+        DetachedFromVisualTree += OnDetachedFromVisualTree;
+        _selectionDebounceTimer.Tick += OnSelectionDebounceTick;
+    }
+
+    private void OnDetachedFromVisualTree(object? sender, Avalonia.VisualTreeAttachmentEventArgs e)
+    {
+        HexFieldSelectionBehavior.SelectionChanged -= OnHexSelectionChanged;
+        _selectionDebounceTimer.Tick -= OnSelectionDebounceTick;
+        DetachedFromVisualTree -= OnDetachedFromVisualTree;
     }
 
     private void AttachSelectionSyncBehavior()
@@ -57,6 +72,43 @@ public partial class MainView : UserControl
         HexFieldSelectionBehavior.SetHexEditor(gameStageDescription, hexEditor);
         HexFieldSelectionBehavior.SetByteOffset(gameStageDescription, 17481);
         HexFieldSelectionBehavior.SetByteLength(gameStageDescription, 1);
+    }
+
+    private void OnHexSelectionChanged(object? sender, HexSelectionChangedEventArgs e)
+    {
+        HexEditor? currentHexEditor = this.FindControl<HexEditor>("HexEditorControl");
+        if (!ReferenceEquals(e.Editor, currentHexEditor))
+        {
+            return;
+        }
+
+        _pendingSelection = e;
+        _selectionDebounceTimer.Stop();
+        _selectionDebounceTimer.Start();
+    }
+
+    private void OnSelectionDebounceTick(object? sender, EventArgs e)
+    {
+        _selectionDebounceTimer.Stop();
+
+        if (_pendingSelection is null || DataContext is not MainViewModel vm)
+        {
+            return;
+        }
+
+        HexSelectionChangedEventArgs selection = _pendingSelection;
+        _pendingSelection = null;
+
+        void ApplySelection() => vm.UpdateSelection(selection.Offset, selection.Length);
+
+        if (Dispatcher.UIThread.CheckAccess())
+        {
+            ApplySelection();
+        }
+        else
+        {
+            Dispatcher.UIThread.Post(ApplySelection);
+        }
     }
 
     private async void OnUploadClick(object? sender, RoutedEventArgs e)

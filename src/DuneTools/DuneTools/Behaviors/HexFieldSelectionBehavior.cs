@@ -9,6 +9,8 @@ using AvaloniaHex.Document;
 
 public static class HexFieldSelectionBehavior
 {
+    public static event EventHandler<HexSelectionChangedEventArgs>? SelectionChanged;
+
     public static readonly AttachedProperty<HexEditor?> HexEditorProperty =
         AvaloniaProperty.RegisterAttached<TextBox, HexEditor?>(
             "HexEditor",
@@ -132,6 +134,7 @@ public static class HexFieldSelectionBehavior
             editor.Selection.Range = new BitRange(start, start + length);
             editor.Caret.Location = new BitLocation(start);
             editor.HexView?.BringIntoView(new BitLocation(start));
+            RaiseSelectionChanged(editor, start, length, HexSelectionSource.Field);
         }
         finally
         {
@@ -144,6 +147,10 @@ public static class HexFieldSelectionBehavior
         if (sender is AvaloniaHex.Editing.Selection selection)
         {
             SelectionToEditor.TryGetValue(selection, out HexEditor? editor);
+            if (editor is not null)
+            {
+                RaiseSelectionChanged(editor, GetSelectedByte(editor), GetSelectionLength(editor), HexSelectionSource.HexView);
+            }
             SyncTextBoxFromHex(editor);
         }
     }
@@ -153,8 +160,17 @@ public static class HexFieldSelectionBehavior
         if (sender is AvaloniaHex.Editing.Caret caret)
         {
             CaretToEditor.TryGetValue(caret, out HexEditor? editor);
+            if (editor is not null)
+            {
+                RaiseSelectionChanged(editor, GetSelectedByte(editor), GetSelectionLength(editor), HexSelectionSource.HexView);
+            }
             SyncTextBoxFromHex(editor);
         }
+    }
+
+    private static void RaiseSelectionChanged(HexEditor editor, ulong offset, ulong length, HexSelectionSource source)
+    {
+        SelectionChanged?.Invoke(null, new HexSelectionChangedEventArgs(editor, offset, Math.Max(1UL, length), source));
     }
 
     private static void SyncTextBoxFromHex(HexEditor? editor)
@@ -194,6 +210,12 @@ public static class HexFieldSelectionBehavior
         }
 
         return editor.Caret.Location.ByteIndex;
+    }
+
+    private static ulong GetSelectionLength(HexEditor editor)
+    {
+        BitRange range = editor.Selection.Range;
+        return Math.Max(1UL, range.ByteLength);
     }
 
     private sealed class EditorState
@@ -313,3 +335,11 @@ public static class HexFieldSelectionBehavior
         }
     }
 }
+
+public enum HexSelectionSource
+{
+    HexView,
+    Field
+}
+
+public sealed record HexSelectionChangedEventArgs(HexEditor Editor, ulong Offset, ulong Length, HexSelectionSource Source);

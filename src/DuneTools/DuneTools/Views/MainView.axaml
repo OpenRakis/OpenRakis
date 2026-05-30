@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:DuneTools.ViewModels"
+             xmlns:views="using:DuneTools.Views"
              xmlns:avaloniaHex="clr-namespace:AvaloniaHex;assembly=AvaloniaHex"
              xmlns:rendering="clr-namespace:AvaloniaHex.Rendering;assembly=AvaloniaHex"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -27,7 +28,11 @@
 
     <TabControl Grid.Row="1" Margin="10,0,10,0">
       <TabItem Header="Generals">
-        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="8">
+        <Grid ColumnDefinitions="Auto,*"
+              RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+              Margin="8"
+              DataContext="{Binding Generals}"
+              x:DataType="vm:GeneralsViewModel">
           <TextBlock Grid.Row="0" Grid.Column="0" Text="Charisma:" FontWeight="Bold" Margin="0,0,12,6" />
           <TextBox Grid.Row="0"
                    Grid.Column="1"
@@ -76,17 +81,29 @@
                   ResizeDirection="Rows"
                   HorizontalAlignment="Stretch" />
 
-    <!-- Hex viewer -->
-    <avaloniaHex:HexEditor Grid.Row="3"
-                           Name="HexEditorControl"
-                           Document="{Binding Document}"
-                           FontFamily="Cascadia Code,JetBrains Mono,Consolas,Courier New,monospace"
-                           Margin="10">
-      <avaloniaHex:HexEditor.Columns>
-        <rendering:OffsetColumn />
-        <rendering:HexColumn />
-        <rendering:AsciiColumn />
-      </avaloniaHex:HexEditor.Columns>
-    </avaloniaHex:HexEditor>
+    <Grid Grid.Row="3" ColumnDefinitions="*,5,320" Margin="10">
+      <!-- Hex viewer -->
+      <avaloniaHex:HexEditor Grid.Column="0"
+                             Name="HexEditorControl"
+                             Document="{Binding Document}"
+                             FontFamily="Cascadia Code,JetBrains Mono,Consolas,Courier New,monospace"
+                             Margin="0,0,10,0">
+        <avaloniaHex:HexEditor.Columns>
+          <rendering:OffsetColumn />
+          <rendering:HexColumn />
+          <rendering:AsciiColumn />
+        </avaloniaHex:HexEditor.Columns>
+      </avaloniaHex:HexEditor>
+
+      <GridSplitter Grid.Column="1"
+                    Background="Gray"
+                    ResizeDirection="Columns"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" />
+
+      <views:HexSelectionInspectorView Grid.Column="2"
+                                       MinWidth="240"
+                                       DataContext="{Binding Inspector}" />
+    </Grid>
   </Grid>
 </UserControl>
