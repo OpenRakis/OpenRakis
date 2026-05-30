@@ -213,6 +213,48 @@ public partial class MainViewModel : ViewModelBase
             OnPropertyChanged(nameof(HighlightSnapshot));
             return;
         }
+
+        int globalsClamped;
+        int globalsSkipped;
+        IReadOnlyList<ByteRange> globalsRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Globals", StringComparison.Ordinal), out globalsClamped, out globalsSkipped);
+
+        int troopClamped;
+        int troopSkipped;
+        IReadOnlyList<ByteRange> troopRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Troop", StringComparison.Ordinal), out troopClamped, out troopSkipped);
+
+        int locationClamped;
+        int locationSkipped;
+        IReadOnlyList<ByteRange> locationRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Location", StringComparison.Ordinal), out locationClamped, out locationSkipped);
+
+        int smugglerClamped;
+        int smugglerSkipped;
+        IReadOnlyList<ByteRange> smugglerRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Smuggler", StringComparison.Ordinal), out smugglerClamped, out smugglerSkipped);
+
+        int npcClamped;
+        int npcSkipped;
+        IReadOnlyList<ByteRange> npcRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("NPC", StringComparison.Ordinal), out npcClamped, out npcSkipped);
+
+        List<ByteRange> allKnownRanges = [];
+        allKnownRanges.AddRange(globalsRanges);
+        allKnownRanges.AddRange(troopRanges);
+        allKnownRanges.AddRange(locationRanges);
+        allKnownRanges.AddRange(smugglerRanges);
+        allKnownRanges.AddRange(npcRanges);
+
+        IReadOnlyList<ByteRange> mergedKnownRanges = MergeRanges(allKnownRanges);
+        IReadOnlyList<ByteRange> unknownRanges = BuildUnknownRanges(mergedKnownRanges, (ulong)documentLength);
+
+        HighlightSnapshot = new HexHighlightSnapshot(
+            globalsRanges,
+            troopRanges,
+            locationRanges,
+            smugglerRanges,
+            npcRanges,
+            unknownRanges);
+
+        long knownBytes = mergedKnownRanges.Sum(static range => (long)(range.EndExclusive - range.Start));
+        StatusCoveragePercent = $"{(knownBytes * 100.0 / documentLength):0.0}%";
+        OnPropertyChanged(nameof(HighlightSnapshot));
     }
 
     private void SyncTabsFromOffset(ulong offset)
@@ -261,7 +303,7 @@ public partial class MainViewModel : ViewModelBase
             || offset == (ulong)GlobalsViewModel.GameStageOffset;
     }
 
-    private IReadOnlyList<ByteRange> BuildKnownRanges(int documentLength, out int clampedCount, out int skippedCount)
+    private IReadOnlyList<ByteRange> BuildKnownRanges(int documentLength, Func<KnownFieldDescriptor, bool> predicate, out int clampedCount, out int skippedCount)
     {
         List<ByteRange> ranges = [];
         clampedCount = 0;
@@ -269,6 +311,11 @@ public partial class MainViewModel : ViewModelBase
 
         foreach (KnownFieldDescriptor descriptor in KnownFields)
         {
+            if (!predicate(descriptor))
+            {
+                continue;
+            }
+
             int rawStart = descriptor.Offset;
             int rawEnd = descriptor.Offset + descriptor.Length;
             int start = Math.Max(0, rawStart);
@@ -405,7 +452,13 @@ public partial class MainViewModel : ViewModelBase
 
 public readonly record struct ByteRange(ulong Start, ulong EndExclusive);
 
-public sealed record HexHighlightSnapshot(IReadOnlyList<ByteRange> KnownRanges, IReadOnlyList<ByteRange> UnknownRanges)
+public sealed record HexHighlightSnapshot(
+    IReadOnlyList<ByteRange> GlobalsRanges,
+    IReadOnlyList<ByteRange> TroopRanges,
+    IReadOnlyList<ByteRange> LocationRanges,
+    IReadOnlyList<ByteRange> SmugglerRanges,
+    IReadOnlyList<ByteRange> NpcRanges,
+    IReadOnlyList<ByteRange> UnknownRanges)
 {
-    public static HexHighlightSnapshot Empty { get; } = new([], []);
+    public static HexHighlightSnapshot Empty { get; } = new([], [], [], [], [], []);
 }

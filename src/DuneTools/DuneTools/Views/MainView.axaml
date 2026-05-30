@@ -144,6 +144,8 @@
       <TabItem Header="Fremen">
         <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding FremenTab}" x:DataType="vm:SimpleDataTabViewModel">
           <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
             <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
           </StackPanel>
 
@@ -164,6 +166,8 @@
       <TabItem Header="Harkonnen">
         <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding HarkonnenTab}" x:DataType="vm:SimpleDataTabViewModel">
           <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
             <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
           </StackPanel>
 

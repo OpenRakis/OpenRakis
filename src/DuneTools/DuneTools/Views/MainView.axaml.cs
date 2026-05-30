@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -23,7 +24,11 @@ public partial class MainView : UserControl
 {
     private readonly DispatcherTimer _selectionDebounceTimer = new() { Interval = TimeSpan.FromMilliseconds(16) };
     private HexSelectionChangedEventArgs? _pendingSelection;
-    private readonly RangesHighlighter _knownHighlighter = new();
+    private readonly RangesHighlighter _globalsHighlighter = new();
+    private readonly RangesHighlighter _troopsHighlighter = new();
+    private readonly RangesHighlighter _locationsHighlighter = new();
+    private readonly RangesHighlighter _smugglersHighlighter = new();
+    private readonly RangesHighlighter _npcsHighlighter = new();
     private readonly RangesHighlighter _unknownHighlighter = new();
     private MainViewModel? _viewModel;
 
@@ -57,7 +62,11 @@ public partial class MainView : UserControl
         Color knownColor = GetRequiredColor("SystemAccentColor");
         Color unknownColor = GetRequiredColor("SystemChromeLowColor");
 
-        _knownHighlighter.Background = new SolidColorBrush(knownColor, 0.20);
+        _globalsHighlighter.Background = new SolidColorBrush(knownColor, 0.20);
+        _troopsHighlighter.Background = new SolidColorBrush(ShiftHue(knownColor, 52), 0.20);
+        _locationsHighlighter.Background = new SolidColorBrush(ShiftHue(knownColor, 114), 0.20);
+        _smugglersHighlighter.Background = new SolidColorBrush(ShiftHue(knownColor, 176), 0.20);
+        _npcsHighlighter.Background = new SolidColorBrush(ShiftHue(knownColor, 238), 0.20);
         _unknownHighlighter.Background = new SolidColorBrush(unknownColor, 0.12);
     }
 
@@ -94,20 +103,44 @@ public partial class MainView : UserControl
         }
 
         AttachHighlighters(editor.HexView);
-        ApplyRanges(_knownHighlighter.Ranges, _viewModel?.HighlightSnapshot.KnownRanges);
+        ApplyRanges(_globalsHighlighter.Ranges, _viewModel?.HighlightSnapshot.GlobalsRanges);
+        ApplyRanges(_troopsHighlighter.Ranges, _viewModel?.HighlightSnapshot.TroopRanges);
+        ApplyRanges(_locationsHighlighter.Ranges, _viewModel?.HighlightSnapshot.LocationRanges);
+        ApplyRanges(_smugglersHighlighter.Ranges, _viewModel?.HighlightSnapshot.SmugglerRanges);
+        ApplyRanges(_npcsHighlighter.Ranges, _viewModel?.HighlightSnapshot.NpcRanges);
         ApplyRanges(_unknownHighlighter.Ranges, _viewModel?.HighlightSnapshot.UnknownRanges);
     }
 
     private void AttachHighlighters(HexView hexView)
     {
+        if (!hexView.LineTransformers.Contains(_npcsHighlighter))
+        {
+            hexView.LineTransformers.Add(_npcsHighlighter);
+        }
+
+        if (!hexView.LineTransformers.Contains(_smugglersHighlighter))
+        {
+            hexView.LineTransformers.Add(_smugglersHighlighter);
+        }
+
+        if (!hexView.LineTransformers.Contains(_locationsHighlighter))
+        {
+            hexView.LineTransformers.Add(_locationsHighlighter);
+        }
+
+        if (!hexView.LineTransformers.Contains(_troopsHighlighter))
+        {
+            hexView.LineTransformers.Add(_troopsHighlighter);
+        }
+
+        if (!hexView.LineTransformers.Contains(_globalsHighlighter))
+        {
+            hexView.LineTransformers.Add(_globalsHighlighter);
+        }
+
         if (!hexView.LineTransformers.Contains(_unknownHighlighter))
         {
             hexView.LineTransformers.Add(_unknownHighlighter);
-        }
-
-        if (!hexView.LineTransformers.Contains(_knownHighlighter))
-        {
-            hexView.LineTransformers.Add(_knownHighlighter);
         }
     }
 
@@ -145,6 +178,106 @@ public partial class MainView : UserControl
         }
 
         return color;
+    }
+
+    private static Color ShiftHue(Color color, double hueOffsetDegrees)
+    {
+        (double hue, double saturation, double lightness) = ToHsl(color);
+        double shiftedHue = (hue + hueOffsetDegrees) % 360.0;
+        if (shiftedHue < 0)
+        {
+            shiftedHue += 360.0;
+        }
+
+        double adjustedSaturation = Math.Clamp(saturation * 0.90, 0.0, 1.0);
+        double adjustedLightness = Math.Clamp(lightness + (Avalonia.Application.Current?.ActualThemeVariant == ThemeVariant.Dark ? 0.08 : -0.04), 0.0, 1.0);
+        return FromHsl(color.A, shiftedHue, adjustedSaturation, adjustedLightness);
+    }
+
+    private static (double Hue, double Saturation, double Lightness) ToHsl(Color color)
+    {
+        double red = color.R / 255.0;
+        double green = color.G / 255.0;
+        double blue = color.B / 255.0;
+
+        double max = Math.Max(red, Math.Max(green, blue));
+        double min = Math.Min(red, Math.Min(green, blue));
+        double lightness = (max + min) / 2.0;
+
+        if (Math.Abs(max - min) < 0.00001)
+        {
+            return (0.0, 0.0, lightness);
+        }
+
+        double delta = max - min;
+        double saturation = lightness > 0.5
+            ? delta / (2.0 - max - min)
+            : delta / (max + min);
+
+        double hue;
+        if (Math.Abs(max - red) < 0.00001)
+        {
+            hue = (green - blue) / delta + (green < blue ? 6.0 : 0.0);
+        }
+        else if (Math.Abs(max - green) < 0.00001)
+        {
+            hue = (blue - red) / delta + 2.0;
+        }
+        else
+        {
+            hue = (red - green) / delta + 4.0;
+        }
+
+        return (hue * 60.0, saturation, lightness);
+    }
+
+    private static Color FromHsl(byte alpha, double hue, double saturation, double lightness)
+    {
+        double chroma = (1.0 - Math.Abs((2.0 * lightness) - 1.0)) * saturation;
+        double hueSection = hue / 60.0;
+        double secondary = chroma * (1.0 - Math.Abs((hueSection % 2.0) - 1.0));
+
+        double redPrime = 0.0;
+        double greenPrime = 0.0;
+        double bluePrime = 0.0;
+
+        if (hueSection >= 0.0 && hueSection < 1.0)
+        {
+            redPrime = chroma;
+            greenPrime = secondary;
+        }
+        else if (hueSection < 2.0)
+        {
+            redPrime = secondary;
+            greenPrime = chroma;
+        }
+        else if (hueSection < 3.0)
+        {
+            greenPrime = chroma;
+            bluePrime = secondary;
+        }
+        else if (hueSection < 4.0)
+        {
+            greenPrime = secondary;
+            bluePrime = chroma;
+        }
+        else if (hueSection < 5.0)
+        {
+            redPrime = secondary;
+            bluePrime = chroma;
+        }
+        else
+        {
+            redPrime = chroma;
+            bluePrime = secondary;
+        }
+
+        double match = lightness - (chroma / 2.0);
+        byte red = (byte)Math.Round((redPrime + match) * 255.0);
+        byte green = (byte)Math.Round((greenPrime + match) * 255.0);
+        byte blue = (byte)Math.Round((bluePrime + match) * 255.0);
+
+        return Color.FromArgb(alpha, red, green, blue);
     }
 
     private void AttachSelectionSyncBehavior()
