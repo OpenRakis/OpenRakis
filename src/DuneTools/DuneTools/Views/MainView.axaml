@@ -91,13 +91,29 @@
                              Margin="0,0,10,0">
         <avaloniaHex:HexEditor.Styles>
           <Style Selector="editing|CaretLayer">
-            <Setter Property="PrimaryColumnBackground" Value="#FF0078D4" />
-            <Setter Property="SecondaryColumnBackground" Value="#AA0078D4" />
+            <Setter Property="PrimaryColumnBackground">
+              <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource SystemAccentColor}" Opacity="1.0" />
+              </Setter.Value>
+            </Setter>
+            <Setter Property="SecondaryColumnBackground">
+              <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource SystemAccentColor}" Opacity="0.66" />
+              </Setter.Value>
+            </Setter>
             <Setter Property="InsertCaretWidth" Value="2" />
           </Style>
           <Style Selector="editing|SelectionLayer">
-            <Setter Property="PrimarySelectionBackground" Value="#66339CFF" />
-            <Setter Property="SecondarySelectionBackground" Value="#44339CFF" />
+            <Setter Property="PrimarySelectionBackground">
+              <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource SystemAccentColor}" Opacity="0.40" />
+              </Setter.Value>
+            </Setter>
+            <Setter Property="SecondarySelectionBackground">
+              <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource SystemAccentColor}" Opacity="0.25" />
+              </Setter.Value>
+            </Setter>
           </Style>
         </avaloniaHex:HexEditor.Styles>
         <avaloniaHex:HexEditor.Columns>
