@@ -20,4 +20,8 @@
   <ItemGroup>
     <ProjectReference Include="..\DuneTools\DuneTools.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <TrimmerRootDescriptor Include="TrimmerRoots.xml" />
+  </ItemGroup>
 </Project>

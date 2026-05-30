@@ -2,8 +2,10 @@ namespace DuneTools.ViewModels;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
+using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;
 
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public partial class HexSelectionInfo : ObservableObject
 {
     [ObservableProperty]
