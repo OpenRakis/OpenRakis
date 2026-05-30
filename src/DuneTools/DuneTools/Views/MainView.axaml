@@ -27,7 +27,7 @@
       <Button Content="Upload File" Name="UploadButton" Click="OnUploadClick" Margin="20,0,0,0" />
     </StackPanel>
 
-    <TabControl Grid.Row="1" Margin="10,0,10,0">
+    <TabControl Grid.Row="1" Margin="10,0,10,0" SelectedIndex="{Binding ActiveTabIndex, Mode=TwoWay}">
       <TabItem Header="Globals">
         <Grid ColumnDefinitions="Auto,*"
               RowDefinitions="Auto,Auto,Auto,Auto,Auto"
@@ -72,6 +72,112 @@
                    Name="GameStageDescriptionTextBox"
                    Text="{Binding GameStageDescription}"
                    IsReadOnly="True" />
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="NPCs">
+        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding NpcsTab}" x:DataType="vm:SimpleDataTabViewModel">
+          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
+            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="Smugglers">
+        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding SmugglersTab}" x:DataType="vm:SimpleDataTabViewModel">
+          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
+            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="Locations">
+        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding LocationsTab}" x:DataType="vm:SimpleDataTabViewModel">
+          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
+            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="Fremen">
+        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding FremenTab}" x:DataType="vm:SimpleDataTabViewModel">
+          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="Harkonnen">
+        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding HarkonnenTab}" x:DataType="vm:SimpleDataTabViewModel">
+          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+          </StackPanel>
+
+          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
         </Grid>
       </TabItem>
     </TabControl>

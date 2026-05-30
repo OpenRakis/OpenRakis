@@ -14,6 +14,7 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using AvaloniaHex;
 using AvaloniaHex.Document;
+using AvaloniaHex.Editing;
 using AvaloniaHex.Rendering;
 using DuneTools.Behaviors;
 using DuneTools.ViewModels;
@@ -263,6 +264,31 @@ public partial class MainView : UserControl
                     vm.SetLoadError(ex.Message);
                 }
             }
+        }
+    }
+
+    private void OnSimpleFieldSelectClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: SimpleFieldValueViewModel field })
+        {
+            return;
+        }
+
+        HexEditor? editor = this.FindControl<HexEditor>("HexEditorControl");
+        if (editor is null)
+        {
+            return;
+        }
+
+        ulong length = Math.Max(1UL, field.Length);
+        editor.Selection.Range = new BitRange(field.Offset, field.Offset + length);
+        editor.Caret.Location = new BitLocation(field.Offset);
+        editor.Focus();
+        editor.HexView?.BringIntoView(new BitLocation(field.Offset));
+
+        if (DataContext is MainViewModel vm)
+        {
+            vm.UpdateSelection(field.Offset, length);
         }
     }
 }

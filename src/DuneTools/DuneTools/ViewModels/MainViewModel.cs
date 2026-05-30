@@ -12,6 +12,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 public partial class MainViewModel : ViewModelBase
 {
     private const string UnsupportedVariantMessage = "Unsupported save variant: known-field decoding, coverage, and highlighting are disabled.";
+    private const int GlobalsTabIndex = 0;
+    private const int NpcsTabIndex = 1;
+    private const int SmugglersTabIndex = 2;
+    private const int LocationsTabIndex = 3;
+    private const int FremenTabIndex = 4;
+    private const int HarkonnenTabIndex = 5;
 
     [ObservableProperty]
     private IBinaryDocument? _document;
@@ -40,7 +46,15 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private string _statusMessage = "No file loaded";
 
+    [ObservableProperty]
+    private int _activeTabIndex = GlobalsTabIndex;
+
     public GlobalsViewModel Globals { get; } = new();
+    public SimpleDataTabViewModel NpcsTab { get; } = SimpleDataTabViewModel.CreateNpcs();
+    public SimpleDataTabViewModel SmugglersTab { get; } = SimpleDataTabViewModel.CreateSmugglers();
+    public SimpleDataTabViewModel LocationsTab { get; } = SimpleDataTabViewModel.CreateLocations();
+    public SimpleDataTabViewModel FremenTab { get; } = SimpleDataTabViewModel.CreateFremen();
+    public SimpleDataTabViewModel HarkonnenTab { get; } = SimpleDataTabViewModel.CreateHarkonnen();
     public HexSelectionInspectorViewModel Inspector { get; } = new();
     public HexHighlightSnapshot HighlightSnapshot { get; private set; } = HexHighlightSnapshot.Empty;
 
@@ -86,6 +100,7 @@ public partial class MainViewModel : ViewModelBase
     public void UpdateSelection(ulong offset, ulong length)
     {
         Inspector.UpdateFromSelection(offset, length);
+        SyncTabsFromOffset(offset);
         UpdateStatusFromInspector();
     }
 
@@ -102,6 +117,11 @@ public partial class MainViewModel : ViewModelBase
         Document = new MemoryBinaryDocument(bytes);
         FileName = name;
         FileSize = bytes.Length;
+        NpcsTab.SetBuffer(bytes);
+        SmugglersTab.SetBuffer(bytes);
+        LocationsTab.SetBuffer(bytes);
+        FremenTab.SetBuffer(bytes);
+        HarkonnenTab.SetBuffer(bytes);
         if (enableKnownFeatures)
         {
             Globals.UpdateFromBytes(bytes);
@@ -128,6 +148,11 @@ public partial class MainViewModel : ViewModelBase
         FileName = $"Error: {message}";
         FileSize = 0;
         Globals.Reset();
+        NpcsTab.Reset();
+        SmugglersTab.Reset();
+        LocationsTab.Reset();
+        FremenTab.Reset();
+        HarkonnenTab.Reset();
         Inspector.SetBuffer(null, KnownFields, true);
         StatusMessage = message;
         StatusSelectionOffset = "-";
@@ -188,26 +213,52 @@ public partial class MainViewModel : ViewModelBase
             OnPropertyChanged(nameof(HighlightSnapshot));
             return;
         }
+    }
 
-        IReadOnlyList<ByteRange> knownRanges = BuildKnownRanges(documentLength, out int clampedCount, out int skippedCount);
-        IReadOnlyList<ByteRange> mergedKnown = MergeRanges(knownRanges);
-        IReadOnlyList<ByteRange> unknownRanges = BuildUnknownRanges(mergedKnown, (ulong)documentLength);
-
-        if (clampedCount > 0 || skippedCount > 0)
+    private void SyncTabsFromOffset(ulong offset)
+    {
+        if (IsGlobalsOffset(offset))
         {
-            Trace.TraceWarning(
-                "Known field ranges adjusted for current document length ({0}): clamped={1}, skipped={2}.",
-                documentLength,
-                clampedCount,
-                skippedCount);
+            ActiveTabIndex = GlobalsTabIndex;
+            return;
         }
 
-        ulong knownBytes = mergedKnown.Aggregate<ByteRange, ulong>(0, static (sum, range) => sum + (range.EndExclusive - range.Start));
-        decimal coverage = (decimal)knownBytes * 100m / documentLength;
-        StatusCoveragePercent = $"{coverage:0.##}%";
+        if (NpcsTab.TrySelectRecordByOffset(offset))
+        {
+            ActiveTabIndex = NpcsTabIndex;
+            return;
+        }
 
-        HighlightSnapshot = new HexHighlightSnapshot(mergedKnown, unknownRanges);
-        OnPropertyChanged(nameof(HighlightSnapshot));
+        if (SmugglersTab.TrySelectRecordByOffset(offset))
+        {
+            ActiveTabIndex = SmugglersTabIndex;
+            return;
+        }
+
+        if (LocationsTab.TrySelectRecordByOffset(offset))
+        {
+            ActiveTabIndex = LocationsTabIndex;
+            return;
+        }
+
+        if (FremenTab.TrySelectRecordByOffset(offset))
+        {
+            ActiveTabIndex = FremenTabIndex;
+            return;
+        }
+
+        if (HarkonnenTab.TrySelectRecordByOffset(offset))
+        {
+            ActiveTabIndex = HarkonnenTabIndex;
+        }
+    }
+
+    private static bool IsGlobalsOffset(ulong offset)
+    {
+        return offset == (ulong)GlobalsViewModel.CharismaOffset
+            || offset == (ulong)GlobalsViewModel.ContactDistanceOffset
+            || (offset >= (ulong)GlobalsViewModel.SpiceOffset && offset < (ulong)(GlobalsViewModel.SpiceOffset + 2))
+            || offset == (ulong)GlobalsViewModel.GameStageOffset;
     }
 
     private IReadOnlyList<ByteRange> BuildKnownRanges(int documentLength, out int clampedCount, out int skippedCount)
