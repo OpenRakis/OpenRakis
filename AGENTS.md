@@ -36,11 +36,16 @@ If using VS Code tasks, use the existing workspace tasks named build or publish.
 - Keep Avalonia package versions synchronized via [src/DuneTools/Directory.Packages.props](src/DuneTools/Directory.Packages.props).
 - DuneTools UI uses Avalonia with compiled bindings enabled in [src/DuneTools/DuneTools/DuneTools.csproj](src/DuneTools/DuneTools/DuneTools.csproj).
 - Preserve the View/ViewModel split already used in [src/DuneTools/DuneTools/Views](src/DuneTools/DuneTools/Views) and [src/DuneTools/DuneTools/ViewModels](src/DuneTools/DuneTools/ViewModels).
+- Enforce MVVM in DuneTools: keep UI behavior in Views/Behaviors and state plus presentation logic in ViewModels.
+- Prefer CommunityToolkit.Mvvm for observable properties, commands, and related MVVM plumbing instead of hand-rolled notification code.
 - Do not introduce fallback code paths in DuneTools. Fail explicitly and surface the issue instead of silently degrading to an alternate UI or behavior.
 - Prefer amending existing code over adding parallel code paths or adjacent wrapper layers.
 - Prefer short methods with clear names and short classes with a single focused responsibility.
+- Prefer small focused sub-viewmodels over growing a single large viewmodel when a UI area has its own state or presentation logic.
 - Only inject classes when they are genuinely shared collaboration points; otherwise construct them directly in the owning type's constructor.
 - Keep objects responsible for their own behavior. Avoid anemic or helpless classes that only shuttle state to other objects.
+- In C#, do not use reflection, null-forgiving operators, hacks, or shortpaths. The existing [src/DuneTools/DuneTools/ViewLocator.cs](src/DuneTools/DuneTools/ViewLocator.cs) is the explicit exception.
+- ReflectionBinding may be used when appropriate, but prefer compiled bindings.
 
 ## Common Pitfalls
 
