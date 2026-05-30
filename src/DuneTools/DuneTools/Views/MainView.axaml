@@ -5,6 +5,7 @@
              xmlns:vm="using:DuneTools.ViewModels"
              xmlns:views="using:DuneTools.Views"
              xmlns:avaloniaHex="clr-namespace:AvaloniaHex;assembly=AvaloniaHex"
+             xmlns:editing="clr-namespace:AvaloniaHex.Editing;assembly=AvaloniaHex"
              xmlns:rendering="clr-namespace:AvaloniaHex.Rendering;assembly=AvaloniaHex"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DuneTools.Views.MainView"
@@ -88,6 +89,17 @@
                              Document="{Binding Document}"
                              FontFamily="Cascadia Code,JetBrains Mono,Consolas,Courier New,monospace"
                              Margin="0,0,10,0">
+        <avaloniaHex:HexEditor.Styles>
+          <Style Selector="editing|CaretLayer">
+            <Setter Property="PrimaryColumnBackground" Value="#FF0078D4" />
+            <Setter Property="SecondaryColumnBackground" Value="#AA0078D4" />
+            <Setter Property="InsertCaretWidth" Value="2" />
+          </Style>
+          <Style Selector="editing|SelectionLayer">
+            <Setter Property="PrimarySelectionBackground" Value="#66339CFF" />
+            <Setter Property="SecondarySelectionBackground" Value="#44339CFF" />
+          </Style>
+        </avaloniaHex:HexEditor.Styles>
         <avaloniaHex:HexEditor.Columns>
           <rendering:OffsetColumn />
           <rendering:HexColumn />

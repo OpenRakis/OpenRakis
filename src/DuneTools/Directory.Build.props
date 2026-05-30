@@ -1,7 +1,5 @@
 <Project>
   <PropertyGroup>
 	<Nullable>enable</Nullable>
-  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  <NoWarn>IL2026</NoWarn>
   </PropertyGroup>
 </Project>

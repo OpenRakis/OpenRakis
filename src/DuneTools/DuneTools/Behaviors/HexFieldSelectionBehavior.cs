@@ -133,6 +133,7 @@ public static class HexFieldSelectionBehavior
         {
             editor.Selection.Range = new BitRange(start, start + length);
             editor.Caret.Location = new BitLocation(start);
+            editor.Focus();
             editor.HexView?.BringIntoView(new BitLocation(start));
             RaiseSelectionChanged(editor, start, length, HexSelectionSource.Field);
         }
