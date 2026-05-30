@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:pgc="clr-namespace:Avalonia.PropertyGrid.Controls;assembly=Avalonia.PropertyGrid"
              xmlns:vm="using:DuneTools.ViewModels"
              mc:Ignorable="d"
              x:Class="DuneTools.Views.HexSelectionInspectorView"
@@ -15,9 +14,105 @@
             </StackPanel>
 
             <ScrollViewer Grid.Row="1" Margin="0,10,0,0">
-                <pgc:PropertyGrid DataContext="{Binding Info}"
-                                  IsAutoNameWidth="False"
-                                  NameWidth="190" />
+                <StackPanel Spacing="10" Grid.IsSharedSizeScope="True">
+                    <Expander Header="Known Fields" IsExpanded="True">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="0,6,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="InspectorNameColumn" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="InspectorValueColumn" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Primary field" FontWeight="Bold" Margin="0,0,8,6" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Info.PrimaryFieldName, TargetNullValue='-'}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Decoded value" FontWeight="Bold" Margin="0,0,8,6" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Info.PrimaryFieldValue, TargetNullValue='-'}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Description" FontWeight="Bold" Margin="0,0,8,6" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Info.PrimaryFieldDescription, TargetNullValue='-'}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Encoding" FontWeight="Bold" Margin="0,0,8,6" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Info.PrimaryFieldEncoding, TargetNullValue='-'}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Intersecting fields" FontWeight="Bold" Margin="0,0,8,0" VerticalAlignment="Top" />
+                            <TextBox Grid.Row="4"
+                                     Grid.Column="1"
+                                     Text="{Binding Info.IntersectingFields, TargetNullValue='-'}"
+                                     IsReadOnly="True"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     MinHeight="72" />
+                        </Grid>
+                    </Expander>
+
+                    <Expander Header="Selection" IsExpanded="True">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,6,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="InspectorNameColumn" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="InspectorValueColumn" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Offset (hex)" FontWeight="Bold" Margin="0,0,8,6" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Info.OffsetHex, TargetNullValue='-'}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Offset (decimal)" FontWeight="Bold" Margin="0,0,8,6" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Info.OffsetDecimal, TargetNullValue='-'}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Length (bytes)" FontWeight="Bold" Margin="0,0,8,6" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Info.SelectionLength, TargetNullValue='-'}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Truncated" FontWeight="Bold" Margin="0,0,8,0" />
+                            <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Info.IsTruncated}" IsEnabled="False" />
+                        </Grid>
+                    </Expander>
+
+                    <Expander Header="Integers" IsExpanded="True">
+                        <Grid RowDefinitions="Auto,Auto" Margin="0,6,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="InspectorNameColumn" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="InspectorValueColumn" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="UInt16 LE" FontWeight="Bold" Margin="0,0,8,6" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Info.Uint16LittleEndian, TargetNullValue='-'}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="UInt32 LE" FontWeight="Bold" Margin="0,0,8,0" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Info.Uint32LittleEndian, TargetNullValue='-'}" TextWrapping="Wrap" />
+                        </Grid>
+                    </Expander>
+
+                    <Expander Header="Bytes" IsExpanded="True">
+                        <Grid RowDefinitions="Auto,Auto,Auto" Margin="0,6,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="InspectorNameColumn" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="InspectorValueColumn" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="ASCII preview" FontWeight="Bold" Margin="0,0,8,6" />
+                            <TextBox Grid.Row="0"
+                                     Grid.Column="1"
+                                     Text="{Binding Info.AsciiPreview, TargetNullValue='-'}"
+                                     IsReadOnly="True"
+                                     TextWrapping="Wrap"
+                                     Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Hex" FontWeight="Bold" Margin="0,0,8,6" VerticalAlignment="Top" />
+                            <TextBox Grid.Row="1"
+                                     Grid.Column="1"
+                                     Text="{Binding Info.RawHex, TargetNullValue='-'}"
+                                     IsReadOnly="True"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     MinHeight="64"
+                                     Margin="0,0,0,6" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Decimal" FontWeight="Bold" Margin="0,0,8,0" VerticalAlignment="Top" />
+                            <TextBox Grid.Row="2"
+                                     Grid.Column="1"
+                                     Text="{Binding Info.RawDecimal, TargetNullValue='-'}"
+                                     IsReadOnly="True"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     MinHeight="64" />
+                        </Grid>
+                    </Expander>
+                </StackPanel>
             </ScrollViewer>
         </Grid>
     </Border>
