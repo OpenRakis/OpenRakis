@@ -16,7 +16,7 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <Grid RowDefinitions="Auto,Auto,5,*,Auto">
+  <Grid RowDefinitions="Auto,*,5,*,Auto">
     <!-- File info and upload section -->
     <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="10">
       <TextBlock Text="File:" VerticalAlignment="Center" FontWeight="Bold" />
@@ -29,160 +29,171 @@
 
     <TabControl Grid.Row="1" Margin="10,0,10,0" SelectedIndex="{Binding ActiveTabIndex, Mode=TwoWay}">
       <TabItem Header="Globals">
-        <Grid ColumnDefinitions="Auto,*"
-              RowDefinitions="Auto,Auto,Auto,Auto,Auto"
-              Margin="8"
-              DataContext="{Binding Globals}"
-              x:DataType="vm:GlobalsViewModel">
-          <TextBlock Grid.Row="0" Grid.Column="0" Text="Charisma:" FontWeight="Bold" Margin="0,0,12,6" />
-          <TextBox Grid.Row="0"
-                   Grid.Column="1"
-                   Name="CharismaTextBox"
-                   Text="{Binding CharismaValue}"
-                   IsReadOnly="True"
-                   Margin="0,0,0,6" />
+        <ScrollViewer Margin="8">
+          <Grid ColumnDefinitions="Auto,*"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                DataContext="{Binding Globals}"
+                x:DataType="vm:GlobalsViewModel">
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Charisma:" FontWeight="Bold" Margin="0,0,12,6" />
+            <TextBox Grid.Row="0"
+                     Grid.Column="1"
+                     Name="CharismaTextBox"
+                     Text="{Binding CharismaValue}"
+                     IsReadOnly="True"
+                     Margin="0,0,0,6" />
 
-          <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact Distance:" FontWeight="Bold" Margin="0,0,12,0" />
-          <TextBox Grid.Row="1"
-                   Grid.Column="1"
-                   Name="ContactDistanceTextBox"
-                   Text="{Binding ContactDistanceValue}"
-                   IsReadOnly="True"
-                   Margin="0,6,0,0" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact Distance:" FontWeight="Bold" Margin="0,0,12,0" />
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
+                     Name="ContactDistanceTextBox"
+                     Text="{Binding ContactDistanceValue}"
+                     IsReadOnly="True"
+                     Margin="0,6,0,0" />
 
-          <TextBlock Grid.Row="2" Grid.Column="0" Text="Spice:" FontWeight="Bold" Margin="0,12,12,0" />
-          <TextBox Grid.Row="2"
-                   Grid.Column="1"
-                   Name="SpiceTextBox"
-                   Text="{Binding SpiceValue}"
-                   IsReadOnly="True"
-                   Margin="0,12,0,0" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Spice:" FontWeight="Bold" Margin="0,12,12,0" />
+            <TextBox Grid.Row="2"
+                     Grid.Column="1"
+                     Name="SpiceTextBox"
+                     Text="{Binding SpiceValue}"
+                     IsReadOnly="True"
+                     Margin="0,12,0,0" />
 
-          <TextBlock Grid.Row="3" Grid.Column="0" Text="Game Stage:" FontWeight="Bold" Margin="0,12,12,0" />
-          <TextBox Grid.Row="3"
-                   Grid.Column="1"
-                   Name="GameStageTextBox"
-                   Text="{Binding GameStageValue}"
-                   IsReadOnly="True"
-                   Margin="0,12,0,0" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Game Stage:" FontWeight="Bold" Margin="0,12,12,0" />
+            <TextBox Grid.Row="3"
+                     Grid.Column="1"
+                     Name="GameStageTextBox"
+                     Text="{Binding GameStageValue}"
+                     IsReadOnly="True"
+                     Margin="0,12,0,0" />
 
-          <TextBlock Grid.Row="4" Grid.Column="0" Text="Stage Description:" FontWeight="Bold" Margin="0,12,12,0" VerticalAlignment="Top" />
-          <TextBox Grid.Row="4"
-                   Grid.Column="1"
-                   Name="GameStageDescriptionTextBox"
-                   Text="{Binding GameStageDescription}"
-                   IsReadOnly="True" />
-        </Grid>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Stage Description:" FontWeight="Bold" Margin="0,12,12,0" VerticalAlignment="Top" />
+            <TextBox Grid.Row="4"
+                     Grid.Column="1"
+                     Name="GameStageDescriptionTextBox"
+                     Text="{Binding GameStageDescription}"
+                     IsReadOnly="True" />
+          </Grid>
+        </ScrollViewer>
       </TabItem>
 
       <TabItem Header="NPCs">
-        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding NpcsTab}" x:DataType="vm:SimpleDataTabViewModel">
-          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
-            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
-            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
-            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
-          </StackPanel>
+        <ScrollViewer Margin="8">
+          <Grid RowDefinitions="Auto,*" DataContext="{Binding NpcsTab}" x:DataType="vm:SimpleDataTabViewModel">
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+              <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+              <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
+              <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+            </StackPanel>
 
-          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
-                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
-                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
-                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
-                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
-                </Grid>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
-        </Grid>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                  <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                    <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                    <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Grid>
+        </ScrollViewer>
       </TabItem>
 
       <TabItem Header="Smugglers">
-        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding SmugglersTab}" x:DataType="vm:SimpleDataTabViewModel">
-          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
-            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
-            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
-            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
-          </StackPanel>
+        <ScrollViewer Margin="8">
+          <Grid RowDefinitions="Auto,*" DataContext="{Binding SmugglersTab}" x:DataType="vm:SimpleDataTabViewModel">
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+              <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+              <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
+              <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+            </StackPanel>
 
-          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
-                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
-                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
-                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
-                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
-                </Grid>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
-        </Grid>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                  <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                    <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                    <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Grid>
+        </ScrollViewer>
       </TabItem>
 
       <TabItem Header="Locations">
-        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding LocationsTab}" x:DataType="vm:SimpleDataTabViewModel">
-          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
-            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
-            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
-            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
-          </StackPanel>
+        <ScrollViewer Margin="8">
+          <Grid RowDefinitions="Auto,*" DataContext="{Binding LocationsTab}" x:DataType="vm:SimpleDataTabViewModel">
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+              <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+              <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
+              <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+            </StackPanel>
 
-          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
-                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
-                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
-                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
-                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
-                </Grid>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
-        </Grid>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                  <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                    <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                    <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Grid>
+        </ScrollViewer>
       </TabItem>
 
       <TabItem Header="Fremen">
-        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding FremenTab}" x:DataType="vm:SimpleDataTabViewModel">
-          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
-            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
-            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
-            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
-          </StackPanel>
+        <ScrollViewer Margin="8">
+          <Grid RowDefinitions="Auto,*" DataContext="{Binding FremenTab}" x:DataType="vm:SimpleDataTabViewModel">
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+              <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+              <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
+              <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+            </StackPanel>
 
-          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
-                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
-                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
-                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
-                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
-                </Grid>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
-        </Grid>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                  <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                    <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                    <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Grid>
+        </ScrollViewer>
       </TabItem>
 
       <TabItem Header="Harkonnen">
-        <Grid RowDefinitions="Auto,*" Margin="8" DataContext="{Binding HarkonnenTab}" x:DataType="vm:SimpleDataTabViewModel">
-          <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
-            <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
-            <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
-            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
-          </StackPanel>
+        <ScrollViewer Margin="8">
+          <Grid RowDefinitions="Auto,*" DataContext="{Binding HarkonnenTab}" x:DataType="vm:SimpleDataTabViewModel">
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,8">
+              <TextBlock Text="Record" FontWeight="Bold" VerticalAlignment="Center" />
+              <ComboBox Width="140" ItemsSource="{Binding RecordOptions}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding HasRecords}" />
+              <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+            </StackPanel>
 
-          <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
-                <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
-                  <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
-                  <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
-                  <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
-                </Grid>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
-        </Grid>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:SimpleFieldValueViewModel">
+                  <Grid ColumnDefinitions="220,120,*" Margin="0,0,0,4">
+                    <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" Content="Select" Tag="{Binding}" Click="OnSimpleFieldSelectClick" HorizontalAlignment="Left" />
+                    <TextBox Grid.Column="2" Text="{Binding Value}" IsReadOnly="True" Margin="8,0,0,0" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Grid>
+        </ScrollViewer>
       </TabItem>
     </TabControl>
 
@@ -192,7 +203,7 @@
                   ResizeDirection="Rows"
                   HorizontalAlignment="Stretch" />
 
-    <Grid Grid.Row="3" ColumnDefinitions="*,5,380" Margin="10">
+    <Grid Grid.Row="3" ColumnDefinitions="*,5,*" Margin="10">
       <!-- Hex viewer -->
       <avaloniaHex:HexEditor Grid.Column="0"
                              Name="HexEditorControl"
