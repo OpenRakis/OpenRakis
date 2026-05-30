@@ -36,6 +36,11 @@ If using VS Code tasks, use the existing workspace tasks named build or publish.
 - Keep Avalonia package versions synchronized via [src/DuneTools/Directory.Packages.props](src/DuneTools/Directory.Packages.props).
 - DuneTools UI uses Avalonia with compiled bindings enabled in [src/DuneTools/DuneTools/DuneTools.csproj](src/DuneTools/DuneTools/DuneTools.csproj).
 - Preserve the View/ViewModel split already used in [src/DuneTools/DuneTools/Views](src/DuneTools/DuneTools/Views) and [src/DuneTools/DuneTools/ViewModels](src/DuneTools/DuneTools/ViewModels).
+- Do not introduce fallback code paths in DuneTools. Fail explicitly and surface the issue instead of silently degrading to an alternate UI or behavior.
+- Prefer amending existing code over adding parallel code paths or adjacent wrapper layers.
+- Prefer short methods with clear names and short classes with a single focused responsibility.
+- Only inject classes when they are genuinely shared collaboration points; otherwise construct them directly in the owning type's constructor.
+- Keep objects responsible for their own behavior. Avoid anemic or helpless classes that only shuttle state to other objects.
 
 ## Common Pitfalls
 
