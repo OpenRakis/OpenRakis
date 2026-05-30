@@ -10,11 +10,11 @@
              x:DataType="vm:MainViewModel">
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <Grid RowDefinitions="Auto,5,*">
+  <Grid RowDefinitions="Auto,Auto,5,*">
     <!-- File info and upload section -->
     <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="10">
       <TextBlock Text="File:" VerticalAlignment="Center" FontWeight="Bold" />
@@ -25,14 +25,26 @@
       <Button Content="Upload File" Name="UploadButton" Click="OnUploadClick" Margin="20,0,0,0" />
     </StackPanel>
 
+    <TabControl Grid.Row="1" Margin="10,0,10,0">
+      <TabItem Header="Generals">
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" Margin="8">
+          <TextBlock Grid.Row="0" Grid.Column="0" Text="Charisma:" FontWeight="Bold" Margin="0,0,12,6" />
+          <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CharismaValue}" Margin="0,0,0,6" />
+
+          <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact Distance:" FontWeight="Bold" Margin="0,0,12,0" />
+          <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ContactDistanceValue}" />
+        </Grid>
+      </TabItem>
+    </TabControl>
+
     <!-- Grid splitter -->
-    <GridSplitter Grid.Row="1" 
-                  Background="Gray" 
+    <GridSplitter Grid.Row="2"
+                  Background="Gray"
                   ResizeDirection="Rows"
                   HorizontalAlignment="Stretch" />
 
     <!-- Hex viewer -->
-    <avaloniaHex:HexEditor Grid.Row="2" 
+    <avaloniaHex:HexEditor Grid.Row="3"
                            Document="{Binding Document}"
                            FontFamily="Cascadia Code,JetBrains Mono,Consolas,Courier New,monospace"
                            Margin="10">
