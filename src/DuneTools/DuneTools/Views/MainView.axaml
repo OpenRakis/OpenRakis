@@ -18,14 +18,23 @@
 
   <Grid RowDefinitions="Auto,*,5,*,Auto">
     <!-- File info and upload section -->
-    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="10">
-      <TextBlock Text="File:" VerticalAlignment="Center" FontWeight="Bold" />
-      <TextBlock Text="{Binding FileName}" VerticalAlignment="Center" />
-      <TextBlock Text="Size:" VerticalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0" />
-      <TextBlock Text="{Binding FileSize}" VerticalAlignment="Center" />
-      <TextBlock Text="bytes" VerticalAlignment="Center" />
-      <Button Content="Upload File" Name="UploadButton" Click="OnUploadClick" Margin="20,0,0,0" />
-    </StackPanel>
+    <Grid Grid.Row="0" RowDefinitions="Auto,Auto" Margin="10,10,10,6">
+      <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10">
+        <TextBlock Text="File:" VerticalAlignment="Center" FontWeight="Bold" />
+        <TextBlock Text="{Binding FileName}" VerticalAlignment="Center" />
+        <TextBlock Text="Size:" VerticalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0" />
+        <TextBlock Text="{Binding FileSize}" VerticalAlignment="Center" />
+        <TextBlock Text="bytes" VerticalAlignment="Center" />
+        <Button Content="Upload File" Name="UploadButton" Click="OnUploadClick" Margin="20,0,0,0" IsEnabled="{Binding CanUpload}" />
+      </StackPanel>
+
+      <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0,8,0,0" IsVisible="{Binding IsLoading}">
+        <TextBlock Text="Loading" FontWeight="Bold" VerticalAlignment="Center" />
+        <ProgressBar Width="260" Minimum="0" Maximum="100" Value="{Binding LoadProgressPercent}" />
+        <TextBlock Text="{Binding LoadProgressPercent, StringFormat='{}{0}%'}" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding LoadProgressMessage}" VerticalAlignment="Center" />
+      </StackPanel>
+    </Grid>
 
     <TabControl Grid.Row="1" Margin="10,0,10,0" SelectedIndex="{Binding ActiveTabIndex, Mode=TwoWay}">
       <TabItem Header="Globals">

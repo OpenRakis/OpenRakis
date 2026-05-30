@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Platform;
 using AvaloniaHex.Document;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -49,6 +50,17 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private int _activeTabIndex = GlobalsTabIndex;
 
+    [ObservableProperty]
+    private bool _isLoading;
+
+    [ObservableProperty]
+    private int _loadProgressPercent;
+
+    [ObservableProperty]
+    private string _loadProgressMessage = "Idle";
+
+    public bool CanUpload => !IsLoading;
+
     public GlobalsViewModel Globals { get; } = new();
     public SimpleDataTabViewModel NpcsTab { get; } = SimpleDataTabViewModel.CreateNpcs();
     public SimpleDataTabViewModel SmugglersTab { get; } = SimpleDataTabViewModel.CreateSmugglers();
@@ -69,17 +81,20 @@ public partial class MainViewModel : ViewModelBase
     {
         _knownFields = KnownFieldCatalogFactory.Build();
         _activeKnownFields = _knownFields;
-        TryLoadDefaultResource();
+        _ = TryLoadDefaultResourceAsync();
     }
 
-    private void TryLoadDefaultResource()
+    partial void OnIsLoadingChanged(bool value)
+    {
+        OnPropertyChanged(nameof(CanUpload));
+    }
+
+    private async Task TryLoadDefaultResourceAsync()
     {
         try
         {
             byte[] compressed = LoadResourceBytes(new Uri("avares://DuneTools/DUNE37S1.SAV"));
-            DecompressionResult result = DecompressWithMetadata(compressed);
-            _activeKnownFields = MergeKnownFields(result.CompressionDescriptors);
-            ApplyLoadedBytes(result.DecompressedBytes, "DUNE37S1.SAV (default, decompressed)");
+            await LoadFileFromBytesAsync(compressed, "DUNE37S1.SAV (default, decompressed)", isDefaultLoad: true);
         }
         catch (Exception ex)
         {
@@ -89,16 +104,46 @@ public partial class MainViewModel : ViewModelBase
 
     public void LoadFileFromBytes(byte[] compressed, string name)
     {
+        _ = LoadFileFromBytesAsync(compressed, name, isDefaultLoad: false);
+    }
+
+    public async Task LoadFileFromBytesAsync(byte[] compressed, string name, bool isDefaultLoad = false)
+    {
+        if (IsLoading)
+        {
+            return;
+        }
+
+        IsLoading = true;
+        LoadProgressPercent = 0;
+        LoadProgressMessage = "Starting...";
+
+        IProgress<LoadProgressUpdate> progress = new Progress<LoadProgressUpdate>(update =>
+        {
+            LoadProgressPercent = update.Percent;
+            LoadProgressMessage = update.Message;
+            StatusMessage = update.Message;
+        });
+
         try
         {
-            DecompressionResult result = DecompressWithMetadata(compressed);
             bool recognized = IsRecognizedSaveVariantName(name);
-            _activeKnownFields = MergeKnownFields(result.CompressionDescriptors);
-            ApplyLoadedBytes(result.DecompressedBytes, name, recognized);
+
+            progress.Report(new LoadProgressUpdate(10, "Decompressing save..."));
+            PreprocessResult preprocess = await Task.Run(() => PreprocessLoad(compressed, recognized, progress));
+
+            progress.Report(new LoadProgressUpdate(85, "Binding data to view..."));
+            _activeKnownFields = preprocess.ActiveKnownFields;
+            ApplyLoadedBytes(preprocess.DecompressedBytes, name, preprocess.EnableKnownFeatures, preprocess.HighlightSnapshot, preprocess.CoverageText);
+            progress.Report(new LoadProgressUpdate(100, isDefaultLoad ? "Default save loaded" : "Load complete"));
         }
         catch (Exception ex)
         {
             SetLoadError($"Failed to load save: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
         }
     }
 
@@ -116,6 +161,16 @@ public partial class MainViewModel : ViewModelBase
 
     private void ApplyLoadedBytes(byte[] bytes, string name, bool enableKnownFeatures)
     {
+        ApplyLoadedBytes(bytes, name, enableKnownFeatures, null, null);
+    }
+
+    private void ApplyLoadedBytes(
+        byte[] bytes,
+        string name,
+        bool enableKnownFeatures,
+        HexHighlightSnapshot? precomputedSnapshot,
+        string? precomputedCoverage)
+    {
         _knownFeaturesEnabled = enableKnownFeatures;
         _knownFeaturesStatus = enableKnownFeatures ? null : UnsupportedVariantMessage;
 
@@ -131,8 +186,17 @@ public partial class MainViewModel : ViewModelBase
         {
             Globals.UpdateFromBytes(bytes);
             Inspector.SetBuffer(bytes, KnownFields, false);
-            StatusCoveragePercent = "N/A";
-            UpdateHighlightSnapshot(bytes.Length);
+            if (precomputedSnapshot is not null)
+            {
+                HighlightSnapshot = precomputedSnapshot;
+                OnPropertyChanged(nameof(HighlightSnapshot));
+                StatusCoveragePercent = precomputedCoverage ?? "N/A";
+            }
+            else
+            {
+                StatusCoveragePercent = "N/A";
+                UpdateHighlightSnapshot(bytes.Length);
+            }
         }
         else
         {
@@ -220,29 +284,42 @@ public partial class MainViewModel : ViewModelBase
             return;
         }
 
+        HighlightComputation computation = ComputeHighlightSnapshot(documentLength, KnownFields);
+        HighlightSnapshot = computation.Snapshot;
+        StatusCoveragePercent = computation.CoveragePercent;
+        OnPropertyChanged(nameof(HighlightSnapshot));
+    }
+
+    private static HighlightComputation ComputeHighlightSnapshot(int documentLength, IReadOnlyList<KnownFieldDescriptor> knownFields)
+    {
+        if (documentLength <= 0)
+        {
+            return new HighlightComputation(HexHighlightSnapshot.Empty, "N/A");
+        }
+
         int globalsClamped;
         int globalsSkipped;
-        IReadOnlyList<ByteRange> globalsRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Globals", StringComparison.Ordinal), out globalsClamped, out globalsSkipped);
+        IReadOnlyList<ByteRange> globalsRanges = MergeRanges(BuildKnownRanges(documentLength, knownFields, static descriptor => descriptor.Name.StartsWith("Globals", StringComparison.Ordinal), out globalsClamped, out globalsSkipped));
 
         int troopClamped;
         int troopSkipped;
-        IReadOnlyList<ByteRange> troopRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Troop", StringComparison.Ordinal), out troopClamped, out troopSkipped);
+        IReadOnlyList<ByteRange> troopRanges = MergeRanges(BuildKnownRanges(documentLength, knownFields, static descriptor => descriptor.Name.StartsWith("Troop", StringComparison.Ordinal), out troopClamped, out troopSkipped));
 
         int locationClamped;
         int locationSkipped;
-        IReadOnlyList<ByteRange> locationRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Location", StringComparison.Ordinal), out locationClamped, out locationSkipped);
+        IReadOnlyList<ByteRange> locationRanges = MergeRanges(BuildKnownRanges(documentLength, knownFields, static descriptor => descriptor.Name.StartsWith("Location", StringComparison.Ordinal), out locationClamped, out locationSkipped));
 
         int smugglerClamped;
         int smugglerSkipped;
-        IReadOnlyList<ByteRange> smugglerRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Smuggler", StringComparison.Ordinal), out smugglerClamped, out smugglerSkipped);
+        IReadOnlyList<ByteRange> smugglerRanges = MergeRanges(BuildKnownRanges(documentLength, knownFields, static descriptor => descriptor.Name.StartsWith("Smuggler", StringComparison.Ordinal), out smugglerClamped, out smugglerSkipped));
 
         int npcClamped;
         int npcSkipped;
-        IReadOnlyList<ByteRange> npcRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("NPC", StringComparison.Ordinal), out npcClamped, out npcSkipped);
+        IReadOnlyList<ByteRange> npcRanges = MergeRanges(BuildKnownRanges(documentLength, knownFields, static descriptor => descriptor.Name.StartsWith("NPC", StringComparison.Ordinal), out npcClamped, out npcSkipped));
 
         int compressionClamped;
         int compressionSkipped;
-        IReadOnlyList<ByteRange> compressionRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Compression", StringComparison.Ordinal), out compressionClamped, out compressionSkipped);
+        IReadOnlyList<ByteRange> compressionRanges = MergeRanges(BuildKnownRanges(documentLength, knownFields, static descriptor => descriptor.Name.StartsWith("Compression", StringComparison.Ordinal), out compressionClamped, out compressionSkipped));
 
         List<ByteRange> allKnownRanges = [];
         allKnownRanges.AddRange(globalsRanges);
@@ -255,7 +332,7 @@ public partial class MainViewModel : ViewModelBase
         IReadOnlyList<ByteRange> mergedKnownRanges = MergeRanges(allKnownRanges);
         IReadOnlyList<ByteRange> unknownRanges = BuildUnknownRanges(mergedKnownRanges, (ulong)documentLength);
 
-        HighlightSnapshot = new HexHighlightSnapshot(
+        HexHighlightSnapshot snapshot = new(
             globalsRanges,
             troopRanges,
             locationRanges,
@@ -265,8 +342,8 @@ public partial class MainViewModel : ViewModelBase
             unknownRanges);
 
         long knownBytes = mergedKnownRanges.Sum(static range => (long)(range.EndExclusive - range.Start));
-        StatusCoveragePercent = $"{(knownBytes * 100.0 / documentLength):0.0}%";
-        OnPropertyChanged(nameof(HighlightSnapshot));
+        string coverage = $"{(knownBytes * 100.0 / documentLength):0.0}%";
+        return new HighlightComputation(snapshot, coverage);
     }
 
     private void SyncTabsFromOffset(ulong offset)
@@ -315,13 +392,18 @@ public partial class MainViewModel : ViewModelBase
             || offset == (ulong)GlobalsViewModel.GameStageOffset;
     }
 
-    private IReadOnlyList<ByteRange> BuildKnownRanges(int documentLength, Func<KnownFieldDescriptor, bool> predicate, out int clampedCount, out int skippedCount)
+    private static IReadOnlyList<ByteRange> BuildKnownRanges(
+        int documentLength,
+        IReadOnlyList<KnownFieldDescriptor> knownFields,
+        Func<KnownFieldDescriptor, bool> predicate,
+        out int clampedCount,
+        out int skippedCount)
     {
         List<ByteRange> ranges = [];
         clampedCount = 0;
         skippedCount = 0;
 
-        foreach (KnownFieldDescriptor descriptor in KnownFields)
+        foreach (KnownFieldDescriptor descriptor in knownFields)
         {
             if (!predicate(descriptor))
             {
@@ -348,6 +430,27 @@ public partial class MainViewModel : ViewModelBase
         }
 
         return ranges;
+    }
+
+    private PreprocessResult PreprocessLoad(byte[] compressed, bool recognized, IProgress<LoadProgressUpdate> progress)
+    {
+        progress.Report(new LoadProgressUpdate(30, "Tracing compression metadata..."));
+        DecompressionResult decompression = DecompressWithMetadata(compressed);
+
+        progress.Report(new LoadProgressUpdate(55, "Building known-field index..."));
+        IReadOnlyList<KnownFieldDescriptor> activeKnown = MergeKnownFields(decompression.CompressionDescriptors);
+
+        progress.Report(new LoadProgressUpdate(75, "Precomputing highlights and coverage..."));
+        HighlightComputation computation = recognized
+            ? ComputeHighlightSnapshot(decompression.DecompressedBytes.Length, activeKnown)
+            : new HighlightComputation(HexHighlightSnapshot.Empty, "N/A");
+
+        return new PreprocessResult(
+            decompression.DecompressedBytes,
+            activeKnown,
+            recognized,
+            computation.Snapshot,
+            computation.CoveragePercent);
     }
 
     private static IReadOnlyList<ByteRange> MergeRanges(IReadOnlyList<ByteRange> ranges)
@@ -537,3 +640,14 @@ public sealed record HexHighlightSnapshot(
 }
 
 public sealed record DecompressionResult(byte[] DecompressedBytes, IReadOnlyList<KnownFieldDescriptor> CompressionDescriptors);
+
+public readonly record struct LoadProgressUpdate(int Percent, string Message);
+
+public sealed record PreprocessResult(
+    byte[] DecompressedBytes,
+    IReadOnlyList<KnownFieldDescriptor> ActiveKnownFields,
+    bool EnableKnownFeatures,
+    HexHighlightSnapshot HighlightSnapshot,
+    string CoverageText);
+
+public sealed record HighlightComputation(HexHighlightSnapshot Snapshot, string CoveragePercent);

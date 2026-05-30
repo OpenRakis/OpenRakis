@@ -393,7 +393,7 @@ public partial class MainView : UserControl
 
                 if (DataContext is MainViewModel vm)
                 {
-                    vm.LoadFileFromBytes(bytes, file.Name);
+                    await vm.LoadFileFromBytesAsync(bytes, file.Name);
                     RefreshRangeHighlighting();
                 }
             }
