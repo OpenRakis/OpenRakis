@@ -29,6 +29,7 @@ public partial class MainView : UserControl
     private readonly RangesHighlighter _locationsHighlighter = new();
     private readonly RangesHighlighter _smugglersHighlighter = new();
     private readonly RangesHighlighter _npcsHighlighter = new();
+    private readonly RangesHighlighter _compressionHighlighter = new();
     private readonly RangesHighlighter _unknownHighlighter = new();
     private MainViewModel? _viewModel;
 
@@ -67,6 +68,7 @@ public partial class MainView : UserControl
         _locationsHighlighter.Background = new SolidColorBrush(ShiftHue(knownColor, 114), 0.20);
         _smugglersHighlighter.Background = new SolidColorBrush(ShiftHue(knownColor, 176), 0.20);
         _npcsHighlighter.Background = new SolidColorBrush(ShiftHue(knownColor, 238), 0.20);
+        _compressionHighlighter.Background = new SolidColorBrush(ShiftHue(knownColor, 300), 0.22);
         _unknownHighlighter.Background = new SolidColorBrush(unknownColor, 0.12);
     }
 
@@ -108,6 +110,7 @@ public partial class MainView : UserControl
         ApplyRanges(_locationsHighlighter.Ranges, _viewModel?.HighlightSnapshot.LocationRanges);
         ApplyRanges(_smugglersHighlighter.Ranges, _viewModel?.HighlightSnapshot.SmugglerRanges);
         ApplyRanges(_npcsHighlighter.Ranges, _viewModel?.HighlightSnapshot.NpcRanges);
+        ApplyRanges(_compressionHighlighter.Ranges, _viewModel?.HighlightSnapshot.CompressionRanges);
         ApplyRanges(_unknownHighlighter.Ranges, _viewModel?.HighlightSnapshot.UnknownRanges);
     }
 
@@ -136,6 +139,11 @@ public partial class MainView : UserControl
         if (!hexView.LineTransformers.Contains(_globalsHighlighter))
         {
             hexView.LineTransformers.Add(_globalsHighlighter);
+        }
+
+        if (!hexView.LineTransformers.Contains(_compressionHighlighter))
+        {
+            hexView.LineTransformers.Add(_compressionHighlighter);
         }
 
         if (!hexView.LineTransformers.Contains(_unknownHighlighter))

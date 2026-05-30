@@ -58,15 +58,17 @@ public partial class MainViewModel : ViewModelBase
     public HexSelectionInspectorViewModel Inspector { get; } = new();
     public HexHighlightSnapshot HighlightSnapshot { get; private set; } = HexHighlightSnapshot.Empty;
 
-    private IReadOnlyList<KnownFieldDescriptor> KnownFields => _knownFields;
+    private IReadOnlyList<KnownFieldDescriptor> KnownFields => _activeKnownFields;
 
     private readonly IReadOnlyList<KnownFieldDescriptor> _knownFields;
+    private IReadOnlyList<KnownFieldDescriptor> _activeKnownFields;
     private bool _knownFeaturesEnabled = true;
     private string? _knownFeaturesStatus;
 
     public MainViewModel()
     {
         _knownFields = KnownFieldCatalogFactory.Build();
+        _activeKnownFields = _knownFields;
         TryLoadDefaultResource();
     }
 
@@ -75,7 +77,9 @@ public partial class MainViewModel : ViewModelBase
         try
         {
             byte[] compressed = LoadResourceBytes(new Uri("avares://DuneTools/DUNE37S1.SAV"));
-            ApplyLoadedBytes(Decompress(compressed), "DUNE37S1.SAV (default, decompressed)");
+            DecompressionResult result = DecompressWithMetadata(compressed);
+            _activeKnownFields = MergeKnownFields(result.CompressionDescriptors);
+            ApplyLoadedBytes(result.DecompressedBytes, "DUNE37S1.SAV (default, decompressed)");
         }
         catch (Exception ex)
         {
@@ -87,9 +91,10 @@ public partial class MainViewModel : ViewModelBase
     {
         try
         {
-            byte[] decompressed = Decompress(compressed);
+            DecompressionResult result = DecompressWithMetadata(compressed);
             bool recognized = IsRecognizedSaveVariantName(name);
-            ApplyLoadedBytes(decompressed, name, recognized);
+            _activeKnownFields = MergeKnownFields(result.CompressionDescriptors);
+            ApplyLoadedBytes(result.DecompressedBytes, name, recognized);
         }
         catch (Exception ex)
         {
@@ -162,6 +167,7 @@ public partial class MainViewModel : ViewModelBase
         StatusCoveragePercent = "N/A";
         _knownFeaturesEnabled = false;
         _knownFeaturesStatus = message;
+        _activeKnownFields = _knownFields;
         HighlightSnapshot = HexHighlightSnapshot.Empty;
         OnPropertyChanged(nameof(HighlightSnapshot));
     }
@@ -234,12 +240,17 @@ public partial class MainViewModel : ViewModelBase
         int npcSkipped;
         IReadOnlyList<ByteRange> npcRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("NPC", StringComparison.Ordinal), out npcClamped, out npcSkipped);
 
+        int compressionClamped;
+        int compressionSkipped;
+        IReadOnlyList<ByteRange> compressionRanges = BuildKnownRanges(documentLength, static descriptor => descriptor.Name.StartsWith("Compression", StringComparison.Ordinal), out compressionClamped, out compressionSkipped);
+
         List<ByteRange> allKnownRanges = [];
         allKnownRanges.AddRange(globalsRanges);
         allKnownRanges.AddRange(troopRanges);
         allKnownRanges.AddRange(locationRanges);
         allKnownRanges.AddRange(smugglerRanges);
         allKnownRanges.AddRange(npcRanges);
+        allKnownRanges.AddRange(compressionRanges);
 
         IReadOnlyList<ByteRange> mergedKnownRanges = MergeRanges(allKnownRanges);
         IReadOnlyList<ByteRange> unknownRanges = BuildUnknownRanges(mergedKnownRanges, (ulong)documentLength);
@@ -250,6 +261,7 @@ public partial class MainViewModel : ViewModelBase
             locationRanges,
             smugglerRanges,
             npcRanges,
+            compressionRanges,
             unknownRanges);
 
         long knownBytes = mergedKnownRanges.Sum(static range => (long)(range.EndExclusive - range.Start));
@@ -398,29 +410,55 @@ public partial class MainViewModel : ViewModelBase
         return unknown;
     }
 
-    private static byte[] Decompress(byte[] data)
+    private static DecompressionResult DecompressWithMetadata(byte[] data)
     {
         var output = new List<byte>();
+        List<KnownFieldDescriptor> compressionDescriptors = [];
         int streamLength = data.Length - 3;
         int offset = 0;
+        int segmentIndex = 0;
 
         while (offset <= streamLength)
         {
             byte b0 = data[offset];
             byte b1 = data[offset + 1];
             byte b2 = data[offset + 2];
+            int outputStart = output.Count;
 
             if (b0 == 0xF7 && b1 == 0x01 && b2 == 0xF7)
             {
                 // Control sequence: emit a literal 0xF7
                 output.Add(0xF7);
+                compressionDescriptors.Add(CreateCompressionDescriptor(
+                    segmentIndex++,
+                    outputStart,
+                    1,
+                    offset,
+                    b0,
+                    b1,
+                    b2,
+                    "Escape literal marker",
+                    "Control sequence F7 01 F7 emits a literal F7 byte."));
                 offset += 3;
             }
             else if (b0 == 0xF7 && b1 > 2)
             {
                 // RLE deflate: repeat b2 exactly b1 times
                 for (int i = 0; i < b1; i++)
+                {
                     output.Add(b2);
+                }
+
+                compressionDescriptors.Add(CreateCompressionDescriptor(
+                    segmentIndex++,
+                    outputStart,
+                    b1,
+                    offset,
+                    b0,
+                    b1,
+                    b2,
+                    $"RLE repeat x{b1}",
+                    $"Control sequence F7 {b1:X2} {b2:X2} emits {b1} copies of {b2:X2}."));
                 offset += 3;
             }
             else
@@ -436,7 +474,41 @@ public partial class MainViewModel : ViewModelBase
             }
         }
 
-        return output.ToArray();
+        return new DecompressionResult(output.ToArray(), compressionDescriptors);
+    }
+
+    private static KnownFieldDescriptor CreateCompressionDescriptor(
+        int segmentIndex,
+        int outputOffset,
+        int outputLength,
+        int streamOffset,
+        byte control0,
+        byte control1,
+        byte control2,
+        string decodedValue,
+        string description)
+    {
+        string name = $"Compression Segment {segmentIndex:D4}";
+        string controlRaw = $"F7 stream @0x{streamOffset:X}: {control0:X2} {control1:X2} {control2:X2}";
+
+        return new KnownFieldDescriptor(
+            name,
+            outputOffset,
+            outputLength,
+            "n/a",
+            "generated bytes",
+            description,
+            _ => new KnownFieldDecodeResult(decodedValue, controlRaw, description));
+    }
+
+    private IReadOnlyList<KnownFieldDescriptor> MergeKnownFields(IReadOnlyList<KnownFieldDescriptor> compressionDescriptors)
+    {
+        if (compressionDescriptors.Count == 0)
+        {
+            return _knownFields;
+        }
+
+        return _knownFields.Concat(compressionDescriptors).ToList();
     }
 
     private static bool IsRecognizedSaveVariantName(string name)
@@ -458,7 +530,10 @@ public sealed record HexHighlightSnapshot(
     IReadOnlyList<ByteRange> LocationRanges,
     IReadOnlyList<ByteRange> SmugglerRanges,
     IReadOnlyList<ByteRange> NpcRanges,
+    IReadOnlyList<ByteRange> CompressionRanges,
     IReadOnlyList<ByteRange> UnknownRanges)
 {
-    public static HexHighlightSnapshot Empty { get; } = new([], [], [], [], [], []);
+    public static HexHighlightSnapshot Empty { get; } = new([], [], [], [], [], [], []);
 }
+
+public sealed record DecompressionResult(byte[] DecompressedBytes, IReadOnlyList<KnownFieldDescriptor> CompressionDescriptors);
