@@ -27,12 +27,45 @@
 
     <TabControl Grid.Row="1" Margin="10,0,10,0">
       <TabItem Header="Generals">
-        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" Margin="8">
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="8">
           <TextBlock Grid.Row="0" Grid.Column="0" Text="Charisma:" FontWeight="Bold" Margin="0,0,12,6" />
-          <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CharismaValue}" Margin="0,0,0,6" />
+          <TextBox Grid.Row="0"
+                   Grid.Column="1"
+                   Name="CharismaTextBox"
+                   Text="{Binding CharismaValue}"
+                   IsReadOnly="True"
+                   Margin="0,0,0,6" />
 
           <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact Distance:" FontWeight="Bold" Margin="0,0,12,0" />
-          <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ContactDistanceValue}" />
+          <TextBox Grid.Row="1"
+                   Grid.Column="1"
+                   Name="ContactDistanceTextBox"
+                   Text="{Binding ContactDistanceValue}"
+                   IsReadOnly="True"
+                   Margin="0,6,0,0" />
+
+          <TextBlock Grid.Row="2" Grid.Column="0" Text="Spice:" FontWeight="Bold" Margin="0,12,12,0" />
+          <TextBox Grid.Row="2"
+                   Grid.Column="1"
+                   Name="SpiceTextBox"
+                   Text="{Binding SpiceValue}"
+                   IsReadOnly="True"
+                   Margin="0,12,0,0" />
+
+          <TextBlock Grid.Row="3" Grid.Column="0" Text="Game Stage:" FontWeight="Bold" Margin="0,12,12,0" />
+          <TextBox Grid.Row="3"
+                   Grid.Column="1"
+                   Name="GameStageTextBox"
+                   Text="{Binding GameStageValue}"
+                   IsReadOnly="True"
+                   Margin="0,12,0,0" />
+
+          <TextBlock Grid.Row="4" Grid.Column="0" Text="Stage Description:" FontWeight="Bold" Margin="0,12,12,0" VerticalAlignment="Top" />
+          <TextBox Grid.Row="4"
+                   Grid.Column="1"
+                   Name="GameStageDescriptionTextBox"
+                   Text="{Binding GameStageDescription}"
+                   IsReadOnly="True" />
         </Grid>
       </TabItem>
     </TabControl>
@@ -45,6 +78,7 @@
 
     <!-- Hex viewer -->
     <avaloniaHex:HexEditor Grid.Row="3"
+                           Name="HexEditorControl"
                            Document="{Binding Document}"
                            FontFamily="Cascadia Code,JetBrains Mono,Consolas,Courier New,monospace"
                            Margin="10">
