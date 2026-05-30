@@ -16,7 +16,7 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <Grid RowDefinitions="Auto,Auto,5,*">
+  <Grid RowDefinitions="Auto,Auto,5,*,Auto">
     <!-- File info and upload section -->
     <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="10">
       <TextBlock Text="File:" VerticalAlignment="Center" FontWeight="Bold" />
@@ -28,12 +28,12 @@
     </StackPanel>
 
     <TabControl Grid.Row="1" Margin="10,0,10,0">
-      <TabItem Header="Generals">
+      <TabItem Header="Globals">
         <Grid ColumnDefinitions="Auto,*"
               RowDefinitions="Auto,Auto,Auto,Auto,Auto"
               Margin="8"
-              DataContext="{Binding Generals}"
-              x:DataType="vm:GeneralsViewModel">
+              DataContext="{Binding Globals}"
+              x:DataType="vm:GlobalsViewModel">
           <TextBlock Grid.Row="0" Grid.Column="0" Text="Charisma:" FontWeight="Bold" Margin="0,0,12,6" />
           <TextBox Grid.Row="0"
                    Grid.Column="1"
@@ -133,5 +133,27 @@
                                        MinWidth="280"
                                        DataContext="{Binding Inspector}" />
     </Grid>
+
+    <Border Grid.Row="4" BorderBrush="Gray" BorderThickness="1,1,1,0" Padding="8,6" Margin="10,0,10,6">
+      <Grid ColumnDefinitions="Auto,*,Auto,*,Auto,*,Auto,*,Auto,*,Auto,*" RowDefinitions="Auto">
+        <TextBlock Grid.Column="0" Text="Status" FontWeight="Bold" />
+        <TextBlock Grid.Column="1" Text="{Binding StatusMessage}" Margin="8,0,16,0" />
+
+        <TextBlock Grid.Column="2" Text="Offset" FontWeight="Bold" />
+        <TextBlock Grid.Column="3" Text="{Binding StatusSelectionOffset}" Margin="8,0,16,0" />
+
+        <TextBlock Grid.Column="4" Text="Length" FontWeight="Bold" />
+        <TextBlock Grid.Column="5" Text="{Binding StatusSelectionLength}" Margin="8,0,16,0" />
+
+        <TextBlock Grid.Column="6" Text="Primary" FontWeight="Bold" />
+        <TextBlock Grid.Column="7" Text="{Binding StatusPrimaryField}" Margin="8,0,16,0" />
+
+        <TextBlock Grid.Column="8" Text="State" FontWeight="Bold" />
+        <TextBlock Grid.Column="9" Text="{Binding StatusKnownState}" Margin="8,0,16,0" />
+
+        <TextBlock Grid.Column="10" Text="Coverage" FontWeight="Bold" />
+        <TextBlock Grid.Column="11" Text="{Binding StatusCoveragePercent}" Margin="8,0,16,0" />
+      </Grid>
+    </Border>
   </Grid>
 </UserControl>

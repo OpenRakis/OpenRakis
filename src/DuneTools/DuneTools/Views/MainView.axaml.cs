@@ -1,15 +1,20 @@
 namespace DuneTools.Views;
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using AvaloniaHex;
+using AvaloniaHex.Document;
+using AvaloniaHex.Rendering;
 using DuneTools.Behaviors;
 using DuneTools.ViewModels;
 
@@ -17,21 +22,128 @@ public partial class MainView : UserControl
 {
     private readonly DispatcherTimer _selectionDebounceTimer = new() { Interval = TimeSpan.FromMilliseconds(16) };
     private HexSelectionChangedEventArgs? _pendingSelection;
+    private readonly RangesHighlighter _knownHighlighter = new();
+    private readonly RangesHighlighter _unknownHighlighter = new();
+    private MainViewModel? _viewModel;
 
     public MainView()
     {
         InitializeComponent();
+        ConfigureHighlighters();
         AttachSelectionSyncBehavior();
+        DataContextChanged += OnDataContextChanged;
         HexFieldSelectionBehavior.SelectionChanged += OnHexSelectionChanged;
         DetachedFromVisualTree += OnDetachedFromVisualTree;
         _selectionDebounceTimer.Tick += OnSelectionDebounceTick;
+        RefreshRangeHighlighting();
     }
 
     private void OnDetachedFromVisualTree(object? sender, Avalonia.VisualTreeAttachmentEventArgs e)
     {
+        if (_viewModel is not null)
+        {
+            _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
+        }
+
         HexFieldSelectionBehavior.SelectionChanged -= OnHexSelectionChanged;
+        DataContextChanged -= OnDataContextChanged;
         _selectionDebounceTimer.Tick -= OnSelectionDebounceTick;
         DetachedFromVisualTree -= OnDetachedFromVisualTree;
+    }
+
+    private void ConfigureHighlighters()
+    {
+        Color knownColor = GetRequiredColor("SystemAccentColor");
+        Color unknownColor = GetRequiredColor("SystemChromeLowColor");
+
+        _knownHighlighter.Background = new SolidColorBrush(knownColor, 0.20);
+        _unknownHighlighter.Background = new SolidColorBrush(unknownColor, 0.12);
+    }
+
+    private void OnDataContextChanged(object? sender, EventArgs e)
+    {
+        if (_viewModel is not null)
+        {
+            _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
+        }
+
+        _viewModel = DataContext as MainViewModel;
+        if (_viewModel is not null)
+        {
+            _viewModel.PropertyChanged += OnViewModelPropertyChanged;
+        }
+
+        RefreshRangeHighlighting();
+    }
+
+    private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(MainViewModel.Document) || e.PropertyName == nameof(MainViewModel.HighlightSnapshot))
+        {
+            RefreshRangeHighlighting();
+        }
+    }
+
+    private void RefreshRangeHighlighting()
+    {
+        HexEditor? editor = this.FindControl<HexEditor>("HexEditorControl");
+        if (editor?.HexView is null)
+        {
+            return;
+        }
+
+        AttachHighlighters(editor.HexView);
+        ApplyRanges(_knownHighlighter.Ranges, _viewModel?.HighlightSnapshot.KnownRanges);
+        ApplyRanges(_unknownHighlighter.Ranges, _viewModel?.HighlightSnapshot.UnknownRanges);
+    }
+
+    private void AttachHighlighters(HexView hexView)
+    {
+        if (!hexView.LineTransformers.Contains(_unknownHighlighter))
+        {
+            hexView.LineTransformers.Add(_unknownHighlighter);
+        }
+
+        if (!hexView.LineTransformers.Contains(_knownHighlighter))
+        {
+            hexView.LineTransformers.Add(_knownHighlighter);
+        }
+    }
+
+    private static void ApplyRanges(BitRangeUnion target, IReadOnlyList<ByteRange>? source)
+    {
+        target.Clear();
+
+        if (source is null)
+        {
+            return;
+        }
+
+        foreach (ByteRange range in source)
+        {
+            if (range.EndExclusive <= range.Start)
+            {
+                continue;
+            }
+
+            target.Add(new BitRange(range.Start, range.EndExclusive));
+        }
+    }
+
+    private static Color GetRequiredColor(string resourceKey)
+    {
+        if (Avalonia.Application.Current is null)
+        {
+            throw new InvalidOperationException("Avalonia application is not initialized.");
+        }
+
+        bool found = Avalonia.Application.Current.TryGetResource(resourceKey, Avalonia.Application.Current.ActualThemeVariant, out object? resource);
+        if (!found || resource is not Color color)
+        {
+            throw new InvalidOperationException($"Required theme color resource '{resourceKey}' was not found.");
+        }
+
+        return color;
     }
 
     private void AttachSelectionSyncBehavior()
@@ -54,23 +166,23 @@ public partial class MainView : UserControl
         }
 
         HexFieldSelectionBehavior.SetHexEditor(charisma, hexEditor);
-        HexFieldSelectionBehavior.SetByteOffset(charisma, 17480);
+        HexFieldSelectionBehavior.SetByteOffset(charisma, GlobalsViewModel.CharismaOffset);
         HexFieldSelectionBehavior.SetByteLength(charisma, 1);
 
         HexFieldSelectionBehavior.SetHexEditor(contactDistance, hexEditor);
-        HexFieldSelectionBehavior.SetByteOffset(contactDistance, 21909);
+        HexFieldSelectionBehavior.SetByteOffset(contactDistance, GlobalsViewModel.ContactDistanceOffset);
         HexFieldSelectionBehavior.SetByteLength(contactDistance, 1);
 
         HexFieldSelectionBehavior.SetHexEditor(spice, hexEditor);
-        HexFieldSelectionBehavior.SetByteOffset(spice, 17599);
+        HexFieldSelectionBehavior.SetByteOffset(spice, GlobalsViewModel.SpiceOffset);
         HexFieldSelectionBehavior.SetByteLength(spice, 2);
 
         HexFieldSelectionBehavior.SetHexEditor(gameStage, hexEditor);
-        HexFieldSelectionBehavior.SetByteOffset(gameStage, 17481);
+        HexFieldSelectionBehavior.SetByteOffset(gameStage, GlobalsViewModel.GameStageOffset);
         HexFieldSelectionBehavior.SetByteLength(gameStage, 1);
 
         HexFieldSelectionBehavior.SetHexEditor(gameStageDescription, hexEditor);
-        HexFieldSelectionBehavior.SetByteOffset(gameStageDescription, 17481);
+        HexFieldSelectionBehavior.SetByteOffset(gameStageDescription, GlobalsViewModel.GameStageOffset);
         HexFieldSelectionBehavior.SetByteLength(gameStageDescription, 1);
     }
 
@@ -140,6 +252,7 @@ public partial class MainView : UserControl
                 if (DataContext is MainViewModel vm)
                 {
                     vm.LoadFileFromBytes(bytes, file.Name);
+                    RefreshRangeHighlighting();
                 }
             }
             catch (Exception ex)
@@ -147,7 +260,7 @@ public partial class MainView : UserControl
                 // Could show error dialog here
                 if (DataContext is MainViewModel vm)
                 {
-                    vm.FileName = $"Error: {ex.Message}";
+                    vm.SetLoadError(ex.Message);
                 }
             }
         }

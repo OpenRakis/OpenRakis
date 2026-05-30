@@ -4,12 +4,13 @@ using System.Globalization;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-public sealed partial class GeneralsViewModel : ViewModelBase
+public sealed partial class GlobalsViewModel : ViewModelBase
 {
+    internal const int NumberOfRalliedTroopsOffset = 17479;
     internal const int CharismaOffset = 17480;
-    internal const int ContactDistanceOffset = 21909;
-    internal const int SpiceOffset = 17599;
     internal const int GameStageOffset = 17481;
+    internal const int SpiceOffset = 17599;
+    internal const int ContactDistanceOffset = 21909;
 
     [ObservableProperty]
     private string _charismaValue = "n/a";

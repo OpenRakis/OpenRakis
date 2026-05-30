@@ -2,14 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Avalonia.Platform;
 using AvaloniaHex.Document;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 public partial class MainViewModel : ViewModelBase
 {
+    private const string UnsupportedVariantMessage = "Unsupported save variant: known-field decoding, coverage, and highlighting are disabled.";
+
     [ObservableProperty]
     private IBinaryDocument? _document;
 
@@ -19,42 +22,123 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private long _fileSize;
 
-    public GeneralsViewModel Generals { get; } = new();
+    [ObservableProperty]
+    private string _statusSelectionOffset = "-";
+
+    [ObservableProperty]
+    private string _statusSelectionLength = "-";
+
+    [ObservableProperty]
+    private string _statusPrimaryField = "-";
+
+    [ObservableProperty]
+    private string _statusKnownState = "N/A";
+
+    [ObservableProperty]
+    private string _statusCoveragePercent = "N/A";
+
+    [ObservableProperty]
+    private string _statusMessage = "No file loaded";
+
+    public GlobalsViewModel Globals { get; } = new();
     public HexSelectionInspectorViewModel Inspector { get; } = new();
+    public HexHighlightSnapshot HighlightSnapshot { get; private set; } = HexHighlightSnapshot.Empty;
 
-    private IReadOnlyDictionary<int, KnownFieldDescriptor> KnownFields => _knownFields;
+    private IReadOnlyList<KnownFieldDescriptor> KnownFields => _knownFields;
 
-    private readonly IReadOnlyDictionary<int, KnownFieldDescriptor> _knownFields;
+    private readonly IReadOnlyList<KnownFieldDescriptor> _knownFields;
+    private bool _knownFeaturesEnabled = true;
+    private string? _knownFeaturesStatus;
 
     public MainViewModel()
     {
-        _knownFields = CreateKnownFields();
-        LoadDefaultResource();
+        _knownFields = KnownFieldCatalogFactory.Build();
+        TryLoadDefaultResource();
     }
 
-    private void LoadDefaultResource()
+    private void TryLoadDefaultResource()
     {
-        byte[] compressed = LoadResourceBytes(new Uri("avares://DuneTools/DUNE37S1.SAV"));
-        ApplyLoadedBytes(Decompress(compressed), "DUNE37S1.SAV (default, decompressed)");
+        try
+        {
+            byte[] compressed = LoadResourceBytes(new Uri("avares://DuneTools/DUNE37S1.SAV"));
+            ApplyLoadedBytes(Decompress(compressed), "DUNE37S1.SAV (default, decompressed)");
+        }
+        catch (Exception ex)
+        {
+            SetLoadError($"Failed to load default save: {ex.Message}");
+        }
     }
 
     public void LoadFileFromBytes(byte[] compressed, string name)
     {
-        ApplyLoadedBytes(Decompress(compressed), name);
+        try
+        {
+            byte[] decompressed = Decompress(compressed);
+            bool recognized = IsRecognizedSaveVariantName(name);
+            ApplyLoadedBytes(decompressed, name, recognized);
+        }
+        catch (Exception ex)
+        {
+            SetLoadError($"Failed to load save: {ex.Message}");
+        }
     }
 
     public void UpdateSelection(ulong offset, ulong length)
     {
         Inspector.UpdateFromSelection(offset, length);
+        UpdateStatusFromInspector();
     }
 
     private void ApplyLoadedBytes(byte[] bytes, string name)
     {
+        ApplyLoadedBytes(bytes, name, true);
+    }
+
+    private void ApplyLoadedBytes(byte[] bytes, string name, bool enableKnownFeatures)
+    {
+        _knownFeaturesEnabled = enableKnownFeatures;
+        _knownFeaturesStatus = enableKnownFeatures ? null : UnsupportedVariantMessage;
+
         Document = new MemoryBinaryDocument(bytes);
         FileName = name;
         FileSize = bytes.Length;
-        Generals.UpdateFromBytes(bytes);
-        Inspector.SetBuffer(bytes, KnownFields, false);
+        if (enableKnownFeatures)
+        {
+            Globals.UpdateFromBytes(bytes);
+            Inspector.SetBuffer(bytes, KnownFields, false);
+            StatusCoveragePercent = "N/A";
+            UpdateHighlightSnapshot(bytes.Length);
+        }
+        else
+        {
+            Globals.Reset();
+            Inspector.SetBuffer(bytes, [], false);
+            StatusCoveragePercent = "N/A";
+            HighlightSnapshot = HexHighlightSnapshot.Empty;
+            OnPropertyChanged(nameof(HighlightSnapshot));
+        }
+
+        StatusMessage = _knownFeaturesStatus ?? "Ready";
+        UpdateStatusFromInspector();
+    }
+
+    public void SetLoadError(string message)
+    {
+        Document = null;
+        FileName = $"Error: {message}";
+        FileSize = 0;
+        Globals.Reset();
+        Inspector.SetBuffer(null, KnownFields, true);
+        StatusMessage = message;
+        StatusSelectionOffset = "-";
+        StatusSelectionLength = "-";
+        StatusPrimaryField = "-";
+        StatusKnownState = "N/A";
+        StatusCoveragePercent = "N/A";
+        _knownFeaturesEnabled = false;
+        _knownFeaturesStatus = message;
+        HighlightSnapshot = HexHighlightSnapshot.Empty;
+        OnPropertyChanged(nameof(HighlightSnapshot));
     }
 
     private static byte[] LoadResourceBytes(Uri resourceUri)
@@ -65,68 +149,155 @@ public partial class MainViewModel : ViewModelBase
         return memoryStream.ToArray();
     }
 
-    private IReadOnlyDictionary<int, KnownFieldDescriptor> CreateKnownFields()
+    private void UpdateStatusFromInspector()
     {
-        return new Dictionary<int, KnownFieldDescriptor>
+        string? inspectorMessage = Inspector.Info.StatusMessage;
+        if (!string.IsNullOrWhiteSpace(inspectorMessage))
         {
-            [GeneralsViewModel.CharismaOffset] = new(
-                "Charisma",
-                GeneralsViewModel.CharismaOffset,
-                1,
-                "n/a",
-                "unsigned byte",
-                "raw <= 1 ? 0 : raw / 2.0",
-                bytes =>
-                {
-                    byte raw = bytes[0];
-                    int decoded = GeneralsViewModel.DecodeCharisma(raw);
-                    return new KnownFieldDecodeResult(decoded.ToString(CultureInfo.InvariantCulture), $"raw: {raw}", null);
-                }),
-            [GeneralsViewModel.ContactDistanceOffset] = new(
-                "Contact Distance",
-                GeneralsViewModel.ContactDistanceOffset,
-                1,
-                "n/a",
-                "unsigned byte",
-                "parse raw byte as hexadecimal decimal",
-                bytes =>
-                {
-                    byte raw = bytes[0];
-                    int decoded = GeneralsViewModel.DecodeContactDistance(raw);
-                    return new KnownFieldDecodeResult(decoded.ToString(CultureInfo.InvariantCulture), $"raw: {raw}", null);
-                }),
-            [GeneralsViewModel.SpiceOffset] = new(
-                "Spice",
-                GeneralsViewModel.SpiceOffset,
-                2,
-                "little-endian",
-                "unsigned uint16",
-                "little-endian uint16 * 10",
-                bytes =>
-                {
-                    int raw = bytes[0] | (bytes[1] << 8);
-                    int decoded = GeneralsViewModel.DecodeSpice(bytes[0], bytes[1]);
-                    return new KnownFieldDecodeResult(decoded.ToString(CultureInfo.InvariantCulture), $"raw: {raw:X4}", null);
-                }),
-            [GeneralsViewModel.GameStageOffset] = new(
-                "Game Stage",
-                GeneralsViewModel.GameStageOffset,
-                1,
-                "n/a",
-                "unsigned byte",
-                "lookup game stage description",
-                bytes =>
-                {
-                    byte raw = bytes[0];
-                    string description = GeneralsViewModel.DescribeGameStage(raw);
-                    if (description == "Unused / not yet discovered.")
-                    {
-                        description = "Unknown";
-                    }
+            StatusSelectionOffset = "-";
+            StatusSelectionLength = "-";
+            StatusPrimaryField = "-";
+            StatusKnownState = "N/A";
+            StatusMessage = inspectorMessage;
+            return;
+        }
 
-                    return new KnownFieldDecodeResult(GeneralsViewModel.FormatGameStage(raw), $"raw: {raw}", description);
-                })
-        };
+        StatusSelectionOffset = Inspector.Info.OffsetHex ?? "-";
+        StatusSelectionLength = Inspector.Info.SelectionLength ?? "-";
+        StatusPrimaryField = Inspector.Info.PrimaryFieldName ?? "-";
+        StatusKnownState = _knownFeaturesEnabled
+            ? (Inspector.Info.PrimaryFieldName is null ? "Unknown" : "Known")
+            : "N/A";
+        StatusMessage = _knownFeaturesStatus ?? "Ready";
+    }
+
+    private void UpdateHighlightSnapshot(int documentLength)
+    {
+        if (!_knownFeaturesEnabled)
+        {
+            HighlightSnapshot = HexHighlightSnapshot.Empty;
+            StatusCoveragePercent = "N/A";
+            OnPropertyChanged(nameof(HighlightSnapshot));
+            return;
+        }
+
+        if (documentLength <= 0)
+        {
+            HighlightSnapshot = HexHighlightSnapshot.Empty;
+            StatusCoveragePercent = "N/A";
+            OnPropertyChanged(nameof(HighlightSnapshot));
+            return;
+        }
+
+        IReadOnlyList<ByteRange> knownRanges = BuildKnownRanges(documentLength, out int clampedCount, out int skippedCount);
+        IReadOnlyList<ByteRange> mergedKnown = MergeRanges(knownRanges);
+        IReadOnlyList<ByteRange> unknownRanges = BuildUnknownRanges(mergedKnown, (ulong)documentLength);
+
+        if (clampedCount > 0 || skippedCount > 0)
+        {
+            Trace.TraceWarning(
+                "Known field ranges adjusted for current document length ({0}): clamped={1}, skipped={2}.",
+                documentLength,
+                clampedCount,
+                skippedCount);
+        }
+
+        ulong knownBytes = mergedKnown.Aggregate<ByteRange, ulong>(0, static (sum, range) => sum + (range.EndExclusive - range.Start));
+        decimal coverage = (decimal)knownBytes * 100m / documentLength;
+        StatusCoveragePercent = $"{coverage:0.##}%";
+
+        HighlightSnapshot = new HexHighlightSnapshot(mergedKnown, unknownRanges);
+        OnPropertyChanged(nameof(HighlightSnapshot));
+    }
+
+    private IReadOnlyList<ByteRange> BuildKnownRanges(int documentLength, out int clampedCount, out int skippedCount)
+    {
+        List<ByteRange> ranges = [];
+        clampedCount = 0;
+        skippedCount = 0;
+
+        foreach (KnownFieldDescriptor descriptor in KnownFields)
+        {
+            int rawStart = descriptor.Offset;
+            int rawEnd = descriptor.Offset + descriptor.Length;
+            int start = Math.Max(0, rawStart);
+            int end = Math.Min(documentLength, rawEnd);
+
+            if (start != rawStart || end != rawEnd)
+            {
+                clampedCount++;
+            }
+
+            if (end <= start)
+            {
+                skippedCount++;
+                continue;
+            }
+
+            ranges.Add(new ByteRange((ulong)start, (ulong)end));
+        }
+
+        return ranges;
+    }
+
+    private static IReadOnlyList<ByteRange> MergeRanges(IReadOnlyList<ByteRange> ranges)
+    {
+        if (ranges.Count == 0)
+        {
+            return [];
+        }
+
+        List<ByteRange> sorted = ranges.OrderBy(static range => range.Start).ThenBy(static range => range.EndExclusive).ToList();
+        List<ByteRange> merged = [sorted[0]];
+
+        for (int i = 1; i < sorted.Count; i++)
+        {
+            ByteRange current = sorted[i];
+            ByteRange last = merged[^1];
+
+            if (current.Start <= last.EndExclusive)
+            {
+                merged[^1] = new ByteRange(last.Start, Math.Max(last.EndExclusive, current.EndExclusive));
+            }
+            else
+            {
+                merged.Add(current);
+            }
+        }
+
+        return merged;
+    }
+
+    private static IReadOnlyList<ByteRange> BuildUnknownRanges(IReadOnlyList<ByteRange> knownRanges, ulong totalLength)
+    {
+        if (totalLength == 0)
+        {
+            return [];
+        }
+
+        if (knownRanges.Count == 0)
+        {
+            return [new ByteRange(0, totalLength)];
+        }
+
+        List<ByteRange> unknown = [];
+        ulong cursor = 0;
+        foreach (ByteRange known in knownRanges)
+        {
+            if (cursor < known.Start)
+            {
+                unknown.Add(new ByteRange(cursor, known.Start));
+            }
+
+            cursor = Math.Max(cursor, known.EndExclusive);
+        }
+
+        if (cursor < totalLength)
+        {
+            unknown.Add(new ByteRange(cursor, totalLength));
+        }
+
+        return unknown;
     }
 
     private static byte[] Decompress(byte[] data)
@@ -169,4 +340,21 @@ public partial class MainViewModel : ViewModelBase
 
         return output.ToArray();
     }
+
+    private static bool IsRecognizedSaveVariantName(string name)
+    {
+        string upper = name.ToUpperInvariant();
+        return upper.Contains("DUNE21", StringComparison.Ordinal)
+            || upper.Contains("DUNE23", StringComparison.Ordinal)
+            || upper.Contains("DUNE24", StringComparison.Ordinal)
+            || upper.Contains("DUNE37", StringComparison.Ordinal)
+            || upper.Contains("DUNE38", StringComparison.Ordinal);
+    }
+}
+
+public readonly record struct ByteRange(ulong Start, ulong EndExclusive);
+
+public sealed record HexHighlightSnapshot(IReadOnlyList<ByteRange> KnownRanges, IReadOnlyList<ByteRange> UnknownRanges)
+{
+    public static HexHighlightSnapshot Empty { get; } = new([], []);
 }

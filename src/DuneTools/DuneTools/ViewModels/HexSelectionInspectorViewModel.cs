@@ -8,11 +8,11 @@ using System.Linq;
 public sealed class HexSelectionInspectorViewModel : ViewModelBase
 {
     private byte[]? _buffer;
-    private IReadOnlyDictionary<int, KnownFieldDescriptor> _knownFields = new Dictionary<int, KnownFieldDescriptor>();
+    private IReadOnlyList<KnownFieldDescriptor> _knownFields = [];
 
     public HexSelectionInfo Info { get; } = new();
 
-    public void SetBuffer(byte[]? buffer, IReadOnlyDictionary<int, KnownFieldDescriptor> knownFields, bool noFileLoaded)
+    public void SetBuffer(byte[]? buffer, IReadOnlyList<KnownFieldDescriptor> knownFields, bool noFileLoaded)
     {
         _buffer = buffer;
         _knownFields = knownFields;
@@ -118,10 +118,10 @@ public sealed class HexSelectionInspectorViewModel : ViewModelBase
 
         ulong end = offset + length;
 
-        return _knownFields.Values
+        return _knownFields
             .Where(descriptor => offset < (ulong)(descriptor.Offset + descriptor.Length) && end > (ulong)descriptor.Offset)
-            .OrderBy(descriptor => descriptor.Length)
-            .ThenBy(descriptor => descriptor.Offset)
+            .OrderBy(descriptor => descriptor.Offset)
+            .ThenBy(descriptor => descriptor.Length)
             .ThenBy(descriptor => descriptor.Name, StringComparer.Ordinal)
             .Select(descriptor => DecodeKnownField(buffer, descriptor, offset, end))
             .ToList();
